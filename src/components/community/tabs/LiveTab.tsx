@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { Loader2 } from "lucide-react";
 import { LiveCard } from "@/components/community/LiveCard";
 import { mockLiveSessions } from "@/lib/community-mock-data";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { cn } from "@/lib/utils";
 
 const categories = ["For You", "Fashion", "Sneakers", "Luxury Bags", "Tutorial"];
@@ -8,8 +10,22 @@ const categories = ["For You", "Fashion", "Sneakers", "Luxury Bags", "Tutorial"]
 export function LiveTab() {
   const [activeCategory, setActiveCategory] = useState("For You");
 
-  const liveSessions = mockLiveSessions.filter(s => s.isLive);
-  const upcomingSessions = mockLiveSessions.filter(s => !s.isLive);
+  const allSessions = useMemo(() => {
+    // Sort: live sessions first, then upcoming
+    return [...mockLiveSessions].sort((a, b) => {
+      if (a.isLive && !b.isLive) return -1;
+      if (!a.isLive && b.isLive) return 1;
+      return 0;
+    });
+  }, []);
+
+  const { displayedItems, isLoading, loaderRef } = useInfiniteScroll({
+    items: allSessions,
+    itemsPerPage: 3,
+  });
+
+  const liveSessions = displayedItems.filter(s => s.isLive);
+  const upcomingSessions = displayedItems.filter(s => !s.isLive);
 
   return (
     <div className="space-y-6 pb-4">
@@ -40,7 +56,7 @@ export function LiveTab() {
           </div>
           <div className="grid gap-3">
             {liveSessions.map((session) => (
-              <LiveCard key={session.id} session={session} />
+              <LiveCard key={session._loopKey} session={session} />
             ))}
           </div>
         </section>
@@ -52,11 +68,17 @@ export function LiveTab() {
           <h3 className="text-sm font-semibold">Upcoming</h3>
           <div className="grid gap-3">
             {upcomingSessions.map((session) => (
-              <LiveCard key={session.id} session={session} />
+              <LiveCard key={session._loopKey} session={session} />
             ))}
           </div>
         </section>
       )}
+
+      <div ref={loaderRef} className="flex justify-center py-4">
+        {isLoading && (
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        )}
+      </div>
     </div>
   );
 }
