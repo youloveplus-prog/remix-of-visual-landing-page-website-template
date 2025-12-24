@@ -9,6 +9,7 @@ import { ShortsTab } from "@/components/community/tabs/ShortsTab";
 import { ReviewsTab } from "@/components/community/tabs/ReviewsTab";
 import { LiveTab } from "@/components/community/tabs/LiveTab";
 import { OffersTab } from "@/components/community/tabs/OffersTab";
+import { GalleryTab } from "@/components/community/tabs/GalleryTab";
 import { CommunityTab } from "@/types/community";
 
 const Community = () => {
@@ -30,6 +31,8 @@ const Community = () => {
         return <LiveTab />;
       case "offers":
         return <OffersTab />;
+      case "gallery":
+        return <GalleryTab />;
       default:
         return <MyFeedTab />;
     }
@@ -39,7 +42,7 @@ const Community = () => {
     <AppLayout>
       <div className="min-h-screen">
         {/* Tabs - Sticky below header */}
-        <div className="sticky top-14 md:top-[72px] z-30 bg-background/95 backdrop-blur-sm border-b border-border">
+        <div className="sticky top-14 md:top-[120px] z-30 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
           <CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
 

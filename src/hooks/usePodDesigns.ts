@@ -32,8 +32,14 @@ export function usePublicDesigns(category?: string) {
     queryFn: async () => {
       let query = supabase
         .from("pod_designs")
-        .select("*")
-        .eq("status", "approved")
+        .select(`
+          *,
+          profiles:user_id (
+            username,
+            avatar_url,
+            is_verified
+          )
+        `)
         .eq("is_public", true)
         .order("sales_count", { ascending: false });
       

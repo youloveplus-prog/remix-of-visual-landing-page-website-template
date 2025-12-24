@@ -169,4 +169,8 @@
   .card-hover:hover {
     @apply border-primary/30 shadow-lg;
   }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
