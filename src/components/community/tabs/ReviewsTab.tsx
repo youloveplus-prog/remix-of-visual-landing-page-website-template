@@ -1,7 +1,8 @@
-import { Star } from "lucide-react";
-import { useState } from "react";
+import { Star, Loader2 } from "lucide-react";
+import { useState, useMemo } from "react";
 import { ReviewCard } from "@/components/community/ReviewCard";
 import { mockReviews } from "@/lib/community-mock-data";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { cn } from "@/lib/utils";
 
 const filters = [
@@ -16,12 +17,16 @@ const filters = [
 export function ReviewsTab() {
   const [activeFilter, setActiveFilter] = useState(0);
 
-  // Duplicate for demo
-  const reviews = [...mockReviews, ...mockReviews.map(r => ({ ...r, id: `${r.id}-dup` }))];
-  
-  const filteredReviews = activeFilter === 0 
-    ? reviews 
-    : reviews.filter(r => r.rating === activeFilter);
+  const filteredReviews = useMemo(() => {
+    return activeFilter === 0 
+      ? mockReviews 
+      : mockReviews.filter(r => r.rating === activeFilter);
+  }, [activeFilter]);
+
+  const { displayedItems, isLoading, loaderRef } = useInfiniteScroll({
+    items: filteredReviews,
+    itemsPerPage: 3,
+  });
 
   return (
     <div className="space-y-4">
@@ -70,11 +75,17 @@ export function ReviewsTab() {
         </div>
       </div>
 
-      {/* Reviews list */}
+      {/* Reviews list with infinite scroll */}
       <div className="space-y-0">
-        {filteredReviews.map((review) => (
-          <ReviewCard key={review.id} review={review} />
+        {displayedItems.map((review) => (
+          <ReviewCard key={review._loopKey} review={review} />
         ))}
+        
+        <div ref={loaderRef} className="flex justify-center py-4">
+          {isLoading && (
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          )}
+        </div>
       </div>
     </div>
   );
