@@ -78,6 +78,25 @@ const Index = () => {
           </div>
         </section>
 
+        {/* POD Banner */}
+        <section className="px-4 lg:px-0">
+          <Link 
+            to="/pod"
+            className="block relative overflow-hidden rounded-xl bg-gradient-to-r from-primary/20 via-accent/10 to-primary/20 border border-primary/20 p-4 hover:border-primary/40 transition-colors"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">👕</span>
+              </div>
+              <div className="flex-1">
+                <p className="font-bold">Design Your Own T-Shirt</p>
+                <p className="text-sm text-muted-foreground">Upload artwork or browse designs • Print-on-Demand</p>
+              </div>
+              <ChevronRight className="h-5 w-5 text-muted-foreground" />
+            </div>
+          </Link>
+        </section>
+
         {/* Shorts & Stories Carousel */}
         <section>
           <div className="flex items-center justify-between mb-3 px-4 lg:px-0">

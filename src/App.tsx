@@ -19,6 +19,9 @@ import OrderDetail from "./pages/OrderDetail";
 import Wishlist from "./pages/Wishlist";
 import Settings from "./pages/Settings";
 import CreateContent from "./pages/CreateContent";
+import Pod from "./pages/Pod";
+import PodDesigns from "./pages/PodDesigns";
+import PodUpload from "./pages/PodUpload";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +46,9 @@ function AnimatedRoutes() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/create" element={<CreateContent />} />
+        <Route path="/pod" element={<Pod />} />
+        <Route path="/pod/designs" element={<PodDesigns />} />
+        <Route path="/pod/upload" element={<PodUpload />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>

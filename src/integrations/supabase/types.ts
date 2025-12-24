@@ -346,6 +346,206 @@ export type Database = {
         }
         Relationships: []
       }
+      pod_design_favorites: {
+        Row: {
+          created_at: string | null
+          design_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          design_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          design_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pod_design_favorites_design_id_fkey"
+            columns: ["design_id"]
+            isOneToOne: false
+            referencedRelation: "pod_designs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pod_designs: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          category: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string
+          is_public: boolean | null
+          price_modifier: number | null
+          rejection_reason: string | null
+          sales_count: number | null
+          status: Database["public"]["Enums"]["pod_design_status"] | null
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url: string
+          is_public?: boolean | null
+          price_modifier?: number | null
+          rejection_reason?: string | null
+          sales_count?: number | null
+          status?: Database["public"]["Enums"]["pod_design_status"] | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string
+          is_public?: boolean | null
+          price_modifier?: number | null
+          rejection_reason?: string | null
+          sales_count?: number | null
+          status?: Database["public"]["Enums"]["pod_design_status"] | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pod_order_items: {
+        Row: {
+          created_at: string | null
+          design_id: string | null
+          id: string
+          order_item_id: string
+          pod_product_id: string | null
+          print_status: string | null
+          printed_at: string | null
+          selected_color: string
+          selected_size: string
+        }
+        Insert: {
+          created_at?: string | null
+          design_id?: string | null
+          id?: string
+          order_item_id: string
+          pod_product_id?: string | null
+          print_status?: string | null
+          printed_at?: string | null
+          selected_color: string
+          selected_size: string
+        }
+        Update: {
+          created_at?: string | null
+          design_id?: string | null
+          id?: string
+          order_item_id?: string
+          pod_product_id?: string | null
+          print_status?: string | null
+          printed_at?: string | null
+          selected_color?: string
+          selected_size?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pod_order_items_design_id_fkey"
+            columns: ["design_id"]
+            isOneToOne: false
+            referencedRelation: "pod_designs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pod_order_items_order_item_id_fkey"
+            columns: ["order_item_id"]
+            isOneToOne: false
+            referencedRelation: "order_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pod_order_items_pod_product_id_fkey"
+            columns: ["pod_product_id"]
+            isOneToOne: false
+            referencedRelation: "pod_products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pod_products: {
+        Row: {
+          base_price: number
+          colors: string[] | null
+          created_at: string | null
+          creator_commission: number | null
+          delivery_days: number | null
+          design_id: string
+          id: string
+          is_active: boolean | null
+          placement: string | null
+          product_type: string
+          sizes: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          base_price?: number
+          colors?: string[] | null
+          created_at?: string | null
+          creator_commission?: number | null
+          delivery_days?: number | null
+          design_id: string
+          id?: string
+          is_active?: boolean | null
+          placement?: string | null
+          product_type?: string
+          sizes?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          base_price?: number
+          colors?: string[] | null
+          created_at?: string | null
+          creator_commission?: number | null
+          delivery_days?: number | null
+          design_id?: string
+          id?: string
+          is_active?: boolean | null
+          placement?: string | null
+          product_type?: string
+          sizes?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pod_products_design_id_fkey"
+            columns: ["design_id"]
+            isOneToOne: false
+            referencedRelation: "pod_designs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       post_comments: {
         Row: {
           content: string
@@ -877,6 +1077,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
+      pod_design_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1005,6 +1206,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "user"],
+      pod_design_status: ["pending", "approved", "rejected"],
     },
   },
 } as const
