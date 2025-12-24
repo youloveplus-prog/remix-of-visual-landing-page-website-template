@@ -74,4 +74,5 @@ export type CommunityTab =
   | "shorts" 
   | "reviews" 
   | "live" 
-  | "offers";
+  | "offers"
+  | "gallery";
