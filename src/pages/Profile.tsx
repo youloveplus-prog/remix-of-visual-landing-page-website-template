@@ -1,146 +1,209 @@
-import { Search, MoreVertical, Settings, MessageCircle, Share2, Shield, Coins, Award, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { ProductCard } from "@/components/shop/ProductCard";
-import { mockUser, mockProducts } from "@/lib/mock-data";
-import { cn } from "@/lib/utils";
+import {
+  ProfileHeader,
+  ProfileStats,
+  ProfileBadges,
+  ProfileActions,
+  ProfileTrustCard,
+  ProfileTabs,
+  ProfileFeedTab,
+  ProfileShopTab,
+  ProfileReviewsTab,
+  ProfileMediaTab,
+  ProfileDesignsTab,
+  ProfileActivityTab,
+  type ProfileTabType,
+} from "@/components/profile";
+import { mockUser, mockProducts, mockPosts } from "@/lib/mock-data";
 
-const tabs = ["Closet (24)", "Posts", "Reviews (12)", "Collections"];
+// Extended mock data for profile
+const profileData = {
+  ...mockUser,
+  bio: mockUser.bio || "Fashion enthusiast & style curator",
+  isVerified: mockUser.isVerified ?? true,
+  location: "New York, USA",
+  coverImage: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800",
+  posts: 47,
+  purchases: 23,
+  reviews: 18,
+  badges: ["buyer", "creator", "reviewer", "trusted"],
+};
+
+// Mock feed posts
+const feedPosts = mockPosts.map((post, idx) => ({
+  id: post.id,
+  content: post.content,
+  image: post.image,
+  likes: post.likes,
+  comments: post.comments,
+  shares: post.shares,
+  timestamp: post.timestamp,
+  product: post.product ? {
+    id: post.product.id,
+    name: post.product.name,
+    price: post.product.price,
+    image: post.product.image,
+  } : undefined,
+}));
+
+// Mock shop products
+const shopProducts = mockProducts.map((p, idx) => ({
+  id: p.id,
+  name: p.name,
+  image: p.image,
+  price: p.price,
+  rating: p.rating || 4.5,
+  reviewCount: p.reviews || 0,
+  isPurchased: idx % 2 === 0,
+  isReviewed: idx % 3 === 0,
+  isSold: idx === 0,
+}));
+
+// Mock reviews
+const mockReviews = [
+  {
+    id: "1",
+    productId: "1",
+    productName: "Premium Leather Crossbody",
+    productImage: mockProducts[0].image,
+    rating: 5,
+    title: "Amazing quality!",
+    content: "This bag exceeded my expectations. The leather is genuine and the craftsmanship is impeccable. Highly recommend!",
+    images: [mockProducts[0].image],
+    helpfulCount: 24,
+    isVerifiedPurchase: true,
+    createdAt: "2 days ago",
+  },
+  {
+    id: "2",
+    productId: "2",
+    productName: "Classic White Sneakers",
+    productImage: mockProducts[1].image,
+    rating: 4,
+    content: "Great sneakers, very comfortable. Took a bit to break in but worth it.",
+    helpfulCount: 12,
+    isVerifiedPurchase: true,
+    createdAt: "1 week ago",
+  },
+];
+
+// Mock media
+const mockMedia = [
+  { id: "1", type: "image" as const, thumbnail: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400", url: "" },
+  { id: "2", type: "video" as const, thumbnail: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400", url: "", duration: 45, viewCount: 1200 },
+  { id: "3", type: "image" as const, thumbnail: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400", url: "" },
+  { id: "4", type: "short" as const, thumbnail: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400", url: "", duration: 15, viewCount: 5400 },
+  { id: "5", type: "image" as const, thumbnail: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400", url: "" },
+  { id: "6", type: "video" as const, thumbnail: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=400", url: "", duration: 120 },
+];
+
+// Mock designs
+const mockDesigns = [
+  { id: "1", title: "Urban Streetwear Collection", image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400", salesCount: 45, likes: 234, earnings: 450.00 },
+  { id: "2", title: "Minimalist Logo Design", image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=400", salesCount: 12, likes: 89, earnings: 120.00 },
+  { id: "3", title: "Vintage Pattern Pack", image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=400", salesCount: 28, likes: 156, earnings: 280.00 },
+];
+
+// Mock activities
+const mockActivities = [
+  { id: "1", type: "purchase" as const, title: "Purchased an item", description: "Premium Leather Crossbody", timestamp: "2 hours ago", metadata: { productName: "Premium Leather Crossbody", productImage: mockProducts[0].image } },
+  { id: "2", type: "coins" as const, title: "Earned coins", description: "Review bonus reward", timestamp: "5 hours ago", metadata: { amount: 50 } },
+  { id: "3", type: "review" as const, title: "Wrote a review", description: "5-star review for Classic White Sneakers", timestamp: "1 day ago", metadata: { productName: "Classic White Sneakers", productImage: mockProducts[1].image } },
+  { id: "4", type: "levelup" as const, title: "Level up!", description: "Reached Gold status", timestamp: "3 days ago", metadata: { level: "Gold" } },
+  { id: "5", type: "achievement" as const, title: "Achievement unlocked", description: "Top Reviewer badge earned", timestamp: "1 week ago" },
+];
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState("Closet (24)");
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<ProfileTabType>("feed");
+
+  const handleStatClick = (stat: string) => {
+    console.log("Stat clicked:", stat);
+    // Could open a modal or navigate to a list
+  };
+
+  const handleCreateDesign = () => {
+    navigate("/pod/builder");
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "feed":
+        return <ProfileFeedTab posts={feedPosts} user={profileData} />;
+      case "shop":
+        return <ProfileShopTab products={shopProducts} isPodCreator={true} />;
+      case "reviews":
+        return <ProfileReviewsTab reviews={mockReviews} />;
+      case "media":
+        return <ProfileMediaTab media={mockMedia} />;
+      case "designs":
+        return (
+          <ProfileDesignsTab 
+            designs={mockDesigns} 
+            isOwnProfile={true}
+            onCreateDesign={handleCreateDesign}
+          />
+        );
+      case "activity":
+        return <ProfileActivityTab activities={mockActivities} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <AppLayout showBottomNav={true}>
-      <div>
-        {/* Cover & Header */}
-        <div className="relative">
-          {/* Cover Image */}
-          <div className="h-32 bg-gradient-to-br from-primary/30 via-accent/20 to-background overflow-hidden">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=800')] bg-cover bg-center opacity-30" />
-          </div>
+      <div className="min-h-screen bg-background">
+        {/* Header Section */}
+        <ProfileHeader 
+          user={profileData}
+          onAvatarClick={() => console.log("Avatar clicked")}
+        />
 
-          {/* Quick Actions on Cover */}
-          <div className="absolute top-3 right-3 flex items-center gap-2">
-            <button className="p-2 rounded-full bg-background/50 backdrop-blur-sm hover:bg-background/80 transition-colors">
-              <Search className="h-5 w-5" />
-            </button>
-            <button className="p-2 rounded-full bg-background/50 backdrop-blur-sm hover:bg-background/80 transition-colors">
-              <MoreVertical className="h-5 w-5" />
-            </button>
-          </div>
+        {/* Stats */}
+        <ProfileStats
+          followers={profileData.followers}
+          following={profileData.following}
+          posts={profileData.posts}
+          purchases={profileData.purchases}
+          reviews={profileData.reviews}
+          coins={profileData.coins}
+          onStatClick={handleStatClick}
+        />
 
-          {/* Avatar */}
-          <div className="absolute -bottom-12 left-4">
-            <Avatar className="h-24 w-24 border-4 border-background ring-2 ring-primary/20">
-              <AvatarImage src={mockUser.avatar} alt={mockUser.name} />
-              <AvatarFallback>{mockUser.name[0]}</AvatarFallback>
-            </Avatar>
-          </div>
-        </div>
+        {/* Badges */}
+        <ProfileBadges badges={profileData.badges} />
 
-        {/* Profile Info */}
-        <div className="pt-14 px-4 space-y-4">
-          {/* Name & Badge */}
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-bold">{mockUser.name}</h1>
-                {mockUser.isVerified && (
-                  <span className="w-5 h-5 rounded-full gradient-primary flex items-center justify-center text-xs">✓</span>
-                )}
-              </div>
-              <p className="text-sm text-muted-foreground">{mockUser.bio}</p>
-            </div>
-          </div>
+        {/* Action Buttons */}
+        <ProfileActions
+          isOwnProfile={true}
+          onShare={() => console.log("Share profile")}
+        />
 
-          {/* Stats */}
-          <div className="flex items-center gap-6">
-            <div className="text-center">
-              <p className="font-bold text-lg">{(mockUser.followers / 1000).toFixed(1)}k</p>
-              <p className="text-xs text-muted-foreground">Followers</p>
-            </div>
-            <div className="text-center">
-              <p className="font-bold text-lg">{mockUser.following}</p>
-              <p className="text-xs text-muted-foreground">Following</p>
-            </div>
-            <div className="text-center">
-              <p className="font-bold text-lg">{mockUser.sales}</p>
-              <p className="text-xs text-muted-foreground">Sales</p>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex items-center gap-3">
-            <Button className="flex-1 gradient-primary border-0">
-              Follow
-            </Button>
-            <Button variant="secondary" className="flex-1">
-              <MessageCircle className="h-4 w-4 mr-2" />
-              Message
-            </Button>
-            <Button variant="secondary" size="icon">
-              <Share2 className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Trust & Rewards */}
-          <div className="p-4 rounded-xl bg-card border border-border">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-sm">Trust & Rewards</h3>
-              <button className="text-xs text-primary flex items-center gap-1">
-                More Details <ChevronRight className="h-3 w-3" />
-              </button>
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-secondary/50">
-                <Shield className="h-5 w-5 text-emerald-400" />
-                <span className="text-xs font-medium">Trust Score</span>
-                <span className="text-lg font-bold text-emerald-400">{mockUser.trustScore}%</span>
-              </div>
-              <div className="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-secondary/50">
-                <Coins className="h-5 w-5 text-amber-400" />
-                <span className="text-xs font-medium">Fashion Coins</span>
-                <span className="text-lg font-bold text-amber-400">{mockUser.coins.toLocaleString()}</span>
-              </div>
-              <div className="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-secondary/50">
-                <Award className="h-5 w-5 text-primary" />
-                <span className="text-xs font-medium">Level</span>
-                <span className="text-lg font-bold text-primary">{mockUser.level}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Trust Card */}
+        <ProfileTrustCard
+          trustScore={profileData.trustScore}
+          coins={profileData.coins}
+          level={profileData.level}
+          onViewDetails={() => console.log("View trust details")}
+        />
 
         {/* Tabs */}
-        <div className="mt-6 border-t border-border">
-          <div className="flex overflow-x-auto hide-scrollbar">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={cn(
-                  "flex-1 min-w-fit px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap",
-                  activeTab === tab
-                    ? "text-foreground border-primary"
-                    : "text-muted-foreground border-transparent hover:text-foreground"
-                )}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-        </div>
+        <ProfileTabs
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          counts={{
+            feed: profileData.posts,
+            reviews: profileData.reviews,
+            designs: mockDesigns.length,
+          }}
+        />
 
-        {/* Content - Responsive Grid */}
-        <div className="p-4 pb-8">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
-            {[...mockProducts, ...mockProducts].map((product, index) => (
-              <ProductCard key={`${product.id}-${index}`} product={product} />
-            ))}
-          </div>
+        {/* Tab Content */}
+        <div className="pb-20">
+          {renderTabContent()}
         </div>
       </div>
     </AppLayout>
