@@ -77,6 +77,16 @@
     --chart-3: 45 95% 55%;
     --chart-4: 150 65% 45%;
     --chart-5: 200 80% 50%;
+
+    /* App header height (incl. safe-area) — single source of truth so
+       sticky tab bars, fixed headers, and main content stay aligned. */
+    --app-header-h: calc(3.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --app-header-h: 120px;
+    }
   }
 
   * {
