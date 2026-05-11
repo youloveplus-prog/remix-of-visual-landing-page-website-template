@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
-  ShoppingBag,
+  Library,
   Users,
   Gamepad2,
   User,
@@ -13,10 +13,10 @@ import {
   HelpCircle,
   ChevronLeft,
   ChevronRight,
-  Flame,
-  Tag,
+  GraduationCap,
+  BookOpen,
+  Wand2,
   Sparkles,
-  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -100,16 +100,17 @@ export function DesktopSidebar({
 
   const mainNavItems = [
     { icon: Home, label: "Home", href: "/" },
-    { icon: ShoppingBag, label: "Shop", href: "/shop" },
+    { icon: Library, label: "Library", href: "/shop" },
     { icon: Users, label: "Community", href: "/community" },
     { icon: Gamepad2, label: "Game & Rewards", href: "/game" },
   ];
 
   const shopNavItems = [
-    { icon: Flame, label: "Trending", href: "/shop?filter=trending" },
-    { icon: Tag, label: "Deals", href: "/shop?filter=deals" },
+    { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
+    { icon: BookOpen, label: "Books", href: "/shop?type=books" },
+    { icon: Package, label: "Student Kits", href: "/shop?type=kits" },
+    { icon: Wand2, label: "Prompt Library", href: "/shop?type=prompts" },
     { icon: Sparkles, label: "New Arrivals", href: "/shop?filter=new" },
-    { icon: TrendingUp, label: "Best Sellers", href: "/shop?filter=bestsellers" },
   ];
 
   const userNavItems = [
@@ -167,11 +168,11 @@ export function DesktopSidebar({
 
           <Separator className="mx-3" />
 
-          {/* Shop Categories */}
+          {/* Library Categories */}
           <div className="space-y-1">
             {!isCollapsed && (
               <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Shop
+                Library
               </p>
             )}
             {shopNavItems.map((item) => (

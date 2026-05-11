@@ -6,17 +6,16 @@ import {
   Film, 
   Radio, 
   Star, 
-  ShoppingBag, 
-  Shirt, 
-  TrendingUp, 
+  Library, 
+  GraduationCap, 
+  BookOpen, 
   Sparkles, 
-  Zap,
+  Wand2,
   ChevronDown,
-  Palette,
-  Flag,
-  Flame,
-  Quote,
-  GraduationCap
+  Package,
+  Bot,
+  Laptop,
+  Brain,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -67,20 +66,21 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
   ];
 
   const shopItems = [
-    { icon: <ShoppingBag className="w-5 h-5" />, label: "Shop Home", href: "/shop" },
-    { icon: <Shirt className="w-5 h-5" />, label: "T-Shirts", href: "/shop?category=tshirts" },
-    { icon: <TrendingUp className="w-5 h-5" />, label: "Trending", href: "/shop?category=trending" },
+    { icon: <Library className="w-5 h-5" />, label: "Library Home", href: "/shop" },
+    { icon: <GraduationCap className="w-5 h-5" />, label: "Courses", href: "/shop?type=courses" },
+    { icon: <BookOpen className="w-5 h-5" />, label: "Books", href: "/shop?type=books" },
+    { icon: <Package className="w-5 h-5" />, label: "Student Kits", href: "/shop?type=kits" },
+    { icon: <Wand2 className="w-5 h-5" />, label: "Prompt Library", href: "/shop?type=prompts" },
     { icon: <Sparkles className="w-5 h-5" />, label: "New Arrivals", href: "/shop?category=new" },
-    { icon: <Zap className="w-5 h-5" />, label: "Limited Drops", href: "/shop?category=limited" },
   ];
 
   const categories = [
-    { icon: <Palette className="w-5 h-5" />, label: "Graphic T-Shirts", href: "/shop?category=graphic" },
-    { icon: <Flame className="w-5 h-5" />, label: "Trending / Viral", href: "/shop?category=viral" },
-    { icon: <Flag className="w-5 h-5" />, label: "Bangla Identity", href: "/shop?category=bangla" },
-    { icon: <Zap className="w-5 h-5" />, label: "Streetwear", href: "/shop?category=streetwear" },
-    { icon: <Quote className="w-5 h-5" />, label: "Motivation", href: "/shop?category=motivation" },
-    { icon: <GraduationCap className="w-5 h-5" />, label: "Youth & College", href: "/shop?category=youth" },
+    { icon: <Brain className="w-5 h-5" />, label: "AI & Machine Learning", href: "/shop?category=ai-ml" },
+    { icon: <Laptop className="w-5 h-5" />, label: "Programming", href: "/shop?category=programming" },
+    { icon: <Bot className="w-5 h-5" />, label: "AI Tutor", href: "/shop?category=ai-tutor" },
+    { icon: <BookOpen className="w-5 h-5" />, label: "Self-Improvement", href: "/shop?category=self-improvement" },
+    { icon: <GraduationCap className="w-5 h-5" />, label: "Exam Prep", href: "/shop?category=exam-prep" },
+    { icon: <Wand2 className="w-5 h-5" />, label: "Prompt Engineering", href: "/shop?category=prompts" },
   ];
 
   return (
@@ -107,12 +107,12 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
         </div>
       </div>
 
-      {/* Shop Section */}
+      {/* Library Section */}
       <div className="mb-4">
         <div className="px-3 py-2">
           <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-            <ShoppingBag className="w-4 h-4" />
-            Shop
+            <Library className="w-4 h-4" />
+            Library
           </h4>
         </div>
         <div className="space-y-0.5">
@@ -134,7 +134,7 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
         <CollapsibleTrigger className="w-full">
           <div className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors">
             <span className="flex items-center gap-2">
-              <Palette className="w-4 h-4" />
+              <Brain className="w-4 h-4" />
               Categories
             </span>
             <ChevronDown className={cn(

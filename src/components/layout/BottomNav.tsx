@@ -1,4 +1,4 @@
-import { Home, ShoppingBag, Gamepad2, Users, User } from "lucide-react";
+import { Home, Library, Gamepad2, Users, User } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { forwardRef } from "react";
 import { createPortal } from "react-dom";
@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { icon: Home, label: "Home", path: "/" },
-  { icon: ShoppingBag, label: "Shop", path: "/shop" },
+  { icon: Library, label: "Library", path: "/shop" },
   { icon: Gamepad2, label: "Game", path: "/game" },
   { icon: Users, label: "Community", path: "/community" },
   { icon: User, label: "Profile", path: "/profile" },
