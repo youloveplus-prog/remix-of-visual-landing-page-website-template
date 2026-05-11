@@ -60,7 +60,7 @@ export function ProductCarousel({ products, title, viewAllHref, className }: Pro
               key={product.id}
               className="flex-[0_0_45%] sm:flex-[0_0_35%] md:flex-[0_0_28%] lg:flex-[0_0_22%] xl:flex-[0_0_18%] min-w-0"
             >
-              <ProductCard product={product} />
+              <ProductCard product={product} variant="compact" />
             </div>
           ))}
         </div>
