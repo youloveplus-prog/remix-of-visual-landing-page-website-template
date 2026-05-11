@@ -1,5 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { mockProducts } from "@/lib/mock-data";
+
+// Fallback products shaped to match the Supabase `products` table
+const fallbackProducts = mockProducts.map((p, i) => ({
+  id: p.id,
+  name: p.name,
+  slug: `product-${p.id}`,
+  image_url: p.image,
+  price: p.price,
+  original_price: p.originalPrice ?? null,
+  rating: p.rating,
+  review_count: p.reviews,
+  is_featured: !!p.isTrending,
+  is_pod: false,
+  category_id: null as string | null,
+  created_at: new Date(Date.now() - i * 1000).toISOString(),
+}));
 
 export type SortOption = "newest" | "price-asc" | "price-desc" | "rating" | "popular";
 
