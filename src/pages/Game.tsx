@@ -212,6 +212,9 @@ const Game = () => {
           </div>
         </section>
 
+        {/* Progress Trend Charts */}
+        <ProgressCharts />
+
         {/* Quick Actions - Responsive */}
         <div className="px-4 lg:px-0">
           <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
