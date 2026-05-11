@@ -107,12 +107,12 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
         </div>
       </div>
 
-      {/* Shop Section */}
+      {/* Library Section */}
       <div className="mb-4">
         <div className="px-3 py-2">
           <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-            <ShoppingBag className="w-4 h-4" />
-            Shop
+            <Library className="w-4 h-4" />
+            Library
           </h4>
         </div>
         <div className="space-y-0.5">
