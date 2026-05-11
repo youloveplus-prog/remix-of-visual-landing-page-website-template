@@ -8,6 +8,24 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+const ALLOWED_IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp"];
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
+const RESERVED_USERNAMES = ["admin", "moderator", "system", "support", "root", "administrator"];
+
+const profileSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .regex(/^[a-zA-Z0-9_-]{3,20}$/, "Username must be 3–20 chars (letters, numbers, _ or -)")
+    .refine((v) => !RESERVED_USERNAMES.includes(v.toLowerCase()), "This username is reserved")
+    .optional()
+    .or(z.literal("")),
+  full_name: z.string().trim().max(100, "Full name too long").optional().or(z.literal("")),
+  bio: z.string().trim().max(500, "Bio must be ≤ 500 characters").optional().or(z.literal("")),
+});
 
 interface ProfileEditModalProps {
   isOpen: boolean;
@@ -48,12 +66,30 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
 
   const uploadImage = async (file: File, type: "avatar" | "cover"): Promise<string | null> => {
     try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${profile.id}/${type}-${Date.now()}.${fileExt}`;
-      
+      // Server-side-ish validation (Storage will still receive whatever bytes, but we reject obvious abuse here)
+      const ext = (file.name.split(".").pop() || "").toLowerCase();
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type) || !ALLOWED_IMAGE_EXTS.includes(ext)) {
+        toast({
+          title: "Unsupported file type",
+          description: "Please upload a JPG, PNG, GIF, or WEBP image. SVG is not allowed.",
+          variant: "destructive",
+        });
+        return null;
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        toast({
+          title: "File too large",
+          description: "Images must be 5 MB or less.",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      const fileName = `${profile.id}/${type}-${Date.now()}.${ext}`;
+
       const { data, error } = await supabase.storage
         .from("avatars")
-        .upload(fileName, file, { upsert: true });
+        .upload(fileName, file, { upsert: true, contentType: file.type });
 
       if (error) throw error;
 
@@ -99,8 +135,23 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const parsed = profileSchema.safeParse({
+      username: formData.username,
+      full_name: formData.full_name,
+      bio: formData.bio,
+    });
+    if (!parsed.success) {
+      const first = parsed.error.errors[0];
+      toast({
+        title: "Invalid input",
+        description: first?.message ?? "Please check the form values.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
-    
     try {
       await onSave(formData);
       toast({
@@ -156,7 +207,7 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
             <input
               ref={coverInputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/gif,image/webp"
               onChange={handleCoverChange}
               className="hidden"
             />
@@ -191,7 +242,7 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
             <input
               ref={avatarInputRef}
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/gif,image/webp"
               onChange={handleAvatarChange}
               className="hidden"
             />
