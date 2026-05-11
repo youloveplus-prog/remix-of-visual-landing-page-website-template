@@ -254,6 +254,11 @@ const Settings = () => {
           <LogOut className="h-4 w-4 mr-2" />
           Sign Out
         </Button>
+
+        <section className="pt-4">
+          <h2 className="font-semibold text-lg mb-3">About ASIKON</h2>
+          <MissionVision />
+        </section>
       </div>
     </AppLayout>
   );
