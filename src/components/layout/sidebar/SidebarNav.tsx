@@ -134,7 +134,7 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
         <CollapsibleTrigger className="w-full">
           <div className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors">
             <span className="flex items-center gap-2">
-              <Palette className="w-4 h-4" />
+              <Brain className="w-4 h-4" />
               Categories
             </span>
             <ChevronDown className={cn(
