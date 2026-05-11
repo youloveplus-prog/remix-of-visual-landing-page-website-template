@@ -244,18 +244,7 @@ const Index = () => {
         {/* New Arrivals Carousel */}
         <section>
           {productsLoading ? (
-            <div className="px-4 lg:px-0">
-              <Skeleton className="h-6 w-32 mb-4" />
-              <div className="flex gap-4 overflow-hidden">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex-shrink-0 w-40">
-                    <Skeleton className="aspect-square rounded-xl mb-2" />
-                    <Skeleton className="h-4 w-full mb-1" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CarouselSkeleton title="New Arrivals" />
           ) : (
             <ProductCarousel
               products={newArrivalItems}
