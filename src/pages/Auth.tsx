@@ -262,7 +262,7 @@ const Auth = () => {
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4 py-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold mb-2">Welcome to KEYZET</h1>
+            <h1 className="text-2xl font-bold mb-2">Welcome to Asikon</h1>
             <p className="text-muted-foreground">
               {activeView === "forgot-password"
                 ? "Reset your password"

@@ -49,12 +49,12 @@ export function DesktopHeader({
         >
           {/* Left - Logo */}
           <Link to="/" className="flex-shrink-0 flex items-center gap-2">
-            <img src={logo} alt="Keyzet logo" className={cn("transition-all duration-300", isScrolled ? "w-7 h-7" : "w-8 h-8")} />
+            <img src={logo} alt="Asikon logo" className={cn("transition-all duration-300", isScrolled ? "w-7 h-7" : "w-8 h-8")} />
             <h1 className={cn(
               "font-bold text-gradient transition-all duration-300",
               isScrolled ? "text-xl" : "text-2xl"
             )}>
-              KEYZET
+              Asikon
             </h1>
           </Link>
 
