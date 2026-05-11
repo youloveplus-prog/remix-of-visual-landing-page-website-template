@@ -112,7 +112,7 @@ export function AppLayout({
         {!isMobile && showSidebar && (
           <DesktopSidebar 
             isCollapsed={isCollapsed} 
-            onCollapsedChange={setIsCollapsed} 
+            onCollapsedChange={handleCollapsedChange} 
           />
         )}
 
