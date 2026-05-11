@@ -33,11 +33,33 @@ function detectProductType(name: string): ProductType {
 }
 
 const Shop = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, MAX_PRICE]);
   const [productType, setProductType] = useState<ProductType>("all");
+
+  // Sync URL params (?type=courses, ?filter=trending|new|deals) → state
+  useEffect(() => {
+    const type = searchParams.get("type") as ProductType | null;
+    if (type && ["all", "courses", "books", "kits", "prompts"].includes(type)) {
+      setProductType(type);
+    }
+    const filter = searchParams.get("filter");
+    if (filter === "trending" || filter === "popular") setSortBy("popular");
+    else if (filter === "new") setSortBy("newest");
+    else if (filter === "deals") setSortBy("price-asc");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  const handleTypeChange = (t: ProductType) => {
+    setProductType(t);
+    const next = new URLSearchParams(searchParams);
+    if (t === "all") next.delete("type");
+    else next.set("type", t);
+    setSearchParams(next, { replace: true });
+  };
 
   const { data: categories, isLoading: categoriesLoading } = useCategories();
 
