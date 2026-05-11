@@ -1,49 +1,46 @@
-import { ChevronRight, Gift } from "lucide-react";
+import { ChevronRight, Gift, Flame, Sparkles, GraduationCap, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { PostCard } from "@/components/community/PostCard";
-import { HeroCarousel, ProductCarousel, StoryCarousel } from "@/components/carousels";
-import { mockStories, mockPosts } from "@/lib/mock-data";
+import { HeroCarousel, ProductCarousel } from "@/components/carousels";
+import { mockPosts } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
-import { 
-  PodHeroBanner, 
-  TrendingDesignsCarousel, 
-  CreatorSpotlight, 
-  LimitedDrops 
-} from "@/components/pod";
-import heroFashion from "@/assets/hero-fashion-1.jpg";
+import courseAiMl from "@/assets/course-ai-ml.jpg";
+import coursePython from "@/assets/course-python.jpg";
+import promptLibrary from "@/assets/prompt-library.jpg";
 
 const heroSlides = [
   {
     id: "1",
-    image: heroFashion,
-    title: "Summer Collection 2024",
-    subtitle: "Discover the latest trends in streetwear and urban fashion",
-    cta: { label: "Shop Now", href: "/shop" },
+    image: courseAiMl,
+    title: "Learn AI with Asikon",
+    subtitle: "Master ML, Python, and modern AI tools — taught by experts",
+    cta: { label: "Browse Courses", href: "/shop?type=courses" },
   },
   {
     id: "2",
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=600&fit=crop",
-    title: "Flash Sale - Up to 50% Off",
-    subtitle: "Limited time offers on premium brands",
-    cta: { label: "View Deals", href: "/shop?filter=deals" },
+    image: promptLibrary,
+    title: "1000+ AI Prompts",
+    subtitle: "Boost your productivity with our curated prompt library",
+    cta: { label: "Get the Library", href: "/shop?type=prompts" },
   },
   {
     id: "3",
-    image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&h=600&fit=crop",
-    title: "New Arrivals Weekly",
-    subtitle: "Fresh drops every Friday",
-    cta: { label: "Explore", href: "/shop?filter=new" },
+    image: coursePython,
+    title: "Skill-Up Friday — 50% Off",
+    subtitle: "Limited time deals on top-rated courses and books",
+    cta: { label: "View Deals", href: "/shop?filter=deals" },
   },
 ];
 
-// Transform database product to carousel product format
+// Transform DB product → carousel format
 const transformProduct = (p: any) => ({
   id: p.id,
   name: p.name,
-  brand: "StyleHub",
+  brand: "Asikon Academy",
   price: p.price,
   originalPrice: p.original_price || undefined,
   image: p.image_url || "/placeholder.svg",
@@ -54,9 +51,26 @@ const transformProduct = (p: any) => ({
   slug: p.slug,
 });
 
+const quickCategories = [
+  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", color: "from-primary/20 to-primary/5" },
+  { icon: BookOpen, label: "Books", href: "/shop?type=books", color: "from-accent/20 to-accent/5" },
+  { icon: Sparkles, label: "Prompts", href: "/shop?type=prompts", color: "from-primary/20 to-accent/10" },
+  { icon: Flame, label: "Trending", href: "/shop?filter=trending", color: "from-accent/20 to-primary/10" },
+];
+
 const Index = () => {
   const { data: products, isLoading: productsLoading } = useProducts({ limit: 20 });
   const { data: featuredProducts, isLoading: featuredLoading } = useFeaturedProducts(10);
+
+  const trendingItems = useMemo(
+    () => featuredProducts?.map(transformProduct) || [],
+    [featuredProducts]
+  );
+  const newArrivalItems = useMemo(
+    () => products?.slice().reverse().map(transformProduct) || [],
+    [products]
+  );
+  const curated = useMemo(() => products?.slice(0, 10) || [], [products]);
 
   return (
     <AppLayout>
@@ -74,8 +88,8 @@ const Index = () => {
                 <Gift className="h-5 w-5 text-foreground" />
               </div>
               <div>
-                <p className="font-semibold text-sm">Daily Check-in</p>
-                <p className="text-xs text-muted-foreground">Claim +30 Coins today!</p>
+                <p className="font-semibold text-sm">Daily Streak Bonus</p>
+                <p className="text-xs text-muted-foreground">Claim +30 XP today!</p>
               </div>
             </div>
             <Button size="sm" className="gradient-primary border-0">
@@ -84,27 +98,26 @@ const Index = () => {
           </div>
         </section>
 
-        {/* POD Hero Banner */}
-        <PodHeroBanner variant="full" />
-
-        {/* Trending Custom Designs */}
-        <TrendingDesignsCarousel />
-
-        {/* Limited POD Drops */}
-        <LimitedDrops />
-
-        {/* Shorts & Stories Carousel */}
-        <section>
-          <div className="flex items-center justify-between mb-3 px-4 lg:px-0">
-            <h2 className="font-semibold text-lg">Shorts & Stories</h2>
-            <button className="text-sm text-primary flex items-center gap-1">
-              View All <ChevronRight className="h-4 w-4" />
-            </button>
+        {/* Quick Categories — uniform cards */}
+        <section className="px-4 lg:px-0">
+          <div className="grid grid-cols-4 gap-2 lg:gap-3">
+            {quickCategories.map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <Link
+                  key={cat.label}
+                  to={cat.href}
+                  className={`flex flex-col items-center justify-center gap-2 aspect-square rounded-xl bg-gradient-to-br ${cat.color} border border-border/50 hover:border-primary/40 transition-all`}
+                >
+                  <Icon className="h-6 w-6 text-primary" />
+                  <span className="text-xs font-medium">{cat.label}</span>
+                </Link>
+              );
+            })}
           </div>
-          <StoryCarousel stories={mockStories} />
         </section>
 
-        {/* Trending Products Carousel */}
+        {/* Trending Courses Carousel */}
         <section>
           {featuredLoading ? (
             <div className="px-4 lg:px-0">
@@ -121,20 +134,17 @@ const Index = () => {
             </div>
           ) : (
             <ProductCarousel
-              products={featuredProducts?.map(transformProduct) || []}
+              products={trendingItems}
               title="Trending Now"
               viewAllHref="/shop?filter=trending"
             />
           )}
         </section>
 
-        {/* Creator Spotlight */}
-        <CreatorSpotlight />
-
         {/* Trending in Community */}
         <section>
           <div className="flex items-center justify-between px-4 lg:px-0 mb-3">
-            <h2 className="font-semibold text-lg">Trending in Community</h2>
+            <h2 className="font-semibold text-lg">From the Community</h2>
             <Link to="/community" className="text-sm text-primary flex items-center gap-1">
               View All <ChevronRight className="h-4 w-4" />
             </Link>
@@ -144,7 +154,7 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Curated For You - Responsive Grid */}
+        {/* Curated For You — uniform cards */}
         <section className="px-4 lg:px-0">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-semibold text-lg">Curated for You</h2>
@@ -164,16 +174,18 @@ const Index = () => {
             </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
-              {products?.slice(0, 10).map((product) => (
+              {curated.map((product: any) => (
                 <Link
                   key={product.id}
                   to={`/product/${product.slug}`}
-                  className="group relative bg-card rounded-xl overflow-hidden border border-border/50 hover:border-primary/30 transition-all duration-300"
+                  className="group relative bg-card rounded-xl overflow-hidden border border-border/50 hover:border-primary/30 transition-all duration-300 flex flex-col h-full"
                 >
-                  <div className="relative aspect-square overflow-hidden">
+                  <div className="relative aspect-square overflow-hidden bg-muted">
                     <img
                       src={product.image_url || "/placeholder.svg"}
                       alt={product.name}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {product.is_featured && (
@@ -182,12 +194,14 @@ const Index = () => {
                       </span>
                     )}
                   </div>
-                  <div className="p-3">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
-                      StyleHub
+                  <div className="p-3 flex flex-col flex-1">
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-1">
+                      Asikon Academy
                     </p>
-                    <h3 className="font-medium text-sm line-clamp-2 mb-2">{product.name}</h3>
-                    <div className="flex items-center justify-between">
+                    <h3 className="font-medium text-sm line-clamp-2 mb-2 min-h-[2.5rem]">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center justify-between mt-auto">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-foreground">${product.price}</span>
                         {product.original_price && (
@@ -225,7 +239,7 @@ const Index = () => {
             </div>
           ) : (
             <ProductCarousel
-              products={products?.slice().reverse().map(transformProduct) || []}
+              products={newArrivalItems}
               title="New Arrivals"
               viewAllHref="/shop?filter=new"
             />
