@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { MissionVision } from "@/components/about/MissionVision";
 import {
   ProfileHeader,
   ProfileStats,
@@ -286,6 +287,12 @@ const Profile = () => {
           imageUrl={displayProfile.avatar}
           userName={displayProfile.name}
         />
+
+        {/* About Asikon */}
+        <section className="px-4 lg:px-0 pt-2">
+          <h2 className="font-semibold text-lg mb-3">About ASIKON</h2>
+          <MissionVision />
+        </section>
 
         {/* Messaging Drawer */}
         <MessagingDrawer

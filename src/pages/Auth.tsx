@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, User, ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { MissionVision } from "@/components/about/MissionVision";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -261,14 +262,16 @@ const Auth = () => {
     <AppLayout showBottomNav={false}>
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4 py-8">
         <div className="w-full max-w-md">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <h1 className="text-2xl font-bold mb-2">Welcome to Asikon</h1>
             <p className="text-muted-foreground">
               {activeView === "forgot-password"
                 ? "Reset your password"
-                : "Sign in to continue shopping"}
+                : "Sign in to keep learning"}
             </p>
           </div>
+
+          <MissionVision variant="compact" className="mb-6" />
 
           {activeView === "forgot-password" ? (
             <div className="space-y-4">
