@@ -66,12 +66,30 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
 
   const uploadImage = async (file: File, type: "avatar" | "cover"): Promise<string | null> => {
     try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${profile.id}/${type}-${Date.now()}.${fileExt}`;
-      
+      // Server-side-ish validation (Storage will still receive whatever bytes, but we reject obvious abuse here)
+      const ext = (file.name.split(".").pop() || "").toLowerCase();
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type) || !ALLOWED_IMAGE_EXTS.includes(ext)) {
+        toast({
+          title: "Unsupported file type",
+          description: "Please upload a JPG, PNG, GIF, or WEBP image. SVG is not allowed.",
+          variant: "destructive",
+        });
+        return null;
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        toast({
+          title: "File too large",
+          description: "Images must be 5 MB or less.",
+          variant: "destructive",
+        });
+        return null;
+      }
+
+      const fileName = `${profile.id}/${type}-${Date.now()}.${ext}`;
+
       const { data, error } = await supabase.storage
         .from("avatars")
-        .upload(fileName, file, { upsert: true });
+        .upload(fileName, file, { upsert: true, contentType: file.type });
 
       if (error) throw error;
 
