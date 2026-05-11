@@ -1,12 +1,25 @@
 import { useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  LayoutGrid,
+  GraduationCap,
+  BookOpen,
+  Backpack,
+  Wand2,
+  Bot,
+  Laptop,
+  Package,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Category {
   id: string;
   name: string;
-  icon: string;
+  slug?: string;
+  icon?: string;
   href?: string;
 }
 
@@ -15,6 +28,29 @@ interface CategoryCarouselProps {
   activeCategory?: string;
   onCategoryChange?: (categoryName: string) => void;
   className?: string;
+}
+
+const ICON_BY_SLUG: Record<string, LucideIcon> = {
+  all: LayoutGrid,
+  courses: GraduationCap,
+  books: BookOpen,
+  kits: Backpack,
+  prompts: Wand2,
+  "ai-tutor": Bot,
+  gadgets: Laptop,
+};
+
+function getIcon(category: Category): LucideIcon {
+  if (category.slug && ICON_BY_SLUG[category.slug]) return ICON_BY_SLUG[category.slug];
+  const key = category.name.toLowerCase();
+  if (key.includes("course")) return GraduationCap;
+  if (key.includes("book")) return BookOpen;
+  if (key.includes("kit")) return Backpack;
+  if (key.includes("prompt")) return Wand2;
+  if (key.includes("tutor") || key.includes("ai")) return Bot;
+  if (key.includes("gadget") || key.includes("tech")) return Laptop;
+  if (key === "all") return LayoutGrid;
+  return Package;
 }
 
 export function CategoryCarousel({ 
@@ -54,6 +90,7 @@ export function CategoryCarousel({
         <div className="flex gap-2">
           {categories.map((category) => {
             const isActive = activeCategory === category.name;
+            const Icon = getIcon(category);
             return (
               <button
                 key={category.id}
@@ -65,7 +102,7 @@ export function CategoryCarousel({
                     : "bg-card text-foreground border-border hover:border-primary/40"
                 )}
               >
-                <span className="text-sm leading-none">{category.icon}</span>
+                <Icon className="h-3.5 w-3.5" strokeWidth={2} />
                 <span>{category.name}</span>
               </button>
             );
