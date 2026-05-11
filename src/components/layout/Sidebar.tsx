@@ -17,7 +17,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent 
         side="left" 
-        className="w-[280px] p-0 bg-background/95 backdrop-blur-xl border-r border-border"
+        className="w-[280px] p-0 bg-background/95 backdrop-blur-xl border-r border-border h-[100dvh] overflow-hidden overscroll-contain"
       >
         <SheetHeader className="sr-only">
           <SheetTitle>Navigation Menu</SheetTitle>
@@ -28,7 +28,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
           <SidebarUser onClose={handleClose} />
           
           {/* Scrollable Content */}
-          <ScrollArea className="flex-1">
+          <ScrollArea className="flex-1 overscroll-contain [&>[data-radix-scroll-area-viewport]]:overscroll-contain [&>[data-radix-scroll-area-viewport]]:touch-pan-y">
             {/* Primary Navigation */}
             <SidebarNav onClose={handleClose} />
             
