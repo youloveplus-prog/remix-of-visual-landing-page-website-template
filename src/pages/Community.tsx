@@ -11,15 +11,10 @@ import { LiveTab } from "@/components/community/tabs/LiveTab";
 import { OffersTab } from "@/components/community/tabs/OffersTab";
 import { GalleryTab } from "@/components/community/tabs/GalleryTab";
 import { CommunityTab } from "@/types/community";
-import { useScrollDirection } from "@/hooks/use-scroll-direction";
 import { StickyLayoutDebugger } from "@/components/dev/StickyLayoutDebugger";
 
 const Community = () => {
   const [activeTab, setActiveTab] = useState<CommunityTab>("my-feed");
-  const { scrollDirection, isScrolled } = useScrollDirection();
-  // Mirror the mobile header: docked under header at top & on scroll-up,
-  // slides flush to top:0 when the header hides on scroll-down.
-  const headerHidden = scrollDirection === "down" && isScrolled;
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -53,8 +48,8 @@ const Community = () => {
             Sticky keeps its slot in document flow → no layout shift. */}
         <div
           data-sticky-tabs
-          className="sticky z-30 bg-background/95 backdrop-blur-md border-b border-border shadow-sm transition-[top] duration-300 ease-out will-change-[top]"
-          style={{ top: headerHidden ? 0 : "var(--app-header-h)" }}
+          className="sticky z-30 bg-background/95 backdrop-blur-md border-b border-border shadow-sm"
+          style={{ top: "var(--app-header-h)" }}
         >
           <CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
