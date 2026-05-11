@@ -1,4 +1,4 @@
-import { Home, ShoppingBag, Gamepad2, Users, User } from "lucide-react";
+import { Home, Library, Gamepad2, Users, User } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { forwardRef } from "react";
 import { createPortal } from "react-dom";
