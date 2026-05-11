@@ -62,7 +62,7 @@ export const mockUser: User = {
   sales: 156,
   trustScore: 98,
   coins: 2450,
-  level: "Gold Learner",
+  level: "Gold",
   bio: "CS student • AI enthusiast • Sharing my learning journey 📚✨",
 };
 
