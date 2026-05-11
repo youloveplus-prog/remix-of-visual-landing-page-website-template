@@ -1,6 +1,6 @@
 import { Sparkles, Heart, GraduationCap, BookOpen, Package, Wand2, LayoutGrid } from "lucide-react";
-import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CategoryCarousel } from "@/components/carousels";
 import { ShopFilters } from "@/components/shop/ShopFilters";
