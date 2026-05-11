@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Menu, ShoppingCart, Search } from "lucide-react";
+import { ShoppingCart, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -31,17 +31,17 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
       )}
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
-      <div className="flex items-center justify-between h-14 px-4">
-        {/* Left - Menu */}
-        <Button variant="ghost" size="icon" onClick={onMenuClick}>
-          <Menu className="w-6 h-6" />
-        </Button>
-
-        {/* Center - Logo */}
-        <Link to="/" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-          <img src={logo} alt="Asikon logo" className="w-7 h-7" />
-          <h1 className="text-xl font-bold text-gradient">Asikon</h1>
-        </Link>
+      <div className="flex items-center justify-between h-14 px-3">
+        {/* Left — Logo doubles as the menu trigger */}
+        <button
+          type="button"
+          onClick={onMenuClick}
+          aria-label="Open menu"
+          className="flex items-center gap-2 -ml-1 px-1 py-1 rounded-lg hover:bg-secondary/60 active:scale-95 transition"
+        >
+          <img src={logo} alt="Asikon logo" className="w-8 h-8" />
+          <h1 className="text-xl font-bold text-gradient leading-none">Asikon</h1>
+        </button>
 
         {/* Right - Search & Cart */}
         <div className="flex items-center gap-1">
