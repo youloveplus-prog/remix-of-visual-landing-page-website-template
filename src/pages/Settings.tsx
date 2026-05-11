@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Bell, Lock, Moon, LogOut, ChevronRight, Camera } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { MissionVision } from "@/components/about/MissionVision";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
