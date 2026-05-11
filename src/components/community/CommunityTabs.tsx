@@ -19,7 +19,7 @@ const tabs: { id: CommunityTab; label: string }[] = [
 
 export function CommunityTabs({ activeTab, onTabChange }: CommunityTabsProps) {
   return (
-    <div className="flex items-center gap-1.5 px-4 py-2 overflow-x-auto hide-scrollbar">
+    <div className="flex items-center gap-1.5 px-4 pt-0 pb-2 overflow-x-auto hide-scrollbar">
       {tabs.map((tab) => (
         <button
           key={tab.id}
