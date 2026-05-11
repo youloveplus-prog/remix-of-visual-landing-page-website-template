@@ -107,7 +107,7 @@ const Game = () => {
 
         {/* Streak + Stats */}
         <section className="px-4 lg:px-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
             {/* Streak Card */}
             <div className="p-4 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/5 border border-orange-500/20">
               <div className="flex items-center gap-2 mb-2">
