@@ -89,9 +89,9 @@ const PodUpload = () => {
     if (!file) return;
 
     // Validate file type
-    const validTypes = ["image/png", "image/jpeg", "image/svg+xml"];
+    const validTypes = ["image/png", "image/jpeg"];
     if (!validTypes.includes(file.type)) {
-      toast.error("Please upload a PNG, JPG, or SVG file");
+      toast.error("Please upload a PNG or JPG file");
       return;
     }
 
@@ -250,7 +250,7 @@ const PodUpload = () => {
                   <label className="cursor-pointer">
                     <input
                       type="file"
-                      accept="image/png,image/jpeg,image/svg+xml"
+                      accept="image/png,image/jpeg"
                       onChange={handleFileUpload}
                       className="hidden"
                     />
@@ -263,7 +263,7 @@ const PodUpload = () => {
                         <p className="text-sm text-muted-foreground">or click to browse</p>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        PNG, JPG, or SVG • Max 10MB • Transparent background recommended
+                        PNG or JPG • Max 10MB • Transparent background recommended
                       </p>
                     </div>
                   </label>
