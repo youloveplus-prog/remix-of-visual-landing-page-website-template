@@ -114,8 +114,11 @@ export function useProducts(options: UseProductsOptions = {}) {
           case "rating": list.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)); break;
           case "popular": list.sort((a, b) => (b.review_count ?? 0) - (a.review_count ?? 0)); break;
         }
-        return list.slice(0, limit);
+        const out = list.slice(0, limit);
+        writeCache(ck, out);
+        return out;
       }
+      writeCache(ck, data);
       return data;
     },
     retry: 0,
