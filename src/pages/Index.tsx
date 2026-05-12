@@ -9,6 +9,7 @@ import { mockPosts } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import courseAiMl from "@/assets/course-ai-ml.jpg";
 import coursePython from "@/assets/course-python.jpg";
@@ -117,7 +118,7 @@ const Index = () => {
         </section>
 
         {/* AI Tutor + Daily streak — twin cards */}
-        <section className="section-x grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <Reveal as="section" className="section-x grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Link
             to="/learn"
             className="group relative overflow-hidden rounded-2xl border border-primary/20 p-4 pressable focus-ring"
@@ -151,29 +152,30 @@ const Index = () => {
             </div>
             <Button size="sm" variant="premium" className="shrink-0">Claim</Button>
           </div>
-        </section>
+        </Reveal>
 
         {/* Quick Categories — uniform cards */}
         <section className="section-x">
           <div className="grid grid-cols-4 gap-2 lg:gap-3">
-            {quickCategories.map((cat) => {
+            {quickCategories.map((cat, i) => {
               const Icon = cat.icon;
               return (
-                <Link
-                  key={cat.label}
-                  to={cat.href}
-                  className={`pressable focus-ring flex flex-col items-center justify-center gap-2 aspect-square rounded-2xl bg-gradient-to-br ${cat.color} border border-border/60 hover:border-primary/40`}
-                >
-                  <Icon className="h-5 w-5 text-primary" />
-                  <span className="text-[11px] sm:text-xs font-medium">{cat.label}</span>
-                </Link>
+                <Reveal key={cat.label} delay={i * 60} variant="scale">
+                  <Link
+                    to={cat.href}
+                    className={`pressable focus-ring flex flex-col items-center justify-center gap-2 aspect-square rounded-2xl bg-gradient-to-br ${cat.color} border border-border/60 hover:border-primary/40`}
+                  >
+                    <Icon className="h-5 w-5 text-primary" />
+                    <span className="text-[11px] sm:text-xs font-medium">{cat.label}</span>
+                  </Link>
+                </Reveal>
               );
             })}
           </div>
         </section>
 
         {/* Trending Courses Carousel */}
-        <section>
+        <Reveal as="section">
           {featuredLoading ? (
             <CarouselSkeleton title="Trending Now" />
           ) : (
@@ -183,7 +185,7 @@ const Index = () => {
               viewAllHref="/shop?filter=trending"
             />
           )}
-        </section>
+        </Reveal>
 
         {/* From the Community */}
         <section>
