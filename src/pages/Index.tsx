@@ -29,7 +29,7 @@ const heroSlides = [
     image: promptLibrary,
     title: "1000+ AI Prompts",
     subtitle: "Boost your productivity with our curated prompt library",
-    cta: { label: "Get the Library", href: "/shop?type=prompts" },
+    cta: { label: "Get the Library", href: "/prompts" },
   },
   {
     id: "3",
@@ -58,7 +58,7 @@ const transformProduct = (p: any) => ({
 const quickCategories = [
   { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", color: "from-primary/20 to-primary/5" },
   { icon: BookOpen, label: "Books", href: "/shop?type=books", color: "from-accent/20 to-accent/5" },
-  { icon: Sparkles, label: "Prompts", href: "/shop?type=prompts", color: "from-primary/20 to-accent/10" },
+  { icon: Sparkles, label: "Prompts", href: "/prompts", color: "from-primary/20 to-accent/10" },
   { icon: Flame, label: "Trending", href: "/shop?filter=trending", color: "from-accent/20 to-primary/10" },
 ];
 

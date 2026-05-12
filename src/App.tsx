@@ -35,6 +35,7 @@ const LearnMod = () => import("./pages/Learn");
 const NotFoundMod = () => import("./pages/NotFound");
 const ResetPasswordMod = () => import("./pages/ResetPassword");
 const AboutMod = () => import("./pages/About");
+const PromptsMod = () => import("./pages/Prompts");
 
 const Shop = lazy(ShopMod);
 const Community = lazy(CommunityMod);
@@ -56,6 +57,7 @@ const PodUpload = lazy(PodUploadMod);
 const Learn = lazy(LearnMod);
 const NotFound = lazy(NotFoundMod);
 const About = lazy(AboutMod);
+const Prompts = lazy(PromptsMod);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -130,6 +132,7 @@ function AnimatedRoutes() {
           <Route path="/learn" element={<Learn />} />
           <Route path="/learn/:threadId" element={<Learn />} />
           <Route path="/about" element={<About />} />
+          <Route path="/prompts" element={<Prompts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

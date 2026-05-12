@@ -124,7 +124,7 @@ export function DesktopSidebar({
     { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
     { icon: BookOpen, label: "Books", href: "/shop?type=books" },
     { icon: Package, label: "Student Kits", href: "/shop?type=kits" },
-    { icon: Wand2, label: "Prompt Library", href: "/shop?type=prompts" },
+    { icon: Wand2, label: "Prompt Library", href: "/prompts" },
     { icon: Sparkles, label: "New Arrivals", href: "/shop?filter=new" },
   ];
 

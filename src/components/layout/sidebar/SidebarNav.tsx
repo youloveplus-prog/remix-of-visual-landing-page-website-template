@@ -70,7 +70,7 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
     { icon: <GraduationCap className="w-5 h-5" />, label: "Courses", href: "/shop?type=courses" },
     { icon: <BookOpen className="w-5 h-5" />, label: "Books", href: "/shop?type=books" },
     { icon: <Package className="w-5 h-5" />, label: "Student Kits", href: "/shop?type=kits" },
-    { icon: <Wand2 className="w-5 h-5" />, label: "Prompt Library", href: "/shop?type=prompts" },
+    { icon: <Wand2 className="w-5 h-5" />, label: "Prompt Library", href: "/prompts" },
     { icon: <Sparkles className="w-5 h-5" />, label: "New Arrivals", href: "/shop?category=new" },
   ];
 
