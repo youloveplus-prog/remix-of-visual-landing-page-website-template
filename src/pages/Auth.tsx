@@ -693,30 +693,48 @@ const Auth = () => {
                         </a>
                         .
                       </p>
-                      <p className="text-center text-xs text-muted-foreground pt-1">
-                        Already have an account?{" "}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveView("login");
-                            clearErrors();
-                          }}
-                          className="font-semibold text-primary hover:underline underline-offset-4"
-                        >
-                          Sign in
-                        </button>
-                      </p>
                     </form>
                   )}
                 </div>
               </>
             )}
 
-            {/* Mobile trust line */}
-            <div className="lg:hidden mt-8 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Secured with bank-grade encryption
-            </div>
+            {/* Bottom-aligned switch & trust strip */}
+            {activeView !== "forgot-password" && (
+              <div className="mt-auto pt-8 lg:pt-10 space-y-4">
+                <div className="relative">
+                  <div className="absolute inset-x-0 top-1/2 h-px bg-border" />
+                  <div className="relative flex justify-center">
+                    <span className="px-3 bg-background text-[10.5px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
+                      {activeView === "login" ? "New here?" : "Already a member?"}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveView(activeView === "login" ? "register" : "login");
+                    clearErrors();
+                  }}
+                  className={cn(
+                    "w-full h-12 rounded-xl border border-border bg-card/60 backdrop-blur-sm",
+                    "text-sm font-semibold text-foreground",
+                    "hover:border-primary/50 hover:bg-card hover:-translate-y-0.5 active:translate-y-0",
+                    "transition-all duration-200 focus-ring",
+                    "flex items-center justify-center gap-2",
+                  )}
+                >
+                  {activeView === "login" ? "Create a free account" : "Sign in to your account"}
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+
+                <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground pb-[env(safe-area-inset-bottom)]">
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  Secured with bank-grade encryption
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </div>
