@@ -87,7 +87,16 @@ export function useProducts(options: UseProductsOptions = {}) {
 
       query = query.limit(limit);
 
-      const { data, error } = await query;
+      // Race the network call against a short timeout so the page never waits
+      // more than ~3.5s on a slow / blocked Supabase connection — we just fall
+      // back to the seeded mock products instead of spinning skeletons forever.
+      const timeoutPromise = new Promise<{ data: null; error: Error }>((resolve) =>
+        setTimeout(() => resolve({ data: null, error: new Error("timeout") }), 3500),
+      );
+      const { data, error } = (await Promise.race([query, timeoutPromise])) as {
+        data: any[] | null;
+        error: any;
+      };
 
       if (error || !data || data.length === 0) {
         // Apply equivalent client-side filters to fallback
@@ -106,7 +115,8 @@ export function useProducts(options: UseProductsOptions = {}) {
       }
       return data;
     },
-    retry: 1,
+    retry: 0,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
