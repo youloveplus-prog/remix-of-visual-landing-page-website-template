@@ -85,6 +85,17 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
 
   return (
     <nav className="flex-1 overflow-y-auto py-2 px-2">
+      {/* AI Tutor */}
+      <div className="mb-4">
+        <NavItem
+          icon={<Sparkles className="w-5 h-5 text-primary" />}
+          label="AI Tutor"
+          href="/learn"
+          isActive={location.pathname.startsWith("/learn")}
+          onClick={onClose}
+        />
+      </div>
+
       {/* Community Section */}
       <div className="mb-4">
         <div className="px-3 py-2">

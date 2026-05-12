@@ -25,6 +25,7 @@ const CreateContent = lazy(() => import("./pages/CreateContent"));
 const Pod = lazy(() => import("./pages/Pod"));
 const PodDesigns = lazy(() => import("./pages/PodDesigns"));
 const PodUpload = lazy(() => import("./pages/PodUpload"));
+const Learn = lazy(() => import("./pages/Learn"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -62,6 +63,8 @@ function AnimatedRoutes() {
           <Route path="/pod" element={<Pod />} />
           <Route path="/pod/designs" element={<PodDesigns />} />
           <Route path="/pod/upload" element={<PodUpload />} />
+          <Route path="/learn" element={<Learn />} />
+          <Route path="/learn/:threadId" element={<Learn />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
