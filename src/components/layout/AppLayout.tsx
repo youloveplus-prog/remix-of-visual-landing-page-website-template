@@ -132,8 +132,7 @@ export function AppLayout({
           {children}
         </main>
 
-        {/* Bottom Navigation (Mobile Only) */}
-        {isMobile && showBottomNav && <BottomNav />}
+        {/* BottomNav is rendered once at App root (persistent app-shell) — never remounts */}
       </div>
     </SidebarContext.Provider>
   );
