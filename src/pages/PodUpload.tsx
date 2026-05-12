@@ -250,7 +250,7 @@ const PodUpload = () => {
                   <label className="cursor-pointer">
                     <input
                       type="file"
-                      accept="image/png,image/jpeg,image/svg+xml"
+                      accept="image/png,image/jpeg"
                       onChange={handleFileUpload}
                       className="hidden"
                     />
