@@ -139,13 +139,17 @@
     max-width: 100%;
   }
 
-  h1 { @apply text-2xl md:text-3xl; }
-  h2 { @apply text-lg md:text-xl; }
+  h1 { @apply text-[1.625rem] md:text-3xl leading-[1.15]; letter-spacing: -0.02em; }
+  h2 { @apply text-lg md:text-xl leading-tight; letter-spacing: -0.015em; }
+  h3 { @apply text-base md:text-lg leading-snug; letter-spacing: -0.01em; }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    @apply font-semibold tracking-tight;
+    @apply font-semibold;
+    text-wrap: balance;
   }
+
+  p { text-wrap: pretty; }
 
   /* Comfortable tap targets on touch devices */
   @media (hover: none) and (pointer: coarse) {
@@ -287,5 +291,29 @@
   /* Consistent focus ring across the app */
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Consistent horizontal padding for page sections — mobile uses 16px,
+     desktop relies on the parent container so cards align flush. */
+  .section-x { @apply px-4 lg:px-0; }
+
+  /* Tactile pressable surface used by chips, quick categories, etc. */
+  .pressable {
+    transition: transform var(--duration-base) var(--ease-out-soft),
+                box-shadow var(--duration-base) var(--ease-out-soft),
+                border-color var(--duration-base) var(--ease-out-soft),
+                background-color var(--duration-base) var(--ease-out-soft);
+  }
+  .pressable:hover { transform: translateY(-1px); }
+  .pressable:active { transform: translateY(0) scale(0.98); }
+
+  /* Subtle divider with brand tint */
+  .divider-soft {
+    background: linear-gradient(90deg,
+      transparent,
+      hsl(var(--border) / 0.8) 20%,
+      hsl(var(--border) / 0.8) 80%,
+      transparent);
+    height: 1px;
   }
 }
