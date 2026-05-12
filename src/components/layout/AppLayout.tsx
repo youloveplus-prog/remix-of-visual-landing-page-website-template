@@ -4,7 +4,7 @@ import { MobileHeader } from "./MobileHeader";
 import { DesktopHeader } from "./DesktopHeader";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { Sidebar } from "./Sidebar";
-import { BottomNav } from "./BottomNav";
+
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { cn } from "@/lib/utils";
 
