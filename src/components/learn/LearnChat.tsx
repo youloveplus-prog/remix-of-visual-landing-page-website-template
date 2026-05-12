@@ -200,10 +200,37 @@ function MessageRow({ message }: { message: UIMessage }) {
     );
   }
   return (
-    <div className={cn("prose prose-sm dark:prose-invert max-w-none",
-      "prose-p:my-2 prose-headings:mt-3 prose-headings:mb-1 prose-li:my-0.5 prose-pre:my-2",
-      "prose-code:before:content-none prose-code:after:content-none")}>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text || "..."}</ReactMarkdown>
+    <div className="flex justify-start">
+      <div
+        className={cn(
+          "max-w-[92%] sm:max-w-[88%] rounded-2xl rounded-bl-md px-3.5 py-2.5 bg-secondary/60 border border-border/50",
+          "prose prose-sm dark:prose-invert max-w-none break-words",
+          "prose-p:my-1.5 prose-headings:mt-2.5 prose-headings:mb-1 prose-li:my-0.5",
+          "prose-pre:my-2 prose-pre:rounded-lg prose-pre:overflow-x-auto prose-pre:text-xs",
+          "prose-code:before:content-none prose-code:after:content-none prose-code:break-words",
+          "prose-a:text-primary prose-a:break-all",
+          "[&_table]:block [&_table]:overflow-x-auto [&_table]:text-xs [&_img]:rounded-lg",
+        )}
+      >
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            a: (props) => <a {...props} target="_blank" rel="noopener noreferrer" />,
+            code: ({ className, children, ...props }: any) => {
+              const inline = !className;
+              return inline ? (
+                <code className="px-1 py-0.5 rounded bg-muted text-foreground text-[0.85em]" {...props}>
+                  {children}
+                </code>
+              ) : (
+                <code className={className} {...props}>{children}</code>
+              );
+            },
+          }}
+        >
+          {text || "..."}
+        </ReactMarkdown>
+      </div>
     </div>
   );
 }
