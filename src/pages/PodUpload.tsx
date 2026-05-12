@@ -263,7 +263,7 @@ const PodUpload = () => {
                         <p className="text-sm text-muted-foreground">or click to browse</p>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        PNG, JPG, or SVG • Max 10MB • Transparent background recommended
+                        PNG or JPG • Max 10MB • Transparent background recommended
                       </p>
                     </div>
                   </label>
