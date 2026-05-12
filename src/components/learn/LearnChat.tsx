@@ -77,6 +77,22 @@ export function LearnChat({ threadId }: Props) {
     if (status !== "streaming") textareaRef.current?.focus();
   }, [status, threadId]);
 
+  // Award learner progress when an assistant reply finishes for the first time this mount.
+  useEffect(() => {
+    if (status !== "ready" || awardedRef.current) return;
+    const last = messages[messages.length - 1];
+    if (!last || last.role !== "assistant") return;
+    const text = (last.parts ?? [])
+      .map((p: any) => (p.type === "text" ? p.text : ""))
+      .join("");
+    if (!text.trim()) return;
+    awardedRef.current = true;
+    // Detect MCQ-style replies (≥3 lettered options) → award a quiz instead.
+    const mcqHits = (text.match(/^\s*(?:[A-Da-d]|[\u0995-\u09BF])[\)\.\u0964]/gm) ?? []).length;
+    if (mcqHits >= 3) awardQuiz();
+    else awardSession();
+  }, [status, messages, awardSession, awardQuiz]);
+
   const isBusy = status === "submitted" || status === "streaming";
 
   const handleSend = (text: string) => {
