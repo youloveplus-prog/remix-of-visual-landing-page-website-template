@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -286,6 +286,18 @@
 
   .safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* One-frame, non-blocking page enter — no blank flash, no JS timer */
+  .page-enter { opacity: 0.001; }
+  .page-enter-active {
+    opacity: 1;
+    transition: opacity 180ms var(--ease-out-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-enter, .page-enter-active { opacity: 1 !important; transition: none !important; }
+    .pressable, .hover-lift, .hover-scale { transition: none !important; }
   }
 
   /* Consistent focus ring across the app */

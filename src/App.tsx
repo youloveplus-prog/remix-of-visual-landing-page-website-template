@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,25 +8,45 @@ import { ThemeProvider } from "next-themes";
 import { PageTransition } from "@/components/transitions/PageTransition";
 import Index from "./pages/Index";
 
-// Lazy-load non-initial routes to reduce initial JS bundle
-const Shop = lazy(() => import("./pages/Shop"));
-const Community = lazy(() => import("./pages/Community"));
-const Game = lazy(() => import("./pages/Game"));
-const Profile = lazy(() => import("./pages/Profile"));
-const Cart = lazy(() => import("./pages/Cart"));
-const Auth = lazy(() => import("./pages/Auth"));
-const ProductDetail = lazy(() => import("./pages/ProductDetail"));
-const Checkout = lazy(() => import("./pages/Checkout"));
-const Orders = lazy(() => import("./pages/Orders"));
-const OrderDetail = lazy(() => import("./pages/OrderDetail"));
-const Wishlist = lazy(() => import("./pages/Wishlist"));
-const Settings = lazy(() => import("./pages/Settings"));
-const CreateContent = lazy(() => import("./pages/CreateContent"));
-const Pod = lazy(() => import("./pages/Pod"));
-const PodDesigns = lazy(() => import("./pages/PodDesigns"));
-const PodUpload = lazy(() => import("./pages/PodUpload"));
-const Learn = lazy(() => import("./pages/Learn"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+// Lazy-load non-initial routes to reduce initial JS bundle.
+// Module references are kept so we can warm them on idle for instant nav.
+const ShopMod = () => import("./pages/Shop");
+const CommunityMod = () => import("./pages/Community");
+const GameMod = () => import("./pages/Game");
+const ProfileMod = () => import("./pages/Profile");
+const CartMod = () => import("./pages/Cart");
+const AuthMod = () => import("./pages/Auth");
+const ProductDetailMod = () => import("./pages/ProductDetail");
+const CheckoutMod = () => import("./pages/Checkout");
+const OrdersMod = () => import("./pages/Orders");
+const OrderDetailMod = () => import("./pages/OrderDetail");
+const WishlistMod = () => import("./pages/Wishlist");
+const SettingsMod = () => import("./pages/Settings");
+const CreateContentMod = () => import("./pages/CreateContent");
+const PodMod = () => import("./pages/Pod");
+const PodDesignsMod = () => import("./pages/PodDesigns");
+const PodUploadMod = () => import("./pages/PodUpload");
+const LearnMod = () => import("./pages/Learn");
+const NotFoundMod = () => import("./pages/NotFound");
+
+const Shop = lazy(ShopMod);
+const Community = lazy(CommunityMod);
+const Game = lazy(GameMod);
+const Profile = lazy(ProfileMod);
+const Cart = lazy(CartMod);
+const Auth = lazy(AuthMod);
+const ProductDetail = lazy(ProductDetailMod);
+const Checkout = lazy(CheckoutMod);
+const Orders = lazy(OrdersMod);
+const OrderDetail = lazy(OrderDetailMod);
+const Wishlist = lazy(WishlistMod);
+const Settings = lazy(SettingsMod);
+const CreateContent = lazy(CreateContentMod);
+const Pod = lazy(PodMod);
+const PodDesigns = lazy(PodDesignsMod);
+const PodUpload = lazy(PodUploadMod);
+const Learn = lazy(LearnMod);
+const NotFound = lazy(NotFoundMod);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,9 +59,33 @@ const queryClient = new QueryClient({
   },
 });
 
+/**
+ * Prefetch the most likely next routes once the browser is idle.
+ * Keeps initial bundle tiny while making subsequent nav feel instant.
+ */
+function useIdlePrefetch() {
+  useEffect(() => {
+    const idle = (cb: () => void) => {
+      const w = window as any;
+      if (typeof w.requestIdleCallback === "function") {
+        w.requestIdleCallback(cb, { timeout: 2500 });
+      } else {
+        setTimeout(cb, 1500);
+      }
+    };
+    idle(() => {
+      ShopMod();
+      LearnMod();
+      ProductDetailMod();
+      AuthMod();
+    });
+  }, []);
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
-  
+  useIdlePrefetch();
+
   return (
     <PageTransition key={location.pathname}>
       <Suspense fallback={null}>
