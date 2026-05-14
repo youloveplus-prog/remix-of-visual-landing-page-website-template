@@ -13,6 +13,7 @@ import {
   Bell,
   LogOut,
   Search,
+  LayoutGrid,
 } from "lucide-react";
 import { AdminGuard } from "./AdminGuard";
 import { useIsAdmin } from "@/hooks/useUserRole";
