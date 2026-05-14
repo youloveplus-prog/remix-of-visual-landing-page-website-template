@@ -78,6 +78,7 @@ const AdminOrders = lazy(AdminOrdersMod);
 const AdminCommunity = lazy(AdminCommunityMod);
 const AdminPod = lazy(AdminPodMod);
 const AdminSettings = lazy(AdminSettingsMod);
+const AdminHomeSections = lazy(AdminHomeSectionsMod);
 
 const queryClient = new QueryClient({
   defaultOptions: {
