@@ -46,6 +46,7 @@ const AdminOrdersMod = () => import("./pages/admin/AdminOrders");
 const AdminCommunityMod = () => import("./pages/admin/AdminCommunity");
 const AdminPodMod = () => import("./pages/admin/AdminPod");
 const AdminSettingsMod = () => import("./pages/admin/AdminSettings");
+const AdminHomeSectionsMod = () => import("./pages/admin/AdminHomeSections");
 
 const Shop = lazy(ShopMod);
 const Community = lazy(CommunityMod);
