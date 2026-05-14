@@ -73,7 +73,7 @@ function NavItem({
   item,
   active,
 }: {
-  item: { icon: React.ComponentType<{ className?: string; strokeWidth?: number }>; label: string; path: string };
+  item: { icon: typeof Home; label: string; path: string };
   active: boolean;
 }) {
   const Icon = item.icon;
