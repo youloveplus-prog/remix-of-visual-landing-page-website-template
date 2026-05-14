@@ -177,6 +177,39 @@ export type Database = {
         }
         Relationships: []
       }
+      home_sections: {
+        Row: {
+          created_at: string
+          display_order: number
+          enabled: boolean
+          id: string
+          key: string
+          subtitle_override: string | null
+          title_override: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          enabled?: boolean
+          id?: string
+          key: string
+          subtitle_override?: string | null
+          title_override?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          enabled?: boolean
+          id?: string
+          key?: string
+          subtitle_override?: string | null
+          title_override?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           chat_id: string
