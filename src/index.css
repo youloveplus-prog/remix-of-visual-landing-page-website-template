@@ -53,6 +53,10 @@
     --gradient-primary-soft: linear-gradient(135deg, hsl(233 80% 54% / 0.10) 0%, hsl(220 90% 60% / 0.06) 100%);
     --gradient-surface: linear-gradient(160deg, hsl(0 0% 100% / 0.9) 0%, hsl(225 20% 97% / 0.9) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.5) 0%, hsl(0 0% 100% / 0) 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(233 90% 60% / 0.18) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(220 90% 65% / 0.14) 0%, transparent 60%),
+                       radial-gradient(40% 40% at 60% 90%, hsl(280 80% 60% / 0.10) 0%, transparent 60%);
+    --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border) / 0.7) 30%, hsl(var(--primary) / 0.4) 50%, hsl(var(--border) / 0.7) 70%, transparent);
 
     --shadow-xs: 0 1px 2px hsl(225 30% 20% / 0.06);
     --shadow-sm: 0 1px 3px hsl(225 30% 20% / 0.08);
@@ -114,6 +118,10 @@
     --gradient-primary-soft: linear-gradient(135deg, hsl(233 80% 54% / 0.18) 0%, hsl(220 90% 65% / 0.10) 100%);
     --gradient-surface: linear-gradient(160deg, hsl(225 15% 11% / 0.85) 0%, hsl(225 18% 6% / 0.85) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.06) 0%, hsl(0 0% 100% / 0) 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(233 90% 60% / 0.22) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(220 90% 65% / 0.18) 0%, transparent 60%),
+                       radial-gradient(40% 40% at 60% 90%, hsl(280 80% 60% / 0.14) 0%, transparent 60%);
+    --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border) / 0.6) 25%, hsl(var(--primary) / 0.5) 50%, hsl(var(--border) / 0.6) 75%, transparent);
 
     --shadow-xs: 0 1px 2px hsl(225 30% 2% / 0.4);
     --shadow-sm: 0 2px 4px hsl(225 30% 2% / 0.45);
@@ -125,9 +133,9 @@
     --shadow-elevated: 0 20px 50px -16px hsl(225 30% 2% / 0.7), 0 2px 0 hsl(0 0% 100% / 0.04) inset;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     :root {
-      --app-header-h: 120px;
+      --app-header-h: 132px;
     }
   }
 
@@ -367,5 +375,91 @@
       hsl(var(--border) / 0.8) 80%,
       transparent);
     height: 1px;
+  }
+
+  /* === Desktop polish utilities === */
+
+  /* Editorial container — wider on big screens than the default `container`. */
+  .container-editorial {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1440px;
+  }
+
+  /* Hairline gradient border (e.g. under the header) */
+  .hairline-bottom {
+    position: relative;
+  }
+  .hairline-bottom::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--gradient-hairline);
+    pointer-events: none;
+  }
+
+  /* Aurora ambient layer for hero/feature bands */
+  .aurora-bg {
+    position: relative;
+    isolation: isolate;
+  }
+  .aurora-bg::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background: var(--gradient-aurora);
+    filter: blur(40px);
+    opacity: 0.85;
+    z-index: -1;
+    pointer-events: none;
+    animation: aurora-shift 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes aurora-shift {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(2%, -2%, 0) scale(1.04); }
+  }
+
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+  .animate-float { animation: float-y 5s var(--ease-out-soft) infinite; }
+
+  /* Section eyebrow with vertical accent bar */
+  .eyebrow-bar {
+    @apply relative pl-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-semibold;
+  }
+  .eyebrow-bar::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 14px;
+    border-radius: 2px;
+    background: var(--gradient-primary);
+  }
+
+  /* Display headline — Space Grotesk, fluid */
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+    font-size: clamp(2rem, 1.4rem + 2.4vw, 4.5rem);
+    text-wrap: balance;
+  }
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-bg::before, .animate-float { animation: none !important; }
   }
 }

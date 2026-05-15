@@ -48,27 +48,43 @@ function NavItem({ icon: Icon, label, href, isActive, iconOnly, isCollapsed, bad
       to={href}
       aria-current={isActive ? "page" : undefined}
       className={cn(
-        "group/navitem relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
+        "group/navitem relative flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200",
+        "hover:translate-x-[1px]",
         isActive
-          ? "bg-primary/10 text-primary font-medium"
-          : "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
-        iconOnly && "justify-center px-2"
+          ? "text-primary font-semibold"
+          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40",
+        iconOnly && "justify-center px-2 hover:translate-x-0"
       )}
+      style={
+        isActive
+          ? { background: "var(--gradient-primary-soft)" }
+          : undefined
+      }
     >
-      {/* Active indicator bar */}
+      {/* Active accent bar */}
       <span
         className={cn(
-          "absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-r-full bg-primary transition-opacity",
+          "absolute -left-3 top-1.5 bottom-1.5 w-[3px] rounded-r-full transition-opacity",
           isActive ? "opacity-100" : "opacity-0"
         )}
+        style={{ background: "var(--gradient-primary)" }}
         aria-hidden
       />
-      <Icon className={cn("h-5 w-5 flex-shrink-0", isActive && "text-primary")} />
+      <span
+        className={cn(
+          "grid place-items-center h-8 w-8 rounded-lg shrink-0 transition-all duration-200",
+          isActive
+            ? "bg-primary/15 text-primary shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.25)]"
+            : "text-current group-hover/navitem:bg-secondary/60"
+        )}
+      >
+        <Icon className="h-[18px] w-[18px]" />
+      </span>
       {!iconOnly && (
         <>
-          <span className="flex-1 truncate">{label}</span>
+          <span className="flex-1 truncate text-[13px] tracking-[-0.005em]">{label}</span>
           {badge && (
-            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-primary text-primary-foreground">
+            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-primary text-primary-foreground shadow-[var(--shadow-glow)]">
               {badge}
             </span>
           )}
@@ -77,7 +93,6 @@ function NavItem({ icon: Icon, label, href, isActive, iconOnly, isCollapsed, bad
     </Link>
   );
 
-  // Show tooltips only when truly icon-only (collapsed and not hover-expanded)
   if (iconOnly && isCollapsed) {
     return (
       <Tooltip delayDuration={0}>
@@ -171,9 +186,8 @@ export function DesktopSidebar({
       onMouseEnter={() => isCollapsed && setIsHoverExpanded(true)}
       onMouseLeave={() => setIsHoverExpanded(false)}
       className={cn(
-        "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border bg-background/95 backdrop-blur-md transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
+        "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/60 bg-background/70 backdrop-blur-xl transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
         expanded ? "w-60" : "w-16",
-        // Lift overlay shadow when hover-expanding so it visually floats above main content
         isCollapsed && isHoverExpanded && "shadow-2xl shadow-black/40",
         className
       )}
@@ -195,11 +209,11 @@ export function DesktopSidebar({
       </Button>
 
       <ScrollArea className="flex-1 py-4 [&>[data-radix-scroll-area-viewport]]:overscroll-contain">
-        <div className="space-y-6 px-3">
+        <div className="space-y-5 px-3">
           {/* Main Navigation */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {expanded && (
-              <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider transition-opacity duration-200">
+              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
                 Menu
               </p>
             )}
@@ -208,12 +222,11 @@ export function DesktopSidebar({
             )}
           </div>
 
-          <Separator className="mx-3" />
+          <Separator className="mx-3 opacity-60" />
 
-          {/* Library Categories */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {expanded && (
-              <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider transition-opacity duration-200">
+              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
                 Library
               </p>
             )}
@@ -222,12 +235,11 @@ export function DesktopSidebar({
             )}
           </div>
 
-          <Separator className="mx-3" />
+          <Separator className="mx-3 opacity-60" />
 
-          {/* User Navigation */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {expanded && (
-              <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider transition-opacity duration-200">
+              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
                 Account
               </p>
             )}
@@ -239,7 +251,7 @@ export function DesktopSidebar({
       </ScrollArea>
 
       {/* Bottom Navigation */}
-      <div className="border-t border-border p-3 space-y-1">
+      <div className="border-t border-border/60 p-3 space-y-0.5 bg-background/40">
         {bottomNavItems.map((item) =>
           renderItem(item, location.pathname === item.href)
         )}
