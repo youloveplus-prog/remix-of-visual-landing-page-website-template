@@ -186,9 +186,8 @@ export function DesktopSidebar({
       onMouseEnter={() => isCollapsed && setIsHoverExpanded(true)}
       onMouseLeave={() => setIsHoverExpanded(false)}
       className={cn(
-        "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border bg-background/95 backdrop-blur-md transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
+        "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/60 bg-background/70 backdrop-blur-xl transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
         expanded ? "w-60" : "w-16",
-        // Lift overlay shadow when hover-expanding so it visually floats above main content
         isCollapsed && isHoverExpanded && "shadow-2xl shadow-black/40",
         className
       )}
@@ -210,11 +209,11 @@ export function DesktopSidebar({
       </Button>
 
       <ScrollArea className="flex-1 py-4 [&>[data-radix-scroll-area-viewport]]:overscroll-contain">
-        <div className="space-y-6 px-3">
+        <div className="space-y-5 px-3">
           {/* Main Navigation */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {expanded && (
-              <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider transition-opacity duration-200">
+              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
                 Menu
               </p>
             )}
@@ -223,12 +222,11 @@ export function DesktopSidebar({
             )}
           </div>
 
-          <Separator className="mx-3" />
+          <Separator className="mx-3 opacity-60" />
 
-          {/* Library Categories */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {expanded && (
-              <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider transition-opacity duration-200">
+              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
                 Library
               </p>
             )}
@@ -237,12 +235,11 @@ export function DesktopSidebar({
             )}
           </div>
 
-          <Separator className="mx-3" />
+          <Separator className="mx-3 opacity-60" />
 
-          {/* User Navigation */}
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             {expanded && (
-              <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider transition-opacity duration-200">
+              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
                 Account
               </p>
             )}
@@ -254,7 +251,7 @@ export function DesktopSidebar({
       </ScrollArea>
 
       {/* Bottom Navigation */}
-      <div className="border-t border-border p-3 space-y-1">
+      <div className="border-t border-border/60 p-3 space-y-0.5 bg-background/40">
         {bottomNavItems.map((item) =>
           renderItem(item, location.pathname === item.href)
         )}
