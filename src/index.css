@@ -133,9 +133,9 @@
     --shadow-elevated: 0 20px 50px -16px hsl(225 30% 2% / 0.7), 0 2px 0 hsl(0 0% 100% / 0.04) inset;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     :root {
-      --app-header-h: 120px;
+      --app-header-h: 132px;
     }
   }
 
