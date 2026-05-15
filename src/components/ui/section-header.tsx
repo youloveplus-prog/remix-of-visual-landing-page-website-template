@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
@@ -12,41 +12,55 @@ interface SectionHeaderProps {
 }
 
 /**
- * Consistent section header used across Home, Shop, Community, Profile.
- * Provides predictable typography rhythm and a "see all" affordance.
+ * Editorial section header — left accent bar (gradient), display font title,
+ * optional eyebrow kicker, and an animated "View all →" link.
  */
 export function SectionHeader({
   title,
   subtitle,
   viewAllHref,
-  viewAllLabel = "See all",
+  viewAllLabel = "View all",
   className,
   eyebrow,
 }: SectionHeaderProps) {
   return (
-    <div className={cn("flex items-end justify-between gap-3 mb-3", className)}>
-      <div className="min-w-0">
-        {eyebrow && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80 mb-1">
-            {eyebrow}
-          </p>
-        )}
-        <h2 className="text-base sm:text-lg font-semibold tracking-tight truncate">
-          {title}
-        </h2>
-        {subtitle && (
-          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 line-clamp-1">
-            {subtitle}
-          </p>
-        )}
+    <div className={cn("flex items-end justify-between gap-3 mb-4 lg:mb-5", className)}>
+      <div className="min-w-0 flex items-stretch gap-3">
+        {/* Vertical gradient accent bar */}
+        <span
+          aria-hidden
+          className="w-[3px] rounded-full self-stretch shrink-0"
+          style={{ background: "var(--gradient-primary)" }}
+        />
+        <div className="min-w-0">
+          {eyebrow && (
+            <p className="text-[10.5px] font-semibold uppercase tracking-[0.2em] text-primary/80 mb-1">
+              {eyebrow}
+            </p>
+          )}
+          <h2 className="font-display text-[17px] sm:text-xl lg:text-2xl font-semibold tracking-tight truncate">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-[12px] sm:text-[13px] text-muted-foreground mt-1 line-clamp-1">
+              {subtitle}
+            </p>
+          )}
+        </div>
       </div>
       {viewAllHref && (
         <Link
           to={viewAllHref}
-          className="shrink-0 inline-flex items-center gap-0.5 text-xs sm:text-sm font-medium text-primary hover:text-primary/80 transition-colors focus-ring rounded-md px-1 -mx-1"
+          className="group/va shrink-0 inline-flex items-center gap-1 text-[12px] sm:text-[13px] font-semibold text-primary hover:text-primary transition-colors focus-ring rounded-md px-1 -mx-1"
         >
-          {viewAllLabel}
-          <ChevronRight className="h-4 w-4" />
+          <span className="relative">
+            {viewAllLabel}
+            <span
+              aria-hidden
+              className="absolute left-0 right-0 -bottom-0.5 h-px bg-current scale-x-0 group-hover/va:scale-x-100 origin-left transition-transform duration-300"
+            />
+          </span>
+          <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/va:translate-x-0.5" />
         </Link>
       )}
     </div>
