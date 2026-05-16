@@ -191,19 +191,23 @@ export default function AdminProducts() {
       />
 
       <Reveal className="flex flex-wrap gap-2 items-center">
-        <div className="relative flex-1 min-w-[220px] max-w-md">
+        <div className="relative flex-1 min-w-[180px] sm:max-w-md">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search products…" className="pl-9 bg-background/60" />
         </div>
+        <Button onClick={openNew} variant="premium" size="sm" className="h-9 sm:ml-auto sm:order-last">
+          <Plus className="h-4 w-4 sm:mr-1.5" /> <span className="hidden sm:inline">New product</span>
+          <span className="sm:hidden">New</span>
+        </Button>
         <Select value={catFilter} onValueChange={setCatFilter}>
-          <SelectTrigger className="w-44 h-9 bg-background/60"><SelectValue placeholder="All categories" /></SelectTrigger>
+          <SelectTrigger className="flex-1 sm:w-44 sm:flex-none h-9 bg-background/60"><SelectValue placeholder="All categories" /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All categories</SelectItem>
             {(categories ?? []).map((c: any) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
           </SelectContent>
         </Select>
         <Select value={sort} onValueChange={setSort}>
-          <SelectTrigger className="w-40 h-9 bg-background/60"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="flex-1 sm:w-40 sm:flex-none h-9 bg-background/60"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="newest">Newest</SelectItem>
             <SelectItem value="price-asc">Price ↑</SelectItem>
@@ -211,12 +215,56 @@ export default function AdminProducts() {
             <SelectItem value="stock">Low stock</SelectItem>
           </SelectContent>
         </Select>
-        <Button onClick={openNew} variant="premium" className="ml-auto">
-          <Plus className="h-4 w-4 mr-1.5" /> New product
-        </Button>
       </Reveal>
 
-      <Reveal>
+      {/* Mobile: cards */}
+      <Reveal className="md:hidden space-y-2">
+        {filtered.length === 0 && (
+          <p className="text-center py-8 text-muted-foreground text-sm">No products match.</p>
+        )}
+        {filtered.map((p: any) => (
+          <div key={p.id} className="glass rounded-2xl p-3">
+            <div className="flex items-start gap-3">
+              {p.image_url ? (
+                <img src={p.image_url} alt="" loading="lazy" className="h-14 w-14 rounded-lg object-cover shrink-0" />
+              ) : (
+                <div className="h-14 w-14 rounded-lg bg-muted shrink-0" />
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-sm truncate">{p.name}</div>
+                <div className="text-[11px] text-muted-foreground truncate">{p.slug}</div>
+                <div className="mt-1 flex items-center gap-2 text-xs">
+                  <span className="font-semibold">৳{Number(p.price).toFixed(0)}</span>
+                  <Badge variant={p.stock === 0 ? "destructive" : p.stock < 5 ? "secondary" : "outline"} className="text-[10px]">
+                    {p.stock ?? 0} in stock
+                  </Badge>
+                  {p.is_pod && <Badge variant="outline" className="text-[10px]">POD</Badge>}
+                </div>
+              </div>
+              <div className="flex flex-col items-end gap-1 shrink-0">
+                <button
+                  onClick={() => toggleFeatured.mutate({ id: p.id, value: !p.is_featured })}
+                  className="pressable p-1"
+                  title="Toggle featured"
+                >
+                  <Star className={`h-4 w-4 ${p.is_featured ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
+                </button>
+                <div className="flex gap-0.5">
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => openEdit(p)}>
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => remove.mutate(p.id)}>
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </Reveal>
+
+      {/* Desktop: table */}
+      <Reveal className="hidden md:block">
         <div className="glass rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">

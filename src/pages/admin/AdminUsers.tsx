@@ -164,12 +164,70 @@ export default function AdminUsers() {
             </Button>
           ))}
         </div>
-        <Button size="sm" variant="outline" className="ml-auto" onClick={exportCsv}>
-          <Download className="h-3.5 w-3.5 mr-1.5" /> Export CSV
+        <Button size="sm" variant="outline" className="ml-auto h-8" onClick={exportCsv}>
+          <Download className="h-3.5 w-3.5 sm:mr-1.5" /> <span className="hidden sm:inline">Export CSV</span>
         </Button>
       </Reveal>
 
-      <Reveal>
+      {/* Mobile: card list */}
+      <Reveal className="md:hidden space-y-2">
+        {isLoading ? (
+          <p className="text-center text-muted-foreground py-8 text-sm">Loading…</p>
+        ) : filtered.length === 0 ? (
+          <p className="text-center text-muted-foreground py-8 text-sm">No matching users.</p>
+        ) : (
+          filtered.map((p: any) => {
+            const userRoles = rolesByUser.get(p.id) ?? ["user"];
+            const isAdminRow = userRoles.includes("admin") || userRoles.includes("super_admin");
+            return (
+              <div key={p.id} className="glass rounded-2xl p-3">
+                <div className="flex items-center gap-2.5">
+                  <Avatar className="h-10 w-10 shrink-0">
+                    <AvatarImage src={p.avatar_url ?? undefined} loading="lazy" />
+                    <AvatarFallback>{(p.username ?? "?")[0]?.toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium truncate text-sm">{p.full_name || p.username || "—"}</div>
+                    <div className="text-[11px] text-muted-foreground truncate">@{p.username ?? "—"}</div>
+                  </div>
+                  <div className="flex gap-1 shrink-0">
+                    {isSuperAdmin && !isAdminRow && (
+                      <Button size="icon" variant="ghost" className="h-8 w-8"
+                        onClick={() => setConfirm({ kind: "promote", user: p, role: "admin" })}>
+                        <Crown className="h-4 w-4 text-primary" />
+                      </Button>
+                    )}
+                    {isSuperAdmin && isAdminRow && !userRoles.includes("super_admin") && (
+                      <Button size="icon" variant="ghost" className="h-8 w-8"
+                        onClick={() => setConfirm({ kind: "demote", user: p, role: "admin" })}>
+                        <Shield className="h-4 w-4" />
+                      </Button>
+                    )}
+                    <Button size="icon" variant="ghost" className="h-8 w-8"
+                      onClick={() => setConfirm({ kind: p.is_banned ? "unban" : "ban", user: p })}>
+                      <ShieldOff className={`h-4 w-4 ${p.is_banned ? "text-muted-foreground" : "text-destructive"}`} />
+                    </Button>
+                  </div>
+                </div>
+                <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+                  {userRoles.map((r) => (
+                    <Badge key={r}
+                      variant={r === "super_admin" ? "destructive" : r === "admin" ? "default" : "secondary"}
+                      className="text-[10px]">{r}</Badge>
+                  ))}
+                  {p.is_banned && <Badge variant="destructive" className="text-[10px]">banned</Badge>}
+                  <span className="ml-auto text-[10.5px] text-muted-foreground">
+                    Trust {p.trust_score ?? 0} · {p.coins ?? 0}c
+                  </span>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </Reveal>
+
+      {/* Desktop: table */}
+      <Reveal className="hidden md:block">
         <div className="glass rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
