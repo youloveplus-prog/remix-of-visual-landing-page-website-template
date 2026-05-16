@@ -1,61 +1,69 @@
-# Community Posts + Home Sections — Desktop Refinement
+# About Page Redesign — ASIKON
 
-Make `/community` posts feel like a modern editorial feed on desktop, swap horizontal lists for proper carousels, and tighten the home page section visuals.
+Replace the current minimal `/about` page with a full editorial-style About page inspired by Whop's bold, oversized-typography, story-driven layout — adapted to ASIKON's brand (dark red gradient, glass surfaces, Inter + Space Grotesk, AI-powered learning positioning).
 
-## 1. PostCard (`src/components/community/PostCard.tsx`)
+## Page sections (top to bottom)
 
-Currently full-bleed with bottom-only border — looks raw on desktop wide.
+1. **Hero band** (`aurora-bg`, full-width inside `container-editorial`)
+   - Eyebrow: "About ASIKON"
+   - Massive `display-1` headline: "Learning, reimagined for every Bangladeshi student."
+   - Sub-headline (body-lg, muted): one-line positioning.
+   - Two CTAs: "Start learning" → `/onboarding`, "Explore tracks" → `/learn`.
+   - Soft floating glass stat chips (learners, lessons, tracks, AI tutors) layered on aurora.
 
-- Wrap as a `glass` card: `rounded-2xl`, soft border, hover-lift, `max-w-[640px]` centered (mobile stays full-bleed via `rounded-none sm:rounded-2xl` + `border sm:border`).
-- Larger avatar (h-11) + display-font username, role/timestamp on a second line with a subtle dot separator.
-- Image: `rounded-xl` inside the card with `aspect-[4/5]` mobile / `aspect-[16/10]` desktop, gradient bottom scrim for the "Shop the look" pill.
-- Action row: icon-only ghost buttons in a glass strip with hover scale; like uses gradient-soft fill when active.
-- Tap target: whole card subtly clickable to open detail (no nav added — just hover state).
+2. **Mission + Vision** — reuse existing `<MissionVision />` component (per memory rule). Wrapped in a `PageSection` with eyebrow "What drives us".
 
-## 2. Community page layout (`src/pages/Community.tsx`)
+3. **The story** — 2-column editorial split (`SplitLayout`):
+   - Left: large pull-quote / origin narrative (3 short paragraphs).
+   - Right: sticky glass card with founding year, location (Dhaka, BD), and a signature.
 
-- Desktop two-column: main feed (max 720px, centered) + sticky right rail (320px) with three glass tiles:
-  - "Creators to follow" (3 mini cards)
-  - "Trending tags" (chip cloud)
-  - "Live now" (1–2 LiveCard mini)
-- Sticky tabs: glass treatment + gradient hairline, full-width on mobile, container width on desktop.
+4. **Numbers that matter** — 4-up stat grid on a dark glass band:
+   - Active learners, lessons completed, daily streaks kept, AI conversations.
+   - Each tile = glass card with display-2 number + caption + tiny sparkline-style accent bar.
 
-## 3. Carousels (`src/components/carousels/ProductCarousel.tsx`, `MyFeedTab.tsx`)
+5. **What we believe** — 6 value cards in a `grid-bento` / 3-col responsive grid:
+   - "Small daily wins beat big bursts."
+   - "AI should teach, not replace teachers."
+   - "Learning must feel calm, not anxious."
+   - "Every learner deserves a guide."
+   - "Mother-tongue first."
+   - "Skills > certificates."
+   - Each card: glass surface, icon (lucide), short title, 1–2 sentence body.
 
-- ProductCarousel: real arrows positioned on top edges, gradient edge fades, peek of next slide on desktop, snap, dot pagination on mobile, `eyebrow-bar` style title.
-- Replace ad-hoc horizontal scroll in MyFeedTab "Trending Shorts" and Stories with embla carousels with snap + arrows on desktop.
-- Add a generic `CardCarousel` wrapper (used by shorts/stories/creators) so all rails behave the same.
+6. **How ASIKON works** — 3-step horizontal flow (numbered glass tiles with hairline connector):
+   - 1. Tell us your goal • 2. Get a daily mission • 3. Learn, build, repeat.
 
-## 4. Home page top section (`src/pages/Index.tsx`)
+7. **The team / built in Bangladesh** — editorial band:
+   - Headline + short paragraph about being built locally for global learners.
+   - Avatar row (placeholder circles for now, using existing avatar component).
 
-The signed-in mission/XP/track block (lines 375–388) currently looks plain.
+8. **Closing CTA band** — aurora gradient strip:
+   - Big display-2: "Your future self starts today."
+   - Single primary CTA → `/onboarding`.
 
-- Wrap as a magazine hero: 12-col grid on `lg+`, left 7 = TodayMissionCard with display headline + eyebrow + aurora background; right 5 = stacked XP/Streak glass tile and TrackProgress glass tile with gradient borders.
-- Section dividers: replace plain spacing with `eyebrow-bar` titles + soft hairline before each section.
-- Add gradient edge fades to all home carousels.
+## Files
 
-## 5. SectionHeader polish (`src/components/ui/section-header.tsx`)
+- **Edit** `src/pages/About.tsx` — replace contents with the new layout described above; keep `AppLayout` wrapper, use `Reveal` for scroll-in animation per section.
+- **Create** `src/components/about/AboutHero.tsx` — hero band with stat chips.
+- **Create** `src/components/about/AboutStats.tsx` — 4-up stat grid.
+- **Create** `src/components/about/AboutValues.tsx` — 6 value cards.
+- **Create** `src/components/about/AboutSteps.tsx` — 3-step "how it works".
+- **Create** `src/components/about/AboutCTA.tsx` — closing CTA band.
+- **Reuse** `MissionVision`, `PageSection`, `SectionHeader`, `SplitLayout`, `Reveal`, `Card`, `Button`.
 
-- Use `eyebrow-bar` style for the title's left accent, "View all →" with `story-link` underline animation.
-- Optional kicker eyebrow above the title for editorial feel.
+## Design / technical notes
+
+- All colors via existing HSL semantic tokens — no raw colors.
+- Reuse `aurora-bg`, `glass`, `eyebrow-bar`, `display-1`, `display-2`, `body-lg`, `container-editorial`, `hairline-bottom`, `divider-soft`, `hover-lift`.
+- Typography: Space Grotesk for display headlines, Inter for body.
+- Fully responsive: mobile = single-column stacked, `lg+` = magazine/split layouts. Cap content at 1440 via `container-editorial`.
+- Stats and team numbers are static/marketing copy (no backend wiring).
+- SEO: single `<h1>` in hero, descriptive title + meta description, semantic `<section>` per band.
+- Animation: `Reveal` per section, subtle hover-lift on cards. No new dependencies.
 
 ## Out of scope
-- Mobile post layout (kept intact, just gains rounded corners on `sm+`).
-- Adding new routes or backend changes.
-- Other community tabs (videos/shorts/reviews/live) get card polish only if they share components.
 
-## Technical notes
-- Reuse existing `embla-carousel-react`, `glass`, `eyebrow-bar`, `display-1/2`, `aurora-bg`, `container-editorial` utilities introduced last turn.
-- Keep infinite-scroll behavior in feeds (project memory).
-- All colors via HSL semantic tokens — no raw color classes.
+- Backend, CMS, real team data, i18n translations, new routes.
+- Changes to navigation/sidebar (the `/about` route already exists).
 
-```text
-Desktop /community
-┌───────────────────────────────────────────────┐
-│ glass tabs (sticky)                           │
-├──────────────────────────┬────────────────────┤
-│  PostCard (glass, 640w)  │ Creators to follow │
-│  PostCard                │ Trending tags      │
-│  PostCard                │ Live now           │
-└──────────────────────────┴────────────────────┘
-```
+Ready to implement on approval.
