@@ -199,7 +199,7 @@ const Profile = () => {
       case "feed":
         return <ProfileFeedTab posts={feedPosts} user={{ ...displayProfile, isVerified: displayProfile.isVerified }} />;
       case "shop":
-        return <ProfileShopTab products={shopProducts} isPodCreator={true} />;
+        return <ProfileShopTab products={shopProducts} />;
       case "reviews":
         return <ProfileReviewsTab reviews={mockReviews} />;
       case "media":
