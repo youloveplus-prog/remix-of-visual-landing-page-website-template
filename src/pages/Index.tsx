@@ -357,7 +357,7 @@ const Index = () => {
 
   return (
     <AppLayout>
-      <div className="container-editorial space-y-8 lg:space-y-14 pb-10 pt-2 lg:pt-4">
+      <div className="container-editorial space-y-6 lg:space-y-14 pb-10 pt-2 lg:pt-4">
         {user && (
           <section className="section-x">
             <div className="relative aurora-bg rounded-3xl border border-border/60 overflow-hidden p-5 lg:p-8">
