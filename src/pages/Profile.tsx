@@ -276,7 +276,6 @@ const Profile = () => {
                 counts={{
                   feed: userPosts?.length || 0,
                   reviews: mockReviews.length,
-                  designs: mockDesigns.length,
                 }}
               />
 
