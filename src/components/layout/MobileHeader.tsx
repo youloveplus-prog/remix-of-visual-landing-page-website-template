@@ -26,7 +26,7 @@ const tabTitles: Record<string, string> = {
 const overflowItems = [
   { icon: Heart, label: "Wishlist", path: "/wishlist" },
   { icon: Package, label: "Orders", path: "/orders" },
-  { icon: Shirt, label: "Print on Demand", path: "/pod" },
+  { icon: GraduationCap, label: "1-on-1 Mentorship", path: "/mentors" },
   { icon: Sparkles, label: "Prompts", path: "/prompts" },
   { icon: Info, label: "About", path: "/about" },
   { icon: SettingsIcon, label: "Settings", path: "/settings" },
