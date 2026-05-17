@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ShoppingCart, Search, ChevronLeft, MoreHorizontal, Heart, Package, Shirt, Info, Settings as SettingsIcon, Sparkles } from "lucide-react";
+import { ShoppingCart, Search, ChevronLeft, MoreHorizontal, Heart, Package, GraduationCap, Info, Settings as SettingsIcon, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
