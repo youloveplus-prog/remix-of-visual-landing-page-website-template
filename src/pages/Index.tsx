@@ -100,6 +100,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
       <HeroCarousel slides={heroSlides} />
     </section>
   ),
+  mentorship: () => <MentorshipHomeSection />,
   quick_actions: () => (
     <Reveal as="section" className="section-x grid grid-cols-1 sm:grid-cols-2 gap-3">
       <Link to="/learn" className="group relative overflow-hidden rounded-2xl border border-primary/20 p-4 pressable focus-ring" style={{ background: "var(--gradient-primary-soft)" }}>
