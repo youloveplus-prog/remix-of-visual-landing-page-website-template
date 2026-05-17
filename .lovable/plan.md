@@ -1,87 +1,83 @@
 ## Goal
 
-1. **Remove POD entirely** from the app (UI, routes, components, nav entries, home section, admin page, hooks, assets references).
-2. **Add 1-on-1 Mentorship** — a new feature targeted at parents booking a personal teacher for their child. Ship as a "Coming soon" experience: home section + `/mentors` landing page with mentor cards + waitlist signup form (child-focused fields).
+Turn the logged-in Home into a **learner workspace** (Notion + Duolingo + Linear feel). The marketing-heavy sections (testimonials, FAQ, why-trust, how-it-works, final CTA, big trending carousels) move to a **landing experience for logged-out users and normal users**. One psychological goal for logged-in Home: *"I know what to do next."*
 
----
+## New logged-in Home structure (top → bottom)
 
-## Part 1 — Remove POD
+```
+[1] under the hero sliders , show Greeting strip      — name, streak, one-line motivational state, avatar
+[2] Today's Mission     — dominant hero card, single CTA "Continue Mission"
+[3] Quick Access Grid   — functions access of full app show as carasol 2 row 4 column for mobile, and responsive for dextop.
+[4] Progress Snapshot   — XP ring, streak, weekly minutes, missions done
+[5] Continue Learning   — Netflix-style "resume" row (last lessons)
+[6] AI Assistant box    — compact input → /learn with prefilled prompt
+[7] Activity Feed       — own completions, badges, light community pings
+[8] Upcoming / Schedule — next quiz, pending weekly goal, live session
+[9] Insight card        — rotating tip (learning / AI / motivation)
+```
 
-### Files to delete
-- `src/pages/Pod.tsx`, `src/pages/PodBuilder.tsx`, `src/pages/PodDesigns.tsx`, `src/pages/PodUpload.tsx`
-- `src/components/pod/` (entire folder, includes `PodHeroBanner`, `LimitedDrops`, `CreatorSpotlight`, `TrendingDesignsCarousel`, `builder/*`, `index.ts`)
-- `src/hooks/usePodDesigns.ts`
-- `src/pages/admin/AdminPod.tsx`
+Bottom nav stays as today (Home / Explore / AI / Community / Profile) — no change.
 
-### Files to edit
-- `src/App.tsx` — remove `/pod`, `/pod/upload`, `/pod/builder`, `/pod/designs` routes and imports.
-- `src/lib/nav-map.ts` — drop `/pod` from Explore's `matches`.
-- `src/components/layout/MobileHeader.tsx` — remove "Print on Demand" entry from overflow sheet.
-- `src/components/layout/sidebar/SidebarNav.tsx` (and any sidebar files) — remove POD links.
-- `src/pages/admin/AdminLayout.tsx` — remove POD nav item; remove route in admin router.
-- `src/pages/Profile.tsx` + `src/components/profile/tabs/ProfileDesignsTab.tsx` — remove the Designs tab (or repurpose). Simplest: delete the tab and its file.
-- `src/components/community/CreateContentFAB.tsx` — remove POD option if present.
-- Any other grep hits for `pod`, `Pod`, `POD`, `print-on-demand`.
+## Logged-out Home (separate path)
 
-### DB
-- Leave `pod_designs`, `pod_design_favorites` tables and `pod-designs` storage bucket in place (not destructive). Note in chat that they can be dropped later if desired.
+Keep the current marketing sections (hero carousel, quick_categories, trending, mentorship teaser, how_it_works, why_trust, curated, new_arrivals, testimonials, faq, final_cta) but render them **only when `!user**`. Logged-in users never see them on `/`.
 
-### Memory
-- Remove `[Print on Demand (POD)]` line from `mem://index.md`.
-- Update core line: "Trust-first fashion app (shop + social + POD)" → drop "+ POD".
-- Delete `mem://features/print-on-demand-pod-system`.
+## What gets keep logged-in Home
 
----
+Hero carousel, quick_categories, trending, curated, new_arrivals, community PostCard, how_it_works, why_trust, testimonials, FAQ, final_cta, mentorship marketing block. (All still reachable from Explore / Mentors / Community pages.)
 
-## Part 2 — 1-on-1 Mentorship feature
+## File-level changes
 
-### Database (one migration)
-- New table `mentors`:
-  - `name` (text), `slug` (text unique), `avatar_url`, `bio`, `subjects` (text[]), `languages` (text[] — e.g. `['Bangla','English']`), `hourly_rate` (numeric), `rating` (numeric default 0), `experience_years` (int), `for_age_min` / `for_age_max` (int), `is_active` (bool default true), `display_order` (int).
-  - RLS: public SELECT where `is_active`; admins full ALL via `has_role`.
-- New table `mentor_waitlist`:
-  - `user_id` (uuid, nullable — allow anonymous), `mentor_id` (uuid nullable — null = "any"), `parent_name`, `parent_contact` (phone/email), `child_name`, `child_age` (int), `child_grade` (text), `subject` (text), `goal` (text), `preferred_language` (text), `notes` (text), `status` (text default `'new'`).
-  - RLS: anyone can INSERT; only the submitter (`auth.uid() = user_id`) and admins can SELECT; admins can UPDATE/DELETE.
-- New `home_sections` row: `key='mentorship'`, `display_order=35` (between quick_categories and trending), `enabled=true`.
-- Seed 6 sample mentors via the migration (Bangla/English tutors covering Math, Science, English, Coding, Quran, Art).
+**New components** under `src/components/home/workspace/`:
 
-### Frontend
-- `src/hooks/useMentors.ts` — fetch mentors with React Query.
-- `src/components/mentorship/MentorshipHomeSection.tsx` — eyebrow "New · Coming soon", headline "Book a personal teacher for your child", 2–3 trust bullets (verified tutors, Bangla+English, 1-on-1), CTA "Join the waitlist" → `/mentors`. Use existing glass + gradient design tokens.
-- `src/pages/Mentors.tsx` — landing page:
-  - Hero with same CTA + "Coming soon" badge.
-  - `MobileScroller` of mentor cards (avatar, name, subjects chips, languages, age range, "Reserve a slot" button → opens waitlist sheet pre-filled with that mentor).
-  - "How it works" 3-step strip.
-  - Sticky bottom CTA on mobile → opens waitlist sheet.
-- `src/components/mentorship/MentorWaitlistSheet.tsx` — shadcn `Sheet` with zod-validated form: parent name, parent contact, child name, child age, child grade, subject, goal, preferred language (Bangla/English/Both), notes. Submits to `mentor_waitlist`. Toast success + close.
-- Wire route in `src/App.tsx`: `/mentors` → `Mentors` page.
-- Register `mentorship` section renderer in `src/pages/Index.tsx` `SECTION_RENDERERS`.
-- Add `mentorship` key to fallback array in `src/hooks/useHomeSections.ts`.
-- Update `src/lib/nav-map.ts` Profile/Explore matches to include `/mentors` under Explore (or its own — Explore is fine).
+- `GreetingStrip.tsx` — name + streak chip + state line + avatar (uses `useAuth`, `useLearnerProfile`).
+- `TodaysMissionHero.tsx` — wraps existing `TodayMissionCard` with a bigger visual treatment + single primary CTA.
+- `QuickAccessGrid.tsx` — 6–8 tiles: Continue Learning, AI Tutor, Study Planner (→ /learn), My Progress (→ /profile), Community, Mentors, Notes (→ /prompts or saved), Saved (→ /wishlist).
+- `ProgressSnapshot.tsx` — XP ring + streak + weekly minutes + missions completed. Reuses `XPBar`, `StreakBadge`; adds a `WeeklyMinutes` mini stat fed by `useLearnerProgress`.
+- `ContinueLearningRow.tsx` — horizontal `MobileScroller` of resumeable lessons via `useLearnerProgress` / `lesson_completions` recency; falls back to active track lessons.
+- `AiAssistantBox.tsx` — single input + 3 chip suggestions ("Summarize topic", "Generate routine", "Improve prompt"); submitting navigates to `/learn?q=...`.
+- `ActivityFeed.tsx` — last 5–8 events: own completions (`lesson_completions`), milestones (`milestones`), optional follow activity. Lightweight, no images.
+- `UpcomingCard.tsx` — derived view: next lesson in active track, weekly goal status, any scheduled mission.
+- `InsightCard.tsx` — rotating static array of tips (client-side, daily seed).
 
-### Optional admin (nice-to-have, include)
-- `src/pages/admin/AdminMentors.tsx` — list/toggle `is_active`, edit basic fields. Link from `AdminLayout`. Also a small view of `mentor_waitlist` entries with status dropdown.
+**Modified**: `src/pages/Index.tsx`
 
-### Memory
-- Add core line: "1-on-1 Mentorship: parents book personal tutors for their child. Currently waitlist-only."
-- Add `mem://features/mentorship-system` with summary of tables, RLS, components, child-focused form.
+- Split into `LoggedOutHome` (current `SECTION_RENDERERS` flow) and `LoggedInHome` (new vertical stack above).
+- Switch on `useAuth().user`.
+- Keep `AppLayout`, container, spacing tokens.
 
----
+**Modified**: `src/hooks/useHomeSections.ts`
 
-## Technical notes
+- Add new keys to FALLBACK so admins can still toggle workspace blocks: `ws_greeting`, `ws_mission`, `ws_quick_access`, `ws_progress`, `ws_continue`, `ws_ai_box`, `ws_activity`, `ws_upcoming`, `ws_insight`. Existing marketing keys stay (used by logged-out view).
+- No DB migration required — fallback handles new keys; admins can insert rows later.
 
-- All new colors via existing tokens (`gradient-primary`, `glass`, `aurora-bg`).
-- Form validation: zod schema with trim + length caps (name ≤80, contact ≤120, notes ≤500, age 4–18).
-- `mentor_waitlist.user_id` set from `useAuth()` if logged in, else null.
-- Use `<MissionVision />`-aligned tone, not new mission copy.
-- Mobile-first: cards use `MobileScroller` like other home sections.
+**Unchanged**: bottom nav, mobile header, mentorship page, all marketing components themselves.
 
----
+## Data sources (all existing)
 
-## Order of execution
+- `useAuth`, `useLearnerProfile` (xp, streak)
+- `useTodayMission`, `useLearnerProgress`, `useTracks`
+- `lesson_completions`, `milestones` (direct supabase queries inside new hooks)
+- No new tables, no migration.
 
-1. Migration (create tables, RLS, seed mentors, insert home_sections row).
-2. Delete POD files + edit references.
-3. Build mentorship hook, components, page, route, home section renderer.
-4. Update memory.
-5. Verify build clean and `/`, `/mentors` render.
+## Visual rules
+
+- Workspace, not marketing: tight spacing, glass cards, no big banners.
+- Mission card is the visual anchor — larger radius, gradient border, primary CTA.
+- Quick Access tiles: square-ish, icon + label, min 64px tap target, 3 cols mobile / 4 cols ≥sm.
+- All colors via existing semantic tokens (`gradient-primary`, `glass`, `border-border/60`). No hex.
+- Reuse `MobileScroller`, `Reveal`, `SectionHeader`.
+
+## Order of work
+
+1. Add 9 new workspace components (stubs wired to existing hooks).
+2. Refactor `Index.tsx` to branch on auth and render new stack.
+3. Extend `useHomeSections` FALLBACK with `ws_*` keys (toggle support only, no UI change needed in admin yet).
+4. QA at 393px mobile viewport (current preview), then ≥md and desktop.
+5. Verify build clean.
+
+## Out of scope (this pass)
+
+- Admin UI for reordering workspace blocks (FALLBACK only).
+- Real "study planner" / "notes" pages — Quick Access links route to closest existing screen.
+- Push/notification scheduling for Upcoming card.
