@@ -207,14 +207,6 @@ const Profile = () => {
         return <ProfileReviewsTab reviews={mockReviews} />;
       case "media":
         return <ProfileMediaTab media={mockMedia} />;
-      case "designs":
-        return (
-          <ProfileDesignsTab 
-            designs={mockDesigns} 
-            isOwnProfile={isOwnProfile}
-            onCreateDesign={() => navigate("/pod/builder")}
-          />
-        );
       case "activity":
         return <ProfileActivityTab activities={mockActivities} />;
       default:
