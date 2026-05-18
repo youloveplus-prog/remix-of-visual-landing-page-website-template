@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Play, Eye } from "lucide-react";
 import { Video } from "@/types/community";
 import { CreatorCard } from "./CreatorCard";
@@ -8,7 +9,7 @@ interface VideoCardProps {
   video: Video;
 }
 
-export function VideoCard({ video }: VideoCardProps) {
+function VideoCardImpl({ video }: VideoCardProps) {
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -77,3 +78,5 @@ export function VideoCard({ video }: VideoCardProps) {
     </article>
   );
 }
+
+export const VideoCard = memo(VideoCardImpl);

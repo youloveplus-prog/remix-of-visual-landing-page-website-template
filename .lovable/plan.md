@@ -1,78 +1,57 @@
-# Mobile App-Like UI Pass
+# Mobile Polish: Micro-animations, Overflow Fixes, Performance
 
-Goal: every page feels like a native app (Play Store / bKash / foodpanda / Duolingo-class), not a web page. Consistent header, spacing, motion, and liquid-glass surfaces across Home, Shop, Learn, Community, Mentors, Profile, Cart, Wishlist, Orders, Settings, Product Detail, Lesson Detail, Track Detail.
+## 1. MobileCard micro-animations (centralized)
 
-## 1. Shared mobile page shell
+Update `src/components/ui/mobile-card.tsx` so every card across the app gains the same tactile feel — no per-page edits needed.
 
-Create one reusable shell so every page looks identical in structure.
+- **Press feedback**: `active:scale-[0.98] active:brightness-95` + existing `.pressable`
+- **Hover (desktop only)**: `md:hover:-translate-y-0.5 md:hover:shadow-lg md:hover:border-border` with `transition-[transform,box-shadow,background,border-color] duration-200 ease-out`
+- **Mount/enter**: opt-in `animateIn` prop → `animate-fade-in` with a tiny stagger via inline `style={{ animationDelay }}` (used by list pages)
+- **Loading**: new `loading` prop renders a glass skeleton with `animate-pulse` matching the card's shape, so pages can swap `<MobileCard loading />` instead of bespoke `<Skeleton />` blocks
+- **Tap target**: GPU hint `will-change-transform` only while pressed (via `:active`) — avoids permanent compositing layers
 
-`src/components/layout/MobilePageHeader.tsx`
-- Sticky, glass-strong, hairline-bottom, height 52px
-- Left: optional back chevron (auto-detect non-root routes) OR page icon
-- Center: minimal title — Inter 16px / semibold / tracking-tight (NOT display font, NOT large)
-- Right: 1–2 contextual actions (search, filter, share, more)
-- Safe-area top padding
-- Hides title on scroll-down, shows on scroll-up (use existing `use-scroll-direction`)
+Add a `.glass-press` utility in `src/index.css` for cards that aren't `MobileCard` (e.g. `ProfileHeader`, `HeroBanner`) so the feel is consistent.
 
-`src/components/layout/MobilePage.tsx`
-- Wraps children with: header slot, scroll container, consistent `px-4`, `pt-3`, `pb-[calc(72px+env(safe-area-inset-bottom))]` (clears BottomNav)
-- Optional sticky sub-tabs slot (glass chip row) — used by Shop, Community, Profile
-- Built-in page-enter fade (no flash)
+## 2. Overflow fixes (root cause, not per-symptom)
 
-## 2. Section primitives (consistency)
+Audit and patch the recurring offenders:
 
-`src/components/ui/mobile-section.tsx`
-- `<MobileSection title actionLabel onAction>`
-- Title: 13px uppercase tracking-wide muted-foreground (eyebrow style) — NOT big H2
-- Trailing action: small text-primary link, 12px
-- Vertical rhythm: `mt-6 first:mt-2`, internal `space-y-3`
+- **Global guard in `src/index.css`**: `html, body, #root { overflow-x: hidden; }` + `* { min-width: 0; }` inside `@layer base` so flex/grid children can shrink instead of pushing the viewport.
+- **MobilePage**: add `min-w-0 overflow-x-clip` to the inner container; ensure `pb-[calc(72px+env(safe-area-inset-bottom))]` is applied consistently (some pages still use hardcoded `pb-24`).
+- **Horizontal scrollers** (`MobileScroller`, `HeroCarousel`, `ProductCarousel`, `CategoryCarousel`, `StoryCarousel`): wrap in `overflow-hidden` parent, give track `flex` + `min-w-0`, replace any `w-screen` with `w-full`.
+- **Long text**: add `truncate` / `line-clamp-*` to titles in `Orders`, `Wishlist`, `ProductDetail` cards (a few still missing), `min-w-0` on every `flex-1` sibling next to an image/avatar.
+- **Profile bleed**: clamp `ProfileHeader` cover image with `max-w-full object-cover` and `overflow-hidden` on the bleed slot.
+- **Tables/code blocks in Product detail**: wrap in `overflow-x-auto` containers instead of letting them bust the page.
 
-`src/components/ui/mobile-card.tsx`
-- Wraps `.glass rounded-2xl p-4` with pressable + safe tap target
-- Variants: `flat` (no border, subtle bg), `glass` (default), `outline`
+## 3. Performance pass
 
-These replace ad-hoc divs in Home workspace, Shop, Community, Profile cards.
+- **Image hints**: add `loading="lazy"` + `decoding="async"` to every `<img>` in `Game`, `Orders`, `OrderDetail`, `Wishlist`, `ProductDetail`, `Community` card components. LCP image on `Index` gets `fetchpriority="high"`.
+- **Explicit dimensions**: add `width`/`height` (or aspect-ratio classes) on course/product/avatar imgs to eliminate CLS.
+- **Memoize lists**: wrap `PostCard`, `VideoCard`, `ProductCard`, `ReviewCard` in `React.memo` (they're rendered in long feeds and re-render on every parent state tick).
+- **Animation cost**: keep transitions on `transform`/`opacity` only (no `width`/`height`/`top`); the `.pressable` and new MobileCard classes already comply.
+- **Glass blur cost**: cap `backdrop-blur` to `backdrop-blur-md` on list cards (currently `xl` in a few places) — the blur radius dominates paint time on mid-range Android.
+- **Reduce reflows**: remove unnecessary `motion.div` wrappers around list items where CSS `animate-fade-in` is sufficient.
+- **Prefers-reduced-motion**: add a global `@media (prefers-reduced-motion: reduce)` block that neutralizes the new transforms.
 
-## 3. Per-page application
+## 4. Per-page touch-ups
 
-Apply the shell + primitives to:
+Only the changes that can't be solved by the centralized MobileCard update:
 
-- `Index.tsx` — Home: GreetingStrip becomes header eyebrow; remove duplicate big headings; tighten section gaps to `space-y-5`
-- `Shop.tsx` — header with search icon + filter icon; sticky category chip row; product grid `grid-cols-2 gap-3`
-- `Learn.tsx` — header "Learn"; track cards as glass-mobile-cards
-- `Community.tsx` — header "Community" + tabs sticky under it
-- `Profile.tsx` — collapsible header (avatar shrinks on scroll), tabs stick
-- `Mentors.tsx`, `Cart.tsx`, `Wishlist.tsx`, `Orders.tsx`, `Settings.tsx`, `About.tsx` — adopt MobilePage + minimal title
-- `ProductDetail.tsx`, `LessonDetail.tsx`, `TrackDetail.tsx`, `OrderDetail.tsx` — back chevron + share/more in header; sticky bottom action bar already in place, just align spacing
-
-## 4. Visual + motion polish
-
-- Replace remaining `H1 text-3xl` page titles on mobile with 16px header titles
-- Standard radii: cards `rounded-2xl`, chips `rounded-full`, sheets `rounded-t-3xl`
-- All tappable surfaces use `.pressable` (scale 0.98 on active) — bKash/foodpanda feel
-- Add `glass-subtle` to sticky tab rows so they layer cleanly over scrolling content
-- 180ms fade between routes via existing `PageTransition`
-- Skeletons everywhere: replace blank loading states with `<Skeleton class="rounded-2xl">` blocks matching final card shape (Play Store pattern)
-
-## 5. Spacing system (locked)
-
-- Page side padding: `px-4` (16px), never less on mobile
-- Between sections: `mt-6`
-- Inside a card: `p-4`, internal `space-y-3`
-- Between cards in a list: `space-y-3`
-- Sticky header height: 52px; sticky tabs row: 44px
-- Bottom safe-area: handled by MobilePage
-
-## 6. Technical notes
-
-- No business logic, hooks, or data changes
-- Desktop (`lg+`) is untouched — DesktopHeader/Sidebar already handle it; new shell only renders its header on `<lg`
-- BottomNav stays as-is (already finalized)
-- All colors via semantic tokens; glass via existing `.glass` / `.glass-strong` / `.glass-subtle` utilities — no new CSS variables needed
-- Reuse: `use-scroll-direction`, `MobileScroller`, `StickyActionBar`, `PageTransition`, `Reveal`
+- **Index**: stagger `animateIn` on hero rows; lazy-load below-the-fold sections via existing `Reveal`.
+- **Game**: weekly streak cells get `transition-transform active:scale-90`; reward grid images get aspect-ratio + lazy loading.
+- **Community**: tab content wrapped in `min-w-0`; feed items get `React.memo` + `animateIn` with index-based delay capped at 6.
+- **Profile**: stat tiles use `MobileCard` press; tabs row gets `overflow-x-auto` with snap.
+- **Orders / OrderDetail**: list items `animateIn`; skeleton swap uses new `MobileCard loading`.
+- **ProductDetail**: gallery uses `aspect-square` + `object-cover` + lazy loading; sticky CTA bar already exists, ensure `min-w-0` on price/title row.
 
 ## Out of scope
 
-- No new features, no copy rewrites, no backend
-- No icon library swap
-- Desktop layout changes
+- No data, hook, or routing changes
+- No new dependencies (no framer-motion additions; existing `motion` usage untouched)
+- Desktop (`lg+`) layouts unchanged beyond hover affordance
+- No copy or icon changes
+
+## Technical notes
+
+- All new classes live in `MobileCard`, `MobilePage`, and `index.css` utilities — page files get tiny diffs (mostly removing ad-hoc skeletons and adding `animateIn`).
+- Verification: visual check on Home/Game/Community/Profile/Orders/ProductDetail at 360px, 393px, 414px; confirm no horizontal scrollbar; check `browser--performance_profile` before/after for INP and long tasks.

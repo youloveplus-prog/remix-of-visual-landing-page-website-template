@@ -153,6 +153,11 @@
     overflow-x: hidden;
   }
 
+  #root { overflow-x: clip; }
+
+  /* Allow flex/grid children to shrink instead of pushing the viewport */
+  :where(main, section, article, header, footer, aside, nav, div) > * { min-width: 0; }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
@@ -346,7 +351,8 @@
 
   @media (prefers-reduced-motion: reduce) {
     .page-enter, .page-enter-active { opacity: 1 !important; transition: none !important; }
-    .pressable, .hover-lift, .hover-scale { transition: none !important; }
+    .pressable, .hover-lift, .hover-scale { transition: none !important; transform: none !important; }
+    .animate-fade-in { animation: none !important; opacity: 1 !important; }
   }
 
   /* Consistent focus ring across the app */

@@ -1,5 +1,5 @@
 import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, Bookmark } from "lucide-react";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,7 +9,7 @@ interface PostCardProps {
   post: Post;
 }
 
-export function PostCard({ post }: PostCardProps) {
+function PostCardImpl({ post }: PostCardProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked || false);
   const [likes, setLikes] = useState(post.likes);
   const [saved, setSaved] = useState(false);
@@ -163,3 +163,5 @@ function ActionButton({
     </button>
   );
 }
+
+export const PostCard = memo(PostCardImpl);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Star, ThumbsUp, Play } from "lucide-react";
 import { Review } from "@/types/community";
 import { CreatorCard } from "./CreatorCard";
@@ -8,7 +9,7 @@ interface ReviewCardProps {
   review: Review;
 }
 
-export function ReviewCard({ review }: ReviewCardProps) {
+function ReviewCardImpl({ review }: ReviewCardProps) {
   return (
     <article className="bg-card border-b border-border p-4 space-y-4">
       {/* Header */}
@@ -71,3 +72,5 @@ export function ReviewCard({ review }: ReviewCardProps) {
     </article>
   );
 }
+
+export const ReviewCard = memo(ReviewCardImpl);
