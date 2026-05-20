@@ -13,6 +13,8 @@ import {
   Heart,
   Mic,
   ChevronDown,
+  ChevronUp,
+  Minus,
   PanelLeft,
   PenSquare,
 } from "lucide-react";
