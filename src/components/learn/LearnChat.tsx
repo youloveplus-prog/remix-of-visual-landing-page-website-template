@@ -70,6 +70,7 @@ export function LearnChat({ threadId }: Props) {
   const awardedRef = useRef(false);
   const [input, setInput] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [composerCollapsed, setComposerCollapsed] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showJump, setShowJump] = useState(false);
