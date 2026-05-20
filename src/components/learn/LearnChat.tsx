@@ -268,7 +268,7 @@ export function LearnChat({ threadId }: Props) {
         <div className="mx-auto w-full max-w-3xl">
           {/* Action chips */}
           {messages.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2 -mx-1 px-1">
+            <div className="flex gap-2 overflow-x-auto scrollbar-none pb-2 -mx-1 px-1">
               {ACTION_CHIPS.map((chip) => (
                 <button
                   key={chip}
