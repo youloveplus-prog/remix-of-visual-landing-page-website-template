@@ -52,7 +52,7 @@ export function MobilePage({
     <div className="page-enter page-enter-active">
       {bleed}
       {sticky && (
-        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md hairline-bottom">
+        <div data-sticky-tabs className="sticky top-0 z-30 bg-background/95 backdrop-blur-md hairline-bottom">
           <div className={cn(widthClass, padded && "px-3 sm:px-4 lg:px-8")}>
             {sticky}
           </div>
