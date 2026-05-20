@@ -19,6 +19,8 @@ export function useMeasuredHeaderHeight(ref: RefObject<HTMLElement>) {
 
     const apply = () => {
       const h = el.offsetHeight;
+      // eslint-disable-next-line no-console
+      console.log("[hdr]", h, el.tagName, el.className?.toString().slice(0, 40));
       if (h > 0) {
         document.documentElement.style.setProperty("--app-header-h", `${h}px`);
       }
