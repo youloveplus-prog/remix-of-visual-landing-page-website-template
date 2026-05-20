@@ -163,9 +163,22 @@ export default function AdminProducts() {
   });
 
   const handleUpload = async (file: File) => {
+    const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    const ALLOWED_EXTS = ["jpg", "jpeg", "png", "gif", "webp"];
+    const MAX_BYTES = 5 * 1024 * 1024;
+
+    const ext = (file.name.split(".").pop() || "").toLowerCase();
+    if (!ALLOWED_TYPES.includes(file.type) || !ALLOWED_EXTS.includes(ext)) {
+      toast.error("Unsupported file type. Use JPG, PNG, GIF, or WEBP (SVG is not allowed).");
+      return;
+    }
+    if (file.size > MAX_BYTES) {
+      toast.error("Image too large. Max 5 MB.");
+      return;
+    }
+
     setUploading(true);
     try {
-      const ext = file.name.split(".").pop() || "jpg";
       const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
       const { error } = await supabase.storage.from("product-images").upload(path, file, {
         contentType: file.type,
@@ -378,7 +391,7 @@ export default function AdminProducts() {
                     {uploading ? "Uploading…" : "Upload"}
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/png,image/gif,image/webp"
                       hidden
                       onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
                     />
