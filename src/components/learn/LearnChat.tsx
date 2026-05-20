@@ -247,7 +247,7 @@ export function LearnChat({ threadId }: Props) {
             {status === "submitted" && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground animate-pulse">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary" />
-                চিন্তা করছি...
+                Thinking...
               </div>
             )}
             <div className="h-1" />
