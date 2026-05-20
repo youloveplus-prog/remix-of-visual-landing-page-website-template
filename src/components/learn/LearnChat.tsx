@@ -40,19 +40,19 @@ import { ThreadList } from "@/components/learn/ThreadList";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.png";
 
 const QUICK_PROMPTS = [
-  { icon: BookOpen, label: "SSC গণিত বুঝাও", prompt: "আমি SSC এর গণিতে দুর্বল। কোথায় থেকে শুরু করবো?" },
-  { icon: ListChecks, label: "Photosynthesis MCQ", prompt: "Make 5 MCQ on photosynthesis with answers and explanations." },
-  { icon: Brain, label: "Newton's 2nd law", prompt: "ভাই নিউটনের ২য় সূত্র সহজ করে বুঝাইয়া দাও।" },
-  { icon: SparklesIcon, label: "Study routine", prompt: "HSC পরীক্ষার জন্য একটা realistic ৭ দিনের revision routine বানাও।" },
-  { icon: Heart, label: "Motivate me", prompt: "আমি ফেল করবো মনে হচ্ছে। কিছু বলো।" },
+  { icon: BookOpen, label: "Explain SSC Math", prompt: "I'm weak at SSC math. Where should I start?" },
+  { icon: ListChecks, label: "Photosynthesis MCQ", prompt: "Make 5 MCQs on photosynthesis with answers and explanations." },
+  { icon: Brain, label: "Newton's 2nd law", prompt: "Explain Newton's second law in a simple way." },
+  { icon: SparklesIcon, label: "Study routine", prompt: "Build a realistic 7-day revision routine for HSC exams." },
+  { icon: Heart, label: "Motivate me", prompt: "I feel like I'm going to fail. Say something to motivate me." },
 ];
 
 const ACTION_CHIPS = [
-  "সহজ করে বলো",
-  "Bangla তে বলো",
-  "Quiz বানাও",
-  "Example দাও",
-  "Summary করো",
+  "Explain simply",
+  "Reply in Bangla",
+  "Make a quiz",
+  "Give an example",
+  "Summarize",
 ];
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
