@@ -26,6 +26,7 @@ interface AppLayoutProps {
   showTrustStrip?: boolean;
   showBottomNav?: boolean;
   showSidebar?: boolean;
+  fillViewport?: boolean;
   className?: string;
 }
 
@@ -34,6 +35,7 @@ export function AppLayout({
   showTrustStrip = true,
   showBottomNav = true,
   showSidebar = true,
+  fillViewport = false,
   className 
 }: AppLayoutProps) {
   const isMobile = useIsMobile();
