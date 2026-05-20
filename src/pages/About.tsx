@@ -6,6 +6,11 @@ import { AboutValues } from "@/components/about/AboutValues";
 import { AboutSteps } from "@/components/about/AboutSteps";
 import { AboutCTA } from "@/components/about/AboutCTA";
 import { Reveal } from "@/components/transitions/Reveal";
+import { HowItWorks } from "@/components/home/sections/HowItWorks";
+import { WhyTrust } from "@/components/home/sections/WhyTrust";
+import { Testimonials } from "@/components/home/sections/Testimonials";
+import { Faq } from "@/components/home/sections/Faq";
+import { FinalCta } from "@/components/home/sections/FinalCta";
 import { useEffect } from "react";
 
 const About = () => {
