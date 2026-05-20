@@ -45,9 +45,11 @@ export function StickyLayoutDebugger() {
         let chain = "";
         let el: HTMLElement | null = tab;
         let i = 0;
-        while (el && i < 6) {
-          chain += `${el.tagName}#${el.id || "_"}.${(el.className || "").toString().slice(0, 14)}[oT=${el.offsetTop},pT=${getComputedStyle(el).paddingTop}] | `;
-          el = el.offsetParent as HTMLElement | null;
+        // walk parentElement chain (not offsetParent) to see ALL ancestors
+        while (el && i < 10) {
+          const r = el.getBoundingClientRect();
+          chain += `${el.tagName}.${(el.className || "").toString().slice(0, 18)}[t=${Math.round(r.top)},pT=${getComputedStyle(el).paddingTop}] | `;
+          el = el.parentElement;
           i++;
         }
         setInfo({
