@@ -39,7 +39,7 @@ export default function Learn() {
   }
 
   return (
-    <AppLayout showBottomNav>
+    <AppLayout showBottomNav={false}>
       <div className="flex h-[calc(100dvh-var(--app-header-h,56px)-64px)] lg:h-[calc(100dvh-var(--app-header-h,64px))]">
         {/* Desktop thread list */}
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">
