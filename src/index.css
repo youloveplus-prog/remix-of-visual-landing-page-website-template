@@ -138,6 +138,7 @@
   @media (min-width: 1024px) {
     :root {
       --app-header-h: 132px;
+      --bottom-nav-h: 0px;
     }
   }
 
