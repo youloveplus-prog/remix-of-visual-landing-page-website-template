@@ -3,24 +3,26 @@ import heroImage from "@/assets/hero-fashion-1.jpg";
 
 export function HeroBanner() {
   return (
-    <div className="relative h-64 rounded-2xl overflow-hidden mx-4">
+    <div className="relative h-[220px] sm:h-64 overflow-hidden rounded-none sm:rounded-2xl sm:mx-4">
       <img
         src={heroImage}
-        alt="Summer Collection"
+        alt="Hero"
         className="absolute inset-0 w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/50 to-transparent" />
-      
-      <div className="relative z-10 h-full flex flex-col justify-center p-6">
-        <span className="text-xs font-semibold px-2 py-1 rounded-full gradient-primary w-fit mb-3">
-          NEW DROP
+      <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/55 to-transparent" />
+
+      <div className="relative z-10 h-full flex flex-col justify-center p-5 sm:p-6">
+        <span className="text-[10px] font-semibold uppercase tracking-[0.16em] px-2 py-1 rounded-full gradient-primary text-primary-foreground w-fit mb-3">
+          New drop
         </span>
-        <h2 className="text-2xl font-bold mb-2">Summer Collection</h2>
-        <p className="text-sm text-muted-foreground mb-4 max-w-[200px]">
-          Discover the hottest styles now with exclusive offers
+        <h2 className="font-display text-xl sm:text-2xl font-bold mb-1.5 tracking-tight">
+          Skill up this week
+        </h2>
+        <p className="text-[13px] sm:text-sm text-muted-foreground mb-4 max-w-[220px]">
+          Top-rated courses, hand-picked for you.
         </p>
         <Button variant="secondary" size="sm" className="w-fit">
-          Shop Now
+          Shop now
         </Button>
       </div>
     </div>
