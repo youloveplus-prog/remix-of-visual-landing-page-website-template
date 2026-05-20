@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Plus, MessageSquare, Trash2, ArrowLeft } from "lucide-react";
+import { Plus, MessageSquare, Trash2, PanelLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAiThreads, useCreateAiThread, useDeleteAiThread } from "@/hooks/useAiTutor";
