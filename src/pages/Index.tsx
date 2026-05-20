@@ -261,25 +261,31 @@ const Index = () => {
   return (
     <AppLayout>
       <MobilePage spacing="space-y-5 lg:space-y-10">
-        {heroSection && renderSection(heroSection)}
-
         {user ? (
           <>
+            {/* Personal, fast — top of fold */}
             <GreetingStrip />
             <section className="section-x">
               <TodayMissionCard />
             </section>
             <QuickAccessGrid />
-            <ProgressSnapshot />
             <ContinueLearningRow />
+            <ProgressSnapshot />
             <AiAssistantBox />
+            {/* Commerce + discovery */}
+            {restSections.map(renderSection)}
+            {/* Lower-priority personal */}
             <ActivityFeed />
             <UpcomingCard />
             <InsightCard />
           </>
-        ) : null}
-
-        {restSections.map(renderSection)}
+        ) : (
+          <>
+            {heroSection && renderSection(heroSection)}
+            <QuickAccessGrid />
+            {restSections.map(renderSection)}
+          </>
+        )}
       </MobilePage>
     </AppLayout>
   );
