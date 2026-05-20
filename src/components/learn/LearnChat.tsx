@@ -287,8 +287,8 @@ export function LearnChat({ threadId }: Props) {
             </div>
           )}
 
-          {/* Composer card */}
-          <div className="rounded-3xl border border-border bg-card/95 backdrop-blur shadow-[0_4px_24px_-10px_hsl(var(--primary)/0.25)] focus-within:border-primary/50 transition-colors">
+          {/* Composer card — slim */}
+          <div className="flex items-end gap-1.5 rounded-full border border-border bg-card/95 backdrop-blur shadow-[0_4px_18px_-10px_hsl(var(--primary)/0.3)] focus-within:border-primary/50 transition-colors pl-4 pr-1.5 py-1">
             <textarea
               ref={textareaRef}
               value={input}
@@ -299,76 +299,44 @@ export function LearnChat({ threadId }: Props) {
                   handleSend(input);
                 }
               }}
-              placeholder="তোমার প্রশ্ন লেখো..."
+              placeholder="Ask your question..."
               rows={1}
-              className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground/70 px-4 pt-3 pb-1 max-h-[160px]"
+              className="flex-1 resize-none bg-transparent outline-none text-[14px] leading-5 placeholder:text-muted-foreground/70 py-1.5 max-h-[140px]"
               autoFocus
             />
-            <div className="flex items-center justify-between px-2 pb-2 pt-1">
-              <div className="flex items-center gap-1">
-                <Button
-                  onClick={comingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-secondary/60 hover:bg-secondary"
-                  aria-label="Attach"
-                >
-                  <Plus className="w-4 h-4" />
-                </Button>
-                <Button
-                  onClick={comingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-secondary/60 hover:bg-secondary"
-                  aria-label="More"
-                >
-                  <MoreHorizontal className="w-4 h-4" />
-                </Button>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Button
-                  onClick={comingSoon}
-                  size="icon"
-                  className="h-9 w-9 rounded-full gradient-primary text-primary-foreground"
-                  aria-label="Quick action"
-                >
-                  <MapIcon className="w-4 h-4" />
-                </Button>
-                <Button
-                  onClick={comingSoon}
-                  variant="ghost"
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-secondary/60 hover:bg-secondary"
-                  aria-label="Voice"
-                >
-                  <Mic className="w-4 h-4" />
-                </Button>
-                {isBusy ? (
-                  <Button
-                    onClick={stop}
-                    size="icon"
-                    variant="secondary"
-                    className="h-9 w-9 rounded-full"
-                    aria-label="Stop"
-                  >
-                    <Square className="w-4 h-4 fill-current" />
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => handleSend(input)}
-                    disabled={!input.trim()}
-                    size="icon"
-                    className="h-9 w-9 rounded-full gradient-primary text-primary-foreground disabled:opacity-40"
-                    aria-label="Send"
-                  >
-                    <ArrowUp className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
-            </div>
+            <Button
+              onClick={comingSoon}
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 rounded-full shrink-0 text-muted-foreground hover:text-foreground"
+              aria-label="Voice"
+            >
+              <Mic className="w-4 h-4" />
+            </Button>
+            {isBusy ? (
+              <Button
+                onClick={stop}
+                size="icon"
+                variant="secondary"
+                className="h-8 w-8 rounded-full shrink-0"
+                aria-label="Stop"
+              >
+                <Square className="w-3.5 h-3.5 fill-current" />
+              </Button>
+            ) : (
+              <Button
+                onClick={() => handleSend(input)}
+                disabled={!input.trim()}
+                size="icon"
+                className="h-8 w-8 rounded-full shrink-0 gradient-primary text-primary-foreground disabled:opacity-40"
+                aria-label="Send"
+              >
+                <ArrowUp className="w-4 h-4" />
+              </Button>
+            )}
           </div>
           <p className="text-[10px] text-center text-muted-foreground/70 mt-1.5">
-            AI mistakes ঘটতে পারে — important info verify করো।
+            AI can make mistakes — verify important info.
           </p>
         </div>
       </div>
