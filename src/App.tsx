@@ -11,7 +11,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { installFetchTimer, logRoute } from "@/lib/perf";
 import Index from "./pages/Index";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+
 
 installFetchTimer();
 
