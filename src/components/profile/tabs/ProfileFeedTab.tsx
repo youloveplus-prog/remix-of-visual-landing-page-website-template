@@ -3,7 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, formatCount, timeAgo } from "@/lib/utils";
 import { Newspaper } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { useLikePost } from "@/hooks/usePosts";
 
 export interface FeedPost {
@@ -30,12 +31,14 @@ interface ProfileFeedTabProps {
 }
 
 export function ProfileFeedTab({ posts, user }: ProfileFeedTabProps) {
+  const navigate = useNavigate();
   if (posts.length === 0) {
     return (
       <EmptyState
         icon={<Newspaper className="h-10 w-10" />}
         title="No posts yet"
         hint="When this profile shares posts, they'll show up here."
+        action={<Button onClick={() => navigate("/community")}>Share your first post</Button>}
       />
     );
   }

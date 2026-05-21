@@ -816,6 +816,7 @@ export type Database = {
           images: string[] | null
           is_pinned: boolean
           product_id: string | null
+          rating: number | null
           type: string
           updated_at: string
           user_id: string
@@ -828,6 +829,7 @@ export type Database = {
           images?: string[] | null
           is_pinned?: boolean
           product_id?: string | null
+          rating?: number | null
           type?: string
           updated_at?: string
           user_id: string
@@ -840,6 +842,7 @@ export type Database = {
           images?: string[] | null
           is_pinned?: boolean
           product_id?: string | null
+          rating?: number | null
           type?: string
           updated_at?: string
           user_id?: string

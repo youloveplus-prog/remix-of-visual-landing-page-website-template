@@ -4,33 +4,38 @@ interface ProfileStatsProps {
   posts: number;
   followers: number;
   following: number;
-  coins: number;
+  xp: number;
+  level: number;
   onPostsClick?: () => void;
   onFollowersClick?: () => void;
   onFollowingClick?: () => void;
-  onCoinsClick?: () => void;
+  onXpClick?: () => void;
+  onLevelClick?: () => void;
 }
 
-/** Instagram-style compact stat row (4 cells, tappable). */
+/** Instagram-style compact stat row (5 cells, tappable). */
 export function ProfileStats({
   posts,
   followers,
   following,
-  coins,
+  xp,
+  level,
   onPostsClick,
   onFollowersClick,
   onFollowingClick,
-  onCoinsClick,
+  onXpClick,
+  onLevelClick,
 }: ProfileStatsProps) {
   const stats = [
-    { key: "Posts", value: posts, onClick: onPostsClick },
-    { key: "Followers", value: followers, onClick: onFollowersClick },
-    { key: "Following", value: following, onClick: onFollowingClick },
-    { key: "Coins", value: coins, onClick: onCoinsClick },
+    { key: "Posts", value: formatCount(posts), onClick: onPostsClick },
+    { key: "Followers", value: formatCount(followers), onClick: onFollowersClick },
+    { key: "Following", value: formatCount(following), onClick: onFollowingClick },
+    { key: "XP", value: formatCount(xp), onClick: onXpClick },
+    { key: "Level", value: `Lv.${level}`, onClick: onLevelClick },
   ];
   return (
     <div className="px-4 pt-4">
-      <div className="grid grid-cols-4 rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md overflow-hidden">
+      <div className="grid grid-cols-5 rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md overflow-hidden">
         {stats.map((s, i) => (
           <button
             key={s.key}
@@ -41,7 +46,7 @@ export function ProfileStats({
               i !== 0 && "border-l border-border/40",
             )}
           >
-            <span className="text-base font-bold tabular-nums text-foreground">{formatCount(s.value)}</span>
+            <span className="text-base font-bold tabular-nums text-foreground">{s.value}</span>
             <span className="text-[10px] uppercase tracking-wide text-muted-foreground">{s.key}</span>
           </button>
         ))}

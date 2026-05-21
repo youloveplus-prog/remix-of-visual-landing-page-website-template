@@ -1,5 +1,6 @@
 import { Heart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { Price } from "@/lib/currency";
 import { EmptyState } from "./ProfileFeedTab";
 
@@ -16,12 +17,14 @@ interface WishlistRow {
 }
 
 export function ProfileWishlistTab({ items }: { items: WishlistRow[] }) {
+  const navigate = useNavigate();
   if (items.length === 0) {
     return (
       <EmptyState
         icon={<Heart className="h-8 w-8" />}
         title="Wishlist is empty"
         hint="Tap the heart on any product to save it for later."
+        action={<Button onClick={() => navigate("/shop")}>Explore the shop</Button>}
       />
     );
   }

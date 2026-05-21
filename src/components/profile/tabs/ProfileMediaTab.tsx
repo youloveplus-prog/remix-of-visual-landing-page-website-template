@@ -1,4 +1,6 @@
 import { Play, Image as ImageIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "./ProfileFeedTab";
 
 interface MediaItem {
@@ -16,12 +18,14 @@ interface ProfileMediaTabProps {
 
 /** Instagram-style 3-column grid pulled from a user's posts. */
 export function ProfileMediaTab({ media, onOpen }: ProfileMediaTabProps) {
+  const navigate = useNavigate();
   if (media.length === 0) {
     return (
       <EmptyState
         icon={<ImageIcon className="h-8 w-8" />}
         title="No media yet"
         hint="Photos and videos from this profile's posts will appear here."
+        action={<Button onClick={() => navigate("/community")}>Upload your first photo</Button>}
       />
     );
   }
