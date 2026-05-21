@@ -9,8 +9,6 @@ import { PostsTab } from "@/components/community/tabs/PostsTab";
 import { VideosTab } from "@/components/community/tabs/VideosTab";
 import { ShortsTab } from "@/components/community/tabs/ShortsTab";
 import { ReviewsTab } from "@/components/community/tabs/ReviewsTab";
-import { LiveTab } from "@/components/community/tabs/LiveTab";
-import { OffersTab } from "@/components/community/tabs/OffersTab";
 import { CommunityTab } from "@/types/community";
 import { MobilePage } from "@/components/layout/MobilePage";
 
