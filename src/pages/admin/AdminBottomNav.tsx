@@ -2,17 +2,9 @@ import { NavLink, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
-  Package,
   ShoppingBag,
-  MoreHorizontal,
-  Tags,
   MessagesSquare,
-  GraduationCap,
-  Settings as SettingsIcon,
-  Home,
-  LayoutGrid,
-  Image as ImageIcon,
-  BookOpen,
+  MoreHorizontal,
 } from "lucide-react";
 import {
   Sheet,
@@ -23,25 +15,18 @@ import {
 } from "@/components/ui/sheet";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { adminNavItems } from "./adminNav";
 
 const primary = [
   { title: "Overview", url: "/asikonasik", icon: LayoutDashboard, end: true },
-  { title: "Products", url: "/asikonasik/products", icon: Package },
+  { title: "Users", url: "/asikonasik/users", icon: Users },
+  { title: "Orders", url: "/asikonasik/orders", icon: ShoppingBag },
   { title: "Community", url: "/asikonasik/community", icon: MessagesSquare },
 ];
 
-const more = [
-  { title: "Users", url: "/asikonasik/users", icon: Users },
-  { title: "Orders", url: "/asikonasik/orders", icon: ShoppingBag },
-  { title: "Categories", url: "/asikonasik/categories", icon: Tags },
-  { title: "Mentors", url: "/asikonasik/mentors", icon: GraduationCap },
-  { title: "Home Sections", url: "/asikonasik/home-sections", icon: LayoutGrid },
-  { title: "Banners", url: "/asikonasik/banners", icon: ImageIcon },
-  { title: "Tracks", url: "/asikonasik/tracks", icon: GraduationCap },
-  { title: "Lessons", url: "/asikonasik/lessons", icon: BookOpen },
-  { title: "Settings", url: "/asikonasik/settings", icon: SettingsIcon },
-  { title: "Back to app", url: "/", icon: Home },
-];
+// Anything in adminNavItems that isn't one of the 4 primary tabs goes in More.
+const primaryUrls = new Set(primary.map((p) => p.url));
+const more = adminNavItems.filter((i) => !primaryUrls.has(i.url));
 
 export function AdminBottomNav() {
   const { pathname } = useLocation();
@@ -49,8 +34,7 @@ export function AdminBottomNav() {
     end ? pathname === url : pathname === url || pathname.startsWith(url + "/");
 
   const activeIndex = useMemo(() => {
-    const idx = primary.findIndex((i) => isActive(i.url, i.end));
-    return idx === -1 ? -1 : idx;
+    return primary.findIndex((i) => isActive(i.url, i.end));
   }, [pathname]);
 
   const total = primary.length + 1; // +1 for "More"
@@ -83,8 +67,8 @@ export function AdminBottomNav() {
               to={item.url}
               end={item.end}
               className={cn(
-                "relative z-10 flex flex-1 flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium",
-                active ? "text-primary" : "text-muted-foreground"
+                "relative z-10 flex flex-1 flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium min-h-[44px]",
+                active ? "text-primary" : "text-muted-foreground",
               )}
             >
               <item.icon
@@ -100,13 +84,13 @@ export function AdminBottomNav() {
           <SheetTrigger asChild>
             <button
               type="button"
-              className="relative z-10 flex flex-1 flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium text-muted-foreground"
+              className="relative z-10 flex flex-1 flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium text-muted-foreground min-h-[44px]"
             >
               <MoreHorizontal className="h-[22px] w-[22px]" />
               <span>More</span>
             </button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="rounded-t-3xl glass-strong border-border/60">
+          <SheetContent side="bottom" className="rounded-t-3xl glass-strong border-border/60 max-h-[80vh] overflow-y-auto">
             <SheetHeader className="text-left">
               <SheetTitle>
                 <span className="text-gradient">Admin menu</span>
@@ -114,13 +98,13 @@ export function AdminBottomNav() {
             </SheetHeader>
             <div className="grid grid-cols-3 gap-3 mt-4 pb-6">
               {more.map((item) => {
-                const active = isActive(item.url);
+                const active = isActive(item.url, item.end);
                 return (
                   <NavLink
                     key={item.url}
                     to={item.url}
                     className={cn(
-                      "pressable flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-xs font-medium transition-colors",
+                      "pressable flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-xs font-medium transition-colors min-h-[88px]",
                       active
                         ? "border-primary/40 bg-primary/10 text-primary"
                         : "border-border/60 bg-card hover:bg-muted/50",
@@ -134,7 +118,7 @@ export function AdminBottomNav() {
                     >
                       <item.icon className="h-4 w-4" />
                     </span>
-                    <span>{item.title}</span>
+                    <span className="text-center leading-tight">{item.title}</span>
                   </NavLink>
                 );
               })}
