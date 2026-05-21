@@ -126,7 +126,10 @@ function useIdlePrefetch() {
 
 function PersistentMobileShell() {
   const isMobile = useIsMobile();
+  const { pathname } = useLocation();
   if (!isMobile) return null;
+  // Admin panel has its own bottom nav — never show the user nav on /asikonasik routes
+  if (pathname === "/asikonasik" || pathname.startsWith("/asikonasik/")) return null;
   return <BottomNav />;
 }
 

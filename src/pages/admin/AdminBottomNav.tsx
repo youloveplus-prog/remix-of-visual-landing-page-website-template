@@ -7,9 +7,12 @@ import {
   MoreHorizontal,
   Tags,
   MessagesSquare,
-  Palette,
+  GraduationCap,
   Settings as SettingsIcon,
   Home,
+  LayoutGrid,
+  Image as ImageIcon,
+  BookOpen,
 } from "lucide-react";
 import {
   Sheet,
@@ -23,15 +26,19 @@ import { cn } from "@/lib/utils";
 
 const primary = [
   { title: "Overview", url: "/asikonasik", icon: LayoutDashboard, end: true },
-  { title: "Users", url: "/asikonasik/users", icon: Users },
   { title: "Products", url: "/asikonasik/products", icon: Package },
-  { title: "Orders", url: "/asikonasik/orders", icon: ShoppingBag },
+  { title: "Community", url: "/asikonasik/community", icon: MessagesSquare },
 ];
 
 const more = [
+  { title: "Users", url: "/asikonasik/users", icon: Users },
+  { title: "Orders", url: "/asikonasik/orders", icon: ShoppingBag },
   { title: "Categories", url: "/asikonasik/categories", icon: Tags },
-  { title: "Community", url: "/asikonasik/community", icon: MessagesSquare },
-  { title: "Mentors", url: "/asikonasik/mentors", icon: Palette },
+  { title: "Mentors", url: "/asikonasik/mentors", icon: GraduationCap },
+  { title: "Home Sections", url: "/asikonasik/home-sections", icon: LayoutGrid },
+  { title: "Banners", url: "/asikonasik/banners", icon: ImageIcon },
+  { title: "Tracks", url: "/asikonasik/tracks", icon: GraduationCap },
+  { title: "Lessons", url: "/asikonasik/lessons", icon: BookOpen },
   { title: "Settings", url: "/asikonasik/settings", icon: SettingsIcon },
   { title: "Back to app", url: "/", icon: Home },
 ];
