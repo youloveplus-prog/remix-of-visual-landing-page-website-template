@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Plus, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProfileCompletionBarProps {
