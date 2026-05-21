@@ -5,7 +5,7 @@ import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
 import asikonMark from "@/assets/icons/asikon-mark.svg";
 
-const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
+const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
   <img
     src={asikonMark}
     alt=""
