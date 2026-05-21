@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
-import { Camera, BadgeCheck, Loader2 } from "lucide-react";
+import { Camera, BadgeCheck, Loader2, MapPin, LinkIcon, CalendarDays } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { getCoverGradient } from "@/lib/cover-gradients";
 
 interface ProfileHeaderProps {
   user: {
@@ -12,10 +13,14 @@ interface ProfileHeaderProps {
     username: string;
     avatar: string;
     coverImage?: string;
+    coverGradient?: string | null;
     bio: string;
     isVerified: boolean;
     trustScore: number;
     isOnline?: boolean;
+    location?: string | null;
+    website?: string | null;
+    joinedAt?: string | null;
   };
   isOwnProfile?: boolean;
   onAvatarClick?: () => void;
@@ -94,12 +99,9 @@ export function ProfileHeader({ user, isOwnProfile, onAvatarClick, onUpdate }: P
           />
         ) : (
           <div
-            key="default-cover"
+            key={`gradient-${user.coverGradient ?? "default"}`}
             className="absolute inset-0 animate-fade-in"
-            style={{
-              background:
-                "linear-gradient(135deg, hsl(233 80% 30%) 0%, hsl(280 80% 25%) 50%, hsl(220 90% 20%) 100%)",
-            }}
+            style={{ background: getCoverGradient(user.coverGradient) }}
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background" />
@@ -193,6 +195,40 @@ export function ProfileHeader({ user, isOwnProfile, onAvatarClick, onUpdate }: P
           <p className="mt-2 text-sm text-foreground/90 leading-relaxed max-w-md whitespace-pre-line">
             {user.bio}
           </p>
+        )}
+
+        {(user.location || user.website || user.joinedAt) && (
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground max-w-md">
+            {user.location && (
+              <span className="inline-flex items-center gap-1">
+                <MapPin className="h-3.5 w-3.5" />
+                <span className="truncate max-w-[10rem]">{user.location}</span>
+              </span>
+            )}
+            {user.website && (
+              <a
+                href={user.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-primary hover:underline truncate max-w-[12rem]"
+              >
+                <LinkIcon className="h-3.5 w-3.5 shrink-0" />
+                <span className="truncate">{user.website.replace(/^https?:\/\//, "")}</span>
+              </a>
+            )}
+            {user.joinedAt && (
+              <span className="inline-flex items-center gap-1">
+                <CalendarDays className="h-3.5 w-3.5" />
+                <span>
+                  Joined{" "}
+                  {new Date(user.joinedAt).toLocaleDateString(undefined, {
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </span>
+            )}
+          </div>
         )}
       </div>
     </header>
