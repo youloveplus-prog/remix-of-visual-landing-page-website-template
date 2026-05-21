@@ -36,7 +36,7 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
       ref={ref}
       data-app-header
       className={cn(
-        "fixed top-0 left-0 right-0 z-40 glass-strong hairline-bottom"
+        "fixed top-0 left-0 right-0 z-40 liquid-nav border-b border-border/40"
       )}
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >

@@ -20,12 +20,11 @@ export function BottomNav() {
       aria-label="Primary"
       className={cn(
         "fixed inset-x-0 bottom-0 z-50",
-        "bg-background/95 backdrop-blur-xl",
-        "border-t border-border/60"
+        "liquid-nav border-t border-border/40"
       )}
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
-      <div className="grid grid-cols-5 h-[58px]">
+      <div className="grid grid-cols-5 h-[60px]">
         {tabs.map((item) => (
           <NavItem key={item.path} item={item} active={activeTab === item.id} />
         ))}
@@ -57,26 +56,29 @@ function NavItem({
       aria-label={item.label}
       aria-current={active ? "page" : undefined}
       onClick={handleClick}
-      className="relative flex flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none"
+      className="relative flex flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none group"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
+      {/* Active pill background */}
       <span
         aria-hidden
         className={cn(
-          "absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-8 rounded-full transition-all",
-          active ? "bg-primary opacity-100" : "opacity-0"
+          "absolute inset-x-3 top-1.5 bottom-1.5 rounded-2xl transition-all duration-300",
+          active
+            ? "bg-primary/12 scale-100 opacity-100 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]"
+            : "scale-90 opacity-0 group-active:opacity-50 group-active:scale-95"
         )}
       />
       <Icon
         className={cn(
-          "h-[22px] w-[22px] transition-colors",
-          active ? "text-primary" : "text-muted-foreground"
+          "relative h-[22px] w-[22px] transition-all duration-300 ease-out",
+          active ? "text-primary scale-110 -translate-y-px" : "text-muted-foreground"
         )}
-        strokeWidth={active ? 2.4 : 2}
+        strokeWidth={active ? 2.4 : 1.9}
       />
       <span
         className={cn(
-          "text-[10px] leading-none tracking-tight transition-colors",
+          "relative text-[10px] leading-none tracking-tight transition-colors duration-200",
           active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
         )}
       >
