@@ -1,7 +1,14 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type MaxWidth = "sm" | "md" | "lg" | "xl" | "2xl" | "4xl" | "6xl" | "full";
+type MaxWidth =
+  | "sm" | "md" | "lg" | "xl" | "2xl" | "4xl" | "6xl" | "full"
+  /** Editorial 1440px — Home, Shop, feeds. */
+  | "wide"
+  /** Comfortable workspace 1024px — Profile, Game, Orders. */
+  | "standard"
+  /** Reading width 672px — Settings, Lesson, forms. */
+  | "reading";
 
 interface MobilePageProps {
   children: ReactNode;
@@ -13,7 +20,7 @@ interface MobilePageProps {
   className?: string;
   /** Vertical spacing between top-level sections. Default "space-y-5". */
   spacing?: string;
-  /** Constrain content width (uses Tailwind max-w-*). Default "full" = editorial container. */
+  /** Constrain content width (uses Tailwind max-w-*). Default "wide" = editorial container. */
   maxWidth?: MaxWidth;
   /** Render the full-bleed area before the padded content (e.g. profile cover). */
   bleed?: ReactNode;
@@ -28,6 +35,9 @@ const maxWidthMap: Record<MaxWidth, string> = {
   "4xl": "max-w-4xl",
   "6xl": "max-w-6xl",
   full: "",
+  wide: "",
+  standard: "max-w-5xl",
+  reading: "max-w-2xl",
 };
 
 /**
@@ -43,17 +53,17 @@ export function MobilePage({
   padded = true,
   className,
   spacing = "space-y-5",
-  maxWidth = "full",
+  maxWidth = "wide",
   bleed,
 }: MobilePageProps) {
-  const isContainer = maxWidth === "full";
+  const isContainer = maxWidth === "full" || maxWidth === "wide";
   const widthClass = isContainer ? "container-editorial" : `mx-auto w-full ${maxWidthMap[maxWidth]}`;
   return (
     <div className="page-enter page-enter-active">
       {bleed}
       {sticky && (
         <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md hairline-bottom">
-          <div className={cn(widthClass, padded && "px-3 sm:px-4 lg:px-8")}>
+          <div className={cn(widthClass, padded && "px-4 sm:px-6 lg:px-8")}>
             {sticky}
           </div>
         </div>
@@ -61,7 +71,7 @@ export function MobilePage({
       <div
         className={cn(
           widthClass,
-          padded && "px-3 sm:px-4 lg:px-8",
+          padded && "px-4 sm:px-6 lg:px-8",
           sticky ? "pt-3" : "pt-3 lg:pt-6",
           "pb-6 min-w-0 overflow-x-clip",
           spacing,

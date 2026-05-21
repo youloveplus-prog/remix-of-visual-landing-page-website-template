@@ -5,6 +5,9 @@ interface RevealProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
   children: ReactNode;
   delay?: number;
+  /** When provided, computes delay = staggerIndex * staggerStep (default 40ms). */
+  staggerIndex?: number;
+  staggerStep?: number;
   variant?: "fade-up" | "fade" | "scale";
   once?: boolean;
 }
@@ -32,7 +35,9 @@ function getObserver() {
 export function Reveal({
   as: Tag = "div",
   children,
-  delay = 0,
+  delay,
+  staggerIndex,
+  staggerStep = 40,
   variant = "fade-up",
   once = true,
   className,
@@ -41,6 +46,7 @@ export function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
   const [shown, setShown] = useState(false);
+  const computedDelay = delay ?? (staggerIndex != null ? staggerIndex * staggerStep : 0);
 
   useEffect(() => {
     const el = ref.current;
@@ -95,7 +101,7 @@ export function Reveal({
         shown ? baseShown : baseHidden,
         className,
       )}
-      style={{ transitionDelay: shown ? `${delay}ms` : "0ms", ...style }}
+      style={{ transitionDelay: shown ? `${computedDelay}ms` : "0ms", ...style }}
       {...rest}
     >
       {children}
