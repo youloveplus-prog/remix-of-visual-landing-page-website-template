@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { MissionVision } from "@/components/about/MissionVision";
 import {
   ProfileHeader,
   ProfileStats,
@@ -20,6 +18,10 @@ import {
   ProfileWishlistTab,
   ProfileTrustCard,
   ProfileBadges,
+  ProfileSkeleton,
+  ProfileActivityFeed,
+  ProfileCompletionBar,
+  ProfileEditModal,
   AvatarViewer,
   FollowersSheet,
   MediaLightbox,
@@ -80,6 +82,7 @@ const Profile = () => {
   const [activeChatId, setActiveChatId] = useState<string | undefined>();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [statSheet, setStatSheet] = useState<StatSheet>(null);
+  const [showEdit, setShowEdit] = useState(false);
 
   const isFollowing = followers?.some((f) => f.follower_id === user?.id) || false;
 
@@ -110,7 +113,6 @@ const Profile = () => {
     }
   };
 
-  // Live follower count updates via realtime
   useEffect(() => {
     if (!targetUserId) return;
     const channel = supabase
@@ -129,7 +131,6 @@ const Profile = () => {
     };
   }, [targetUserId, queryClient]);
 
-
   const handleShare = () => {
     const url = window.location.href;
     if (navigator.share) {
@@ -140,7 +141,6 @@ const Profile = () => {
     }
   };
 
-  // Media from posts (images + video) — must be declared before any early return to keep hook order stable
   const mediaItems = useMemo(() => {
     const items: { id: string; postId: string; type: "image" | "video"; thumbnail: string }[] = [];
     (userPosts || []).forEach((p: any) => {
@@ -154,15 +154,7 @@ const Profile = () => {
     return items;
   }, [userPosts]);
 
-  if (profileLoading) {
-    return (
-      <AppLayout showBottomNav>
-        <div className="min-h-[60vh] flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      </AppLayout>
-    );
-  }
+  if (profileLoading) return <ProfileSkeleton />;
 
   const displayProfile = {
     id: profile?.id || targetUserId || "",
@@ -178,7 +170,6 @@ const Profile = () => {
     isOnline: isOwnProfile,
   };
 
-  // Transform posts -> feed
   const feedPosts = (userPosts || []).map((p: any) => ({
     id: p.id,
     content: p.content || "",
@@ -192,11 +183,9 @@ const Profile = () => {
     productName: p.products?.name ?? null,
   }));
 
-
-  // Reviews from posts where type='review'
   const reviews = (reviewPosts || []).map((p: any) => ({
     id: p.id,
-    rating: 5, // posts table doesn't store rating yet; default 5
+    rating: (p.rating as number | null) ?? null,
     content: p.content || "",
     createdAt: p.created_at,
     productSlug: p.products?.slug ?? null,
@@ -219,6 +208,9 @@ const Profile = () => {
       full_name: f.following?.full_name ?? null,
       avatar_url: f.following?.avatar_url ?? null,
     })).filter((u) => u.id) || [];
+
+  const xp = learnerStats?.xp ?? 0;
+  const level = Math.floor(xp / 100) + 1;
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -250,10 +242,12 @@ const Profile = () => {
         return (
           <ProfileLearningTab
             stats={{
-              xp: learnerStats?.xp ?? 0,
+              xp,
               streak: learnerStats?.streak ?? 0,
+              longestStreak: learnerStats?.longestStreak ?? 0,
               lessonsCompleted: learnerStats?.lessonsCompleted ?? 0,
               milestones: learnerStats?.milestones ?? [],
+              weeklyActivity: learnerStats?.weeklyActivity ?? Array(7).fill(false),
             }}
             isOwnProfile={isOwnProfile}
           />
@@ -302,10 +296,13 @@ const Profile = () => {
           posts={counts?.posts ?? userPosts?.length ?? 0}
           followers={counts?.followers ?? followers?.length ?? 0}
           following={counts?.following ?? following?.length ?? 0}
-          coins={profile?.coins ?? 0}
+          xp={xp}
+          level={level}
           onPostsClick={() => setActiveTab("posts")}
           onFollowersClick={() => setStatSheet("followers")}
           onFollowingClick={() => setStatSheet("following")}
+          onXpClick={() => setActiveTab("learning")}
+          onLevelClick={() => setActiveTab("learning")}
         />
 
         <ProfileActions
@@ -314,10 +311,19 @@ const Profile = () => {
           onFollow={handleFollow}
           onMessage={handleMessage}
           onShare={handleShare}
-          onEditProfile={() => navigate("/settings")}
+          onEditProfile={() => setShowEdit(true)}
           onReport={() => toast({ title: "Report submitted" })}
           onBlock={() => toast({ title: "User blocked" })}
         />
+
+        {isOwnProfile && (
+          <ProfileCompletionBar
+            profile={profile}
+            learnerStats={learnerStats}
+            postCount={counts?.posts ?? 0}
+            onEdit={() => setShowEdit(true)}
+          />
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6 lg:gap-12 pt-1">
           {/* Desktop side rail */}
@@ -338,27 +344,26 @@ const Profile = () => {
               learnerSessions={0}
               learnerQuizzes={0}
             />
-            <section>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-3">
-                About ASIKON
-              </p>
-              <MissionVision />
-            </section>
+            {isOwnProfile && <ProfileActivityFeed userId={targetUserId} />}
           </aside>
 
           {/* Tab content */}
-          <div className="min-w-0">
+          <div className="min-w-0 space-y-4">
+            {isOwnProfile && (
+              <div className="lg:hidden">
+                <ProfileActivityFeed userId={targetUserId} />
+              </div>
+            )}
+            <div className="lg:hidden">
+              <ProfileBadges
+                badges={displayProfile.isVerified ? ["trusted"] : []}
+                learnerSessions={0}
+                learnerQuizzes={0}
+              />
+            </div>
             <div key={activeTab} className="animate-fade-in">
               {renderTabContent()}
             </div>
-
-            {/* Mobile-only About block at the bottom */}
-            <section className="lg:hidden pt-6">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-3">
-                About ASIKON
-              </p>
-              <MissionVision />
-            </section>
           </div>
         </div>
 
@@ -397,6 +402,25 @@ const Profile = () => {
           title="Following"
           users={followingUsers}
         />
+
+        {isOwnProfile && profile && (
+          <ProfileEditModal
+            isOpen={showEdit}
+            onClose={() => setShowEdit(false)}
+            profile={{
+              id: profile.id,
+              username: profile.username,
+              full_name: profile.full_name,
+              bio: profile.bio,
+              avatar_url: profile.avatar_url,
+              cover_url: profile.cover_url,
+            }}
+            onSave={async (updates) => {
+              await updateProfile.mutateAsync(updates);
+              setShowEdit(false);
+            }}
+          />
+        )}
       </MobilePage>
     </AppLayout>
   );
