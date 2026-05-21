@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { X, Camera, Loader2 } from "lucide-react";
+import { Camera, Loader2, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import { COVER_GRADIENTS, type CoverGradientKey } from "@/lib/cover-gradients";
+import { cn } from "@/lib/utils";
 
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 const ALLOWED_IMAGE_EXTS = ["jpg", "jpeg", "png", "gif", "webp"];
@@ -25,6 +27,14 @@ const profileSchema = z.object({
     .or(z.literal("")),
   full_name: z.string().trim().max(100, "Full name too long").optional().or(z.literal("")),
   bio: z.string().trim().max(500, "Bio must be ≤ 500 characters").optional().or(z.literal("")),
+  location: z.string().trim().max(80, "Location too long").optional().or(z.literal("")),
+  website: z
+    .string()
+    .trim()
+    .regex(/^https?:\/\/.+/i, "Website must start with http:// or https://")
+    .max(200, "Website URL too long")
+    .optional()
+    .or(z.literal("")),
 });
 
 interface ProfileEditModalProps {
@@ -37,6 +47,9 @@ interface ProfileEditModalProps {
     bio?: string | null;
     avatar_url?: string | null;
     cover_url?: string | null;
+    website?: string | null;
+    location?: string | null;
+    cover_gradient?: string | null;
   };
   onSave: (updates: {
     username?: string;
@@ -44,6 +57,9 @@ interface ProfileEditModalProps {
     bio?: string;
     avatar_url?: string;
     cover_url?: string;
+    website?: string | null;
+    location?: string | null;
+    cover_gradient?: string | null;
   }) => Promise<void>;
 }
 
@@ -52,13 +68,16 @@ export function ProfileEditModal({ isOpen, onClose, profile, onSave }: ProfileEd
   const [loading, setLoading] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     username: profile.username || "",
     full_name: profile.full_name || "",
     bio: profile.bio || "",
     avatar_url: profile.avatar_url || "",
     cover_url: profile.cover_url || "",
+    website: profile.website || "",
+    location: profile.location || "",
+    cover_gradient: (profile.cover_gradient as CoverGradientKey) || "gradient-1",
   });
 
   const avatarInputRef = useRef<HTMLInputElement>(null);
