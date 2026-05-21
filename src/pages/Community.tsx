@@ -22,8 +22,9 @@ const Community = () => {
       case "videos": return <VideosTab />;
       case "shorts": return <ShortsTab />;
       case "reviews": return <ReviewsTab />;
-      case "live": return <LiveTab />;
-      case "offers": return <OffersTab />;
+      case "live":
+      case "offers":
+        return <MyFeedTab />;
       default: return <MyFeedTab />;
     }
   };
