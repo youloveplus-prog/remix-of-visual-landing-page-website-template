@@ -10,6 +10,7 @@ import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
 import { NavigationMenu } from "./NavigationMenu";
+import { Breadcrumbs } from "./Breadcrumbs";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import logo from "@/assets/logo.png";
