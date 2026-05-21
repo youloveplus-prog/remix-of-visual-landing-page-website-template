@@ -68,24 +68,43 @@ export function useUserLibrary(userId?: string) {
   });
 }
 
-/** Learner stats from server: XP, streak, milestones, recent completions. */
+/** Learner stats from server: XP, streak, milestones, recent completions, weekly activity. */
 export function useLearnerStats(userId?: string) {
   return useQuery({
     queryKey: ["learner-stats", userId],
     enabled: !!userId,
     queryFn: async () => {
-      const [profile, milestones, completions] = await Promise.all([
-        supabase.from("learner_profiles").select("xp, streak_days, last_active_at, active_track_id").eq("user_id", userId!).maybeSingle(),
+      // Last 7 days starting from Monday of the current week
+      const today = new Date();
+      const jsDay = today.getDay(); // 0=Sun..6=Sat
+      const daysFromMonday = (jsDay + 6) % 7;
+      const monday = new Date(today);
+      monday.setHours(0, 0, 0, 0);
+      monday.setDate(today.getDate() - daysFromMonday);
+
+      const [profile, milestones, completions, weekly] = await Promise.all([
+        supabase.from("learner_profiles").select("xp, streak_days, longest_streak, last_active_at, active_track_id").eq("user_id", userId!).maybeSingle(),
         supabase.from("milestones").select("kind, unlocked_at").eq("user_id", userId!).order("unlocked_at", { ascending: false }),
         supabase.from("lesson_completions").select("id").eq("user_id", userId!),
+        supabase.from("lesson_completions").select("completed_at").eq("user_id", userId!).gte("completed_at", monday.toISOString()),
       ]);
+
+      const weeklyActivity = Array(7).fill(false) as boolean[];
+      for (const row of weekly.data ?? []) {
+        const d = new Date((row as any).completed_at);
+        const idx = (d.getDay() + 6) % 7;
+        weeklyActivity[idx] = true;
+      }
+
       return {
         xp: profile.data?.xp ?? 0,
         streak: profile.data?.streak_days ?? 0,
+        longestStreak: profile.data?.longest_streak ?? 0,
         lastActive: profile.data?.last_active_at ?? null,
         activeTrackId: profile.data?.active_track_id ?? null,
         milestones: milestones.data ?? [],
         lessonsCompleted: completions.data?.length ?? 0,
+        weeklyActivity,
       };
     },
   });
