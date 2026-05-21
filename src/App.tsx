@@ -124,7 +124,7 @@ function PersistentMobileShell() {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
   // Hide nav on auth/onboarding-style routes; otherwise keep mounted permanently.
-  const hideOn = ["/auth", "/asikonasik", "/checkout", "/lesson", "/create", "/reset-password"];
+  const hideOn = ["/auth", "/asikonasik", "/checkout", "/lesson", "/learn", "/create", "/reset-password"];
   if (!isMobile || hideOn.some((p) => pathname.startsWith(p))) return null;
   return <BottomNav />;
 }
