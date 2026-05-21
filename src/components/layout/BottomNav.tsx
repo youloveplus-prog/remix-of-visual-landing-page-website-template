@@ -5,7 +5,7 @@ import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
 import asikonMark from "@/assets/icons/asikon-mark.svg";
 
-const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
+const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
   <img
     src={asikonMark}
     alt=""
@@ -196,23 +196,28 @@ function NavItem({
       aria-label={item.label}
       aria-current={active ? "page" : undefined}
       onClick={handleClick}
-      className="relative flex h-full w-full flex-col items-center justify-center gap-1 select-none touch-manipulation outline-none group"
+      className="relative flex h-full w-full flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none group"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
+      {/* Active soft pill behind icon */}
       <span
         aria-hidden
         className={cn(
-          "pointer-events-none absolute top-1.5 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary transition-all duration-300 ease-out",
-          active ? "opacity-100 scale-100 shadow-[0_0_8px_hsl(var(--primary)/0.7)]" : "opacity-0 scale-0"
+          "pointer-events-none absolute top-1.5 left-1/2 -translate-x-1/2 h-9 w-14 rounded-2xl transition-all duration-300 ease-out",
+          active
+            ? "opacity-100 scale-100 bg-primary/12 shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45),inset_0_1px_0_hsl(var(--glass-highlight)/0.18)] ring-1 ring-primary/25"
+            : "opacity-0 scale-75"
         )}
       />
 
-      <span className="relative inline-flex">
+      <span className="relative inline-flex z-10">
         <Icon
           aria-hidden
           className={cn(
             "pointer-events-none h-[24px] w-[24px] transition-all duration-300 ease-out",
-            active ? "text-primary -translate-y-px" : "text-muted-foreground"
+            active
+              ? "text-primary -translate-y-0.5 drop-shadow-[0_2px_6px_hsl(var(--primary)/0.55)]"
+              : "text-muted-foreground group-hover:text-foreground/80"
           )}
         />
 
@@ -235,8 +240,8 @@ function NavItem({
 
       <span
         className={cn(
-          "pointer-events-none text-[10px] leading-none transition-colors duration-200",
-          active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
+          "pointer-events-none relative z-10 text-[10px] leading-none transition-all duration-300",
+          active ? "font-semibold text-primary translate-y-0" : "font-medium text-muted-foreground translate-y-0.5"
         )}
       >
         {item.label}
@@ -244,3 +249,4 @@ function NavItem({
     </NavLink>
   );
 }
+
