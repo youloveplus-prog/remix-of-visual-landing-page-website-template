@@ -1,70 +1,75 @@
 
-## Goal
-Refine the AI Tutor (Learn) page so it feels on-brand (dark red gradient + liquid glass), every UI control has a clear purpose, and the copy sounds like a warm human tutor — not a robotic AI.
+## Goals
 
-## Scope (frontend only)
-File: `src/components/learn/LearnChat.tsx` (+ small tweak to `src/pages/Learn.tsx` for the signed-out hero).
+1. **Home — use brand primary color everywhere.** Today the homepage mixes amber, sky, and other accent colors on tiles, icons, and badges. Re-tint every home item to the brand dark-red gradient / primary token system so the page reads as one identity.
+2. **Hero slider — redesign.** Current slider is a plain image with a black bottom gradient and a white CTA pill. Rebuild it in the brand's liquid-glass + dark-red gradient language with stronger hierarchy and meaningful motion.
+3. **AI page composer — never under the bottom nav.** The pinned chat box can slip behind the nav on some viewports. Make it always sit flush above the nav bar.
 
-## Changes
+---
 
-### 1. Brand visual pass
-- Replace the neutral header with a slim liquid-glass bar tinted by `--gradient-primary` (dark red) at low opacity, with a subtle bottom hairline.
-- Composer pill: upgrade `shadow-[…primary/0.35]` to a soft glow ring that intensifies on focus; add a 1px gradient border using brand red on focus-within instead of a flat primary border.
-- Send button: keep `gradient-primary`, add a gentle scale + glow on hover, and a quick shimmer on successful send.
-- Empty-state hero: layered radial brand-red glow behind the tutor avatar, gradient headline, refined quick-prompt cards with brand-tinted icon chips (one tint per category, not all primary).
+## 1. Homepage primary-color sweep
 
-### 2. Meaningful icons & buttons (audit pass)
-Every control gets a single, documented purpose — remove decoration:
-- `PanelLeft` → opens thread list (kept, labelled "Your chats").
-- Title pill `ChevronDown` → opens thread list too (currently does); add `aria-label="Switch chat"`.
-- `PenSquare` → new chat (kept, labelled).
-- `Minus` minimize → renamed intent to `ChevronDown` (down = collapse) for visual consistency with the expand `ChevronUp`. The lone `Minus` reads as "remove" and is misleading.
-- `Mic` → voice input. Until it's wired, show a tooltip "Voice input — coming soon" instead of a silent toast, and visually dim it so users know it's not active yet.
-- Thinking dot: today it's a single pulsing dot with no meaning. Replace with 3 sequenced dots = "tutor is typing" (a recognized convention), plus the label "Apu is thinking…".
-- Jump-to-latest pill: keep, but only show after the user has scrolled up >1 screen (already close to this) and add `aria-label`.
+Files: `src/pages/Index.tsx`, `src/components/home/sections/*`, `src/components/home/workspace/*`
 
-### 3. Loading & micro-animations
-- Initial messages load: replace the bare `Loader2` with three skeleton message bubbles (one user, two assistant) using `animate-pulse` — communicates "loading conversation", not "loading something".
-- Streaming: animated 3-dot typing indicator (staggered bounce via existing tailwind keyframes).
-- Message entry: each new message fades+slides in (`animate-fade-in`, already in the design system).
-- Send button: 150ms scale tap feedback.
-- Avatar in empty state: slow brand-red glow pulse (2.5s) to feel alive without being noisy.
+Audit and replace non-brand colors with brand tokens:
+- `quick_actions` second tile: `from-amber-400/30 to-amber-500/10`, `text-amber-400`, `border-amber-400/20` → primary-tinted glass (`gradient-primary-soft`, `text-primary`, `border-primary/20`).
+- `quick_categories` color classes (`from-accent/20`, mixed primary/accent) → unified `gradient-primary-soft` variants with `text-primary` icons.
+- Sweep `src/components/home/workspace/*` (GreetingStrip, QuickAccessGrid, ProgressSnapshot, ContinueLearningRow, AiAssistantBox, ActivityFeed, UpcomingCard, InsightCard) and `src/components/home/sections/*` (HowItWorks, WhyTrust, Testimonials, Faq, FinalCta) and `TodayMissionCard` for any hardcoded amber/sky/emerald/violet/rose colors on icons, badges, or backgrounds; replace with `primary`, `primary/10`, `primary/20`, `gradient-primary`, `gradient-primary-soft`, `shadow-glow`.
+- Keep semantic non-brand uses: success ticks, warnings, destructive states, verified badges. Do not recolor those.
+- No raw hex / `text-white` / `bg-black` introduced.
 
-### 4. Copy pass — human, not robotic
-Rewrite all user-facing strings to sound like a Bangladeshi tutor named **Apu** (the existing tutor persona on the avatar). No "AI", "bot", or "assistant" wording in the UI surface.
+## 2. Hero slider redesign
 
-| Where | Before | After |
-|---|---|---|
-| Header default title | "ASIKON Tutor" | "Apu — your tutor" |
-| Empty hero H1 | "Your AI Tutor" | "Hi, I'm Apu" |
-| Empty hero sub | "SSC, HSC, Math… Answers in both English and Bangla." | "Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English. I'll explain in English or Bangla, whichever helps." |
-| Quick-prompts label | "Try one of these" | "Not sure where to start?" |
-| Quick prompt: Motivate me | "I feel like I'm going to fail. Say something to motivate me." | "I'm losing confidence before exams. Help me get back on track." |
-| Placeholder | "Ask your question..." | "Ask Apu anything…" |
-| Submitted state | "Thinking..." | "Apu is thinking…" |
-| Minimized pill | "Tap to ask..." | "Ask Apu a question" |
-| Stop tooltip | (none) | "Stop reply" |
-| Toast 429 | "Too many requests — please try again in a moment." | "Slow down a sec — try again in a moment." |
-| Toast 402 | "AI credits exhausted…" | "Out of tutoring credits for today. Try again tomorrow or top up in settings." |
-| Generic error | raw message | "Something went off — let's try that again." |
-| Coming-soon toast | "Coming soon" | "Voice questions are on the way — text works great for now." |
-| Signed-out (Learn.tsx) | "Sign in to chat with your AI tutor." | "Sign in to start chatting with Apu." |
+File: `src/components/carousels/HeroCarousel.tsx`
 
-### 5. Action chips — purposeful set
-Today's chips are generic. Replace with 5 chips that map to real tutor behaviors and are appended as instructions to the next message:
-- "Explain like I'm 12"
-- "In Bangla please"
-- "Quiz me on this"
-- "Give me an example"
-- "TL;DR"
+New direction (brand-aligned, single visual language):
+- Container: `rounded-3xl`, 1px brand gradient border, soft outer glow `0_20px_60px_-20px_hsl(var(--primary)/0.45)`.
+- Slide aspect: `aspect-[5/4]` mobile, `aspect-[16/9]` tablet, `aspect-[21/9]` desktop (kept).
+- Image: full-cover with a slow 6s `scale-105 → scale-100` Ken-Burns drift while active; pauses with carousel pause.
+- Overlay: replace flat black gradient with a layered scrim — bottom 60% uses `linear-gradient(to top, hsl(var(--background)/0.95), hsl(var(--background)/0.4), transparent)` plus a low-opacity brand-red gradient wash from the bottom-left corner for warmth.
+- Eyebrow chip above the title: small glass pill with a 1.5px primary dot + slide category text (e.g. "New course", "Library", "Deals"). Derived from a new optional `eyebrow` field on `HeroSlide`; fall back to slide index label if not provided.
+- Title: `font-display` (Space Grotesk), tighter tracking, gradient text using `text-gradient` utility on the first word/phrase for emphasis.
+- Subtitle: `text-foreground/80`, 2-line clamp.
+- CTA: replace white pill with brand `gradient-primary` pill, primary-foreground text, `ArrowUpRight`, micro-shimmer on hover, `active:scale-95`.
+- Secondary action (optional, desktop only): ghost "Learn more" link.
+- Arrows: bigger hit area (40px), glass background, brand-tinted border, fade in on container hover only.
+- Dots → progress segments: 3 thin horizontal bars at bottom; the active one animates a fill (left→right) over `autoplayDelay` ms to telegraph time-until-next-slide. Inactive bars are dimmed. Click still jumps to slide.
+- Slide transition: keep embla default; add a 250ms cross-fade of the text block via `animate-fade-in` keyed on `selectedIndex`.
+- Pause-on-hover (kept) + pause-when-tab-hidden via `document.visibilitychange`.
+- Accessibility: `aria-roledescription="carousel"`, per-slide `aria-label`, progress bars have `aria-label="Go to slide N"`, autoplay respects `prefers-reduced-motion` (no Ken Burns, no progress animation — static dots).
+
+`HeroSlide` type extension (additive, backward compatible):
+```ts
+interface HeroSlide {
+  id: string; image: string; title: string; subtitle?: string;
+  eyebrow?: string;           // new
+  cta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string }; // new, desktop only
+}
+```
+
+Update the three slides in `Index.tsx` with eyebrows: "New course", "Prompt Library", "Limited deal".
+
+## 3. AI composer above the bottom nav
+
+Files: `src/components/learn/LearnChat.tsx`, possibly `src/components/layout/AppLayout.tsx`
+
+Diagnosis: `Learn.tsx` wraps content in `<div className="flex h-full">`. The main container in `AppLayout` uses `h-[100dvh]` + `paddingBottom: var(--bottom-nav-h)`. On some mobile browsers (URL bar collapse, iOS Safari) `100dvh` recomputes and the inner flex column's `h-full` momentarily exceeds the padded box, letting the composer (the last `shrink-0` child) clip behind the fixed nav.
+
+Fix: anchor the composer with `position: sticky; bottom: 0` inside the scroll/flex column **and** ensure the composer's container has `pb-[env(safe-area-inset-bottom)]` so iOS home-indicator zone is respected on top of the nav offset. Concretely:
+- Wrap the composer area in a `sticky bottom-0` element with `z-20` and `bg-background/85 backdrop-blur-xl` so it always rides the bottom edge of the visible chat area, never beneath the nav.
+- Add `pb-[env(safe-area-inset-bottom)]` to the composer wrapper (in addition to existing padding) as a belt-and-braces measure.
+- In `Learn.tsx`, change the outer wrapper from `flex h-full` to `flex h-full min-h-0` and ensure the right column has `min-h-0` (already true in `LearnChat` root, but the parent `<div className="flex-1 flex flex-col min-w-0 min-h-0">` needs to be the direct child — verify).
+- Verify the scroll/transcript area still scrolls behind the sticky composer (it should — sticky doesn't take it out of flow).
+
+No backend or routing changes.
 
 ## Out of scope
-- Backend / edge function changes
-- Voice input wiring (kept as visible-but-disabled affordance)
-- Thread list redesign
+- No new home sections, no admin section toggles
+- No AI tutor logic changes
+- No hero slide content changes beyond adding eyebrow labels
 
 ## Acceptance
-- No raw `text-white`, `bg-black`, or hex colors introduced — only semantic tokens / gradient utilities already in `index.css`.
-- Every button has an `aria-label` and a single clear purpose.
-- All visible strings match the table above.
-- Skeleton loader visible on first open of a thread with messages; typing indicator visible while streaming.
+- Homepage: zero amber/sky/violet/rose icons or backgrounds remain on the home route (status/semantic colors excepted).
+- Hero: brand gradient border + glow, eyebrow chip, gradient title accent, animated progress segments, Ken Burns on the active slide (motion-safe).
+- AI page on a 393×701 viewport: composer sits flush against the bottom nav at all times — confirm by scrolling messages, opening/closing the keyboard simulation, and switching threads.
