@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trophy, History, BookOpen, UserPlus, Coins, Flame, CheckCircle2, PlayCircle, Calendar, Loader2, Gift } from "lucide-react";
+import { Trophy, History, BookOpen, UserPlus, Coins, Flame, CheckCircle2, PlayCircle, Calendar, Loader2, Gift, Wand2, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
