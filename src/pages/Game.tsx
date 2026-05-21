@@ -87,7 +87,7 @@ const Game = () => {
         <title>Game · Earn Coins & Track Streaks — Asikon</title>
         <meta name="description" content="Track your learning streak, earn coins, and redeem rewards on Asikon." />
       </Helmet>
-      <MobilePage>
+      <MobilePage maxWidth="wide" spacing="space-y-4 lg:space-y-10">
         {/* Balance Card */}
         <MobileCard variant="glass" className="p-5">
           <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1">Total Balance</p>
