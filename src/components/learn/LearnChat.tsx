@@ -301,7 +301,7 @@ export function LearnChat({ threadId }: Props) {
       )}
 
       {/* Composer — pinned flush against bottom nav */}
-      <div className="shrink-0 relative px-3 pt-1.5 pb-1.5 border-t border-border/60 backdrop-blur-xl bg-background/85">
+      <div className="shrink-0 sticky bottom-0 z-20 relative px-3 pt-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))] border-t border-border/60 backdrop-blur-xl bg-background/90">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.10]"
           style={{ background: "var(--gradient-primary)" }}

@@ -39,7 +39,7 @@ export default function Learn() {
 
   return (
     <AppLayout showBottomNav fillViewport>
-      <div className="flex h-full">
+      <div className="flex h-full min-h-0">
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">
           <ThreadList activeId={threadId} />
         </aside>
