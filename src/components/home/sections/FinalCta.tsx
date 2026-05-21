@@ -19,7 +19,7 @@ export function FinalCta({
       <Reveal as="section" className="section-x">
         <Link
           to="/about"
-          className="flex items-center justify-between rounded-2xl border border-border/60 bg-card/60 px-4 py-3 pressable focus-ring"
+          className="flex items-center justify-between rounded-2xl border border-border/50 glass px-4 py-3 pressable focus-ring transition-colors hover:border-primary/30"
         >
           <span className="text-[13px] font-medium">Learn more about ASIKON</span>
           <ArrowRight className="h-4 w-4 text-primary" />
