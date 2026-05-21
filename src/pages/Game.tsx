@@ -1,4 +1,5 @@
-import { Trophy, History, BookOpen, UserPlus, ChevronRight, Coins, Flame, CheckCircle2, PlayCircle, Calendar, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { Trophy, History, BookOpen, UserPlus, Coins, Flame, CheckCircle2, PlayCircle, Calendar, Loader2, Gift } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -10,21 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProgressCharts } from "@/components/learning/ProgressCharts";
 import { useAuth } from "@/hooks/useAuth";
-import { useGameStats, useEnrolledCourses, useRedeemReward } from "@/hooks/useGameData";
-import coursePython from "@/assets/course-python.jpg";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
+import { useGameStats, useEnrolledCourses, useRedeemReward, useRewards } from "@/hooks/useGameData";
+import { LeaderboardSheet } from "@/components/game/LeaderboardSheet";
+import { HistorySheet } from "@/components/game/HistorySheet";
+import { RulesDialog } from "@/components/game/RulesDialog";
+import { toast } from "sonner";
 
-const quickActions = [
-  { icon: Trophy, label: "Rank", color: "text-amber-400" },
-  { icon: History, label: "History", color: "text-primary" },
-  { icon: BookOpen, label: "Rules", color: "text-blue-400" },
-  { icon: UserPlus, label: "Invite", color: "text-emerald-400" },
-];
-
-const rewards = [
-  { id: "voucher-10", title: "$10 Off Next Course", type: "Voucher", coins: 1000, image: courseAiMl },
-  { id: "tutor-session", title: "1-on-1 AI Tutor Session", type: "Access", coins: 5000, image: coursePython },
-];
 
 const Game = () => {
   const navigate = useNavigate();
