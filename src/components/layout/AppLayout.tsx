@@ -139,7 +139,12 @@ export function AppLayout({
             className
           )}
           style={
-            fillViewport && isMobile ? { paddingBottom: "var(--bottom-nav-h)" } : undefined
+            isMobile
+              ? {
+                  paddingTop: "var(--app-header-h)",
+                  ...(fillViewport ? { paddingBottom: "var(--bottom-nav-h)" } : {}),
+                }
+              : undefined
           }
         >
           {children}
