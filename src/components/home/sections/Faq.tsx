@@ -15,9 +15,11 @@ export function Faq({ title = "Common questions" }: { title?: string }) {
       <SectionHeader title={title} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
         {FAQS.map((f) => (
-          <div key={f.q} className="rounded-2xl border border-border/60 bg-card p-3.5">
+          <div key={f.q} className="rounded-2xl border border-border/50 glass p-3.5 transition-colors hover:border-primary/30">
             <div className="flex items-start gap-2.5">
-              <HelpCircle className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+              <div className="w-7 h-7 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                <HelpCircle className="h-3.5 w-3.5 text-primary" />
+              </div>
               <div className="min-w-0">
                 <p className="font-semibold text-[13px] leading-tight">{f.q}</p>
                 <p className="text-[12px] text-muted-foreground mt-1 leading-relaxed">{f.a}</p>
