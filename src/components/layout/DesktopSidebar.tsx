@@ -259,43 +259,35 @@ export function DesktopSidebar({
         <div className="space-y-5 px-3">
           {/* Main Navigation */}
           <div className="space-y-0.5">
-            {expanded && (
-              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
-                Menu
-              </p>
-            )}
-            {mainNavItems.map((item) =>
-              renderItem(item, location.pathname === item.href)
-            )}
+            {expanded && <GroupHeader id="menu" label="Menu" />}
+            {(iconOnly || openGroups.menu) &&
+              mainNavItems.map((item) =>
+                renderItem(item, location.pathname === item.href)
+              )}
           </div>
 
           <Separator className="mx-3 opacity-60" />
 
           <div className="space-y-0.5">
-            {expanded && (
-              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
-                Library
-              </p>
-            )}
-            {shopNavItems.map((item) =>
-              renderItem(item, location.pathname + location.search === item.href)
-            )}
+            {expanded && <GroupHeader id="library" label="Library" />}
+            {(iconOnly || openGroups.library) &&
+              shopNavItems.map((item) =>
+                renderItem(item, location.pathname + location.search === item.href)
+              )}
           </div>
 
           <Separator className="mx-3 opacity-60" />
 
           <div className="space-y-0.5">
-            {expanded && (
-              <p className="px-3 mb-2 text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.18em] transition-opacity duration-200">
-                Account
-              </p>
-            )}
-            {userNavItems.map((item) =>
-              renderItem(item, location.pathname === item.href)
-            )}
+            {expanded && <GroupHeader id="account" label="Account" />}
+            {(iconOnly || openGroups.account) &&
+              userNavItems.map((item) =>
+                renderItem(item, location.pathname === item.href)
+              )}
           </div>
         </div>
       </ScrollArea>
+
 
       {/* Bottom Navigation */}
       <div className="border-t border-border/60 p-3 space-y-0.5 bg-background/40">
