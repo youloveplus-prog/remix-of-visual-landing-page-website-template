@@ -261,20 +261,16 @@ const Index = () => {
           <>
             {/* Header greeting */}
             <GreetingStrip />
-            {/* Hero slider */}
-            {heroSection && (
-              <section className="section-x">
-                <HeroCarousel slides={heroSlides} />
-              </section>
-            )}
+            {/* Hero slider (admin-uploaded image banners) */}
+            {heroSection && <ImageHeroSlider />}
             {/* Quick actions (category-style chips) */}
             <QuickAccessGrid />
             {/* Popular Courses (mobile) */}
             <MobileCoursesTop />
             {/* Categories (Asikon, scrollable like quick access) */}
             <CategoriesScroll />
-            {/* Offers */}
-            <OfferStrip />
+            {/* Offers (admin-uploaded image cards) */}
+            <ImageOfferGrid />
 
             <section className="section-x">
               <TodayMissionCard />
