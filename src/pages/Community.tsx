@@ -39,11 +39,11 @@ const Community = () => {
         sticky={<CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />}
         spacing="space-y-4"
       >
-        <div className="flex gap-6">
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 xl:gap-10">
           <main
             data-feed-root
             key={activeTab}
-            className="animate-fade-in flex-1 min-w-0 space-y-4"
+            className="animate-fade-in min-w-0 space-y-4 lg:max-w-2xl xl:max-w-3xl lg:mx-auto lg:w-full"
           >
             {renderTabContent()}
           </main>
