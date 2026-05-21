@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight, Compass, Target, Trophy, Users, ShieldCheck, Headphones, Star, HelpCircle, Rocket, PlayCircle } from "lucide-react";
 import { HowItWorks } from "@/components/home/sections/HowItWorks";
 import { WhyTrust } from "@/components/home/sections/WhyTrust";
