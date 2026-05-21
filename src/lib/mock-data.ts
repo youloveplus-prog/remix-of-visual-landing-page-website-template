@@ -4,7 +4,7 @@ import coursePython from "@/assets/course-python.jpg";
 import bookHardcover from "@/assets/book-hardcover.jpg";
 import studentKit from "@/assets/student-kit.jpg";
 import promptLibrary from "@/assets/prompt-library.jpg";
-import heroFashion from "@/assets/hero-fashion-1.jpg";
+import heroFashion from "@/assets/learning-hero.svg";
 
 export const mockProducts: Product[] = [
   {

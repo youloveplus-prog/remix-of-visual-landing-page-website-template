@@ -1,7 +1,7 @@
 // Single source of truth mapping pathname → active mobile tab.
 // Used by BottomNav (active chip) and MobileHeader (title + back chevron).
 
-export type TabId = "home" | "explore" | "ai" | "community" | "profile" | null;
+export type TabId = "home" | "explore" | "earn" | "ai" | "profile" | null;
 
 export interface TabDef {
   id: Exclude<TabId, null>;
@@ -13,9 +13,9 @@ export interface TabDef {
 export const TABS: TabDef[] = [
   { id: "home", label: "Home", path: "/", matches: [] },
   { id: "explore", label: "Explore", path: "/shop", matches: ["/shop", "/product", "/cart", "/checkout", "/orders", "/wishlist"] },
+  { id: "earn", label: "Earn", path: "/game", matches: ["/game"] },
   { id: "ai", label: "AI", path: "/learn", matches: ["/learn", "/track", "/lesson", "/prompts"] },
-  { id: "community", label: "Community", path: "/community", matches: ["/community", "/create"] },
-  { id: "profile", label: "Profile", path: "/profile", matches: ["/profile", "/settings", "/about"] },
+  { id: "profile", label: "Profile", path: "/profile", matches: ["/profile", "/settings", "/about", "/community", "/mentors"] },
 ];
 
 export function getActiveTab(pathname: string): TabId {
@@ -31,7 +31,7 @@ export function getActiveTab(pathname: string): TabId {
 
 export function isInnerRoute(pathname: string): boolean {
   if (pathname === "/") return false;
-  const tabRoots = ["/learn", "/shop", "/profile", "/community"];
+  const tabRoots = ["/learn", "/shop", "/profile", "/community", "/game"];
   if (tabRoots.includes(pathname)) return false;
   return true;
 }
@@ -51,6 +51,7 @@ export function getRouteTitle(pathname: string): string {
   if (pathname === "/settings") return "Settings";
   if (pathname === "/about") return "About";
   if (pathname === "/community") return "Community";
+  if (pathname === "/game") return "Earn";
   if (pathname.startsWith("/mentors")) return "Mentorship";
   if (pathname === "/create") return "Create";
   if (pathname === "/prompts") return "Prompts";

@@ -11,7 +11,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { installFetchTimer, logRoute } from "@/lib/perf";
 import Index from "./pages/Index";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+
 
 installFetchTimer();
 
@@ -185,23 +185,21 @@ function AnimatedRoutes() {
 }
 
 const App = () => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <CurrencyProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <AnimatedRoutes />
-              {/* Persistent app-shell: never remounts on route changes */}
-              <PersistentMobileShell />
-            </BrowserRouter>
-          </TooltipProvider>
-        </CurrencyProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <CurrencyProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AnimatedRoutes />
+            {/* Persistent app-shell: never remounts on route changes */}
+            <PersistentMobileShell />
+          </BrowserRouter>
+        </TooltipProvider>
+      </CurrencyProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
 );
 
 export default App;

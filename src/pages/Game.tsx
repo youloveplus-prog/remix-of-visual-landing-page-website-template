@@ -1,4 +1,5 @@
-import { Trophy, History, BookOpen, UserPlus, ChevronRight, Coins, Flame, CheckCircle2, PlayCircle, Calendar, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { Trophy, History, BookOpen, UserPlus, Coins, Flame, CheckCircle2, PlayCircle, Calendar, Loader2, Gift } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -10,28 +11,40 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ProgressCharts } from "@/components/learning/ProgressCharts";
 import { useAuth } from "@/hooks/useAuth";
-import { useGameStats, useEnrolledCourses, useRedeemReward } from "@/hooks/useGameData";
-import coursePython from "@/assets/course-python.jpg";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
+import { useGameStats, useEnrolledCourses, useRedeemReward, useRewards } from "@/hooks/useGameData";
+import { LeaderboardSheet } from "@/components/game/LeaderboardSheet";
+import { HistorySheet } from "@/components/game/HistorySheet";
+import { RulesDialog } from "@/components/game/RulesDialog";
+import { toast } from "sonner";
 
-const quickActions = [
-  { icon: Trophy, label: "Rank", color: "text-amber-400" },
-  { icon: History, label: "History", color: "text-primary" },
-  { icon: BookOpen, label: "Rules", color: "text-blue-400" },
-  { icon: UserPlus, label: "Invite", color: "text-emerald-400" },
-];
-
-const rewards = [
-  { id: "voucher-10", title: "$10 Off Next Course", type: "Voucher", coins: 1000, image: courseAiMl },
-  { id: "tutor-session", title: "1-on-1 AI Tutor Session", type: "Access", coins: 5000, image: coursePython },
-];
 
 const Game = () => {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
   const { data: stats, isLoading: statsLoading } = useGameStats();
   const { data: courses = [], isLoading: coursesLoading } = useEnrolledCourses();
+  const { data: rewards = [], isLoading: rewardsLoading } = useRewards();
   const redeem = useRedeemReward();
+  const [showRank, setShowRank] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showRules, setShowRules] = useState(false);
+
+  const handleInvite = async () => {
+    const url = window.location.origin;
+    const shareData = { title: "Asikon", text: "Learn with AI on Asikon — join me!", url };
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else { await navigator.clipboard.writeText(url); toast.success("Invite link copied!"); }
+    } catch { /* user cancelled */ }
+  };
+
+  const quickActions = [
+    { icon: Trophy, label: "Rank", color: "text-amber-400", onClick: () => setShowRank(true) },
+    { icon: History, label: "History", color: "text-primary", onClick: () => setShowHistory(true) },
+    { icon: BookOpen, label: "Rules", color: "text-blue-400", onClick: () => setShowRules(true) },
+    { icon: UserPlus, label: "Invite", color: "text-emerald-400", onClick: handleInvite },
+  ];
+
 
   if (loading) {
     return (
@@ -214,50 +227,69 @@ const Game = () => {
         <MobileSection title="Quick Actions">
           <div className="grid grid-cols-4 gap-2">
             {quickActions.map((action) => (
-              <MobileCard key={action.label} variant="soft" className="p-3 flex flex-col items-center gap-2 cursor-pointer">
-                <action.icon className={`h-5 w-5 ${action.color}`} />
-                <span className="text-[11px] font-medium">{action.label}</span>
-              </MobileCard>
+              <button key={action.label} type="button" onClick={action.onClick} className="text-left">
+                <MobileCard variant="soft" className="p-3 flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition">
+                  <action.icon className={`h-5 w-5 ${action.color}`} />
+                  <span className="text-[11px] font-medium">{action.label}</span>
+                </MobileCard>
+              </button>
             ))}
           </div>
         </MobileSection>
 
         {/* Hot Rewards */}
-        <MobileSection title="Hot Rewards" actionLabel="View all">
-          <div className="grid grid-cols-2 gap-3">
-            {rewards.map((reward, i) => {
-              const canAfford = (stats?.coins ?? 0) >= reward.coins;
-              const isRedeeming = redeem.isPending && redeem.variables?.rewardKey === reward.id;
-              return (
-                <MobileCard key={reward.id} variant="glass" animateIn index={i} noPadding className="overflow-hidden">
-                  <div className="relative h-28">
-                    <img src={reward.image} alt={reward.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-                    <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-background/80 backdrop-blur-sm">
-                      {reward.type}
-                    </span>
-                  </div>
-                  <div className="p-3">
-                    <h3 className="font-medium text-sm mb-1 line-clamp-1">{reward.title}</h3>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-primary font-semibold">{reward.coins.toLocaleString()} Coins</span>
-                      <Button
-                        size="sm"
-                        variant={canAfford ? "default" : "secondary"}
-                        disabled={!canAfford || isRedeeming}
-                        onClick={() => handleRedeem(reward.id, reward.coins)}
-                        className={canAfford ? "gradient-primary border-0 h-7 text-[11px] px-2" : "h-7 text-[11px] px-2"}
-                      >
-                        {isRedeeming ? <Loader2 className="h-3 w-3 animate-spin" /> : canAfford ? "Redeem" : "Locked"}
-                      </Button>
+        <MobileSection title="Hot Rewards">
+          {rewardsLoading ? (
+            <div className="grid grid-cols-2 gap-3">
+              <Skeleton className="h-44 rounded-2xl" />
+              <Skeleton className="h-44 rounded-2xl" />
+            </div>
+          ) : rewards.length === 0 ? (
+            <MobileCard variant="glass" className="p-6 text-center text-sm text-muted-foreground">No rewards available yet.</MobileCard>
+          ) : (
+            <div className="grid grid-cols-2 gap-3">
+              {rewards.map((reward, i) => {
+                const canAfford = (stats?.coins ?? 0) >= reward.coins_required;
+                const isRedeeming = redeem.isPending && redeem.variables?.rewardKey === reward.id;
+                return (
+                  <MobileCard key={reward.id} variant="glass" animateIn index={i} noPadding className="overflow-hidden">
+                    <div className="relative h-28 bg-gradient-to-br from-primary/30 to-accent/30 grid place-items-center">
+                      {reward.image_url ? (
+                        <img src={reward.image_url} alt={reward.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                      ) : (
+                        <Gift className="h-10 w-10 text-primary-foreground/70" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+                      <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-background/80 backdrop-blur-sm capitalize">
+                        {reward.type}
+                      </span>
                     </div>
-                  </div>
-                </MobileCard>
-              );
-            })}
-          </div>
+                    <div className="p-3">
+                      <h3 className="font-medium text-sm mb-1 line-clamp-1">{reward.title}</h3>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs text-primary font-semibold">{reward.coins_required.toLocaleString()} Coins</span>
+                        <Button
+                          size="sm"
+                          variant={canAfford ? "default" : "secondary"}
+                          disabled={!canAfford || isRedeeming}
+                          onClick={() => redeem.mutate({ rewardKey: reward.id, coins: reward.coins_required })}
+                          className={canAfford ? "gradient-primary border-0 h-7 text-[11px] px-2" : "h-7 text-[11px] px-2"}
+                        >
+                          {isRedeeming ? <Loader2 className="h-3 w-3 animate-spin" /> : canAfford ? "Redeem" : "Locked"}
+                        </Button>
+                      </div>
+                    </div>
+                  </MobileCard>
+                );
+              })}
+            </div>
+          )}
         </MobileSection>
       </MobilePage>
+
+      <LeaderboardSheet open={showRank} onOpenChange={setShowRank} />
+      <HistorySheet open={showHistory} onOpenChange={setShowHistory} />
+      <RulesDialog open={showRules} onOpenChange={setShowRules} />
     </AppLayout>
   );
 };
