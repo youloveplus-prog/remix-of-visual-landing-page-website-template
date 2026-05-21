@@ -87,70 +87,197 @@ const Game = () => {
         <title>Game · Earn Coins & Track Streaks — Asikon</title>
         <meta name="description" content="Track your learning streak, earn coins, and redeem rewards on Asikon." />
       </Helmet>
-      <MobilePage maxWidth="wide" spacing="space-y-4 lg:space-y-10">
-        {/* Balance Card */}
-        <MobileCard variant="glass" className="p-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-1">Total Balance</p>
-          <div className="flex items-baseline gap-2 mb-4">
-            {statsLoading ? (
-              <Skeleton className="h-8 w-24" />
-            ) : (
-              <>
-                <span className="text-[34px] font-bold leading-none tracking-tight">{(stats?.coins ?? 0).toLocaleString()}</span>
-                <span className="text-primary font-semibold text-sm">Coins</span>
-              </>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center shrink-0">
-              <Coins className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between text-[13px] mb-1">
-                <span className="font-semibold truncate">Level {stats?.level ?? 1}</span>
-                <span className="text-muted-foreground shrink-0 ml-2">{stats?.xp ?? 0} XP</span>
+      <MobilePage maxWidth="wide" spacing="space-y-4 lg:space-y-8">
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_380px] lg:gap-8 space-y-4 lg:space-y-0">
+          {/* MAIN COLUMN */}
+          <div className="space-y-4 lg:space-y-8 min-w-0">
+            {/* Balance Hero */}
+            <div
+              className="relative overflow-hidden rounded-3xl border border-primary/25 p-5 lg:p-8"
+              style={{ background: "var(--gradient-primary-soft)" }}
+            >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full opacity-40 blur-3xl"
+                style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.4), transparent 70%)" }}
+              />
+              <div className="relative">
+                <p className="eyebrow-bar mb-2">Total balance</p>
+                <div className="flex items-baseline gap-2 mb-5">
+                  {statsLoading ? (
+                    <Skeleton className="h-12 w-32" />
+                  ) : (
+                    <>
+                      <span className="font-display text-4xl lg:text-6xl font-bold leading-none tracking-tight text-gradient">
+                        {(stats?.coins ?? 0).toLocaleString()}
+                      </span>
+                      <span className="text-primary font-semibold text-sm lg:text-base">Coins</span>
+                    </>
+                  )}
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center shrink-0 shadow-[var(--shadow-glow)]">
+                    <Coins className="h-5 w-5 text-primary-foreground" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between text-[13px] mb-1.5">
+                      <span className="font-semibold truncate">Level {stats?.level ?? 1}</span>
+                      <span className="text-muted-foreground shrink-0 ml-2">{stats?.xp ?? 0} XP</span>
+                    </div>
+                    <Progress value={stats?.levelProgress ?? 0} className="h-2" />
+                    <p className="text-[11px] text-muted-foreground mt-1">{stats?.xpToNextLevel ?? 0} XP to next level</p>
+                  </div>
+                </div>
               </div>
-              <Progress value={stats?.levelProgress ?? 0} className="h-1.5" />
-              <p className="text-[10px] text-muted-foreground mt-1">{stats?.xpToNextLevel ?? 0} XP to next level</p>
             </div>
+
+            {/* Course Progress */}
+            <Reveal as="section">
+              <MobileSection title="My Courses" actionLabel="View all" actionHref="/learn">
+                {coursesLoading ? (
+                  <div className="space-y-3">
+                    <Skeleton className="h-24 w-full rounded-2xl" />
+                    <Skeleton className="h-24 w-full rounded-2xl" />
+                  </div>
+                ) : courses.length === 0 ? (
+                  <MobileCard variant="glass" className="p-6 text-center">
+                    <p className="text-sm text-muted-foreground mb-3">No courses started yet.</p>
+                    <Button size="sm" onClick={() => navigate("/learn")} className="gradient-primary border-0">
+                      Start learning
+                    </Button>
+                  </MobileCard>
+                ) : (
+                  <div className="space-y-3">
+                    {courses.map((course, i) => {
+                      const pct = Math.round((course.completed / course.total) * 100);
+                      return (
+                        <Reveal key={course.id} staggerIndex={Math.min(i, 6)}>
+                          <MobileCard variant="glass" className="p-3 lg:p-4 hover-lift">
+                            <div className="flex gap-3 lg:gap-4">
+                              <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-2xl lg:text-3xl flex-shrink-0">
+                                {course.cover ?? "📚"}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-semibold text-sm lg:text-base leading-tight truncate">{course.title}</h3>
+                                <div className="flex items-center gap-2 mt-2">
+                                  <Progress value={pct} className="h-1.5 flex-1" />
+                                  <span className="text-xs lg:text-sm font-semibold text-primary">{pct}%</span>
+                                </div>
+                                <p className="text-[11px] lg:text-xs text-muted-foreground mt-1">{course.completed} of {course.total} lessons</p>
+                              </div>
+                            </div>
+                            {course.nextLessonTitle && (
+                              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60">
+                                <p className="text-xs text-muted-foreground truncate flex-1 mr-2">
+                                  Up next: <span className="text-foreground">{course.nextLessonTitle}</span>
+                                </p>
+                                <Button
+                                  size="sm"
+                                  className="gradient-primary border-0 h-8"
+                                  onClick={() => course.nextLessonId && navigate(`/lesson/${course.nextLessonId}`)}
+                                >
+                                  <PlayCircle className="h-3.5 w-3.5 mr-1" />
+                                  Resume
+                                </Button>
+                              </div>
+                            )}
+                          </MobileCard>
+                        </Reveal>
+                      );
+                    })}
+                  </div>
+                )}
+              </MobileSection>
+            </Reveal>
+
+            {/* Progress Trend Charts */}
+            <Reveal as="section">
+              <ProgressCharts />
+            </Reveal>
+
+            {/* Hot Rewards */}
+            <Reveal as="section">
+              <MobileSection title="Hot Rewards">
+                {rewardsLoading ? (
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                    <Skeleton className="h-44 rounded-2xl" />
+                    <Skeleton className="h-44 rounded-2xl" />
+                  </div>
+                ) : rewards.length === 0 ? (
+                  <MobileCard variant="glass" className="p-6 text-center text-sm text-muted-foreground">No rewards available yet.</MobileCard>
+                ) : (
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+                    {rewards.map((reward, i) => {
+                      const canAfford = (stats?.coins ?? 0) >= reward.coins_required;
+                      const isRedeeming = redeem.isPending && redeem.variables?.rewardKey === reward.id;
+                      return (
+                        <Reveal key={reward.id} staggerIndex={Math.min(i, 6)} variant="scale">
+                          <MobileCard variant="glass" noPadding className="overflow-hidden hover-lift">
+                            <div className="relative h-28 lg:h-32 bg-gradient-to-br from-primary/30 to-accent/30 grid place-items-center">
+                              {reward.image_url ? (
+                                <img src={reward.image_url} alt={reward.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                              ) : (
+                                <Gift className="h-10 w-10 text-primary-foreground/70" />
+                              )}
+                              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+                              <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-background/80 backdrop-blur-sm capitalize">
+                                {reward.type}
+                              </span>
+                            </div>
+                            <div className="p-3">
+                              <h3 className="font-medium text-sm mb-1 line-clamp-1">{reward.title}</h3>
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="text-xs text-primary font-semibold">{reward.coins_required.toLocaleString()} Coins</span>
+                                <Button
+                                  size="sm"
+                                  variant={canAfford ? "default" : "secondary"}
+                                  disabled={!canAfford || isRedeeming}
+                                  onClick={() => redeem.mutate({ rewardKey: reward.id, coins: reward.coins_required })}
+                                  className={canAfford ? "gradient-primary border-0 h-7 text-[11px] px-2" : "h-7 text-[11px] px-2"}
+                                >
+                                  {isRedeeming ? <Loader2 className="h-3 w-3 animate-spin" /> : canAfford ? "Redeem" : "Locked"}
+                                </Button>
+                              </div>
+                            </div>
+                          </MobileCard>
+                        </Reveal>
+                      );
+                    })}
+                  </div>
+                )}
+              </MobileSection>
+            </Reveal>
           </div>
-        </MobileCard>
 
-
-        {/* Streak + Stats */}
-        <MobileSection title="This Week">
-          <div className="grid grid-cols-2 gap-3">
-            <MobileCard variant="glass">
-              <div className="flex items-center gap-2 mb-2">
+          {/* RIGHT RAIL — sticky on desktop */}
+          <aside className="space-y-4 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
+            {/* This Week */}
+            <MobileCard variant="glass" className="p-4">
+              <div className="flex items-center gap-2 mb-3">
                 <Flame className="h-4 w-4 text-orange-400" />
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Streak</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">This week</span>
               </div>
               <div className="flex items-baseline gap-1.5 mb-3">
-                <span className="text-2xl font-bold">{stats?.streakDays ?? 0}</span>
-                <span className="text-xs text-muted-foreground">days</span>
+                <span className="text-3xl font-bold">{stats?.streakDays ?? 0}</span>
+                <span className="text-xs text-muted-foreground">day streak</span>
               </div>
-              <div className="flex items-center justify-between gap-1">
+              <div className="flex items-center justify-between gap-1 mb-4">
                 {(stats?.weekActivity ?? Array.from({ length: 7 }, () => ({ day: "·", active: false }))).map((d, i) => (
                   <div key={i} className="flex flex-col items-center gap-1 flex-1">
-                    <div className={`w-full h-6 rounded-md flex items-center justify-center ${d.active ? "bg-gradient-to-br from-orange-400 to-amber-500 text-white" : "bg-secondary text-muted-foreground"}`}>
+                    <div className={`w-full h-7 rounded-md flex items-center justify-center ${d.active ? "bg-gradient-to-br from-orange-400 to-amber-500 text-white" : "bg-secondary text-muted-foreground"}`}>
                       {d.active && <Flame className="h-3 w-3" />}
                     </div>
                     <span className="text-[10px] text-muted-foreground">{d.day}</span>
                   </div>
                 ))}
               </div>
-            </MobileCard>
-
-            <MobileCard variant="glass">
-              <div className="flex items-center gap-2 mb-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Completed</span>
-              </div>
-              <div className="flex items-baseline gap-1.5 mb-3">
-                <span className="text-2xl font-bold">{stats?.lessonsCompletedTotal ?? 0}</span>
-                <span className="text-xs text-muted-foreground">lessons</span>
-              </div>
-              <div className="space-y-2">
+              <Separator />
+              <div className="space-y-2 mt-3">
+                <div className="flex items-center gap-2 text-xs">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                  <span className="text-muted-foreground">Lessons completed</span>
+                  <span className="ml-auto font-semibold">{stats?.lessonsCompletedTotal ?? 0}</span>
+                </div>
                 <div className="flex items-center gap-2 text-xs">
                   <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="text-muted-foreground">Today</span>
@@ -163,129 +290,26 @@ const Game = () => {
                 </div>
               </div>
             </MobileCard>
-          </div>
-        </MobileSection>
 
-        {/* Course Progress */}
-        <MobileSection title="My Courses" actionLabel="View all" actionHref="/learn">
-          {coursesLoading ? (
-            <div className="space-y-3">
-              <Skeleton className="h-24 w-full rounded-2xl" />
-              <Skeleton className="h-24 w-full rounded-2xl" />
-            </div>
-          ) : courses.length === 0 ? (
-            <MobileCard variant="glass" className="p-6 text-center">
-              <p className="text-sm text-muted-foreground mb-3">No courses started yet.</p>
-              <Button size="sm" onClick={() => navigate("/learn")} className="gradient-primary border-0">
-                Start learning
-              </Button>
+            {/* Quick Actions */}
+            <MobileCard variant="glass" className="p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-3">Quick actions</p>
+              <div className="grid grid-cols-2 gap-2">
+                {quickActions.map((action) => (
+                  <button
+                    key={action.label}
+                    type="button"
+                    onClick={action.onClick}
+                    className="rounded-xl bg-secondary/40 hover:bg-primary/10 border border-border/60 hover:border-primary/30 p-3 flex flex-col items-center gap-1.5 transition-colors focus-ring"
+                  >
+                    <action.icon className={`h-5 w-5 ${action.color}`} />
+                    <span className="text-[11px] font-medium">{action.label}</span>
+                  </button>
+                ))}
+              </div>
             </MobileCard>
-          ) : (
-            <div className="space-y-3">
-              {courses.map((course, i) => {
-                const pct = Math.round((course.completed / course.total) * 100);
-                return (
-                  <MobileCard key={course.id} variant="glass" animateIn index={i} className="p-3">
-                    <div className="flex gap-3">
-                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-2xl flex-shrink-0">
-                        {course.cover ?? "📚"}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-sm leading-tight truncate">{course.title}</h3>
-                        <div className="flex items-center gap-2 mt-2">
-                          <Progress value={pct} className="h-1.5 flex-1" />
-                          <span className="text-xs font-semibold text-primary">{pct}%</span>
-                        </div>
-                        <p className="text-[11px] text-muted-foreground mt-1">{course.completed} of {course.total} lessons</p>
-                      </div>
-                    </div>
-                    {course.nextLessonTitle && (
-                      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60">
-                        <p className="text-xs text-muted-foreground truncate flex-1 mr-2">
-                          Up next: <span className="text-foreground">{course.nextLessonTitle}</span>
-                        </p>
-                        <Button
-                          size="sm"
-                          className="gradient-primary border-0 h-8"
-                          onClick={() => course.nextLessonId && navigate(`/lesson/${course.nextLessonId}`)}
-                        >
-                          <PlayCircle className="h-3.5 w-3.5 mr-1" />
-                          Resume
-                        </Button>
-                      </div>
-                    )}
-                  </MobileCard>
-                );
-              })}
-            </div>
-          )}
-        </MobileSection>
-
-        {/* Progress Trend Charts */}
-        <ProgressCharts />
-
-        {/* Quick Actions */}
-        <MobileSection title="Quick Actions">
-          <div className="grid grid-cols-4 gap-2">
-            {quickActions.map((action) => (
-              <button key={action.label} type="button" onClick={action.onClick} className="text-left">
-                <MobileCard variant="soft" className="p-3 flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition">
-                  <action.icon className={`h-5 w-5 ${action.color}`} />
-                  <span className="text-[11px] font-medium">{action.label}</span>
-                </MobileCard>
-              </button>
-            ))}
-          </div>
-        </MobileSection>
-
-        {/* Hot Rewards */}
-        <MobileSection title="Hot Rewards">
-          {rewardsLoading ? (
-            <div className="grid grid-cols-2 gap-3">
-              <Skeleton className="h-44 rounded-2xl" />
-              <Skeleton className="h-44 rounded-2xl" />
-            </div>
-          ) : rewards.length === 0 ? (
-            <MobileCard variant="glass" className="p-6 text-center text-sm text-muted-foreground">No rewards available yet.</MobileCard>
-          ) : (
-            <div className="grid grid-cols-2 gap-3">
-              {rewards.map((reward, i) => {
-                const canAfford = (stats?.coins ?? 0) >= reward.coins_required;
-                const isRedeeming = redeem.isPending && redeem.variables?.rewardKey === reward.id;
-                return (
-                  <MobileCard key={reward.id} variant="glass" animateIn index={i} noPadding className="overflow-hidden">
-                    <div className="relative h-28 bg-gradient-to-br from-primary/30 to-accent/30 grid place-items-center">
-                      {reward.image_url ? (
-                        <img src={reward.image_url} alt={reward.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                      ) : (
-                        <Gift className="h-10 w-10 text-primary-foreground/70" />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-                      <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-background/80 backdrop-blur-sm capitalize">
-                        {reward.type}
-                      </span>
-                    </div>
-                    <div className="p-3">
-                      <h3 className="font-medium text-sm mb-1 line-clamp-1">{reward.title}</h3>
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs text-primary font-semibold">{reward.coins_required.toLocaleString()} Coins</span>
-                        <Button
-                          size="sm"
-                          variant={canAfford ? "default" : "secondary"}
-                          disabled={!canAfford || isRedeeming}
-                          onClick={() => redeem.mutate({ rewardKey: reward.id, coins: reward.coins_required })}
-                          className={canAfford ? "gradient-primary border-0 h-7 text-[11px] px-2" : "h-7 text-[11px] px-2"}
-                        >
-                          {isRedeeming ? <Loader2 className="h-3 w-3 animate-spin" /> : canAfford ? "Redeem" : "Locked"}
-                        </Button>
-                      </div>
-                    </div>
-                  </MobileCard>
-                );
-              })}
-            </div>
-          )}
-        </MobileSection>
+          </aside>
+        </div>
       </MobilePage>
 
       {/* Floating AI Tutor button — right side */}
