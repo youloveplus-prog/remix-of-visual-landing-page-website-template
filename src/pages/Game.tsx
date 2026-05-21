@@ -288,6 +288,17 @@ const Game = () => {
         </MobileSection>
       </MobilePage>
 
+      {/* Floating AI Tutor button — right side */}
+      <button
+        type="button"
+        onClick={() => navigate("/learn")}
+        aria-label="Open AI Tutor"
+        className="fixed right-4 bottom-24 z-40 h-14 w-14 rounded-full gradient-primary shadow-glow flex items-center justify-center active:scale-95 transition-transform"
+      >
+        <Wand2 className="h-6 w-6 text-primary-foreground" />
+        <span className="sr-only">Ask the AI Tutor</span>
+      </button>
+
       <LeaderboardSheet open={showRank} onOpenChange={setShowRank} />
       <HistorySheet open={showHistory} onOpenChange={setShowHistory} />
       <RulesDialog open={showRules} onOpenChange={setShowRules} />
