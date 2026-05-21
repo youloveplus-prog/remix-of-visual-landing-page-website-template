@@ -1,9 +1,10 @@
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Plus, Trash2, ShieldCheck, Truck, Tag } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Reveal } from "@/components/transitions/Reveal";
 import { useCart, useUpdateCartItem, useRemoveFromCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -93,61 +94,79 @@ const Cart = () => {
                 </Link>
               </div>
             ) : (
-              cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex gap-4 p-4 lg:p-5 rounded-2xl glass hover-lift"
-                >
-                  <Link to={`/product/${item.products?.slug}`} className="shrink-0">
-                    <img
-                      src={item.products?.image_url || "/placeholder.svg"}
-                      alt={item.products?.name || "Product"}
-                      className="w-20 h-20 lg:w-28 lg:h-28 rounded-xl object-cover"
-                    />
-                  </Link>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-primary/80">ASIKON</p>
-                        <Link to={`/product/${item.products?.slug}`}>
-                          <h3 className="font-medium text-sm lg:text-base line-clamp-2 hover:text-primary transition-colors">
-                            {item.products?.name}
-                          </h3>
-                        </Link>
+              cartItems.map((item, idx) => (
+                <Reveal key={item.id} staggerIndex={Math.min(idx, 6)} className="block">
+                  <div className="flex gap-4 p-4 lg:p-5 rounded-2xl glass hover-lift">
+                    <Link to={`/product/${item.products?.slug}`} className="shrink-0">
+                      <img
+                        src={item.products?.image_url || "/placeholder.svg"}
+                        alt={item.products?.name || "Product"}
+                        className="w-20 h-20 lg:w-28 lg:h-28 rounded-xl object-cover"
+                      />
+                    </Link>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-primary/80">ASIKON</p>
+                          <Link to={`/product/${item.products?.slug}`}>
+                            <h3 className="font-medium text-sm lg:text-base line-clamp-2 hover:text-primary transition-colors">
+                              {item.products?.name}
+                            </h3>
+                          </Link>
+                        </div>
+                        <button
+                          onClick={() => handleRemoveItem(item.id)}
+                          className="p-1.5 text-muted-foreground hover:text-destructive transition-colors"
+                          disabled={removeFromCart.isPending}
+                          aria-label="Remove item"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleRemoveItem(item.id)}
-                        className="p-1.5 text-muted-foreground hover:text-destructive transition-colors"
-                        disabled={removeFromCart.isPending}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between mt-3">
-                      <Price amount={item.products?.price || 0} className="font-bold text-base lg:text-lg" />
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleUpdateQuantity(item.id, item.quantity || 1, -1)}
-                          className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
-                          disabled={updateCartItem.isPending}
-                        >
-                          <Minus className="h-4 w-4" />
-                        </button>
-                        <span className="w-8 text-center font-medium">
-                          {item.quantity || 1}
-                        </span>
-                        <button
-                          onClick={() => handleUpdateQuantity(item.id, item.quantity || 1, 1)}
-                          className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
-                          disabled={updateCartItem.isPending}
-                        >
-                          <Plus className="h-4 w-4" />
-                        </button>
+                      <div className="flex items-center justify-between mt-3">
+                        <Price amount={item.products?.price || 0} className="font-bold text-base lg:text-lg" />
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleUpdateQuantity(item.id, item.quantity || 1, -1)}
+                            className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
+                            disabled={updateCartItem.isPending}
+                            aria-label="Decrease quantity"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </button>
+                          <span className="w-8 text-center font-medium">
+                            {item.quantity || 1}
+                          </span>
+                          <button
+                            onClick={() => handleUpdateQuantity(item.id, item.quantity || 1, 1)}
+                            className="p-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
+                            disabled={updateCartItem.isPending}
+                            aria-label="Increase quantity"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </Reveal>
               ))
+            )}
+
+            {/* Trust strip under items on desktop */}
+            {cartItems && cartItems.length > 0 && (
+              <div className="hidden lg:grid grid-cols-3 gap-3 pt-4">
+                {[
+                  { icon: ShieldCheck, text: "Verified sellers" },
+                  { icon: Truck, text: "Fast delivery in Bangladesh" },
+                  { icon: Tag, text: "Apply coupons at checkout" },
+                ].map((t) => (
+                  <div key={t.text} className="flex items-center gap-2 text-[12px] text-muted-foreground glass rounded-xl px-3 py-2.5">
+                    <t.icon className="h-4 w-4 text-primary shrink-0" />
+                    <span>{t.text}</span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 
