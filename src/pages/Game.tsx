@@ -23,7 +23,28 @@ const Game = () => {
   const { user, loading } = useAuth();
   const { data: stats, isLoading: statsLoading } = useGameStats();
   const { data: courses = [], isLoading: coursesLoading } = useEnrolledCourses();
+  const { data: rewards = [], isLoading: rewardsLoading } = useRewards();
   const redeem = useRedeemReward();
+  const [showRank, setShowRank] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showRules, setShowRules] = useState(false);
+
+  const handleInvite = async () => {
+    const url = window.location.origin;
+    const shareData = { title: "Asikon", text: "Learn with AI on Asikon — join me!", url };
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else { await navigator.clipboard.writeText(url); toast.success("Invite link copied!"); }
+    } catch { /* user cancelled */ }
+  };
+
+  const quickActions = [
+    { icon: Trophy, label: "Rank", color: "text-amber-400", onClick: () => setShowRank(true) },
+    { icon: History, label: "History", color: "text-primary", onClick: () => setShowHistory(true) },
+    { icon: BookOpen, label: "Rules", color: "text-blue-400", onClick: () => setShowRules(true) },
+    { icon: UserPlus, label: "Invite", color: "text-emerald-400", onClick: handleInvite },
+  ];
+
 
   if (loading) {
     return (
