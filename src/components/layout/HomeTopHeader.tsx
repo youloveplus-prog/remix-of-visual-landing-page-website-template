@@ -66,12 +66,12 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
             </span>
             <div className="leading-none hidden sm:block">
               <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
-                AI Learning
+                ​
               </p>
               <h1
                 className={cn(
                   "font-display font-bold text-gradient transition-all duration-300",
-                  isScrolled ? "text-lg" : "text-xl"
+                  isScrolled ? "text-lg text-gray-50" : "text-xl"
                 )}
               >
                 Asikon
