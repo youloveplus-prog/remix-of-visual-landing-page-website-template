@@ -1,6 +1,6 @@
 import { type LucideIcon } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useState } from "react";
+
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
