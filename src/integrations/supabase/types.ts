@@ -255,6 +255,7 @@ export type Database = {
           learning_style: string | null
           level: string | null
           locale: string
+          longest_streak: number
           onboarded_at: string | null
           streak_days: number
           updated_at: string
@@ -270,6 +271,7 @@ export type Database = {
           learning_style?: string | null
           level?: string | null
           locale?: string
+          longest_streak?: number
           onboarded_at?: string | null
           streak_days?: number
           updated_at?: string
@@ -285,6 +287,7 @@ export type Database = {
           learning_style?: string | null
           level?: string | null
           locale?: string
+          longest_streak?: number
           onboarded_at?: string | null
           streak_days?: number
           updated_at?: string
@@ -977,6 +980,45 @@ export type Database = {
           id?: string
           reward_key?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      rewards: {
+        Row: {
+          coins_required: number
+          created_at: string
+          description: string | null
+          display_order: number
+          id: string
+          image_url: string | null
+          is_active: boolean
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          coins_required?: number
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          coins_required?: number
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          title?: string
+          type?: string
+          updated_at?: string
         }
         Relationships: []
       }
