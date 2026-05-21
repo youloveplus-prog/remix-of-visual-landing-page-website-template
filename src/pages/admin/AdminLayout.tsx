@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { useMemo, useState } from "react";
+import asikonLogo from "@/assets/logo.png";
 
 export const adminNavItems = [
   { title: "Overview", url: "/asikonasik", icon: LayoutDashboard, end: true },
