@@ -1,75 +1,140 @@
 
-## Goals
+## Goal
+Rebuild the AI Tutor page (`/learn`) to feel like a polished modern AI chat (ChatGPT, Gemini, Claude) while keeping the brand identity (dark-red gradient, glass surfaces, Apu persona). Composer must always sit flush above the mobile bottom navigation — never under it, never floating mid-screen.
 
-1. **Home — use brand primary color everywhere.** Today the homepage mixes amber, sky, and other accent colors on tiles, icons, and badges. Re-tint every home item to the brand dark-red gradient / primary token system so the page reads as one identity.
-2. **Hero slider — redesign.** Current slider is a plain image with a black bottom gradient and a white CTA pill. Rebuild it in the brand's liquid-glass + dark-red gradient language with stronger hierarchy and meaningful motion.
-3. **AI page composer — never under the bottom nav.** The pinned chat box can slip behind the nav on some viewports. Make it always sit flush above the nav bar.
+## Scope
+Files:
+- `src/components/learn/LearnChat.tsx` — full structural rework
+- `src/components/learn/ThreadList.tsx` — visual polish, time grouping, count
+- `src/pages/Learn.tsx` — layout shell adjustments
+- `src/components/layout/AppLayout.tsx` — verify `fillViewport` math (read-only unless it's the cause)
+
+Out of scope: edge function logic, persistence, message schema, voice wiring.
 
 ---
 
-## 1. Homepage primary-color sweep
+## 1. Page layout (mobile-first, desktop-grand)
 
-Files: `src/pages/Index.tsx`, `src/components/home/sections/*`, `src/components/home/workspace/*`
-
-Audit and replace non-brand colors with brand tokens:
-- `quick_actions` second tile: `from-amber-400/30 to-amber-500/10`, `text-amber-400`, `border-amber-400/20` → primary-tinted glass (`gradient-primary-soft`, `text-primary`, `border-primary/20`).
-- `quick_categories` color classes (`from-accent/20`, mixed primary/accent) → unified `gradient-primary-soft` variants with `text-primary` icons.
-- Sweep `src/components/home/workspace/*` (GreetingStrip, QuickAccessGrid, ProgressSnapshot, ContinueLearningRow, AiAssistantBox, ActivityFeed, UpcomingCard, InsightCard) and `src/components/home/sections/*` (HowItWorks, WhyTrust, Testimonials, Faq, FinalCta) and `TodayMissionCard` for any hardcoded amber/sky/emerald/violet/rose colors on icons, badges, or backgrounds; replace with `primary`, `primary/10`, `primary/20`, `gradient-primary`, `gradient-primary-soft`, `shadow-glow`.
-- Keep semantic non-brand uses: success ticks, warnings, destructive states, verified badges. Do not recolor those.
-- No raw hex / `text-white` / `bg-black` introduced.
-
-## 2. Hero slider redesign
-
-File: `src/components/carousels/HeroCarousel.tsx`
-
-New direction (brand-aligned, single visual language):
-- Container: `rounded-3xl`, 1px brand gradient border, soft outer glow `0_20px_60px_-20px_hsl(var(--primary)/0.45)`.
-- Slide aspect: `aspect-[5/4]` mobile, `aspect-[16/9]` tablet, `aspect-[21/9]` desktop (kept).
-- Image: full-cover with a slow 6s `scale-105 → scale-100` Ken-Burns drift while active; pauses with carousel pause.
-- Overlay: replace flat black gradient with a layered scrim — bottom 60% uses `linear-gradient(to top, hsl(var(--background)/0.95), hsl(var(--background)/0.4), transparent)` plus a low-opacity brand-red gradient wash from the bottom-left corner for warmth.
-- Eyebrow chip above the title: small glass pill with a 1.5px primary dot + slide category text (e.g. "New course", "Library", "Deals"). Derived from a new optional `eyebrow` field on `HeroSlide`; fall back to slide index label if not provided.
-- Title: `font-display` (Space Grotesk), tighter tracking, gradient text using `text-gradient` utility on the first word/phrase for emphasis.
-- Subtitle: `text-foreground/80`, 2-line clamp.
-- CTA: replace white pill with brand `gradient-primary` pill, primary-foreground text, `ArrowUpRight`, micro-shimmer on hover, `active:scale-95`.
-- Secondary action (optional, desktop only): ghost "Learn more" link.
-- Arrows: bigger hit area (40px), glass background, brand-tinted border, fade in on container hover only.
-- Dots → progress segments: 3 thin horizontal bars at bottom; the active one animates a fill (left→right) over `autoplayDelay` ms to telegraph time-until-next-slide. Inactive bars are dimmed. Click still jumps to slide.
-- Slide transition: keep embla default; add a 250ms cross-fade of the text block via `animate-fade-in` keyed on `selectedIndex`.
-- Pause-on-hover (kept) + pause-when-tab-hidden via `document.visibilitychange`.
-- Accessibility: `aria-roledescription="carousel"`, per-slide `aria-label`, progress bars have `aria-label="Go to slide N"`, autoplay respects `prefers-reduced-motion` (no Ken Burns, no progress animation — static dots).
-
-`HeroSlide` type extension (additive, backward compatible):
-```ts
-interface HeroSlide {
-  id: string; image: string; title: string; subtitle?: string;
-  eyebrow?: string;           // new
-  cta?: { label: string; href: string };
-  secondaryCta?: { label: string; href: string }; // new, desktop only
-}
+### Mobile (≤ lg)
+```
+┌─────────────────────────────────┐
+│  ⇦ Apu — your tutor   ⊕   ⋯   │  ← slim glass header, brand wash
+├─────────────────────────────────┤
+│                                 │
+│   Transcript (scrollable)       │
+│   • user bubbles right          │
+│   • Apu replies left, no bubble │
+│   • streaming "Apu is typing"   │
+│                                 │
+│   [Jump to latest] (floating)   │
+├─────────────────────────────────┤
+│  pill composer  🎤  ⏹/⬆         │  ← sticky, above bottom nav
+└─────────────────────────────────┘
+         ▼ BottomNav (app shell)
 ```
 
-Update the three slides in `Index.tsx` with eyebrows: "New course", "Prompt Library", "Limited deal".
+### Desktop (≥ lg)
+Two-column shell:
+- Left rail (280px): ThreadList with search, grouped by time, hover/active states, new-chat button at top.
+- Right column: same chat layout as mobile but wider (`max-w-3xl` content) with a slim top bar showing thread title, model label "Apu · GPT", and overflow menu (rename / share / delete) — Gemini-style.
 
-## 3. AI composer above the bottom nav
+---
 
-Files: `src/components/learn/LearnChat.tsx`, possibly `src/components/layout/AppLayout.tsx`
+## 2. Composer — never under the bottom nav
 
-Diagnosis: `Learn.tsx` wraps content in `<div className="flex h-full">`. The main container in `AppLayout` uses `h-[100dvh]` + `paddingBottom: var(--bottom-nav-h)`. On some mobile browsers (URL bar collapse, iOS Safari) `100dvh` recomputes and the inner flex column's `h-full` momentarily exceeds the padded box, letting the composer (the last `shrink-0` child) clip behind the fixed nav.
+Root cause of the current intermittent overlap: the chat root is `flex flex-col h-full` inside `AppLayout`'s `fillViewport` main, which uses `h-[100dvh]` + `paddingBottom: var(--bottom-nav-h)`. `100dvh` recalculates on iOS Safari URL-bar collapse; with `sticky bottom-0` it still rides the bottom *of the scroll container*, which is fine — but our previous build kept `sticky bottom-0` AND `shrink-0` inside a flex column. Inside flex children, `position: sticky` is a no-op because the parent doesn't scroll. The composer was actually staying placed only because of the flex layout, and on viewport resize the bottom edge could land under the nav.
 
-Fix: anchor the composer with `position: sticky; bottom: 0` inside the scroll/flex column **and** ensure the composer's container has `pb-[env(safe-area-inset-bottom)]` so iOS home-indicator zone is respected on top of the nav offset. Concretely:
-- Wrap the composer area in a `sticky bottom-0` element with `z-20` and `bg-background/85 backdrop-blur-xl` so it always rides the bottom edge of the visible chat area, never beneath the nav.
-- Add `pb-[env(safe-area-inset-bottom)]` to the composer wrapper (in addition to existing padding) as a belt-and-braces measure.
-- In `Learn.tsx`, change the outer wrapper from `flex h-full` to `flex h-full min-h-0` and ensure the right column has `min-h-0` (already true in `LearnChat` root, but the parent `<div className="flex-1 flex flex-col min-w-0 min-h-0">` needs to be the direct child — verify).
-- Verify the scroll/transcript area still scrolls behind the sticky composer (it should — sticky doesn't take it out of flow).
+Fix (deterministic):
+- Keep the chat root as `flex flex-col h-full min-h-0`.
+- Composer remains the **last flex child with `shrink-0`** (so it's never under the nav as long as the parent's height is correct — which it is via `AppLayout` padding).
+- Drop the misleading `sticky bottom-0` (it doesn't apply in this flex context).
+- Add a CSS guard: composer wrapper uses `pb-[max(0.5rem,env(safe-area-inset-bottom))]` so the home-indicator area never eats into the input on iOS.
+- In `AppLayout`, ensure `--bottom-nav-h` already includes safe-area (it does: `calc(58px + env(safe-area-inset-bottom))`). The padded main + composer-as-last-flex-child = composer always sits exactly on top of nav.
+- Add a one-shot `ResizeObserver` on `window.visualViewport` to recompute `--app-vh` when the mobile keyboard opens, so when the user focuses the textarea the transcript shrinks and the composer rides above the keyboard (not behind it). Set `height: var(--app-vh, 100dvh)` on the chat root when on mobile.
 
-No backend or routing changes.
+Acceptance: open `/learn/:id` on a 393×701 viewport, scroll, focus textarea, rotate — composer is always visible directly above the bottom nav (or directly above the keyboard when it's open). Test passes on Chrome mobile emulation and the real preview viewport.
 
-## Out of scope
-- No new home sections, no admin section toggles
-- No AI tutor logic changes
-- No hero slide content changes beyond adding eyebrow labels
+---
 
-## Acceptance
-- Homepage: zero amber/sky/violet/rose icons or backgrounds remain on the home route (status/semantic colors excepted).
-- Hero: brand gradient border + glow, eyebrow chip, gradient title accent, animated progress segments, Ken Burns on the active slide (motion-safe).
-- AI page on a 393×701 viewport: composer sits flush against the bottom nav at all times — confirm by scrolling messages, opening/closing the keyboard simulation, and switching threads.
+## 3. Chat surface (Gemini/ChatGPT-inspired, brand-local)
+
+### Header (mobile)
+- Slim 44px glass bar with a 12%-opacity brand-red wash.
+- Left: back/menu (PanelLeft) opens thread sheet.
+- Center: thread title pill, tap = switch chat sheet. Below title: tiny "Apu · Tutor" subtitle in muted-foreground.
+- Right: New chat (`PenSquare`) + overflow menu (`MoreHorizontal`) with: Rename, Share link (copy), Clear history, Delete.
+
+### Header (desktop)
+- Same controls, plus a model/persona label chip ("Apu · SSC + HSC") and a "Share" icon button.
+
+### Transcript
+- Centered column `max-w-3xl`, vertical rhythm `space-y-6`.
+- **User messages**: right-aligned bubble, `bg-primary text-primary-foreground`, rounded-2xl, soft brand shadow, max 85% width.
+- **Apu messages**: left-aligned, no bubble — markdown rendered directly on the background (ChatGPT pattern). Avatar (24px) + name "Apu" pinned to the first line of each assistant turn.
+- **Hover actions** on each assistant message (desktop) and **long-press** (mobile): Copy, Regenerate, Like/Dislike feedback (visual only, persisted later). These are subtle ghost icons that fade in.
+- **Citations / sources**: if any `part.type === "source-url"` in the stream, render a `Sources` collapsible chip below the message (forward-compatible).
+- **Streaming**: while `status === "streaming"`, show a subtle blinking caret at the end of the streaming text + the "Apu is typing…" indicator persists until first token.
+- **Code blocks**: dark surface, language label top-right, copy-code button. Inline code already styled.
+- **Day separators**: when two consecutive messages span midnight, insert a small "Today" / "Yesterday" / formatted date chip.
+
+### Empty state
+- Centered hero: animated brand-red glow behind Apu avatar.
+- H1 "Hi, I'm Apu", warm subtitle.
+- Quick-prompt grid (4 cards, current set) with brand-tinted icon chips and `hover:-translate-y-0.5`.
+- Below grid: a tiny "What I'm good at" capability row (3 mini cards: "Explain concepts", "Practice with MCQs", "Plan revision").
+
+### Composer
+- Rounded-3xl card (not pill) on first turn for spaciousness (ChatGPT-style), collapses to slim pill after first send to maximize transcript room — toggleable via the existing minimize control.
+- Top row inside card (when expanded): the textarea with auto-grow up to 8 lines.
+- Bottom row inside card: left = Attach (paperclip, disabled tooltip "Files — coming soon"), Voice (mic, disabled tooltip). Right = character counter when >500 chars + Send/Stop button.
+- Focus ring uses brand red glow.
+- Action chips ("Explain like I'm 12", "In Bangla please", "Quiz me on this", "Give me an example", "TL;DR") shown above the composer once there's at least one message.
+
+### Floating helpers
+- "Jump to latest" pill — keep, position above composer (not absolute to viewport).
+- Scroll-shadow at the top of the transcript when scrolled.
+
+---
+
+## 4. ThreadList polish
+
+- Top: New chat button (kept) + search input (`Search threads…`).
+- Group threads by recency: Today / Yesterday / Previous 7 days / Older.
+- Each row: 14px message icon, title (truncate), tiny timestamp on the right, delete on hover (already exists, just refined).
+- Active row: brand-tinted soft pill, no harsh background.
+- Empty state: small illustration + "No chats yet — start your first conversation with Apu."
+- Sheet header on mobile shows thread count.
+
+---
+
+## 5. Micro-interactions / motion
+
+- New assistant message: fade-in (already), plus a 200ms subtle slide-up.
+- Send button: 150ms scale tap, 500ms shimmer sweep on click.
+- Stop button: pulse ring while streaming.
+- Typing indicator: existing 3-dot bounce, but tied to the same Apu avatar inline.
+- All animations respect `prefers-reduced-motion`.
+
+---
+
+## 6. Copy (kept warm, Apu persona)
+
+No changes needed — all current strings already follow the Apu voice. Add new strings:
+- Overflow menu: "Rename chat", "Share link", "Clear history", "Delete chat".
+- Capability cards: "Explain any concept", "Quiz me with MCQs", "Plan my revision".
+- Search placeholder: "Search your chats".
+- Sources collapsible: "Where this came from".
+
+---
+
+## 7. Acceptance checklist
+
+- [ ] Composer sits flush above bottom nav at 393×701, 360×800, and 414×896. Verified after focusing textarea (keyboard simulation) and after scrolling the transcript.
+- [ ] No off-brand colors introduced; only `primary`, `gradient-primary`, semantic tokens.
+- [ ] Assistant messages render with no background bubble; user messages keep brand pill.
+- [ ] Empty state shows Apu avatar + 4 quick prompts + 3 capability cards.
+- [ ] Streaming shows typing indicator + caret; Stop button replaces Send while busy.
+- [ ] Each assistant message has Copy + Regenerate hover affordance (desktop) / tap-and-hold sheet (mobile).
+- [ ] Thread list groups by recency and supports search filter.
+- [ ] Header overflow menu present with Rename / Share / Clear / Delete (delete + rename wire to existing hooks; share copies a `/learn/:id` link to clipboard; clear is a confirm dialog stub).
+- [ ] No console errors; no layout shift on first paint; lighthouse-style "looks like a real AI app" pass.
