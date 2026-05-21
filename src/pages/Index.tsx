@@ -23,8 +23,6 @@ import { ProgressSnapshot } from "@/components/home/workspace/ProgressSnapshot";
 import { ContinueLearningRow } from "@/components/home/workspace/ContinueLearningRow";
 import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
 import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
-import { UpcomingCard } from "@/components/home/workspace/UpcomingCard";
-import { InsightCard } from "@/components/home/workspace/InsightCard";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -220,16 +218,6 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
       )}
     </Reveal>
   ),
-  testimonials: ({ sec }) => <Testimonials title={sec.title_override ?? undefined} />,
-  faq: ({ sec }) => <Faq title={sec.title_override ?? undefined} />,
-  // Home renders the slim CTA pointing to /about; admin can override title/subtitle.
-  final_cta: ({ sec }) => (
-    <FinalCta
-      variant="slim"
-      title={sec.title_override ?? undefined}
-      subtitle={sec.subtitle_override ?? undefined}
-    />
-  ),
 };
 
 const Index = () => {
@@ -285,8 +273,6 @@ const Index = () => {
             {restSections.map(renderSection)}
             {/* Lower-priority personal */}
             <ActivityFeed />
-            <UpcomingCard />
-            <InsightCard />
           </>
         ) : (
           <>
