@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_notifications: {
+        Row: {
+          audience: string
+          body: string
+          created_at: string
+          id: string
+          sent_at: string
+          sent_by: string
+          title: string
+        }
+        Insert: {
+          audience?: string
+          body: string
+          created_at?: string
+          id?: string
+          sent_at?: string
+          sent_by: string
+          title: string
+        }
+        Update: {
+          audience?: string
+          body?: string
+          created_at?: string
+          id?: string
+          sent_at?: string
+          sent_by?: string
+          title?: string
+        }
+        Relationships: []
+      }
       ai_messages: {
         Row: {
           created_at: string
