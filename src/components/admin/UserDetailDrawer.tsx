@@ -746,7 +746,36 @@ export function UserDetailDrawer({ userId, onClose }: Props) {
                 </ul>
               )}
             </div>
+            <div>
+              <h4 className="text-xs uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                <History className="h-3 w-3" /> Audit trail
+              </h4>
+              {(auditTrail ?? []).length === 0 ? (
+                <p className="text-xs text-muted-foreground py-2">No admin actions recorded.</p>
+              ) : (
+                <ul className="space-y-1">
+                  {auditTrail!.slice(0, 15).map((e: any) => (
+                    <li
+                      key={e.id}
+                      className="flex items-start gap-2 text-[11px] p-2 rounded-lg border border-border/40"
+                    >
+                      <Badge variant="outline" className="text-[10px] shrink-0">{e.action}</Badge>
+                      <span className="flex-1 truncate text-muted-foreground">
+                        by @{e.actor_name}
+                        {e.meta && Object.keys(e.meta).length > 0 && (
+                          <span> · {JSON.stringify(e.meta)}</span>
+                        )}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground whitespace-nowrap">
+                        {new Date(e.created_at).toLocaleDateString()}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </TabsContent>
+
 
           {/* TAB 5 — DANGER ZONE */}
           <TabsContent value="danger" className="space-y-3 mt-0">
