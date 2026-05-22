@@ -36,8 +36,21 @@ import {
   Sparkles,
   Activity as ActivityIcon,
   ExternalLink,
+  Copy,
+  ArrowUp,
+  ArrowDown,
+  History,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuditLog, resolveActorNames } from "@/hooks/useAuditLog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 interface Props {
   userId: string | null;
