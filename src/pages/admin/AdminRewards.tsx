@@ -173,6 +173,7 @@ function RewardDialog({
 
 export default function AdminRewards() {
   const qc = useQueryClient();
+  const audit = useAuditLog();
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const rewardsQ = useQuery({
@@ -257,6 +258,7 @@ export default function AdminRewards() {
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("rewards").delete().eq("id", id);
       if (error) throw error;
+      void audit({ action: "reward.delete", target_type: "reward", target_id: id });
     },
     onSuccess: () => {
       toast.success("Reward deleted");
