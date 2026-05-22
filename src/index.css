@@ -84,7 +84,7 @@
     --duration-base: 220ms;
     --duration-slow: 360ms;
 
-    --app-header-h: calc(52px + env(safe-area-inset-top, 0px));
+    --app-header-h: calc(48px + env(safe-area-inset-top, 0px));
     --mobile-bottomnav-h: 72px;
     --bottom-nav-h: calc(72px + env(safe-area-inset-bottom, 0px));
   }

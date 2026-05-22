@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
+import { useScrollTop } from "@/hooks/use-scroll-top";
 import { isInnerRoute, getRouteTitle, getActiveTab } from "@/lib/nav-map";
 import logo from "@/assets/logo.png";
 
@@ -13,85 +14,98 @@ interface MobileHeaderProps {
   cartCount?: number;
 }
 
-const tabTitles: Record<string, string> = {
+const TAB_TITLES: Record<string, string> = {
   home: "Asikon",
   explore: "Explore",
   ai: "AI Tutor",
   community: "Community",
-  profile: "My Profile",
+  profile: "Profile",
 };
 
 export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: MobileHeaderProps) {
   const ref = useRef<HTMLElement>(null);
   useMeasuredHeaderHeight(ref);
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const scrolled = useScrollTop(8);
+
   const inner = isInnerRoute(pathname);
   const activeTab = getActiveTab(pathname);
-  const tabTitle = activeTab ? tabTitles[activeTab] : "Asikon";
+  const tabTitle = (activeTab && TAB_TITLES[activeTab]) ?? "Asikon";
   const innerTitle = getRouteTitle(pathname);
 
   return (
     <header
       ref={ref}
       data-app-header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-40 liquid-nav",
-        "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-primary/30 after:to-transparent"
-      )}
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+      className={cn(
+        "fixed top-0 inset-x-0 z-40",
+        "transition-[background-color,border-color,box-shadow] duration-300 ease-out",
+        scrolled
+          ? "bg-background/80 backdrop-blur-2xl border-b border-border/25 shadow-[0_1px_16px_-6px_hsl(0_0%_0%/0.10)]"
+          : "bg-transparent border-b border-transparent",
+      )}
     >
-      <div className="flex items-center justify-between h-13 px-3" style={{ height: 54 }}>
-        {/* Left — back chevron on inner routes, otherwise logo + tab title */}
+      <div className="flex items-center justify-between px-4" style={{ height: 48 }}>
         {inner ? (
           <button
             type="button"
             onClick={() => navigate(-1)}
-            aria-label="Back"
-            className="flex items-center gap-1.5 -ml-1 pl-1.5 pr-3 py-1.5 rounded-2xl border border-border/40 bg-background/40 hover:bg-background/60 active:scale-95 transition-all min-w-0 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.12)]"
+            aria-label="Go back"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            className="flex items-center gap-1.5 -ml-1 active:opacity-50 transition-opacity duration-100"
           >
-            <span className="flex items-center justify-center h-6 w-6 rounded-xl bg-primary/10">
-              <ChevronLeft className="w-4 h-4 shrink-0 text-primary" />
+            <ChevronLeft className="h-5 w-5 text-muted-foreground shrink-0" strokeWidth={2.2} />
+            <span className="text-[15px] font-semibold tracking-tight text-foreground truncate max-w-[200px]">
+              {innerTitle}
             </span>
-            <span className="text-[15px] font-semibold tracking-tight truncate max-w-[220px]">{innerTitle}</span>
           </button>
         ) : (
           <button
             type="button"
             onClick={onMenuClick}
             aria-label="Open menu"
-            className="flex items-center gap-2 -ml-1 pl-1 pr-3 py-1 rounded-2xl border border-border/40 bg-background/40 hover:bg-background/60 active:scale-95 transition-all min-w-0 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.12)]"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            className="flex items-center gap-2 -ml-0.5 active:opacity-50 transition-opacity duration-100"
           >
-            <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 ring-1 ring-primary/20">
-              <img src={logo} alt="Asikon logo" className="w-6 h-6 shrink-0" />
+            <img
+              src={logo}
+              alt="Asikon"
+              className="h-7 w-7 rounded-[10px] object-contain shrink-0"
+            />
+            <span className="text-[17px] font-bold tracking-tight leading-none text-foreground">
+              {tabTitle}
             </span>
-            <h1 className="text-[16px] font-bold text-gradient leading-none tracking-tight truncate">{tabTitle}</h1>
           </button>
         )}
 
-        {/* Right — Search + Cart pill */}
-        <div className="flex items-center gap-0.5 rounded-2xl border border-border/40 bg-background/40 px-1 py-1 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.12)] backdrop-blur-md">
+        <div className="flex items-center -mr-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={onSearchClick}
             aria-label="Search"
-            className="h-9 w-9 rounded-xl hover:bg-primary/10 active:scale-95 transition"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            className="h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-transparent active:bg-transparent active:opacity-50 transition-opacity duration-100"
           >
-            <Search className="w-[18px] h-[18px]" />
+            <Search className="h-[19px] w-[19px]" strokeWidth={2} />
           </Button>
-          <span className="h-5 w-px bg-border/50" aria-hidden />
+
           <Link to="/cart" aria-label="Cart">
             <Button
               variant="ghost"
               size="icon"
-              className="relative h-9 w-9 rounded-xl hover:bg-primary/10 active:scale-95 transition"
+              style={{ WebkitTapHighlightColor: "transparent" }}
+              className="relative h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-transparent active:bg-transparent active:opacity-50 transition-opacity duration-100"
             >
-              <ShoppingCart className="w-[18px] h-[18px]" />
+              <ShoppingCart className="h-[19px] w-[19px]" strokeWidth={2} />
               {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-background shadow-[0_2px_6px_hsl(var(--primary)/0.45)]">
-                  {cartCount > 9 ? '9+' : cartCount}
-                </span>
+                <span
+                  aria-label={`${cartCount} items in cart`}
+                  className="absolute top-[9px] right-[9px] h-[7px] w-[7px] rounded-full bg-primary ring-[1.5px] ring-background shadow-[0_0_5px_hsl(var(--primary)/0.55)]"
+                />
               )}
             </Button>
           </Link>
@@ -100,5 +114,3 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
     </header>
   );
 }
-
-
