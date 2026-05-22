@@ -1,21 +1,25 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Truck, Clock, ShieldCheck, BookOpen, Play, CheckCircle2, GraduationCap, Award, Users, Globe, Infinity as InfinityIcon } from "lucide-react";
+import {
+  Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Truck, ShieldCheck,
+  Play, CheckCircle2, Award, Users, Globe, Infinity as InfinityIcon, ArrowLeft,
+} from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
-import { MobileCard } from "@/components/ui/mobile-card";
-import { MobileSection } from "@/components/ui/mobile-section";
+import { PageHero } from "@/components/ui/page-hero";
+import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { StickyActionBar } from "@/components/ui/sticky-action-bar";
 import { ProductCarousel } from "@/components/carousels";
-import { TrustIndicators, SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ } from "@/components/product";
+import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ } from "@/components/product";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Price } from "@/lib/currency";
+import { cn } from "@/lib/utils";
 
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 const colors = [
@@ -78,17 +82,16 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!user) {
-      toast({ title: "Please login", description: "You need to be logged in to add items to cart.", variant: "destructive" });
-      return;
-    }
-    if (!selectedSize) {
-      toast({ title: "Select size", description: "Please select a size before adding to cart.", variant: "destructive" });
+      toast({ title: "Please sign in", description: "You need to be logged in to add items to cart.", variant: "destructive" });
       return;
     }
     if (!product) return;
-
+    if (!isCourse && !isBook && !selectedSize) {
+      toast({ title: "Select a size", description: "Please select a size first.", variant: "destructive" });
+      return;
+    }
     addToCart.mutate({ productId: product.id, quantity }, {
-      onSuccess: () => toast({ title: "Added to cart!", description: `${product.name} has been added.` }),
+      onSuccess: () => toast({ title: "Added to cart", description: product.name }),
       onError: () => toast({ title: "Error", description: "Failed to add item.", variant: "destructive" }),
     });
   };
@@ -96,13 +99,11 @@ const ProductDetail = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="6xl">
+        <MobilePage maxWidth="wide">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Skeleton className="aspect-square rounded-2xl" />
             <div className="space-y-4">
-              <Skeleton className="h-8 w-3/4" />
-              <Skeleton className="h-6 w-1/4" />
-              <Skeleton className="h-24 w-full" />
+              <Skeleton className="h-8 w-3/4" /><Skeleton className="h-6 w-1/4" /><Skeleton className="h-24 w-full" />
             </div>
           </div>
         </MobilePage>
@@ -113,10 +114,10 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="6xl">
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <h1 className="text-lg font-semibold mb-2">Product Not Found</h1>
-            <Link to="/shop"><Button>Back to Shop</Button></Link>
+        <MobilePage maxWidth="reading">
+          <div className="py-20 text-center">
+            <h1 className="font-display text-xl font-semibold mb-2">Product not found</h1>
+            <Link to="/shop"><Button>Back to shop</Button></Link>
           </div>
         </MobilePage>
       </AppLayout>
@@ -130,29 +131,58 @@ const ProductDetail = () => {
   const name = product.name || "";
   const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
   const isBook = /book|hardcover|edition/i.test(name);
-  const isDigital = isCourse || /prompt|library|subscription|tutor/i.test(name);
 
   return (
     <AppLayout>
-      <MobilePage maxWidth="6xl" spacing="space-y-8 lg:space-y-12" className="pb-sticky-cta">
-        {/* Main Product Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-6 lg:gap-12">
-          {/* Image Gallery — sticky on desktop */}
-          <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1rem)] lg:self-start">
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary/30 border border-border/50">
+      <MobilePage maxWidth="wide" spacing="space-y-10" className="pb-sticky-cta lg:pb-10">
+        <Link to="/shop" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
+          <ArrowLeft className="h-3.5 w-3.5" /> Shop
+        </Link>
+
+        {/* Main */}
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-8 lg:gap-16">
+          {/* Gallery */}
+          <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
+            <div className="relative aspect-square rounded-2xl overflow-hidden bg-muted">
               <img src={images[selectedImage] || "/placeholder.svg"} alt={product.name} className="w-full h-full object-cover" />
               {images.length > 1 && (
                 <>
-                  <button onClick={() => setSelectedImage((prev) => (prev > 0 ? prev - 1 : images.length - 1))} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full glass hover:bg-background"><ChevronLeft className="h-5 w-5" /></button>
-                  <button onClick={() => setSelectedImage((prev) => (prev < images.length - 1 ? prev + 1 : 0))} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full glass hover:bg-background"><ChevronRight className="h-5 w-5" /></button>
+                  <button
+                    onClick={() => setSelectedImage((p) => (p > 0 ? p - 1 : images.length - 1))}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60"
+                    style={{ WebkitTapHighlightColor: "transparent" }}
+                    aria-label="Previous image"
+                  ><ChevronLeft className="h-4 w-4" /></button>
+                  <button
+                    onClick={() => setSelectedImage((p) => (p < images.length - 1 ? p + 1 : 0))}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60"
+                    style={{ WebkitTapHighlightColor: "transparent" }}
+                    aria-label="Next image"
+                  ><ChevronRight className="h-4 w-4" /></button>
                 </>
               )}
-              {discountPercentage > 0 && <Badge variant="destructive" className="absolute top-3 left-3 font-bold">-{discountPercentage}%</Badge>}
+              {discountPercentage > 0 && (
+                <Badge className="absolute top-3 left-3 bg-foreground text-background border-0 font-semibold">
+                  -{discountPercentage}%
+                </Badge>
+              )}
+              {images.length > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                  {images.map((_, idx) => (
+                    <span key={idx} className={cn("h-1 rounded-full transition-all", selectedImage === idx ? "w-5 bg-foreground" : "w-1 bg-foreground/40")} />
+                  ))}
+                </div>
+              )}
             </div>
             {images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+              <div className="hidden lg:flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
                 {images.map((img, idx) => (
-                  <button key={idx} onClick={() => setSelectedImage(idx)} className={`flex-shrink-0 w-14 h-14 lg:w-20 lg:h-20 rounded-xl overflow-hidden border-2 transition-colors ${selectedImage === idx ? "border-primary" : "border-transparent hover:border-primary/50"}`}>
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    className={cn("flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden ring-1 transition-all", selectedImage === idx ? "ring-foreground" : "ring-border/40 hover:ring-border")}
+                    style={{ WebkitTapHighlightColor: "transparent" }}
+                  >
                     <img src={img || "/placeholder.svg"} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
@@ -160,155 +190,174 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* Product Info */}
-          <div className="space-y-5">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-2">ASIKON Marketplace</p>
-              <h1 className="font-display text-[20px] lg:text-3xl font-semibold tracking-tight leading-snug mb-2">{product.name}</h1>
-              <div className="flex items-center gap-1 text-[13px]">
-                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                <span className="font-medium">{product.rating || 0}</span>
-                <span className="text-muted-foreground">({product.review_count || 0} reviews)</span>
-              </div>
+          {/* Info */}
+          <div className="space-y-6">
+            <PageHero
+              eyebrow="ASIKON"
+              title={product.name}
+              meta={
+                <span className="inline-flex items-center gap-1.5">
+                  <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                  <span className="text-foreground font-medium">{product.rating || 0}</span>
+                  <span>· {product.review_count || 0} reviews</span>
+                </span>
+              }
+            />
+
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <Price amount={product.price} className="text-3xl lg:text-4xl font-semibold tracking-tight" />
+              {product.original_price && (
+                <Price amount={product.original_price} strike className="text-base text-muted-foreground" />
+              )}
+              {discountPercentage > 0 && (
+                <span className="text-[12px] font-semibold text-success uppercase tracking-wider">Save {discountPercentage}%</span>
+              )}
             </div>
 
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <Price amount={product.price} className="text-2xl lg:text-3xl font-bold" />
-              {product.original_price && <Price amount={product.original_price} strike className="text-base text-muted-foreground" />}
-              {discountPercentage > 0 && <Badge variant="secondary" className="text-success">Save {discountPercentage}%</Badge>}
+            {/* Trust strip — flat */}
+            <div className="flex items-center gap-5 text-[12.5px] text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5"><Truck className="h-3.5 w-3.5 text-foreground/60" /> Free shipping</span>
+              <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-foreground/60" /> Verified</span>
+              <span className="inline-flex items-center gap-1.5"><InfinityIcon className="h-3.5 w-3.5 text-foreground/60" /> COD available</span>
             </div>
-
-            <div className="flex items-center gap-4 text-[13px]">
-              <div className="flex items-center gap-1.5 text-success"><Truck className="h-4 w-4" /><span>Free Shipping</span></div>
-              <div className="flex items-center gap-1.5 text-muted-foreground"><Clock className="h-4 w-4" /><span>3-5 days</span></div>
-            </div>
-
-            <TrustIndicators />
 
             {isCourse ? (
-              <div className="grid grid-cols-2 gap-2 text-[13px]">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-[13px]">
                 {[
                   { icon: InfinityIcon, label: "Lifetime access" },
                   { icon: Award, label: "Verified certificate" },
                   { icon: Globe, label: "Bangla + English" },
                   { icon: Users, label: "24/7 AI Tutor" },
                 ].map(({ icon: Icon, label }) => (
-                  <MobileCard key={label} variant="soft" className="!p-3 flex items-center gap-2">
-                    <Icon className="h-4 w-4 text-primary shrink-0" />
+                  <div key={label} className="flex items-center gap-2">
+                    <Icon className="h-3.5 w-3.5 text-primary shrink-0" />
                     <span>{label}</span>
-                  </MobileCard>
+                  </div>
                 ))}
               </div>
             ) : isBook ? (
               <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
             ) : (
-              <>
+              <div className="space-y-5">
                 <ColorSelector colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
                 <SizeSelector sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
                 <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
-              </>
+              </div>
             )}
 
-            <div className="hidden lg:flex gap-3">
-              <Button className="flex-1 gradient-primary border-0" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-                <ShoppingCart className="h-5 w-5 mr-2" />{addToCart.isPending ? "Adding..." : isCourse ? "Enroll Now" : "Add to Cart"}
+            <div className="hidden lg:flex gap-2 pt-1">
+              <Button className="flex-1" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {addToCart.isPending ? "Adding..." : isCourse ? "Enroll now" : "Add to cart"}
               </Button>
-              <Button variant="outline" size="lg"><Heart className="h-5 w-5" /></Button>
-              <Button variant="outline" size="lg"><Share2 className="h-5 w-5" /></Button>
+              <Button variant="outline" size="lg" aria-label="Save"><Heart className="h-4 w-4" /></Button>
+              <Button variant="outline" size="lg" aria-label="Share"><Share2 className="h-4 w-4" /></Button>
             </div>
 
             {product.description && (
-              <MobileCard variant="glass">
-                <h3 className="font-semibold text-sm mb-2">{isCourse ? "About this course" : isBook ? "About this book" : "About this product"}</h3>
-                <p className="text-[13px] text-muted-foreground leading-relaxed">{product.description}</p>
-                <p className="text-[11px] text-muted-foreground mt-3 flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-success" />
-                  {isDigital ? "Instant access after purchase. Lifetime updates included." : "Authentic, verified by ASIKON. COD available."}
-                </p>
-              </MobileCard>
+              <DetailSection title={isCourse ? "About this course" : isBook ? "About this book" : "About this product"}>
+                <p className="text-[14px] text-foreground/85 leading-relaxed whitespace-pre-wrap">{product.description}</p>
+              </DetailSection>
             )}
           </div>
         </div>
 
-        {/* Course-specific sections */}
+        {/* Course-specific */}
         {isCourse && (
           <>
-            <MobileSection title="What you will learn">
-              <MobileCard variant="glass">
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {courseLearnings.map((item) => (
-                    <div key={item} className="flex items-start gap-2 text-[13px]">
-                      <CheckCircle2 className="h-4 w-4 mt-0.5 text-success flex-shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </MobileCard>
-            </MobileSection>
-
-            <MobileSection
-              title="Curriculum"
-              subtitle={`${courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h`}
-            >
-              <div className="space-y-2">
-                {courseCurriculum.map((m, i) => (
-                  <MobileCard key={m.module} variant="glass" className="flex items-center gap-3 !p-3">
-                    <div className="w-8 h-8 rounded-full gradient-primary text-primary-foreground flex items-center justify-center text-sm font-bold flex-shrink-0">
-                      {i + 1}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{m.module}</p>
-                      <p className="text-xs text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
-                    </div>
-                    <Play className="h-4 w-4 text-muted-foreground" />
-                  </MobileCard>
+            <DetailSection title="What you will learn">
+              <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
+                {courseLearnings.map((item) => (
+                  <div key={item} className="flex items-start gap-2.5 text-[13.5px]">
+                    <CheckCircle2 className="h-4 w-4 mt-0.5 text-success flex-shrink-0" />
+                    <span>{item}</span>
+                  </div>
                 ))}
               </div>
-            </MobileSection>
+            </DetailSection>
 
-            <MobileSection title="Your Instructor">
-              <MobileCard variant="glass" className="flex items-center gap-4">
+            <DetailSection
+              title="Curriculum"
+              action={<span className="text-[12px] text-muted-foreground">{courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h</span>}
+            >
+              <ol className="divide-y divide-border/40">
+                {courseCurriculum.map((m, i) => (
+                  <li key={m.module} className="flex items-center gap-3 py-3">
+                    <span className="grid place-items-center h-8 w-8 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[14px] font-medium truncate">{m.module}</p>
+                      <p className="text-[12px] text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
+                    </div>
+                    <Play className="h-4 w-4 text-foreground/50" />
+                  </li>
+                ))}
+              </ol>
+            </DetailSection>
+
+            <DetailSection title="Your instructor">
+              <div className="flex items-center gap-4">
                 <img
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&q=80"
                   alt="Instructor"
-                  className="w-14 h-14 rounded-full object-cover border-2 border-primary/30 shrink-0"
+                  className="w-14 h-14 rounded-full object-cover shrink-0"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm">ASIKON Mentor Team</p>
-                  <p className="text-[12px] text-muted-foreground leading-relaxed">Engineers, educators, and AI researchers helping students learn smarter and stay motivated.</p>
+                  <p className="font-semibold text-[14px]">ASIKON Mentor Team</p>
+                  <p className="text-[12.5px] text-muted-foreground leading-relaxed">Engineers, educators, and AI researchers helping students learn smarter.</p>
                 </div>
-              </MobileCard>
-            </MobileSection>
+              </div>
+            </DetailSection>
           </>
         )}
 
-        {/* Reviews */}
-        <ProductReviews reviews={mockReviews} averageRating={product.rating || 4.5} totalReviews={product.review_count || 36} ratingDistribution={[{ stars: 5, count: 24 }, { stars: 4, count: 8 }, { stars: 3, count: 3 }, { stars: 2, count: 1 }, { stars: 1, count: 0 }]} />
+        <DetailSection title="Reviews">
+          <ProductReviews
+            reviews={mockReviews}
+            averageRating={product.rating || 4.5}
+            totalReviews={product.review_count || 36}
+            ratingDistribution={[
+              { stars: 5, count: 24 }, { stars: 4, count: 8 }, { stars: 3, count: 3 }, { stars: 2, count: 1 }, { stars: 1, count: 0 },
+            ]}
+          />
+        </DetailSection>
 
-        {/* FAQ */}
-        <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
+        <DetailSection title="FAQ">
+          <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
+        </DetailSection>
 
-        {/* Related Products */}
         {relatedProducts && relatedProducts.length > 0 && (
-          <ProductCarousel title={isCourse ? "Continue Learning" : "You May Also Like"} products={relatedProducts.filter((p) => p.id !== product.id).slice(0, 8).map((p) => ({ id: p.id, name: p.name, brand: "ASIKON", price: p.price, originalPrice: p.original_price || undefined, image: p.image_url || "/placeholder.svg", rating: p.rating || 0, reviews: p.review_count || 0, isTrending: p.is_featured || false }))} />
+          <DetailSection title={isCourse ? "Continue learning" : "You may also like"}>
+            <ProductCarousel
+              title=""
+              products={relatedProducts
+                .filter((p) => p.id !== product.id)
+                .slice(0, 8)
+                .map((p) => ({
+                  id: p.id, name: p.name, brand: "ASIKON",
+                  price: p.price, originalPrice: p.original_price || undefined,
+                  image: p.image_url || "/placeholder.svg",
+                  rating: p.rating || 0, reviews: p.review_count || 0,
+                  isTrending: p.is_featured || false,
+                }))}
+            />
+          </DetailSection>
         )}
       </MobilePage>
 
-      {/* Sticky Mobile CTA */}
-      <div
-        className="fixed bottom-16 left-0 right-0 z-40 glass-strong border-t border-border/40 lg:hidden"
-        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-      >
-        <div className="container-editorial py-3 flex items-center gap-3">
+      {/* Mobile sticky CTA */}
+      <StickyActionBar>
+        <div className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
-            <Price amount={product.price} className="text-xl font-bold" />
-            {product.original_price && <Price amount={product.original_price} strike className="text-sm text-muted-foreground ml-2" />}
+            <Price amount={product.price} className="text-lg font-semibold" />
+            {product.original_price && (
+              <Price amount={product.original_price} strike className="text-[12px] text-muted-foreground ml-2" />
+            )}
           </div>
-          <Button className="gradient-primary border-0 px-6" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-            <ShoppingCart className="h-5 w-5 mr-2" />{isCourse ? "Enroll" : "Buy Now"}
+          <Button size="lg" className="px-6" onClick={handleAddToCart} disabled={addToCart.isPending}>
+            <ShoppingCart className="h-4 w-4 mr-2" />{isCourse ? "Enroll" : "Add to cart"}
           </Button>
         </div>
-      </div>
+      </StickyActionBar>
     </AppLayout>
   );
 };
