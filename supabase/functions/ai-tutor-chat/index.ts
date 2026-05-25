@@ -37,6 +37,10 @@ Deno.serve(async (req) => {
       });
     }
 
+    const MAX_MESSAGES = 40;
+    const MAX_CHARS_PER_MESSAGE = 8000;
+    const MAX_TOTAL_CHARS = 60000;
+
     const body = await req.json();
     const messages = (body?.messages ?? []) as UIMessage[];
     const threadId = body?.threadId as string | undefined;
@@ -45,6 +49,31 @@ Deno.serve(async (req) => {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+    if (messages.length > MAX_MESSAGES) {
+      return new Response(JSON.stringify({ error: `Too many messages (max ${MAX_MESSAGES})` }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    let totalChars = 0;
+    for (const m of messages) {
+      const text = (m?.parts ?? [])
+        .map((p: any) => (typeof p?.text === "string" ? p.text : ""))
+        .join("");
+      if (text.length > MAX_CHARS_PER_MESSAGE) {
+        return new Response(
+          JSON.stringify({ error: `Message too long (max ${MAX_CHARS_PER_MESSAGE} chars)` }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      totalChars += text.length;
+    }
+    if (totalChars > MAX_TOTAL_CHARS) {
+      return new Response(
+        JSON.stringify({ error: `Conversation too large (max ${MAX_TOTAL_CHARS} chars)` }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     // Verify thread ownership
