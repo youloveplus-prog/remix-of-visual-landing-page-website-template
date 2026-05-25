@@ -1361,6 +1361,14 @@ export type Database = {
       }
     }
     Functions: {
+      can_message_user: {
+        Args: { _sender: string; _target: string }
+        Returns: boolean
+      }
+      can_view_profile: {
+        Args: { _target: string; _viewer: string }
+        Returns: boolean
+      }
       get_or_create_today_mission: {
         Args: never
         Returns: {
@@ -1378,7 +1386,7 @@ export type Database = {
         Returns: boolean
       }
       redeem_reward: {
-        Args: { _coins: number; _reward_key: string }
+        Args: { _coins?: number; _reward_key: string }
         Returns: {
           coins_spent: number
           created_at: string
