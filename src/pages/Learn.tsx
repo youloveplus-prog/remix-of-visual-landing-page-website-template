@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.png";
+import asikonLogo from "@/assets/logo.png";
 
 function StandaloneShell({ children }: { children: React.ReactNode }) {
   return (
@@ -92,10 +93,15 @@ export default function Learn() {
         </Helmet>
         <TopBar onBack={handleBack} />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-          <img src={tutorAvatar} alt="Apu, your ASIKON tutor" className="w-20 h-20 mb-4" />
-          <h1 className="text-2xl font-bold mb-2 text-gradient">Hi, I'm Apu</h1>
-          <p className="text-muted-foreground mb-4">Sign in to start chatting with Apu.</p>
-          <Button onClick={() => navigate("/auth?redirect=/learn")}>Sign in</Button>
+          <div className="relative mb-6">
+            <div className="absolute inset-0 rounded-full bg-primary/30 blur-3xl scale-125" />
+            <div className="relative h-28 w-28 rounded-3xl glass-strong grid place-items-center shadow-[var(--shadow-glow)]">
+              <img src={asikonLogo} alt="Asikon" className="h-16 w-16 object-contain" />
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold mb-2 text-gradient">Hi, I'm Apu</h1>
+          <p className="text-muted-foreground mb-5 text-base">Sign in to start chatting with Apu — your Asikon AI tutor.</p>
+          <Button size="lg" onClick={() => navigate("/auth?redirect=/learn")}>Sign in</Button>
         </div>
       </StandaloneShell>
     );

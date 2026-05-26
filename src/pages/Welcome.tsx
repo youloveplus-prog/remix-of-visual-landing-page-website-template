@@ -453,7 +453,7 @@ export default function Welcome() {
           </div>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link to="/about" className="hover:text-foreground">About</Link>
-            <Link to="/shop" className="hover:text-foreground">Shop</Link>
+            <Link to="/shop" className="hover:text-foreground">Explore</Link>
             <Link to="/community" className="hover:text-foreground">Community</Link>
             <Link to="/auth" className="hover:text-foreground">Sign in</Link>
           </div>

@@ -77,7 +77,7 @@ const PANELS: Panel[] = [
     viewAllLabel: "View all courses",
   },
   {
-    label: "Shop",
+    label: "Explore",
     icon: BookOpen,
     matchPaths: ["/shop", "/prompts"],
     items: [
