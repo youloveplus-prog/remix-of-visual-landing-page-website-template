@@ -243,7 +243,9 @@ const Index = () => {
     if (!render) return null;
     return (
       <div key={sec.id}>
-        {render({ sec, products, featuredProducts, productsLoading, featuredLoading, trendingItems, newArrivalItems, curated })}
+        <Suspense fallback={<SectionFallback />}>
+          {render({ sec, products, featuredProducts, productsLoading, featuredLoading, trendingItems, newArrivalItems, curated })}
+        </Suspense>
       </div>
     );
   };
