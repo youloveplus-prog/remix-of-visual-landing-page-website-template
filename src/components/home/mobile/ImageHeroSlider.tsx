@@ -80,15 +80,21 @@ export function ImageHeroSlider() {
     <section className="section-x">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-3">
-          {items.map((b) => {
+          {items.map((b, idx) => {
+            const isFirst = idx === 0;
             const Inner = (
               <div className="relative w-full aspect-[21/10] rounded-3xl overflow-hidden shadow-xl shadow-primary/10 border border-border/40">
                 <img
                   src={b.image_url}
                   alt={b.alt_text ?? b.title ?? "Promotional banner"}
-                  loading="lazy"
+                  loading={isFirst ? "eager" : "lazy"}
+                  decoding={isFirst ? "sync" : "async"}
+                  {...({ fetchpriority: isFirst ? "high" : "low" } as any)}
+                  width={1200}
+                  height={571}
                   className="w-full h-full object-cover"
                 />
+
                 {(b.title || b.subtitle || b.eyebrow) && (
                   <>
                     <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/30 to-transparent" />

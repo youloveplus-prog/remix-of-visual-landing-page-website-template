@@ -1,5 +1,5 @@
 import { Heart, Star, ShoppingBag, Eye, TrendingUp, Shield } from "lucide-react";
-import { useState, forwardRef } from "react";
+import { useState, forwardRef, memo } from "react";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -222,3 +222,12 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
 );
 
 ProductCard.displayName = "ProductCard";
+// Memoize: home/shop grids re-render often as filters change; product objects are stable by id.
+const ProductCardMemo = memo(ProductCard, (a, b) =>
+  a.variant === b.variant &&
+  a.product.id === b.product.id &&
+  a.product.price === b.product.price &&
+  a.product.image === b.product.image,
+);
+(ProductCardMemo as any).displayName = "ProductCardMemo";
+export { ProductCardMemo };
