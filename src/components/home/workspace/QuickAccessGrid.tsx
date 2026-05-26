@@ -14,7 +14,7 @@ const TILES: Tile[] = [
   { icon: LineChart,      label: "Progress", href: "/profile" },
   { icon: GraduationCap,  label: "Mentors",  href: "/mentors" },
   { icon: Wand2,          label: "Prompts",  href: "/prompts" },
-  { icon: ShoppingBag,    label: "Shop",     href: "/shop" },
+  { icon: ShoppingBag,    label: "Explore",  href: "/shop" },
   { icon: Gamepad2,       label: "Games",    href: "/game" },
 ];
 
