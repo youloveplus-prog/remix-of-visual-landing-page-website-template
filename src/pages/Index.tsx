@@ -269,31 +269,35 @@ const Index = () => {
           ],
         })}</script>
       </SEO>
-      <MobilePage spacing="space-y-3 lg:space-y-14">
+      <MobilePage spacing="space-y-4 lg:space-y-14">
         {user ? (
           <>
-            {/* Header greeting */}
+            {/* 1 — Calm greeting */}
             <GreetingStrip />
-            {/* Hero slider (admin-uploaded image banners) */}
-            {heroSection && <ImageHeroSlider />}
-            {/* Quick actions (category-style chips) */}
-            <QuickAccessGrid />
-            {/* Popular Courses (mobile) */}
-            <MobileCoursesTop />
-            {/* Categories (Asikon, scrollable like quick access) */}
-            <CategoriesScroll />
-            {/* Offers (admin-uploaded image cards) */}
-            <ImageOfferGrid />
 
+            {/* 2 — The single most important thing on the screen */}
             <section className="section-x">
               <TodayMissionCard />
             </section>
+
+            {/* 3 — Continue where you left off */}
             <ContinueLearningRow />
-            <ProgressSnapshot />
+
+            {/* 4 — Four calm tiles: Tutor / Shop / Community / Mentors */}
+            <QuickAccessGrid />
+
+            {/* 5 — Editorial hero (admin banners) */}
+            {heroSection && <ImageHeroSlider />}
+
+            {/* 6 — AI assistant entry */}
             <AiAssistantBox />
-            {/* Commerce + discovery */}
+
+            {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
+            <MobileCoursesTop />
             {restSections.map(renderSection)}
-            {/* Lower-priority personal */}
+
+            {/* 8 — Quiet personal footer: progress + activity */}
+            <ProgressSnapshot />
             <ActivityFeed />
           </>
         ) : (
