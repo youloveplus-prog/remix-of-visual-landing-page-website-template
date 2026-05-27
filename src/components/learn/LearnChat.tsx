@@ -647,7 +647,7 @@ function MessageActions({
         aria-label="Copy reply"
         title="Copy"
       >
-        {copied ? <Check className="w-3.5 h-3.5 text-primary" /> : <Copy className="w-3.5 h-3.5" />}
+        {copied ? <Check className="w-3.5 h-3.5 text-foreground" /> : <Copy className="w-3.5 h-3.5" />}
       </button>
       {onRegenerate && (
         <button
