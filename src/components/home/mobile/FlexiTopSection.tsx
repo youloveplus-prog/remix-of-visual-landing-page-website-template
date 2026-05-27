@@ -13,30 +13,28 @@ type Tile = {
   icon: typeof ShoppingBag;
   label: string;
   href: string;
-  grad: string;
 };
 
 const pillActions: Tile[] = [
-  { icon: ShoppingBag, label: "Shop", href: "/shop", grad: "from-blue-500 to-primary" },
-  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", grad: "from-emerald-400 to-teal-500" },
-  { icon: Sparkles, label: "AI Tutor", href: "/ai-tutor", grad: "from-violet-500 to-primary" },
-  { icon: Tag, label: "Deals", href: "/shop?filter=deals", grad: "from-rose-500 to-primary" },
+  { icon: ShoppingBag, label: "Shop", href: "/shop" },
+  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
+  { icon: Sparkles, label: "AI Tutor", href: "/ai-tutor" },
+  { icon: Tag, label: "Deals", href: "/shop?filter=deals" },
 ];
 
-function PillTile({ icon: Icon, label, href, grad }: Tile) {
+function PillTile({ icon: Icon, label, href }: Tile) {
   return (
     <Link
       to={href}
       className="flex flex-col items-center gap-2 focus-ring rounded-2xl pressable group"
     >
-      <div
-        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.55)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_14px_30px_-10px_hsl(var(--primary)/0.7)] group-active:scale-95`}
-      >
-        <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-transform duration-300 group-hover:rotate-[-4deg]">
-          <Icon className="h-4 w-4" strokeWidth={2.4} />
-        </div>
+      <div className="midnight-tile w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br from-primary/15 to-primary/5 border-primary/20 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_14px_30px_-12px_hsl(var(--primary)/0.55)]">
+        <Icon
+          className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110"
+          strokeWidth={2.2}
+        />
       </div>
-      <span className="text-[11px] font-semibold text-foreground">{label}</span>
+      <span className="text-[11px] font-semibold text-foreground/85">{label}</span>
     </Link>
   );
 }
@@ -60,14 +58,18 @@ export function FlexiTopSection() {
           Browse courses →
         </Link>
       </div>
+
       {/* Combined CTA + stats split card */}
       <div className="rounded-3xl overflow-hidden border border-border/60 shadow-[0_18px_40px_-18px_hsl(var(--primary)/0.55)] grid grid-cols-5 midnight-shine">
         <Link
           to="/shop"
-          className="col-span-3 relative p-4 text-primary-foreground focus-ring pressable flex flex-col justify-between transition-transform duration-300 active:scale-[0.98]"
+          className="col-span-3 relative p-4 text-primary-foreground focus-ring pressable flex flex-col justify-between transition-transform duration-300 active:scale-[0.98] overflow-hidden"
           style={{ background: "var(--gradient-primary)" }}
         >
-          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl float-y" />
+          <div
+            aria-hidden
+            className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-white/15 blur-3xl"
+          />
           <div className="relative w-10 h-10 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
             <GraduationCap className="h-5 w-5" />
           </div>
@@ -80,7 +82,7 @@ export function FlexiTopSection() {
         </Link>
         <div className="col-span-2 bg-card flex flex-col divide-y divide-border/60">
           <div className="flex-1 flex items-center gap-2.5 px-3 py-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-primary flex items-center justify-center text-white">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center text-primary">
               <BookOpen className="h-4 w-4" />
             </div>
             <div className="min-w-0">
@@ -89,7 +91,7 @@ export function FlexiTopSection() {
             </div>
           </div>
           <div className="flex-1 flex items-center gap-2.5 px-3 py-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center text-primary">
               <Bot className="h-4 w-4" />
             </div>
             <div className="min-w-0">
@@ -101,7 +103,7 @@ export function FlexiTopSection() {
       </div>
 
       {/* Essential quick actions */}
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-3">
         {pillActions.map((t, i) => (
           <div
             key={t.label}
