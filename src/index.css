@@ -322,7 +322,16 @@
       hsl(0 0% 100% / 0.55) 0%,
       transparent 50%
     );
-    z-index: 0;
+    z-index: -2;
+  }
+  .dark .liquid-glass::before {
+    background: radial-gradient(
+      120% 80% at 0% 0%,
+      hsl(var(--glass-highlight) / 0.16) 0%,
+      transparent 45%
+    );
+    mix-blend-mode: overlay;
+    z-index: -2;
   }
   .dark .liquid-glass::before {
     background: radial-gradient(
