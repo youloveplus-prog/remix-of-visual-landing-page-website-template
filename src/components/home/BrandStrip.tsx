@@ -1,4 +1,5 @@
 const BRANDS = [
+  { name: "ASIKON", style: "font-display font-black tracking-tight text-primary" },
   { name: "OpenAI", style: "font-display font-extrabold tracking-tight" },
   { name: "Google", style: "font-display font-black tracking-wider" },
   { name: "Microsoft", style: "font-display font-bold tracking-tight" },
