@@ -17,16 +17,6 @@ export function BrandStrip() {
 
   return (
     <section className="section-x" aria-label="Featured brands">
-      <div className="flex items-end justify-between mb-2">
-        <div>
-          <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground">
-            Inside ASIKON
-          </p>
-          <h2 className="font-display font-bold text-foreground text-base sm:text-lg leading-tight mt-0.5">
-            Trusted tools we teach
-          </h2>
-        </div>
-      </div>
       <div className="relative overflow-hidden py-4 lg:py-6">
 
         <div
