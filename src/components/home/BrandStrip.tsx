@@ -1,25 +1,23 @@
 const BRANDS = [
-  { name: "ASIKON", style: "font-display font-black tracking-tight text-primary" },
-  { name: "OpenAI", style: "font-display font-extrabold tracking-tight" },
-  { name: "Google", style: "font-display font-black tracking-wider" },
-  { name: "Microsoft", style: "font-display font-bold tracking-tight" },
-  { name: "NVIDIA", style: "font-display font-extrabold tracking-[0.12em]" },
-  { name: "Amazon", style: "font-display font-bold tracking-tight" },
-  { name: "Meta", style: "italic font-semibold tracking-wide" },
-  { name: "Apple", style: "font-display font-light tracking-tight" },
-  { name: "Samsung", style: "font-display font-bold tracking-[0.15em]" },
-  { name: "Adobe", style: "font-display font-extrabold tracking-tight" },
-  { name: "Intel", style: "font-display font-bold tracking-[0.18em]" },
+  { name: "ASIKON", style: "font-display font-black tracking-tight", color: "#E11D2E" },
+  { name: "OpenAI", style: "font-display font-extrabold tracking-tight", color: "#10A37F" },
+  { name: "Google", style: "font-display font-black tracking-wider", color: "#4285F4" },
+  { name: "Microsoft", style: "font-display font-bold tracking-tight", color: "#00A4EF" },
+  { name: "NVIDIA", style: "font-display font-extrabold tracking-[0.12em]", color: "#76B900" },
+  { name: "Amazon", style: "font-display font-bold tracking-tight", color: "#FF9900" },
+  { name: "Meta", style: "italic font-semibold tracking-wide", color: "#0866FF" },
+  { name: "Apple", style: "font-display font-light tracking-tight", color: "#A2AAAD" },
+  { name: "Samsung", style: "font-display font-bold tracking-[0.15em]", color: "#1428A0" },
+  { name: "Adobe", style: "font-display font-extrabold tracking-tight", color: "#FF0000" },
+  { name: "Intel", style: "font-display font-bold tracking-[0.18em]", color: "#0071C5" },
 ];
 
 export function BrandStrip() {
-  // Duplicate for seamless marquee loop
   const row = [...BRANDS, ...BRANDS];
 
   return (
     <section className="section-x" aria-label="Featured brands">
-      <div className="relative overflow-hidden py-6 lg:py-8">
-        {/* Edge fades */}
+      <div className="relative overflow-hidden py-6 lg:py-8 group/marquee">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-y-0 left-0 w-16 lg:w-24 z-10 bg-gradient-to-r from-background to-transparent"
@@ -29,11 +27,12 @@ export function BrandStrip() {
           className="pointer-events-none absolute inset-y-0 right-0 w-16 lg:w-24 z-10 bg-gradient-to-l from-background to-transparent"
         />
 
-        <div className="flex w-max animate-[marquee_40s_linear_infinite] gap-10 lg:gap-16">
+        <div className="brand-marquee flex w-max gap-10 lg:gap-16">
           {row.map((b, i) => (
             <span
               key={`${b.name}-${i}`}
-              className={`shrink-0 text-foreground/70 hover:text-foreground transition-colors text-xl lg:text-2xl xl:text-3xl whitespace-nowrap ${b.style}`}
+              style={{ ["--brand-color" as string]: b.color }}
+              className={`brand-item shrink-0 text-foreground transition-colors duration-300 text-xl lg:text-2xl xl:text-3xl whitespace-nowrap cursor-pointer ${b.style}`}
             >
               {b.name}
             </span>
@@ -45,6 +44,15 @@ export function BrandStrip() {
         @keyframes marquee {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
+        }
+        .brand-marquee {
+          animation: marquee 40s linear infinite;
+        }
+        .group\\/marquee:hover .brand-marquee {
+          animation-play-state: paused;
+        }
+        .brand-item:hover {
+          color: var(--brand-color);
         }
       `}</style>
     </section>
