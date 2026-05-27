@@ -228,6 +228,9 @@ function AnimatedRoutes() {
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="rewards" element={<AdminRewards />} />
             <Route path="audit-log" element={<AdminAuditLog />} />
+            <Route path="digital" element={<AdminDigital />} />
+            <Route path="courses" element={<AdminCourses />} />
+            <Route path="services" element={<AdminServices />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
