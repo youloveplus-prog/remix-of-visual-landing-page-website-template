@@ -293,11 +293,13 @@ const PRINCIPLES = [
 ];
 
 function PrinciplesCarousel() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    loop: true,
-    dragFree: true,
-  });
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      align: "center",
+      loop: true,
+    },
+    [Autoplay({ delay: 4000, stopOnInteraction: false })],
+  );
   const [selected, setSelected] = useState(0);
 
   useEffect(() => {
@@ -325,10 +327,8 @@ function PrinciplesCarousel() {
         </h2>
       </div>
 
-      <div
-        className="overflow-hidden pl-[max(1rem,calc((100vw-72rem)/2))]"
-        ref={emblaRef}
-      >
+      <div className="overflow-hidden" ref={emblaRef}>
+
         <div className="flex gap-3 sm:gap-5 pr-4">
           {PRINCIPLES.map((p, i) => {
             const Icon = p.icon;
