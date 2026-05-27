@@ -81,35 +81,8 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
           </button>
         )}
 
-        <div className="flex items-center -mr-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onSearchClick}
-            aria-label="Search"
-            style={{ WebkitTapHighlightColor: "transparent" }}
-            className="h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-transparent active:bg-transparent active:opacity-50 transition-opacity duration-100"
-          >
-            <Search className="h-[19px] w-[19px]" strokeWidth={2} />
-          </Button>
+        <div />
 
-          <Link to="/cart" aria-label="Cart">
-            <Button
-              variant="ghost"
-              size="icon"
-              style={{ WebkitTapHighlightColor: "transparent" }}
-              className="relative h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-transparent active:bg-transparent active:opacity-50 transition-opacity duration-100"
-            >
-              <ShoppingCart className="h-[19px] w-[19px]" strokeWidth={2} />
-              {cartCount > 0 && (
-                <span
-                  aria-label={`${cartCount} items in cart`}
-                  className="absolute top-[9px] right-[9px] h-[7px] w-[7px] rounded-full bg-primary ring-[1.5px] ring-background shadow-[0_0_5px_hsl(var(--primary)/0.55)]"
-                />
-              )}
-            </Button>
-          </Link>
-        </div>
       </div>
     </header>
   );
