@@ -384,6 +384,7 @@ const Index = () => {
             </>
           ) : (
             <>
+              <FlexiTopSection />
               {heroSection && renderSection(heroSection)}
               <GalleryCarousel />
               {restSections.map(renderSection)}
