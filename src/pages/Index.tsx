@@ -312,6 +312,7 @@ const Index = () => {
 
               {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
               <MobileCoursesTop />
+              <GalleryCarousel />
               {restSections.map(renderSection)}
 
               {/* 8 — Quiet personal footer: progress + activity */}
