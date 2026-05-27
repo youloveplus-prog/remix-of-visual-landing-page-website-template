@@ -30,9 +30,9 @@ function PillTile({ icon: Icon, label, href, grad }: Tile) {
       className="flex flex-col items-center gap-2 focus-ring rounded-2xl pressable group"
     >
       <div
-        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center shadow-[0_8px_20px_-8px_hsl(var(--primary)/0.5)] transition-transform group-active:scale-95`}
+        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.55)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_14px_30px_-10px_hsl(var(--primary)/0.7)] group-active:scale-95`}
       >
-        <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center text-white">
+        <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.25)] transition-transform duration-300 group-hover:rotate-[-4deg]">
           <Icon className="h-4 w-4" strokeWidth={2.4} />
         </div>
       </div>
