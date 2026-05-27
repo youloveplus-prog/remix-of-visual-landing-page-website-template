@@ -356,11 +356,18 @@ const Index = () => {
         <MobilePage spacing="space-y-5 lg:space-y-14">
           {user ? (
             <>
+              {/* 1 — Hero slider (top priority on mobile) */}
+              <div className="lg:hidden">
+                {heroSection && <ImageHeroSlider />}
+              </div>
+
               <div className="hidden lg:block"><DesktopHeroBento /></div>
               <div className="lg:hidden"><FlexiTopSection /></div>
 
-              {/* 1 — Hero slider (top priority) */}
-              {heroSection && <ImageHeroSlider />}
+              {/* Hero slider on desktop after bento */}
+              <div className="hidden lg:block">
+                {heroSection && <ImageHeroSlider />}
+              </div>
               <BrandStrip />
 
               {/* 2 — Calm greeting */}
