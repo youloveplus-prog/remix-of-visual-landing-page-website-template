@@ -377,7 +377,13 @@ const Profile = () => {
                 learnerQuizzes={0}
               />
             </div>
-            <div key={activeTab} className="animate-fade-in">
+            <div
+              key={activeTab}
+              role="tabpanel"
+              id={`profile-panel-${activeTab}`}
+              aria-labelledby={`profile-tab-${activeTab}`}
+              className="animate-fade-in"
+            >
               {renderTabContent()}
             </div>
           </div>
