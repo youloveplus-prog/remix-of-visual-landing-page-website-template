@@ -324,7 +324,7 @@ export function LearnChat({ threadId, onBack }: Props) {
           <div className="min-w-0">
             <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">{threadTitle}</div>
             <div className="text-[11px] text-muted-foreground leading-tight">
-              Apu · your ASIKON tutor
+              Asikon AI · your study buddy
             </div>
           </div>
         </div>
@@ -456,7 +456,7 @@ export function LearnChat({ threadId, onBack }: Props) {
               rows={1}
               className="w-full resize-none bg-transparent outline-none text-[15px] leading-6 placeholder:text-muted-foreground max-h-[200px]"
               autoFocus
-              aria-label="Message Apu"
+              aria-label="Message Asikon AI"
             />
             <div className="flex items-center justify-between gap-2 pt-1">
               <div className="flex items-center gap-0.5">
@@ -723,7 +723,7 @@ function MessageRow({
     <div className="flex gap-2.5 animate-fade-in group/msg">
       <img src={tutorAvatar} alt="" className="w-7 h-7 rounded-full shrink-0 mt-0.5 ring-1 ring-border" />
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-muted-foreground mb-0.5">Apu</div>
+        <div className="text-xs font-semibold text-muted-foreground mb-0.5">Asikon AI</div>
         <div
           className={cn(
             "text-foreground text-[15px] leading-relaxed",
