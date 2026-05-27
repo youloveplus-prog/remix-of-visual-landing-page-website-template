@@ -206,28 +206,27 @@ const Game = () => {
                       const isRedeeming = redeem.isPending && redeem.variables?.rewardKey === reward.id;
                       return (
                         <Reveal key={reward.id} staggerIndex={Math.min(i, 6)} variant="scale">
-                          <MobileCard variant="glass" noPadding className="overflow-hidden hover-lift">
-                            <div className="relative h-28 lg:h-32 bg-gradient-to-br from-primary/30 to-accent/30 grid place-items-center">
+                          <MobileCard variant="glass" noPadding className="overflow-hidden">
+                            <div className="relative h-28 lg:h-32 bg-secondary border-b border-border grid place-items-center">
                               {reward.image_url ? (
                                 <img src={reward.image_url} alt={reward.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                               ) : (
-                                <Gift className="h-10 w-10 text-primary-foreground/70" />
+                                <Gift className="h-10 w-10 text-muted-foreground" />
                               )}
-                              <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-                              <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-background/80 backdrop-blur-sm capitalize">
+                              <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] font-medium rounded-full bg-background/85 backdrop-blur-md border border-border capitalize">
                                 {reward.type}
                               </span>
                             </div>
                             <div className="p-3">
-                              <h3 className="font-medium text-sm mb-1 line-clamp-1">{reward.title}</h3>
+                              <h3 className="font-medium text-[13.5px] mb-1 line-clamp-1">{reward.title}</h3>
                               <div className="flex items-center justify-between gap-2">
-                                <span className="text-xs text-primary font-semibold">{reward.coins_required.toLocaleString()} Coins</span>
+                                <span className="text-[11.5px] text-foreground font-semibold tabular-nums">{reward.coins_required.toLocaleString()} Coins</span>
                                 <Button
                                   size="sm"
                                   variant={canAfford ? "default" : "secondary"}
                                   disabled={!canAfford || isRedeeming}
                                   onClick={() => redeem.mutate({ rewardKey: reward.id, coins: reward.coins_required })}
-                                  className={canAfford ? "gradient-primary border-0 h-7 text-[11px] px-2" : "h-7 text-[11px] px-2"}
+                                  className="h-7 text-[11px] px-2"
                                 >
                                   {isRedeeming ? <Loader2 className="h-3 w-3 animate-spin" /> : canAfford ? "Redeem" : "Locked"}
                                 </Button>
