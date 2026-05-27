@@ -24,13 +24,13 @@ function Pillar({ icon: Icon, glyph, eyebrow, headline, body, tone }: PillarProp
   const [open, setOpen] = useState(false);
   const ringClass =
     tone === "primary"
-      ? "border-primary/20 from-primary/10 to-accent/5"
-      : "border-accent/25 from-accent/10 to-primary/5";
+      ? "from-primary/[0.08] to-accent/[0.04]"
+      : "from-accent/[0.08] to-primary/[0.04]";
 
   return (
     <article
       className={cn(
-        "group relative overflow-hidden rounded-2xl sm:rounded-[1.75rem] border bg-gradient-to-br p-5 sm:p-7",
+        "group relative overflow-hidden rounded-2xl sm:rounded-[1.75rem] liquid-glass bg-gradient-to-br p-5 sm:p-7",
         ringClass,
       )}
     >
