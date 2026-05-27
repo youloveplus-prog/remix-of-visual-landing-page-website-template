@@ -242,7 +242,7 @@ function NavItem({
             alt=""
             aria-hidden
             className={cn(
-              "h-[22px] w-[22px]",
+              "h-[26px] w-[26px]",
               "transition-all duration-200",
               active ? "opacity-100 nav-ai-active" : "opacity-40"
             )}
