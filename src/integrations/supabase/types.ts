@@ -320,6 +320,7 @@ export type Database = {
           original_price: number | null
           price: number
           published_at: string | null
+          search_vec: unknown
           slug: string
           status: Database["public"]["Enums"]["content_status"]
           summary: string | null
@@ -346,6 +347,7 @@ export type Database = {
           original_price?: number | null
           price?: number
           published_at?: string | null
+          search_vec?: unknown
           slug: string
           status?: Database["public"]["Enums"]["content_status"]
           summary?: string | null
@@ -372,6 +374,7 @@ export type Database = {
           original_price?: number | null
           price?: number
           published_at?: string | null
+          search_vec?: unknown
           slug?: string
           status?: Database["public"]["Enums"]["content_status"]
           summary?: string | null
@@ -884,6 +887,7 @@ export type Database = {
           languages: string[]
           name: string
           rating: number
+          search_vec: unknown
           slug: string
           subjects: string[]
           updated_at: string
@@ -902,6 +906,7 @@ export type Database = {
           languages?: string[]
           name: string
           rating?: number
+          search_vec?: unknown
           slug: string
           subjects?: string[]
           updated_at?: string
@@ -920,6 +925,7 @@ export type Database = {
           languages?: string[]
           name?: string
           rating?: number
+          search_vec?: unknown
           slug?: string
           subjects?: string[]
           updated_at?: string
@@ -1246,6 +1252,7 @@ export type Database = {
           is_pinned: boolean
           product_id: string | null
           rating: number | null
+          search_vec: unknown
           type: string
           updated_at: string
           user_id: string
@@ -1259,6 +1266,7 @@ export type Database = {
           is_pinned?: boolean
           product_id?: string | null
           rating?: number | null
+          search_vec?: unknown
           type?: string
           updated_at?: string
           user_id: string
@@ -1272,6 +1280,7 @@ export type Database = {
           is_pinned?: boolean
           product_id?: string | null
           rating?: number | null
+          search_vec?: unknown
           type?: string
           updated_at?: string
           user_id?: string
@@ -1314,6 +1323,7 @@ export type Database = {
           price: number
           rating: number | null
           review_count: number | null
+          search_vec: unknown
           slug: string
           stock: number | null
           updated_at: string
@@ -1330,6 +1340,7 @@ export type Database = {
           price?: number
           rating?: number | null
           review_count?: number | null
+          search_vec?: unknown
           slug: string
           stock?: number | null
           updated_at?: string
@@ -1346,6 +1357,7 @@ export type Database = {
           price?: number
           rating?: number | null
           review_count?: number | null
+          search_vec?: unknown
           slug?: string
           stock?: number | null
           updated_at?: string
@@ -1868,6 +1880,21 @@ export type Database = {
           date: string
           id: string
           lesson_id: string
+        }[]
+      }
+      global_search: {
+        Args: { per_source?: number; q: string }
+        Returns: {
+          extra: Json
+          id: string
+          image_url: string
+          is_free: boolean
+          kind: string
+          price: number
+          score: number
+          slug: string
+          source: string
+          title: string
         }[]
       }
       has_content_access: {
