@@ -18,5 +18,33 @@ export default defineConfig(({ mode }) => ({
   build: {
     target: "es2020",
     cssCodeSplit: true,
+    minify: "esbuild",
+    reportCompressedSize: false,
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        // Group large 3rd-party libs into stable shared chunks so each
+        // lazy page chunk stays small and these vendors cache cross-route.
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (id.includes("react-dom") || id.match(/[\\/]react[\\/]/) || id.includes("scheduler")) return "react";
+          if (id.includes("@radix-ui")) return "radix";
+          if (id.includes("@supabase")) return "supabase";
+          if (id.includes("recharts") || id.includes("d3-")) return "charts";
+          if (
+            id.includes("react-markdown") ||
+            id.includes("remark") ||
+            id.includes("rehype") ||
+            id.includes("streamdown") ||
+            id.includes("@streamdown")
+          ) return "markdown";
+          if (id.includes("framer-motion") || id.includes("/motion/")) return "motion";
+          if (id.includes("embla-carousel")) return "embla";
+          if (id.includes("@tanstack")) return "tanstack";
+          if (id.includes("lucide-react")) return "icons";
+          if (id.includes("@fontsource")) return "fonts";
+        },
+      },
+    },
   },
 }));
