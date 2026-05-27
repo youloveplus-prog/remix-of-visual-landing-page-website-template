@@ -89,7 +89,7 @@ const Wishlist = () => {
                 </button>
                 <div className="pt-2.5 pb-1">
                   <Link to={`/product/${item.products?.slug}`}>
-                    <h3 className="font-medium text-[13px] lg:text-[14px] line-clamp-2 hover:text-primary transition-colors min-h-[2.25rem]">
+                    <h3 className="font-medium text-[13px] lg:text-[14px] line-clamp-2 hover:opacity-70 transition-opacity min-h-[2.25rem]">
                       {item.products?.name}
                     </h3>
                   </Link>
@@ -99,7 +99,7 @@ const Wishlist = () => {
                       onClick={() => handleAddToCart(item.products?.id || "", item.products?.name || "")}
                       disabled={addToCart.isPending}
                       aria-label="Add to cart"
-                      className="h-7 w-7 grid place-items-center rounded-full text-foreground/70 hover:text-primary active:opacity-60 transition-colors"
+                      className="h-7 w-7 grid place-items-center rounded-full text-foreground/70 hover:text-foreground active:opacity-60 transition-colors"
                       style={{ WebkitTapHighlightColor: "transparent" }}
                     >
                       <ShoppingCart className="h-4 w-4" />
