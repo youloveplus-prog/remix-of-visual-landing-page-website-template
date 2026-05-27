@@ -1,63 +1,52 @@
 ## Goal
-Make the /about page feel unmistakably Bangladeshi and tighten 4 weak sections. Imagery + composition only — no copy or routing changes.
+Push the existing `.glass` / `.glass-strong` system into true Apple-style "liquid glass" — depth, refraction, specular highlights, animated sheen — and apply it consistently across every About-page surface.
 
-## What's weak today (from screenshot review)
+## Where it lands today
+- `.glass` and `.glass-strong` are calm/flat: single highlight gradient + blur + 1px border. No edge specular, no refraction, no inner shadow, no animated sheen.
+- About page surfaces using glass: ImageTextRow cards, Story sidebar, Principles cards, Testimonial cards, Mission/Vision pillars, mobile Stats cards.
 
-1. **Hero image** — generic young man in dim lighting. Could be any country. No Dhaka/Bangla cue.
-2. **Mission & Vision block** — two long paragraph cards stacked. Heaviest text on the page, breaks the visual rhythm.
-3. **All 8 photo assets** — none are visibly Bangladeshi. School uniforms, Bangla script, Dhaka cityscape, traditional motifs are all absent.
-4. **Stats row** — flat 2-col grid on mobile, no visual anchor or BD context.
-5. **Story sidebar (Founded / Based in / Built for)** — plain glass card, decent but underplays "Dhaka, BD".
-6. **Bento + Endless showcase share the same dim photos** — feels repetitive scrolling down.
+## Plan
 
-## Image regeneration (8 assets, all Bangladesh-rooted)
+### 1. Upgrade glass tokens (one place, project-wide benefit)
+File: `src/index.css`
 
-Regenerate each `src/assets/about/*.jpg` with Bangladeshi context. Premium tier for hero, fast for the rest.
+Add three new layered effects on top of existing `.glass` / `.glass-strong` (additive — don't break other pages):
+- **Edge specular**: a 1px inner top + left highlight using `inset` box-shadow with white at ~10% opacity, plus a 1px bottom-right shadow at near-black ~6% for refractive depth.
+- **Inner glow**: an inset radial highlight in the top-left corner via a pseudo-element with `mix-blend-overlay` so it adapts to dark/light theme.
+- **Specular sheen** (new `.liquid-glass` class): an animated diagonal highlight that drifts every 8s — masked, low opacity (~6%), respects `prefers-reduced-motion`.
+- **Refraction stroke**: replace flat 1px border with a 2-color gradient border (`border-image` with top→bottom hairline) so the rim catches light.
+- **Hover lift**: subtle `translateY(-2px)` + shadow swap for interactive glass surfaces. Skip on touch.
 
-| File | New direction |
-|---|---|
-| `hero-student.jpg` | Bangladeshi teenage girl in school uniform studying at a desk at golden hour, soft warm light, Dhaka rooftop or window with palm trees in background, cinematic, 1080×1920 |
-| `story-classroom.jpg` | Bangladeshi classroom in Dhaka, students at wooden benches with notebooks, soft afternoon light through grilled windows, warm tones |
-| `feature-notes.jpg` | Bangla notebook with handwritten Bangla script + phone showing a lesson on a wooden desk, cha (tea) cup nearby, top-down, natural light |
-| `feature-mentor.jpg` | Bangladeshi mentor (man, kurta) sitting beside a young student pointing at a laptop screen, warm window light |
-| `tile-ai-tutor.jpg` | Phone screen with AI tutor speech bubble in Bangla script, glowing softly on a desk, dark moody |
-| `tile-bangla.jpg` | Bangla alphabet (অ আ ই) written in chalk or ink on textured paper, warm cream tones, light tone |
-| `tile-community.jpg` | Group of Bangladeshi students collaborating around a laptop on a Dhaka rooftop or courtyard, golden hour |
-| `tile-daily.jpg` | Hand holding a phone showing a 5-minute lesson card, with a Dhaka rickshaw or street softly blurred in background, dusk |
+Add new utility `.liquid-glass` (extends `.glass-strong` + sheen + corner glow) and `.liquid-glass-interactive` (adds hover lift + cursor pointer affordance).
 
-All prompts include: "natural skin tones, South Asian / Bangladeshi features, documentary photography, no text overlays, no logos."
+### 2. Apply consistently on the About page
 
-## UI tightening (frontend only, no copy changes)
+| Surface | Current | New |
+|---|---|---|
+| Hero buttons | mixed `glass` outline + solid primary | Outline gets `liquid-glass` + subtle inner glow on hover |
+| Stats mobile cards | `glass-strong` | `liquid-glass` with corner glow |
+| Stats desktop hairline row | plain `border-y` | wrap in a single `liquid-glass` band so the whole strip floats |
+| Mission/Vision pillars | flat gradient cards | `liquid-glass` + Bangla glyph stays; add corner specular |
+| ImageTextRow article | `glass-strong` | `liquid-glass` with refraction stroke + animated sheen on the copy column only |
+| Story sidebar card | `glass-strong sticky` | `liquid-glass` + brighter top-edge specular |
+| Principles cards | `glass-strong` | `liquid-glass-interactive` (hover lift) |
+| Testimonial cards | `glass-strong` | `liquid-glass` + soft inner glow behind the quote mark |
+| BentoGallery CTA pills | solid white/neutral pills | swap to `liquid-glass` pill so they read as glass chips over the imagery |
+| FinalCTA section | plain aurora bg | add a `liquid-glass` plinth behind the button group for grounding |
 
-### A. Mission & Vision — make it scannable
-File: `src/components/about/MissionVision.tsx`
-- Keep both paragraphs but add a 2-line "essence" headline above each (`Learn faster.` / `Reach further.`) rendered large, with the full paragraph below as muted body.
-- Add a subtle Bangla character (অ) as a watermark in the corner of each card at low opacity — quiet cultural cue.
-- On mobile, collapse the long paragraph behind a "Read more" expand by default so the section breathes.
-
-### B. Stats row — anchor in Bangladesh
-File: `src/pages/About.tsx` `GlassStats`
-- Add a 5th stat: `64 — Districts reached` (or similar BD-rooted metric).
-- Above the row, add a thin tagline: "Numbers from across Bangladesh." with a small map-pin icon.
-- Desktop: change from 4-col hairline to a single wide hairline band with each stat separated by a faint Bangla numeral watermark behind the digit (০ ১ ২ ৩).
-
-### C. Story sidebar — promote Dhaka
-File: `src/pages/About.tsx` `StorySection` aside
-- Replace the plain "Dhaka, BD" row with a small framed monochrome Dhaka skyline silhouette (SVG) at the top of the card.
-- Keep the three MetaRows but render "Dhaka, BD" with the Bangla "ঢাকা" rendered tiny above it as a subtitle.
-
-### D. Bento gallery — visual variety
-File: `src/components/about/BentoGallery.tsx`
-- The hero tile (AI tutor, span-8 row-2) stays. Reorder so light-toned `tile-bangla` sits adjacent to a dark tile for contrast instead of two darks in a row.
-- Add a thin Bangla glyph (অ, আ, ই) as an oversized 5%-opacity background letter on the `tile-bangla` card — purely decorative.
-- Make CTAs use the same rounded-full pill style as the hero buttons for consistency (currently mixed).
+### 3. Polish details
+- Add a single page-wide aurora layer behind the About page (fixed, very subtle, ~6% opacity) so blur surfaces have *something* to refract through. Currently large sections sit on flat bg making blur invisible.
+- Ensure `backdrop-filter` fallback: solid `background` color stays readable on browsers without backdrop-filter.
+- Tighten radii: glass cards stay at `rounded-2xl` / `rounded-[1.75rem]` — no change.
 
 ## Out of scope
-- Copy rewrites in MissionVision (locked via memory — use `<MissionVision />` component).
-- New sections, routing, or backend changes.
-- Testimonials, Principles, Endless, FinalCTA — all working well, leave alone.
+- Copy changes
+- Image regeneration
+- Layout/composition changes — purely the glass treatment + hover behavior
+- Other pages (utilities are upgraded globally but only About is re-skinned in this pass; other pages benefit automatically without regression because the new behavior is on a new `.liquid-glass` class, not on existing `.glass*`)
 
 ## Technical notes
-- Image regen via `imagegen--generate_image` writing to existing paths (overwrite). Use `premium` for `hero-student.jpg` only, `fast` for the rest.
-- All UI edits are Tailwind class changes + small SVG additions; no new dependencies.
-- No changes to `MissionVision` exported strings — only presentation wrapper.
+- All effects via CSS — no new JS deps.
+- Animated sheen uses CSS `@keyframes` + `mask-image: linear-gradient(...)`; falls back gracefully (mask-image is well-supported in modern browsers, decorative only).
+- Wrap sheen + lift in `@media (prefers-reduced-motion: no-preference)`.
+- Aurora background uses a single fixed `<div>` rendered inside the About page wrapper — no global change.

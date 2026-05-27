@@ -90,7 +90,7 @@ function CinematicHero() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-full px-6 sm:px-7 h-11 sm:h-12 w-full sm:w-auto glass border-white/15 hover:border-white/25 backdrop-blur-xl"
+                className="rounded-full px-6 sm:px-7 h-11 sm:h-12 w-full sm:w-auto liquid-glass liquid-glass-interactive border-0 text-foreground"
               >
                 <Link to="/learn">
                   <Compass className="mr-1.5 h-4 w-4" /> Explore tracks
@@ -126,13 +126,13 @@ function GlassStats() {
         Numbers from across Bangladesh
       </div>
 
-      {/* Mobile: 2-up + last full-width glass cards */}
+      {/* Mobile: 2-up + last full-width liquid glass cards */}
       <div className="grid grid-cols-2 gap-2.5 lg:hidden">
         {STATS.map((s, i) => (
           <div
             key={s.v}
             className={cn(
-              "relative overflow-hidden rounded-2xl p-4 glass-strong border border-white/10",
+              "relative overflow-hidden rounded-2xl p-4 liquid-glass",
               i === STATS.length - 1 && STATS.length % 2 === 1 && "col-span-2",
             )}
           >
@@ -160,33 +160,34 @@ function GlassStats() {
         ))}
       </div>
 
-      <div className="hidden lg:grid lg:grid-cols-5 border-y border-border/50">
-        {STATS.map((s, i) => (
-          <div
-            key={s.v}
-            className={cn(
-              "relative overflow-hidden py-10 px-6",
-              i > 0 && "border-l border-border/50",
-            )}
-          >
-            <span
-              aria-hidden
-              className="pointer-events-none absolute right-3 bottom-0 text-[6rem] leading-none font-semibold text-foreground/[0.045] select-none"
-              style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali',sans-serif" }}
-            >
-              {s.bn}
-            </span>
-            <div
-              className="relative font-display text-4xl xl:text-5xl font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-primary)" }}
-            >
-              {s.k}
-            </div>
-            <div className="relative mt-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-              {s.v}
-            </div>
+      <div className="hidden lg:block">
+        <div className="liquid-glass rounded-[1.75rem] overflow-hidden">
+          <div className="grid lg:grid-cols-5 divide-x divide-border/40">
+            {STATS.map((s) => (
+              <div
+                key={s.v}
+                className="relative overflow-hidden py-10 px-6"
+              >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute right-3 bottom-0 text-[6rem] leading-none font-semibold text-foreground/[0.05] select-none"
+                  style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali',sans-serif" }}
+                >
+                  {s.bn}
+                </span>
+                <div
+                  className="relative font-display text-4xl xl:text-5xl font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
+                  style={{ backgroundImage: "var(--gradient-primary)" }}
+                >
+                  {s.k}
+                </div>
+                <div className="relative mt-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                  {s.v}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </section>
   );
@@ -215,7 +216,7 @@ function ImageTextRow({
 }) {
   return (
     <section className="container-editorial py-8 sm:py-14 lg:py-20">
-      <article className="group relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-2xl sm:rounded-[2.25rem] glass-strong border border-white/10 shadow-[0_20px_50px_-30px_hsl(var(--primary)/0.35)]">
+      <article className="group relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-2xl sm:rounded-[2.25rem] liquid-glass shadow-[0_20px_50px_-30px_hsl(var(--primary)/0.35)]">
         {/* hairline top */}
         <div
           className="absolute top-0 left-6 right-6 sm:left-10 sm:right-10 h-px z-10 pointer-events-none"
@@ -295,7 +296,7 @@ function ImageTextRow({
             )}
 
             <div className="mt-5 sm:mt-8 flex justify-center lg:justify-start">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium glass border border-white/15 text-foreground/90 transition-transform group-hover:translate-x-0.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium liquid-glass-pill text-foreground/90 transition-transform group-hover:translate-x-0.5">
                 Learn more
                 <ArrowRight className="h-3.5 w-3.5" />
               </span>
@@ -362,7 +363,7 @@ function PrinciplesCarousel() {
             return (
               <article
                 key={p.title}
-                className="shrink-0 basis-[78%] sm:basis-[48%] lg:basis-[28%] xl:basis-[24%] glass-strong border border-white/10 rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-8 relative overflow-hidden hover-lift"
+                className="shrink-0 basis-[78%] sm:basis-[48%] lg:basis-[28%] xl:basis-[24%] liquid-glass liquid-glass-interactive rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-8 relative overflow-hidden"
               >
 
                 <div
@@ -442,7 +443,7 @@ function TestimonialsCarousel() {
               key={t.name}
               className="shrink-0 basis-[86%] sm:basis-[60%] lg:basis-[36%] px-2 sm:px-3"
             >
-              <article className="relative glass-strong border border-white/10 rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-9 min-h-[200px] sm:min-h-[240px] h-full">
+              <article className="relative liquid-glass rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-9 min-h-[200px] sm:min-h-[240px] h-full">
                 <Quote className="absolute top-4 right-4 sm:top-5 sm:right-5 w-7 h-7 sm:w-9 sm:h-9 text-primary/15" />
                 <div className="flex gap-0.5 mb-3 sm:mb-4">
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -497,7 +498,7 @@ function StorySection() {
         </div>
 
         <aside className="lg:col-span-5">
-          <div className="glass-strong border border-white/10 rounded-2xl sm:rounded-[2rem] p-5 sm:p-7 lg:p-8 lg:sticky lg:top-28 relative overflow-hidden">
+          <div className="liquid-glass rounded-2xl sm:rounded-[2rem] p-5 sm:p-7 lg:p-8 lg:sticky lg:top-28 relative overflow-hidden">
             <div
               className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-30"
               style={{ background: "var(--gradient-primary)" }}
