@@ -405,15 +405,17 @@ export function UserDetailDrawer({ userId, onClose }: Props) {
           </SheetTitle>
         </SheetHeader>
 
-        <Tabs defaultValue="profile" className="px-5 py-4">
-          <TabsList className="grid grid-cols-6 mb-4 h-9">
-            <TabsTrigger value="profile" className="text-[11px]">Profile</TabsTrigger>
-            <TabsTrigger value="game" className="text-[11px]">Game</TabsTrigger>
-            <TabsTrigger value="roles" className="text-[11px]">Roles</TabsTrigger>
-            <TabsTrigger value="orders" className="text-[11px]">Orders</TabsTrigger>
-            <TabsTrigger value="activity" className="text-[11px]">Activity</TabsTrigger>
-            <TabsTrigger value="danger" className="text-[11px] text-destructive">Danger</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="profile" className="px-3 sm:px-5 py-4">
+          <div className="-mx-3 sm:-mx-5 px-3 sm:px-5 mb-4 overflow-x-auto no-scrollbar">
+            <TabsList className="inline-flex sm:grid sm:grid-cols-6 w-max sm:w-full h-9 gap-1">
+              <TabsTrigger value="profile" className="text-[11px] px-3">Profile</TabsTrigger>
+              <TabsTrigger value="game" className="text-[11px] px-3">Game</TabsTrigger>
+              <TabsTrigger value="roles" className="text-[11px] px-3">Roles</TabsTrigger>
+              <TabsTrigger value="orders" className="text-[11px] px-3">Orders</TabsTrigger>
+              <TabsTrigger value="activity" className="text-[11px] px-3">Activity</TabsTrigger>
+              <TabsTrigger value="danger" className="text-[11px] px-3 text-destructive">Danger</TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* TAB 1 — PROFILE */}
           <TabsContent value="profile" className="space-y-3 mt-0">
