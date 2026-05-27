@@ -15,6 +15,8 @@ import {
   Settings as SettingsIcon,
   Image as ImageIcon,
   ScrollText,
+  Download,
+  Briefcase,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -39,6 +41,9 @@ export const adminNavItems: AdminNavItem[] = [
   { title: "Categories", url: "/asikonasik/categories", icon: Tags, section: "Content" },
   { title: "Tracks", url: "/asikonasik/tracks", icon: GraduationCap, section: "Content" },
   { title: "Lessons", url: "/asikonasik/lessons", icon: BookOpen, section: "Content" },
+  { title: "Digital Products", url: "/asikonasik/digital", icon: Download, section: "Content" },
+  { title: "Courses", url: "/asikonasik/courses", icon: GraduationCap, section: "Content" },
+  { title: "Services", url: "/asikonasik/services", icon: Briefcase, section: "Content" },
 
   // Community
   { title: "Posts", url: "/asikonasik/community", icon: MessagesSquare, section: "Community" },

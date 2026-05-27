@@ -1,71 +1,114 @@
-# Plan — 4 fixes in one pass
 
-## 1. Fix blank published site (asikonpro.lovable.app)
+# Content Library — Digital Products, Courses, Services
 
-Most likely cause for a Vite + Supabase project showing a blank page only on the published URL: the published bundle was built without `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY`, or a recent change throws during initial render and there's no top-level error boundary on the route tree.
+A unified backend powers three polished admin sections. Items can be free or paid; access is granted via the existing `orders` flow. Storefront pages list and play/download purchased content.
 
-Steps:
-- Open the published URL in the debug browser, capture console + network errors to confirm the actual failure (env-missing vs runtime throw vs lazy-chunk 404).
-- If env: re-sync Supabase connection so `.env` is regenerated, then republish.
-- If runtime throw: wrap `<AnimatedRoutes />` in `App.tsx` with an existing `ErrorBoundary` so a single broken lazy route can't blank the whole app, and fix the underlying throw.
-- Verify by reloading the published URL after republish.
+## Architecture
 
-## 2. Promotional content uploader (admin)
-
-Build a real uploader inside the existing `AdminBanners` page (and extend `AdminHomeSections` for promo strips) backed by Supabase Storage.
-
-- New storage bucket `promos` (public read, admin-only write) via migration.
-- New table `public.promotions` (title, subtitle, image_url, cta_label, cta_url, placement enum: `home_hero | home_strip | shop_banner | community_banner`, position int, active bool, starts_at, ends_at). RLS: public read of active rows, admin write. GRANTs per the rules.
-- `PromoUploader` component in admin: drag-drop image, fields, live preview, schedule pickers. Writes to `promos` bucket and `promotions` table. All actions logged via existing `useAuditLog`.
-- Surface active promos on the user side by reading `promotions` in the existing home/shop banner components — no visual changes to user pages, just real data instead of mock.
-
-## 3. Admin mobile a11y pass
-
-Targeted at `AdminBottomNav`, `AdminLayout` sticky filter chips, and `UserDetailDrawer` tabs.
-
-- **Bottom nav**: add `role="tablist"` on the nav container, `role="tab"` + `aria-selected` + `aria-controls` on each `NavLink`, visible `focus-visible:ring-2 ring-primary` ring, `aria-current="page"` on active, `aria-label` on the More button, ensure 44×44 tap target (already met, just confirm). Keyboard: arrow-left/right to move between tabs, Enter to activate.
-- **Filter chip bars** (Users / Orders / Products / Community): wrap in `role="toolbar" aria-label="Filters"`, each chip is a real `<button>` with `aria-pressed`, focus ring, scroll-into-view on focus.
-- **UserDetailDrawer tabs**: convert to shadcn `Tabs` primitive (Radix) so keyboard nav + `aria-selected` come for free; add `aria-label` on icon-only row actions (ban, verify, force sign-out, send notification), confirm dialogs get proper `DialogDescription` (fixes the existing console warning).
-- **Global**: replace any `h-screen` on admin shells with `h-dvh`; ensure all icon-only buttons across admin pages have `aria-label`.
-
-## 4. Split user vs admin code
-
-New top-level structure inside `src/`:
-
-```text
-src/
-  admin/
-    components/   ← from src/components/admin/**
-    pages/        ← from src/pages/admin/**
-    hooks/        ← admin-only hooks (useAuditLog, useUserRole stays shared)
-  user/
-    components/   ← user-facing feature components (community, shop, profile, home, learn, mentorship, messaging, product, search, game, profile, layout)
-    pages/        ← from src/pages/*.tsx (all non-admin pages)
-    hooks/        ← user-only hooks
-  shared/
-    components/ui/  ← shadcn primitives (untouched)
-    components/transitions, ErrorBoundary, SEO, NavLink
-    hooks/use-mobile, use-toast, use-scroll-*, useAuth, useProfile, etc.
-    lib/, integrations/, types/, copy/, assets/
-  App.tsx, main.tsx, index.css
+```
+content_items (shared) ──┬── content_assets (videos/images/pdfs/files)
+                         ├── content_purchases (per-user access)
+                         ├── course_modules ── course_lessons
+                         └── service_details (bookable | deliverable)
 ```
 
-- Update `tsconfig.app.json` paths: add `@/admin/*`, `@/user/*`, `@/shared/*` aliases while keeping `@/*` working for the transition.
-- Update `vite.config.ts` alias map to match.
-- Mechanical move with import rewrites via codemod (ripgrep + sed) batched per folder; verify build between batches.
-- Update `App.tsx` lazy imports to the new locations.
-- `components.json` shadcn alias stays pointed at `@/shared/components/ui` so future `shadcn add` writes to the right place.
+One shared "content_items" table keeps catalog, pricing, search, and ordering uniform. Type-specific tables extend it for courses and services.
 
-## Order of execution
+## Database (migrations)
 
-1. Debug + fix blank published site (highest priority, smallest change).
-2. A11y pass (low risk, isolated to admin files).
-3. Promo uploader (migration + bucket + UI).
-4. User/admin split (last — biggest churn, run after the above are verified).
+**`content_items`** — shared catalog row
+- `kind` enum: `digital` | `course` | `service`
+- `title`, `slug`, `summary`, `description_md`, `cover_url`, `gallery` (text[])
+- `price`, `original_price`, `currency` ('BDT'), `is_free`, `access_kind` ('lifetime' | 'subscription' coming later)
+- `category`, `tags[]`, `level` (beginner/…)`, `language`, `duration_min`
+- `status` ('draft'|'published'|'archived'), `is_featured`, `display_order`
+- `instructor_id` (uuid → profiles, for courses/services)
+- `published_at`, timestamps
 
-## Technical notes
+**`content_assets`** — many per item
+- `item_id`, `lesson_id` (nullable, for course lessons), `kind` ('video'|'image'|'pdf'|'audio'|'zip'|'other'), `url`, `storage_path`, `mime`, `size_bytes`, `duration_sec`, `position`, `is_preview`
 
-- No changes to auth, roles, or RLS model beyond the new `promotions` table.
-- Storage: `promos` bucket public for read so CDN URLs work; no broad SELECT on `storage.objects` (matches the security-memory rule from last pass).
-- The split keeps `src/components/ui/` (shadcn) intact as `src/shared/components/ui/` — no shadcn primitives are rewritten.
-- Memory will be updated to record the new folder convention and the promotions table after step 4 lands.
+**`course_modules`** — `item_id`, `title`, `summary`, `position`
+**`course_lessons`** — `module_id`, `item_id`, `title`, `content_md`, `video_asset_id`, `duration_min`, `position`, `is_preview`
+
+**`service_details`** — `item_id`, `mode` ('bookable'|'deliverable'), `delivery_days`, `session_minutes`, `max_revisions`, `included` (jsonb)
+
+**`content_purchases`** — `user_id`, `item_id`, `order_id`, `granted_at`, `expires_at` (nullable). Unique on (user_id, item_id).
+
+**`lesson_progress`** — `user_id`, `lesson_id`, `item_id`, `completed_at`, `seconds_watched`.
+
+**RLS summary**
+- `content_items`: SELECT public for `status='published'`; admins manage all.
+- `content_assets`: SELECT only if item is published AND (asset.is_preview OR user has purchase) OR admin.
+- `course_modules`/`course_lessons`: SELECT if parent item is published; full lesson body only with purchase/preview.
+- `content_purchases`: user reads own; insert via order trigger; admins read all.
+- `lesson_progress`: user manages own rows.
+
+**Storage buckets**
+- `content-media` (private) — videos, pdfs, zips. Signed URLs on demand.
+- `content-covers` (public) — cover images & gallery.
+
+**Order integration**
+- Add `item_kind` ('product'|'content') and `content_item_id` to `order_items` (nullable).
+- Trigger on `orders.status → 'paid'` inserts `content_purchases` rows for any content order items.
+
+## Admin (three polished pages, shared components)
+
+Routes under `/asikonasik/`:
+- `/asikonasik/digital` — Digital Products
+- `/asikonasik/courses` — Courses
+- `/asikonasik/services` — Services
+
+Added to `adminNav.ts` with icons (Download, GraduationCap, Briefcase).
+
+**Shared components** (`src/components/admin/content/`)
+- `ContentTable.tsx` — searchable, filterable list (status, category, price band, featured)
+- `ContentEditorSheet.tsx` — right-side sheet with tabs: Overview · Media · Pricing · Publishing
+- `MediaUploader.tsx` — drag-and-drop multi-file upload (videos/images/pdfs/zips), progress bars, reorder, preview toggle, delete; uses `supabase.storage` resumable upload for large videos
+- `CoverPicker.tsx` — cover + gallery management
+- `RichTextEditor.tsx` — markdown editor with preview (reuse existing if present)
+- `PricingBlock.tsx` — free toggle, price, compare-at, featured
+
+**Courses-only**: `CurriculumBuilder.tsx` — modules & lessons with drag-to-reorder, per-lesson video upload + content + preview flag.
+**Services-only**: `ServiceModeSwitch.tsx` — bookable (session minutes, capacity) vs deliverable (delivery days, revisions, included list).
+
+UI keeps the existing liquid-glass admin style (`GlassPanel`, `SectionHeader`, `Reveal`, sticky toolbar, mobile cards / desktop table mirroring `AdminProducts.tsx`).
+
+## Storefront (user app)
+
+Routes:
+- `/learn` — already exists; extend to list published courses from `content_items` where `kind='course'`.
+- `/library` (new) — "My Library": purchased items grouped by kind, with continue-learning row.
+- `/courses/:slug`, `/digital/:slug`, `/services/:slug` — public detail pages with hero, preview lessons/files, pricing, "Add to cart" or "Free — Get access".
+- `/courses/:slug/learn/:lessonId` — player page (video + markdown + next/prev + progress).
+- `/services/:slug` — booking form (bookable) or order CTA (deliverable).
+
+**Access enforcement**: client checks `content_purchases`; protected asset URLs are signed by an edge function `get-asset-url` that verifies purchase or admin/preview.
+
+**Discovery**: Home gets a "Featured courses" carousel section (admin toggleable via existing `home_sections`).
+
+## Edge functions
+
+- `get-asset-url` — input: `asset_id`; verifies access via RLS-aware query; returns short-lived signed URL.
+- `grant-content-access` — invoked by order webhook/trigger fallback for idempotent purchase grants.
+
+## Implementation order
+
+1. Migrations: tables, RLS, GRANTs, buckets, triggers.
+2. Edge function `get-asset-url` + secrets check.
+3. Admin shared components + Digital Products admin page.
+4. Courses admin (curriculum builder).
+5. Services admin (mode switch).
+6. Storefront: detail pages, library, course player, home section.
+7. Cart/Checkout: accept `content_item_id` items; on paid order → grant access.
+
+## Out of scope (flag for later)
+
+- Subscriptions / recurring access
+- Certificates & quizzes
+- Live cohorts / Zoom integration
+- Stripe payments (current flow is COD/manual; can layer Stripe later)
+
+## Open question
+
+Do you want a real payment gateway (Stripe) wired in now for paid digital content/courses, or keep the existing manual/COD-style order flow and add Stripe later?

@@ -106,6 +106,14 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const Refund = lazy(() => import("./pages/Refund"));
 const Notifications = lazy(() => import("./pages/Notifications"));
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const AdminDigital = lazy(() => import("./pages/admin/AdminDigital"));
+const AdminCourses = lazy(() => import("./pages/admin/AdminCourses"));
+const AdminServices = lazy(() => import("./pages/admin/AdminServices"));
+const DigitalList = lazy(() => import("./pages/DigitalList"));
+const CoursesList = lazy(() => import("./pages/CoursesList"));
+const ServicesList = lazy(() => import("./pages/ServicesList"));
+const ContentDetail = lazy(() => import("./pages/ContentDetail"));
+const Library = lazy(() => import("./pages/Library"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -194,6 +202,11 @@ function AnimatedRoutes() {
           <Route path="/refund" element={<Refund />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/digital" element={<DigitalList />} />
+          <Route path="/courses" element={<CoursesList />} />
+          <Route path="/services" element={<ServicesList />} />
+          <Route path="/content/:slug" element={<ContentDetail />} />
+          <Route path="/library" element={<Library />} />
           
           
           <Route path="/track/:slug" element={<TrackDetail />} />
@@ -215,6 +228,9 @@ function AnimatedRoutes() {
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="rewards" element={<AdminRewards />} />
             <Route path="audit-log" element={<AdminAuditLog />} />
+            <Route path="digital" element={<AdminDigital />} />
+            <Route path="courses" element={<AdminCourses />} />
+            <Route path="services" element={<AdminServices />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
