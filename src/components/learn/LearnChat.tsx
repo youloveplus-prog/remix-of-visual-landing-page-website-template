@@ -415,7 +415,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
       {/* Composer — calm white surface, hairline border, no gradient wash */}
       <div className="shrink-0 px-3 sm:px-6 pt-2 pb-2 border-t border-border bg-background/95 backdrop-blur-xl">
-        <div className="mx-auto w-full max-w-3xl space-y-2">
+        <div className="mx-auto w-full max-w-3xl space-y-2 my-0 px-0 py-[400px]">
           {/* Action chips */}
           {!isEmpty && (
             <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-1 px-1">
