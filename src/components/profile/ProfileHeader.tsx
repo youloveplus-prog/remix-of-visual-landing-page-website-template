@@ -141,7 +141,7 @@ export function ProfileHeader({
             type="button"
             onClick={() => navigate(-1)}
             aria-label="Go back"
-            className="md:hidden absolute top-3 left-3 h-9 w-9 rounded-full glass-strong flex items-center justify-center shadow-md focus-ring tap"
+            className="md:hidden absolute top-3 left-3 h-9 w-9 rounded-full bg-background/85 backdrop-blur-md border border-border flex items-center justify-center focus-ring tap"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
@@ -154,7 +154,7 @@ export function ProfileHeader({
               type="button"
               onClick={onShare}
               aria-label="Share profile"
-              className="h-9 w-9 rounded-full glass-strong flex items-center justify-center shadow-md focus-ring tap"
+              className="h-9 w-9 rounded-full bg-background/85 backdrop-blur-md border border-border flex items-center justify-center focus-ring tap"
             >
               <Share2 className="h-4 w-4" />
             </button>
@@ -166,7 +166,7 @@ export function ProfileHeader({
                 onClick={() => coverInputRef.current?.click()}
                 disabled={uploadingCover}
                 aria-label="Change cover photo"
-                className="inline-flex items-center gap-1.5 px-3 h-9 rounded-full glass-strong text-xs font-medium shadow-md focus-ring tap"
+                className="inline-flex items-center gap-1.5 px-3 h-9 rounded-full bg-background/85 backdrop-blur-md border border-border text-[12px] font-medium focus-ring tap"
               >
                 {uploadingCover ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Camera className="h-3.5 w-3.5" />}
                 <span className="hidden sm:inline">{uploadingCover ? "Uploading…" : "Edit cover"}</span>
