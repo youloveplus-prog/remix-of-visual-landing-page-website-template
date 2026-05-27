@@ -119,10 +119,19 @@ export default function Learn() {
 
   return (
     <StandaloneShell>
-      <Helmet>
-        <title>Apu · AI Tutor — Asikon</title>
-        <meta name="description" content="Chat with Apu, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds." />
-      </Helmet>
+      <SEO
+        title="Apu · AI Tutor"
+        description="Chat with Apu, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds."
+        url="https://asikonpro.lovable.app/learn"
+      >
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Course",
+          name: "Asikon AI Tutor — Apu",
+          description: "24/7 AI study buddy for SSC, HSC, and beyond. Get instant answers, MCQs, and revision plans.",
+          provider: { "@type": "Organization", name: "Asikon", sameAs: "https://asikonpro.lovable.app/" },
+        })}</script>
+      </SEO>
       <TopBar onBack={handleBack} onNew={handleNew} showMenu={mobileMenu} />
       <div className="flex flex-1 min-h-0">
         <aside className="hidden lg:flex w-64 border-r border-border flex-col">
