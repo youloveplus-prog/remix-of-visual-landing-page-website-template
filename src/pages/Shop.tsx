@@ -26,8 +26,8 @@ function detectProductType(name: string): ProductType {
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState(searchParams.get("category") ?? "All");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, MAX_PRICE]);
   const [productType, setProductType] = useState<ProductType>("all");
@@ -35,12 +35,15 @@ const Shop = () => {
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
 
-  // Sync URL params (?type=courses, ?filter=trending|new|deals) → state
+  // Sync URL → state (q, type, filter, category)
   useEffect(() => {
+    setSearchQuery(searchParams.get("q") ?? "");
     const type = searchParams.get("type") as ProductType | null;
     if (type && ["all", "courses", "books", "kits", "prompts"].includes(type)) {
       setProductType(type);
     }
+    const cat = searchParams.get("category");
+    setActiveCategory(cat ?? "All");
     const filter = searchParams.get("filter");
     if (filter === "trending" || filter === "popular") setSortBy("popular");
     else if (filter === "new") setSortBy("newest");
@@ -51,6 +54,14 @@ const Shop = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    const next = new URLSearchParams(searchParams);
+    if (value.trim()) next.set("q", value);
+    else next.delete("q");
+    setSearchParams(next, { replace: true });
+  };
+
   const handleTypeChange = (t: ProductType) => {
     setProductType(t);
     const next = new URLSearchParams(searchParams);
@@ -58,6 +69,15 @@ const Shop = () => {
     else next.set("type", t);
     setSearchParams(next, { replace: true });
   };
+
+  const handleCategoryChange = (name: string) => {
+    setActiveCategory(name);
+    const next = new URLSearchParams(searchParams);
+    if (name === "All") next.delete("category");
+    else next.set("category", name);
+    setSearchParams(next, { replace: true });
+  };
+
 
   const { data: categories, isLoading: categoriesLoading } = useCategories();
 
