@@ -43,16 +43,16 @@ function PillTile({ icon: Icon, label, href, grad }: Tile) {
 
 export function FlexiTopSection() {
   return (
-    <section className="section-x space-y-4 pt-2">
+    <section className="section-x space-y-4 pt-2 animate-fade-in">
       {/* Combined CTA + stats split card */}
-      <div className="rounded-3xl overflow-hidden border border-border/60 shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.45)] grid grid-cols-5">
+      <div className="rounded-3xl overflow-hidden border border-border/60 shadow-[0_18px_40px_-18px_hsl(var(--primary)/0.55)] grid grid-cols-5 midnight-shine">
         <Link
           to="/shop"
-          className="col-span-3 relative p-4 text-primary-foreground focus-ring pressable flex flex-col justify-between"
+          className="col-span-3 relative p-4 text-primary-foreground focus-ring pressable flex flex-col justify-between transition-transform duration-300 active:scale-[0.98]"
           style={{ background: "var(--gradient-primary)" }}
         >
-          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl" />
-          <div className="relative w-10 h-10 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center">
+          <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl float-y" />
+          <div className="relative w-10 h-10 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
             <GraduationCap className="h-5 w-5" />
           </div>
           <div className="relative mt-4">
