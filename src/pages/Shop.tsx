@@ -152,7 +152,9 @@ const Shop = () => {
     setMinRating(0);
     setOnSaleOnly(false);
     setFeaturedOnly(false);
+    setSearchParams(new URLSearchParams(), { replace: true });
   };
+
 
   return (
     <AppLayout>
