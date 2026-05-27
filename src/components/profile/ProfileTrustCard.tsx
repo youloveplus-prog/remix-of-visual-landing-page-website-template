@@ -35,49 +35,45 @@ export function ProfileTrustCard({ trustScore, coins, level, onViewDetails }: Pr
 
   return (
     <div className="mx-4 sm:mx-6 mb-4">
-      <div className="p-4 rounded-2xl glass border border-border/50">
+      <div className="p-4 rounded-xl bg-card border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-sm flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-primary" />
+          <h3 className="text-[13px] font-medium tracking-tight flex items-center gap-2 text-foreground/80">
+            <TrendingUp className="h-3.5 w-3.5 text-foreground/60" />
             Trust & Rewards
           </h3>
-          <button 
+          <button
             onClick={onViewDetails}
-            className="text-xs text-primary flex items-center gap-0.5 hover:underline"
+            className="text-[12px] text-muted-foreground hover:text-foreground flex items-center gap-0.5"
           >
             Details <ChevronRight className="h-3 w-3" />
           </button>
         </div>
-        
+
         <div className="grid grid-cols-3 gap-3">
           {/* Trust Score */}
-          <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary/30">
-            <div className="relative">
-              <Shield className="h-8 w-8 text-emerald-400/20" />
-              <Shield className={cn("h-8 w-8 absolute inset-0", getTrustColor(trustScore))} 
-                style={{ clipPath: `inset(${100 - trustScore}% 0 0 0)` }} />
-            </div>
+          <div className="flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border">
+            <Shield className="h-6 w-6 text-foreground/70" />
             <div className="text-center">
-              <p className={cn("text-xl font-bold", getTrustColor(trustScore))}>{trustScore}%</p>
-              <p className="text-[10px] text-muted-foreground">{getTrustLabel(trustScore)}</p>
+              <p className={cn("text-[17px] font-semibold tabular-nums", getTrustColor(trustScore))}>{trustScore}%</p>
+              <p className="text-[10.5px] text-muted-foreground">{getTrustLabel(trustScore)}</p>
             </div>
           </div>
 
           {/* Coins */}
-          <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary/30">
-            <Coins className="h-8 w-8 text-amber-400" />
+          <div className="flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border">
+            <Coins className="h-6 w-6 text-foreground/70" />
             <div className="text-center">
-              <p className="text-xl font-bold text-amber-400">{coins.toLocaleString()}</p>
-              <p className="text-[10px] text-muted-foreground">Coins</p>
+              <p className="text-[17px] font-semibold tabular-nums text-foreground">{coins.toLocaleString()}</p>
+              <p className="text-[10.5px] text-muted-foreground">Coins</p>
             </div>
           </div>
 
           {/* Level */}
-          <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-secondary/30">
-            <Award className={cn("h-8 w-8", getLevelColor(level))} />
+          <div className="flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border">
+            <Award className={cn("h-6 w-6", getLevelColor(level))} />
             <div className="text-center">
-              <p className={cn("text-xl font-bold", getLevelColor(level))}>{level}</p>
-              <p className="text-[10px] text-muted-foreground">Level</p>
+              <p className={cn("text-[17px] font-semibold", getLevelColor(level))}>{level}</p>
+              <p className="text-[10.5px] text-muted-foreground">Level</p>
             </div>
           </div>
         </div>
