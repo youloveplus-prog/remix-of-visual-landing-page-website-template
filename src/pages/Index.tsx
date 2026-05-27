@@ -163,7 +163,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             </div>
           </Link>
 
-          <div className="midnight-tile midnight-glow p-5 h-40 flex flex-col justify-between overflow-hidden"
+          <div className="midnight-tile midnight-glow midnight-shine p-5 h-40 flex flex-col justify-between overflow-hidden"
                style={{ background: "hsl(var(--primary) / 0.08)", borderColor: "hsl(var(--primary) / 0.25)" }}>
             <div className="relative z-10 w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.5)]">
               <Flame className="h-5 w-5" />
