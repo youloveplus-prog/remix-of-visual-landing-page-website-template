@@ -286,17 +286,17 @@ const Game = () => {
 
             {/* Quick Actions */}
             <MobileCard variant="glass" className="p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground mb-3">Quick actions</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground mb-3">Quick actions</p>
               <div className="grid grid-cols-2 gap-2">
                 {quickActions.map((action) => (
                   <button
                     key={action.label}
                     type="button"
                     onClick={action.onClick}
-                    className="rounded-xl bg-secondary/40 hover:bg-primary/10 border border-border/60 hover:border-primary/30 p-3 flex flex-col items-center gap-1.5 transition-colors focus-ring"
+                    className="rounded-xl bg-secondary/40 hover:bg-secondary border border-border p-3 flex flex-col items-center gap-1.5 transition-colors focus-ring"
                   >
                     <action.icon className={`h-5 w-5 ${action.color}`} />
-                    <span className="text-[11px] font-medium">{action.label}</span>
+                    <span className="text-[11.5px] font-medium">{action.label}</span>
                   </button>
                 ))}
               </div>
