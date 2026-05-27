@@ -1,10 +1,13 @@
-import { 
-  Package, 
-  Heart, 
-  LayoutDashboard, 
-  Gift, 
-  HelpCircle, 
-  Info 
+import {
+  Package,
+  Heart,
+  Trophy,
+  Bell,
+  HelpCircle,
+  Info,
+  Mail,
+  FileText,
+  ShieldCheck,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
