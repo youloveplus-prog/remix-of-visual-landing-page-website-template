@@ -86,8 +86,14 @@ export function FlexiTopSection() {
 
       {/* Essential quick actions */}
       <div className="grid grid-cols-4 gap-2">
-        {pillActions.map((t) => (
-          <PillTile key={t.label} {...t} />
+        {pillActions.map((t, i) => (
+          <div
+            key={t.label}
+            className="animate-fade-in"
+            style={{ animationDelay: `${i * 60}ms`, animationFillMode: "backwards" }}
+          >
+            <PillTile {...t} />
+          </div>
         ))}
       </div>
     </section>
