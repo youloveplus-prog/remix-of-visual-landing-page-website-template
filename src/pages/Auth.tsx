@@ -524,7 +524,7 @@ const Auth = () => {
                       />
 
                       <div className="flex items-center justify-between pt-1">
-                        <label className="flex items-center gap-2 cursor-pointer select-none group">
+                        <label className="flex items-center gap-2 cursor-pointer select-none">
                           <span className="relative">
                             <input
                               type="checkbox"
@@ -532,17 +532,15 @@ const Auth = () => {
                               onChange={(e) => setRememberMe(e.target.checked)}
                               className="peer sr-only"
                             />
-                            <span className="block w-4 h-4 rounded-md border border-border bg-background peer-checked:gradient-primary peer-checked:border-transparent transition-all" />
+                            <span className="block w-4 h-4 rounded-[5px] border border-border bg-background peer-checked:bg-foreground peer-checked:border-foreground transition-colors" />
                             <CheckCircle2
                               className={cn(
-                                "absolute inset-0 m-auto h-3 w-3 text-primary-foreground transition-opacity",
+                                "absolute inset-0 m-auto h-3 w-3 text-background transition-opacity",
                                 rememberMe ? "opacity-100" : "opacity-0",
                               )}
                             />
                           </span>
-                          <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                            Remember me
-                          </span>
+                          <span className="text-xs text-muted-foreground">Remember me</span>
                         </label>
                         <button
                           type="button"
@@ -551,7 +549,7 @@ const Auth = () => {
                             setForgotEmail(loginEmail);
                             clearErrors();
                           }}
-                          className="text-xs font-semibold text-primary hover:text-primary/80 transition-colors focus-ring rounded-md"
+                          className="text-xs font-medium text-foreground hover:text-foreground/70 underline-offset-4 hover:underline transition-colors"
                         >
                           Forgot password?
                         </button>
