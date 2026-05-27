@@ -160,33 +160,34 @@ function GlassStats() {
         ))}
       </div>
 
-      <div className="hidden lg:grid lg:grid-cols-5 border-y border-border/50">
-        {STATS.map((s, i) => (
-          <div
-            key={s.v}
-            className={cn(
-              "relative overflow-hidden py-10 px-6",
-              i > 0 && "border-l border-border/50",
-            )}
-          >
-            <span
-              aria-hidden
-              className="pointer-events-none absolute right-3 bottom-0 text-[6rem] leading-none font-semibold text-foreground/[0.045] select-none"
-              style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali',sans-serif" }}
-            >
-              {s.bn}
-            </span>
-            <div
-              className="relative font-display text-4xl xl:text-5xl font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
-              style={{ backgroundImage: "var(--gradient-primary)" }}
-            >
-              {s.k}
-            </div>
-            <div className="relative mt-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-              {s.v}
-            </div>
+      <div className="hidden lg:block">
+        <div className="liquid-glass rounded-[1.75rem] overflow-hidden">
+          <div className="grid lg:grid-cols-5 divide-x divide-border/40">
+            {STATS.map((s) => (
+              <div
+                key={s.v}
+                className="relative overflow-hidden py-10 px-6"
+              >
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute right-3 bottom-0 text-[6rem] leading-none font-semibold text-foreground/[0.05] select-none"
+                  style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali',sans-serif" }}
+                >
+                  {s.bn}
+                </span>
+                <div
+                  className="relative font-display text-4xl xl:text-5xl font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
+                  style={{ backgroundImage: "var(--gradient-primary)" }}
+                >
+                  {s.k}
+                </div>
+                <div className="relative mt-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                  {s.v}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </section>
   );
