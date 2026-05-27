@@ -277,10 +277,26 @@
     border: 1px solid hsl(var(--glass-border) / 0.4);
   }
 
-  /* === Liquid glass v5 — specular edges, refraction stroke, animated sheen === */
+  /* === Liquid glass v5 — specular edges, refraction stroke, animated sheen ===
+     Light mode: bright frosted card that sits cleanly on white pages.
+     Dark mode: deep frosted card with luminous edges. */
   .liquid-glass {
     position: relative;
     isolation: isolate;
+    /* light-mode default: soft cool-tinted frost over white pages */
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.85) 0%, hsl(220 30% 96% / 0.78) 100%);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid hsl(220 16% 88% / 0.9);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.9),
+      inset 0 -1px 0 hsl(222 47% 11% / 0.05),
+      0 1px 2px hsl(222 47% 11% / 0.04),
+      0 18px 40px -22px hsl(222 47% 11% / 0.18),
+      0 4px 12px -4px hsl(222 47% 11% / 0.08);
+  }
+  .dark .liquid-glass {
     background:
       linear-gradient(180deg, hsl(var(--glass-highlight) / 0.10) 0%, transparent 55%),
       hsl(var(--glass-bg) / 0.78);
@@ -303,11 +319,18 @@
     pointer-events: none;
     background: radial-gradient(
       120% 80% at 0% 0%,
+      hsl(0 0% 100% / 0.55) 0%,
+      transparent 50%
+    );
+    z-index: 0;
+  }
+  .dark .liquid-glass::before {
+    background: radial-gradient(
+      120% 80% at 0% 0%,
       hsl(var(--glass-highlight) / 0.16) 0%,
       transparent 45%
     );
     mix-blend-mode: overlay;
-    z-index: 0;
   }
   .liquid-glass::after {
     content: "";
@@ -318,21 +341,35 @@
     background: linear-gradient(
       115deg,
       transparent 30%,
+      hsl(0 0% 100% / 0.45) 45%,
+      hsl(0 0% 100% / 0.65) 50%,
+      hsl(0 0% 100% / 0.45) 55%,
+      transparent 70%
+    );
+    background-size: 250% 250%;
+    background-position: 200% 200%;
+    z-index: 1;
+    opacity: 0.5;
+  }
+  .dark .liquid-glass::after {
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
       hsl(var(--glass-highlight) / 0.10) 45%,
-      hsl(var(--glass-highlight) / 0.20) 50%,
+      hsl(var(--glass-highlight) / 0.22) 50%,
       hsl(var(--glass-highlight) / 0.10) 55%,
       transparent 70%
     );
     background-size: 250% 250%;
     background-position: 200% 200%;
     mix-blend-mode: overlay;
-    z-index: 1;
+    opacity: 1;
   }
   .liquid-glass > * { position: relative; z-index: 2; }
 
   @media (prefers-reduced-motion: no-preference) {
     .liquid-glass::after {
-      animation: liquid-sheen 9s ease-in-out infinite;
+      animation: liquid-sheen 10s ease-in-out infinite;
     }
   }
   @keyframes liquid-sheen {
@@ -347,6 +384,15 @@
   @media (hover: hover) {
     .liquid-glass-interactive:hover {
       transform: translateY(-2px);
+    }
+    .liquid-glass-interactive:hover {
+      box-shadow:
+        inset 0 1px 0 hsl(0 0% 100% / 0.95),
+        inset 0 -1px 0 hsl(222 47% 11% / 0.06),
+        0 28px 60px -22px hsl(var(--primary) / 0.25),
+        0 6px 14px -4px hsl(222 47% 11% / 0.12);
+    }
+    .dark .liquid-glass-interactive:hover {
       box-shadow:
         inset 0 1px 0 hsl(var(--glass-highlight) / 0.26),
         inset 1px 0 0 hsl(var(--glass-highlight) / 0.10),
@@ -357,17 +403,28 @@
     }
   }
 
+  /* Liquid pill — strong glass pill for use over imagery; tone-aware via .on-dark / .on-light */
   .liquid-glass-pill {
+    position: relative;
     background:
-      linear-gradient(180deg, hsl(var(--glass-highlight) / 0.20) 0%, hsl(var(--glass-highlight) / 0.04) 100%),
-      hsl(var(--glass-bg) / 0.55);
-    backdrop-filter: blur(18px) saturate(180%);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    border: 1px solid hsl(var(--glass-highlight) / 0.25);
+      linear-gradient(180deg, hsl(0 0% 100% / 0.9) 0%, hsl(0 0% 100% / 0.75) 100%);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    border: 1px solid hsl(0 0% 100% / 0.6);
     box-shadow:
-      inset 0 1px 0 hsl(var(--glass-highlight) / 0.32),
-      inset 0 -1px 0 hsl(0 0% 0% / 0.18),
-      0 8px 20px -8px hsl(0 0% 0% / 0.35);
+      inset 0 1px 0 hsl(0 0% 100% / 0.9),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.10),
+      0 6px 18px -6px hsl(0 0% 0% / 0.35);
+  }
+  .liquid-glass-pill.on-dark {
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.18) 0%, hsl(0 0% 100% / 0.06) 100%),
+      hsl(222 47% 11% / 0.45);
+    border-color: hsl(0 0% 100% / 0.28);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.30),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.30),
+      0 8px 22px -8px hsl(0 0% 0% / 0.45);
   }
 
   /* Nav-specific glass — header & bottom nav */
