@@ -32,6 +32,7 @@ export interface Post {
   user: User;
   content: string;
   image?: string;
+  images?: string[];
   likes: number;
   comments: number;
   shares: number;
