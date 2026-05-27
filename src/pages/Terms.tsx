@@ -20,7 +20,7 @@ const Terms = () => (
     <p>Don't post anything illegal, hateful, or that infringes someone else's rights. Don't try to break, scrape, or abuse the platform. We may suspend accounts that do.</p>
 
     <h2>4. Purchases</h2>
-    <p>Prices are listed in BDT. Orders are confirmed only when payment (or COD acceptance) is verified. Shipping times are estimates.</p>
+    <p>Prices are listed in BDT. All products are digital. Orders are confirmed only when payment is verified, and access is granted immediately afterward.</p>
 
     <h2>5. Learning content</h2>
     <p>Lessons, AI responses, and community content are provided "as is" for educational purposes and aren't a substitute for professional advice.</p>

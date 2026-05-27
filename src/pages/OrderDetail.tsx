@@ -165,7 +165,7 @@ const OrderDetail = () => {
         <DetailSection title={<span className="inline-flex items-center gap-2"><CreditCard className="h-4 w-4 text-foreground/60" /> Payment</span>}>
           <div className="text-[13px]">
             <p className="font-medium text-foreground">
-              {order.payment_method === "cod" ? "Cash on delivery" : order.payment_method === "card" ? "Credit / debit card" : order.payment_method === "bkash" ? "bKash" : "N/A"}
+              {order.payment_method === "card" ? "Credit / debit card" : order.payment_method === "bkash" ? "bKash" : order.payment_method === "cod" ? "Cash on delivery (legacy)" : "N/A"}
             </p>
             <p className="text-muted-foreground capitalize mt-0.5">Status: {order.payment_status || "Pending"}</p>
           </div>

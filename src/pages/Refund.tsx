@@ -21,7 +21,7 @@ const Refund = () => (
     </ol>
 
     <h2>Refunds</h2>
-    <p>Once we receive and inspect the item, we issue your refund within <strong>5–7 business days</strong> to the original payment method. COD orders are refunded via mobile banking or bKash.</p>
+    <p>Once approved, we issue your refund within <strong>5–7 business days</strong> to the original payment method.</p>
 
     <h2>Damaged or wrong items</h2>
     <p>If your order arrives damaged or incorrect, send a photo within 48 hours of delivery and we'll replace it at no cost.</p>

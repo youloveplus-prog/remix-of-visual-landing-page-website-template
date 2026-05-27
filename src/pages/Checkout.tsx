@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CreditCard, MapPin, Wallet, Banknote, Check } from "lucide-react";
+import { CreditCard, Wallet, Check } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StickyActionBar } from "@/components/ui/sticky-action-bar";
@@ -19,7 +17,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Price } from "@/lib/currency";
 
 const PAYMENT_OPTIONS = [
-  { id: "cod", label: "Cash on delivery", desc: "Pay when you receive your order", icon: Banknote },
   { id: "card", label: "Credit / debit card", desc: "Pay securely with your card", icon: CreditCard },
   { id: "bkash", label: "bKash", desc: "Pay with bKash mobile wallet", icon: Wallet },
 ];
@@ -31,17 +28,10 @@ const Checkout = () => {
   const { data: cartItems, isLoading } = useCart();
   const createOrder = useCreateOrder();
 
-  const [paymentMethod, setPaymentMethod] = useState("cod");
-  const [address, setAddress] = useState({
-    fullName: "", phone: "", street: "", city: "", state: "", zipCode: "", country: "Bangladesh",
-  });
+  const [paymentMethod, setPaymentMethod] = useState("card");
 
   const subtotal = cartItems?.reduce((s, i) => s + (i.products?.price || 0) * (i.quantity || 1), 0) || 0;
-  const shipping = 10;
-  const total = subtotal + shipping;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setAddress((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const total = subtotal;
 
   const handlePlaceOrder = () => {
     if (!user) {
@@ -49,15 +39,11 @@ const Checkout = () => {
       navigate("/auth");
       return;
     }
-    if (!address.fullName || !address.phone || !address.street || !address.city) {
-      toast({ title: "Missing information", description: "Please fill in all required fields.", variant: "destructive" });
-      return;
-    }
     createOrder.mutate(
-      { paymentMethod, shippingAddress: address, items: cartItems || [] },
+      { paymentMethod, shippingAddress: {}, items: cartItems || [] },
       {
         onSuccess: (order) => {
-          toast({ title: "Order placed", description: "Your order has been placed successfully." });
+          toast({ title: "Order placed", description: "Your digital items are ready in your library." });
           navigate(`/orders/${order.id}`);
         },
         onError: () => toast({ title: "Error", description: "Failed to place order.", variant: "destructive" }),
@@ -95,25 +81,10 @@ const Checkout = () => {
   return (
     <AppLayout showBottomNav={false}>
       <MobilePage maxWidth="standard" spacing="space-y-8" className="pb-sticky-cta lg:pb-6">
-        <PageHero eyebrow="Final step" title="Checkout" />
+        <PageHero eyebrow="Final step" title="Checkout" subtitle="All products are digital — instant access after payment." />
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-12">
           <div className="space-y-8 min-w-0">
-            <DetailSection
-              title={<span className="inline-flex items-center gap-2"><MapPin className="h-4 w-4 text-foreground/60" /> Shipping address</span>}
-              divided={false}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="Full name *" name="fullName" value={address.fullName} onChange={handleInputChange} placeholder="John Doe" />
-                <Field label="Phone *" name="phone" value={address.phone} onChange={handleInputChange} placeholder="+880 1XXX-XXXXXX" />
-                <Field className="sm:col-span-2" label="Street address *" name="street" value={address.street} onChange={handleInputChange} placeholder="123 Main Street" />
-                <Field label="City *" name="city" value={address.city} onChange={handleInputChange} placeholder="Dhaka" />
-                <Field label="State / division" name="state" value={address.state} onChange={handleInputChange} placeholder="Dhaka Division" />
-                <Field label="Zip code" name="zipCode" value={address.zipCode} onChange={handleInputChange} placeholder="1000" />
-                <Field label="Country" name="country" value={address.country} onChange={handleInputChange} disabled />
-              </div>
-            </DetailSection>
-
             <DetailSection title={<span className="inline-flex items-center gap-2"><CreditCard className="h-4 w-4 text-foreground/60" /> Payment method</span>}>
               <div className="space-y-2">
                 {PAYMENT_OPTIONS.map((opt) => {
@@ -160,7 +131,7 @@ const Checkout = () => {
               <Separator />
               <div className="space-y-1.5 text-[13px]">
                 <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><Price amount={subtotal} /></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">Shipping</span><Price amount={shipping} /></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Delivery</span><span className="text-foreground">Instant · digital</span></div>
               </div>
               <Separator />
               <div className="flex justify-between font-semibold text-[15px]"><span>Total</span><Price amount={total} /></div>
@@ -186,20 +157,5 @@ const Checkout = () => {
     </AppLayout>
   );
 };
-
-function Field({
-  label, name, value, onChange, placeholder, disabled, className,
-}: {
-  label: string; name: string; value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string; disabled?: boolean; className?: string;
-}) {
-  return (
-    <div className={cn("space-y-1.5", className)}>
-      <Label htmlFor={name} className="text-[12px] text-muted-foreground font-medium">{label}</Label>
-      <Input id={name} name={name} value={value} onChange={onChange} placeholder={placeholder} disabled={disabled} className="h-11 bg-transparent" />
-    </div>
-  );
-}
 
 export default Checkout;

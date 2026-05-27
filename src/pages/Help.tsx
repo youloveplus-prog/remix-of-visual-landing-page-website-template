@@ -13,11 +13,11 @@ import { ShoppingBag, GraduationCap, Users, ShieldCheck, Coins, MessageCircle } 
 const sections = [
   {
     icon: ShoppingBag,
-    title: "Orders & Shipping",
+    title: "Orders & Digital Delivery",
     items: [
-      { q: "How do I track my order?", a: "Visit Orders from your profile. Every order shows live status from packed to delivered." },
-      { q: "Do you offer Cash on Delivery?", a: "Yes — COD is available across Bangladesh. Choose it at checkout." },
-      { q: "What's your delivery time?", a: "Inside Dhaka: 1–3 days. Outside Dhaka: 3–7 days, depending on courier." },
+      { q: "How do I access my purchase?", a: "All products are digital. After payment, items appear instantly in your Library and on the order page." },
+      { q: "What payment methods do you accept?", a: "Credit / debit card and bKash. There is no cash on delivery — everything is delivered digitally." },
+      { q: "Can I re-download my purchase?", a: "Yes. Your Library keeps lifetime access to anything you've bought." },
     ],
   },
   {
