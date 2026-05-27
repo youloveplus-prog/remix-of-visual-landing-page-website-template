@@ -164,18 +164,6 @@ const Shop = () => {
         url="https://asikonpro.lovable.app/shop"
       />
       <div className="container-editorial pb-8 lg:pb-16">
-        {/* Editorial header — calm, full-bleed on desktop */}
-        <header className="pt-6 lg:pt-12 pb-4 lg:pb-8">
-          <p className="hidden lg:block text-[12px] uppercase tracking-[0.18em] text-muted-foreground mb-3">
-            ASIKON Marketplace
-          </p>
-          <h1 className="font-display text-[26px] leading-tight lg:text-[44px] lg:leading-[1.05] font-semibold tracking-tight">
-            Learn smarter. Shop with intent.
-          </h1>
-          <p className="mt-2 lg:mt-3 text-sm lg:text-base text-muted-foreground max-w-2xl">
-            Curated courses, books, kits, and prompt libraries — every item vetted by ASIKON mentors.
-          </p>
-        </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 lg:gap-8">
           {/* Desktop sticky filter rail */}
