@@ -178,8 +178,8 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-display font-bold text-sm text-white">{cat.label}</p>
-                  <p className="text-[10px] text-white/40 uppercase tracking-widest font-semibold">Explore</p>
+                  <p className="font-display font-bold text-sm text-foreground">{cat.label}</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Explore</p>
                 </div>
               </Link>
             </Reveal>
