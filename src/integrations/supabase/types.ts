@@ -1483,6 +1483,93 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_attempts: {
+        Row: {
+          breakdown: Json
+          correct_count: number
+          created_at: string
+          id: string
+          lesson_id: string | null
+          score_pct: number
+          source: string
+          topic: string | null
+          total_questions: number
+          track_id: string | null
+          user_id: string
+        }
+        Insert: {
+          breakdown?: Json
+          correct_count?: number
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          score_pct: number
+          source?: string
+          topic?: string | null
+          total_questions?: number
+          track_id?: string | null
+          user_id: string
+        }
+        Update: {
+          breakdown?: Json
+          correct_count?: number
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          score_pct?: number
+          source?: string
+          topic?: string | null
+          total_questions?: number
+          track_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      revision_items: {
+        Row: {
+          created_at: string
+          ease: number
+          id: string
+          interval_days: number
+          last_grade: number | null
+          last_reviewed_at: string | null
+          lesson_id: string
+          next_due_at: string
+          repetitions: number
+          topic: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ease?: number
+          id?: string
+          interval_days?: number
+          last_grade?: number | null
+          last_reviewed_at?: string | null
+          lesson_id: string
+          next_due_at?: string
+          repetitions?: number
+          topic?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ease?: number
+          id?: string
+          interval_days?: number
+          last_grade?: number | null
+          last_reviewed_at?: string | null
+          lesson_id?: string
+          next_due_at?: string
+          repetitions?: number
+          topic?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       reward_redemptions: {
         Row: {
           coins_spent: number
@@ -1920,6 +2007,29 @@ export type Database = {
         SetofOptions: {
           from: "*"
           to: "reward_redemptions"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      schedule_revision: {
+        Args: { _grade: number; _lesson_id: string }
+        Returns: {
+          created_at: string
+          ease: number
+          id: string
+          interval_days: number
+          last_grade: number | null
+          last_reviewed_at: string | null
+          lesson_id: string
+          next_due_at: string
+          repetitions: number
+          topic: string | null
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "revision_items"
           isOneToOne: true
           isSetofReturn: false
         }
