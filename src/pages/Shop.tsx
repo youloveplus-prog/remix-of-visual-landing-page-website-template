@@ -259,12 +259,12 @@ const Shop = () => {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center glass rounded-2xl">
-                  <p className="text-muted-foreground mb-4">No products found</p>
+                <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border bg-card">
+                  <p className="text-muted-foreground mb-4">No products match your filters.</p>
                   {(searchQuery || activeFiltersCount > 0) && (
                     <button
                       onClick={handleClearFilters}
-                      className="text-primary hover:underline text-sm font-semibold"
+                      className="text-primary hover:underline text-sm font-medium"
                     >
                       Clear all filters
                     </button>
