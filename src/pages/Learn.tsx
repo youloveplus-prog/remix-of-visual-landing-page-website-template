@@ -77,7 +77,7 @@ export default function Learn() {
   if (loading) {
     return (
       <StandaloneShell>
-        <Helmet><title>Apu · AI Tutor — Asikon</title></Helmet>
+        <SEO title="Apu · AI Tutor" description="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
         <TopBar onBack={handleBack} />
         <LearnSkeleton />
       </StandaloneShell>
