@@ -191,10 +191,19 @@ const ProductDetail = () => {
                 </>
               )}
               {discountPercentage > 0 && (
-                <Badge className="absolute top-3 left-3 bg-foreground text-background border-0 font-semibold">
-                  -{discountPercentage}%
+                <Badge className="absolute top-3 left-3 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground border-0 font-semibold shadow-lg shadow-primary/20 px-2.5 py-1">
+                  <Sparkles className="h-3 w-3 mr-1" />
+                  Save {discountPercentage}%
                 </Badge>
               )}
+              <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+                <button className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 hover:bg-background transition-colors" aria-label="Save">
+                  <Heart className="h-4 w-4" />
+                </button>
+                <button className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 hover:bg-background transition-colors" aria-label="Share">
+                  <Share2 className="h-4 w-4" />
+                </button>
+              </div>
               {images.length > 1 && (
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                   {images.map((_, idx) => (
@@ -227,27 +236,38 @@ const ProductDetail = () => {
               meta={
                 <span className="inline-flex items-center gap-1.5">
                   <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                  <span className="text-foreground font-medium">{product.rating || 0}</span>
+                  <span className="text-foreground font-medium tabular-nums">{product.rating || 0}</span>
                   <span>· {product.review_count || 0} reviews</span>
                 </span>
               }
             />
 
-            <div className="flex items-baseline gap-3 flex-wrap">
-              <Price amount={product.price} className="text-3xl lg:text-4xl font-semibold tracking-tight" />
-              {product.original_price && (
-                <Price amount={product.original_price} strike className="text-base text-muted-foreground" />
-              )}
-              {discountPercentage > 0 && (
-                <span className="text-[12px] font-semibold text-success uppercase tracking-wider">Save {discountPercentage}%</span>
-              )}
-            </div>
-
-            {/* Trust strip — flat */}
-            <div className="flex items-center gap-5 text-[12.5px] text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5"><Truck className="h-3.5 w-3.5 text-foreground/60" /> Free shipping</span>
-              <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-3.5 w-3.5 text-foreground/60" /> Verified</span>
-              <span className="inline-flex items-center gap-1.5"><InfinityIcon className="h-3.5 w-3.5 text-foreground/60" /> COD available</span>
+            <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-muted/40 to-transparent p-4 space-y-3">
+              <div className="flex items-baseline gap-3 flex-wrap">
+                <Price amount={product.price} className="text-3xl lg:text-4xl font-display font-semibold tracking-tight tabular-nums" />
+                {product.original_price && (
+                  <Price amount={product.original_price} strike className="text-base text-muted-foreground tabular-nums" />
+                )}
+                {discountPercentage > 0 && (
+                  <span className="text-[11px] font-semibold text-success uppercase tracking-wider px-2 py-0.5 rounded-full bg-success/10">
+                    Save {discountPercentage}%
+                  </span>
+                )}
+              </div>
+              <div className="grid grid-cols-3 gap-2 pt-1 border-t border-border/40">
+                <div className="flex flex-col items-center text-center gap-1 py-1">
+                  <Zap className="h-4 w-4 text-primary" />
+                  <span className="text-[11px] font-medium leading-tight">Instant access</span>
+                </div>
+                <div className="flex flex-col items-center text-center gap-1 py-1">
+                  <ShieldCheck className="h-4 w-4 text-primary" />
+                  <span className="text-[11px] font-medium leading-tight">Secure checkout</span>
+                </div>
+                <div className="flex flex-col items-center text-center gap-1 py-1">
+                  <RotateCcw className="h-4 w-4 text-primary" />
+                  <span className="text-[11px] font-medium leading-tight">7-day refund</span>
+                </div>
+              </div>
             </div>
 
             {isCourse ? (
