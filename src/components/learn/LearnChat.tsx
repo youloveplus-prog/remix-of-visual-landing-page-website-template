@@ -296,13 +296,20 @@ export function LearnChat({ threadId }: Props) {
 
         {/* Title + persona */}
         <div className="flex-1 min-w-0 flex items-center gap-2.5">
-          <img
-            src={tutorAvatar}
-            alt=""
-            className="w-7 h-7 rounded-full shrink-0"
-          />
+          <div className="relative shrink-0">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -m-1.5 rounded-full blur-md opacity-70"
+              style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.12), transparent 70%)" }}
+            />
+            <img
+              src={tutorAvatar}
+              alt=""
+              className="relative w-7 h-7 rounded-full ring-1 ring-border"
+            />
+          </div>
           <div className="min-w-0">
-            <div className="text-sm font-semibold truncate leading-tight">{threadTitle}</div>
+            <div className="font-display text-sm font-semibold truncate leading-tight tracking-tight">{threadTitle}</div>
             <div className="text-[11px] text-muted-foreground leading-tight">
               Apu · your ASIKON tutor
             </div>
