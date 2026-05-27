@@ -76,7 +76,7 @@ export function AiAssistantBox() {
                 key={c}
                 type="button"
                 onClick={() => go(c)}
-                className="shrink-0 text-[11px] px-2.5 py-1 rounded-full border border-border/60 bg-background/40 hover:border-primary/40 hover:text-primary transition-colors"
+                className="shrink-0 text-[11px] px-2.5 py-1 rounded-full border border-border bg-background/40 hover:border-foreground/40 hover:bg-secondary transition-colors"
               >
                 {c}
               </button>
