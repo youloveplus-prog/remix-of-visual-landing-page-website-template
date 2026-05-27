@@ -164,12 +164,137 @@ const ProductDetail = () => {
         })}</script>
       </SEO>
       <MobilePage maxWidth="wide" spacing="space-y-10" className="pb-sticky-cta lg:pb-10">
-        <Link to="/shop" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
+        <Link to="/shop" className="hidden lg:inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
           <ArrowLeft className="h-3.5 w-3.5" /> Shop
         </Link>
 
-        {/* Main */}
-        <div className="rounded-3xl lg:rounded-[2rem] p-4 lg:p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
+        {/* Mobile hero (reference style) */}
+        <div className="lg:hidden space-y-4">
+          <div className="rounded-[28px] bg-muted/50 dark:bg-muted/25 px-5 pt-5 pb-6">
+            <div className="flex items-center justify-between">
+              <Link to="/shop" aria-label="Back" className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 shadow-sm">
+                <ChevronLeft className="h-4 w-4" />
+              </Link>
+              <button aria-label="Save" className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 shadow-sm">
+                <Heart className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="relative aspect-square grid place-items-center px-4">
+              <img src={images[selectedImage] || "/placeholder.svg"} alt={product.name} className="max-h-full max-w-full object-contain drop-shadow-2xl" />
+            </div>
+
+            {images.length > 1 && (
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setSelectedImage((p) => (p > 0 ? p - 1 : images.length - 1))}
+                  aria-label="Previous"
+                  className="h-8 w-8 rounded-full bg-background grid place-items-center shadow-sm active:opacity-60"
+                ><ChevronLeft className="h-3.5 w-3.5" /></button>
+                <span className="text-[12px] tabular-nums text-muted-foreground font-medium min-w-[2.5rem] text-center">{selectedImage + 1}/{images.length}</span>
+                <button
+                  onClick={() => setSelectedImage((p) => (p < images.length - 1 ? p + 1 : 0))}
+                  aria-label="Next"
+                  className="h-8 w-8 rounded-full bg-background grid place-items-center shadow-sm active:opacity-60"
+                ><ChevronRight className="h-3.5 w-3.5" /></button>
+              </div>
+            )}
+
+            {images.length > 1 && (
+              <div className="mt-5 flex items-center justify-center gap-3 overflow-x-auto no-scrollbar">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    className={cn(
+                      "h-14 w-14 rounded-full grid place-items-center bg-background shadow-sm shrink-0 transition-all",
+                      selectedImage === idx ? "ring-2 ring-foreground scale-105" : "opacity-80"
+                    )}
+                    aria-label={`Image ${idx + 1}`}
+                  >
+                    <img src={img || "/placeholder.svg"} alt="" className="h-9 w-9 object-contain rounded-full" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Info card */}
+          <div className="bg-background rounded-[28px] px-5 pt-5 pb-5 shadow-sm border border-border/40 space-y-4">
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+              {discountPercentage > 0 ? (<><Sparkles className="h-3 w-3" /> Save {discountPercentage}%</>) : "New Arrival"}
+            </span>
+
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h1 className="font-display text-[26px] leading-[1.05] font-bold tracking-tight">{product.name}</h1>
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground mt-1.5">ASIKON</p>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="flex justify-end">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={cn("h-3.5 w-3.5", i < Math.round(product.rating || 0) ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40")} />
+                  ))}
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-1">{(product.review_count || 0).toLocaleString()} reviews</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 pt-1">
+              <div className="flex items-baseline gap-2 min-w-0">
+                <Price amount={product.price} className="text-[28px] font-display font-bold tracking-tight tabular-nums" />
+                {product.original_price && (
+                  <Price amount={product.original_price} strike className="text-sm text-muted-foreground tabular-nums" />
+                )}
+              </div>
+              <Button
+                onClick={handleAddToCart}
+                disabled={addToCart.isPending}
+                className="rounded-full h-12 px-5 bg-foreground text-background hover:bg-foreground/90"
+              >
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {isCourse ? "Enroll" : "Add to cart"}
+              </Button>
+            </div>
+
+            <div className="flex items-center gap-1.5 text-[12.5px] text-foreground/80">
+              <CheckCircle2 className="h-3.5 w-3.5 text-success" />
+              <span>Instant access — delivered to your library</span>
+            </div>
+          </div>
+
+          {product.description && (
+            <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+              <h3 className="font-semibold text-[15px] mb-2">Description</h3>
+              <p className="text-[13.5px] text-foreground/80 leading-relaxed whitespace-pre-wrap">{product.description}</p>
+            </div>
+          )}
+
+          <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+            <h3 className="font-semibold text-[15px] mb-3">Product Details</h3>
+            <div className="grid grid-cols-2 gap-2.5">
+              {[
+                { icon: Zap, label: "Instant Access", sub: "Unlock now" },
+                { icon: ShieldCheck, label: "Secure Checkout", sub: "SSL + bKash" },
+                { icon: RotateCcw, label: "7-Day Refund", sub: "No questions" },
+                { icon: Award, label: "Verified", sub: "Trusted creator" },
+              ].map(({ icon: Icon, label, sub }) => (
+                <div key={label} className="flex items-center gap-2.5 rounded-xl bg-muted/50 px-3 py-2.5">
+                  <span className="h-8 w-8 rounded-full bg-background grid place-items-center shrink-0">
+                    <Icon className="h-4 w-4 text-primary" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[12.5px] font-semibold leading-tight truncate">{label}</p>
+                    <p className="text-[11px] text-muted-foreground leading-tight truncate">{sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop main */}
+        <div className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
           {/* Gallery */}
           <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
