@@ -24,6 +24,7 @@ import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
 import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { GalleryCarousel } from "@/components/home/mobile/GalleryCarousel";
+import { MasterpieceShowcase } from "@/components/home/MasterpieceShowcase";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
 import { BrandStrip } from "@/components/home/BrandStrip";
@@ -380,6 +381,7 @@ const Index = () => {
               {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
               <MobileCoursesTop />
               <GalleryCarousel />
+              <MasterpieceShowcase />
               {restSections.map(renderSection)}
 
               {/* 8 — Quiet personal footer: progress + activity */}
@@ -393,6 +395,7 @@ const Index = () => {
               {heroSection && renderSection(heroSection)}
               <BrandStrip />
               <GalleryCarousel />
+              <MasterpieceShowcase />
               {restSections.map(renderSection)}
             </>
           )}
