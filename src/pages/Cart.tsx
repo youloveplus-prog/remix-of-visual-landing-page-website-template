@@ -95,7 +95,7 @@ const Cart = () => {
                   <div className="flex-1 min-w-0 flex flex-col justify-between">
                     <div className="flex items-start justify-between gap-3">
                       <Link to={`/product/${item.products?.slug}`} className="min-w-0">
-                        <h3 className="font-medium text-[14px] lg:text-[15px] line-clamp-2 hover:text-primary transition-colors">
+                        <h3 className="font-medium text-[14px] lg:text-[15px] line-clamp-2 hover:opacity-70 transition-opacity">
                           {item.products?.name}
                         </h3>
                       </Link>
