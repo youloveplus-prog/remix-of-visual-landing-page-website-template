@@ -39,6 +39,31 @@
     <meta name="apple-mobile-web-app-title" content="Asikon" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Sitewide structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Asikon",
+        "url": "https://asikonpro.lovable.app/",
+        "logo": "https://asikonpro.lovable.app/favicon.ico",
+        "description": "Asikon is an AI-powered learning platform with courses, books, study tools, and 1-on-1 mentorship."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Asikon",
+        "url": "https://asikonpro.lovable.app/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://asikonpro.lovable.app/shop?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
 
   <body>
