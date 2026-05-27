@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import {
   Search,
-  LayoutGrid,
-  Bell,
   ShoppingBag,
   GraduationCap,
   Sparkles,
@@ -17,20 +15,27 @@ import {
   Plus,
 } from "lucide-react";
 
-const pillActions = [
-  { icon: ShoppingBag, label: "Shop", href: "/shop", tone: "text-sky-500 bg-sky-500/10" },
-  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", tone: "text-emerald-500 bg-emerald-500/10" },
-  { icon: Sparkles, label: "AI Tutor", href: "/ai-tutor", tone: "text-violet-500 bg-violet-500/10" },
-  { icon: Tag, label: "Deals", href: "/shop?filter=deals", tone: "text-pink-500 bg-pink-500/10" },
-  { icon: Bookmark, label: "Saved", href: "/profile", tone: "text-amber-500 bg-amber-500/10" },
+type Tile = {
+  icon: typeof ShoppingBag;
+  label: string;
+  href: string;
+  grad: string;
+};
+
+const pillActions: Tile[] = [
+  { icon: ShoppingBag, label: "Shop", href: "/shop", grad: "from-blue-500 to-primary" },
+  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses", grad: "from-emerald-400 to-teal-500" },
+  { icon: Sparkles, label: "AI Tutor", href: "/ai-tutor", grad: "from-violet-500 to-primary" },
+  { icon: Tag, label: "Deals", href: "/shop?filter=deals", grad: "from-rose-500 to-primary" },
+  { icon: Bookmark, label: "Saved", href: "/profile", grad: "from-amber-400 to-orange-500" },
 ];
 
-const activityTiles = [
-  { icon: BookOpen, label: "All courses", href: "/shop?type=courses", tone: "text-sky-500 bg-sky-500/10" },
-  { icon: PlayCircle, label: "In progress", href: "/profile", tone: "text-emerald-500 bg-emerald-500/10" },
-  { icon: CheckCircle2, label: "Completed", href: "/profile", tone: "text-violet-500 bg-violet-500/10" },
-  { icon: Heart, label: "Wishlist", href: "/profile", tone: "text-pink-500 bg-pink-500/10" },
-  { icon: Plus, label: "Add goal", href: "/profile", tone: "text-amber-500 bg-amber-500/10" },
+const activityTiles: Tile[] = [
+  { icon: BookOpen, label: "All courses", href: "/shop?type=courses", grad: "from-blue-500 to-primary" },
+  { icon: PlayCircle, label: "In progress", href: "/profile", grad: "from-emerald-400 to-teal-500" },
+  { icon: CheckCircle2, label: "Completed", href: "/profile", grad: "from-violet-500 to-primary" },
+  { icon: Heart, label: "Wishlist", href: "/profile", grad: "from-rose-500 to-primary" },
+  { icon: Plus, label: "Add goal", href: "/profile", grad: "from-amber-400 to-orange-500" },
 ];
 
 const brands = [
@@ -42,15 +47,29 @@ const brands = [
   { name: "Linux", letter: "L" },
 ];
 
+function PillTile({ icon: Icon, label, href, grad }: Tile) {
+  return (
+    <Link
+      to={href}
+      className="flex flex-col items-center gap-1.5 focus-ring rounded-2xl pressable group"
+    >
+      <div className="w-14 h-14 rounded-2xl bg-card border border-border/60 shadow-[0_4px_14px_-6px_hsl(var(--primary)/0.25)] flex items-center justify-center transition-transform group-active:scale-95">
+        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${grad} flex items-center justify-center text-white shadow-[0_4px_10px_-3px_hsl(var(--primary)/0.45)]`}>
+          <Icon className="h-4 w-4" strokeWidth={2.4} />
+        </div>
+      </div>
+      <span className="text-[11px] font-semibold text-foreground">{label}</span>
+    </Link>
+  );
+}
+
 export function FlexiTopSection() {
   return (
-    <section className="section-x space-y-4 pt-2">
-      {/* Top bar handled by MobileHeader */}
-
+    <section className="section-x space-y-5 pt-2">
       {/* Search */}
       <Link
         to="/shop"
-        className="midnight-tile flex items-center gap-3 px-4 h-12 focus-ring"
+        className="flex items-center gap-3 px-5 h-12 rounded-full bg-card border border-border/60 shadow-[0_4px_18px_-8px_hsl(var(--primary)/0.25)] focus-ring"
       >
         <Search className="h-4 w-4 text-muted-foreground" />
         <span className="text-sm text-muted-foreground">Search & learn anywhere</span>
@@ -58,42 +77,35 @@ export function FlexiTopSection() {
 
       {/* Pill action row */}
       <div className="grid grid-cols-5 gap-2">
-        {pillActions.map(({ icon: Icon, label, href, tone }) => (
-          <Link
-            key={label}
-            to={href}
-            className="flex flex-col items-center gap-1.5 focus-ring rounded-2xl pressable"
-          >
-            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${tone}`}>
-              <Icon className="h-5 w-5" />
-            </div>
-            <span className="text-[11px] font-medium text-foreground">{label}</span>
-          </Link>
+        {pillActions.map((t) => (
+          <PillTile key={t.label} {...t} />
         ))}
       </div>
 
-      {/* Dark CTA banner */}
+      {/* Brand CTA banner */}
       <Link
         to="/shop"
-        className="flex items-center justify-between rounded-2xl bg-foreground text-background px-4 py-4 focus-ring pressable"
+        className="relative overflow-hidden flex items-center justify-between rounded-2xl px-4 py-4 focus-ring pressable text-primary-foreground shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.55)]"
+        style={{ background: "var(--gradient-primary)" }}
       >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-background/10 flex items-center justify-center">
+        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/15 blur-2xl" />
+        <div className="relative flex items-center gap-3">
+          <div className="w-11 h-11 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center">
             <GraduationCap className="h-5 w-5" />
           </div>
           <div>
-            <p className="font-display font-bold text-sm">Start learning today</p>
-            <p className="text-[11px] opacity-70">Pick a path in one tap</p>
+            <p className="font-display font-bold text-[15px] leading-tight">Start learning today</p>
+            <p className="text-[11px] opacity-80 mt-0.5">Pick a path in one tap</p>
           </div>
         </div>
-        <ChevronRight className="h-4 w-4 opacity-70" />
+        <ChevronRight className="relative h-4 w-4 opacity-90" />
       </Link>
 
       {/* Two-stat split card */}
-      <div className="midnight-tile grid grid-cols-2 divide-x divide-border">
+      <div className="rounded-2xl bg-card border border-border/60 shadow-[0_6px_20px_-12px_hsl(var(--primary)/0.25)] grid grid-cols-2 divide-x divide-border/60 overflow-hidden">
         <div className="flex items-center gap-3 p-4">
-          <div className="w-10 h-10 rounded-xl bg-sky-500/10 flex items-center justify-center">
-            <BookOpen className="h-5 w-5 text-sky-500" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-primary flex items-center justify-center text-white">
+            <BookOpen className="h-5 w-5" />
           </div>
           <div>
             <p className="font-display font-bold text-base text-foreground">120+</p>
@@ -101,8 +113,8 @@ export function FlexiTopSection() {
           </div>
         </div>
         <div className="flex items-center gap-3 p-4">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-            <Bot className="h-5 w-5 text-emerald-500" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white">
+            <Bot className="h-5 w-5" />
           </div>
           <div>
             <p className="font-display font-bold text-base text-foreground">24/7</p>
@@ -113,17 +125,8 @@ export function FlexiTopSection() {
 
       {/* Activity quick grid */}
       <div className="grid grid-cols-5 gap-2">
-        {activityTiles.map(({ icon: Icon, label, href, tone }) => (
-          <Link
-            key={label}
-            to={href}
-            className="flex flex-col items-center gap-1.5 focus-ring rounded-2xl pressable"
-          >
-            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${tone}`}>
-              <Icon className="h-5 w-5" />
-            </div>
-            <span className="text-[10px] font-medium text-foreground text-center leading-tight">{label}</span>
-          </Link>
+        {activityTiles.map((t) => (
+          <PillTile key={t.label} {...t} />
         ))}
       </div>
 
@@ -140,7 +143,7 @@ export function FlexiTopSection() {
               to="/shop"
               className="flex flex-col items-center gap-1.5 shrink-0 focus-ring"
             >
-              <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center font-display font-bold text-sm text-foreground">
+              <div className="w-14 h-14 rounded-2xl bg-card border border-border/60 shadow-[0_4px_14px_-6px_hsl(var(--primary)/0.2)] flex items-center justify-center font-display font-bold text-sm text-foreground">
                 {b.letter}
               </div>
               <span className="text-[11px] font-medium text-foreground">{b.name}</span>
