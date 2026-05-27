@@ -48,6 +48,7 @@ export function SmartSearch({ className }: SmartSearchProps) {
   const submit = (term: string) => {
     if (!term.trim()) return;
     pushRecentSearch(term);
+    void track("search_performed", { q: term, surface: "desktop" });
     setIsFocused(false);
     setQuery("");
     navigate(`/shop?q=${encodeURIComponent(term)}`);
