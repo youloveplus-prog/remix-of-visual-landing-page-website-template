@@ -496,16 +496,22 @@ function FinalCTA() {
           One small lesson. One calm streak. Everything changes from there.
         </p>
         <div className="mt-9 flex flex-col items-center gap-4">
-          <Button asChild size="lg" className="rounded-full px-10 h-14 text-base w-full sm:w-auto">
+          <Button
+            asChild
+            size="lg"
+            className="group rounded-full px-10 h-14 text-base w-full sm:w-auto shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.65)] hover:shadow-[0_14px_50px_-10px_hsl(var(--primary)/0.8)] transition-shadow"
+          >
             <Link to="/learn">
-              Begin your journey <ArrowRight className="ml-1.5 h-4 w-4" />
+              <GraduationCap className="mr-1.5 h-5 w-5" />
+              Begin your journey
+              <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
           <Link
             to="/learn"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            Explore tracks first
+            <Compass className="h-3.5 w-3.5" /> Explore tracks first
           </Link>
         </div>
       </div>
