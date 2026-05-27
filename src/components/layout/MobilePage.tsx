@@ -65,7 +65,7 @@ export function MobilePage({
     <>
       {sticky && (
         <div
-          className="sticky z-30 bg-background/95 backdrop-blur-md hairline-bottom"
+          className="sticky z-30 bg-background hairline-bottom"
           style={{ top: "var(--app-header-h, 0px)" }}
         >
           <div className={cn(widthClass, paddingClass)}>
