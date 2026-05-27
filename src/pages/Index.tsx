@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight } from "lucide-react";
+import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight, Play, CalendarDays, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
