@@ -25,6 +25,7 @@ import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { GalleryCarousel } from "@/components/home/mobile/GalleryCarousel";
 import { MasterpieceShowcase } from "@/components/home/MasterpieceShowcase";
+import ComingSoonTrio from "@/components/home/ComingSoonTrio";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
 import { BrandStrip } from "@/components/home/BrandStrip";
