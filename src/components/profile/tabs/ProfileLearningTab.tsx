@@ -2,6 +2,8 @@ import { Flame, Sparkles, Trophy, GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "./ProfileFeedTab";
+import { RevisionPanel } from "@/components/learn/RevisionPanel";
+import { SkillMap } from "@/components/learn/SkillMap";
 
 interface ProfileLearningTabProps {
   stats: {
@@ -88,6 +90,10 @@ export function ProfileLearningTab({ stats, isOwnProfile }: ProfileLearningTabPr
           </div>
         ))}
       </div>
+
+      {isOwnProfile && <RevisionPanel compact />}
+      {isOwnProfile && <SkillMap />}
+
 
       {/* Weekly Activity */}
       <section>
