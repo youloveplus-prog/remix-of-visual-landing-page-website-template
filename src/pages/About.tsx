@@ -34,7 +34,7 @@ import featureMentor from "@/assets/about/feature-mentor.jpg";
 /* -------------------------------------------------------------------------- */
 function CinematicHero() {
   return (
-    <section className="relative isolate overflow-hidden min-h-[55vh] sm:min-h-[75vh] lg:min-h-[92vh] flex items-end">
+    <section className="relative isolate overflow-hidden min-h-[48vh] sm:min-h-[70vh] lg:min-h-[92vh] flex items-end">
       <img
         src={heroStudent}
         alt="A young Bangladeshi student learning at night"
@@ -207,7 +207,7 @@ function ImageTextRow({
           {/* Media */}
           <div
             className={cn(
-              "relative overflow-hidden aspect-[3/4] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[540px]",
+              "relative overflow-hidden aspect-[16/10] lg:aspect-auto lg:min-h-[540px]",
               reverse ? "lg:order-2" : "lg:order-1",
             )}
           >
