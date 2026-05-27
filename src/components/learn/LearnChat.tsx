@@ -272,20 +272,15 @@ export function LearnChat({ threadId }: Props) {
 
   return (
     <div className="relative flex flex-col h-full min-h-0 bg-background">
-      {/* Header — slim glass bar, brand wash */}
-      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-12 border-b border-border/60 backdrop-blur-xl bg-background/75">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{ background: "var(--gradient-primary)" }}
-          aria-hidden
-        />
+      {/* Header — calm white bar, hairline border */}
+      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
         {/* Mobile thread switcher */}
         <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
           <SheetTrigger asChild>
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden relative h-9 w-9 rounded-full"
+              className="lg:hidden h-9 w-9 rounded-full"
               aria-label="Your chats"
             >
               <PanelLeft className="w-4 h-4" />
@@ -300,22 +295,15 @@ export function LearnChat({ threadId }: Props) {
         </Sheet>
 
         {/* Title + persona */}
-        <div className="relative flex-1 min-w-0 flex items-center gap-2.5">
-          <div className="relative shrink-0">
-            <span
-              className="absolute inset-0 rounded-full blur-md opacity-60"
-              style={{ background: "var(--gradient-primary)" }}
-              aria-hidden
-            />
-            <img
-              src={tutorAvatar}
-              alt=""
-              className="relative w-7 h-7 rounded-full"
-            />
-          </div>
+        <div className="flex-1 min-w-0 flex items-center gap-2.5">
+          <img
+            src={tutorAvatar}
+            alt=""
+            className="w-7 h-7 rounded-full shrink-0"
+          />
           <div className="min-w-0">
             <div className="text-sm font-semibold truncate leading-tight">{threadTitle}</div>
-            <div className="text-[10.5px] text-muted-foreground leading-tight">
+            <div className="text-[11px] text-muted-foreground leading-tight">
               Apu · your ASIKON tutor
             </div>
           </div>
