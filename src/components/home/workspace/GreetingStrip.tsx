@@ -26,12 +26,12 @@ export function GreetingStrip() {
             className="relative h-10 w-10 rounded-2xl glass border border-border/60 flex items-center justify-center pressable focus-ring shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]"
           >
             <Bell className="h-[18px] w-[18px] text-foreground/80" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary ring-2 ring-background" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-foreground ring-2 ring-background" />
           </Link>
           <Link to="/profile" aria-label="Profile" className="focus-ring rounded-2xl">
             <Avatar className="h-10 w-10 rounded-2xl border border-border/60 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]">
               <AvatarImage src={profile?.avatar_url ?? undefined} alt={name} className="rounded-2xl" />
-              <AvatarFallback className="rounded-2xl bg-primary/15 text-primary text-sm font-bold">{initial}</AvatarFallback>
+              <AvatarFallback className="rounded-2xl bg-secondary text-foreground text-sm font-bold">{initial}</AvatarFallback>
             </Avatar>
           </Link>
           <Link

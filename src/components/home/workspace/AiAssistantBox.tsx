@@ -31,22 +31,11 @@ export function AiAssistantBox() {
   };
   return (
     <section className="section-x">
-      <div
-        className="relative overflow-hidden rounded-2xl border border-primary/25 p-3 shadow-[0_10px_30px_-18px_hsl(var(--primary)/0.6),inset_0_1px_0_hsl(var(--glass-highlight)/0.15)]"
-        style={{ background: "var(--gradient-primary-soft)" }}
-      >
-        {/* ambient glow */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full blur-3xl opacity-60"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.45), transparent 70%)" }}
-        />
-
+      <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-3">
         <div className="relative flex items-center gap-3">
           {/* Teacher avatar */}
           <div className="relative shrink-0">
-            <div className="absolute inset-0 rounded-full bg-primary/40 blur-md" aria-hidden />
-            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary/40 shadow-[0_6px_18px_-6px_hsl(var(--primary)/0.7)]">
+            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-1 ring-border">
               <SmartImage
                 src={aiTutor}
                 alt="AI tutor"
@@ -72,7 +61,7 @@ export function AiAssistantBox() {
                 placeholder="Ask anything…"
                 className="h-9 bg-background/60 border-border/60 text-[13px]"
               />
-              <Button type="submit" variant="premium" size="icon" aria-label="Ask" className="h-9 w-9 shrink-0">
+              <Button type="submit" size="icon" aria-label="Ask" className="h-9 w-9 shrink-0">
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </form>
@@ -87,7 +76,7 @@ export function AiAssistantBox() {
                 key={c}
                 type="button"
                 onClick={() => go(c)}
-                className="shrink-0 text-[11px] px-2.5 py-1 rounded-full border border-border/60 bg-background/40 hover:border-primary/40 hover:text-primary transition-colors"
+                className="shrink-0 text-[11px] px-2.5 py-1 rounded-full border border-border bg-background/40 hover:border-foreground/40 hover:bg-secondary transition-colors"
               >
                 {c}
               </button>

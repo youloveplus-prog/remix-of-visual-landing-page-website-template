@@ -48,15 +48,15 @@ export function ContinueLearningRow() {
           <Link
             key={l.id}
             to={`/lesson/${l.id}`}
-            className="group h-full rounded-2xl glass border border-border/60 p-4 hover-lift focus-ring flex flex-col"
+            className="group h-full rounded-2xl bg-card border border-border p-4 focus-ring flex flex-col transition-colors hover:border-foreground/30"
           >
             <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground mb-1">{l.tracks?.name ?? "Track"}</p>
-            <p className="font-semibold text-sm line-clamp-2 mb-3 group-hover:text-primary transition-colors">{l.title}</p>
+            <p className="font-semibold text-sm line-clamp-2 mb-3 group-hover:opacity-70 transition-opacity">{l.title}</p>
             <div className="mt-auto flex items-center justify-between">
               <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
                 <Clock className="h-3 w-3" /> {l.duration_min} min
               </span>
-              <PlayCircle className="h-5 w-5 text-primary" />
+              <PlayCircle className="h-5 w-5 text-foreground" />
             </div>
           </Link>
         ))}

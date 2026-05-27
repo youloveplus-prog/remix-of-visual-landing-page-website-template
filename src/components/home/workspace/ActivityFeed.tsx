@@ -38,15 +38,15 @@ function useActivity() {
           id: `c-${c.id}`,
           at: c.completed_at,
           icon: CheckCircle2,
-          accent: "text-primary",
-          text: `Completed “${c.lessons?.title ?? "a lesson"}”`,
+          accent: "text-foreground",
+          text: `Completed "${c.lessons?.title ?? "a lesson"}"`,
           meta: `+${c.xp_awarded} XP`,
         })),
         ...((miles ?? []) as any[]).map((m) => ({
           id: `m-${m.id}`,
           at: m.unlocked_at,
           icon: Award,
-          accent: "text-primary",
+          accent: "text-foreground",
           text: `Unlocked ${m.kind.replace(/_/g, " ")}`,
           meta: "Badge",
         })),
@@ -63,19 +63,19 @@ export function ActivityFeed() {
   return (
     <section className="section-x">
       <SectionHeader title="Recent activity" subtitle="Your last few wins" />
-      <ul className="rounded-2xl glass border border-border/60 divide-y divide-border/40 overflow-hidden">
+      <ul className="rounded-2xl bg-card border border-border divide-y divide-border/60 overflow-hidden">
         {items.map((it) => {
           const Icon = it.icon;
           return (
             <li key={it.id} className="flex items-center gap-3 px-4 py-3">
-              <div className="w-8 h-8 rounded-lg bg-card border border-border/60 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-secondary border border-border flex items-center justify-center shrink-0">
                 <Icon className={`h-4 w-4 ${it.accent}`} />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium truncate">{it.text}</p>
                 <p className="text-[11px] text-muted-foreground">{timeAgo(it.at)}</p>
               </div>
-              <span className="text-[11px] font-semibold text-primary shrink-0">{it.meta}</span>
+              <span className="text-[11px] font-semibold text-foreground/70 shrink-0 tabular-nums">{it.meta}</span>
             </li>
           );
         })}
