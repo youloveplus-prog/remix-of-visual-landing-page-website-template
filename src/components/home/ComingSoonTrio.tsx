@@ -106,15 +106,13 @@ export default function ComingSoonTrio() {
           <h1
             className="font-grotesk text-[26px] font-black leading-[1.02] tracking-[-0.03em] text-[#0e0e10] sm:text-[56px]"
           >
-            Nº1 Free-To-Play
+            NO-1 Free-To-Learn
             <br />
             <span className="relative inline-block">
-              Social Casino
+              Platformeeee
               {/* tilted sticker */}
               <span className="absolute -right-0.5 top-[38%] rotate-[-8deg] rounded-[5px] border border-black/10 bg-white px-1 py-0.5 text-center text-[7px] font-semibold leading-tight text-[#0e0e10] shadow-sm sm:-right-3 sm:rounded-[6px] sm:px-1.5 sm:text-[10px]">
-                No purchase
-                <br />
-                neccessary
+                Platform 2026eeee
               </span>
             </span>
           </h1>
