@@ -202,6 +202,11 @@ function AnimatedRoutes() {
           <Route path="/refund" element={<Refund />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/digital" element={<DigitalList />} />
+          <Route path="/courses" element={<CoursesList />} />
+          <Route path="/services" element={<ServicesList />} />
+          <Route path="/content/:slug" element={<ContentDetail />} />
+          <Route path="/library" element={<Library />} />
           
           
           <Route path="/track/:slug" element={<TrackDetail />} />
