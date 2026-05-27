@@ -414,7 +414,7 @@ export function LearnChat({ threadId, onBack }: Props) {
       )}
 
       {/* Composer — calm white surface, hairline border, no gradient wash */}
-      <div className="shrink-0 mt-auto px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-border bg-background/95 backdrop-blur-xl">
+      <div className="shrink-0 mt-auto px-3 sm:px-6 pt-2 pb-[calc(var(--bottom-nav-h)+0.5rem)] border-t border-border bg-background/95 backdrop-blur-xl">
         <div className="mx-auto w-full max-w-3xl space-y-2">
           {/* Action chips */}
           {!isEmpty && (
