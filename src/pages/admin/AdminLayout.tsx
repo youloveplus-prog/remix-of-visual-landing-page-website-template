@@ -219,19 +219,19 @@ export default function AdminLayout() {
         <AdminSidebar />
 
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-16 sticky top-0 z-30 border-b border-border/50 flex items-center px-3 md:px-6 gap-3 glass-strong">
+          <header className="h-14 md:h-16 sticky top-0 z-30 border-b border-border/50 flex items-center px-3 md:px-6 gap-2.5 md:gap-3 glass-strong" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
             <NavLink
               to="/"
               aria-label="Back to Asikon app"
               title="Back to Asikon app"
-              className="md:hidden h-9 w-9 rounded-xl overflow-hidden ring-1 ring-border/60 grid place-items-center bg-background shadow-[var(--shadow-glow)] hover:ring-primary/40 transition"
+              className="md:hidden h-9 w-9 rounded-xl overflow-hidden ring-1 ring-border/60 grid place-items-center bg-background shadow-[var(--shadow-glow)] hover:ring-primary/40 transition shrink-0"
             >
               <img src={asikonLogo} alt="Asikon" className="h-6 w-6 object-contain" />
             </NavLink>
 
-            <div className="flex flex-col leading-tight min-w-0">
+            <div className="flex flex-col leading-tight min-w-0 flex-1">
               <Breadcrumbs pathname={pathname} />
-              <h1 className="md:hidden text-base font-display font-semibold tracking-tight truncate">
+              <h1 className="md:hidden text-[15px] font-display font-semibold tracking-tight truncate">
                 <span className="text-gradient">{meta.title}</span>
               </h1>
               <h1 className="hidden md:block text-base sm:text-lg font-display font-semibold tracking-tight truncate">
