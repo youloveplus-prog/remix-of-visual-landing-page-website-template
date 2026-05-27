@@ -142,14 +142,10 @@ export function AppLayout({
             !isMobile && showDesktopSidebar && (isCollapsed ? "lg:pl-16" : "lg:pl-60"),
             className
           )}
-          style={
-            isMobile
-              ? {
-                  paddingTop: "var(--app-header-h)",
-                  ...(fillViewport ? { paddingBottom: "var(--bottom-nav-h)" } : {}),
-                }
-              : undefined
-          }
+          style={{
+            paddingTop: "var(--app-header-h)",
+            ...(isMobile && fillViewport ? { paddingBottom: "var(--bottom-nav-h)" } : {}),
+          }}
         >
           {children}
           {!fillViewport && <SiteFooter />}
