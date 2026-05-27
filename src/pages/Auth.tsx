@@ -101,21 +101,21 @@ function FloatingField({
           aria-describedby={error ? `${id}-err` : hint ? `${id}-hint` : undefined}
           placeholder=" "
           className={cn(
-            "peer w-full rounded-xl bg-input/60 dark:bg-input/40 border px-4 pt-5 pb-2 text-[15px] text-foreground",
-            "outline-none transition-all duration-200",
-            "focus:bg-background focus:shadow-[0_0_0_4px_hsl(var(--primary)/0.12)]",
+            "peer w-full rounded-xl bg-card border px-4 pt-5 pb-2 text-[15px] text-foreground",
+            "outline-none transition-colors duration-150",
+            "focus:border-foreground/40",
             error
               ? "border-destructive/60 focus:border-destructive"
-              : "border-border focus:border-primary",
+              : "border-border",
             trailing && "pr-12",
           )}
         />
         <label
           htmlFor={id}
           className={cn(
-            "pointer-events-none absolute left-4 transition-all duration-200 origin-left",
+            "pointer-events-none absolute left-4 transition-all duration-150 origin-left",
             float
-              ? "top-1.5 text-[10.5px] font-semibold tracking-wider uppercase text-primary"
+              ? "top-1.5 text-[10.5px] font-medium tracking-wider uppercase text-muted-foreground"
               : "top-1/2 -translate-y-1/2 text-sm text-muted-foreground",
             error && float && "text-destructive",
           )}
@@ -127,7 +127,7 @@ function FloatingField({
         )}
       </div>
       {error ? (
-        <p id={`${id}-err`} className="text-xs text-destructive ml-1 animate-fade-in">
+        <p id={`${id}-err`} className="text-xs text-destructive ml-1">
           {error}
         </p>
       ) : hint ? (
