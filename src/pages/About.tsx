@@ -12,6 +12,8 @@ import {
   ShieldCheck,
   Quote,
   Star,
+  Compass,
+  PlayCircle,
 } from "lucide-react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
