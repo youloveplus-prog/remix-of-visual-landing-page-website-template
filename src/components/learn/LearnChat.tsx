@@ -518,7 +518,7 @@ function TranscriptSkeleton() {
   return (
     <div className="mx-auto w-full max-w-3xl px-3 sm:px-6 py-6 space-y-6" aria-label="Loading conversation">
       <div className="flex justify-end">
-        <div className="h-9 w-48 rounded-2xl rounded-br-md bg-primary/20 animate-pulse" />
+        <div className="h-9 w-48 rounded-2xl rounded-br-md bg-foreground/20 animate-pulse" />
       </div>
       <div className="space-y-2">
         <div className="h-3.5 w-[70%] rounded-md bg-muted animate-pulse" />
