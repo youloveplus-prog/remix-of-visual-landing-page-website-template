@@ -154,7 +154,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             </div>
             <div>
               <h3 className="font-display font-bold text-base text-foreground flex items-center gap-1">
-                AI Tutor
+                AI tuor
                 <ArrowUpRight className="h-3.5 w-3.5 opacity-50" />
               </h3>
               <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mt-1">

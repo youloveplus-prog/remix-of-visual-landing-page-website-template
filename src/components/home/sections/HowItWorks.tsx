@@ -4,7 +4,7 @@ import { TONES, TONE_CYCLE, panelClass, chipClass, headlineClass, subheadClass }
 
 const STEPS = [
   { icon: Compass, title: "Discover", text: "Courses, books & prompts for your level." },
-  { icon: Target, title: "Practice", text: "Learn with the 24/7 AI tutor." },
+  { icon: Target, title: "Practice", text: "Learn with the 24/7 AI tuor." },
   { icon: Trophy, title: "Achieve", text: "Earn XP, badges, ship projects." },
 ];
 
