@@ -778,36 +778,30 @@ function ForgotPasswordView({
       </button>
 
       {sent ? (
-        <div className="text-center py-4 space-y-5 animate-fade-in">
-          <div className="w-16 h-16 rounded-2xl gradient-primary-soft border border-primary/20 flex items-center justify-center mx-auto">
-            <Mail className="h-7 w-7 text-primary" />
+        <div className="py-4 space-y-5">
+          <div className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center">
+            <Mail className="h-5 w-5 text-foreground/70" />
           </div>
           <div className="space-y-2">
-            <h2
-              className="text-2xl font-bold tracking-tight"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Check your email
+            <h2 className="font-display text-[26px] font-semibold tracking-tight leading-[1.1]">
+              Check your email.
             </h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-[14px]">
               We sent a reset link to{" "}
-              <strong className="text-foreground">{email}</strong>
+              <strong className="text-foreground font-medium">{email}</strong>.
             </p>
           </div>
-          <Button variant="outline" onClick={onResend} className="rounded-xl">
+          <Button variant="outline" onClick={onResend}>
             Send again
           </Button>
         </div>
       ) : (
         <>
           <div className="mb-6">
-            <h2
-              className="text-2xl font-bold tracking-tight"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Reset your password
+            <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
+              Reset your password.
             </h2>
-            <p className="text-muted-foreground text-sm mt-1.5">
+            <p className="text-muted-foreground text-[14px] mt-2">
               Enter your email and we'll send you a secure reset link.
             </p>
           </div>
