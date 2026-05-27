@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight } from "lucide-react";
+import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight, Play, CalendarDays, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -100,56 +100,86 @@ type RenderCtx = {
 const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> = {
   hero: () => <ImageHeroSlider />,
   mentorship: () => <MentorshipHomeSection />,
-  quick_actions: () => (
-    <Reveal as="section" className="section-x">
-      {/* Mobile: 2 compact tiles. Desktop: 2 wide cards. */}
-      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-        <Link
-          to="/learn"
-          className="group relative overflow-hidden rounded-2xl border border-border bg-card p-3 sm:p-4 pressable focus-ring"
-        >
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
+  quick_actions: () => {
+    const chips = [
+      { icon: Play, label: "Continue", href: "/learn" },
+      { icon: Sparkles, label: "AI Tutor", href: "/learn" },
+      { icon: CalendarDays, label: "Planner", href: "/learn" },
+      { icon: BarChart3, label: "Progress", href: "/learn" },
+    ];
+    return (
+      <Reveal as="section" className="section-x space-y-4">
+        {/* Horizontal chip row */}
+        <div className="flex gap-2.5 overflow-x-auto hide-scrollbar -mx-4 px-4 pb-1">
+          {chips.map((c) => {
+            const Icon = c.icon;
+            return (
+              <Link
+                key={c.label}
+                to={c.href}
+                className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-secondary/30 border border-white/5 hover:border-primary/40 transition-colors pressable focus-ring"
+              >
+                <Icon className="h-4 w-4 text-primary" />
+                <span className="text-xs font-medium whitespace-nowrap text-white">{c.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* 2-col bento: AI Tutor + Streak */}
+        <div className="grid grid-cols-2 gap-3">
+          <Link
+            to="/learn"
+            className="midnight-tile p-5 h-40 flex flex-col justify-between focus-ring overflow-hidden"
+          >
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+              <Sparkles className="h-5 w-5" />
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="font-semibold text-[13px] sm:text-sm flex items-center gap-1 truncate">
+            <div>
+              <h3 className="font-display font-bold text-base text-white flex items-center gap-1">
                 AI Tutor
-                <ArrowUpRight className="h-3 w-3 opacity-60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+                <ArrowUpRight className="h-3.5 w-3.5 opacity-50" />
+              </h3>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/40 mt-1">
+                Active 24/7
               </p>
-              <p className="text-[11px] sm:text-xs text-muted-foreground truncate">24/7 · Bangla & English</p>
             </div>
-          </div>
-        </Link>
-        <div className="flex items-center justify-between p-3 sm:p-4 rounded-2xl border border-border bg-card">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-              <Gift className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
+          </Link>
+
+          <div className="midnight-tile midnight-glow p-5 h-40 flex flex-col justify-between overflow-hidden"
+               style={{ background: "hsl(244 76% 59% / 0.08)", borderColor: "hsl(244 76% 59% / 0.20)" }}>
+            <div className="relative z-10 w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-[0_0_20px_hsl(244_76%_59%/0.5)]">
+              <Flame className="h-5 w-5" />
             </div>
-            <div className="min-w-0">
-              <p className="font-semibold text-[13px] sm:text-sm truncate">Daily streak</p>
-              <p className="text-[11px] sm:text-xs text-muted-foreground truncate">+30 XP today</p>
+            <div className="relative z-10">
+              <h3 className="font-display font-bold text-base text-white">Daily streak</h3>
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-primary mt-1">
+                +30 XP today
+              </p>
             </div>
           </div>
         </div>
-      </div>
-    </Reveal>
-  ),
+      </Reveal>
+    );
+  },
   quick_categories: () => (
     <section className="section-x">
-      <div className="grid grid-cols-4 gap-2 sm:gap-3">
+      <div className="grid grid-cols-2 gap-3">
         {quickCategories.map((cat, i) => {
           const Icon = cat.icon;
           return (
             <Reveal key={cat.label} delay={i * 60} variant="scale">
               <Link
                 to={cat.href}
-                className="pressable focus-ring flex flex-col items-center justify-center gap-1.5 aspect-[1.1] rounded-2xl bg-card border border-border hover:border-foreground/30 transition-colors"
+                className="midnight-tile pressable focus-ring flex items-center gap-3 p-5 h-24"
               >
-                <div className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center">
-                  <Icon className="h-[16px] w-[16px] text-foreground" />
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Icon className="h-5 w-5 text-primary" />
                 </div>
-                <span className="text-[11px] font-medium">{cat.label}</span>
+                <div className="min-w-0">
+                  <p className="font-display font-bold text-sm text-white">{cat.label}</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-widest font-semibold">Explore</p>
+                </div>
               </Link>
             </Reveal>
           );
@@ -157,6 +187,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
       </div>
     </section>
   ),
+
   trending: ({ sec, featuredLoading, trendingItems }) => (
     <Reveal as="section">
       {featuredLoading ? (
@@ -253,45 +284,47 @@ const Index = () => {
           ],
         })}</script>
       </SEO>
-      <MobilePage spacing="space-y-4 lg:space-y-14">
-        {user ? (
-          <>
-            {/* 1 — Calm greeting */}
-            <GreetingStrip />
+      <div className="home-midnight min-h-screen">
+        <MobilePage spacing="space-y-5 lg:space-y-14">
+          {user ? (
+            <>
+              {/* 1 — Calm greeting */}
+              <GreetingStrip />
 
-            {/* 2 — The single most important thing on the screen */}
-            <section className="section-x">
-              <TodayMissionCard />
-            </section>
+              {/* 2 — The single most important thing on the screen */}
+              <section className="section-x">
+                <TodayMissionCard />
+              </section>
 
-            {/* 3 — Continue where you left off */}
-            <ContinueLearningRow />
+              {/* 3 — Continue where you left off */}
+              <ContinueLearningRow />
 
-            {/* 4 — Four calm tiles: Tutor / Shop / Community / Mentors */}
-            <QuickAccessGrid />
+              {/* 4 — Four calm tiles: Tutor / Shop / Community / Mentors */}
+              <QuickAccessGrid />
 
-            {/* 5 — Editorial hero (admin banners) */}
-            {heroSection && <ImageHeroSlider />}
+              {/* 5 — Editorial hero (admin banners) */}
+              {heroSection && <ImageHeroSlider />}
 
-            {/* 6 — AI assistant entry */}
-            <AiAssistantBox />
+              {/* 6 — AI assistant entry */}
+              <AiAssistantBox />
 
-            {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
-            <MobileCoursesTop />
-            {restSections.map(renderSection)}
+              {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
+              <MobileCoursesTop />
+              {restSections.map(renderSection)}
 
-            {/* 8 — Quiet personal footer: progress + activity */}
-            <ProgressSnapshot />
-            <ActivityFeed />
-          </>
-        ) : (
-          <>
-            {heroSection && renderSection(heroSection)}
-            <QuickAccessGrid />
-            {restSections.map(renderSection)}
-          </>
-        )}
-      </MobilePage>
+              {/* 8 — Quiet personal footer: progress + activity */}
+              <ProgressSnapshot />
+              <ActivityFeed />
+            </>
+          ) : (
+            <>
+              {heroSection && renderSection(heroSection)}
+              {restSections.map(renderSection)}
+            </>
+          )}
+        </MobilePage>
+      </div>
+
     </AppLayout>
   );
 };
