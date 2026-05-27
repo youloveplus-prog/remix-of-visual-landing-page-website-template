@@ -22,6 +22,7 @@ import { AiAssistantBox } from "@/components/home/workspace/AiAssistantBox";
 import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
 import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
+import { GalleryCarousel } from "@/components/home/mobile/GalleryCarousel";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -311,6 +312,7 @@ const Index = () => {
 
               {/* 7 — Discovery: courses + commerce sections (admin-ordered) */}
               <MobileCoursesTop />
+              <GalleryCarousel />
               {restSections.map(renderSection)}
 
               {/* 8 — Quiet personal footer: progress + activity */}
@@ -320,6 +322,7 @@ const Index = () => {
           ) : (
             <>
               {heroSection && renderSection(heroSection)}
+              <GalleryCarousel />
               {restSections.map(renderSection)}
             </>
           )}
