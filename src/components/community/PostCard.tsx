@@ -1,5 +1,5 @@
 import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, Bookmark, BadgeCheck } from "lucide-react";
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,6 +18,13 @@ function PostCardImpl({ post }: PostCardProps) {
     setIsLiked(!isLiked);
     setLikes(isLiked ? likes - 1 : likes + 1);
   };
+
+  // Normalize to a single images array; supports legacy `image` field
+  const images = useMemo(() => {
+    if (post.images && post.images.length > 0) return post.images;
+    if (post.image) return [post.image];
+    return [];
+  }, [post.images, post.image]);
 
   return (
     <article
@@ -59,22 +66,19 @@ function PostCardImpl({ post }: PostCardProps) {
         </button>
       </header>
 
-      {/* Image */}
-      {post.image && (
-        <div className="relative px-4">
-          <div className="relative overflow-hidden rounded-xl bg-muted">
-            <SmartImage
-              src={post.image}
-              alt="Post content"
-              className="w-full aspect-[4/5] sm:aspect-[16/11] object-cover"
-            />
-            {post.product && (
-              <button className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 backdrop-blur-md border border-border text-[11.5px] font-medium hover:bg-background transition-colors">
-                <ShoppingBag className="h-3.5 w-3.5" />
-                Shop the look
-              </button>
-            )}
-          </div>
+      {/* Caption (above images, Facebook-style) */}
+      {post.content && (
+        <div className="px-4 pb-3">
+          <p className="text-[14px] leading-[1.55] text-foreground/90 whitespace-pre-wrap">
+            {post.content}
+          </p>
+        </div>
+      )}
+
+      {/* Images */}
+      {images.length > 0 && (
+        <div className="relative px-4 pb-1">
+          <ImageCollage images={images} hasShopTag={!!post.product} />
         </div>
       )}
 
@@ -114,14 +118,106 @@ function PostCardImpl({ post }: PostCardProps) {
         </ActionButton>
       </div>
 
-      {/* Caption */}
-      <div className="px-4 pt-1.5 pb-4">
-        <p className="text-[14px] leading-[1.55]">
-          <span className="font-medium mr-1.5">{post.user.username}</span>
-          <span className="text-foreground/85">{post.content}</span>
-        </p>
-      </div>
+      {/* Spacer for clean rhythm */}
+      <div className="pb-3" />
     </article>
+  );
+}
+
+/**
+ * Facebook-style multi-image collage.
+ * 1: single tall image
+ * 2: side-by-side
+ * 3: one large + two stacked
+ * 4: 2x2 grid
+ * 5+: 2 on top, 3 on bottom with "+N" overlay on the last tile
+ */
+function ImageCollage({ images, hasShopTag }: { images: string[]; hasShopTag: boolean }) {
+  const count = images.length;
+  const shopTag = hasShopTag ? (
+    <button className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/90 backdrop-blur-md border border-border text-[11.5px] font-medium hover:bg-background transition-colors z-10">
+      <ShoppingBag className="h-3.5 w-3.5" />
+      Shop the look
+    </button>
+  ) : null;
+
+  if (count === 1) {
+    return (
+      <div className="relative overflow-hidden rounded-xl bg-muted">
+        <SmartImage
+          src={images[0]}
+          alt="Post image"
+          className="w-full aspect-[4/5] sm:aspect-[16/11] object-cover"
+        />
+        {shopTag}
+      </div>
+    );
+  }
+
+  if (count === 2) {
+    return (
+      <div className="relative grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
+        {images.slice(0, 2).map((src, i) => (
+          <SmartImage key={i} src={src} alt={`Post image ${i + 1}`} className="w-full aspect-square object-cover" />
+        ))}
+        {shopTag}
+      </div>
+    );
+  }
+
+  if (count === 3) {
+    return (
+      <div className="relative grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted aspect-[4/3]">
+        <SmartImage src={images[0]} alt="Post image 1" className="row-span-2 w-full h-full object-cover" />
+        <SmartImage src={images[1]} alt="Post image 2" className="w-full h-full object-cover" />
+        <SmartImage src={images[2]} alt="Post image 3" className="w-full h-full object-cover" />
+        {shopTag}
+      </div>
+    );
+  }
+
+  if (count === 4) {
+    return (
+      <div className="relative grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
+        {images.slice(0, 4).map((src, i) => (
+          <SmartImage key={i} src={src} alt={`Post image ${i + 1}`} className="w-full aspect-square object-cover" />
+        ))}
+        {shopTag}
+      </div>
+    );
+  }
+
+  // 5 or more
+  const extra = count - 5;
+  return (
+    <div className="relative grid grid-cols-6 gap-1 rounded-xl overflow-hidden bg-muted">
+      {images.slice(0, 2).map((src, i) => (
+        <SmartImage
+          key={`top-${i}`}
+          src={src}
+          alt={`Post image ${i + 1}`}
+          className="col-span-3 w-full aspect-[4/3] object-cover"
+        />
+      ))}
+      {images.slice(2, 5).map((src, i) => {
+        const isLast = i === 2 && extra > 0;
+        return (
+          <div key={`bot-${i}`} className="relative col-span-2">
+            <SmartImage
+              src={src}
+              alt={`Post image ${i + 3}`}
+              className="w-full aspect-square object-cover"
+            />
+            {isLast && (
+              <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-[2px]">
+                <span className="text-foreground text-xl font-semibold">+{extra}</span>
+              </div>
+            )}
+          </div>
+        );
+      })}
+      {shopTag}
+    </div>
   );
 }
 
