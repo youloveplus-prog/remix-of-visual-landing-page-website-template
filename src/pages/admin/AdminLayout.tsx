@@ -215,7 +215,13 @@ export default function AdminLayout() {
 
   return (
     <AdminGuard>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-dvh flex w-full bg-background">
+        <a
+          href="#admin-main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-3 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
         <AdminSidebar />
 
         <div className="flex-1 flex flex-col min-w-0">
