@@ -90,12 +90,12 @@ const OrderDetail = () => {
                   return (
                     <div key={step.id} className="flex-1 flex items-center">
                       <div className="flex flex-col items-center gap-2 min-w-0 flex-1">
-                        <div className={cn("h-9 w-9 rounded-full grid place-items-center transition-colors", done ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                        <div className={cn("h-9 w-9 rounded-full grid place-items-center transition-colors", done ? "bg-foreground text-background" : "bg-muted text-muted-foreground")}>
                           <Icon className="h-4 w-4" />
                         </div>
                         <span className={cn("text-[11px]", done ? "text-foreground font-medium" : "text-muted-foreground")}>{step.label}</span>
                       </div>
-                      {i < STEPS.length - 1 && <div className={cn("h-px flex-1 -mt-6 mx-1", i < activeIdx ? "bg-primary" : "bg-border")} />}
+                      {i < STEPS.length - 1 && <div className={cn("h-px flex-1 -mt-6 mx-1", i < activeIdx ? "bg-foreground" : "bg-border")} />}
                     </div>
                   );
                 })}
@@ -108,7 +108,7 @@ const OrderDetail = () => {
                   const done = i <= activeIdx;
                   return (
                     <li key={step.id} className="relative pb-4 last:pb-0">
-                      <div className={cn("absolute -left-6 top-0 h-6 w-6 rounded-full grid place-items-center", done ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground")}>
+                      <div className={cn("absolute -left-6 top-0 h-6 w-6 rounded-full grid place-items-center", done ? "bg-foreground text-background" : "bg-muted text-muted-foreground")}>
                         <Icon className="h-3 w-3" />
                       </div>
                       <p className={cn("text-[13px]", done ? "font-medium" : "text-muted-foreground")}>{step.label}</p>

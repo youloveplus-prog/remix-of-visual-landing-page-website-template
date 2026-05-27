@@ -126,7 +126,7 @@ const Checkout = () => {
                       onClick={() => setPaymentMethod(opt.id)}
                       className={cn(
                         "w-full text-left flex items-center gap-3 rounded-xl border p-4 transition-colors",
-                        active ? "border-primary bg-primary/5" : "border-border/50 hover:border-border",
+                        active ? "border-foreground bg-secondary/60" : "border-border hover:border-foreground/40",
                       )}
                       style={{ WebkitTapHighlightColor: "transparent" }}
                     >
@@ -135,7 +135,7 @@ const Checkout = () => {
                         <p className="font-medium text-[14px]">{opt.label}</p>
                         <p className="text-[12px] text-muted-foreground">{opt.desc}</p>
                       </div>
-                      <span className={cn("h-5 w-5 rounded-full border grid place-items-center shrink-0", active ? "border-primary bg-primary text-primary-foreground" : "border-border")}>
+                      <span className={cn("h-5 w-5 rounded-full border grid place-items-center shrink-0", active ? "border-foreground bg-foreground text-background" : "border-border")}>
                         {active && <Check className="h-3 w-3" />}
                       </span>
                     </button>
