@@ -121,7 +121,7 @@ function TileCard({ t }: { t: Tile }) {
         "group relative block overflow-hidden rounded-xl sm:rounded-[2rem] border border-white/10",
         "col-span-1 aspect-square sm:aspect-[5/4]",
         t.rows === 2 && "lg:row-span-2 lg:aspect-auto lg:min-h-[640px]",
-        "sm:" + mobileColMap[t.spanMobile ?? 2],
+        mobileColMap[t.spanMobile ?? 2],
         desktopColMap[t.spanDesktop ?? 6],
       )}
     >
