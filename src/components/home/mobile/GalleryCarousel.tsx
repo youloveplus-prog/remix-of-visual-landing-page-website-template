@@ -78,7 +78,6 @@ export function GalleryCarousel() {
       <div className="flex items-end justify-between mb-3">
         <div>
           <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground mb-1">
-            Inside Asikon
           </p>
           <h2 className="font-display font-bold text-xl text-foreground"></h2>
         </div>
