@@ -352,7 +352,8 @@ const Index = () => {
         <MobilePage spacing="space-y-5 lg:space-y-14">
           {user ? (
             <>
-              <FlexiTopSection />
+              <div className="hidden lg:block"><DesktopHeroBento /></div>
+              <div className="lg:hidden"><FlexiTopSection /></div>
               {/* 1 — Calm greeting */}
               <GreetingStrip />
 
@@ -384,7 +385,8 @@ const Index = () => {
             </>
           ) : (
             <>
-              <FlexiTopSection />
+              <div className="hidden lg:block"><DesktopHeroBento /></div>
+              <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
               <GalleryCarousel />
               {restSections.map(renderSection)}
