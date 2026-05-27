@@ -127,7 +127,14 @@ export default {
           'sans-serif'
         ],
         display: [
-          'Inter',
+          'Space Grotesk',
+          'Hind Siliguri',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif'
+        ],
+        grotesk: [
+          'Space Grotesk',
           'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
