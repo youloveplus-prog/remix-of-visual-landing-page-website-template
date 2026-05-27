@@ -110,8 +110,8 @@ function TileCard({ t }: { t: Tile }) {
     12: "lg:col-span-12",
   };
   const mobileColMap: Record<number, string> = {
-    1: "col-span-1",
-    2: "col-span-2",
+    1: "sm:col-span-1",
+    2: "sm:col-span-2",
   };
 
   return (
