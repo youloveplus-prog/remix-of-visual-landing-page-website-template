@@ -101,8 +101,8 @@ export function ProfileTabs({
     return (
       <span
         className={cn(
-          "px-1.5 py-0.5 rounded-full text-[10px] font-semibold transition-colors tabular-nums",
-          isActive ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground",
+          "px-1.5 py-0.5 rounded-full text-[10px] font-medium transition-colors tabular-nums",
+          isActive ? "bg-secondary text-foreground" : "bg-muted text-muted-foreground",
         )}
       >
         {count > 99 ? "99+" : count}
@@ -111,7 +111,7 @@ export function ProfileTabs({
   };
 
   return (
-    <div className="relative">
+    <div className="relative border-b border-border">
       {/* Fade edges hint at scrollable content */}
       <div
         aria-hidden
@@ -131,7 +131,7 @@ export function ProfileTabs({
       >
         <span
           aria-hidden
-          className="absolute bottom-0 h-[2px] rounded-full bg-primary shadow-[0_0_10px_hsl(var(--primary)/0.6)] transition-[transform,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          className="absolute -bottom-px h-[2px] rounded-full bg-foreground transition-[transform,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
           style={{ width: indicator.width, transform: `translateX(${indicator.left}px)` }}
         />
 
@@ -148,16 +148,11 @@ export function ProfileTabs({
               aria-selected={isActive}
               tabIndex={isActive ? 0 : -1}
               className={cn(
-                "relative flex items-center gap-1.5 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors duration-200 focus-ring",
+                "relative flex items-center gap-1.5 px-4 py-3 text-[13.5px] font-medium whitespace-nowrap transition-colors duration-200 focus-ring",
                 isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <span
-                aria-hidden
-                className={cn("transition-all duration-200", isActive ? "text-primary scale-110" : "")}
-              >
-                {tab.icon}
-              </span>
+              <span aria-hidden>{tab.icon}</span>
               <span>{tab.label}</span>
               {renderCount(tab.id, isActive)}
             </button>
