@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
