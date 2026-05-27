@@ -22,10 +22,11 @@ const Mentors = () => {
 
   return (
     <AppLayout>
-      <Helmet>
-        <title>1-on-1 Mentorship for Kids — Asikon</title>
-        <meta name="description" content="Book personal Bangla & English tutors for your child on Asikon. Hand-picked mentors, waitlist now open." />
-      </Helmet>
+      <SEO
+        title="1-on-1 Mentorship for Kids"
+        description="Book personal Bangla & English tutors for your child on Asikon. Hand-picked mentors, waitlist now open."
+        url="https://asikonpro.lovable.app/mentors"
+      />
       <div className="container-editorial space-y-8 pb-32 pt-2 lg:pt-4">
         {/* Hero */}
         <section className="section-x">
