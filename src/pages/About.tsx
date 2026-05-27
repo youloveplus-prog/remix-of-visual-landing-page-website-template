@@ -362,7 +362,7 @@ function PrinciplesCarousel() {
         </div>
       </div>
 
-      <div className="container-editorial flex gap-1.5 mt-6 sm:mt-8">
+      <div className="container-editorial flex justify-center gap-1.5 mt-6 sm:mt-8">
         {PRINCIPLES.map((_, i) => (
           <button
             key={i}
