@@ -8,7 +8,7 @@ import {
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
-import { PageHero } from "@/components/ui/page-hero";
+
 import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
