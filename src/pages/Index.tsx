@@ -164,31 +164,92 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
       </Reveal>
     );
   },
-  quick_categories: () => (
-    <section className="section-x">
-      <div className="grid grid-cols-2 gap-3">
-        {quickCategories.map((cat, i) => {
-          const Icon = cat.icon;
-          return (
-            <Reveal key={cat.label} delay={i * 60} variant="scale">
-              <Link
-                to={cat.href}
-                className="midnight-tile pressable focus-ring flex items-center gap-3 p-5 h-24"
-              >
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Icon className="h-5 w-5 text-primary" />
+  quick_categories: () => {
+    const [courses, books, prompts, trending] = quickCategories;
+    const Eyebrow = ({ children }: { children: React.ReactNode }) => (
+      <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground">{children}</p>
+    );
+    return (
+      <section className="section-x">
+        <div className="grid grid-cols-3 grid-rows-2 gap-3">
+          {/* Hero: Courses */}
+          <Reveal delay={0} variant="scale" className="col-span-2 row-span-2">
+            <Link
+              to={courses.href}
+              className="midnight-tile midnight-glow pressable focus-ring relative flex flex-col justify-between p-5 h-full min-h-[12rem] overflow-hidden"
+            >
+              <div className="flex items-start justify-between relative z-10">
+                <Eyebrow>ASIKON</Eyebrow>
+                <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-[0_0_24px_hsl(var(--primary)/0.55)]">
+                  <courses.icon className="h-5 w-5" />
                 </div>
-                <div className="min-w-0">
-                  <p className="font-display font-bold text-sm text-foreground">{cat.label}</p>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Explore</p>
+              </div>
+              <div className="relative z-10">
+                <h3 className="font-display font-bold text-2xl leading-tight text-foreground">
+                  Courses<br/>library
+                </h3>
+                <div className="flex items-center gap-5 mt-4">
+                  <div>
+                    <p className="font-display font-bold text-base text-foreground">120+</p>
+                    <Eyebrow>Lessons</Eyebrow>
+                  </div>
+                  <div>
+                    <p className="font-display font-bold text-base text-foreground">24/7</p>
+                    <Eyebrow>AI Tutor</Eyebrow>
+                  </div>
                 </div>
-              </Link>
-            </Reveal>
-          );
-        })}
-      </div>
-    </section>
-  ),
+              </div>
+            </Link>
+          </Reveal>
+
+          {/* Books */}
+          <Reveal delay={60} variant="scale" className="col-span-1">
+            <Link to={books.href} className="midnight-tile pressable focus-ring relative flex flex-col justify-between p-4 h-full min-h-[5.75rem]">
+              <div className="flex items-start justify-between">
+                <Eyebrow>Read</Eyebrow>
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <books.icon className="h-4 w-4 text-primary" />
+                </div>
+              </div>
+              <p className="font-display font-bold text-sm text-foreground">{books.label}</p>
+            </Link>
+          </Reveal>
+
+          {/* Prompts */}
+          <Reveal delay={120} variant="scale" className="col-span-1">
+            <Link to={prompts.href} className="midnight-tile pressable focus-ring relative flex flex-col justify-between p-4 h-full min-h-[5.75rem]">
+              <div className="flex items-start justify-between">
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_hsl(142_71%_45%/0.9)]" />
+                  <Eyebrow>Live</Eyebrow>
+                </span>
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <prompts.icon className="h-4 w-4 text-primary" />
+                </div>
+              </div>
+              <p className="font-display font-bold text-sm text-foreground">{prompts.label}</p>
+            </Link>
+          </Reveal>
+
+          {/* Trending wide */}
+          <Reveal delay={180} variant="scale" className="col-span-3">
+            <Link to={trending.href} className="midnight-tile pressable focus-ring flex items-center justify-between p-4 h-16">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <trending.icon className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <p className="font-display font-bold text-sm text-foreground">{trending.label}</p>
+                  <Eyebrow>What's hot today</Eyebrow>
+                </div>
+              </div>
+              <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
+    );
+  },
 
   trending: ({ sec, featuredLoading, trendingItems }) => (
     <Reveal as="section">
