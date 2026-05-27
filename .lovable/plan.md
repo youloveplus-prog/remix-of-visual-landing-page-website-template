@@ -1,34 +1,40 @@
-## Home Page UI Enhancement — Midnight Indigo Bento
+## Goal
+Replace the current 2×2 uniform category grid (Courses / Books / Prompts / Trending) with an asymmetric bento layout inspired by the Smartx reference card — clean white/surface cards, varied sizes, brand label on top, large bold title, supporting stats/meta row, and a product/illustration anchor.
 
-Apply the selected "Kinetic Glow" direction to the mobile home. Keep all current sections and data; refine visuals only.
+## Scope
+File: `src/pages/Index.tsx` — only the `quick_categories` renderer (lines 167–191). No data, routing, or business logic changes. Stays theme-aware (light + dark Midnight Indigo).
 
-### Design tokens (locked)
-- Palette: `#0a0a1a` bg, `#141432` surface, `#1e1e5a` raised, `#4f46e5` accent.
-- Type: Space Grotesk **Bold/700** for display headings; Inter for body. Add a `font-display` utility.
-- Vibe: deep navy void + ambient indigo glow (blurred radial blobs), thin white/5 borders, generous rounded-3xl tiles.
+## New layout
 
-### Files to edit
-1. `src/index.css` + `tailwind.config.ts` — add Midnight Indigo HSL tokens (`--surface`, `--surface-raised`, `--accent-indigo`, `--glow`), `font-display` family, `bg-glow` radial helper. Keep existing dark-red brand tokens intact for other pages; introduce a `.home-midnight` scope only if needed to avoid bleed.
-2. `src/pages/Index.tsx` — wrap mobile render in a `min-h-screen bg-[hsl(var(--surface-bg))] text-foreground` shell; restructure section order to the bento flow: hero → quick-actions chip row → AI Tutor + Streak (2-col) → Books + Prompts (2-col) → Mentorship (full-width) → Trending Now carousel.
-3. `src/components/home/mobile/ImageHeroSlider.tsx` — restyle slide: rounded-3xl, `#141432` surface, top-left "NEW COURSE" pill (indigo-tinted), Space Grotesk 3xl headline, ambient indigo blur blob top-right, arrow CTA bottom-right.
-4. `src/pages/Index.tsx` `quick_actions` renderer — replace 2-tile block with:
-   - Horizontal scroll chip row (Continue / AI Tutor / Planner) using `#1e1e5a/30` pills.
-   - Below: 2-col bento with **AI Tutor** tile (indigo icon, "Active 24/7" microcopy) and **Streak** tile (indigo-600/10 bg, indigo-500/20 border, glow blur, "12 Days / +30 XP Today").
-5. `quickCategories` block — render as 2×2 bento of large rounded-2xl `#141432` tiles with icon + label (Courses, Books, Prompts, Trending).
-6. `src/components/mentorship/MentorshipHomeSection.tsx` — restyle the wrapper card to match: `#1e1e5a` bg, indigo radial blur top-right, white CTA button with `text-[#0a0a1a]`.
-7. Trending Now header — Space Grotesk uppercase tracking-wider, "View All" link in indigo-400.
-8. `ProductCard` (only when rendered inside home trending row) — let existing component stand but ensure parent gives it a `#141432` surface + indigo accent badge. If it clashes, add a `variant="midnight"` prop scoped to home.
+```text
++-----------------------+----------------+
+|                       |    Books       |
+|       Courses         |   (small)      |
+|       (hero)          +----------------+
+|                       |   Prompts      |
+|                       |   (small)      |
++-----------------------+----------------+
+|              Trending (wide)           |
++----------------------------------------+
+```
 
-### Motion
-- Add `animate-fade-in` stagger on tile mount (delay-75/150/225 via Tailwind).
-- Hover: tile gets `ring-1 ring-indigo-500/40 shadow-[0_0_30px_rgba(79,70,229,0.25)]` via `transition-all`.
-- Hero CTA circle: on group-hover swap bg to indigo-600.
+- Grid: `grid-cols-3 grid-rows-2 gap-3`
+- Courses tile: `col-span-2 row-span-2` — large headline ("Courses"), brand eyebrow ("ASIKON"), bottom meta row with two stats (e.g. "120+ Lessons" / "AI Tutor"), icon orb in top-right
+- Books tile: `col-span-1` — small, icon top-right, label bottom-left
+- Prompts tile: `col-span-1` — same compact pattern, accent dot ("Connected"-style status chip)
+- Trending tile: `col-span-3` — wide strip, icon left, title + "Explore" arrow right
 
-### Out of scope
-- Desktop home (keep as-is unless trivially compatible).
-- Other pages' branding (still dark-red).
-- Data layer, routing, business logic.
+## Visual treatment
 
-### Acceptance
-- Mobile preview at 498px matches the Kinetic Glow prototype: dark navy bg, indigo glows, Space Grotesk bold headlines, bento tile rhythm, white-text mentorship CTA.
-- No regressions on signed-in vs signed-out flows; all existing sections still present.
+- Use `midnight-tile` base (already theme-aware: white surface in light, `#141432` in dark)
+- Eyebrow: `text-[10px] uppercase tracking-widest text-muted-foreground font-semibold`
+- Title: `font-display font-bold text-xl` (hero) / `text-sm` (small)
+- Icon chips: `rounded-xl bg-primary/10 text-primary` (small), hero gets `bg-primary text-primary-foreground` with primary glow shadow
+- Hero tile gets a subtle `midnight-glow` radial blob in the corner
+- Status pill on Prompts tile: tiny green dot + "Live" text, matches reference's "Connected" pattern
+- Hover: keep existing `pressable` + `focus-ring`
+
+## Mapping
+Use existing `quickCategories` array order (Courses, Books, Prompts, Trending). Render by index rather than `.map` to assign variant per slot.
+
+No new dependencies. No token changes — reuses existing semantic tokens and `.midnight-tile` / `.midnight-glow` utilities.
