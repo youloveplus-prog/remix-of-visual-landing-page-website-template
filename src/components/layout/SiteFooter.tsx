@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Github, Twitter, Instagram, Facebook } from "lucide-react";
+import { Mail, Code2, Send, Camera, Users } from "lucide-react";
 
 const columns = [
   {
@@ -48,10 +48,10 @@ const columns = [
 ];
 
 const socials = [
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook" },
-  { icon: Github, href: "https://github.com", label: "GitHub" },
+  { icon: Send, href: "https://twitter.com", label: "Twitter" },
+  { icon: Camera, href: "https://instagram.com", label: "Instagram" },
+  { icon: Users, href: "https://facebook.com", label: "Facebook" },
+  { icon: Code2, href: "https://github.com", label: "GitHub" },
   { icon: Mail, href: "mailto:hello@asikon.app", label: "Email" },
 ];
 

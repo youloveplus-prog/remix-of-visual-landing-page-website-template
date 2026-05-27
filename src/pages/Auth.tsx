@@ -11,7 +11,7 @@ import {
   BookOpen,
   ShieldCheck,
   CheckCircle2,
-  Github,
+  Code2 as Github,
   ArrowRight,
   Flame,
 } from "lucide-react";
