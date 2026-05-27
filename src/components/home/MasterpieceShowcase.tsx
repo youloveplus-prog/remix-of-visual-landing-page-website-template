@@ -127,17 +127,30 @@ export function MasterpieceShowcase() {
           </div>
         </div>
 
-        <p className="mt-10 lg:mt-14 text-muted-foreground text-sm sm:text-base max-w-md mx-auto">
+        <p className="mt-6 lg:mt-12 text-muted-foreground text-xs sm:text-base max-w-md mx-auto">
           Discover the most-loved books on Asikon — hover any cover to bring it to the front.
         </p>
 
-        <div className="mt-6 flex items-center justify-center gap-3">
-          <button className="bg-gradient-to-r from-primary to-[hsl(var(--primary)/0.8)] text-primary-foreground rounded-full px-6 py-2.5 text-sm font-semibold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <button className="bg-gradient-to-r from-primary to-[hsl(var(--primary)/0.8)] text-primary-foreground rounded-full px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all">
             Explore library
           </button>
-          <button className="bg-background/80 backdrop-blur text-foreground rounded-full px-6 py-2.5 text-sm font-medium border border-primary/20 hover:border-primary/40 hover:bg-background transition-all">
+          <button className="bg-background/80 backdrop-blur text-foreground rounded-full px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-medium border border-primary/20 hover:border-primary/40 hover:bg-background transition-all">
             Read more
           </button>
+        </div>
+
+        {/* Trust micro-chips */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[10px] sm:text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-emerald-500" /> Instant access
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-primary" /> Money-back guarantee
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-amber-500" /> 24/7 AI tutor
+          </span>
         </div>
       </div>
     </section>
