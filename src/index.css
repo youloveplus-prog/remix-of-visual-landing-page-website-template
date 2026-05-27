@@ -174,29 +174,74 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
     font-size: clamp(15px, 0.9rem + 0.2vw, 16px);
+    line-height: 1.55;
     -webkit-tap-highlight-color: transparent;
-    font-feature-settings: "cv11", "ss01", "ss03";
+    font-feature-settings: "cv11", "ss01", "ss03", "kern", "calt", "liga";
+    font-variant-ligatures: common-ligatures contextual;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Bangla content uses the Bangla-first stack automatically */
   :lang(bn), [lang="bn"] {
     font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'Inter', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.65;
   }
 
   img, video, svg, canvas { max-width: 100%; }
 
-  /* Apple-style type scale — generous, tight tracking */
-  h1 { @apply text-[1.75rem] md:text-[2.5rem] leading-[1.1]; letter-spacing: -0.025em; }
-  h2 { @apply text-xl md:text-2xl leading-tight; letter-spacing: -0.02em; }
-  h3 { @apply text-lg md:text-xl leading-snug; letter-spacing: -0.015em; }
+  /* Refined editorial type scale — fluid, tighter tracking, balanced wrap */
+  h1 {
+    font-size: clamp(1.875rem, 1.35rem + 2.2vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2.125rem);
+    line-height: 1.12;
+    letter-spacing: -0.022em;
+    font-weight: 700;
+  }
+  h3 {
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+    line-height: 1.22;
+    letter-spacing: -0.016em;
+    font-weight: 600;
+  }
+  h4 {
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.175rem);
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    font-weight: 600;
+  }
+  h5 { font-size: 0.95rem; line-height: 1.35; letter-spacing: -0.008em; font-weight: 600; }
+  h6 { font-size: 0.85rem; line-height: 1.4; letter-spacing: 0; font-weight: 600; }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    @apply font-semibold;
     text-wrap: balance;
+    font-feature-settings: "kern", "calt", "ss01";
   }
 
-  p { text-wrap: pretty; }
+  p { text-wrap: pretty; line-height: 1.6; }
+  p + p { margin-top: 0.65em; }
+
+  small, .text-xs { font-feature-settings: "kern", "calt"; letter-spacing: 0.005em; }
+
+  /* Tabular numerals for prices, counters, timers, coin balances */
+  [data-numeric],
+  .tabular-nums,
+  .price, .coins, .counter, time, kbd, code,
+  [class*="price"], [class*="amount"], [class*="badge"] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum", "kern";
+  }
+
+  /* Selection: brand-tinted */
+  ::selection { background: hsl(var(--primary) / 0.22); color: hsl(var(--foreground)); }
 
   /* Comfortable tap targets on touch devices */
   @media (hover: none) and (pointer: coarse) {
@@ -688,18 +733,28 @@
   .display-1 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.04;
-    font-size: clamp(2rem, 1.4rem + 2.4vw, 4.5rem);
+    letter-spacing: -0.032em;
+    line-height: 1.02;
+    font-size: clamp(2.25rem, 1.5rem + 3vw, 5rem);
     text-wrap: balance;
+    font-feature-settings: "kern", "calt", "ss01";
   }
   .display-2 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.08;
-    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
+    letter-spacing: -0.026em;
+    line-height: 1.06;
+    font-size: clamp(1.625rem, 1.15rem + 1.8vw, 3rem);
     text-wrap: balance;
+    font-feature-settings: "kern", "calt", "ss01";
+  }
+  .display-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: hsl(var(--muted-foreground));
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -719,9 +774,16 @@
 
   /* Editorial body — slightly larger than base for long-form content. */
   .body-lg {
-    font-size: clamp(15px, 0.9rem + 0.25vw, 17px);
-    line-height: 1.6;
+    font-size: clamp(15px, 0.9rem + 0.35vw, 18px);
+    line-height: 1.65;
+    letter-spacing: -0.005em;
   }
+  .body-prose {
+    max-width: 65ch;
+    line-height: 1.7;
+    letter-spacing: -0.003em;
+  }
+  .body-prose > * + * { margin-top: 0.85em; }
 
   /* Mobile-safe space below sticky CTA bar */
   .pb-sticky-cta { padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); }
