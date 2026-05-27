@@ -34,8 +34,8 @@ export function QuickAccessGrid() {
             to={href}
             className="shrink-0 flex flex-col items-center gap-1.5 pressable focus-ring"
           >
-            <div className="w-14 h-14 rounded-2xl glass border border-border/60 flex items-center justify-center bg-white/[0.04] backdrop-blur-xl shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]">
-              <Icon className="h-5 w-5 text-primary" strokeWidth={2} />
+            <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center">
+              <Icon className="h-5 w-5 text-foreground" strokeWidth={2} />
             </div>
             <span className="text-[11px] font-medium text-foreground/80">{label}</span>
           </Link>
