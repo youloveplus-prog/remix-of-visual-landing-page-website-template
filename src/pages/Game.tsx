@@ -247,17 +247,17 @@ const Game = () => {
             {/* This Week */}
             <MobileCard variant="glass" className="p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Flame className="h-4 w-4 text-orange-400" />
-                <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">This week</span>
+                <Flame className="h-4 w-4 text-foreground/70" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">This week</span>
               </div>
               <div className="flex items-baseline gap-1.5 mb-3">
-                <span className="text-3xl font-bold">{stats?.streakDays ?? 0}</span>
+                <span className="text-3xl font-semibold font-display tabular-nums">{stats?.streakDays ?? 0}</span>
                 <span className="text-xs text-muted-foreground">day streak</span>
               </div>
               <div className="flex items-center justify-between gap-1 mb-4">
                 {(stats?.weekActivity ?? Array.from({ length: 7 }, () => ({ day: "·", active: false }))).map((d, i) => (
                   <div key={i} className="flex flex-col items-center gap-1 flex-1">
-                    <div className={`w-full h-7 rounded-md flex items-center justify-center ${d.active ? "bg-gradient-to-br from-orange-400 to-amber-500 text-white" : "bg-secondary text-muted-foreground"}`}>
+                    <div className={`w-full h-7 rounded-md flex items-center justify-center ${d.active ? "bg-foreground text-background" : "bg-secondary text-muted-foreground"}`}>
                       {d.active && <Flame className="h-3 w-3" />}
                     </div>
                     <span className="text-[10px] text-muted-foreground">{d.day}</span>
@@ -267,19 +267,19 @@ const Game = () => {
               <Separator />
               <div className="space-y-2 mt-3">
                 <div className="flex items-center gap-2 text-xs">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                  <CheckCircle2 className="h-3.5 w-3.5 text-foreground/70" />
                   <span className="text-muted-foreground">Lessons completed</span>
-                  <span className="ml-auto font-semibold">{stats?.lessonsCompletedTotal ?? 0}</span>
+                  <span className="ml-auto font-semibold tabular-nums">{stats?.lessonsCompletedTotal ?? 0}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
                   <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="text-muted-foreground">Today</span>
-                  <span className="ml-auto font-semibold text-primary">+{stats?.lessonsToday ?? 0}</span>
+                  <span className="ml-auto font-semibold tabular-nums">+{stats?.lessonsToday ?? 0}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
                   <BookOpen className="h-3.5 w-3.5 text-muted-foreground" />
                   <span className="text-muted-foreground">Courses</span>
-                  <span className="ml-auto font-semibold">{courses.length}</span>
+                  <span className="ml-auto font-semibold tabular-nums">{courses.length}</span>
                 </div>
               </div>
             </MobileCard>
