@@ -9,7 +9,7 @@ export function CreateContentFAB() {
     <button
       onClick={() => navigate("/create")}
       className={cn(
-        "fixed bottom-20 right-4 z-50 md:bottom-8",
+        "fixed bottom-20 left-4 z-50 md:bottom-8",
         "w-14 h-14 rounded-2xl",
         "gradient-primary glow-primary",
         "flex items-center justify-center",
