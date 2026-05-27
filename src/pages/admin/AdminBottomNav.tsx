@@ -42,11 +42,11 @@ export function AdminBottomNav() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-border/60 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.25)]"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 liquid-nav border-t border-border/60"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label="Admin navigation"
     >
-      <div className="relative flex h-16 w-full items-stretch">
+      <div className="relative flex h-[68px] w-full items-stretch">
         {activeIndex >= 0 && (
           <span
             aria-hidden
