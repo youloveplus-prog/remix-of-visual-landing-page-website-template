@@ -186,6 +186,15 @@ function AnimatedRoutes() {
           <Route path="/about" element={<About />} />
           <Route path="/prompts" element={<Prompts />} />
           <Route path="/welcome" element={<Welcome />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/faq" element={<Navigate to="/help" replace />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/refund" element={<Refund />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          
           
           <Route path="/track/:slug" element={<TrackDetail />} />
           <Route path="/lesson/:id" element={<LessonDetail />} />
