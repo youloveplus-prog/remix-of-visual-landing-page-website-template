@@ -185,10 +185,8 @@ function TileCard({ t }: { t: Tile }) {
         <div className="mt-1.5 sm:mt-5 flex justify-center sm:justify-start">
           <span
             className={cn(
-              "inline-flex items-center gap-1 sm:gap-1.5 rounded-full px-2 sm:px-4 h-6 sm:h-9 text-[10px] sm:text-[13px] font-medium backdrop-blur-xl transition-transform group-hover:translate-y-[-1px]",
-              t.tone === "dark"
-                ? "bg-white text-neutral-900 hover:bg-white/90"
-                : "bg-neutral-900 text-white hover:bg-neutral-800",
+              "inline-flex items-center gap-1 sm:gap-1.5 rounded-full px-2 sm:px-4 h-6 sm:h-9 text-[10px] sm:text-[13px] font-medium liquid-glass-pill transition-transform group-hover:translate-y-[-1px]",
+              t.tone === "dark" ? "text-white" : "text-neutral-900",
             )}
           >
             {t.cta}
