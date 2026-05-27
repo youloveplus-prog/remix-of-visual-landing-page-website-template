@@ -11,7 +11,7 @@ import {
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { FeedStoriesRail } from "../feed/FeedStoriesRail";
 import { FeedItemRenderer } from "../feed/FeedItemRenderer";
-import type { FeedItem, LoopedFeedItem } from "../feed/feed-types";
+import type { FeedItem } from "../feed/feed-types";
 
 /**
  * Build a mixed, deterministic feed from all mock sources. Memoized at module
