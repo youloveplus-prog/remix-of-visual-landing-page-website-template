@@ -550,14 +550,21 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
   return (
     <div className="mx-auto w-full max-w-2xl px-4 py-8 animate-fade-in">
       <div className="flex flex-col items-center text-center mb-8">
-        <img
-          src={tutorAvatar}
-          alt="Apu, your ASIKON tutor"
-          className="w-20 h-20 mb-4"
-          width={512}
-          height={512}
-        />
-        <h1 className="text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Apu</h1>
+        <div className="relative mb-4">
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -m-6 rounded-full blur-3xl opacity-70"
+            style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.10), transparent 70%)" }}
+          />
+          <img
+            src={tutorAvatar}
+            alt="Apu, your ASIKON tutor"
+            className="relative w-20 h-20"
+            width={512}
+            height={512}
+          />
+        </div>
+        <h1 className="font-display text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Apu</h1>
         <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
           Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
           I'll explain in English or Bangla, whichever helps.
@@ -574,9 +581,9 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/20 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
-              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-primary/8 text-primary">
+              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-secondary text-foreground ring-1 ring-border">
                 <Icon className="w-4 h-4" />
               </span>
               <span className="text-[14px] font-medium leading-snug pt-1.5">{q.label}</span>
@@ -596,7 +603,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
               key={c.label}
               className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-card border border-border"
             >
-              <Icon className="w-4 h-4 text-primary" />
+              <Icon className="w-4 h-4 text-foreground" />
               <span className="text-[11px] font-medium text-center leading-tight text-muted-foreground">
                 {c.label}
               </span>
@@ -604,6 +611,10 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           );
         })}
       </div>
+
+      <p className="text-[10.5px] text-center text-muted-foreground/70 mt-5 tracking-wide">
+        Powered by Lovable AI
+      </p>
     </div>
   );
 }
