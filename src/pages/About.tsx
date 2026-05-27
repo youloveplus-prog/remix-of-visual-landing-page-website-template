@@ -176,6 +176,7 @@ function ImageTextRow({
   image,
   alt,
   reverse,
+  meta,
 }: {
   eyebrow: string;
   title: string;
@@ -183,29 +184,33 @@ function ImageTextRow({
   image: string;
   alt: string;
   reverse?: boolean;
+  meta?: string[];
 }) {
   return (
     <section className="container-editorial py-12 sm:py-16 lg:py-24">
-      <article className="group relative mx-auto max-w-6xl overflow-hidden rounded-[1.75rem] sm:rounded-[2.25rem] glass-strong border border-white/10 shadow-[0_30px_80px_-40px_hsl(var(--primary)/0.35)]">
+      <article className="group relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-[1.75rem] sm:rounded-[2.25rem] glass-strong border border-white/10 shadow-[0_30px_80px_-40px_hsl(var(--primary)/0.35)]">
         {/* hairline top */}
         <div
-          className="absolute top-0 left-8 right-8 h-px z-10 pointer-events-none"
+          className="absolute top-0 left-10 right-10 h-px z-10 pointer-events-none"
           style={{ background: "var(--gradient-hairline)" }}
         />
-        {/* brand glow */}
+        {/* brand glow — sits behind copy column */}
         <div
-          className="absolute -top-32 -right-24 w-[28rem] h-[28rem] rounded-full blur-[120px] opacity-25 pointer-events-none"
+          className={cn(
+            "absolute -top-32 w-[28rem] h-[28rem] rounded-full blur-[120px] opacity-25 pointer-events-none",
+            reverse ? "-left-24" : "-right-24",
+          )}
           style={{ background: "var(--gradient-primary)" }}
         />
 
-        <div
-          className={cn(
-            "relative grid lg:grid-cols-2",
-            reverse && "lg:[&>*:first-child]:order-2",
-          )}
-        >
+        <div className="relative grid lg:grid-cols-2 lg:items-stretch lg:min-h-[560px] xl:min-h-[600px]">
           {/* Media */}
-          <div className="relative overflow-hidden aspect-[4/5] sm:aspect-[5/4] lg:aspect-auto lg:min-h-[540px]">
+          <div
+            className={cn(
+              "relative overflow-hidden aspect-[4/5] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[560px]",
+              reverse ? "lg:order-2" : "lg:order-1",
+            )}
+          >
             <img
               src={image}
               alt={alt}
@@ -214,24 +219,55 @@ function ImageTextRow({
               height={1280}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-background/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-background/30" />
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-tr from-background/30 via-transparent to-transparent",
+                reverse
+                  ? "lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-background/30"
+                  : "lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-background/30",
+              )}
+            />
           </div>
 
           {/* Copy */}
-          <div className="relative flex flex-col justify-center text-center lg:text-left p-7 sm:p-10 lg:p-14">
-            <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">
+          <div
+            className={cn(
+              "relative flex flex-col justify-center text-center lg:text-left p-6 sm:p-10 lg:p-14 xl:p-16",
+              reverse ? "lg:order-1" : "lg:order-2",
+            )}
+          >
+            {/* decorative brand bar */}
+            <div
+              className="mx-auto lg:mx-0 mb-5 h-[3px] w-7 rounded-full"
+              style={{ background: "var(--gradient-primary)" }}
+            />
+            <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium text-primary/90 mb-4">
               {eyebrow}
             </p>
             <h2
-              className="font-display font-semibold tracking-[-0.025em] leading-[1.05] text-foreground"
-              style={{ fontSize: "clamp(1.7rem, 3.6vw, 2.85rem)" }}
+              className="font-display font-semibold tracking-[-0.025em] leading-[1.05] text-foreground mx-auto lg:mx-0 max-w-[18ch]"
+              style={{ fontSize: "clamp(1.7rem, 3.4vw, 2.75rem)" }}
             >
               {title}
             </h2>
-            <p className="mt-4 sm:mt-5 mx-auto lg:mx-0 max-w-[48ch] text-[14.5px] sm:text-base leading-[1.65] text-muted-foreground">
+            <p className="mt-4 sm:mt-5 mx-auto lg:mx-0 max-w-[42ch] text-[14.5px] sm:text-base leading-[1.65] text-muted-foreground">
               {body}
             </p>
-            <div className="mt-6 sm:mt-7 flex justify-center lg:justify-start">
+
+            {meta && meta.length > 0 && (
+              <ul className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-2.5 gap-y-2 text-[11.5px] uppercase tracking-[0.16em] text-muted-foreground/80">
+                {meta.map((m, i) => (
+                  <li key={m} className="flex items-center gap-2.5">
+                    <span>{m}</span>
+                    {i < meta.length - 1 && (
+                      <span className="h-1 w-1 rounded-full bg-foreground/25" />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="mt-7 sm:mt-8 flex justify-center lg:justify-start">
               <span className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium glass border border-white/15 text-foreground/90 transition-transform group-hover:translate-x-0.5">
                 Learn more
                 <ArrowRight className="h-3.5 w-3.5" />
