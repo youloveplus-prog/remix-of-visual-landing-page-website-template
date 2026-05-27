@@ -7,13 +7,14 @@ interface CommunityTabsProps {
   onTabChange: (tab: CommunityTab) => void;
 }
 
-// "live" and "offers" tabs hidden until real content exists.
+// "live" tab hidden until real content exists.
 const tabs: { id: CommunityTab; label: string }[] = [
   { id: "my-feed", label: "My Feed" },
   { id: "posts", label: "Posts" },
   { id: "videos", label: "Videos" },
   { id: "shorts", label: "Shorts" },
   { id: "reviews", label: "Reviews" },
+  { id: "offers", label: "Offers" },
 ];
 
 export function CommunityTabs({ activeTab, onTabChange }: CommunityTabsProps) {

@@ -9,6 +9,7 @@ import { PostsTab } from "@/components/community/tabs/PostsTab";
 import { VideosTab } from "@/components/community/tabs/VideosTab";
 import { ShortsTab } from "@/components/community/tabs/ShortsTab";
 import { ReviewsTab } from "@/components/community/tabs/ReviewsTab";
+import { OffersTab } from "@/components/community/tabs/OffersTab";
 import { CommunityTab } from "@/types/community";
 import { MobilePage } from "@/components/layout/MobilePage";
 
@@ -22,8 +23,8 @@ const Community = () => {
       case "videos": return <VideosTab />;
       case "shorts": return <ShortsTab />;
       case "reviews": return <ReviewsTab />;
+      case "offers": return <OffersTab />;
       case "live":
-      case "offers":
         return <MyFeedTab />;
       default: return <MyFeedTab />;
     }
