@@ -26,6 +26,7 @@ import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { GalleryCarousel } from "@/components/home/mobile/GalleryCarousel";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
+import { BrandStrip } from "@/components/home/BrandStrip";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -371,6 +372,7 @@ const Index = () => {
 
               {/* 5 — Editorial hero (admin banners) */}
               {heroSection && <ImageHeroSlider />}
+              <BrandStrip />
 
               {/* 6 — AI assistant entry */}
               <AiAssistantBox />
@@ -389,6 +391,7 @@ const Index = () => {
               <div className="hidden lg:block"><DesktopHeroBento /></div>
               <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
+              <BrandStrip />
               <GalleryCarousel />
               {restSections.map(renderSection)}
             </>
