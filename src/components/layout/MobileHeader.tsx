@@ -84,7 +84,7 @@ export function MobileHeader({ onMenuClick }: MobileHeaderProps) {
         )}
 
         <Link
-          to="/profile"
+          to="/notifications"
           aria-label="Notifications"
           style={{ WebkitTapHighlightColor: "transparent" }}
           className="relative w-10 h-10 rounded-full bg-white border border-white/60 shadow-sm flex items-center justify-center active:opacity-70 transition-opacity duration-100"
