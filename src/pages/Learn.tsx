@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { ArrowLeft, Plus, Menu } from "lucide-react";
 import { LearnChat } from "@/components/learn/LearnChat";
 import { ThreadList } from "@/components/learn/ThreadList";
