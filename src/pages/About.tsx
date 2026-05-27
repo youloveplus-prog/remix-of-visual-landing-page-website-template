@@ -216,7 +216,7 @@ function ImageTextRow({
 }) {
   return (
     <section className="container-editorial py-8 sm:py-14 lg:py-20">
-      <article className="group relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-2xl sm:rounded-[2.25rem] glass-strong border border-white/10 shadow-[0_20px_50px_-30px_hsl(var(--primary)/0.35)]">
+      <article className="group relative mx-auto w-full max-w-[1180px] overflow-hidden rounded-2xl sm:rounded-[2.25rem] liquid-glass shadow-[0_20px_50px_-30px_hsl(var(--primary)/0.35)]">
         {/* hairline top */}
         <div
           className="absolute top-0 left-6 right-6 sm:left-10 sm:right-10 h-px z-10 pointer-events-none"
