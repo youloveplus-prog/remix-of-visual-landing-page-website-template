@@ -167,8 +167,7 @@ function TileCard({ t }: { t: Tile }) {
           </p>
         )}
         <h3
-          className="font-display font-semibold tracking-[-0.025em] leading-[1.05] whitespace-pre-line text-[12px] sm:text-base"
-          style={{ fontSize: undefined }}
+          className="font-display font-semibold tracking-[-0.025em] leading-[1.05] whitespace-pre-line text-[12px] sm:text-[1.75rem] lg:text-[2.25rem]"
         >
           {t.title}
         </h3>
