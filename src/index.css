@@ -743,11 +743,10 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
 }
 
-/* === Midnight Indigo scope — Home page bento theme ===
-   Overrides semantic tokens for all descendants of `.home-midnight`,
-   so existing shadcn / ProductCard / Section components inherit the
-   palette without needing a variant prop. */
-.home-midnight {
+/* === Home bento theme ===
+   Bento tile + glow utilities, theme-aware. Midnight Indigo palette is
+   applied only in dark mode; light mode inherits the default light theme. */
+.dark .home-midnight {
   --background: 240 43% 7%;        /* #0a0a1a */
   --foreground: 0 0% 98%;
   --card: 240 43% 14%;             /* #141432 */
@@ -762,39 +761,39 @@
   --muted-foreground: 220 14% 70%;
   --accent: 244 76% 59%;
   --accent-foreground: 0 0% 100%;
-  --border: 0 0% 100% / 0.06;
   --input: 240 30% 18%;
   --ring: 244 76% 59%;
   background-color: hsl(240 43% 7%);
   color: hsl(0 0% 98%);
 }
-.home-midnight * { border-color: hsl(0 0% 100% / 0.06); }
 
-.home-midnight .midnight-tile {
+.midnight-tile {
   position: relative;
-  background: hsl(240 43% 14%);
-  border: 1px solid hsl(0 0% 100% / 0.05);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   border-radius: 1.5rem;
+  color: hsl(var(--card-foreground));
   transition: transform 220ms cubic-bezier(0.22,1,0.36,1),
               box-shadow 220ms cubic-bezier(0.22,1,0.36,1),
               border-color 220ms;
 }
-.home-midnight .midnight-tile:hover {
-  border-color: hsl(244 76% 59% / 0.4);
-  box-shadow: 0 0 30px hsl(244 76% 59% / 0.25);
+.midnight-tile:hover {
+  border-color: hsl(var(--primary) / 0.4);
+  box-shadow: 0 0 30px hsl(var(--primary) / 0.18);
 }
 
-.home-midnight .midnight-glow::before {
+.midnight-glow::before {
   content: "";
   position: absolute;
   top: -3rem; right: -3rem;
   width: 16rem; height: 16rem;
-  background: hsl(244 76% 59% / 0.20);
+  background: hsl(var(--primary) / 0.18);
   filter: blur(80px);
   border-radius: 9999px;
   pointer-events: none;
   z-index: 0;
 }
+
 
 
 @layer components {

@@ -117,10 +117,10 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
               <Link
                 key={c.label}
                 to={c.href}
-                className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-secondary/30 border border-white/5 hover:border-primary/40 transition-colors pressable focus-ring"
+                className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-secondary/40 border border-border hover:border-primary/40 transition-colors pressable focus-ring"
               >
                 <Icon className="h-4 w-4 text-primary" />
-                <span className="text-xs font-medium whitespace-nowrap text-white">{c.label}</span>
+                <span className="text-xs font-medium whitespace-nowrap text-foreground">{c.label}</span>
               </Link>
             );
           })}
@@ -136,28 +136,29 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
               <Sparkles className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="font-display font-bold text-base text-white flex items-center gap-1">
+              <h3 className="font-display font-bold text-base text-foreground flex items-center gap-1">
                 AI Tutor
                 <ArrowUpRight className="h-3.5 w-3.5 opacity-50" />
               </h3>
-              <p className="text-[10px] uppercase tracking-widest font-semibold text-white/40 mt-1">
+              <p className="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground mt-1">
                 Active 24/7
               </p>
             </div>
           </Link>
 
           <div className="midnight-tile midnight-glow p-5 h-40 flex flex-col justify-between overflow-hidden"
-               style={{ background: "hsl(244 76% 59% / 0.08)", borderColor: "hsl(244 76% 59% / 0.20)" }}>
-            <div className="relative z-10 w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-[0_0_20px_hsl(244_76%_59%/0.5)]">
+               style={{ background: "hsl(var(--primary) / 0.08)", borderColor: "hsl(var(--primary) / 0.25)" }}>
+            <div className="relative z-10 w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.5)]">
               <Flame className="h-5 w-5" />
             </div>
             <div className="relative z-10">
-              <h3 className="font-display font-bold text-base text-white">Daily streak</h3>
+              <h3 className="font-display font-bold text-base text-foreground">Daily streak</h3>
               <p className="text-[10px] uppercase tracking-widest font-semibold text-primary mt-1">
                 +30 XP today
               </p>
             </div>
           </div>
+
         </div>
       </Reveal>
     );
@@ -177,8 +178,8 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-display font-bold text-sm text-white">{cat.label}</p>
-                  <p className="text-[10px] text-white/40 uppercase tracking-widest font-semibold">Explore</p>
+                  <p className="font-display font-bold text-sm text-foreground">{cat.label}</p>
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Explore</p>
                 </div>
               </Link>
             </Reveal>
