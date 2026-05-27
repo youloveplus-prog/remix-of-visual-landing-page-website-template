@@ -170,19 +170,35 @@ const ProductDetail = () => {
 
         {/* Mobile hero (reference style) */}
         <div className="lg:hidden space-y-4">
-          <div className="rounded-[28px] bg-muted/50 dark:bg-muted/25 px-5 pt-5 pb-6">
-            <div className="flex items-center justify-between">
-              <Link to="/shop" aria-label="Back" className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 shadow-sm">
+          <div className="rounded-[28px] bg-muted/50 dark:bg-muted/25 px-5 pt-5 pb-6 overflow-hidden">
+            <div className="grid grid-cols-3 items-center">
+              <Link to="/shop" aria-label="Back" className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 shadow-sm justify-self-start">
                 <ChevronLeft className="h-4 w-4" />
               </Link>
-              <button aria-label="Save" className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 shadow-sm">
-                <Heart className="h-4 w-4" />
-              </button>
+              <Sparkles className="h-4 w-4 text-foreground/40 justify-self-center" />
+              <span className="justify-self-end" />
             </div>
 
-            <div className="relative aspect-square grid place-items-center px-4">
-              <img src={images[selectedImage] || "/placeholder.svg"} alt={product.name} className="max-h-full max-w-full object-contain drop-shadow-2xl" />
+            <div className="relative grid grid-cols-[1fr_3fr_1fr] items-center gap-2 mt-2">
+              <img
+                src={images[(selectedImage - 1 + images.length) % images.length] || "/placeholder.svg"}
+                alt=""
+                aria-hidden
+                className="aspect-square object-contain opacity-40 -ml-6 pointer-events-none select-none"
+              />
+              <img
+                src={images[selectedImage] || "/placeholder.svg"}
+                alt={product.name}
+                className="aspect-square object-contain drop-shadow-2xl"
+              />
+              <img
+                src={images[(selectedImage + 1) % images.length] || "/placeholder.svg"}
+                alt=""
+                aria-hidden
+                className="aspect-square object-contain opacity-40 -mr-6 pointer-events-none select-none"
+              />
             </div>
+
 
             {images.length > 1 && (
               <div className="flex items-center justify-center gap-3">
