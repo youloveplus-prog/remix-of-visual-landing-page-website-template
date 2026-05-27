@@ -33,7 +33,7 @@ import featureMentor from "@/assets/about/feature-mentor.jpg";
 /* -------------------------------------------------------------------------- */
 function CinematicHero() {
   return (
-    <section className="relative isolate overflow-hidden min-h-[78vh] sm:min-h-[85vh] lg:min-h-[92vh] flex items-end">
+    <section className="relative isolate overflow-hidden min-h-[68vh] sm:min-h-[82vh] lg:min-h-[92vh] flex items-end">
       <img
         src={heroStudent}
         alt="A young Bangladeshi student learning at night"
@@ -43,7 +43,7 @@ function CinematicHero() {
         fetchPriority="high"
       />
       {/* layered cinematic gradient + brand wash */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/20" />
       <div className="absolute inset-0 lg:bg-gradient-to-r lg:from-background lg:via-background/70 lg:to-transparent" />
       <div
         className="absolute inset-0 opacity-40 mix-blend-soft-light"
@@ -52,13 +52,13 @@ function CinematicHero() {
       <div className="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full blur-[120px] opacity-25"
            style={{ background: "var(--gradient-primary)" }} />
 
-      <div className="relative z-10 container-editorial pb-14 sm:pb-20 lg:pb-32 pt-28 lg:pt-40">
+      <div className="relative z-10 container-editorial pb-12 sm:pb-20 lg:pb-32 pt-24 lg:pt-40">
         <div className="lg:grid lg:grid-cols-12">
-          <div className="lg:col-span-8 xl:col-span-7">
-            <p className="eyebrow-bar mb-5">About ASIKON</p>
+          <div className="lg:col-span-8 xl:col-span-7 text-center lg:text-left">
+            <p className="eyebrow-bar mb-5 justify-center lg:justify-start inline-flex lg:flex">About ASIKON</p>
             <h1
               className="font-display font-semibold tracking-[-0.035em] leading-[1.02] text-foreground"
-              style={{ fontSize: "clamp(2.4rem, 7vw, 5.25rem)" }}
+              style={{ fontSize: "clamp(2.1rem, 7vw, 5.25rem)" }}
             >
               Learning,
               <br className="hidden sm:block" /> reimagined for{" "}
@@ -69,24 +69,30 @@ function CinematicHero() {
                 Bangladesh.
               </span>
             </h1>
-            <p className="mt-6 max-w-[44ch] text-[15px] sm:text-base lg:text-lg leading-[1.65] text-muted-foreground">
+            <p className="mt-5 sm:mt-6 mx-auto lg:mx-0 max-w-[40ch] sm:max-w-[44ch] text-[14.5px] sm:text-base lg:text-lg leading-[1.65] text-muted-foreground">
               AI-powered learning, built for Bangladesh. One small lesson a day,
               guided by a tutor that listens.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg" className="rounded-full px-7 h-12 w-full sm:w-auto">
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
+              <Button
+                asChild
+                size="lg"
+                className="group rounded-full px-7 h-12 w-full sm:w-auto shadow-[0_8px_30px_-8px_hsl(var(--primary)/0.55)] hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.7)] transition-shadow"
+              >
                 <Link to="/learn">
-                  Start learning <ArrowRight className="ml-1 h-4 w-4" />
+                  <PlayCircle className="mr-1.5 h-4 w-4" />
+                  Start learning
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-full px-7 h-12 w-full sm:w-auto glass border-white/10"
+                className="rounded-full px-7 h-12 w-full sm:w-auto glass border-white/15 hover:border-white/25 backdrop-blur-xl"
               >
                 <Link to="/learn">
-                  <Sparkles className="mr-1.5 h-4 w-4" /> Explore tracks
+                  <Compass className="mr-1.5 h-4 w-4" /> Explore tracks
                 </Link>
               </Button>
             </div>
