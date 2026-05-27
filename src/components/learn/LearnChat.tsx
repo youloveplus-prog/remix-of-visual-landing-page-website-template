@@ -273,7 +273,7 @@ export function LearnChat({ threadId, onBack }: Props) {
   }
 
   return (
-    <div className="relative flex flex-col h-full min-h-0 bg-background">
+    <div className="relative flex flex-col flex-1 min-h-0 h-full bg-background">
       {/* Header — calm white bar, hairline border */}
       <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
         {onBack && (
@@ -414,7 +414,7 @@ export function LearnChat({ threadId, onBack }: Props) {
       )}
 
       {/* Composer — calm white surface, hairline border, no gradient wash */}
-      <div className="shrink-0 px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-border bg-background/95 backdrop-blur-xl">
+      <div className="shrink-0 mt-auto px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-border bg-background/95 backdrop-blur-xl">
         <div className="mx-auto w-full max-w-3xl space-y-2">
           {/* Action chips */}
           {!isEmpty && (
