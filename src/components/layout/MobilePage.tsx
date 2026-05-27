@@ -65,7 +65,10 @@ export function MobilePage({
     <div className="page-enter page-enter-active">
       {bleed}
       {sticky && (
-        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md hairline-bottom">
+        <div
+          className="sticky z-30 bg-background/95 backdrop-blur-md hairline-bottom"
+          style={{ top: "var(--app-header-h, 0px)" }}
+        >
           <div className={cn(widthClass, paddingClass)}>
             {sticky}
           </div>
