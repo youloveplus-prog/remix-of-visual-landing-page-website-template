@@ -743,7 +743,7 @@ function MessageRow({
             {text || "…"}
           </ReactMarkdown>
           {isStreaming && (
-            <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-primary animate-pulse" />
+            <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-foreground animate-pulse" />
           )}
         </div>
         {text && !isStreaming && (
