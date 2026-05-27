@@ -1101,6 +1101,57 @@ export type Database = {
         }
         Relationships: []
       }
+      promotions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          cta_label: string | null
+          cta_url: string | null
+          ends_at: string | null
+          id: string
+          image_url: string
+          is_active: boolean
+          placement: Database["public"]["Enums"]["promo_placement"]
+          position: number
+          starts_at: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean
+          placement?: Database["public"]["Enums"]["promo_placement"]
+          position?: number
+          starts_at?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          placement?: Database["public"]["Enums"]["promo_placement"]
+          position?: number
+          starts_at?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reward_redemptions: {
         Row: {
           coins_spent: number
@@ -1434,6 +1485,11 @@ export type Database = {
       app_role: "user" | "moderator" | "admin" | "super_admin"
       home_banner_kind: "hero" | "offer"
       pod_status: "pending" | "approved" | "rejected"
+      promo_placement:
+        | "home_hero"
+        | "home_strip"
+        | "shop_banner"
+        | "community_banner"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1564,6 +1620,12 @@ export const Constants = {
       app_role: ["user", "moderator", "admin", "super_admin"],
       home_banner_kind: ["hero", "offer"],
       pod_status: ["pending", "approved", "rejected"],
+      promo_placement: [
+        "home_hero",
+        "home_strip",
+        "shop_banner",
+        "community_banner",
+      ],
     },
   },
 } as const
