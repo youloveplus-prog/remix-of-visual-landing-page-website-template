@@ -83,7 +83,7 @@ export function ImageHeroSlider() {
           {items.map((b, idx) => {
             const isFirst = idx === 0;
             const Inner = (
-              <div className="group relative w-full aspect-[16/10] rounded-3xl overflow-hidden bg-card border border-border">
+              <div className="group relative w-full aspect-[16/9] rounded-3xl overflow-hidden bg-card border border-border">
                 <img
                   src={b.image_url}
                   alt={b.alt_text ?? b.title ?? "Promotional banner"}
@@ -91,46 +91,15 @@ export function ImageHeroSlider() {
                   decoding={isFirst ? "sync" : "async"}
                   {...({ fetchpriority: isFirst ? "high" : "low" } as any)}
                   width={1200}
-                  height={750}
-                  className="absolute inset-0 w-full h-full object-cover opacity-40 dark:opacity-30 group-hover:opacity-50 transition-opacity"
+                  height={675}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
-                {/* Ambient brand glow */}
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute -top-12 -right-12 w-64 h-64 rounded-full"
-                  style={{ background: "hsl(var(--primary) / 0.25)", filter: "blur(80px)" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
-
-                {b.eyebrow && (
-                  <span className="absolute top-5 left-5 z-10 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.18em] bg-primary/10 border border-primary/25 text-primary">
-                    {b.eyebrow}
-                  </span>
-                )}
-
-                <div className="relative z-10 h-full flex flex-col justify-end p-6">
-                  {b.title && (
-                    <h2 className="font-display font-bold text-3xl leading-[1.05] text-foreground mb-2">
-                      {b.title}
-                    </h2>
-                  )}
-                  {b.subtitle && (
-                    <p className="text-sm text-muted-foreground max-w-[260px] line-clamp-2">{b.subtitle}</p>
-                  )}
-                </div>
-
-                <div className="absolute bottom-5 right-5 z-10 w-10 h-10 rounded-full bg-background/40 border border-border backdrop-blur-sm flex items-center justify-center text-foreground group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </div>
               </div>
-
             );
             return (
               <div
                 key={b.id}
-                className="shrink-0 grow-0 basis-[92%] sm:basis-[70%] md:basis-[55%] pressable"
+                className="shrink-0 grow-0 basis-full sm:basis-[70%] md:basis-[55%] pressable"
               >
                 {b.link_url ? (
                   <Link to={b.link_url} className="block focus-ring rounded-3xl">
@@ -144,6 +113,7 @@ export function ImageHeroSlider() {
           })}
         </div>
       </div>
+
 
       {items.length > 1 && (
         <div className="flex justify-center gap-1.5 mt-3">
