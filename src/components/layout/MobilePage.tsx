@@ -62,8 +62,7 @@ export function MobilePage({
   // For max-w-* widths we need to add the gutters ourselves.
   const paddingClass = padded && !isContainer ? "px-4 sm:px-6 lg:px-8" : undefined;
   return (
-    <div className="page-enter page-enter-active">
-      {bleed}
+    <>
       {sticky && (
         <div
           className="sticky z-30 bg-background/95 backdrop-blur-md hairline-bottom"
@@ -74,18 +73,21 @@ export function MobilePage({
           </div>
         </div>
       )}
-      <div
-        className={cn(
-          widthClass,
-          paddingClass,
-          sticky ? "pt-2" : "pt-2 lg:pt-6",
-          "pb-6 min-w-0 overflow-x-clip",
-          spacing,
-          className,
-        )}
-      >
-        {children}
+      <div className="page-enter page-enter-active">
+        {bleed}
+        <div
+          className={cn(
+            widthClass,
+            paddingClass,
+            sticky ? "pt-2" : "pt-2 lg:pt-6",
+            "pb-6 min-w-0 overflow-x-clip",
+            spacing,
+            className,
+          )}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
