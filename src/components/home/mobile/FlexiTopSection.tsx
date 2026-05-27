@@ -45,25 +45,7 @@ const brands = [
 export function FlexiTopSection() {
   return (
     <section className="section-x space-y-4 pt-2">
-      {/* Top bar */}
-      <div className="flex items-center justify-between">
-        <Link
-          to="/shop"
-          aria-label="Browse"
-          className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center focus-ring"
-        >
-          <LayoutGrid className="h-4 w-4 text-foreground" />
-        </Link>
-        <span className="font-display font-bold tracking-[0.2em] text-foreground text-sm">ASIKON</span>
-        <Link
-          to="/profile"
-          aria-label="Notifications"
-          className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center focus-ring relative"
-        >
-          <Bell className="h-4 w-4 text-foreground" />
-          <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-primary" />
-        </Link>
-      </div>
+      {/* Top bar handled by MobileHeader */}
 
       {/* Search */}
       <Link
