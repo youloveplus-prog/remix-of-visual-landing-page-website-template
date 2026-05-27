@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useMentors, type Mentor } from "@/hooks/useMentors";
 import { MentorWaitlistSheet } from "@/components/mentorship/MentorWaitlistSheet";
