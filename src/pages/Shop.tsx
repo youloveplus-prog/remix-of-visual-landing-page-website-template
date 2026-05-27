@@ -200,7 +200,7 @@ const Shop = () => {
             <div className="lg:[&>div>div>button:last-child]:hidden">
               <ShopFilters
                 searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
+                onSearchChange={handleSearchChange}
                 sortBy={sortBy}
                 onSortChange={setSortBy}
                 priceRange={priceRange}
@@ -230,18 +230,32 @@ const Shop = () => {
               <CategoryCarousel
                 categories={categoryItems}
                 activeCategory={activeCategory}
-                onCategoryChange={setActiveCategory}
+                onCategoryChange={handleCategoryChange}
               />
             )}
 
             {/* Results Count */}
-            <div className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between gap-3 text-sm text-muted-foreground">
               {productsLoading ? (
                 <Skeleton className="h-4 w-24" />
               ) : (
-                `${filteredProducts?.length || 0} learning resources found`
+                <span>
+                  {filteredProducts?.length || 0} learning resources found
+                  {searchQuery.trim() && (
+                    <> for <span className="text-foreground font-medium">"{searchQuery}"</span></>
+                  )}
+                </span>
+              )}
+              {searchQuery.trim() && (
+                <button
+                  onClick={() => handleSearchChange("")}
+                  className="text-primary hover:underline text-xs font-medium shrink-0"
+                >
+                  Clear search
+                </button>
               )}
             </div>
+
 
             {/* Products Grid */}
             <div>
