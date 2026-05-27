@@ -602,14 +602,17 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
+              className="group relative overflow-hidden flex items-center gap-3 text-left p-3.5 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
-              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-secondary text-foreground ring-1 ring-border">
+              <span aria-hidden className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity", q.tint)} />
+              <span className={cn("relative shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-gradient-to-br ring-1", q.tint)}>
                 <Icon className="w-4 h-4" />
               </span>
-              <span className="text-[14px] font-medium leading-snug pt-1.5">{q.label}</span>
+              <span className="relative text-[14px] font-medium leading-snug flex-1">{q.label}</span>
+              <ArrowUp className="relative w-3.5 h-3.5 text-muted-foreground rotate-45 opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           );
+
         })}
       </div>
 
