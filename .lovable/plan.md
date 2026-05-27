@@ -1,40 +1,35 @@
 ## Goal
-Replace the current 2×2 uniform category grid (Courses / Books / Prompts / Trending) with an asymmetric bento layout inspired by the Smartx reference card — clean white/surface cards, varied sizes, brand label on top, large bold title, supporting stats/meta row, and a product/illustration anchor.
+Add a Flexipay-inspired top section to the home page. Keep all current sections intact below it.
+
+## New top section (mobile-first, reference image)
+
+Stacked blocks above the existing home content:
+
+1. **Top bar** — left circular icon button (grid / menu), center wordmark "ASIKON", right circular icon button (avatar / notifications). White circular buttons, subtle border.
+2. **Search bar** — full-width pill input "Search & learn anywhere" with leading search icon.
+3. **Pill action row** — 5 rounded-square tiles with colored icon backgrounds + label underneath:
+   - Shop (blue) → /shop
+   - Courses (green) → /shop?type=courses
+   - AI Tutor (purple) → /ai-tutor (or existing tutor route)
+   - Deals (pink) → /shop?filter=deals
+   - Saved (orange) → /saved (or /profile)
+4. **Featured CTA banner** — dark rounded card ("Start learning today" / "Pick a path in one tap") with chevron, links to /shop.
+5. **Two-stat card row** — white rounded card split in 2: "120+ Lessons" (with badge icon), "24/7 AI Tutor" (with badge icon).
+6. **Activity quick grid** — 5 small rounded tiles in a row: All courses, In progress, Completed, Wishlist, Add goal. Soft pastel backgrounds.
+7. **Top Brands strip** — section header "Top Brands" + horizontal scroller of circular brand chips (use existing brands or course-category logos placeholder).
 
 ## Scope
-File: `src/pages/Index.tsx` — only the `quick_categories` renderer (lines 167–191). No data, routing, or business logic changes. Stays theme-aware (light + dark Midnight Indigo).
 
-## New layout
-
-```text
-+-----------------------+----------------+
-|                       |    Books       |
-|       Courses         |   (small)      |
-|       (hero)          +----------------+
-|                       |   Prompts      |
-|                       |   (small)      |
-+-----------------------+----------------+
-|              Trending (wide)           |
-+----------------------------------------+
-```
-
-- Grid: `grid-cols-3 grid-rows-2 gap-3`
-- Courses tile: `col-span-2 row-span-2` — large headline ("Courses"), brand eyebrow ("ASIKON"), bottom meta row with two stats (e.g. "120+ Lessons" / "AI Tutor"), icon orb in top-right
-- Books tile: `col-span-1` — small, icon top-right, label bottom-left
-- Prompts tile: `col-span-1` — same compact pattern, accent dot ("Connected"-style status chip)
-- Trending tile: `col-span-3` — wide strip, icon left, title + "Explore" arrow right
+- New file: `src/components/home/mobile/FlexiTopSection.tsx` — self-contained, theme-aware (uses `midnight-tile`, semantic tokens, no hardcoded colors except for the soft pastel icon backgrounds which use `bg-*-500/10 text-*-500` tailwind utilities).
+- Edit: `src/pages/Index.tsx` — render `<FlexiTopSection />` as the FIRST child inside `<MobilePage>` for BOTH signed-in and signed-out branches. Keep everything else exactly as-is.
 
 ## Visual treatment
 
-- Use `midnight-tile` base (already theme-aware: white surface in light, `#141432` in dark)
-- Eyebrow: `text-[10px] uppercase tracking-widest text-muted-foreground font-semibold`
-- Title: `font-display font-bold text-xl` (hero) / `text-sm` (small)
-- Icon chips: `rounded-xl bg-primary/10 text-primary` (small), hero gets `bg-primary text-primary-foreground` with primary glow shadow
-- Hero tile gets a subtle `midnight-glow` radial blob in the corner
-- Status pill on Prompts tile: tiny green dot + "Live" text, matches reference's "Connected" pattern
-- Hover: keep existing `pressable` + `focus-ring`
+- Reuse `midnight-tile` for cards (auto light/dark via existing scope).
+- Pill icon tiles: `rounded-2xl bg-card border border-border w-14 h-14` with colored icon inside (`text-blue-500`, `text-emerald-500`, `text-purple-500`, `text-pink-500`, `text-amber-500`).
+- Dark banner: `bg-foreground text-background` rounded-2xl with right chevron.
+- Stat split card: single `midnight-tile`, divided 50/50 with `divide-x divide-border`.
+- All routes hooked to existing pages where possible; unknown routes (saved, deals) default to `/shop` with appropriate query.
 
-## Mapping
-Use existing `quickCategories` array order (Courses, Books, Prompts, Trending). Render by index rather than `.map` to assign variant per slot.
-
-No new dependencies. No token changes — reuses existing semantic tokens and `.midnight-tile` / `.midnight-glow` utilities.
+## Out of scope
+No changes to data, hooks, business logic, or existing sections. Bottom tab bar from the reference is NOT added (project already has its own nav).

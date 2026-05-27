@@ -23,6 +23,7 @@ import { ActivityFeed } from "@/components/home/workspace/ActivityFeed";
 import { MobileCoursesTop } from "@/components/home/mobile/MobileCoursesTop";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { GalleryCarousel } from "@/components/home/mobile/GalleryCarousel";
+import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
@@ -351,6 +352,7 @@ const Index = () => {
         <MobilePage spacing="space-y-5 lg:space-y-14">
           {user ? (
             <>
+              <FlexiTopSection />
               {/* 1 — Calm greeting */}
               <GreetingStrip />
 
@@ -382,6 +384,7 @@ const Index = () => {
             </>
           ) : (
             <>
+              <FlexiTopSection />
               {heroSection && renderSection(heroSection)}
               <GalleryCarousel />
               {restSections.map(renderSection)}
