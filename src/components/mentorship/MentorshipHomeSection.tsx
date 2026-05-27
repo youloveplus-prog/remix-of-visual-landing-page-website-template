@@ -5,9 +5,9 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import tutorSsc from "@/assets/tutor-ssc.jpg";
-import tutorHsc from "@/assets/tutor-hsc.jpg";
-import tutorBsc from "@/assets/tutor-bsc.jpg";
+import tutorSsc from "@/assets/tutor-ssc.webp";
+import tutorHsc from "@/assets/tutor-hsc.webp";
+import tutorBsc from "@/assets/tutor-bsc.webp";
 
 type Slide = {
   image: string;

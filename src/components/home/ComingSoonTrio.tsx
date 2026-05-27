@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import courseArt from "@/assets/coming-soon-course.png";
-import bookArt from "@/assets/coming-soon-book.png";
-import teachArt from "@/assets/coming-soon-teaching.png";
+import courseArt from "@/assets/coming-soon-course.webp";
+import bookArt from "@/assets/coming-soon-book.webp";
+import teachArt from "@/assets/coming-soon-teaching.webp";
 
 type Tone = "dark" | "gray" | "lime";
 

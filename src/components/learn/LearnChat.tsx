@@ -48,7 +48,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThreadList } from "@/components/learn/ThreadList";
-import tutorAvatar from "@/assets/asikon-tutor-avatar.png";
+import tutorAvatar from "@/assets/asikon-tutor-avatar.webp";
 
 // AI Elements
 import {

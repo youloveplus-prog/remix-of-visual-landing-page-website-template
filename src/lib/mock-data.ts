@@ -1,9 +1,9 @@
 import { Product, User, Post, Story, Challenge, Category } from "@/types";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import bookHardcover from "@/assets/book-hardcover.jpg";
-import studentKit from "@/assets/student-kit.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import bookHardcover from "@/assets/book-hardcover.webp";
+import studentKit from "@/assets/student-kit.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 import heroFashion from "@/assets/learning-hero.svg";
 
 export const mockProducts: Product[] = [

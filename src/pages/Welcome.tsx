@@ -17,9 +17,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/transitions/Reveal";
 import logo from "@/assets/logo.png";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 const navLinks = [
   { label: "Features", href: "#features" },

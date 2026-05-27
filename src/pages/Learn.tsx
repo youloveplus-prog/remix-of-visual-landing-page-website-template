@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import tutorAvatar from "@/assets/asikon-tutor-avatar.png";
+import tutorAvatar from "@/assets/asikon-tutor-avatar.webp";
 import asikonLogo from "@/assets/logo.png";
 
 function StandaloneShell({ children }: { children: React.ReactNode }) {

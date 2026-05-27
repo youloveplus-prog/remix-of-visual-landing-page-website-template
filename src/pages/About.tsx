@@ -27,7 +27,7 @@ import { cn } from "@/lib/utils";
 import heroStudent from "@/assets/about/hero-student.jpg";
 import storyClassroom from "@/assets/about/story-classroom.jpg";
 import featureNotes from "@/assets/about/feature-notes.jpg";
-import featureMentor from "@/assets/about/feature-mentor.jpg";
+import featureMentor from "@/assets/about/feature-mentor.webp";
 
 /* -------------------------------------------------------------------------- */
 /*  Hero                                                                      */

@@ -4,7 +4,7 @@ import { ArrowUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SmartImage } from "@/components/ui/smart-image";
-import aiTutor from "@/assets/ai-tutor.jpg";
+import aiTutor from "@/assets/ai-tutor.webp";
 
 const ALL_CHIPS = [
   "Explain SSC Physics",

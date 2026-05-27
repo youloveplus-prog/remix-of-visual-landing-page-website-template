@@ -3,11 +3,11 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import tileAi from "@/assets/about/tile-ai-tutor.jpg";
+import tileAi from "@/assets/about/tile-ai-tutor.webp";
 import tileCommunity from "@/assets/about/tile-community.jpg";
 import tileDaily from "@/assets/about/tile-daily.jpg";
 import tileBangla from "@/assets/about/tile-bangla.jpg";
-import featureMentor from "@/assets/about/feature-mentor.jpg";
+import featureMentor from "@/assets/about/feature-mentor.webp";
 import featureNotes from "@/assets/about/feature-notes.jpg";
 import storyClassroom from "@/assets/about/story-classroom.jpg";
 

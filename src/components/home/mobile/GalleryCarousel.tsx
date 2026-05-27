@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { motion, useInView, useAnimation } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
-import aiTutor from "@/assets/ai-tutor.jpg";
-import bookHardcover from "@/assets/book-hardcover.jpg";
-import studentKit from "@/assets/student-kit.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
+import aiTutor from "@/assets/ai-tutor.webp";
+import bookHardcover from "@/assets/book-hardcover.webp";
+import studentKit from "@/assets/student-kit.webp";
 
 type Slide = {
   id: string;
