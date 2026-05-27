@@ -136,7 +136,7 @@ const Game = () => {
                 ) : courses.length === 0 ? (
                   <MobileCard variant="glass" className="p-6 text-center">
                     <p className="text-sm text-muted-foreground mb-3">No courses started yet.</p>
-                    <Button size="sm" onClick={() => navigate("/learn")} className="gradient-primary border-0">
+                    <Button size="sm" onClick={() => navigate("/learn")}>
                       Start learning
                     </Button>
                   </MobileCard>
@@ -146,28 +146,28 @@ const Game = () => {
                       const pct = Math.round((course.completed / course.total) * 100);
                       return (
                         <Reveal key={course.id} staggerIndex={Math.min(i, 6)}>
-                          <MobileCard variant="glass" className="p-3 lg:p-4 hover-lift">
+                          <MobileCard variant="glass" className="p-3 lg:p-4">
                             <div className="flex gap-3 lg:gap-4">
-                              <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-2xl lg:text-3xl flex-shrink-0">
+                              <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl bg-secondary border border-border flex items-center justify-center text-2xl lg:text-3xl flex-shrink-0">
                                 {course.cover ?? "📚"}
                               </div>
                               <div className="flex-1 min-w-0">
                                 <h3 className="font-semibold text-sm lg:text-base leading-tight truncate">{course.title}</h3>
                                 <div className="flex items-center gap-2 mt-2">
-                                  <Progress value={pct} className="h-1.5 flex-1" />
-                                  <span className="text-xs lg:text-sm font-semibold text-primary">{pct}%</span>
+                                  <Progress value={pct} className="h-1 flex-1" />
+                                  <span className="text-xs lg:text-sm font-semibold text-foreground tabular-nums">{pct}%</span>
                                 </div>
-                                <p className="text-[11px] lg:text-xs text-muted-foreground mt-1">{course.completed} of {course.total} lessons</p>
+                                <p className="text-[11px] lg:text-xs text-muted-foreground mt-1 tabular-nums">{course.completed} of {course.total} lessons</p>
                               </div>
                             </div>
                             {course.nextLessonTitle && (
-                              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60">
+                              <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
                                 <p className="text-xs text-muted-foreground truncate flex-1 mr-2">
                                   Up next: <span className="text-foreground">{course.nextLessonTitle}</span>
                                 </p>
                                 <Button
                                   size="sm"
-                                  className="gradient-primary border-0 h-8"
+                                  className="h-8"
                                   onClick={() => course.nextLessonId && navigate(`/lesson/${course.nextLessonId}`)}
                                 >
                                   <PlayCircle className="h-3.5 w-3.5 mr-1" />
