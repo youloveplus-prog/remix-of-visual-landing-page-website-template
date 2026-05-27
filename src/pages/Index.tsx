@@ -363,7 +363,7 @@ const Index = () => {
         })}</script>
       </SEO>
       <div className="home-midnight min-h-screen">
-        <MobilePage spacing="space-y-5 lg:space-y-14">
+        <MobilePage spacing="space-y-6 lg:space-y-14">
           {user ? (
             <>
               {/* 1 — Hero slider (top priority on mobile) */}
