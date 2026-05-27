@@ -292,11 +292,11 @@ export function ProfileHeader({
                 <span className="truncate max-w-[10rem]">{user.location}</span>
               </span>
             )}
-            {user.website && (
+            {user.website && /^https?:\/\//i.test(user.website) && (
               <a
                 href={user.website}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer nofollow"
                 className="inline-flex items-center gap-1 text-foreground hover:underline truncate max-w-[12rem] focus-ring rounded"
               >
                 <LinkIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
