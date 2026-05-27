@@ -68,14 +68,14 @@ export function ActivityFeed() {
           const Icon = it.icon;
           return (
             <li key={it.id} className="flex items-center gap-3 px-4 py-3">
-              <div className="w-8 h-8 rounded-lg bg-card border border-border/60 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-secondary border border-border flex items-center justify-center shrink-0">
                 <Icon className={`h-4 w-4 ${it.accent}`} />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium truncate">{it.text}</p>
                 <p className="text-[11px] text-muted-foreground">{timeAgo(it.at)}</p>
               </div>
-              <span className="text-[11px] font-semibold text-primary shrink-0">{it.meta}</span>
+              <span className="text-[11px] font-semibold text-foreground/70 shrink-0 tabular-nums">{it.meta}</span>
             </li>
           );
         })}
