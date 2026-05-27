@@ -151,7 +151,7 @@
 
   @media (min-width: 1024px) {
     :root {
-      --app-header-h: 132px;
+      --app-header-h: 72px;
       --bottom-nav-h: 0px;
     }
   }
@@ -160,36 +160,35 @@
     @apply border-border;
   }
 
-  html {
-    /* Do NOT set overflow-x:hidden here — it breaks position:fixed children */
-  }
+  html { /* avoid overflow-x:hidden here — breaks fixed children */ }
 
   body {
-    /* Kill any horizontal scroll caused by stray children */
     overflow-x: hidden;
   }
 
   #root { overflow-x: clip; }
 
-  /* Allow flex/grid children to shrink instead of pushing the viewport */
   :where(main, section, article, header, footer, aside, nav, div) > * { min-width: 0; }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
-    /* Fluid base for legibility on small screens, capped at 16px */
     font-size: clamp(15px, 0.9rem + 0.2vw, 16px);
     -webkit-tap-highlight-color: transparent;
+    font-feature-settings: "cv11", "ss01", "ss03";
   }
 
-  /* Prevent media from breaking layout */
-  img, video, svg, canvas {
-    max-width: 100%;
+  /* Bangla content uses the Bangla-first stack automatically */
+  :lang(bn), [lang="bn"] {
+    font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'Inter', ui-sans-serif, system-ui, sans-serif;
   }
 
-  h1 { @apply text-[1.625rem] md:text-3xl leading-[1.15]; letter-spacing: -0.02em; }
-  h2 { @apply text-lg md:text-xl leading-tight; letter-spacing: -0.015em; }
-  h3 { @apply text-base md:text-lg leading-snug; letter-spacing: -0.01em; }
+  img, video, svg, canvas { max-width: 100%; }
+
+  /* Apple-style type scale — generous, tight tracking */
+  h1 { @apply text-[1.75rem] md:text-[2.5rem] leading-[1.1]; letter-spacing: -0.025em; }
+  h2 { @apply text-xl md:text-2xl leading-tight; letter-spacing: -0.02em; }
+  h3 { @apply text-lg md:text-xl leading-snug; letter-spacing: -0.015em; }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
