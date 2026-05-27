@@ -530,63 +530,55 @@ function TypingIndicator() {
   return (
     <div className="flex items-center gap-2.5 animate-fade-in" aria-live="polite">
       <img src={tutorAvatar} alt="" className="w-6 h-6 rounded-full shrink-0" />
-      <span className="inline-flex items-end gap-1 h-4">
-        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce [animation-delay:-0.3s]" />
-        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce [animation-delay:-0.15s]" />
-        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" />
+      <span
+        className="text-sm font-medium bg-clip-text text-transparent bg-[linear-gradient(90deg,hsl(var(--muted-foreground)),hsl(var(--foreground)),hsl(var(--muted-foreground)))] bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite] motion-reduce:animate-none motion-reduce:text-muted-foreground"
+      >
+        Apu is thinking…
       </span>
-      <span className="text-sm text-muted-foreground">Apu is thinking…</span>
     </div>
   );
 }
 
 function EmptyState({ onPick }: { onPick: (s: string) => void }) {
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 py-6 animate-fade-in">
-      <div className="flex flex-col items-center text-center mb-7">
-        <div className="relative mb-4">
-          <div
-            className="absolute inset-0 -m-6 rounded-full blur-2xl opacity-60 animate-pulse"
-            style={{ background: "var(--gradient-primary)" }}
-            aria-hidden
-          />
-          <img
-            src={tutorAvatar}
-            alt="Apu, your ASIKON tutor"
-            className="relative w-20 h-20 drop-shadow-[0_8px_24px_hsl(var(--primary)/0.45)]"
-            width={512}
-            height={512}
-          />
-        </div>
-        <h1 className="text-2xl font-bold mb-1.5 text-gradient">Hi, I'm Apu</h1>
-        <p className="text-muted-foreground text-sm max-w-md leading-relaxed">
+    <div className="mx-auto w-full max-w-2xl px-4 py-8 animate-fade-in">
+      <div className="flex flex-col items-center text-center mb-8">
+        <img
+          src={tutorAvatar}
+          alt="Apu, your ASIKON tutor"
+          className="w-20 h-20 mb-4"
+          width={512}
+          height={512}
+        />
+        <h1 className="text-2xl font-semibold tracking-tight mb-2 text-foreground">Hi, I'm Apu</h1>
+        <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
           Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
           I'll explain in English or Bangla, whichever helps.
         </p>
       </div>
 
-      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70 mb-3 px-1">
+      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground mb-3 px-1">
         Not sure where to start?
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-6">
         {QUICK_PROMPTS.map((q) => {
           const Icon = q.icon;
           return (
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group flex items-start gap-3 text-left p-3.5 rounded-2xl bg-card border border-border hover:border-primary/40 hover:bg-card/80 transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              className="group flex items-start gap-3 text-left p-4 rounded-2xl bg-card border border-border hover:border-foreground/20 hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <span className="shrink-0 w-8 h-8 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:bg-primary/15 transition-colors">
+              <span className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center bg-primary/8 text-primary">
                 <Icon className="w-4 h-4" />
               </span>
-              <span className="text-sm font-medium leading-snug pt-1">{q.label}</span>
+              <span className="text-[14px] font-medium leading-snug pt-1.5">{q.label}</span>
             </button>
           );
         })}
       </div>
 
-      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground/70 mb-2 px-1">
+      <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground mb-2 px-1">
         What I'm good at
       </p>
       <div className="grid grid-cols-3 gap-2">
@@ -595,7 +587,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           return (
             <div
               key={c.label}
-              className="flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-card/60 border border-border/60"
+              className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-card border border-border"
             >
               <Icon className="w-4 h-4 text-primary" />
               <span className="text-[11px] font-medium text-center leading-tight text-muted-foreground">
