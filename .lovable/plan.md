@@ -1,17 +1,39 @@
 ## Goal
-Restyle the mobile header to match the Flexipay reference: soft sky-blue gradient background, circular white left button containing the Asikon logo, centered "ASIKON" wordmark, circular white notification bell on the right (with red dot).
+Add a Clickity-style desktop hero/bento section to the home page (visible on `lg:` and up only). Mobile UI stays untouched. Existing desktop sections below the new bento are preserved.
+
+## Layout (desktop, lg+ only)
+
+```text
+            Eyebrow: "AI-powered learning, made simple"
+                    Master AI, Python &
+                    modern skills today.
+
+         [  Drop a topic, course, or skill...   [ Start learning ▸ ] ]
+
+  ┌──────────────┐ ┌──────────────────────┐ ┌──────────────────┐
+  │  Drop a Link │ │   Create Your Path   │ │   AI Tutor       │
+  │   (yellow)   │ │   (mint, tall)       │ │   (lavender)     │
+  ├──────────────┤ │   hero image/avatar  ├──────────────────┤
+  │ Use Template │ │                      │ Connect Account  │
+  │   (sky)      │ │                      │   (yellow)       │
+  └──────────────┘ └──────────────────────┘ └──────────────────┘
+```
+
+3 columns. Left + right columns each split into 2 stacked tiles. Center column is a single tall tile spanning both rows. Tiles use soft pastel backgrounds (amber-100, emerald-100, violet-100, sky-100, amber-100) with brand primary accents for icons and CTA pills. Each tile has an icon chip in the top-left, a heading, and an inline mini-CTA matching its theme (search input pill, hero portrait, mock preset card, mock template card, "Connect" pill).
 
 ## Scope
-File: `src/components/layout/MobileHeader.tsx` only.
 
-## Changes
+- New file: `src/components/home/desktop/DesktopHeroBento.tsx` — self-contained, only renders content; visibility controlled by parent wrapper.
+- Edit: `src/pages/Index.tsx` — render `<div className="hidden lg:block"><DesktopHeroBento /></div>` as the FIRST child inside `<MobilePage>` (both signed-in and signed-out branches). Wrap `<FlexiTopSection />` in `<div className="lg:hidden">` so the mobile-only top section is hidden on desktop.
 
-1. **Background**: replace the current transparent/blurred-on-scroll bg with a fixed sky-blue gradient (`bg-gradient-to-b from-sky-200 via-sky-100 to-background`). Keep border/shadow off until scrolled (`scrolled` still triggers a subtle bottom border).
-2. **Left button** (home route, not inner): circular white pill `w-10 h-10 rounded-full bg-white border border-border shadow-sm` containing the Asikon logo image `h-6 w-6`. Replaces the current "logo + text" inline button. Keeps `onMenuClick`.
-3. **Center**: "ASIKON" wordmark — `font-display font-bold tracking-[0.25em] text-sm text-foreground`, absolutely centered.
-4. **Right button**: circular white `w-10 h-10 rounded-full bg-white border border-border shadow-sm` with `Bell` icon and small red dot indicator. Links to `/profile` (notifications placeholder).
-5. **Inner routes** (back state): keep existing back-button behavior; right side just shows the bell circle (no menu logo).
-6. Remove unused `Search`, `ShoppingCart` imports and `onSearchClick`, `cartCount` props (mark optional + ignore) to avoid breaking call sites; safer: keep prop signature, just don't render those buttons.
+## Visual treatment
+
+- Section container: `container-editorial` width, generous vertical padding.
+- Eyebrow: small muted-foreground caps text.
+- Headline: `font-display font-bold text-5xl xl:text-6xl tracking-tight` centered.
+- Search bar: large white pill, `rounded-full border border-border shadow-lg`, leading link icon, right-side primary CTA button using `--gradient-primary`.
+- Bento grid: `grid grid-cols-3 grid-rows-2 gap-5 min-h-[480px]`. Tiles `rounded-3xl p-6` with pastel bg + matching dark text. Icon chip = white circle, `w-9 h-9 rounded-full`, with brand-tinted icon.
+- All routes hook into existing pages (`/shop`, `/shop?type=courses`, `/ai-tutor`, `/learn`, `/profile`).
 
 ## Out of scope
-No changes to FlexiTopSection, AppLayout, or any other file.
+No data, hook, auth, or mobile changes. No new dependencies. Existing carousels and sections below render exactly as before on desktop.
