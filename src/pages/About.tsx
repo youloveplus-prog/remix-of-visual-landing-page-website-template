@@ -335,8 +335,9 @@ function PrinciplesCarousel() {
             return (
               <article
                 key={p.title}
-                className="shrink-0 basis-[82%] sm:basis-[48%] lg:basis-[28%] xl:basis-[24%] glass-strong border border-white/10 rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-8 relative overflow-hidden hover-lift"
+                className="shrink-0 basis-[78%] sm:basis-[48%] lg:basis-[28%] xl:basis-[24%] glass-strong border border-white/10 rounded-2xl sm:rounded-[1.75rem] p-5 sm:p-8 relative overflow-hidden hover-lift"
               >
+
                 <div
                   className="absolute top-0 left-4 right-4 sm:left-6 sm:right-6 h-px"
                   style={{ background: "var(--gradient-hairline)" }}
