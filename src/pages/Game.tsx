@@ -94,15 +94,7 @@ const Game = () => {
           {/* MAIN COLUMN */}
           <div className="space-y-4 lg:space-y-8 min-w-0">
             {/* Balance Hero */}
-            <div
-              className="relative overflow-hidden rounded-3xl border border-primary/25 p-5 lg:p-8"
-              style={{ background: "var(--gradient-primary-soft)" }}
-            >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full opacity-40 blur-3xl"
-                style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.4), transparent 70%)" }}
-              />
+            <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-5 lg:p-8">
               <div className="relative">
                 <p className="eyebrow-bar mb-2">Total balance</p>
                 <div className="flex items-baseline gap-2 mb-5">
@@ -110,24 +102,24 @@ const Game = () => {
                     <Skeleton className="h-12 w-32" />
                   ) : (
                     <>
-                      <span className="font-display text-4xl lg:text-6xl font-bold leading-none tracking-tight text-gradient">
+                      <span className="font-display text-4xl lg:text-6xl font-semibold leading-none tracking-tight text-foreground tabular-nums">
                         {(stats?.coins ?? 0).toLocaleString()}
                       </span>
-                      <span className="text-primary font-semibold text-sm lg:text-base">Coins</span>
+                      <span className="text-muted-foreground font-medium text-[13px] lg:text-sm">Coins</span>
                     </>
                   )}
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center shrink-0 shadow-[var(--shadow-glow)]">
-                    <Coins className="h-5 w-5 text-primary-foreground" />
+                  <div className="w-10 h-10 rounded-full bg-secondary border border-border flex items-center justify-center shrink-0">
+                    <Coins className="h-5 w-5 text-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between text-[13px] mb-1.5">
                       <span className="font-semibold truncate">Level {stats?.level ?? 1}</span>
-                      <span className="text-muted-foreground shrink-0 ml-2">{stats?.xp ?? 0} XP</span>
+                      <span className="text-muted-foreground shrink-0 ml-2 tabular-nums">{stats?.xp ?? 0} XP</span>
                     </div>
-                    <Progress value={stats?.levelProgress ?? 0} className="h-2" />
-                    <p className="text-[11px] text-muted-foreground mt-1">{stats?.xpToNextLevel ?? 0} XP to next level</p>
+                    <Progress value={stats?.levelProgress ?? 0} className="h-1.5" />
+                    <p className="text-[11px] text-muted-foreground mt-1 tabular-nums">{stats?.xpToNextLevel ?? 0} XP to next level</p>
                   </div>
                 </div>
               </div>
