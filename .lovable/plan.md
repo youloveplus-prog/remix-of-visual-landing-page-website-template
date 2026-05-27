@@ -1,50 +1,41 @@
-# Redesign mobile top section
+## Redesign: Mentorship home section
 
-The current `FlexiTopSection` repeats the same `PillTile` pattern twice (5 action pills + 5 activity pills) and duplicates work done by sections directly below it on the home page:
+**File:** `src/components/mentorship/MentorshipHomeSection.tsx`
 
-- `QuickAccessGrid` already renders Tutor / Shop / Community / Mentors tiles
-- `ProgressSnapshot` + `ActivityFeed` already cover "in progress / completed / wishlist"
-- `ImageHeroSlider` sits right above it, so a second "Start learning" CTA banner is redundant
+### Goals
+- Full-width, low-height horizontal banner (not a tall bento card).
+- Background uses the brand gradient (`var(--gradient-primary)` — dark red), with `text-primary-foreground`.
+- Clearly communicates: this is for parents to find a **home tutor** for their child, with a **free demo class** offer.
+- Copy is warm, natural, full sentences — no robotic AI phrasing, no bullet word-soup.
 
-The redesign collapses this block into one clean, non-repeating unit.
-
-## New structure (mobile only)
-
-```text
-┌─────────────────────────────────────────────┐
-│  🔍  Search & learn anywhere          ⌘    │  ← refined search pill
-├─────────────────────────────────────────────┤
-│  ┌─────────────────────┬─────────────────┐  │
-│  │  Gradient hero half │  Stats half     │  │  ← one combined card
-│  │  Start learning →   │  120+ lessons   │  │
-│  │  Pick a path        │  24/7 AI tutor  │  │
-│  └─────────────────────┴─────────────────┘  │
-├─────────────────────────────────────────────┤
-│  [Shop] [Courses] [AI Tutor] [Deals]        │  ← 4 essential pills (was 10)
-└─────────────────────────────────────────────┘
+### Layout (new)
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│  [icon]  Find a trusted home tutor for your child                       │
+│          Book a free demo class today and meet a verified teacher       │
+│          before you decide. No commitment, no payment upfront.          │
+│                                                  [Book free demo →]     │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-Removed: the second pill row (All courses / In progress / Completed / Wishlist / Add goal) — already covered by `ProgressSnapshot` + `ActivityFeed` below.
-Removed: standalone "Saved" pill — lives in profile/header.
-Merged: gradient CTA banner + two-stat card into one split card (gradient left half is the CTA, neutral right half shows the two stats stacked).
+- One row on desktop: icon chip (left) · heading + supporting sentence (center, flex-1) · CTA button (right).
+- On mobile: stacks to icon+heading, sentence, then full-width CTA button.
+- Height stays compact (~`py-5 lg:py-6`), no tall hero feel.
+- Removes the right-column trust list and the "Meet the mentors" secondary button — they made the card tall and cluttered. Trust info is folded into one short sentence under the heading.
+- Keeps subtle ambient glow accents but tones them down so the banner reads as a single solid brand strip.
 
-## UI enhancements
+### Copy (final, conversational, full sentences)
+- **Eyebrow chip:** "For parents"
+- **Heading:** "Find a trusted home tutor for your child."
+- **Supporting line:** "Book a free demo class today, meet a background-checked teacher, and only continue if it feels right for your family."
+- **Primary CTA:** "Book a free demo" → `/mentors`
 
-- Search pill gets a subtle inner glow + ⌘K hint on the right
-- Combined hero/stats card uses `var(--gradient-primary)` on the left half and `bg-card` on the right, joined by a soft inner divider — single rounded `rounded-3xl` shell with the existing brand shadow
-- Pill row drops from 5 to 4 tiles, tiles grow to `w-16 h-16` for stronger tap targets, icon chip uses a glass treatment (`bg-white/15 backdrop-blur` over the gradient) for the liquid-glass house style
-- Spacing tightens from `space-y-5` to `space-y-4`; section padding stays `section-x`
+### Visual details
+- Container: `rounded-3xl`, `border border-primary/30`, `background: var(--gradient-primary)`, all text via `text-primary-foreground` and `text-primary-foreground/80`.
+- Icon chip: `bg-white/15 backdrop-blur` square with `GraduationCap`.
+- CTA button: `variant="secondary"` (light pill on dark gradient) with `ArrowUpRight` icon for contrast against the red background.
+- Ambient glow blobs kept but reduced opacity so the banner stays clean and low-height.
 
-## Technical details
-
-- File: `src/components/home/mobile/FlexiTopSection.tsx` — full rewrite, no other files touched
-- Drop the `activityTiles` array, `Plus`, `Heart`, `CheckCircle2`, `PlayCircle`, `BookOpen`, `Bot`, `Bookmark` imports that become unused
-- Keep `PillTile` but slim it (no nested chip-in-chip; one rounded gradient tile with icon centered)
-- All colors via semantic tokens / existing gradient var — no raw hex
-- `Index.tsx` integration unchanged (`<FlexiTopSection />` still rendered under `lg:hidden`)
-
-## Out of scope
-
-- Desktop bento (`DesktopHeroBento`) — untouched
-- `QuickAccessGrid`, `ProgressSnapshot`, `ActivityFeed` — left as the single source of truth for their respective concerns
-- Routing / data wiring
+### Out of scope
+- No changes to routing, `/mentors` page, or waitlist sheet.
+- No changes to `Index.tsx` placement.
