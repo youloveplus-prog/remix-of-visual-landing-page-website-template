@@ -702,9 +702,7 @@ function MessageRow({
   if (isUser) {
     return (
       <div className="flex justify-end animate-fade-in">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md px-3.5 py-2 bg-primary text-primary-foreground whitespace-pre-wrap text-[15px] leading-relaxed shadow-[0_4px_16px_-8px_hsl(var(--primary)/0.5)]">
-          {text}
-        </div>
+        <div className="max-w-[85%] rounded-2xl rounded-br-md px-3.5 py-2 bg-foreground text-background whitespace-pre-wrap text-[15px] leading-relaxed">{text}</div>
       </div>
     );
   }
