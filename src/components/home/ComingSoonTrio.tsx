@@ -109,10 +109,10 @@ export default function ComingSoonTrio() {
             NO-1 Free-To-Learn
             <br />
             <span className="relative inline-block">
-              Platformeeee
+              Platform of 2026
               {/* tilted sticker */}
               <span className="absolute -right-0.5 top-[38%] rotate-[-8deg] rounded-[5px] border border-black/10 bg-white px-1 py-0.5 text-center text-[7px] font-semibold leading-tight text-[#0e0e10] shadow-sm sm:-right-3 sm:rounded-[6px] sm:px-1.5 sm:text-[10px]">
-                Platform 2026eeee
+                free
               </span>
             </span>
           </h1>
