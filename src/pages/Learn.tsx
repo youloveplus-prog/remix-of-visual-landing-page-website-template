@@ -87,10 +87,7 @@ export default function Learn() {
   if (!user) {
     return (
       <StandaloneShell>
-        <Helmet>
-          <title>Apu · AI Tutor — Asikon</title>
-          <meta name="description" content="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." />
-        </Helmet>
+        <SEO title="Apu · AI Tutor" description="Chat 24/7 with Apu, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
         <TopBar onBack={handleBack} />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <div className="relative mb-6">
