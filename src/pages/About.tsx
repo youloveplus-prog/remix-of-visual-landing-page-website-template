@@ -18,6 +18,7 @@ import {
 
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MissionVision } from "@/components/about/MissionVision";
+import { BentoGallery, EndlessShowcase } from "@/components/about/BentoGallery";
 import { Reveal } from "@/components/transitions/Reveal";
 import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
