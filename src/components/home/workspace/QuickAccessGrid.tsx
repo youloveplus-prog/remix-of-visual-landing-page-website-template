@@ -23,7 +23,7 @@ export function QuickAccessGrid() {
     <Reveal as="section" className="section-x">
       <div className="flex items-end justify-between mb-2">
         <h2 className="font-semibold text-base">Quick Actions</h2>
-        <Link to="/profile" className="text-xs text-primary font-medium">See all</Link>
+        <Link to="/profile" className="text-xs text-foreground/70 hover:text-foreground font-medium">See all</Link>
       </div>
 
       {/* Mobile: single-row scroll, category-style chips */}
