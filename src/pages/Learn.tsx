@@ -91,13 +91,12 @@ export default function Learn() {
         <TopBar onBack={handleBack} />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <div className="relative mb-6">
-            <div className="absolute inset-0 rounded-full bg-primary/30 blur-3xl scale-125" />
-            <div className="relative h-28 w-28 rounded-3xl glass-strong grid place-items-center shadow-[var(--shadow-glow)]">
+            <div className="relative h-28 w-28 rounded-3xl bg-card border border-border grid place-items-center">
               <img src={asikonLogo} alt="Asikon" className="h-16 w-16 object-contain" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold mb-2 text-gradient">Hi, I'm Apu</h1>
-          <p className="text-muted-foreground mb-5 text-base">Sign in to start chatting with Apu — your Asikon AI tutor.</p>
+          <h1 className="font-display text-3xl font-semibold tracking-tight mb-2">Hi, I'm Apu</h1>
+          <p className="text-muted-foreground mb-5 text-[15px]">Sign in to start chatting with Apu — your Asikon AI tutor.</p>
           <Button size="lg" onClick={() => navigate("/auth?redirect=/learn")}>Sign in</Button>
         </div>
       </StandaloneShell>
