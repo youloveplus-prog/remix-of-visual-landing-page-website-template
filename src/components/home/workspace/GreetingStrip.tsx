@@ -14,8 +14,8 @@ export function GreetingStrip() {
     <section className="section-x">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-black/60 font-bold">Welcome</p>
-          <h1 className="font-grotesk text-[22px] sm:text-[26px] font-black tracking-tight truncate leading-tight">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">Welcome</p>
+          <h1 className="font-display text-[20px] sm:text-[22px] font-bold tracking-tight truncate leading-tight">
             {name}
           </h1>
         </div>
@@ -23,23 +23,23 @@ export function GreetingStrip() {
           <Link
             to="/profile"
             aria-label="Notifications"
-            className="relative h-10 w-10 rounded-2xl border-2 border-black bg-white shadow-[2px_2px_0_0_rgba(0,0,0,1)] flex items-center justify-center transition-transform hover:-translate-y-0.5"
+            className="relative h-10 w-10 rounded-2xl glass border border-border/60 flex items-center justify-center pressable focus-ring shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]"
           >
-            <Bell className="h-[18px] w-[18px] text-black" strokeWidth={2.25} />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-primary border-2 border-black" />
+            <Bell className="h-[18px] w-[18px] text-foreground/80" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-foreground ring-2 ring-background" />
           </Link>
-          <Link to="/profile" aria-label="Profile">
-            <Avatar className="h-10 w-10 rounded-2xl border-2 border-black shadow-[2px_2px_0_0_rgba(0,0,0,1)]">
+          <Link to="/profile" aria-label="Profile" className="focus-ring rounded-2xl">
+            <Avatar className="h-10 w-10 rounded-2xl border border-border/60 shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]">
               <AvatarImage src={profile?.avatar_url ?? undefined} alt={name} className="rounded-2xl" />
-              <AvatarFallback className="rounded-2xl bg-primary text-primary-foreground text-sm font-black font-grotesk">{initial}</AvatarFallback>
+              <AvatarFallback className="rounded-2xl bg-secondary text-foreground text-sm font-bold">{initial}</AvatarFallback>
             </Avatar>
           </Link>
           <Link
             to="/settings"
             aria-label="Settings"
-            className="h-10 w-10 rounded-2xl border-2 border-black bg-white shadow-[2px_2px_0_0_rgba(0,0,0,1)] flex items-center justify-center transition-transform hover:-translate-y-0.5"
+            className="h-10 w-10 rounded-2xl glass border border-border/60 flex items-center justify-center pressable focus-ring shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]"
           >
-            <SlidersHorizontal className="h-[18px] w-[18px] text-black" strokeWidth={2.25} />
+            <SlidersHorizontal className="h-[18px] w-[18px] text-foreground/80" />
           </Link>
         </div>
       </div>
