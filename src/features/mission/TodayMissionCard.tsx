@@ -60,7 +60,7 @@ export function TodayMissionCard() {
 
   return (
     <CardShell>
-      <div className="flex items-center gap-2 text-primary mb-2">
+      <div className="flex items-center gap-2 text-foreground mb-2">
         <Sparkles className="h-4 w-4" />
         <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">{copy.mission.eyebrow}</span>
       </div>
