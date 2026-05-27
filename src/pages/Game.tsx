@@ -41,10 +41,10 @@ const Game = () => {
   };
 
   const quickActions = [
-    { icon: Trophy, label: "Rank", color: "text-amber-400", onClick: () => setShowRank(true) },
-    { icon: History, label: "History", color: "text-primary", onClick: () => setShowHistory(true) },
-    { icon: BookOpen, label: "Rules", color: "text-blue-400", onClick: () => setShowRules(true) },
-    { icon: UserPlus, label: "Invite", color: "text-emerald-400", onClick: handleInvite },
+    { icon: Trophy, label: "Rank", color: "text-foreground", onClick: () => setShowRank(true) },
+    { icon: History, label: "History", color: "text-foreground", onClick: () => setShowHistory(true) },
+    { icon: BookOpen, label: "Rules", color: "text-foreground", onClick: () => setShowRules(true) },
+    { icon: UserPlus, label: "Invite", color: "text-foreground", onClick: handleInvite },
   ];
 
 
