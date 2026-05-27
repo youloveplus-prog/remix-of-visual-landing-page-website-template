@@ -41,7 +41,7 @@ export function ContinueLearningRow() {
   return (
     <Reveal as="section">
       <div className="section-x">
-        <SectionHeader title="Continue learning" subtitle="Pick up where you left off" viewAllHref="/learn" />
+        <SectionHeader title="Continue learning" subtitle="\n" viewAllHref="/learn" />
       </div>
       <MobileScroller itemWidthMobile="72%" gridCols="md:grid md:grid-cols-3" gap="gap-3">
         {lessons.map((l: any) => (
