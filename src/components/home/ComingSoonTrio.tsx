@@ -150,7 +150,7 @@ export default function ComingSoonTrio() {
         </div>
 
         {/* Cards */}
-        <div className="relative mt-8 grid grid-cols-1 gap-3 sm:mt-10 sm:gap-4 md:grid-cols-3">
+        <div className="relative mt-6 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-2 sm:mt-10 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible">
           {ITEMS.map((item, i) => {
             const t = TONES[item.tone];
             return (
@@ -161,34 +161,35 @@ export default function ComingSoonTrio() {
                 viewport={{ once: true, amount: 0.25 }}
                 transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -4 }}
-                className="h-full"
+                className="h-full w-[72vw] max-w-[260px] flex-shrink-0 snap-center sm:w-auto sm:max-w-none"
               >
                 <Link
                   to={item.href}
-                  className={`group relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[22px] p-4 shadow-[0_18px_50px_-25px_rgba(0,0,0,0.45)] transition-shadow hover:shadow-[0_28px_70px_-25px_rgba(0,0,0,0.55)] sm:min-h-[320px] sm:rounded-[26px] sm:p-5 ${t.card}`}
+                  className={`group relative flex h-full min-h-[210px] flex-col overflow-hidden rounded-[18px] p-3 shadow-[0_18px_50px_-25px_rgba(0,0,0,0.45)] transition-shadow hover:shadow-[0_28px_70px_-25px_rgba(0,0,0,0.55)] sm:min-h-[320px] sm:rounded-[26px] sm:p-5 ${t.card}`}
                 >
                   <span
-                    className={`inline-flex w-fit items-center rounded-full px-2.5 py-1 text-[10px] font-medium sm:text-[11px] ${t.chip}`}
+                    className={`inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-medium sm:px-2.5 sm:py-1 sm:text-[11px] ${t.chip}`}
                   >
+                    <span className="h-1.5 w-1.5 rounded-full bg-black/70 sm:h-2 sm:w-2" />
                     {item.chip}
                   </span>
 
                   <h3
-                    className={`mt-2.5 whitespace-pre-line font-grotesk text-[20px] font-bold leading-[1.05] tracking-tight sm:mt-3 sm:text-[26px] ${t.title}`}
+                    className={`mt-2 whitespace-pre-line font-grotesk text-[15px] font-bold leading-[1.05] tracking-tight sm:mt-3 sm:text-[26px] ${t.title}`}
                   >
                     {item.title}
                   </h3>
-                  <p className={`mt-1.5 text-[12px] leading-snug sm:text-[13px] ${t.sub}`}>
+                  <p className={`mt-1 text-[11px] leading-snug sm:mt-1.5 sm:text-[13px] ${t.sub}`}>
                     {item.subtitle}
                   </p>
 
-                  <div className="pointer-events-none relative mt-auto h-[130px] w-full sm:h-[150px]">
+                  <div className="pointer-events-none relative mt-auto h-[90px] w-full sm:h-[150px]">
                     <img
                       src={item.art}
                       alt=""
                       loading="lazy"
                       aria-hidden="true"
-                      className="absolute -bottom-2 right-0 h-[170px] w-auto max-w-[125%] object-contain transition-transform duration-700 group-hover:scale-[1.04] sm:h-[190px]"
+                      className="absolute -bottom-1 right-0 h-[120px] w-auto max-w-[125%] object-contain transition-transform duration-700 group-hover:scale-[1.04] sm:-bottom-2 sm:h-[190px]"
                     />
                   </div>
                 </Link>
