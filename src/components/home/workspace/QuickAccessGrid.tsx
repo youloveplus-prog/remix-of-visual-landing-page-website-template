@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Sparkles, BookOpenText, CalendarCheck2, LineChart, GraduationCap, Wand2,
-  ShoppingBag, Gamepad2,
+  ShoppingBag, Gamepad2, Users, MessageSquare, Bell, Heart, Trophy, Settings,
+  HelpCircle, Bookmark, Video, Radio,
 } from "lucide-react";
 import { Reveal } from "@/components/transitions/Reveal";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 type Tile = { icon: any; label: string; href: string };
 
@@ -18,27 +21,65 @@ const TILES: Tile[] = [
   { icon: Gamepad2,       label: "Games",    href: "/game" },
 ];
 
+const ALL_TILES: Tile[] = [
+  ...TILES,
+  { icon: Users,          label: "Community", href: "/community" },
+  { icon: MessageSquare,  label: "Messages",  href: "/messages" },
+  { icon: Bell,           label: "Alerts",    href: "/notifications" },
+  { icon: Heart,          label: "Wishlist",  href: "/wishlist" },
+  { icon: Bookmark,       label: "Saved",     href: "/profile" },
+  { icon: Trophy,         label: "Rewards",   href: "/profile" },
+  { icon: Video,          label: "Videos",    href: "/community" },
+  { icon: Radio,          label: "Live",      href: "/community" },
+  { icon: HelpCircle,     label: "Help",      href: "/contact" },
+  { icon: Settings,       label: "Settings",  href: "/settings" },
+];
+
+function TileLink({ icon: Icon, label, href, onClick }: Tile & { onClick?: () => void }) {
+  return (
+    <Link
+      to={href}
+      onClick={onClick}
+      className="flex flex-col items-center gap-1.5 pressable focus-ring"
+    >
+      <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center">
+        <Icon className="h-5 w-5 text-foreground" strokeWidth={2} />
+      </div>
+      <span className="text-[11px] font-medium text-foreground/80 text-center leading-tight">{label}</span>
+    </Link>
+  );
+}
+
 export function QuickAccessGrid() {
+  const [open, setOpen] = useState(false);
+
   return (
     <Reveal as="section" className="section-x">
       <div className="flex items-end justify-between mb-2">
         <h2 className="font-semibold text-base">Quick Actions</h2>
-        <Link to="/profile" className="text-xs text-foreground/70 hover:text-foreground font-medium">See all</Link>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <button className="text-xs text-foreground/70 hover:text-foreground font-medium">
+              See all
+            </button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="rounded-t-3xl max-h-[80vh] overflow-y-auto">
+            <SheetHeader className="mb-4">
+              <SheetTitle className="text-left">All Quick Actions</SheetTitle>
+            </SheetHeader>
+            <div className="grid grid-cols-4 gap-4 pb-6">
+              {ALL_TILES.map((t) => (
+                <TileLink key={t.label} {...t} onClick={() => setOpen(false)} />
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
 
       {/* Mobile: 4-column scrollable grid */}
       <div className="md:hidden grid grid-cols-4 gap-3 overflow-y-auto no-scrollbar -mx-4 px-4 pb-1">
-        {TILES.map(({ icon: Icon, label, href }) => (
-          <Link
-            key={label}
-            to={href}
-            className="flex flex-col items-center gap-1.5 pressable focus-ring"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center">
-              <Icon className="h-5 w-5 text-foreground" strokeWidth={2} />
-            </div>
-            <span className="text-[11px] font-medium text-foreground/80">{label}</span>
-          </Link>
+        {TILES.map((t) => (
+          <TileLink key={t.label} {...t} />
         ))}
       </div>
 
