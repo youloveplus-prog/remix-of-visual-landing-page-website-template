@@ -24,8 +24,6 @@ const Community = () => {
       case "shorts": return <ShortsTab />;
       case "reviews": return <ReviewsTab />;
       case "offers": return <OffersTab />;
-      case "live":
-        return <MyFeedTab />;
       default: return <MyFeedTab />;
     }
   };
@@ -38,13 +36,18 @@ const Community = () => {
         url="https://asikonpro.lovable.app/community"
       />
       <MobilePage
-        sticky={<CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />}
+        sticky={
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 xl:gap-10">
+            <div className="lg:max-w-2xl xl:max-w-3xl lg:mx-auto lg:w-full">
+              <CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />
+            </div>
+          </div>
+        }
         spacing="space-y-4"
       >
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 xl:gap-10">
           <main
             data-feed-root
-            key={activeTab}
             className="animate-fade-in min-w-0 space-y-4 lg:max-w-2xl xl:max-w-3xl lg:mx-auto lg:w-full"
           >
             {renderTabContent()}
