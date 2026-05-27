@@ -44,10 +44,10 @@ const courseFaqs = [
 ];
 
 const productFaqs = [
-  { question: "Is this product authentic?", answer: "Yes, every product on ASIKON is verified and shipped from trusted sellers." },
-  { question: "How long does delivery take?", answer: "Standard delivery takes 3-5 business days inside Bangladesh. Cash on delivery available." },
-  { question: "What is your return policy?", answer: "7-day easy returns. Items must be unused and in original packaging." },
-  { question: "Do you ship outside Bangladesh?", answer: "International shipping is rolling out soon — stay tuned!" },
+  { question: "Is this product authentic?", answer: "Yes — every product on ASIKON is digital, verified, and delivered instantly from trusted creators." },
+  { question: "How do I get access after buying?", answer: "Instantly. The moment your payment is verified, the product unlocks in your library — no waiting, no shipping." },
+  { question: "What is your refund policy?", answer: "7-day money-back guarantee. If it's not for you, request a refund from your order page and we'll process it." },
+  { question: "Can I use it outside Bangladesh?", answer: "Yes. All products are digital, so they work anywhere with an internet connection." },
 ];
 
 const courseCurriculum = [
