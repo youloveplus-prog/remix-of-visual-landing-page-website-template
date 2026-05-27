@@ -610,6 +610,17 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
 }
 
+@layer components {
+  .prose-legal { @apply text-foreground/90 leading-relaxed; }
+  .prose-legal h2 { @apply font-display text-2xl sm:text-3xl font-semibold mt-10 mb-4 first:mt-0; }
+  .prose-legal p, .prose-legal li { @apply text-muted-foreground; }
+  .prose-legal ul, .prose-legal ol { @apply space-y-2 my-4 pl-5; }
+  .prose-legal ul { @apply list-disc; }
+  .prose-legal ol { @apply list-decimal; }
+  .prose-legal a { @apply text-primary underline underline-offset-4 hover:opacity-80; }
+  .prose-legal strong { @apply text-foreground; }
+}
+
 /* Hide all scrollbars on mobile (visual only — scrolling still works) */
 @media (max-width: 1023px) {
   html, body, * {
