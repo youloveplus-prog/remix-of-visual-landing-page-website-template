@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Product } from "@/types";
 
 interface ProductCarouselProps {
