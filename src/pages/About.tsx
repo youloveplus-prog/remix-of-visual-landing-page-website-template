@@ -572,7 +572,12 @@ const About = () => {
         />
       </Reveal>
 
+      <Reveal as="div"><BentoGallery /></Reveal>
+
       <Reveal as="div"><PrinciplesCarousel /></Reveal>
+
+      <Reveal as="div"><EndlessShowcase /></Reveal>
+
 
       <Reveal as="div">
         <ImageTextRow
