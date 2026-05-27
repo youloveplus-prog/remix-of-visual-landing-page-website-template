@@ -498,7 +498,7 @@ function StorySection() {
         </div>
 
         <aside className="lg:col-span-5">
-          <div className="glass-strong border border-white/10 rounded-2xl sm:rounded-[2rem] p-5 sm:p-7 lg:p-8 lg:sticky lg:top-28 relative overflow-hidden">
+          <div className="liquid-glass rounded-2xl sm:rounded-[2rem] p-5 sm:p-7 lg:p-8 lg:sticky lg:top-28 relative overflow-hidden">
             <div
               className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-30"
               style={{ background: "var(--gradient-primary)" }}
