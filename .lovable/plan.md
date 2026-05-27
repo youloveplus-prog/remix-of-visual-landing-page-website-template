@@ -1,46 +1,23 @@
-## Home Polish Plan (logged-out `/`)
+## Re-skin `FlexiTopSection` to ASIKON midnight bento
 
-The current page works but feels uneven: an empty Gallery panel, weak section headers, no hero anchor above the brand strip, and the masterpiece + CTA card sit with too much whitespace.
+The section uses arbitrary rainbow gradients (blue/emerald/teal/violet/rose) that fight the Midnight Indigo + `midnight-tile` language used everywhere else on home. Replace with the project's existing tokens.
 
-### 1. Fix the broken Gallery section
-`GalleryCarousel` is rendering a huge blank panel.
-- Add a non-empty fallback (skeletons → empty state with icon + copy + CTA).
-- Cap height to ~280px on mobile so it can't blow up the page.
-- Tighten section header to match `SectionHeader` pattern used elsewhere.
+### Changes (single file: `src/components/home/mobile/FlexiTopSection.tsx`)
 
-### 2. Strengthen the top of the page
-`FlexiTopSection` is the first thing visible.
-- Add a small eyebrow ("Welcome to ASIKON") above "Start learning today".
-- Bump CTA card height + add a secondary "Browse courses" ghost link.
-- Polish the right-side stat tiles: align icons, add subtle hover, show a trend dot.
-- Reduce gap between CTA card and pill tiles (currently `space-y-4` → `space-y-3`).
+1. **Pill tiles** — drop per-tile multicolor gradients. Use one consistent treatment:
+   - `midnight-tile` square (rounded-2xl, 56–60px), subtle inner gradient `from-primary/15 to-primary/5`, 1px `border-primary/20`, primary-tinted icon.
+   - Hover/active: lift -2px, primary glow shadow, icon scales 1.08.
+   - Labels: `text-foreground/85`, same weight across all four.
 
-### 3. Brand strip
-- Add `INSIDE ASIKON` eyebrow + "Trusted tools we teach" subtitle.
-- Mask edges with a fade gradient so logos don't hard-cut.
-- Slow the marquee slightly; pause on hover.
+2. **Split CTA card** — keep the gradient-primary left panel (this IS the brand accent), but:
+   - Right stat panel: replace blue/emerald icon chips with neutral `bg-primary/10 text-primary` chips so it reads as one ASIKON card, not a stitched-together collage.
+   - Add `midnight-shine` to the whole card (already on outer); remove `float-y` blob, replace with a soft static `midnight-glow`-style radial.
+   - Tighten copy: "Start learning today" → keep; subline keep.
 
-### 4. Masterpiece showcase
-- Tighten heading + reduce vertical padding.
-- Move "Explore library / Read more" closer to the fanned covers.
-- Add subtle floating animation to the center book only (currently static).
+3. **Eyebrow + heading** — already aligned with GreetingStrip; keep as-is.
 
-### 5. Final CTA card ("Learn smarter")
-- Add a faint grid/dot pattern + glow blob behind the headline.
-- Make the "Start learning" pill full-width on mobile, icon on the right.
-- Add 3 micro trust chips below ("Instant access · Money-back · 24/7 AI tutor") to reuse the trust signal pattern.
-
-### 6. Section rhythm + reveals
-- Wrap each top-level section in `<Reveal>` with staggered delay (0/60/120ms) for a calmer entrance.
-- Standardize vertical spacing: `space-y-6 lg:space-y-12` on `MobilePage`.
-- Add `scroll-mt-20` to each section for anchor navigation.
-
-### Technical notes
-- Files touched: `src/pages/Index.tsx`, `src/components/home/mobile/FlexiTopSection.tsx`, `src/components/home/BrandStrip.tsx`, `src/components/home/mobile/GalleryCarousel.tsx`, `src/components/home/MasterpieceShowcase.tsx`, plus a new CTA component or inline edit.
-- No new dependencies. All motion respects `prefers-reduced-motion` via existing `Reveal` + CSS guards.
-- Colors stay on the Midnight Indigo tokens already defined in `index.css` — no hex values in components.
+4. **Spacing** — `space-y-3` stays. Pills grid `gap-3` for breathing room matching `QuickAccessGrid`.
 
 ### Out of scope
-- No new data sources or API changes.
-- Logged-in home (greeting + mission + quick actions) — already polished last pass.
-- No layout restructure of the AppLayout shell.
+- No new components, no token edits, no other files.
+- Don't touch `QuickAccessGrid` / `GreetingStrip`.
