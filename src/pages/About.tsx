@@ -12,6 +12,8 @@ import {
   ShieldCheck,
   Quote,
   Star,
+  Compass,
+  PlayCircle,
 } from "lucide-react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -31,7 +33,7 @@ import featureMentor from "@/assets/about/feature-mentor.jpg";
 /* -------------------------------------------------------------------------- */
 function CinematicHero() {
   return (
-    <section className="relative isolate overflow-hidden min-h-[78vh] sm:min-h-[85vh] lg:min-h-[92vh] flex items-end">
+    <section className="relative isolate overflow-hidden min-h-[68vh] sm:min-h-[82vh] lg:min-h-[92vh] flex items-end">
       <img
         src={heroStudent}
         alt="A young Bangladeshi student learning at night"
@@ -41,7 +43,7 @@ function CinematicHero() {
         fetchPriority="high"
       />
       {/* layered cinematic gradient + brand wash */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/20" />
       <div className="absolute inset-0 lg:bg-gradient-to-r lg:from-background lg:via-background/70 lg:to-transparent" />
       <div
         className="absolute inset-0 opacity-40 mix-blend-soft-light"
@@ -50,13 +52,13 @@ function CinematicHero() {
       <div className="absolute -top-40 -left-40 w-[36rem] h-[36rem] rounded-full blur-[120px] opacity-25"
            style={{ background: "var(--gradient-primary)" }} />
 
-      <div className="relative z-10 container-editorial pb-14 sm:pb-20 lg:pb-32 pt-28 lg:pt-40">
+      <div className="relative z-10 container-editorial pb-12 sm:pb-20 lg:pb-32 pt-24 lg:pt-40">
         <div className="lg:grid lg:grid-cols-12">
-          <div className="lg:col-span-8 xl:col-span-7">
-            <p className="eyebrow-bar mb-5">About ASIKON</p>
+          <div className="lg:col-span-8 xl:col-span-7 text-center lg:text-left">
+            <p className="eyebrow-bar mb-5 justify-center lg:justify-start inline-flex lg:flex">About ASIKON</p>
             <h1
               className="font-display font-semibold tracking-[-0.035em] leading-[1.02] text-foreground"
-              style={{ fontSize: "clamp(2.4rem, 7vw, 5.25rem)" }}
+              style={{ fontSize: "clamp(2.1rem, 7vw, 5.25rem)" }}
             >
               Learning,
               <br className="hidden sm:block" /> reimagined for{" "}
@@ -67,24 +69,30 @@ function CinematicHero() {
                 Bangladesh.
               </span>
             </h1>
-            <p className="mt-6 max-w-[44ch] text-[15px] sm:text-base lg:text-lg leading-[1.65] text-muted-foreground">
+            <p className="mt-5 sm:mt-6 mx-auto lg:mx-0 max-w-[40ch] sm:max-w-[44ch] text-[14.5px] sm:text-base lg:text-lg leading-[1.65] text-muted-foreground">
               AI-powered learning, built for Bangladesh. One small lesson a day,
               guided by a tutor that listens.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg" className="rounded-full px-7 h-12 w-full sm:w-auto">
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start items-center">
+              <Button
+                asChild
+                size="lg"
+                className="group rounded-full px-7 h-12 w-full sm:w-auto shadow-[0_8px_30px_-8px_hsl(var(--primary)/0.55)] hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.7)] transition-shadow"
+              >
                 <Link to="/learn">
-                  Start learning <ArrowRight className="ml-1 h-4 w-4" />
+                  <PlayCircle className="mr-1.5 h-4 w-4" />
+                  Start learning
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-full px-7 h-12 w-full sm:w-auto glass border-white/10"
+                className="rounded-full px-7 h-12 w-full sm:w-auto glass border-white/15 hover:border-white/25 backdrop-blur-xl"
               >
                 <Link to="/learn">
-                  <Sparkles className="mr-1.5 h-4 w-4" /> Explore tracks
+                  <Compass className="mr-1.5 h-4 w-4" /> Explore tracks
                 </Link>
               </Button>
             </div>
@@ -178,7 +186,7 @@ function ImageTextRow({
   const Media = (
     <div
       className={cn(
-        "relative aspect-[4/5] sm:aspect-[5/4] lg:aspect-[5/6] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 group",
+        "relative mx-auto w-full max-w-[420px] sm:max-w-none aspect-[16/10] sm:aspect-[5/4] lg:aspect-[5/6] rounded-2xl sm:rounded-[2rem] overflow-hidden border border-white/10 group",
         reverse ? "lg:col-span-5" : "lg:col-span-6",
       )}
     >
@@ -191,25 +199,25 @@ function ImageTextRow({
         className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-transparent" />
-      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[1.5rem] sm:rounded-[2rem] pointer-events-none" />
+      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl sm:rounded-[2rem] pointer-events-none" />
     </div>
   );
 
   const Copy = (
     <div
       className={cn(
-        "lg:py-6",
+        "text-center lg:text-left lg:py-6",
         reverse ? "lg:col-span-7 lg:pr-10" : "lg:col-span-6 lg:pl-6",
       )}
     >
-      <p className="eyebrow-bar mb-3">{eyebrow}</p>
+      <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">{eyebrow}</p>
       <h2
         className="font-display font-semibold tracking-[-0.025em] leading-[1.05] text-foreground"
-        style={{ fontSize: "clamp(1.85rem, 4vw, 3rem)" }}
+        style={{ fontSize: "clamp(1.7rem, 4vw, 3rem)" }}
       >
         {title}
       </h2>
-      <p className="mt-5 max-w-[52ch] text-[15px] sm:text-base leading-[1.65] text-muted-foreground">
+      <p className="mt-4 sm:mt-5 mx-auto lg:mx-0 max-w-[48ch] sm:max-w-[52ch] text-[14.5px] sm:text-base leading-[1.65] text-muted-foreground">
         {body}
       </p>
     </div>
@@ -398,15 +406,15 @@ function StorySection() {
   return (
     <section className="py-16 sm:py-24 lg:py-32 border-y border-border/40 bg-card/20">
       <div className="container-editorial grid lg:grid-cols-12 gap-10 lg:gap-16">
-        <div className="lg:col-span-7">
-          <p className="eyebrow-bar mb-3">Our story</p>
+        <div className="lg:col-span-7 text-center lg:text-left">
+          <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">Our story</p>
           <h2
-            className="font-display font-semibold tracking-[-0.025em] leading-[1.05] mb-7 max-w-[18ch]"
-            style={{ fontSize: "clamp(1.85rem, 4.5vw, 3.5rem)" }}
+            className="font-display font-semibold tracking-[-0.025em] leading-[1.05] mb-6 sm:mb-7 mx-auto lg:mx-0 max-w-[22ch] lg:max-w-[18ch]"
+            style={{ fontSize: "clamp(1.7rem, 4.5vw, 3.5rem)" }}
           >
             From a Dhaka classroom to learners everywhere.
           </h2>
-          <div className="space-y-5 text-[15px] sm:text-base leading-[1.7] text-muted-foreground max-w-[58ch]">
+          <div className="space-y-4 sm:space-y-5 text-[14.5px] sm:text-base leading-[1.7] text-muted-foreground mx-auto lg:mx-0 max-w-[52ch] sm:max-w-[58ch]">
             <p>
               Brilliant students were being asked to learn in systems built for
               someone else, somewhere else. That felt wrong.
@@ -488,16 +496,22 @@ function FinalCTA() {
           One small lesson. One calm streak. Everything changes from there.
         </p>
         <div className="mt-9 flex flex-col items-center gap-4">
-          <Button asChild size="lg" className="rounded-full px-10 h-14 text-base w-full sm:w-auto">
+          <Button
+            asChild
+            size="lg"
+            className="group rounded-full px-10 h-14 text-base w-full sm:w-auto shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.65)] hover:shadow-[0_14px_50px_-10px_hsl(var(--primary)/0.8)] transition-shadow"
+          >
             <Link to="/learn">
-              Begin your journey <ArrowRight className="ml-1.5 h-4 w-4" />
+              <GraduationCap className="mr-1.5 h-5 w-5" />
+              Begin your journey
+              <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
           <Link
             to="/learn"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            Explore tracks first
+            <Compass className="h-3.5 w-3.5" /> Explore tracks first
           </Link>
         </div>
       </div>
@@ -522,11 +536,11 @@ const About = () => {
       <Reveal as="div"><GlassStats /></Reveal>
 
       <Reveal as="section" className="container-editorial pt-4 pb-16 sm:pb-20 lg:pb-24">
-        <div className="max-w-2xl mb-8 lg:mb-10">
-          <p className="eyebrow-bar mb-3">What drives us</p>
+        <div className="max-w-2xl mb-8 lg:mb-10 text-center lg:text-left mx-auto lg:mx-0">
+          <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">What drives us</p>
           <h2
             className="font-display font-semibold tracking-[-0.025em] leading-[1.05]"
-            style={{ fontSize: "clamp(1.85rem, 4.5vw, 3.25rem)" }}
+            style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.25rem)" }}
           >
             Mission and Vision.
           </h2>
