@@ -43,9 +43,12 @@ const maxWidthMap: Record<MaxWidth, string> = {
 /**
  * Consistent mobile-app page shell.
  * - Uses the global MobileHeader/DesktopHeader from AppLayout (don't double-stack).
- * - AppLayout already offsets the page by `--app-header-h`, so the sticky tab
- *   strip is rendered in normal flow with `sticky top-0` and sits flush under
- *   the header with zero gap.
+ * - AppLayout already offsets the page by `--app-header-h`; the sticky strip
+ *   is rendered as a sibling outside `.page-enter` (which sets `will-change:
+ *   transform` and would otherwise create a containing block that breaks
+ *   `position: sticky` relative to the viewport).
+ * - Order matters: `bleed` MUST render before `sticky` so cover art / hero
+ *   art appears above the sticky strip in document flow.
  */
 export function MobilePage({
   children,
@@ -63,10 +66,11 @@ export function MobilePage({
   const paddingClass = padded && !isContainer ? "px-4 sm:px-6 lg:px-8" : undefined;
   return (
     <>
+      {bleed}
       {sticky && (
         <div
-          className="sticky z-30 bg-background hairline-bottom"
-          style={{ top: "var(--app-header-h, 0px)" }}
+          className="sticky z-30 w-full bg-background hairline-bottom"
+          style={{ top: "var(--app-header-h, 56px)" }}
         >
           <div className={cn(widthClass, paddingClass)}>
             {sticky}
@@ -74,7 +78,6 @@ export function MobilePage({
         </div>
       )}
       <div className="page-enter page-enter-active">
-        {bleed}
         <div
           className={cn(
             widthClass,
