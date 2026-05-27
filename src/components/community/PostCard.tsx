@@ -23,35 +23,33 @@ function PostCardImpl({ post }: PostCardProps) {
     <article
       className={cn(
         "group/post mx-auto w-full max-w-[640px]",
-        "bg-card/70 backdrop-blur-xl",
-        "border-y border-border/60 sm:border sm:border-border/60",
-        "sm:rounded-2xl overflow-hidden",
-        "transition-[transform,box-shadow,border-color] duration-300 ease-out",
-        "sm:hover:-translate-y-[2px] sm:hover:shadow-[var(--shadow-lg)] sm:hover:border-primary/30"
+        "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
+        "transition-shadow duration-200",
+        "sm:hover:shadow-[var(--shadow-md)]"
       )}
     >
       {/* Header */}
-      <header className="flex items-center justify-between p-3.5 sm:p-4">
+      <header className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3 min-w-0">
-          <Avatar className="h-11 w-11 ring-2 ring-primary/25 ring-offset-2 ring-offset-background">
+          <Avatar className="h-10 w-10">
             <AvatarImage src={post.user.avatar} alt={post.user.name} />
             <AvatarFallback>{post.user.name[0]}</AvatarFallback>
           </Avatar>
           <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <span className="font-display font-semibold text-[14px] truncate">
+            <div className="flex items-center gap-1">
+              <span className="font-medium text-[14px] truncate">
                 {post.user.username}
               </span>
               {post.user.isVerified && (
                 <span
                   aria-label="Verified"
-                  className="inline-grid place-items-center h-4 w-4 rounded-full bg-primary text-primary-foreground text-[9px] font-bold"
+                  className="inline-grid place-items-center h-3.5 w-3.5 rounded-full bg-primary text-primary-foreground text-[8px] font-bold"
                 >
                   ✓
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-muted-foreground flex items-center gap-1.5">
+            <p className="text-[11.5px] text-muted-foreground flex items-center gap-1.5">
               <span>{post.user.name}</span>
               <span aria-hidden className="opacity-50">·</span>
               <span>{post.timestamp}</span>
@@ -60,7 +58,7 @@ function PostCardImpl({ post }: PostCardProps) {
         </div>
         <button
           aria-label="More options"
-          className="p-2 hover:bg-secondary/60 rounded-full transition-colors"
+          className="p-2 -mr-2 hover:bg-secondary/60 rounded-full transition-colors"
         >
           <MoreHorizontal className="h-5 w-5 text-muted-foreground" />
         </button>
@@ -68,21 +66,16 @@ function PostCardImpl({ post }: PostCardProps) {
 
       {/* Image */}
       {post.image && (
-        <div className="relative px-3.5 sm:px-4">
+        <div className="relative px-4">
           <div className="relative overflow-hidden rounded-xl bg-muted">
             <SmartImage
               src={post.image}
               alt="Post content"
-              className="w-full aspect-[4/5] sm:aspect-[16/11] object-cover transition-transform duration-700 group-hover/post:scale-[1.03]"
-            />
-            {/* Bottom scrim */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/55 via-black/15 to-transparent"
+              className="w-full aspect-[4/5] sm:aspect-[16/11] object-cover"
             />
             {post.product && (
-              <button className="absolute bottom-3 left-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/85 backdrop-blur-md border border-border/60 text-[12px] font-medium hover:bg-background transition-colors shadow-sm">
-                <ShoppingBag className="h-3.5 w-3.5 text-primary" />
+              <button className="absolute bottom-3 left-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur-md border border-border text-[12px] font-medium hover:bg-background transition-colors">
+                <ShoppingBag className="h-3.5 w-3.5 text-foreground/70" />
                 Shop the look
               </button>
             )}
@@ -91,22 +84,22 @@ function PostCardImpl({ post }: PostCardProps) {
       )}
 
       {/* Action strip */}
-      <div className="flex items-center justify-between px-3.5 sm:px-4 pt-3">
+      <div className="flex items-center justify-between px-3 pt-3">
         <div className="flex items-center gap-1">
           <ActionButton onClick={handleLike} active={isLiked} ariaLabel="Like">
             <Heart
               className={cn(
                 "h-[18px] w-[18px] transition-all",
-                isLiked && "fill-primary text-primary scale-110"
+                isLiked && "fill-primary text-primary"
               )}
             />
-            <span className="text-[12px] font-medium tabular-nums">
+            <span className="text-[12.5px] font-medium tabular-nums">
               {likes.toLocaleString()}
             </span>
           </ActionButton>
           <ActionButton ariaLabel="Comment">
             <MessageCircle className="h-[18px] w-[18px]" />
-            <span className="text-[12px] font-medium tabular-nums">{post.comments}</span>
+            <span className="text-[12.5px] font-medium tabular-nums">{post.comments}</span>
           </ActionButton>
           <ActionButton ariaLabel="Share">
             <Share2 className="h-[18px] w-[18px]" />
@@ -120,16 +113,16 @@ function PostCardImpl({ post }: PostCardProps) {
           <Bookmark
             className={cn(
               "h-[18px] w-[18px] transition-all",
-              saved && "fill-primary text-primary"
+              saved && "fill-foreground text-foreground"
             )}
           />
         </ActionButton>
       </div>
 
       {/* Caption */}
-      <div className="px-3.5 sm:px-4 pt-2.5 pb-4">
-        <p className="text-[13.5px] leading-relaxed">
-          <span className="font-semibold mr-1.5">{post.user.username}</span>
+      <div className="px-4 pt-2 pb-4">
+        <p className="text-[14px] leading-relaxed">
+          <span className="font-medium mr-1.5">{post.user.username}</span>
           <span className="text-foreground/85">{post.content}</span>
         </p>
       </div>
