@@ -109,6 +109,27 @@ export function UserMenu() {
             <span className="font-medium">Settings</span>
           </Link>
         </DropdownMenuItem>
+
+        <DropdownMenuSeparator className="my-2" />
+
+        <DropdownMenuItem asChild>
+          <Link to="/notifications" className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-lg">
+            <Bell className="w-4 h-4 text-muted-foreground" />
+            <span className="font-medium">Notifications</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/leaderboard" className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-lg">
+            <Trophy className="w-4 h-4 text-muted-foreground" />
+            <span className="font-medium">Leaderboard</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/help" className="flex items-center gap-3 px-3 py-2.5 cursor-pointer rounded-lg">
+            <HelpCircle className="w-4 h-4 text-muted-foreground" />
+            <span className="font-medium">Help &amp; FAQ</span>
+          </Link>
+        </DropdownMenuItem>
         
         <DropdownMenuSeparator className="my-2" />
         
