@@ -118,7 +118,7 @@ function TileCard({ t }: { t: Tile }) {
     <Link
       to={t.to}
       className={cn(
-        "group relative block overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] border border-white/10",
+        "group relative block overflow-hidden rounded-2xl sm:rounded-[2rem] border border-white/10",
         "aspect-[4/3] sm:aspect-[5/4]",
         t.rows === 2 && "lg:row-span-2 lg:aspect-auto lg:min-h-[640px]",
         mobileColMap[t.spanMobile ?? 2],
@@ -147,19 +147,19 @@ function TileCard({ t }: { t: Tile }) {
         className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 mix-blend-soft-light"
         style={{ background: "var(--gradient-primary)" }}
       />
-      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[1.5rem] sm:rounded-[2rem] pointer-events-none" />
+      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl sm:rounded-[2rem] pointer-events-none" />
 
       {/* content */}
       <div
         className={cn(
-          "absolute inset-0 flex flex-col justify-end p-5 sm:p-7 lg:p-9 text-center sm:text-left",
+          "absolute inset-0 flex flex-col justify-end p-4 sm:p-7 lg:p-9 text-center sm:text-left",
           t.tone === "dark" ? "text-white" : "text-neutral-900",
         )}
       >
         {t.eyebrow && (
           <p
             className={cn(
-              "text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium mb-2 sm:mb-3 mx-auto sm:mx-0",
+              "text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium mb-1.5 sm:mb-3 mx-auto sm:mx-0",
               t.tone === "dark" ? "text-white/70" : "text-neutral-700",
             )}
           >
@@ -168,24 +168,24 @@ function TileCard({ t }: { t: Tile }) {
         )}
         <h3
           className="font-display font-semibold tracking-[-0.025em] leading-[1.05] whitespace-pre-line"
-          style={{ fontSize: "clamp(1.35rem, 2.4vw, 2.25rem)" }}
+          style={{ fontSize: "clamp(1.15rem, 2.4vw, 2.25rem)" }}
         >
           {t.title}
         </h3>
         {t.subtitle && (
           <p
             className={cn(
-              "mt-2 sm:mt-3 text-[13px] sm:text-[14.5px] leading-[1.5] max-w-[36ch] mx-auto sm:mx-0",
+              "mt-1.5 sm:mt-3 text-[12.5px] sm:text-[14.5px] leading-[1.45] sm:leading-[1.5] max-w-[36ch] mx-auto sm:mx-0",
               t.tone === "dark" ? "text-white/75" : "text-neutral-700",
             )}
           >
             {t.subtitle}
           </p>
         )}
-        <div className="mt-4 sm:mt-5 flex justify-center sm:justify-start">
+        <div className="mt-3 sm:mt-5 flex justify-center sm:justify-start">
           <span
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium backdrop-blur-xl transition-transform group-hover:translate-y-[-1px]",
+              "inline-flex items-center gap-1.5 rounded-full px-3.5 sm:px-4 h-8 sm:h-9 text-[12.5px] sm:text-[13px] font-medium backdrop-blur-xl transition-transform group-hover:translate-y-[-1px]",
               t.tone === "dark"
                 ? "bg-white text-neutral-900 hover:bg-white/90"
                 : "bg-neutral-900 text-white hover:bg-neutral-800",
@@ -202,12 +202,12 @@ function TileCard({ t }: { t: Tile }) {
 
 export function BentoGallery() {
   return (
-    <section className="container-editorial py-16 sm:py-24 lg:py-32">
-      <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 lg:mb-16">
+    <section className="container-editorial py-10 sm:py-20 lg:py-32">
+      <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 lg:mb-16">
         <p className="eyebrow-bar mb-3 justify-center inline-flex">Everything in one place</p>
         <h2
           className="font-display font-semibold tracking-[-0.03em] leading-[1.02]"
-          style={{ fontSize: "clamp(1.85rem, 5vw, 3.5rem)" }}
+          style={{ fontSize: "clamp(1.6rem, 5vw, 3.5rem)" }}
         >
           One platform.{" "}
           <span
@@ -219,7 +219,7 @@ export function BentoGallery() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-12 auto-rows-auto gap-3 sm:gap-4 lg:gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-12 auto-rows-auto gap-2.5 sm:gap-4 lg:gap-5">
         {TILES.map((t) => (
           <TileCard key={t.title} t={t} />
         ))}
@@ -290,12 +290,12 @@ export function EndlessShowcase() {
   });
 
   return (
-    <section className="py-16 sm:py-24 lg:py-32 border-y border-border/40 bg-card/20">
-      <div className="container-editorial text-center mb-10 sm:mb-14">
+    <section className="py-10 sm:py-20 lg:py-32 border-y border-border/40 bg-card/20">
+      <div className="container-editorial text-center mb-8 sm:mb-10 lg:mb-14">
         <p className="eyebrow-bar mb-3 justify-center inline-flex">Endless learning</p>
         <h2
           className="font-display font-semibold tracking-[-0.03em] leading-[1.02]"
-          style={{ fontSize: "clamp(1.85rem, 5vw, 3.5rem)" }}
+          style={{ fontSize: "clamp(1.6rem, 5vw, 3.5rem)" }}
         >
           A whole library, always open.
         </h2>
@@ -305,12 +305,12 @@ export function EndlessShowcase() {
         className="overflow-hidden pl-[max(1rem,calc((100vw-72rem)/2))]"
         ref={emblaRef}
       >
-        <div className="flex gap-3 sm:gap-4 pr-4">
+        <div className="flex gap-2.5 sm:gap-4 pr-4">
           {SHOWCASE.map((s) => (
             <Link
               to={s.to}
               key={s.title}
-              className="group relative shrink-0 basis-[70%] sm:basis-[42%] lg:basis-[22%] aspect-[3/4] rounded-[1.5rem] sm:rounded-[1.75rem] overflow-hidden border border-white/10"
+              className="group relative shrink-0 basis-[62%] sm:basis-[42%] lg:basis-[22%] aspect-[3/4] rounded-2xl sm:rounded-[1.75rem] overflow-hidden border border-white/10"
             >
               <img
                 src={s.image}
@@ -330,7 +330,7 @@ export function EndlessShowcase() {
               />
               <div
                 className={cn(
-                  "absolute inset-0 flex flex-col p-5 sm:p-6",
+                  "absolute inset-0 flex flex-col p-4 sm:p-6",
                   s.tone === "dark" ? "text-white" : "text-neutral-900",
                 )}
               >
@@ -345,14 +345,14 @@ export function EndlessShowcase() {
                 <div className="mt-auto">
                   <h3
                     className="font-display font-semibold tracking-[-0.02em] leading-[1.08] whitespace-pre-line"
-                    style={{ fontSize: "clamp(1.15rem, 1.8vw, 1.6rem)" }}
+                    style={{ fontSize: "clamp(1.05rem, 1.8vw, 1.6rem)" }}
                   >
                     {s.title}
                   </h3>
-                  <div className="mt-4">
+                  <div className="mt-3 sm:mt-4">
                     <span
                       className={cn(
-                        "inline-flex items-center gap-1.5 rounded-full px-3.5 h-8 text-[12.5px] font-medium backdrop-blur-xl",
+                        "inline-flex items-center gap-1.5 rounded-full px-3 h-7 sm:px-3.5 sm:h-8 text-[12px] sm:text-[12.5px] font-medium backdrop-blur-xl",
                         s.tone === "dark"
                           ? "bg-white text-neutral-900"
                           : "bg-neutral-900 text-white",
@@ -364,7 +364,7 @@ export function EndlessShowcase() {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[1.5rem] sm:rounded-[1.75rem] pointer-events-none" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl sm:rounded-[1.75rem] pointer-events-none" />
             </Link>
           ))}
         </div>
