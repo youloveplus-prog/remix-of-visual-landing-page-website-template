@@ -141,7 +141,7 @@ export function ProfileHeader({
             type="button"
             onClick={() => navigate(-1)}
             aria-label="Go back"
-            className="md:hidden absolute top-3 left-3 h-9 w-9 rounded-full glass-strong flex items-center justify-center shadow-md focus-ring tap"
+            className="md:hidden absolute top-3 left-3 h-9 w-9 rounded-full bg-background/85 backdrop-blur-md border border-border flex items-center justify-center focus-ring tap"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
@@ -154,7 +154,7 @@ export function ProfileHeader({
               type="button"
               onClick={onShare}
               aria-label="Share profile"
-              className="h-9 w-9 rounded-full glass-strong flex items-center justify-center shadow-md focus-ring tap"
+              className="h-9 w-9 rounded-full bg-background/85 backdrop-blur-md border border-border flex items-center justify-center focus-ring tap"
             >
               <Share2 className="h-4 w-4" />
             </button>
@@ -166,7 +166,7 @@ export function ProfileHeader({
                 onClick={() => coverInputRef.current?.click()}
                 disabled={uploadingCover}
                 aria-label="Change cover photo"
-                className="inline-flex items-center gap-1.5 px-3 h-9 rounded-full glass-strong text-xs font-medium shadow-md focus-ring tap"
+                className="inline-flex items-center gap-1.5 px-3 h-9 rounded-full bg-background/85 backdrop-blur-md border border-border text-[12px] font-medium focus-ring tap"
               >
                 {uploadingCover ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Camera className="h-3.5 w-3.5" />}
                 <span className="hidden sm:inline">{uploadingCover ? "Uploading…" : "Edit cover"}</span>
@@ -186,7 +186,7 @@ export function ProfileHeader({
       {/* Centered avatar + identity */}
       <div className="flex flex-col items-center px-4 -mt-12 sm:-mt-16 text-center">
         <div className="relative group" onClick={onAvatarClick}>
-          <Avatar className="h-24 w-24 sm:h-32 sm:w-32 border-4 border-background cursor-pointer shadow-xl ring-1 ring-border/40 transition-transform duration-300 group-hover:scale-[1.02]">
+          <Avatar className="h-24 w-24 sm:h-32 sm:w-32 border-4 border-background cursor-pointer ring-1 ring-border">
             <AvatarImage src={user.avatar} alt={user.name} className="object-cover" />
             <AvatarFallback className="text-2xl">{user.name[0]}</AvatarFallback>
           </Avatar>
@@ -199,11 +199,10 @@ export function ProfileHeader({
 
           {user.isOnline && (
             <span
-              className="absolute bottom-1.5 right-1.5 flex h-3.5 w-3.5"
+              className="absolute bottom-1.5 right-1.5 flex h-3 w-3"
               aria-label="Online now"
             >
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
-              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 border-2 border-background" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border-2 border-background" />
             </span>
           )}
 
@@ -217,7 +216,7 @@ export function ProfileHeader({
                 }}
                 disabled={uploadingAvatar}
                 aria-label="Change profile photo"
-                className="absolute -bottom-1 right-0 h-9 w-9 rounded-full bg-primary text-primary-foreground border-2 border-background shadow-lg flex items-center justify-center focus-ring tap"
+                className="absolute -bottom-1 right-0 h-9 w-9 rounded-full bg-foreground text-background border-2 border-background flex items-center justify-center focus-ring tap"
               >
                 {uploadingAvatar ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
               </button>
@@ -233,12 +232,12 @@ export function ProfileHeader({
         </div>
 
         <div className="mt-3 flex items-center gap-1.5 min-w-0">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight truncate">{user.name}</h1>
+          <h1 className="font-display text-[22px] sm:text-[26px] font-semibold tracking-tight truncate">{user.name}</h1>
           {user.isVerified && (
-            <BadgeCheck className="h-5 w-5 text-primary fill-primary/20 shrink-0" aria-label="Verified" />
+            <BadgeCheck className="h-5 w-5 text-foreground/70 shrink-0" aria-label="Verified" />
           )}
         </div>
-        <p className="text-sm text-muted-foreground">@{user.username}</p>
+        <p className="text-[13px] text-muted-foreground">@{user.username}</p>
 
         {/* Trust chip */}
         {user.trustScore > 0 && (
@@ -248,10 +247,10 @@ export function ProfileHeader({
                 <button
                   type="button"
                   aria-label={`Trust score ${user.trustScore} out of 100, ${trustLevel} tier`}
-                  className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-[11px] font-semibold text-primary focus-ring tap"
+                  className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary border border-border text-[11px] font-medium text-foreground/80 focus-ring tap"
                 >
                   <ShieldCheck className="h-3 w-3" />
-                  <span>
+                  <span className="tabular-nums">
                     {trustLevel} · {user.trustScore}
                   </span>
                 </button>
@@ -286,7 +285,7 @@ export function ProfileHeader({
         )}
 
         {(user.location || user.website || user.joinedAt) && (
-          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs text-muted-foreground max-w-md">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[12px] text-muted-foreground max-w-md">
             {user.location && (
               <span className="inline-flex items-center gap-1">
                 <MapPin className="h-3.5 w-3.5" aria-hidden />
@@ -298,7 +297,7 @@ export function ProfileHeader({
                 href={user.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-primary hover:underline truncate max-w-[12rem] focus-ring rounded"
+                className="inline-flex items-center gap-1 text-foreground hover:underline truncate max-w-[12rem] focus-ring rounded"
               >
                 <LinkIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
                 <span className="truncate">{user.website.replace(/^https?:\/\//, "")}</span>

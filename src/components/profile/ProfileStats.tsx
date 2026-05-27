@@ -54,7 +54,7 @@ export function ProfileStats({
   return (
     <div className="px-4 pt-4 space-y-3">
       <div
-        className="grid grid-cols-3 rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md overflow-hidden"
+        className="grid grid-cols-3 rounded-xl border border-border bg-card overflow-hidden"
         role="group"
         aria-label="Profile statistics"
       >
@@ -65,14 +65,14 @@ export function ProfileStats({
             aria-label={s.label}
             className={cn(
               "flex flex-col items-center justify-center py-3 min-h-[60px] text-center transition-colors focus-ring",
-              "hover:bg-secondary/40 active:scale-[0.98]",
-              i !== 0 && "border-l border-border/40",
+              "hover:bg-secondary/60",
+              i !== 0 && "border-l border-border",
             )}
           >
-            <span className="text-lg font-bold tabular-nums text-foreground leading-none">
+            <span className="text-[17px] font-semibold tabular-nums text-foreground leading-none">
               {s.value}
             </span>
-            <span className="mt-1 text-[10px] uppercase tracking-wide text-muted-foreground">
+            <span className="mt-1 text-[10.5px] uppercase tracking-wide text-muted-foreground">
               {s.key}
             </span>
           </button>
@@ -83,32 +83,29 @@ export function ProfileStats({
         type="button"
         onClick={onXpClick || onLevelClick}
         aria-label={`Level ${level}, ${xpInLevel} of 100 XP toward next level`}
-        className="w-full rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md p-3 text-left transition-colors hover:bg-secondary/40 active:scale-[0.99] focus-ring"
+        className="w-full rounded-xl border border-border bg-card p-3 text-left transition-colors hover:bg-secondary/60 focus-ring"
       >
         <div className="flex items-baseline justify-between gap-3">
           <div className="flex items-baseline gap-2 min-w-0">
-            <span className="text-sm font-bold tracking-tight">Lv. {level}</span>
-            <span className="text-[11px] text-muted-foreground tabular-nums truncate">
+            <span className="text-[14px] font-semibold tracking-tight">Lv. {level}</span>
+            <span className="text-[11.5px] text-muted-foreground tabular-nums truncate">
               {formatCount(xp)} XP total
             </span>
           </div>
-          <span className="text-[11px] text-muted-foreground tabular-nums shrink-0">
+          <span className="text-[11.5px] text-muted-foreground tabular-nums shrink-0">
             {xpToNext} to Lv. {level + 1}
           </span>
         </div>
         <div
-          className="mt-2 h-1.5 w-full rounded-full bg-muted/60 overflow-hidden"
+          className="mt-2 h-1 w-full rounded-full bg-muted overflow-hidden"
           role="progressbar"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={progress}
         >
           <div
-            className="h-full rounded-full transition-[width] duration-700 ease-out"
-            style={{
-              width: `${progress}%`,
-              background: "var(--gradient-primary)",
-            }}
+            className="h-full rounded-full bg-foreground transition-[width] duration-700 ease-out"
+            style={{ width: `${progress}%` }}
           />
         </div>
       </button>

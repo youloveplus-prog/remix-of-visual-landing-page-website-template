@@ -49,7 +49,7 @@ export function ProfileActions({
         <div className="flex items-center gap-2">
           <Button
             onClick={onEditProfile}
-            className="flex-1 gradient-primary border-0 shadow-md tap"
+            className="flex-1 tap"
             aria-label="Edit profile"
           >
             <Pencil className="h-4 w-4 mr-2" />
@@ -57,7 +57,7 @@ export function ProfileActions({
           </Button>
           <Button
             asChild
-            variant="secondary"
+            variant="outline"
             size="icon"
             aria-label="Settings"
             className="tap"
@@ -67,7 +67,7 @@ export function ProfileActions({
             </Link>
           </Button>
           <Button
-            variant="secondary"
+            variant="outline"
             size="icon"
             onClick={onShare}
             aria-label="Share profile"
@@ -88,11 +88,8 @@ export function ProfileActions({
           disabled={isFollowLoading}
           aria-pressed={isFollowing}
           aria-label={isFollowing ? "Unfollow" : "Follow"}
-          className={
-            isFollowing
-              ? "flex-[2] bg-secondary hover:bg-secondary/80 text-foreground tap"
-              : "flex-[2] gradient-primary border-0 shadow-md tap"
-          }
+          variant={isFollowing ? "outline" : "default"}
+          className="flex-[2] tap"
         >
           {isFollowLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -109,7 +106,7 @@ export function ProfileActions({
           )}
         </Button>
         <Button
-          variant="secondary"
+          variant="outline"
           className="flex-1 tap"
           onClick={onMessage}
           aria-label="Send message"
@@ -119,21 +116,21 @@ export function ProfileActions({
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" aria-label="More options" className="tap">
+            <Button variant="outline" size="icon" aria-label="More options" className="tap">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="glass-strong">
+          <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={onShare}>
               <Share2 className="h-4 w-4 mr-2" />
               Share Profile
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onReport} className="text-amber-400">
+            <DropdownMenuItem onClick={onReport}>
               <Flag className="h-4 w-4 mr-2" />
               Report User
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={onBlock} className="text-destructive">
+            <DropdownMenuItem onClick={onBlock} className="text-destructive focus:text-destructive">
               <Ban className="h-4 w-4 mr-2" />
               Block User
             </DropdownMenuItem>
