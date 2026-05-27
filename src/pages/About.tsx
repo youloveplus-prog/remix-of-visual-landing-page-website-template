@@ -108,55 +108,81 @@ function CinematicHero() {
 /*  Stats row (clean hairline layout)                                         */
 /* -------------------------------------------------------------------------- */
 const STATS = [
-  { k: "10k+", v: "Active learners" },
-  { k: "500+", v: "Lessons crafted" },
-  { k: "24", v: "Learning tracks" },
-  { k: "1.2M", v: "AI conversations" },
+  { k: "10k+", v: "Active learners", bn: "০" },
+  { k: "500+", v: "Lessons crafted", bn: "১" },
+  { k: "64", v: "Districts reached", bn: "২" },
+  { k: "24", v: "Learning tracks", bn: "৩" },
+  { k: "1.2M", v: "AI conversations", bn: "৪" },
 ];
 
 function GlassStats() {
   return (
     <section className="container-editorial py-8 sm:py-14 lg:py-20">
-      {/* Mobile: glass cards. Desktop: hairline row. */}
+      <div className="mb-5 sm:mb-7 flex items-center justify-center lg:justify-start gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+        <span
+          className="inline-block h-1.5 w-1.5 rounded-full"
+          style={{ background: "var(--gradient-primary)" }}
+        />
+        Numbers from across Bangladesh
+      </div>
+
+      {/* Mobile: 2-up + last full-width glass cards */}
       <div className="grid grid-cols-2 gap-2.5 lg:hidden">
-        {STATS.map((s) => (
+        {STATS.map((s, i) => (
           <div
             key={s.v}
-            className="relative overflow-hidden rounded-2xl p-4 glass-strong border border-white/10"
+            className={cn(
+              "relative overflow-hidden rounded-2xl p-4 glass-strong border border-white/10",
+              i === STATS.length - 1 && STATS.length % 2 === 1 && "col-span-2",
+            )}
           >
             <div
               className="absolute top-0 left-0 right-0 h-px"
               style={{ background: "var(--gradient-hairline)" }}
             />
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -right-2 -bottom-4 text-[4rem] leading-none font-semibold text-foreground/[0.05] select-none"
+              style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali',sans-serif" }}
+            >
+              {s.bn}
+            </span>
             <div
-              className="font-display text-[1.65rem] font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
+              className="relative font-display text-[1.65rem] font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
               style={{ backgroundImage: "var(--gradient-primary)" }}
             >
               {s.k}
             </div>
-            <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="relative mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               {s.v}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="hidden lg:grid lg:grid-cols-4 border-y border-border/50">
+      <div className="hidden lg:grid lg:grid-cols-5 border-y border-border/50">
         {STATS.map((s, i) => (
           <div
             key={s.v}
             className={cn(
-              "py-10 px-6",
+              "relative overflow-hidden py-10 px-6",
               i > 0 && "border-l border-border/50",
             )}
           >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute right-3 bottom-0 text-[6rem] leading-none font-semibold text-foreground/[0.045] select-none"
+              style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali',sans-serif" }}
+            >
+              {s.bn}
+            </span>
             <div
-              className="font-display text-5xl xl:text-6xl font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
+              className="relative font-display text-4xl xl:text-5xl font-semibold tracking-tight tabular-nums bg-clip-text text-transparent"
               style={{ backgroundImage: "var(--gradient-primary)" }}
             >
               {s.k}
             </div>
-            <div className="mt-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+            <div className="relative mt-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
               {s.v}
             </div>
           </div>
@@ -165,6 +191,7 @@ function GlassStats() {
     </section>
   );
 }
+
 
 /* -------------------------------------------------------------------------- */
 /*  Image + text alternating section (asymmetric on desktop)                  */
@@ -475,10 +502,21 @@ function StorySection() {
               className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-3xl opacity-30"
               style={{ background: "var(--gradient-primary)" }}
             />
+
+            {/* Dhaka skyline silhouette */}
+            <svg
+              aria-hidden
+              viewBox="0 0 400 60"
+              className="relative w-full h-10 sm:h-12 mb-4 sm:mb-5 text-foreground/70"
+              fill="currentColor"
+            >
+              <path d="M0 60 L0 40 L18 40 L18 28 L32 28 L32 36 L46 36 L46 22 L58 22 L58 16 L66 16 L66 22 L78 22 L78 32 L94 32 L94 20 L110 20 L110 12 L116 12 L116 6 L122 6 L122 12 L128 12 L128 20 L144 20 L144 30 L158 30 L158 18 L170 18 L170 24 L182 24 L182 14 L194 14 L194 4 L200 4 L200 14 L206 14 L206 24 L220 24 L220 32 L234 32 L234 22 L248 22 L248 28 L262 28 L262 18 L276 18 L276 26 L290 26 L290 14 L302 14 L302 22 L316 22 L316 32 L330 32 L330 24 L344 24 L344 18 L356 18 L356 28 L370 28 L370 38 L384 38 L384 30 L400 30 L400 60 Z" />
+            </svg>
+
             <div className="relative grid grid-cols-3 gap-4 sm:gap-5 lg:block lg:space-y-0">
               <MetaRow label="Founded" value="2024" />
               <div className="hidden lg:block my-5 h-px" style={{ background: "var(--gradient-hairline)" }} />
-              <MetaRow label="Based in" value="Dhaka, BD" />
+              <MetaRow label="Based in" value="Dhaka, BD" bnSubtitle="ঢাকা" />
               <div className="hidden lg:block my-5 h-px" style={{ background: "var(--gradient-hairline)" }} />
               <MetaRow label="Built for" value="Every learner." />
             </div>
@@ -493,18 +531,27 @@ function StorySection() {
   );
 }
 
-function MetaRow({ label, value }: { label: string; value: string }) {
+function MetaRow({ label, value, bnSubtitle }: { label: string; value: string; bnSubtitle?: string }) {
   return (
     <div>
       <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         {label}
       </p>
+      {bnSubtitle && (
+        <p
+          className="text-[11px] sm:text-xs text-primary/70 mt-0.5 leading-none"
+          style={{ fontFamily: "'Hind Siliguri','Noto Sans Bengali',sans-serif" }}
+        >
+          {bnSubtitle}
+        </p>
+      )}
       <p className="font-display text-lg sm:text-2xl lg:text-3xl font-semibold mt-1 leading-tight">
         {value}
       </p>
     </div>
   );
 }
+
 
 /* -------------------------------------------------------------------------- */
 /*  Final CTA                                                                 */
