@@ -304,12 +304,12 @@ export function EndlessShowcase() {
         className="overflow-hidden pl-[max(1rem,calc((100vw-72rem)/2))]"
         ref={emblaRef}
       >
-        <div className="flex gap-2.5 sm:gap-4 pr-4">
+      <div className="flex gap-3 sm:gap-4 pr-4">
           {SHOWCASE.map((s) => (
             <Link
               to={s.to}
               key={s.title}
-              className="group relative shrink-0 basis-[62%] sm:basis-[42%] lg:basis-[22%] aspect-[4/5] sm:aspect-[3/4] rounded-2xl sm:rounded-[1.75rem] overflow-hidden border border-white/10"
+              className="group relative shrink-0 basis-[46%] sm:basis-[36%] lg:basis-[22%] aspect-[3/4] sm:aspect-[3/4] rounded-xl sm:rounded-[1.75rem] overflow-hidden border border-white/10"
             >
               <img
                 src={s.image}
@@ -329,13 +329,13 @@ export function EndlessShowcase() {
               />
               <div
                 className={cn(
-                  "absolute inset-0 flex flex-col p-4 sm:p-6",
+                  "absolute inset-0 flex flex-col p-3 sm:p-6",
                   s.tone === "dark" ? "text-white" : "text-neutral-900",
                 )}
               >
                 <p
                   className={cn(
-                    "text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium",
+                    "text-[9px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] font-medium",
                     s.tone === "dark" ? "text-white/75" : "text-neutral-700",
                   )}
                 >
@@ -343,27 +343,26 @@ export function EndlessShowcase() {
                 </p>
                 <div className="mt-auto">
                   <h3
-                    className="font-display font-semibold tracking-[-0.02em] leading-[1.08] whitespace-pre-line"
-                    style={{ fontSize: "clamp(1.05rem, 1.8vw, 1.6rem)" }}
+                    className="font-display font-semibold tracking-[-0.02em] leading-[1.08] whitespace-pre-line text-[13px] sm:text-[1.05rem] lg:text-[1.6rem]"
                   >
                     {s.title}
                   </h3>
-                  <div className="mt-3 sm:mt-4">
+                  <div className="mt-2 sm:mt-4">
                     <span
                       className={cn(
-                        "inline-flex items-center gap-1.5 rounded-full px-3 h-7 sm:px-3.5 sm:h-8 text-[12px] sm:text-[12.5px] font-medium backdrop-blur-xl",
+                        "inline-flex items-center gap-1 rounded-full px-2.5 h-6 sm:px-3.5 sm:h-8 text-[11px] sm:text-[12.5px] font-medium backdrop-blur-xl",
                         s.tone === "dark"
                           ? "bg-white text-neutral-900"
                           : "bg-neutral-900 text-white",
                       )}
                     >
                       {s.cta}
-                      <ArrowRight className="h-3 w-3" />
+                      <ArrowRight className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl sm:rounded-[1.75rem] pointer-events-none" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-xl sm:rounded-[1.75rem] pointer-events-none" />
             </Link>
           ))}
         </div>
