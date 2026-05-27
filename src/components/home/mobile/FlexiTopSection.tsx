@@ -18,7 +18,7 @@ type Tile = {
 const pillActions: Tile[] = [
   { icon: ShoppingBag, label: "Shop", href: "/shop" },
   { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
-  { icon: Sparkles, label: "AI Tutor", href: "/ai-tutor" },
+  { icon: Sparkles, label: "AI tuor", href: "/ai-tutor" },
   { icon: Tag, label: "Deals", href: "/shop?filter=deals" },
 ];
 
@@ -96,7 +96,7 @@ export function FlexiTopSection() {
             </div>
             <div className="min-w-0">
               <p className="font-display font-bold text-sm text-foreground leading-tight">24/7</p>
-              <p className="text-[10px] text-muted-foreground leading-tight">AI Tutor</p>
+              <p className="text-[10px] text-muted-foreground leading-tight">AI tuor</p>
             </div>
           </div>
         </div>

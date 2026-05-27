@@ -380,7 +380,7 @@ const Auth = () => {
             <ul className="grid grid-cols-2 gap-x-6 gap-y-4">
               {[
                 { icon: GraduationCap, title: "Expert courses", sub: "200+ lessons" },
-                { icon: Sparkles, title: "AI Tutor", sub: "Bangla + English" },
+                { icon: Sparkles, title: "AI tuor", sub: "Bangla + English" },
                 { icon: BookOpen, title: "Prompt library", sub: "1,000+ prompts" },
                 { icon: ShieldCheck, title: "Lifetime access", sub: "Yours forever" },
               ].map((f) => (
@@ -397,7 +397,7 @@ const Auth = () => {
             {/* Testimonial — quiet card */}
             <figure className="rounded-2xl border border-border bg-card p-5">
               <blockquote className="text-[14px] text-foreground/90 leading-relaxed">
-                "The AI tutor answered my doubts at 2 a.m. before exams. Asikon
+                "The AI tuor answered my doubts at 2 a.m. before exams. Asikon
                 doesn't just teach — it learns with you."
               </blockquote>
               <figcaption className="flex items-center gap-3 mt-4">

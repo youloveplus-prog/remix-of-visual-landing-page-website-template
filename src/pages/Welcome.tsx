@@ -45,7 +45,7 @@ const features = [
     icon: GraduationCap,
   },
   {
-    title: "24/7 AI Tutor",
+    title: "24/7 AI tuor",
     desc: "Ask questions any time in Bangla or English and get patient, step-by-step answers.",
     icon: Bot,
   },
@@ -170,7 +170,7 @@ export default function Welcome() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-14 pb-20 lg:pt-20 lg:pb-28">
           <Reveal className="text-center max-w-3xl mx-auto">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> New: Bangla AI Tutor 2.0
+              <Sparkles className="h-3.5 w-3.5" /> New: Bangla AI tuor 2.0
             </span>
             <h1 className="mt-5 font-display font-bold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
               Learn AI the smart way.
@@ -180,7 +180,7 @@ export default function Welcome() {
               </span>
             </h1>
             <p className="mt-5 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-              Expert-led courses, a 24/7 AI tutor in Bangla & English, curated books, and 1-on-1
+              Expert-led courses, a 24/7 AI tuor in Bangla & English, curated books, and 1-on-1
               mentorship — all in one trusted platform.
             </p>
             <div className="mt-7 flex items-center justify-center gap-3">
