@@ -58,12 +58,15 @@ export function MobilePage({
 }: MobilePageProps) {
   const isContainer = maxWidth === "full" || maxWidth === "wide";
   const widthClass = isContainer ? "container-editorial" : `mx-auto w-full ${maxWidthMap[maxWidth]}`;
+  // `container-editorial` already includes px-4 sm:px-6 lg:px-8.
+  // For max-w-* widths we need to add the gutters ourselves.
+  const paddingClass = padded && !isContainer ? "px-4 sm:px-6 lg:px-8" : undefined;
   return (
     <div className="page-enter page-enter-active">
       {bleed}
       {sticky && (
         <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md hairline-bottom">
-          <div className={cn(widthClass, padded && "px-4 sm:px-6 lg:px-8")}>
+          <div className={cn(widthClass, paddingClass)}>
             {sticky}
           </div>
         </div>
@@ -71,7 +74,7 @@ export function MobilePage({
       <div
         className={cn(
           widthClass,
-          padded && "px-4 sm:px-6 lg:px-8",
+          paddingClass,
           sticky ? "pt-2" : "pt-2 lg:pt-6",
           "pb-6 min-w-0 overflow-x-clip",
           spacing,
