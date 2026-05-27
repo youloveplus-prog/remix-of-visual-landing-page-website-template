@@ -1,23 +1,38 @@
-## Re-skin `FlexiTopSection` to ASIKON midnight bento
+# Modernize Quick Categories Bento
 
-The section uses arbitrary rainbow gradients (blue/emerald/teal/violet/rose) that fight the Midnight Indigo + `midnight-tile` language used everywhere else on home. Replace with the project's existing tokens.
+Refresh the 4-tile bento section on Home (`src/pages/Index.tsx`, `quick_categories` renderer, lines ~183-267) — Courses hero, Books, Prompts, Trending wide — with a more modern, tactile, clearly-clickable look using the existing dark-red brand gradient.
 
-### Changes (single file: `src/components/home/mobile/FlexiTopSection.tsx`)
+## Visual changes
 
-1. **Pill tiles** — drop per-tile multicolor gradients. Use one consistent treatment:
-   - `midnight-tile` square (rounded-2xl, 56–60px), subtle inner gradient `from-primary/15 to-primary/5`, 1px `border-primary/20`, primary-tinted icon.
-   - Hover/active: lift -2px, primary glow shadow, icon scales 1.08.
-   - Labels: `text-foreground/85`, same weight across all four.
+**Courses hero (large 2x2 tile)**
+- Replace flat `midnight-tile` with a layered gradient surface: brand gradient base + soft inner highlight + animated conic shine on hover.
+- Larger icon badge (44px) with primary-foreground glyph on solid primary, double-ring glow.
+- Add a small "Start learning →" pill chip in the bottom-right corner as an explicit CTA affordance.
+- Stats row (120+ Lessons / 24/7 AI tuor) gets vertical divider + tabular-nums for crisper numerics.
 
-2. **Split CTA card** — keep the gradient-primary left panel (this IS the brand accent), but:
-   - Right stat panel: replace blue/emerald icon chips with neutral `bg-primary/10 text-primary` chips so it reads as one ASIKON card, not a stitched-together collage.
-   - Add `midnight-shine` to the whole card (already on outer); remove `float-y` blob, replace with a soft static `midnight-glow`-style radial.
-   - Tighten copy: "Start learning today" → keep; subline keep.
+**Books & Prompts (small tiles)**
+- Two-tone gradient cards (one cool-tinted, one warm-tinted) using primary at different opacities so the row reads as a palette, not two identical chips.
+- Icon moves to a filled rounded square (not faint outline), with a tiny arrow indicator that slides on hover.
+- Replace static "Read" / "Live" labels with status dots + label kept in the eyebrow style established last turn.
 
-3. **Eyebrow + heading** — already aligned with GreetingStrip; keep as-is.
+**Trending wide tile**
+- Convert into a true CTA row: animated gradient underline, chevron that translates on hover, subtle marquee shimmer behind the icon.
+- Add an active-state press (`active:scale-[0.98]`) so tap feels physical on mobile.
 
-4. **Spacing** — `space-y-3` stays. Pills grid `gap-3` for breathing room matching `QuickAccessGrid`.
+**Shared polish**
+- All tiles get: `transition-all duration-300`, `hover:-translate-y-0.5`, `hover:shadow-[0_18px_40px_-18px_hsl(var(--primary)/0.55)]`, `active:scale-[0.98]`, visible focus ring.
+- Consistent 16px (`rounded-2xl`) radii, 1px border that brightens to `border-primary/40` on hover.
+- Stagger entry with `animate-fade-in` + per-tile delay (60ms).
 
-### Out of scope
-- No new components, no token edits, no other files.
-- Don't touch `QuickAccessGrid` / `GreetingStrip`.
+## Technical notes
+
+- All edits scoped to the `quick_categories` renderer inside `src/pages/Index.tsx`. No new files, no token changes — uses existing `--primary`, `--gradient-primary`, `midnight-tile`, `midnight-shine`, `midnight-glow` utilities.
+- Keep existing `Link` `to` targets, icons, and the `Eyebrow` helper untouched.
+- No data/business-logic changes; presentation only.
+- Respects the section-header restyle from the previous turn (small uppercase tracked muted labels).
+
+## Out of scope
+
+- Other home sections (hero, trending carousel, community, etc.).
+- New routes or content.
+- Color token edits in `index.css`.
