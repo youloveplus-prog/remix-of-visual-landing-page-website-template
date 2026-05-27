@@ -192,7 +192,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
           <Reveal delay={0} variant="scale" className="col-span-2 row-span-2">
             <Link
               to={courses.href}
-              className="midnight-tile midnight-glow pressable focus-ring relative flex flex-col justify-between p-5 h-full min-h-[12rem] overflow-hidden"
+              className="midnight-tile midnight-glow midnight-shine pressable focus-ring relative flex flex-col justify-between p-5 h-full min-h-[12rem] overflow-hidden"
             >
               <div className="flex items-start justify-between relative z-10">
                 <Eyebrow>ASIKON</Eyebrow>
