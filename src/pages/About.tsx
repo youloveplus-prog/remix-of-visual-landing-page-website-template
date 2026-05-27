@@ -132,33 +132,38 @@ function ImageTextRow({
   alt: string;
   reverse?: boolean;
 }) {
+  const Media = (
+    <div className="relative aspect-[4/5] sm:aspect-[5/4] rounded-[2rem] overflow-hidden border border-white/10 group">
+      <img
+        src={image}
+        alt={alt}
+        loading="lazy"
+        width={1536}
+        height={1280}
+        className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-transparent" />
+      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[2rem] pointer-events-none" />
+    </div>
+  );
+
+  const Copy = (
+    <div>
+      <p className="eyebrow-bar mb-3">{eyebrow}</p>
+      <h2 className="display-2 mb-5">{title}</h2>
+      <p className="body-lg text-muted-foreground">{body}</p>
+    </div>
+  );
+
   return (
     <section className="container-editorial py-14 sm:py-20">
-      <div className={cn(
-        "grid gap-8 lg:gap-14 items-center lg:grid-cols-2",
-        reverse && "lg:[&>*:first-child]:order-2",
-      )}>
-        <div className="relative aspect-[4/5] sm:aspect-[5/4] rounded-[2rem] overflow-hidden border border-white/10 group">
-          <img
-            src={image}
-            alt={alt}
-            loading="lazy"
-            width={1536}
-            height={1280}
-            className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-transparent" />
-          <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[2rem] pointer-events-none" />
-        </div>
-        <div>
-          <p className="eyebrow-bar mb-3">{eyebrow}</p>
-          <h2 className="display-2 mb-5">{title}</h2>
-          <p className="body-lg text-muted-foreground">{body}</p>
-        </div>
+      <div className="grid gap-8 lg:gap-14 items-center lg:grid-cols-2">
+        {reverse ? <>{Copy}{Media}</> : <>{Media}{Copy}</>}
       </div>
     </section>
   );
 }
+
 
 /* -------------------------------------------------------------------------- */
 /*  Principles — embla carousel                                               */
