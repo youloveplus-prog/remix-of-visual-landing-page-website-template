@@ -349,10 +349,8 @@ export function EndlessShowcase() {
                   <div className="mt-2 sm:mt-4">
                     <span
                       className={cn(
-                        "inline-flex items-center gap-1 rounded-full px-2.5 h-6 sm:px-3.5 sm:h-8 text-[11px] sm:text-[12.5px] font-medium backdrop-blur-xl",
-                        s.tone === "dark"
-                          ? "bg-white text-neutral-900"
-                          : "bg-neutral-900 text-white",
+                        "inline-flex items-center gap-1 rounded-full px-2.5 h-6 sm:px-3.5 sm:h-8 text-[11px] sm:text-[12.5px] font-medium liquid-glass-pill",
+                        s.tone === "dark" ? "text-white" : "text-neutral-900",
                       )}
                     >
                       {s.cta}
