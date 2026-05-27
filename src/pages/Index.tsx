@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight, Play, CalendarDays, BarChart3 } from "lucide-react";
+import { Gift, Flame, Sparkles, GraduationCap, BookOpen, ArrowUpRight, Play, CalendarDays, BarChart3, ShoppingBag, Trophy, Users, MessageCircle, Wand2, Library, Bookmark, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 import { lazy, Suspense, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -111,26 +111,36 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
     const chips = [
       { icon: Play, label: "Continue", href: "/learn" },
       { icon: Sparkles, label: "AI Tutor", href: "/learn" },
+      { icon: Wand2, label: "Prompts", href: "/prompts" },
       { icon: CalendarDays, label: "Planner", href: "/learn" },
       { icon: BarChart3, label: "Progress", href: "/learn" },
+      { icon: Library, label: "Library", href: "/library" },
+      { icon: ShoppingBag, label: "Shop", href: "/shop" },
+      { icon: Users, label: "Mentors", href: "/mentors" },
+      { icon: MessageCircle, label: "Community", href: "/community" },
+      { icon: Trophy, label: "Leaderboard", href: "/leaderboard" },
+      { icon: Bookmark, label: "Wishlist", href: "/wishlist" },
+      { icon: Bell, label: "Notifications", href: "/notifications" },
     ];
     return (
       <Reveal as="section" className="section-x space-y-4">
-        {/* Horizontal chip row */}
-        <div className="flex gap-2.5 overflow-x-auto hide-scrollbar -mx-4 px-4 pb-1">
-          {chips.map((c) => {
-            const Icon = c.icon;
-            return (
-              <Link
-                key={c.label}
-                to={c.href}
-                className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-secondary/40 border border-border hover:border-primary/40 transition-colors pressable focus-ring"
-              >
-                <Icon className="h-4 w-4 text-primary" />
-                <span className="text-xs font-medium whitespace-nowrap text-foreground">{c.label}</span>
-              </Link>
-            );
-          })}
+        {/* Horizontal chip row — centered when it fits, scrollable on overflow */}
+        <div className="-mx-4 overflow-x-auto hide-scrollbar pb-1">
+          <div className="flex justify-start lg:justify-center gap-2.5 px-4 w-max min-w-full snap-x snap-mandatory scroll-px-4">
+            {chips.map((c) => {
+              const Icon = c.icon;
+              return (
+                <Link
+                  key={c.label}
+                  to={c.href}
+                  className="snap-start shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-secondary/40 border border-border hover:border-primary/40 hover:bg-secondary/70 transition-colors pressable focus-ring"
+                >
+                  <Icon className="h-4 w-4 text-primary" />
+                  <span className="text-xs font-medium whitespace-nowrap text-foreground">{c.label}</span>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* 2-col bento: AI Tutor + Streak */}
