@@ -1,54 +1,51 @@
 import { Link } from "react-router-dom";
-import { GraduationCap, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import tutorImage from "@/assets/home-tutor.jpg";
 
 export function MentorshipHomeSection() {
   return (
     <section className="section-x">
-      <div
-        className="relative overflow-hidden rounded-3xl border border-primary/30 px-5 py-5 lg:px-8 lg:py-6"
-        style={{ background: "var(--gradient-primary)" }}
-      >
-        {/* Ambient glow accents (subtle) */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-20 -right-16 h-56 w-56 rounded-full opacity-30 blur-3xl"
-          style={{ background: "radial-gradient(circle, hsl(0 0% 100% / 0.35), transparent 70%)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full opacity-20 blur-3xl"
-          style={{ background: "radial-gradient(circle, hsl(0 0% 100% / 0.25), transparent 70%)" }}
+      <div className="relative overflow-hidden rounded-3xl border border-primary/30 aspect-[16/10] sm:aspect-[16/8] lg:aspect-[16/6]">
+        {/* Background image */}
+        <img
+          src={tutorImage}
+          alt="A friendly home tutor helping a child study at home"
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover object-right"
         />
 
-        <div className="relative flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
-          {/* Icon chip */}
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center shrink-0 border border-white/20">
-              <GraduationCap className="h-6 w-6 lg:h-7 lg:w-7 text-primary-foreground" />
-            </div>
-            <span className="lg:hidden inline-flex items-center rounded-full bg-white/15 backdrop-blur-sm text-primary-foreground text-[10px] font-semibold uppercase tracking-[0.18em] px-2.5 py-1 border border-white/20">
-              For parents
-            </span>
-          </div>
+        {/* Brand gradient overlay — strong on left, fades to right */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.92) 38%, hsl(var(--primary) / 0.55) 60%, transparent 85%)",
+          }}
+        />
 
-          {/* Copy */}
-          <div className="flex-1 min-w-0">
-            <span className="hidden lg:inline-flex items-center rounded-full bg-white/15 backdrop-blur-sm text-primary-foreground text-[10px] font-semibold uppercase tracking-[0.18em] px-2.5 py-1 border border-white/20 mb-2">
-              For parents
-            </span>
-            <h2 className="font-display font-bold text-lg lg:text-2xl leading-tight tracking-tight text-primary-foreground">
-              Find a trusted home tutor for your child.
-            </h2>
-            <p className="text-sm lg:text-[15px] text-primary-foreground/85 mt-1.5 leading-relaxed max-w-2xl">
-              Book a free demo class today, meet a background-checked teacher, and only continue if it feels right for your family.
-            </p>
-          </div>
+        {/* Content */}
+        <div className="relative h-full flex flex-col justify-center p-5 sm:p-7 lg:p-10 max-w-[68%] sm:max-w-[60%] lg:max-w-[55%]">
+          <span className="inline-flex w-fit items-center rounded-full bg-white/15 backdrop-blur-sm text-primary-foreground text-[10px] font-semibold uppercase tracking-[0.18em] px-2.5 py-1 border border-white/25 mb-3">
+            For parents
+          </span>
 
-          {/* CTA */}
-          <div className="lg:shrink-0">
-            <Button asChild variant="secondary" size="lg" className="w-full lg:w-auto shadow-lg">
-              <Link to="/mentors" className="inline-flex items-center justify-center gap-1.5">
+          <h2 className="font-display font-bold text-primary-foreground leading-[1.1] tracking-tight text-[22px] sm:text-3xl lg:text-[40px]">
+            Find a trusted home tutor for your child.
+          </h2>
+
+          <p className="hidden sm:block text-primary-foreground/85 mt-3 leading-relaxed text-sm lg:text-base max-w-md">
+            Book a free demo class, meet a background-checked teacher, and only continue if it feels right for your family.
+          </p>
+
+          <p className="text-primary-foreground/85 text-[12.5px] mt-2 sm:hidden">
+            Book a free demo class with a verified teacher.
+          </p>
+
+          <div className="mt-4 lg:mt-6">
+            <Button asChild variant="secondary" size="lg" className="shadow-lg">
+              <Link to="/mentors" className="inline-flex items-center gap-1.5">
                 Book a free demo
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
