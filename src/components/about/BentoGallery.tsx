@@ -118,10 +118,10 @@ function TileCard({ t }: { t: Tile }) {
     <Link
       to={t.to}
       className={cn(
-        "group relative block overflow-hidden rounded-2xl sm:rounded-[2rem] border border-white/10",
-        "aspect-[4/3] sm:aspect-[5/4]",
+        "group relative block overflow-hidden rounded-xl sm:rounded-[2rem] border border-white/10",
+        "col-span-1 aspect-square sm:aspect-[5/4]",
         t.rows === 2 && "lg:row-span-2 lg:aspect-auto lg:min-h-[640px]",
-        mobileColMap[t.spanMobile ?? 2],
+        "sm:" + mobileColMap[t.spanMobile ?? 2],
         desktopColMap[t.spanDesktop ?? 6],
       )}
     >
