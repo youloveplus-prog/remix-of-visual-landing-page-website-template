@@ -1,94 +1,136 @@
 
-# Profile Page — UI/UX Improvement Plan
+# ASIKON — Apple-Quality Platform-Wide UI/UX Redesign
 
-Goal: turn the Profile page into a focused, premium identity surface — clearer hierarchy, fewer competing blocks above the fold, more tactile interactions, better empty/loading states, and full a11y.
+A staged plan to elevate the entire app to a calm, premium, Apple-grade learning platform — without breaking functionality, structure, or existing routes.
 
-## Current issues (observed)
+## Strategic framing
 
-1. **Header is busy** — cover + avatar with trust-ring + online dot + verify badge + bio + 3 meta chips compete; nothing leads the eye.
-2. **Stats row** uses a flat 5-cell grid with cramped labels ("XP", "Lv.") and no visual weight on the most important metrics (followers / level progress).
-3. **Action row** stacks an `Edit` button + a single icon for own profile; for others, three equal-weight buttons dilute the primary "Follow" CTA.
-4. **Tabs** are horizontally scrollable with a "More" popover — discoverability of Library/Orders/Wishlist is poor; tabs sit *below* stats+actions so users scroll a lot before reaching content.
-5. **Empty states** in tabs are inconsistent (some show plain text, none use the new shared `EmptyState`).
-6. **Mobile bleed header** has no back/share affordance when viewed from another user's link.
-7. **A11y**: tablist is built with buttons but lacks `role="tablist"`; the avatar uploader button is below the avatar without contrast on light covers; trust ring has no text equivalent.
-8. **Skeleton** doesn't match the new layout, causing layout shift on first paint.
+You've defined a **brand pivot**:
 
-## What changes
+- Indigo `#2836D9` primary + mint `#00C896` accent (current code already uses indigo near `#2A41E0`; the dark-red memory note is stale and will be retired).
+- **Light-first** Apple aesthetic (`#F7F8FC` bg / `#FFFFFF` cards / `#0F172A` text). Current app defaults to dark mode — we'll flip the default and keep dark as a polished alternate.
+- Bangla-ready typography: **Hind Siliguri** + **Noto Sans Bengali** for Bangla, **Inter** for English UI, **JetBrains Mono** for code.
 
-### 1. ProfileHeader — quieter, more confident
-- Reduce cover height on mobile (h-32) so identity sits higher.
-- Move trust score from an SVG ring around the avatar into a small **pill chip** under the name (`Trusted · 92`), with tooltip explaining the score. Frees the avatar to be a simple bordered photo.
-- Consolidate verified badge + online dot into the name row only.
-- Bio: cap at 3 lines with a `Show more` toggle (instead of unlimited).
-- Meta row (location/website/joined) → single subtle line, no icons doubling.
-- Add a discrete back button (mobile, only when viewing someone else) and a share icon to the cover top-right corner.
+This is a 6-phase plan. Phases are independently shippable so the app stays usable throughout.
 
-### 2. ProfileStats — hierarchy + progress
-- Drop from 5 cells to **3 primary cells**: Posts, Followers, Following. Each shows the number large, label small. Followers/Following remain tappable to open sheet.
-- Add a **separate XP / level card** below stats with a thin gradient progress bar to the next level, "Lv. X · 240/300 XP". Tapping jumps to Learning tab.
-- Larger tap target (min 44px), tabular-nums, k/M formatter already present.
+---
 
-### 3. ProfileActions — clear primary CTA
-- Own profile: full-width `Edit Profile` (primary) + secondary icon row (Share, Settings shortcut).
-- Other profile: `Follow` (primary, gradient) takes 2/3 width, `Message` outline 1/3, overflow menu icon for share/report/block. When already following → button flips to outline `Following` and shows a `Message` icon-button beside it.
-- Add subtle haptic-style `tap` scale + loading state on follow/unfollow.
+## Phase 0 — Tokens, fonts, theme reset (foundation)
 
-### 4. ProfileTabs — sticky, simpler
-- Keep current sticky behaviour. Reorder for own profile: `Posts · Media · Reviews · Learning · Library · Orders · Wishlist` — kill the "More" popover; instead use a horizontal scroll with a fade-edge indicator (chevron arrows on desktop). Other profiles see only the public 4 tabs.
-- Add `role="tablist"` / `role="tab"` / `aria-controls` / `aria-selected` correctly; arrow-key navigation between tabs.
-- Active indicator stays the underline; add a subtle background tint on hover.
+The cornerstone. Everything downstream inherits from this.
 
-### 5. Tab content — consistent empty + skeleton states
-- All tabs use the new shared `<EmptyState>` primitive with a friendly icon, one-liner, and a primary CTA:
-  - Posts → "Share your first post" → `/create`
-  - Media → "No photos or videos yet"
-  - Reviews → "No reviews yet" → `/shop`
-  - Library → "Your library is empty" → `/learn`
-  - Orders → "No orders yet" → `/shop`
-  - Wishlist → "Save items you love" → `/shop`
-- Each tab also gets a lightweight skeleton (3 card placeholders) instead of a generic spinner.
+- Rewrite `src/index.css` `:root` and `.dark` with the new token set:
+  - `--background 220 33% 98%` (#F7F8FC), `--card 0 0% 100%`, `--foreground 222 47% 11%` (#0F172A), `--muted-foreground 215 16% 47%` (#64748B).
+  - `--primary 233 70% 50%` (#2836D9), `--accent 162 100% 39%` (#00C896).
+  - Soften `--radius` to `12px` (Apple-like, not the current `0.875rem`).
+  - Replace 7-tier shadow stack with 3 calm tiers: `--shadow-soft`, `--shadow-card`, `--shadow-overlay` — all low-opacity, large-blur, downward.
+  - Remove `--gradient-aurora` and overuse of brand gradients; keep one restrained `--gradient-primary` for hero accents only.
+  - Tone down `.glass` blur from 32–48px to 18–24px; reduce border opacity; remove the rainbow inner sheen.
+- Add self-hosted Bangla fonts via `@fontsource/hind-siliguri` and `@fontsource/noto-sans-bengali` in `main.tsx`.
+- Tailwind `fontFamily`: `sans: ['Inter', 'Hind Siliguri', ...]`, `bangla: ['Hind Siliguri', 'Noto Sans Bengali', ...]`, `display: ['Inter', ...]` (retire Space Grotesk for body — keep for one or two hero moments).
+- Set `:lang(bn)` to use the Bangla stack automatically.
+- Flip `App.tsx` default theme from `dark` to `light` (keep system + manual toggle).
+- Apple-style type scale via Tailwind `theme.extend.fontSize`: `display-xl 56/60`, `display 40/44`, `h1 32/36`, `h2 24/28`, `h3 20/24`, `body 16/24`, `caption 13/18` — letter-spacing tuned per size.
+- Standardize spacing rhythm: section vertical padding `py-16 sm:py-24 lg:py-32`, container max-width `1200px`, gutter `24px` mobile / `48px` desktop.
 
-### 6. Side rail (desktop) — calmer
-- Trust card + Badges + Activity feed: collapse into a single `Sticky Side Card` with three sections separated by hairlines. Reduces visual noise.
+Out: hard-coded `text-amber-400`, `stroke-emerald-400`, ad-hoc `text-white`/`bg-black` get a project-wide audit pass and replaced with semantic tokens.
 
-### 7. ProfileSkeleton — match new layout
-- Update to mirror: short cover, centered avatar, 3 stat cells, XP bar, 2-button action row, tab strip, 3 content placeholders. Removes the layout shift on first paint.
+---
 
-### 8. Micro-interactions
-- Cover/avatar upload: show inline progress overlay on the image itself instead of a spinner in the button label.
-- Avatar click → open lightbox (already exists), add swipe-down to dismiss on mobile.
-- Follower count number animates on +1 via `tabular-nums` + a quick scale-pulse using existing `animate-scale-in`.
+## Phase 1 — Core primitives
 
-### 9. Accessibility
-- Tab strip wired with proper ARIA roles + keyboard navigation (← → Home End).
-- Trust score has a visually-hidden `<span>` describing it (`Trust score 92 out of 100`).
-- Cover-edit and avatar-edit buttons have visible focus ring (`.focus-ring`).
-- All icon-only buttons keep `aria-label` (most already do — audit pass).
-- Use `text-foreground` / `text-muted-foreground` only; remove `text-amber-400` / `stroke-emerald-400` hard-coded colors in favour of `text-warning` / `text-success` tokens (add tokens if missing).
+Lift every component the rest of the app depends on.
 
-## Files touched
+- **Button** (`src/components/ui/button.tsx`): three calm variants — `default` (filled indigo), `secondary` (white card + 1px border), `ghost` (text-only with subtle hover bg). Sizes `sm 36`, `md 44`, `lg 52` — all thumb-friendly. Remove gradient default; keep `gradient-primary` as an opt-in `cta` variant for the one primary CTA per screen.
+- **Card**: `bg-card`, 1px `border-border/60`, `shadow-soft`, `rounded-2xl`, 24px padding. No glass by default — glass becomes an explicit `<GlassPanel>` used only for floating chrome (nav, sheets).
+- **Input / Textarea**: 1px border, 12px radius, 44px min-height, focus ring uses `--ring` with 2px offset. Inline error pattern with helper text below.
+- **Section header** (existing): retune to match new type scale — eyebrow caption, large display title, optional one-line subtitle.
+- **EmptyState** (existing): keep API, swap visuals to flat illustration tile + calm CTA.
+- **Skeleton**: shimmer slowed to 2s, opacity reduced (no flicker).
+- **Tabs / NavigationMenu / Dropdown / Sheet / Dialog**: audit visuals; align radii, shadows, spacing.
 
-- `src/components/profile/ProfileHeader.tsx` — quieter layout, trust chip, share button, mobile back.
-- `src/components/profile/ProfileStats.tsx` — 3 cells + XP bar split.
-- `src/components/profile/ProfileActions.tsx` — restructured CTA hierarchy.
-- `src/components/profile/ProfileTabs.tsx` — drop "More" popover, add ARIA + keyboard nav, fade-edge.
-- `src/components/profile/ProfileSkeleton.tsx` — match new layout.
-- `src/components/profile/tabs/*` — wire shared `EmptyState`, add per-tab skeletons.
-- `src/pages/Profile.tsx` — minor reordering (XP card moves out of stats), pass new props.
+---
 
-## Out of scope
+## Phase 2 — Navigation & shell
 
-- No data-model changes, no new queries.
-- No new routes.
-- Trust score calculation, follow/unfollow logic, messaging — all untouched.
+- **Mobile bottom nav** (`MobileBottomNav`): pure white surface, 1px hairline top border (not glass blur), 5 items max, centered FAB for Create (existing). Active indicator = filled icon + 3px gradient dot under label.
+- **Mobile top header**: shrink to 56px, remove trust strip on scroll, sticky shadow appears only after 8px scroll.
+- **Desktop sidebar**: pivot to the shadcn Sidebar primitive (already in repo); collapsed `w-14` mini variant with icons; grouped `Learn / Shop / Community / Library`; active route gets a subtle indigo left bar + tinted bg (no gradient).
+- **Search**: single global search palette (Cmd+K on desktop, sheet on mobile), 3-tab result strip (existing `useGlobalSearch` keeps working).
+- **Breadcrumbs**: add on `ProductDetail`, `LessonDetail`, `ContentDetail`, all admin pages.
+
+---
+
+## Phase 3 — Home (the new dashboard)
+
+Reframe Home as a **calm learning OS**, one primary focus per scroll-screen.
+
+- **Hero panel** (logged-in): full-bleed white card with oversized greeting ("সুপ্রভাত, Asikur"), one-line motivation, and a single primary CTA: "Continue learning · Python Day 4". Streak + XP move into a small chip row, not headline elements.
+- **Today's mission**: single edge-to-edge card, generous padding, single action.
+- **Continue learning**: 3-up horizontal row, large covers, progress bar under each — no gradient overlays, no glass.
+- **Quick access grid**: 4 calm tiles (Tutor, Shop, Community, Mentors) — flat surfaces, icon + label + one-line description.
+- **Trust strip**: single thin row directly under hero (COD, Verified buyers, Made in BD) — not three competing badges.
+- **Sections below**: alternate white / `#F7F8FC` bands, each with one SectionHeader + content. Drop the "How it works" + "FAQ" walls of text; keep one editorial section.
+- Remove non-essentials (`StreakBadge`, decorative aurora bg, repeated category strips).
+- First-time tour (already wired) — reduce to 3 steps, calmer copy.
+
+Logged-out hero: full-bleed Apple-style headline ("Learn anything. With AI. In Bangla."), one CTA, one secondary link. No carousels.
+
+---
+
+## Phase 4 — Learn (AI tutor + tracks + lessons)
+
+- **AI chat** (`LearnChat`): full-height column, generous side padding, message bubbles use `border` not `glass`. User messages indigo fill; assistant white card. Code blocks get JetBrains Mono + 1px tinted border. Streaming indicator: 3 fading dots. Suggested follow-ups as ghost chips. Copy/regenerate per assistant message.
+- **Track / Course detail**: hero with cover, title, short description, "Start" primary CTA, lesson list below with progress ring per item. No floating cards stacked over images.
+- **Lesson reading view**: 720px max content width, reading progress bar at top, large body type, "Next lesson" sticky footer (single button).
+- **Prompts library**: clean grid of cards, copy-to-clipboard on tap, category filter chips at top.
+
+---
+
+## Phase 5 — Shop, Product, Cart, Checkout
+
+- **Shop list**: white background, calm product cards (square cover, name, price, single trust badge). Remove badge stacks. Filter chips become a single sticky chip row + sheet for advanced filters.
+- **ProductDetail**: split layout on desktop (image gallery left, details right). Mobile: image first, sticky bottom add-to-cart bar with price. Trust block (COD, returns, verified) directly under price. Reviews summary above the fold; full reviews below.
+- **Cart / Checkout**: linear 3-step flow (Cart → Address → Confirm) with progress strip at top, single primary CTA at bottom of each step, sticky order summary on desktop.
+
+---
+
+## Phase 6 — Community, Mentorship, Profile finishing pass
+
+- **Community**: feed cards become quieter (white, soft shadow), media-first, comment/like counts as text not pills.
+- **Mentorship**: mentor cards adopt new Card primitive; CTA "Join waitlist" with social-proof count.
+- **Profile** (already partially redone): apply the new tokens; replace remaining glass surfaces with cards; align type scale.
+- **Settings / Auth / Notifications / Orders**: pure form polish — labels above inputs, generous spacing, single CTA per screen.
+- **Empty / error / loading**: every list-view uses shared `EmptyState`, matching skeletons, branded fallback in `ErrorBoundary`.
+
+---
+
+## Phase 7 — Motion + a11y final pass
+
+- Motion: keep only `fade-in`, `fade-in-up`, `scale-in` (220–280ms `cubic-bezier(0.22,1,0.36,1)`); remove all custom durations >360ms. Hover = 1% scale or shadow lift, never both. Reduced-motion respected (already partly in CSS).
+- A11y: WCAG AA pass on new tokens (verified 4.5:1 on muted text); `axe` audit on Home/Shop/ProductDetail/Learn/Checkout/Profile; fix remaining icon-only buttons; ensure all dialogs/sheets trap focus (Radix does this for free).
+- Performance: lazy-load below-the-fold sections (already in place for Home); preload LCP image; convert top imagery to AVIF/WebP via Supabase image transforms.
+
+---
+
+## What stays untouched
+
+- Routes, URL structure, public component prop APIs.
+- Business logic: auth, payments, coins, mentorship waitlist, AI tutor backend, search RPC.
+- Data model, RLS, edge functions.
+- The product brand statements (Mission & Vision component).
 
 ## Suggested execution order
 
-1. ProfileHeader + ProfileStats + ProfileActions (top-of-page identity block)
-2. ProfileTabs (sticky strip + a11y)
-3. Tab empty/loading states with shared `EmptyState`
-4. ProfileSkeleton refresh
-5. Side rail consolidation (desktop)
+The user approves a phase → I ship that phase → we screenshot-review → next phase.
 
-Approve and I'll start at step 1.
+1. Phase 0 (tokens / fonts / theme) — foundation, ~1 turn.
+2. Phase 1 (primitives) — ~1 turn.
+3. Phase 2 (navigation) — ~1 turn.
+4. Phase 3 (Home) — ~1 turn.
+5. Phase 4 (Learn) — ~1 turn.
+6. Phase 5 (Shop/Product/Checkout) — ~1–2 turns.
+7. Phase 6 (Community/Mentorship/Profile polish) — ~1 turn.
+8. Phase 7 (motion + a11y) — ~1 turn.
+
+Approve the plan and I'll start with **Phase 0**. If you'd rather I run multiple early phases back-to-back without checkpoints, say "Phase 0–2 in one go".
