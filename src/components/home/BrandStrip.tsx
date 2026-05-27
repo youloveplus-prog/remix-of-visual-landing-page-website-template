@@ -1,14 +1,14 @@
 const BRANDS = [
-  { name: "ASIKON", style: "font-display font-extrabold tracking-tight" },
-  { name: "TOZO", style: "font-display font-black tracking-wider" },
-  { name: "HellBabies", style: "italic font-bold tracking-tight" },
-  { name: "cocokind", style: "font-serif font-medium tracking-tight lowercase" },
-  { name: "Oxyfresh", style: "font-serif font-semibold" },
-  { name: "DOT & KEY", style: "font-display font-bold tracking-[0.15em]" },
-  { name: "Skybags", style: "italic font-semibold" },
-  { name: "Bellefit", style: "font-display font-extrabold" },
-  { name: "AMAZING LACE", style: "font-display font-bold tracking-[0.18em]" },
-  { name: "HEIRESS", style: "font-display font-bold tracking-[0.2em]" },
+  { name: "OpenAI", style: "font-display font-extrabold tracking-tight" },
+  { name: "Google", style: "font-display font-black tracking-wider" },
+  { name: "Microsoft", style: "font-display font-bold tracking-tight" },
+  { name: "NVIDIA", style: "font-display font-extrabold tracking-[0.12em]" },
+  { name: "Amazon", style: "font-display font-bold tracking-tight" },
+  { name: "Meta", style: "italic font-semibold tracking-wide" },
+  { name: "Apple", style: "font-display font-light tracking-tight" },
+  { name: "Samsung", style: "font-display font-bold tracking-[0.15em]" },
+  { name: "Adobe", style: "font-display font-extrabold tracking-tight" },
+  { name: "Intel", style: "font-display font-bold tracking-[0.18em]" },
 ];
 
 export function BrandStrip() {
