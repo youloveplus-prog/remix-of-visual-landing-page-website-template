@@ -26,13 +26,13 @@ export function QuickAccessGrid() {
         <Link to="/profile" className="text-xs text-foreground/70 hover:text-foreground font-medium">See all</Link>
       </div>
 
-      {/* Mobile: single-row scroll, category-style chips */}
-      <div className="md:hidden flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1">
+      {/* Mobile: 4-column scrollable grid */}
+      <div className="md:hidden grid grid-cols-4 gap-3 overflow-y-auto no-scrollbar -mx-4 px-4 pb-1">
         {TILES.map(({ icon: Icon, label, href }) => (
           <Link
             key={label}
             to={href}
-            className="shrink-0 flex flex-col items-center gap-1.5 pressable focus-ring"
+            className="flex flex-col items-center gap-1.5 pressable focus-ring"
           >
             <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center">
               <Icon className="h-5 w-5 text-foreground" strokeWidth={2} />
