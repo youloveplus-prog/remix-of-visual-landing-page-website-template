@@ -90,7 +90,7 @@ function CinematicHero() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-full px-6 sm:px-7 h-11 sm:h-12 w-full sm:w-auto glass border-white/15 hover:border-white/25 backdrop-blur-xl"
+                className="rounded-full px-6 sm:px-7 h-11 sm:h-12 w-full sm:w-auto liquid-glass liquid-glass-interactive border-0 text-foreground"
               >
                 <Link to="/learn">
                   <Compass className="mr-1.5 h-4 w-4" /> Explore tracks
