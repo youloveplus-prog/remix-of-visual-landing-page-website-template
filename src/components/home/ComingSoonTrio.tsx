@@ -25,9 +25,9 @@ const ITEMS: Item[] = [
     tone: "dark",
   },
   {
-    chip: "Play for Free",
+    chip: "Learn for Free",
     title: "No purchase\nneccessary!",
-    subtitle: "Play without payment today!",
+    subtitle: "Learn without payment today!",
     href: "/shop",
     art: bookArt,
     tone: "gray",
@@ -59,9 +59,9 @@ const TONES: Record<
     chip: "bg-white text-black",
   },
   lime: {
-    card: "bg-[#c8ff5a] text-[#111]",
-    title: "text-[#0e0e10]",
-    sub: "text-[#2b2b30]",
+    card: "bg-primary text-primary-foreground",
+    title: "text-primary-foreground",
+    sub: "text-primary-foreground/80",
     chip: "bg-white text-black",
   },
 };
@@ -84,7 +84,7 @@ export default function ComingSoonTrio() {
         {/* Decorative floaters */}
         <div className="pointer-events-none absolute inset-0 select-none" aria-hidden>
           <div className="absolute left-[5%] top-[6%] h-4 w-4 rotate-[18deg] rounded-[4px] bg-[#1a1a1a] shadow-md sm:left-[8%] sm:top-[8%] sm:h-7 sm:w-7" />
-          <div className="absolute left-[4%] top-[28%] text-[#b9ec4d] sm:left-[10%] sm:top-[34%]">
+          <div className="absolute left-[4%] top-[28%] text-primary sm:left-[10%] sm:top-[34%]">
             <svg width="28" height="28" viewBox="0 0 64 64" fill="currentColor" className="sm:h-12 sm:w-12">
               <path d="M32 6c5 0 9 4 9 9 0 2-.6 3.8-1.6 5.3C45 19.5 50 24 50 30c0 5-4 9-9 9-2 0-3.8-.6-5.3-1.6.6 4.6 4.6 8.6 9.3 9.6L32 60 19 47c4.7-1 8.7-5 9.3-9.6C26.8 38.4 25 39 23 39c-5 0-9-4-9-9 0-6 5-10.5 10.6-9.7C23.6 18.8 23 17 23 15c0-5 4-9 9-9z" />
             </svg>
@@ -120,7 +120,7 @@ export default function ComingSoonTrio() {
           </h1>
 
           <p className="mt-2 text-[12px] text-[#5b5b62] sm:mt-3 sm:text-[15px]">
-            Play without payment today!
+            Learn without payment today!
           </p>
 
           {/* Stacked layered CTA pill */}
@@ -131,10 +131,10 @@ export default function ComingSoonTrio() {
             <div className="relative rounded-full border border-black/10 bg-white p-0.5 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.25)] sm:p-1">
               <Link
                 to="/courses"
-                className="relative inline-flex items-center gap-1 rounded-full bg-[#c8ff5a] px-3.5 py-1.5 text-[12px] font-extrabold text-[#0e0e10] shadow-[inset_0_-2px_0_rgba(0,0,0,0.08)] transition-transform hover:scale-[1.03] sm:px-6 sm:py-2.5 sm:text-[15px]"
+                className="relative inline-flex items-center gap-1 rounded-full bg-primary px-3.5 py-1.5 text-[12px] font-extrabold text-primary-foreground shadow-[inset_0_-2px_0_rgba(0,0,0,0.15)] transition-transform hover:scale-[1.03] sm:px-6 sm:py-2.5 sm:text-[15px]"
               >
                 <span aria-hidden>✦</span>
-                Play for Free!
+                Learn for Free!
                 <Sparkle className="absolute -right-1 -top-1 h-2.5 w-2.5 opacity-70 sm:h-3 sm:w-3" />
               </Link>
             </div>

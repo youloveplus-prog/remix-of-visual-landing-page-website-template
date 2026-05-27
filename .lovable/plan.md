@@ -1,16 +1,17 @@
-## Goal
-Make the Coming Soon cards noticeably smaller and tighter on mobile while keeping the desktop layout untouched.
+## Changes
 
-## Changes (mobile only, `src/components/home/ComingSoonTrio.tsx`)
+### 1. Recolor green → brand primary
+The current lime/green (`#c8ff5a`) used in the "Free Coins" card and CTA button will be replaced with the project's brand primary color (`hsl(var(--primary))` / `#2836D9` indigo).
 
-1. **Card width** — reduce from `w-[72vw] max-w-[260px]` to `w-[58vw] max-w-[200px]` so 1.7 cards peek per screen.
-2. **Card height & radius** — `min-h-[210px]` → `min-h-[170px]`; `rounded-[18px]` → `rounded-[16px]`; padding `p-3` → `p-2.5`.
-3. **Chip** — smaller text `text-[9px]` → `text-[8px]`, tighter padding, smaller dot.
-4. **Title** — `text-[15px]` → `text-[13px]`, tighter top margin.
-5. **Subtitle** — `text-[11px]` → `text-[10px]`, clamp to 2 lines.
-6. **Illustration area** — container `h-[90px]` → `h-[70px]`; image `h-[120px]` → `h-[95px]`.
-7. **Gap** between cards `gap-2.5` → `gap-2`.
+Affected areas in `src/components/home/ComingSoonTrio.tsx`:
+- `TONES.lime` card background, CTA button background, decorative heart icon
 
-All `sm:` classes (desktop) remain unchanged.
+### 2. Replace "Play" → "Learn"
+All "Play" copy in the hero section will be updated to "Learn" to match the learning-platform brand identity.
+
+Affected text:
+- Chip: "Play for Free" → "Learn for Free"
+- Subtitle: "Play without payment today!" → "Learn without payment today!"
+- CTA button: "Play for Free!" → "Learn for Free!"
 
 No other files touched.
