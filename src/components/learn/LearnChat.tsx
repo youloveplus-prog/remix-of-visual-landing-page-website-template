@@ -425,7 +425,7 @@ export function LearnChat({ threadId }: Props) {
           <div
             className={cn(
               "rounded-2xl border border-border bg-card shadow-sm",
-              "focus-within:border-primary focus-within:shadow-md",
+              "focus-within:border-foreground/40 focus-within:shadow-md",
               "transition-[border-color,box-shadow] duration-200 px-3 pt-2 pb-1.5",
             )}
           >
