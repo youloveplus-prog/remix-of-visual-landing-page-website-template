@@ -44,19 +44,6 @@ function PillTile({ icon: Icon, label, href, grad }: Tile) {
 export function FlexiTopSection() {
   return (
     <section className="section-x space-y-4 pt-2">
-      {/* Search */}
-      <Link
-        to="/shop"
-        className="relative flex items-center gap-3 px-5 h-12 rounded-full bg-card border border-border/60 shadow-[0_4px_18px_-8px_hsl(var(--primary)/0.25)] focus-ring overflow-hidden"
-      >
-        <span className="absolute inset-0 bg-gradient-to-r from-primary/[0.04] to-transparent pointer-events-none" />
-        <Search className="relative h-4 w-4 text-muted-foreground" />
-        <span className="relative flex-1 text-sm text-muted-foreground">Search & learn anywhere</span>
-        <span className="relative text-[10px] font-semibold text-muted-foreground bg-muted/60 border border-border/60 rounded-md px-1.5 py-0.5">
-          ⌘K
-        </span>
-      </Link>
-
       {/* Combined CTA + stats split card */}
       <div className="rounded-3xl overflow-hidden border border-border/60 shadow-[0_10px_30px_-12px_hsl(var(--primary)/0.45)] grid grid-cols-5">
         <Link
