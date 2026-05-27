@@ -132,8 +132,35 @@ const ProductDetail = () => {
   const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
   const isBook = /book|hardcover|edition/i.test(name);
 
+  const canonical = `https://asikonpro.lovable.app/product/${slug}`;
+  const productDesc = (product.description || `Buy ${name} on Asikon.`).slice(0, 155);
+
   return (
     <AppLayout>
+      <SEO
+        title={name}
+        description={productDesc}
+        url={canonical}
+        image={product.image_url || undefined}
+        type="product"
+      >
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name,
+          description: product.description || name,
+          image: images.filter(Boolean),
+          sku: product.id,
+          offers: {
+            "@type": "Offer",
+            url: canonical,
+            priceCurrency: "BDT",
+            price: product.price,
+            availability: (product.stock ?? 0) > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          },
+          ...(product.rating ? { aggregateRating: { "@type": "AggregateRating", ratingValue: product.rating, reviewCount: product.review_count || 1 } } : {}),
+        })}</script>
+      </SEO>
       <MobilePage maxWidth="wide" spacing="space-y-10" className="pb-sticky-cta lg:pb-10">
         <Link to="/shop" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
           <ArrowLeft className="h-3.5 w-3.5" /> Shop
