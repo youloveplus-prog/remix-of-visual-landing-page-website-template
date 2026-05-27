@@ -184,61 +184,62 @@ function ImageTextRow({
   alt: string;
   reverse?: boolean;
 }) {
-  const Media = (
-    <div
-      className={cn(
-        "relative mx-auto w-full max-w-[420px] sm:max-w-none aspect-[16/10] sm:aspect-[5/4] lg:aspect-[5/6] rounded-2xl sm:rounded-[2rem] overflow-hidden border border-white/10 group",
-        reverse ? "lg:col-span-5" : "lg:col-span-6",
-      )}
-    >
-      <img
-        src={image}
-        alt={alt}
-        loading="lazy"
-        width={1536}
-        height={1280}
-        className="w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
-      />
-      <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-transparent" />
-      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl sm:rounded-[2rem] pointer-events-none" />
-    </div>
-  );
-
-  const Copy = (
-    <div
-      className={cn(
-        "text-center lg:text-left lg:py-6",
-        reverse ? "lg:col-span-7 lg:pr-10" : "lg:col-span-6 lg:pl-6",
-      )}
-    >
-      <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">{eyebrow}</p>
-      <h2
-        className="font-display font-semibold tracking-[-0.025em] leading-[1.05] text-foreground"
-        style={{ fontSize: "clamp(1.7rem, 4vw, 3rem)" }}
-      >
-        {title}
-      </h2>
-      <p className="mt-4 sm:mt-5 mx-auto lg:mx-0 max-w-[48ch] sm:max-w-[52ch] text-[14.5px] sm:text-base leading-[1.65] text-muted-foreground">
-        {body}
-      </p>
-    </div>
-  );
-
   return (
-    <section className="container-editorial py-14 sm:py-20 lg:py-28">
-      <div className="grid gap-8 lg:gap-16 items-center lg:grid-cols-12">
-        {reverse ? (
-          <>
-            {Copy}
-            {Media}
-          </>
-        ) : (
-          <>
-            {Media}
-            {Copy}
-          </>
-        )}
-      </div>
+    <section className="container-editorial py-12 sm:py-16 lg:py-24">
+      <article className="group relative mx-auto max-w-6xl overflow-hidden rounded-[1.75rem] sm:rounded-[2.25rem] glass-strong border border-white/10 shadow-[0_30px_80px_-40px_hsl(var(--primary)/0.35)]">
+        {/* hairline top */}
+        <div
+          className="absolute top-0 left-8 right-8 h-px z-10 pointer-events-none"
+          style={{ background: "var(--gradient-hairline)" }}
+        />
+        {/* brand glow */}
+        <div
+          className="absolute -top-32 -right-24 w-[28rem] h-[28rem] rounded-full blur-[120px] opacity-25 pointer-events-none"
+          style={{ background: "var(--gradient-primary)" }}
+        />
+
+        <div
+          className={cn(
+            "relative grid lg:grid-cols-2",
+            reverse && "lg:[&>*:first-child]:order-2",
+          )}
+        >
+          {/* Media */}
+          <div className="relative overflow-hidden aspect-[4/5] sm:aspect-[5/4] lg:aspect-auto lg:min-h-[540px]">
+            <img
+              src={image}
+              alt={alt}
+              loading="lazy"
+              width={1536}
+              height={1280}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-background/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-background/30" />
+          </div>
+
+          {/* Copy */}
+          <div className="relative flex flex-col justify-center text-center lg:text-left p-7 sm:p-10 lg:p-14">
+            <p className="eyebrow-bar mb-3 justify-center lg:justify-start inline-flex lg:flex">
+              {eyebrow}
+            </p>
+            <h2
+              className="font-display font-semibold tracking-[-0.025em] leading-[1.05] text-foreground"
+              style={{ fontSize: "clamp(1.7rem, 3.6vw, 2.85rem)" }}
+            >
+              {title}
+            </h2>
+            <p className="mt-4 sm:mt-5 mx-auto lg:mx-0 max-w-[48ch] text-[14.5px] sm:text-base leading-[1.65] text-muted-foreground">
+              {body}
+            </p>
+            <div className="mt-6 sm:mt-7 flex justify-center lg:justify-start">
+              <span className="inline-flex items-center gap-1.5 rounded-full px-4 h-9 text-[13px] font-medium glass border border-white/15 text-foreground/90 transition-transform group-hover:translate-x-0.5">
+                Learn more
+                <ArrowRight className="h-3.5 w-3.5" />
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
     </section>
   );
 }
