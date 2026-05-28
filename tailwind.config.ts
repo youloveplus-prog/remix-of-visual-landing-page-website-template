@@ -60,6 +60,11 @@ export default {
         gold: 'hsl(45, 95%, 55%)',
         success: 'hsl(150, 65%, 45%)'
       },
+      transitionDuration: {
+        '420': '420ms',
+        '1400': '1400ms',
+        '6000': '6000ms',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

@@ -245,7 +245,7 @@ function ImageTextRow({
               loading="lazy"
               width={1536}
               height={1280}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-1400 ease-out group-hover:scale-[1.04]"
             />
             <div
               className={cn(

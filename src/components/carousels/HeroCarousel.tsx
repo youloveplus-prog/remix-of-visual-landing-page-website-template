@@ -111,7 +111,7 @@ export function HeroCarousel({ slides, autoplayDelay = 5000, className }: HeroCa
                     className={cn(
                       "w-full h-full object-cover will-change-transform",
                       !reducedMotion && isActive && autoplayActive
-                        ? "scale-110 transition-transform duration-[6000ms] ease-out"
+                        ? "scale-110 transition-transform duration-6000 ease-out"
                         : "scale-100 transition-transform duration-700",
                     )}
                     loading={index === 0 ? "eager" : "lazy"}
