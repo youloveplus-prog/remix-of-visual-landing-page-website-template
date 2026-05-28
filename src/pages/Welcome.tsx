@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -17,9 +17,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/transitions/Reveal";
 import logo from "@/assets/logo.png";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -45,7 +45,7 @@ const features = [
     icon: GraduationCap,
   },
   {
-    title: "24/7 AI Tutor",
+    title: "24/7 AI tutor",
     desc: "Ask questions any time in Bangla or English and get patient, step-by-step answers.",
     icon: Bot,
   },
@@ -119,15 +119,12 @@ const stories = [
 
 export default function Welcome() {
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased">
-      <Helmet>
-        <title>Asikon — Learn AI, the Bangladeshi Way</title>
-        <meta
-          name="description"
-          content="Asikon is an AI-powered learning platform for Bangladesh. Expert courses, a 24/7 Bangla AI tutor, curated books, and 1-on-1 mentorship."
-        />
-        <link rel="canonical" href="/welcome" />
-      </Helmet>
+    <div className="min-h-dvh bg-background text-foreground antialiased">
+      <SEO
+        title="Asikon — Learn AI, the Bangladeshi Way"
+        description="Asikon is an AI-powered learning platform for Bangladesh. Expert courses, a 24/7 Bangla AI tutor, curated books, and 1-on-1 mentorship."
+        url="https://asikonpro.lovable.app/welcome"
+      />
 
       {/* Top Nav */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/60">
@@ -173,7 +170,7 @@ export default function Welcome() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-14 pb-20 lg:pt-20 lg:pb-28">
           <Reveal className="text-center max-w-3xl mx-auto">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> New: Bangla AI Tutor 2.0
+              <Sparkles className="h-3.5 w-3.5" /> New: Bangla AI tutor 2.0
             </span>
             <h1 className="mt-5 font-display font-bold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
               Learn AI the smart way.
@@ -432,7 +429,7 @@ export default function Welcome() {
                 </Link>
               </div>
               <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-primary-foreground/90">
-                {["Cash on Delivery", "Made in Bangladesh", "7-Day Exchange", "Verified Reviews"].map((t) => (
+                {["Instant Access", "Bangla + English", "Secure Checkout", "Verified Reviews"].map((t) => (
                   <li key={t} className="inline-flex items-center gap-1.5">
                     <CheckCircle2 className="h-3.5 w-3.5" /> {t}
                   </li>
@@ -453,7 +450,7 @@ export default function Welcome() {
           </div>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link to="/about" className="hover:text-foreground">About</Link>
-            <Link to="/shop" className="hover:text-foreground">Shop</Link>
+            <Link to="/shop" className="hover:text-foreground">Explore</Link>
             <Link to="/community" className="hover:text-foreground">Community</Link>
             <Link to="/auth" className="hover:text-foreground">Sign in</Link>
           </div>

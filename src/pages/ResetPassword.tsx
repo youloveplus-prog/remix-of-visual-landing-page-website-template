@@ -86,7 +86,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <main className="relative min-h-screen w-full bg-background flex items-center justify-center overflow-hidden px-5 py-10">
+    <main className="relative min-h-dvh w-full bg-background flex items-center justify-center overflow-hidden px-5 py-10">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 -left-40 w-[480px] h-[480px] rounded-full blur-[140px] bg-primary/20"

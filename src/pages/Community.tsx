@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CommunityTabs } from "@/components/community/CommunityTabs";
 import { CreateContentFAB } from "@/components/community/CreateContentFAB";
@@ -9,6 +9,7 @@ import { PostsTab } from "@/components/community/tabs/PostsTab";
 import { VideosTab } from "@/components/community/tabs/VideosTab";
 import { ShortsTab } from "@/components/community/tabs/ShortsTab";
 import { ReviewsTab } from "@/components/community/tabs/ReviewsTab";
+import { OffersTab } from "@/components/community/tabs/OffersTab";
 import { CommunityTab } from "@/types/community";
 import { MobilePage } from "@/components/layout/MobilePage";
 
@@ -22,27 +23,31 @@ const Community = () => {
       case "videos": return <VideosTab />;
       case "shorts": return <ShortsTab />;
       case "reviews": return <ReviewsTab />;
-      case "live":
-      case "offers":
-        return <MyFeedTab />;
+      case "offers": return <OffersTab />;
       default: return <MyFeedTab />;
     }
   };
 
   return (
     <AppLayout>
-      <Helmet>
-        <title>Community — Asikon Learners</title>
-        <meta name="description" content="Follow learners, share posts, watch videos and read trusted reviews on the Asikon community." />
-      </Helmet>
+      <SEO
+        title="Community — Asikon Learners"
+        description="Follow learners, share posts, watch videos and read trusted reviews on the Asikon community."
+        url="https://asikonpro.lovable.app/community"
+      />
       <MobilePage
-        sticky={<CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />}
+        sticky={
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 xl:gap-10">
+            <div className="lg:max-w-2xl xl:max-w-3xl lg:mx-auto lg:w-full">
+              <CommunityTabs activeTab={activeTab} onTabChange={setActiveTab} />
+            </div>
+          </div>
+        }
         spacing="space-y-4"
       >
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] xl:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 xl:gap-10">
           <main
             data-feed-root
-            key={activeTab}
             className="animate-fade-in min-w-0 space-y-4 lg:max-w-2xl xl:max-w-3xl lg:mx-auto lg:w-full"
           >
             {renderTabContent()}

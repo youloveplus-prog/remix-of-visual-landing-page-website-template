@@ -16,7 +16,7 @@ export function ShortCard({ short }: ShortCardProps) {
   const views = (short.likes ?? 0) * 12 + (short.comments ?? 0) * 30;
 
   return (
-    <article className="group relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border/50 shadow-sm hover:shadow-[var(--shadow-glow)] transition-all duration-300">
+    <article className="group relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border shadow-sm transition-all duration-300">
       {/* Thumbnail */}
       <img
         src={short.thumbnailUrl}
@@ -32,7 +32,7 @@ export function ShortCard({ short }: ShortCardProps) {
       {/* Top row — views + verified */}
       <div className="absolute top-2 left-2 right-2 flex items-start justify-between gap-2">
         {short.isVerifiedBuyer ? (
-          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/90 text-[10px] font-semibold text-white backdrop-blur-sm">
+          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-background/85 text-foreground ring-1 ring-border text-[10px] font-semibold backdrop-blur">
             <BadgeCheck className="h-3 w-3" />
             Verified
           </span>
@@ -65,10 +65,7 @@ export function ShortCard({ short }: ShortCardProps) {
 
       {/* Product chip */}
       {short.products && short.products.length > 0 && (
-        <button
-          className="absolute left-2 bottom-[68px] inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-semibold text-primary-foreground shadow-md backdrop-blur-sm"
-          style={{ background: "var(--gradient-primary)" }}
-        >
+        <button className="absolute left-2 bottom-[68px] inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-semibold text-foreground bg-background/90 ring-1 ring-border backdrop-blur shadow-md">
           <ShoppingBag className="h-3 w-3" />
           <Price amount={short.products[0].price} />
         </button>

@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useHomeBanners } from "@/hooks/useHomeBanners";
 import { cn } from "@/lib/utils";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 const FALLBACK_BANNERS = [
   {
@@ -80,41 +80,26 @@ export function ImageHeroSlider() {
     <section className="section-x">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-3">
-          {items.map((b) => {
+          {items.map((b, idx) => {
+            const isFirst = idx === 0;
             const Inner = (
-              <div className="relative w-full aspect-[21/10] rounded-3xl overflow-hidden shadow-xl shadow-primary/10 border border-border/40">
+              <div className="group relative w-full aspect-[16/9] rounded-3xl overflow-hidden bg-card border border-border">
                 <img
                   src={b.image_url}
                   alt={b.alt_text ?? b.title ?? "Promotional banner"}
-                  loading="lazy"
-                  className="w-full h-full object-cover"
+                  loading={isFirst ? "eager" : "lazy"}
+                  decoding={isFirst ? "sync" : "async"}
+                  {...({ fetchpriority: isFirst ? "high" : "low" } as any)}
+                  width={1200}
+                  height={675}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
-                {(b.title || b.subtitle || b.eyebrow) && (
-                  <>
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/30 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-4">
-                      {b.eyebrow && (
-                        <span className="inline-block text-[10px] font-semibold uppercase tracking-[0.14em] px-2 py-0.5 rounded-full bg-background/70 backdrop-blur border border-primary/25 text-foreground mb-1.5">
-                          {b.eyebrow}
-                        </span>
-                      )}
-                      {b.title && (
-                        <h2 className="font-display font-bold text-lg leading-tight text-foreground">
-                          <span className="text-gradient">{b.title}</span>
-                        </h2>
-                      )}
-                      {b.subtitle && (
-                        <p className="mt-1 text-xs text-foreground/80 line-clamp-2">{b.subtitle}</p>
-                      )}
-                    </div>
-                  </>
-                )}
               </div>
             );
             return (
               <div
                 key={b.id}
-                className="shrink-0 grow-0 basis-[88%] sm:basis-[70%] md:basis-[55%] pressable"
+                className="shrink-0 grow-0 basis-full sm:basis-[70%] md:basis-[55%] pressable"
               >
                 {b.link_url ? (
                   <Link to={b.link_url} className="block focus-ring rounded-3xl">
@@ -129,6 +114,7 @@ export function ImageHeroSlider() {
         </div>
       </div>
 
+
       {items.length > 1 && (
         <div className="flex justify-center gap-1.5 mt-3">
           {items.map((_, i) => (
@@ -138,7 +124,7 @@ export function ImageHeroSlider() {
               onClick={() => emblaApi?.scrollTo(i)}
               className={cn(
                 "h-1.5 rounded-full transition-all",
-                selected === i ? "w-5 bg-primary" : "w-1.5 bg-foreground/20",
+                selected === i ? "w-5 bg-primary" : "w-1.5 bg-muted-foreground/30",
               )}
             />
           ))}
@@ -147,3 +133,4 @@ export function ImageHeroSlider() {
     </section>
   );
 }
+

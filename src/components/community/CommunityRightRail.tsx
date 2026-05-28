@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Sparkles, TrendingUp, Radio, ArrowUpRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const creators = [
   { id: "1", name: "Asikon Academy", username: "asikon_academy", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop", followers: "84k" },
@@ -95,17 +96,10 @@ function Tile({
   children: React.ReactNode;
 }) {
   return (
-    <section className="glass rounded-2xl p-4">
+    <section className="rounded-2xl border border-border bg-card p-4">
       <header className="flex items-center gap-2 mb-3">
-        <span
-          className="grid place-items-center h-7 w-7 rounded-lg"
-          style={{
-            background: accent ? "var(--gradient-primary)" : "var(--gradient-primary-soft)",
-          }}
-        >
-          <Icon className={accent ? "h-3.5 w-3.5 text-primary-foreground" : "h-3.5 w-3.5 text-primary"} />
-        </span>
-        <h3 className="font-display font-semibold text-[13px]">{title}</h3>
+        <Icon className={cn("h-4 w-4", accent ? "text-primary" : "text-foreground/60")} />
+        <h3 className="font-medium text-[13px] tracking-tight">{title}</h3>
       </header>
       {children}
     </section>

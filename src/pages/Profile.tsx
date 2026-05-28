@@ -285,6 +285,7 @@ const Profile = () => {
             user={displayProfile}
             isOwnProfile={isOwnProfile}
             onAvatarClick={() => displayProfile.avatar && setShowAvatarViewer(true)}
+            onShare={handleShare}
             onUpdate={async (updates) => {
               await updateProfile.mutateAsync(updates);
             }}
@@ -322,6 +323,7 @@ const Profile = () => {
         <ProfileActions
           isOwnProfile={isOwnProfile}
           isFollowing={isFollowing}
+          isFollowLoading={followUser.isPending || unfollowUser.isPending}
           onFollow={handleFollow}
           onMessage={handleMessage}
           onShare={handleShare}
@@ -375,7 +377,13 @@ const Profile = () => {
                 learnerQuizzes={0}
               />
             </div>
-            <div key={activeTab} className="animate-fade-in">
+            <div
+              key={activeTab}
+              role="tabpanel"
+              id={`profile-panel-${activeTab}`}
+              aria-labelledby={`profile-tab-${activeTab}`}
+              className="animate-fade-in"
+            >
               {renderTabContent()}
             </div>
           </div>

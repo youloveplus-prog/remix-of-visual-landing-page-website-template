@@ -89,7 +89,7 @@ export function useCreateOrder() {
           payment_method: paymentMethod,
           shipping_address: shippingAddress as unknown as Json,
           status: "pending",
-          payment_status: paymentMethod === "cod" ? "pending" : "pending",
+          payment_status: "pending",
         })
         .select()
         .single();

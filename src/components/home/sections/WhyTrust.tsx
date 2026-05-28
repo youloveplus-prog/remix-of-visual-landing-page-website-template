@@ -1,6 +1,6 @@
 import { ShieldCheck, Users, Headphones, Rocket } from "lucide-react";
-import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
+import { TONES, TONE_CYCLE, panelClass, headlineClass, subheadClass } from "@/components/home/_panel";
 
 const POINTS = [
   { icon: ShieldCheck, title: "Verified content", text: "Reviewed by experts." },
@@ -12,20 +12,36 @@ const POINTS = [
 export function WhyTrust({ title = "Why learners trust us" }: { title?: string }) {
   return (
     <Reveal as="section" className="section-x">
-      <SectionHeader title={title} />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-        {POINTS.map((p) => {
-          const Icon = p.icon;
-          return (
-            <div key={p.title} className="rounded-2xl border border-border/50 glass p-3 hover-lift transition-colors hover:border-primary/30">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-2">
-                <Icon className="h-4 w-4 text-primary" />
+      <div className={panelClass}>
+        <div className="relative mx-auto max-w-2xl text-center">
+          <h2 className={headlineClass}>{title}</h2>
+          <p className={subheadClass}>Built on trust — every learner, every step.</p>
+        </div>
+
+        <div className="relative mt-6 grid grid-cols-2 gap-1.5 sm:mt-10 sm:grid-cols-4 sm:gap-4">
+          {POINTS.map((p, i) => {
+            const Icon = p.icon;
+            const t = TONES[TONE_CYCLE[i % 3]];
+            return (
+              <div
+                key={p.title}
+                className={`relative flex h-full min-h-[120px] flex-col overflow-hidden rounded-[14px] p-2.5 shadow-[0_18px_50px_-25px_rgba(0,0,0,0.45)] sm:min-h-[180px] sm:rounded-[26px] sm:p-5 ${t.card}`}
+              >
+                <div className={`flex h-8 w-8 items-center justify-center rounded-full sm:h-11 sm:w-11 ${
+                  TONE_CYCLE[i % 3] === "gray" ? "bg-black/10" : "bg-white/15"
+                }`}>
+                  <Icon className="h-3.5 w-3.5 sm:h-5 sm:w-5" />
+                </div>
+                <p className={`mt-2 font-grotesk text-[11px] font-bold leading-tight tracking-tight sm:mt-4 sm:text-[16px] ${t.title}`}>
+                  {p.title}
+                </p>
+                <p className={`mt-0.5 text-[9px] leading-snug sm:mt-1 sm:text-[12px] ${t.sub}`}>
+                  {p.text}
+                </p>
               </div>
-              <p className="font-semibold text-[13px] leading-tight">{p.title}</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">{p.text}</p>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </Reveal>
   );

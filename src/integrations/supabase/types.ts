@@ -237,6 +237,283 @@ export type Database = {
         }
         Relationships: []
       }
+      content_assets: {
+        Row: {
+          created_at: string
+          duration_sec: number | null
+          id: string
+          is_preview: boolean
+          item_id: string
+          kind: Database["public"]["Enums"]["content_asset_kind"]
+          lesson_id: string | null
+          mime: string | null
+          position: number
+          size_bytes: number | null
+          storage_path: string | null
+          title: string | null
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          duration_sec?: number | null
+          id?: string
+          is_preview?: boolean
+          item_id: string
+          kind: Database["public"]["Enums"]["content_asset_kind"]
+          lesson_id?: string | null
+          mime?: string | null
+          position?: number
+          size_bytes?: number | null
+          storage_path?: string | null
+          title?: string | null
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          duration_sec?: number | null
+          id?: string
+          is_preview?: boolean
+          item_id?: string
+          kind?: Database["public"]["Enums"]["content_asset_kind"]
+          lesson_id?: string | null
+          mime?: string | null
+          position?: number
+          size_bytes?: number | null
+          storage_path?: string | null
+          title?: string | null
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_assets_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_assets_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "course_lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_items: {
+        Row: {
+          category: string | null
+          cover_url: string | null
+          created_at: string
+          currency: string
+          description_md: string | null
+          display_order: number
+          duration_min: number
+          gallery: string[]
+          id: string
+          instructor_id: string | null
+          is_featured: boolean
+          is_free: boolean
+          kind: Database["public"]["Enums"]["content_kind"]
+          language: string
+          level: string | null
+          original_price: number | null
+          price: number
+          published_at: string | null
+          search_vec: unknown
+          slug: string
+          status: Database["public"]["Enums"]["content_status"]
+          summary: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          cover_url?: string | null
+          created_at?: string
+          currency?: string
+          description_md?: string | null
+          display_order?: number
+          duration_min?: number
+          gallery?: string[]
+          id?: string
+          instructor_id?: string | null
+          is_featured?: boolean
+          is_free?: boolean
+          kind: Database["public"]["Enums"]["content_kind"]
+          language?: string
+          level?: string | null
+          original_price?: number | null
+          price?: number
+          published_at?: string | null
+          search_vec?: unknown
+          slug: string
+          status?: Database["public"]["Enums"]["content_status"]
+          summary?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          cover_url?: string | null
+          created_at?: string
+          currency?: string
+          description_md?: string | null
+          display_order?: number
+          duration_min?: number
+          gallery?: string[]
+          id?: string
+          instructor_id?: string | null
+          is_featured?: boolean
+          is_free?: boolean
+          kind?: Database["public"]["Enums"]["content_kind"]
+          language?: string
+          level?: string | null
+          original_price?: number | null
+          price?: number
+          published_at?: string | null
+          search_vec?: unknown
+          slug?: string
+          status?: Database["public"]["Enums"]["content_status"]
+          summary?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      content_purchases: {
+        Row: {
+          expires_at: string | null
+          granted_at: string
+          id: string
+          item_id: string
+          order_id: string | null
+          user_id: string
+        }
+        Insert: {
+          expires_at?: string | null
+          granted_at?: string
+          id?: string
+          item_id: string
+          order_id?: string | null
+          user_id: string
+        }
+        Update: {
+          expires_at?: string | null
+          granted_at?: string
+          id?: string
+          item_id?: string
+          order_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_purchases_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      course_lessons: {
+        Row: {
+          content_md: string | null
+          created_at: string
+          duration_min: number
+          id: string
+          is_preview: boolean
+          item_id: string
+          module_id: string
+          position: number
+          title: string
+          updated_at: string
+          video_asset_id: string | null
+        }
+        Insert: {
+          content_md?: string | null
+          created_at?: string
+          duration_min?: number
+          id?: string
+          is_preview?: boolean
+          item_id: string
+          module_id: string
+          position?: number
+          title: string
+          updated_at?: string
+          video_asset_id?: string | null
+        }
+        Update: {
+          content_md?: string | null
+          created_at?: string
+          duration_min?: number
+          id?: string
+          is_preview?: boolean
+          item_id?: string
+          module_id?: string
+          position?: number
+          title?: string
+          updated_at?: string
+          video_asset_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_lessons_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "course_lessons_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "course_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      course_modules: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          position: number
+          summary: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          position?: number
+          summary?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          position?: number
+          summary?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_modules_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       daily_missions: {
         Row: {
           completed: boolean
@@ -432,6 +709,51 @@ export type Database = {
           },
         ]
       }
+      lesson_progress: {
+        Row: {
+          completed_at: string | null
+          id: string
+          item_id: string
+          lesson_id: string
+          seconds_watched: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          id?: string
+          item_id: string
+          lesson_id: string
+          seconds_watched?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          id?: string
+          item_id?: string
+          lesson_id?: string
+          seconds_watched?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_progress_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_progress_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "course_lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lessons: {
         Row: {
           content_md: string | null
@@ -565,6 +887,7 @@ export type Database = {
           languages: string[]
           name: string
           rating: number
+          search_vec: unknown
           slug: string
           subjects: string[]
           updated_at: string
@@ -583,6 +906,7 @@ export type Database = {
           languages?: string[]
           name: string
           rating?: number
+          search_vec?: unknown
           slug: string
           subjects?: string[]
           updated_at?: string
@@ -601,6 +925,7 @@ export type Database = {
           languages?: string[]
           name?: string
           rating?: number
+          search_vec?: unknown
           slug?: string
           subjects?: string[]
           updated_at?: string
@@ -873,6 +1198,20 @@ export type Database = {
             referencedRelation: "posts"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "post_comments_user_id_profiles_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_comments_user_id_profiles_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profiles"
+            referencedColumns: ["id"]
+          },
         ]
       }
       post_likes: {
@@ -913,6 +1252,7 @@ export type Database = {
           is_pinned: boolean
           product_id: string | null
           rating: number | null
+          search_vec: unknown
           type: string
           updated_at: string
           user_id: string
@@ -926,6 +1266,7 @@ export type Database = {
           is_pinned?: boolean
           product_id?: string | null
           rating?: number | null
+          search_vec?: unknown
           type?: string
           updated_at?: string
           user_id: string
@@ -939,6 +1280,7 @@ export type Database = {
           is_pinned?: boolean
           product_id?: string | null
           rating?: number | null
+          search_vec?: unknown
           type?: string
           updated_at?: string
           user_id?: string
@@ -950,6 +1292,20 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_user_id_profiles_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_user_id_profiles_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "public_profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -967,6 +1323,7 @@ export type Database = {
           price: number
           rating: number | null
           review_count: number | null
+          search_vec: unknown
           slug: string
           stock: number | null
           updated_at: string
@@ -983,6 +1340,7 @@ export type Database = {
           price?: number
           rating?: number | null
           review_count?: number | null
+          search_vec?: unknown
           slug: string
           stock?: number | null
           updated_at?: string
@@ -999,6 +1357,7 @@ export type Database = {
           price?: number
           rating?: number | null
           review_count?: number | null
+          search_vec?: unknown
           slug?: string
           stock?: number | null
           updated_at?: string
@@ -1073,6 +1432,144 @@ export type Database = {
         }
         Relationships: []
       }
+      promotions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          cta_label: string | null
+          cta_url: string | null
+          ends_at: string | null
+          id: string
+          image_url: string
+          is_active: boolean
+          placement: Database["public"]["Enums"]["promo_placement"]
+          position: number
+          starts_at: string | null
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean
+          placement?: Database["public"]["Enums"]["promo_placement"]
+          position?: number
+          starts_at?: string | null
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string | null
+          cta_url?: string | null
+          ends_at?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          placement?: Database["public"]["Enums"]["promo_placement"]
+          position?: number
+          starts_at?: string | null
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quiz_attempts: {
+        Row: {
+          breakdown: Json
+          correct_count: number
+          created_at: string
+          id: string
+          lesson_id: string | null
+          score_pct: number
+          source: string
+          topic: string | null
+          total_questions: number
+          track_id: string | null
+          user_id: string
+        }
+        Insert: {
+          breakdown?: Json
+          correct_count?: number
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          score_pct: number
+          source?: string
+          topic?: string | null
+          total_questions?: number
+          track_id?: string | null
+          user_id: string
+        }
+        Update: {
+          breakdown?: Json
+          correct_count?: number
+          created_at?: string
+          id?: string
+          lesson_id?: string | null
+          score_pct?: number
+          source?: string
+          topic?: string | null
+          total_questions?: number
+          track_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      revision_items: {
+        Row: {
+          created_at: string
+          ease: number
+          id: string
+          interval_days: number
+          last_grade: number | null
+          last_reviewed_at: string | null
+          lesson_id: string
+          next_due_at: string
+          repetitions: number
+          topic: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ease?: number
+          id?: string
+          interval_days?: number
+          last_grade?: number | null
+          last_reviewed_at?: string | null
+          lesson_id: string
+          next_due_at?: string
+          repetitions?: number
+          topic?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ease?: number
+          id?: string
+          interval_days?: number
+          last_grade?: number | null
+          last_reviewed_at?: string | null
+          lesson_id?: string
+          next_due_at?: string
+          repetitions?: number
+          topic?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       reward_redemptions: {
         Row: {
           coins_spent: number
@@ -1135,6 +1632,100 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      service_bookings: {
+        Row: {
+          contact_email: string
+          contact_name: string
+          contact_phone: string | null
+          created_at: string
+          id: string
+          item_id: string
+          notes: string | null
+          preferred_date: string | null
+          preferred_time: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          contact_email: string
+          contact_name: string
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          item_id: string
+          notes?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          contact_email?: string
+          contact_name?: string
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          item_id?: string
+          notes?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_bookings_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_details: {
+        Row: {
+          created_at: string
+          delivery_days: number
+          included: Json
+          item_id: string
+          max_revisions: number
+          mode: Database["public"]["Enums"]["service_mode"]
+          session_minutes: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          delivery_days?: number
+          included?: Json
+          item_id: string
+          max_revisions?: number
+          mode?: Database["public"]["Enums"]["service_mode"]
+          session_minutes?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          delivery_days?: number
+          included?: Json
+          item_id?: string
+          max_revisions?: number
+          mode?: Database["public"]["Enums"]["service_mode"]
+          session_minutes?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_details_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: true
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tracks: {
         Row: {
@@ -1361,6 +1952,14 @@ export type Database = {
       }
     }
     Functions: {
+      can_message_user: {
+        Args: { _sender: string; _target: string }
+        Returns: boolean
+      }
+      can_view_profile: {
+        Args: { _target: string; _viewer: string }
+        Returns: boolean
+      }
       get_or_create_today_mission: {
         Args: never
         Returns: {
@@ -1370,6 +1969,25 @@ export type Database = {
           lesson_id: string
         }[]
       }
+      global_search: {
+        Args: { per_source?: number; q: string }
+        Returns: {
+          extra: Json
+          id: string
+          image_url: string
+          is_free: boolean
+          kind: string
+          price: number
+          score: number
+          slug: string
+          source: string
+          title: string
+        }[]
+      }
+      has_content_access: {
+        Args: { _item_id: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1378,7 +1996,7 @@ export type Database = {
         Returns: boolean
       }
       redeem_reward: {
-        Args: { _coins: number; _reward_key: string }
+        Args: { _coins?: number; _reward_key: string }
         Returns: {
           coins_spent: number
           created_at: string
@@ -1393,11 +2011,43 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      schedule_revision: {
+        Args: { _grade: number; _lesson_id: string }
+        Returns: {
+          created_at: string
+          ease: number
+          id: string
+          interval_days: number
+          last_grade: number | null
+          last_reviewed_at: string | null
+          lesson_id: string
+          next_due_at: string
+          repetitions: number
+          topic: string | null
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "revision_items"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       app_role: "user" | "moderator" | "admin" | "super_admin"
+      content_asset_kind: "video" | "image" | "pdf" | "audio" | "zip" | "other"
+      content_kind: "digital" | "course" | "service"
+      content_status: "draft" | "published" | "archived"
       home_banner_kind: "hero" | "offer"
       pod_status: "pending" | "approved" | "rejected"
+      promo_placement:
+        | "home_hero"
+        | "home_strip"
+        | "shop_banner"
+        | "community_banner"
+      service_mode: "bookable" | "deliverable"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1526,8 +2176,18 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["user", "moderator", "admin", "super_admin"],
+      content_asset_kind: ["video", "image", "pdf", "audio", "zip", "other"],
+      content_kind: ["digital", "course", "service"],
+      content_status: ["draft", "published", "archived"],
       home_banner_kind: ["hero", "offer"],
       pod_status: ["pending", "approved", "rejected"],
+      promo_placement: [
+        "home_hero",
+        "home_strip",
+        "shop_banner",
+        "community_banner",
+      ],
+      service_mode: ["bookable", "deliverable"],
     },
   },
 } as const

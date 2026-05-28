@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { track } from "@/lib/analytics";
 import { z } from "zod";
 import {
   Sheet,
@@ -92,6 +93,7 @@ export function MentorWaitlistSheet({ open, onOpenChange, mentor }: Props) {
       });
       return;
     }
+    void track("mentor_waitlist_joined", { mentor_id: mentor?.id ?? null, subject: parsed.data.subject });
     toast({
       title: "You're on the waitlist 🎉",
       description: "We'll contact you as soon as a slot opens.",

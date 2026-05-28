@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SmartImage } from "@/components/ui/smart-image";
-import aiTutor from "@/assets/ai-tutor.jpg";
+import aiTutor from "@/assets/ai-tutor.webp";
 
 const ALL_CHIPS = [
   "Explain SSC Physics",
@@ -31,63 +31,64 @@ export function AiAssistantBox() {
   };
   return (
     <section className="section-x">
-      <div
-        className="relative overflow-hidden rounded-2xl border border-primary/25 p-3 shadow-[0_10px_30px_-18px_hsl(var(--primary)/0.6),inset_0_1px_0_hsl(var(--glass-highlight)/0.15)]"
-        style={{ background: "var(--gradient-primary-soft)" }}
-      >
-        {/* ambient glow */}
+      <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-foreground/[0.05] via-foreground/[0.015] to-transparent p-4">
+        {/* Soft identity glow behind avatar */}
         <span
           aria-hidden
-          className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full blur-3xl opacity-60"
-          style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.45), transparent 70%)" }}
+          className="pointer-events-none absolute -top-12 -left-6 h-40 w-40 rounded-full blur-3xl opacity-60"
+          style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.10), transparent 70%)" }}
         />
 
-        <div className="relative flex items-center gap-3">
-          {/* Teacher avatar */}
+        {/* Identity row */}
+        <div className="relative flex items-center gap-3 mb-3">
           <div className="relative shrink-0">
-            <div className="absolute inset-0 rounded-full bg-primary/40 blur-md" aria-hidden />
-            <div className="relative w-14 h-14 rounded-full overflow-hidden ring-2 ring-primary/40 shadow-[0_6px_18px_-6px_hsl(var(--primary)/0.7)]">
+            <div className="relative w-12 h-12 rounded-full overflow-hidden ring-1 ring-border">
               <SmartImage
                 src={aiTutor}
-                alt="AI tutor"
-                width={56}
-                height={56}
+                alt="Asikon AI tutor"
+                width={48}
+                height={48}
                 className="w-full h-full object-cover"
               />
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-background" aria-hidden />
           </div>
-
-          {/* Title + input */}
           <div className="min-w-0 flex-1">
-            <p className="font-semibold text-sm leading-tight">Ask your AI tutor</p>
-            <p className="text-[11px] text-muted-foreground leading-tight mb-1.5">Online · Bangla & English</p>
-            <form
-              onSubmit={(e) => { e.preventDefault(); go(q); }}
-              className="flex items-center gap-1.5"
-            >
-              <Input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Ask anything…"
-                className="h-9 bg-background/60 border-border/60 text-[13px]"
-              />
-              <Button type="submit" variant="premium" size="icon" aria-label="Ask" className="h-9 w-9 shrink-0">
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </form>
+            <p className="font-display font-semibold text-[15px] leading-tight tracking-tight">Asikon AI</p>
+            <p className="text-[11.5px] text-muted-foreground leading-tight">Online · Bangla & English</p>
           </div>
         </div>
 
-        {/* Suggestion chips - single row scroll */}
-        <div className="relative -mx-3 px-3 mt-2.5 overflow-x-auto no-scrollbar">
+        {/* Composer */}
+        <form
+          onSubmit={(e) => { e.preventDefault(); go(q); }}
+          className="relative flex items-center gap-2 rounded-2xl border border-border bg-background/70 backdrop-blur-sm p-1.5 focus-within:border-foreground/40 transition-colors"
+        >
+          <Input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Ask Asikon AI anything…"
+            className="h-9 flex-1 bg-transparent border-0 shadow-none focus-visible:ring-0 text-[14px] px-2"
+          />
+          <Button
+            type="submit"
+            size="icon"
+            aria-label="Ask"
+            className="h-9 w-9 shrink-0 rounded-xl bg-foreground text-background hover:bg-foreground/90"
+          >
+            <ArrowUp className="h-4 w-4" />
+          </Button>
+        </form>
+
+        {/* Suggestion chips */}
+        <div className="relative mt-3 -mx-1 px-1 overflow-x-auto no-scrollbar">
           <div className="flex gap-1.5 w-max">
             {CHIPS.map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => go(c)}
-                className="shrink-0 text-[11px] px-2.5 py-1 rounded-full border border-border/60 bg-background/40 hover:border-primary/40 hover:text-primary transition-colors"
+                className="shrink-0 text-[11.5px] px-3 py-1.5 rounded-full border border-border bg-background/40 hover:border-foreground/40 hover:bg-secondary transition-colors"
               >
                 {c}
               </button>

@@ -5,16 +5,21 @@
   "theme_color": "#0a0a0f",
   "background_color": "#0a0a0f",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
   "orientation": "portrait",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
+  "id": "/",
   "scope": "/",
   "lang": "en",
+  "dir": "ltr",
   "categories": ["education", "books", "productivity"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/favicon.ico",
       "sizes": "any",
-      "type": "image/x-icon"
+      "type": "image/x-icon",
+      "purpose": "any"
     }
   ]
 }

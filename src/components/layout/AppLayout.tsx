@@ -6,9 +6,12 @@ import { HomeTopHeader } from "./HomeTopHeader";
 import { SlimDesktopHeader } from "./SlimDesktopHeader";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { Sidebar } from "./Sidebar";
+import { SiteFooter } from "./SiteFooter";
 
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
+import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/hooks/useCart";
 
 
 // Context to share sidebar state
@@ -89,16 +92,17 @@ export function AppLayout({
     setIsCollapsed(next);
   };
 
-  // Mock cart count - TODO: Replace with real cart state
-  const cartCount = 2;
+  const { data: cartItems } = useCart();
+  const cartCount = cartItems?.length ?? 0;
 
   const { pathname } = useLocation();
   const isHome = pathname === "/";
-  const showDesktopSidebar = showSidebar && !isHome;
+  const showDesktopSidebar = showSidebar;
 
   return (
     <SidebarContext.Provider value={{ isCollapsed, setIsCollapsed }}>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-dvh bg-background">
+        <SkipLink />
         {/* Header */}
         {isMobile ? (
           <MobileHeader
@@ -106,8 +110,6 @@ export function AppLayout({
             onSearchClick={() => setSearchOpen(true)}
             cartCount={cartCount}
           />
-        ) : isHome ? (
-          <HomeTopHeader showTrustStrip={showTrustStrip} cartCount={cartCount} />
         ) : (
           <SlimDesktopHeader
             cartCount={cartCount}
@@ -131,23 +133,21 @@ export function AppLayout({
 
         {/* Main Content */}
         <main
+          id="main-content"
           className={cn(
-            fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-screen",
+            fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-dvh",
             "transition-all duration-300",
             !fillViewport && isMobile && showBottomNav && "pb-28",
             !isMobile && showDesktopSidebar && (isCollapsed ? "lg:pl-16" : "lg:pl-60"),
             className
           )}
-          style={
-            isMobile
-              ? {
-                  paddingTop: "var(--app-header-h)",
-                  ...(fillViewport ? { paddingBottom: "var(--bottom-nav-h)" } : {}),
-                }
-              : undefined
-          }
+          style={{
+            paddingTop: "var(--app-header-h)",
+            ...(isMobile && fillViewport ? { paddingBottom: "var(--bottom-nav-h)" } : {}),
+          }}
         >
           {children}
+          {!fillViewport && <SiteFooter />}
         </main>
 
 

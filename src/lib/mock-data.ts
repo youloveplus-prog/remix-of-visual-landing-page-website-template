@@ -1,9 +1,9 @@
 import { Product, User, Post, Story, Challenge, Category } from "@/types";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import bookHardcover from "@/assets/book-hardcover.jpg";
-import studentKit from "@/assets/student-kit.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import bookHardcover from "@/assets/book-hardcover.webp";
+import studentKit from "@/assets/student-kit.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 import heroFashion from "@/assets/learning-hero.svg";
 
 export const mockProducts: Product[] = [
@@ -293,12 +293,27 @@ export const mockPosts: Post[] = [
     id: "2",
     user: mockUser,
     content: "My weekly study haul: new books + the Python course. Asikon recommended all of these for my goals 📚💫",
-    image: bookHardcover,
+    images: [bookHardcover, coursePython, courseAiMl, studentKit],
     likes: 1850,
     comments: 89,
     shares: 34,
     timestamp: "5 hours ago",
     product: mockProducts[2],
+  },
+  {
+    id: "3",
+    user: {
+      ...mockUser,
+      name: "Rahim Study",
+      username: "rahim_study",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop",
+    },
+    content: "Day 30 of the AI roadmap — sharing my full setup, notes and prompt library 🧠",
+    images: [promptLibrary, courseAiMl, bookHardcover, studentKit, coursePython, promptLibrary, courseAiMl],
+    likes: 3120,
+    comments: 142,
+    shares: 58,
+    timestamp: "1 day ago",
   },
 ];
 

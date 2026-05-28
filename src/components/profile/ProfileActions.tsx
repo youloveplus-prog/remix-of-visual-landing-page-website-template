@@ -1,4 +1,16 @@
-import { MessageCircle, Share2, UserPlus, UserCheck, Flag, Ban, Pencil, MoreHorizontal } from "lucide-react";
+import {
+  MessageCircle,
+  Share2,
+  UserPlus,
+  UserCheck,
+  Flag,
+  Ban,
+  Pencil,
+  MoreHorizontal,
+  Loader2,
+  Settings,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,6 +23,7 @@ import {
 interface ProfileActionsProps {
   isFollowing?: boolean;
   isOwnProfile?: boolean;
+  isFollowLoading?: boolean;
   onFollow?: () => void;
   onMessage?: () => void;
   onShare?: () => void;
@@ -22,6 +35,7 @@ interface ProfileActionsProps {
 export function ProfileActions({
   isFollowing = false,
   isOwnProfile = false,
+  isFollowLoading = false,
   onFollow,
   onMessage,
   onShare,
@@ -33,11 +47,32 @@ export function ProfileActions({
     return (
       <div className="px-4 pt-3">
         <div className="flex items-center gap-2">
-          <Button onClick={onEditProfile} className="flex-1 gradient-primary border-0 shadow-md" aria-label="Edit profile">
+          <Button
+            onClick={onEditProfile}
+            className="flex-1 tap"
+            aria-label="Edit profile"
+          >
             <Pencil className="h-4 w-4 mr-2" />
             Edit Profile
           </Button>
-          <Button variant="secondary" size="icon" onClick={onShare} aria-label="Share profile">
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            aria-label="Settings"
+            className="tap"
+          >
+            <Link to="/settings">
+              <Settings className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onShare}
+            aria-label="Share profile"
+            className="tap"
+          >
             <Share2 className="h-4 w-4" />
           </Button>
         </div>
@@ -50,14 +85,15 @@ export function ProfileActions({
       <div className="flex items-center gap-2">
         <Button
           onClick={onFollow}
-          className={
-            isFollowing
-              ? "flex-1 bg-secondary hover:bg-secondary/80 text-foreground"
-              : "flex-1 gradient-primary border-0 shadow-md"
-          }
+          disabled={isFollowLoading}
           aria-pressed={isFollowing}
+          aria-label={isFollowing ? "Unfollow" : "Follow"}
+          variant={isFollowing ? "outline" : "default"}
+          className="flex-[2] tap"
         >
-          {isFollowing ? (
+          {isFollowLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : isFollowing ? (
             <>
               <UserCheck className="h-4 w-4 mr-2" />
               Following
@@ -69,27 +105,32 @@ export function ProfileActions({
             </>
           )}
         </Button>
-        <Button variant="secondary" className="flex-1" onClick={onMessage} aria-label="Send message">
+        <Button
+          variant="outline"
+          className="flex-1 tap"
+          onClick={onMessage}
+          aria-label="Send message"
+        >
           <MessageCircle className="h-4 w-4 mr-2" />
           Message
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" aria-label="More options">
+            <Button variant="outline" size="icon" aria-label="More options" className="tap">
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="glass-strong">
+          <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={onShare}>
               <Share2 className="h-4 w-4 mr-2" />
               Share Profile
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onReport} className="text-amber-400">
+            <DropdownMenuItem onClick={onReport}>
               <Flag className="h-4 w-4 mr-2" />
               Report User
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={onBlock} className="text-destructive">
+            <DropdownMenuItem onClick={onBlock} className="text-destructive focus:text-destructive">
               <Ban className="h-4 w-4 mr-2" />
               Block User
             </DropdownMenuItem>

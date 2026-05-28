@@ -1,115 +1,97 @@
-import { Plus } from "lucide-react";
-import { StoryCircle } from "@/components/home/StoryCircle";
-import { PostCard } from "@/components/community/PostCard";
-import { VideoCard } from "@/components/community/VideoCard";
-import { ShortCard } from "@/components/community/ShortCard";
-import { ReviewCard } from "@/components/community/ReviewCard";
-import { LiveCard } from "@/components/community/LiveCard";
-import { OfferCard } from "@/components/community/OfferCard";
-import { mockStories, mockPosts } from "@/lib/mock-data";
-import { mockVideos, mockShorts, mockReviews, mockLiveSessions, mockOffers } from "@/lib/community-mock-data";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { Loader2, Sparkles } from "lucide-react";
+import { FeedStoriesRail } from "../feed/FeedStoriesRail";
+import { FeedItemRenderer } from "../feed/FeedItemRenderer";
+import type { FeedItem } from "../feed/feed-types";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
-import { Loader2 } from "lucide-react";
-import { useMemo } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { adaptPost, hydrateWithProfiles, type PostRow } from "@/lib/community-adapters";
 
-type FeedItem = {
-  type: "post" | "video" | "short" | "review" | "live" | "offer";
-  data: any;
-  id: string;
-  _loopKey?: string;
-};
+function FeedSkeleton() {
+  return (
+    <div className="mx-auto w-full max-w-[640px] bg-card border border-border rounded-2xl p-4 space-y-3">
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-10 w-10 rounded-full" />
+        <div className="space-y-2 flex-1">
+          <Skeleton className="h-3 w-1/3" />
+          <Skeleton className="h-2.5 w-1/4" />
+        </div>
+      </div>
+      <Skeleton className="h-4 w-5/6" />
+      <Skeleton className="aspect-video w-full rounded-xl" />
+    </div>
+  );
+}
 
 export function MyFeedTab() {
-  const allContent = useMemo<FeedItem[]>(() => {
-    const items: FeedItem[] = [];
+  const navigate = useNavigate();
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["community-feed"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("id, content, images, video_url, rating, type, user_id, created_at, product_id")
+        .order("created_at", { ascending: false })
+        .limit(30);
+      if (error) throw error;
+      return hydrateWithProfiles((data ?? []) as PostRow[]);
+    },
+  });
 
-    const maxLength = Math.max(
-      mockPosts.length,
-      mockVideos.length,
-      mockShorts.length,
-      mockReviews.length,
-      mockLiveSessions.length,
-      mockOffers.length,
-    );
+  const items: FeedItem[] = (data ?? []).map((row) => ({
+    id: `post-${row.id}`,
+    type: "post" as const,
+    data: adaptPost(row),
+  }));
 
-    for (let i = 0; i < maxLength; i++) {
-      if (mockPosts[i]) items.push({ type: "post", data: mockPosts[i], id: `post-${mockPosts[i].id}` });
-      if (mockVideos[i]) items.push({ type: "video", data: mockVideos[i], id: `video-${mockVideos[i].id}` });
-      if (mockShorts[i] && i % 3 === 0) items.push({ type: "short", data: mockShorts[i], id: `short-${mockShorts[i].id}` });
-      if (mockReviews[i]) items.push({ type: "review", data: mockReviews[i], id: `review-${mockReviews[i].id}` });
-      if (mockLiveSessions[i] && mockLiveSessions[i].isLive) items.push({ type: "live", data: mockLiveSessions[i], id: `live-${mockLiveSessions[i].id}` });
-      if (mockOffers[i]) items.push({ type: "offer", data: mockOffers[i], id: `offer-${mockOffers[i].id}` });
-    }
-
-    return items;
-  }, []);
-
-  const { displayedItems, isLoading, loaderRef } = useInfiniteScroll({
-    items: allContent,
+  const { displayedItems, isLoading: scrollLoading, loaderRef } = useInfiniteScroll<FeedItem>({
+    items,
     itemsPerPage: 4,
   });
 
-  const renderFeedItem = (item: FeedItem, index: number) => {
-    const key = item._loopKey || `${item.id}-${index}`;
-
-    switch (item.type) {
-      case "post":
-        return <PostCard key={key} post={item.data} />;
-      case "video":
-        return <div key={key} className="px-4"><VideoCard video={item.data} /></div>;
-      case "short":
-        return (
-          <div key={key} className="px-4">
-            <h3 className="text-sm font-semibold mb-3">Trending Shorts</h3>
-            <div className="flex gap-3 overflow-x-auto hide-scrollbar">
-              {mockShorts.slice(0, 4).map((short) => (
-                <div key={short.id} className="w-32 flex-shrink-0">
-                  <ShortCard short={short} />
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      case "review":
-        return <ReviewCard key={key} review={item.data} />;
-      case "live":
-        return <div key={key} className="px-4"><LiveCard session={item.data} /></div>;
-      case "offer":
-        return <div key={key} className="px-4"><OfferCard offer={item.data} /></div>;
-      default:
-        return null;
-    }
-  };
-
   return (
-    <div className="space-y-4">
-      {/* Stories */}
-      <div className="px-4 pt-2">
-        <div className="flex gap-3 overflow-x-auto hide-scrollbar pt-1 pb-2">
-          {/* Add Story */}
-          <button className="flex flex-col items-center gap-1.5 flex-shrink-0">
-            <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-primary/10 to-primary/5 ring-1 ring-border flex items-center justify-center">
-              <Plus className="h-6 w-6 text-primary" />
-            </div>
-            <span className="text-xs text-muted-foreground">Add Story</span>
-          </button>
-          {mockStories.slice(1).map((story, index) => (
-            <StoryCircle key={story.id} story={story} isFirst={index === 0} />
-          ))}
-        </div>
-      </div>
+    <div className="space-y-5">
+      <FeedStoriesRail />
 
-      {/* Mixed Feed with Infinite Scroll */}
-      <div className="space-y-4">
-        {displayedItems.map((item, index) => renderFeedItem(item, index))}
-        
-        {/* Loader */}
-        <div ref={loaderRef} className="flex justify-center py-4">
-          {isLoading && (
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-          )}
+      {isLoading ? (
+        <div className="space-y-5">
+          {[1, 2, 3].map((i) => <FeedSkeleton key={i} />)}
         </div>
-      </div>
+      ) : isError ? (
+        <div className="mx-auto max-w-[640px] py-12 text-center space-y-3">
+          <p className="text-sm text-muted-foreground">Could not load feed. Try again.</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
+        </div>
+      ) : items.length === 0 ? (
+        <div className="mx-auto max-w-[640px] py-16 text-center space-y-4">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
+            <Sparkles className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <div>
+            <h3 className="font-display font-semibold text-base">Your feed is empty</h3>
+            <p className="text-sm text-muted-foreground mt-1">Be the first to share something with the community.</p>
+          </div>
+          <Button onClick={() => navigate("/community/create")}>Create a post</Button>
+        </div>
+      ) : (
+        <div className="space-y-5">
+          {displayedItems.map((item, index) => (
+            <FeedItemRenderer
+              key={item._loopKey ?? `${item.id}-${index}`}
+              item={item}
+              index={index}
+            />
+          ))}
+          <div ref={loaderRef} className="flex justify-center py-4">
+            {scrollLoading && (
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" aria-hidden />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

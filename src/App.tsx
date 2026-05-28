@@ -10,7 +10,6 @@ import { PageTransition } from "@/components/transitions/PageTransition";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { installFetchTimer, logRoute } from "@/lib/perf";
-import Index from "./pages/Index";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
 
@@ -58,6 +57,8 @@ const AdminAuditLogMod = () => import("./pages/admin/AdminAuditLog");
 
 const TrackDetailMod = () => import("./pages/TrackDetail");
 const LessonDetailMod = () => import("./pages/LessonDetail");
+const IndexMod = () => import("./pages/Index");
+const Index = lazy(IndexMod);
 
 const Shop = lazy(ShopMod);
 const Community = lazy(CommunityMod);
@@ -75,6 +76,7 @@ const Settings = lazy(SettingsMod);
 const CreateContent = lazy(CreateContentMod);
 const Mentors = lazy(MentorsMod);
 const Learn = lazy(LearnMod);
+const Revision = lazy(() => import("./pages/Revision"));
 const NotFound = lazy(NotFoundMod);
 const About = lazy(AboutMod);
 const Prompts = lazy(PromptsMod);
@@ -98,6 +100,21 @@ const AdminRewards = lazy(AdminRewardsMod);
 const AdminAuditLog = lazy(AdminAuditLogMod);
 const TrackDetail = lazy(TrackDetailMod);
 const LessonDetail = lazy(LessonDetailMod);
+const Contact = lazy(() => import("./pages/Contact"));
+const Help = lazy(() => import("./pages/Help"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Refund = lazy(() => import("./pages/Refund"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard"));
+const AdminDigital = lazy(() => import("./pages/admin/AdminDigital"));
+const AdminCourses = lazy(() => import("./pages/admin/AdminCourses"));
+const AdminServices = lazy(() => import("./pages/admin/AdminServices"));
+const DigitalList = lazy(() => import("./pages/DigitalList"));
+const CoursesList = lazy(() => import("./pages/CoursesList"));
+const ServicesList = lazy(() => import("./pages/ServicesList"));
+const ContentDetail = lazy(() => import("./pages/ContentDetail"));
+const Library = lazy(() => import("./pages/Library"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -125,10 +142,14 @@ function useIdlePrefetch() {
       }
     };
     idle(() => {
+      // Warm the most likely next-nav targets so taps feel instant.
       ShopMod();
+      CommunityMod();
       LearnMod();
+      ProfileMod();
       ProductDetailMod();
       AuthMod();
+      CartMod();
     });
   }, []);
 }
@@ -170,10 +191,26 @@ function AnimatedRoutes() {
           <Route path="/create" element={<CreateContent />} />
           <Route path="/mentors" element={<Mentors />} />
           <Route path="/learn" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
+          <Route path="/ai-tutor" element={<Navigate to="/learn" replace />} />
+          <Route path="/revision" element={<ErrorBoundary><Revision /></ErrorBoundary>} />
           <Route path="/learn/:threadId" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
           <Route path="/about" element={<About />} />
           <Route path="/prompts" element={<Prompts />} />
           <Route path="/welcome" element={<Welcome />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/faq" element={<Navigate to="/help" replace />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/refund" element={<Refund />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/digital" element={<DigitalList />} />
+          <Route path="/courses" element={<CoursesList />} />
+          <Route path="/services" element={<ServicesList />} />
+          <Route path="/content/:slug" element={<ContentDetail />} />
+          <Route path="/library" element={<Library />} />
+          
           
           <Route path="/track/:slug" element={<TrackDetail />} />
           <Route path="/lesson/:id" element={<LessonDetail />} />
@@ -194,6 +231,9 @@ function AnimatedRoutes() {
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="rewards" element={<AdminRewards />} />
             <Route path="audit-log" element={<AdminAuditLog />} />
+            <Route path="digital" element={<AdminDigital />} />
+            <Route path="courses" element={<AdminCourses />} />
+            <Route path="services" element={<AdminServices />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
@@ -205,7 +245,7 @@ function AnimatedRoutes() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <CurrencyProvider>
         <TooltipProvider>
           <Toaster />

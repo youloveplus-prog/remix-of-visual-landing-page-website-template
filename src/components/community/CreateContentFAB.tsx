@@ -8,8 +8,10 @@ export function CreateContentFAB() {
   return (
     <button
       onClick={() => navigate("/create")}
+      aria-label="Create new post"
+      style={{ bottom: "calc(var(--bottom-nav-h, 64px) + env(safe-area-inset-bottom, 0px) + 16px)" }}
       className={cn(
-        "fixed bottom-20 right-4 z-50 md:bottom-8",
+        "fixed left-4 z-50 md:bottom-8",
         "w-14 h-14 rounded-2xl",
         "gradient-primary glow-primary",
         "flex items-center justify-center",
@@ -21,8 +23,8 @@ export function CreateContentFAB() {
       )}
     >
       <div className="relative">
-        <Plus className="h-6 w-6 text-primary-foreground transition-transform duration-300 group-hover:rotate-90" />
-        <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+        <Plus className="h-6 w-6 text-primary-foreground transition-transform duration-300 group-hover:rotate-90" aria-hidden />
+        <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden />
       </div>
     </button>
   );

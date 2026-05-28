@@ -39,14 +39,14 @@ export function CreatorCard({
   if (variant === "compact") {
     return (
       <div className="flex items-center gap-2">
-        <Avatar className="h-8 w-8">
+        <Avatar className="h-8 w-8 ring-1 ring-border">
           <AvatarImage src={user.avatar} alt={user.name} />
           <AvatarFallback>{user.name[0]}</AvatarFallback>
         </Avatar>
         <div className="flex items-center gap-1">
           <span className="text-sm font-medium">{user.username}</span>
           {user.isVerified && (
-            <BadgeCheck className="h-3.5 w-3.5 text-primary fill-primary-foreground" />
+            <BadgeCheck className="h-3.5 w-3.5 text-foreground/60" />
           )}
         </div>
       </div>
@@ -56,7 +56,7 @@ export function CreatorCard({
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <Avatar className="h-10 w-10 ring-2 ring-primary/20">
+        <Avatar className="h-10 w-10 ring-1 ring-border">
           <AvatarImage src={user.avatar} alt={user.name} />
           <AvatarFallback>{user.name[0]}</AvatarFallback>
         </Avatar>
@@ -64,7 +64,7 @@ export function CreatorCard({
           <div className="flex items-center gap-1.5">
             <span className="font-semibold text-sm">{user.username}</span>
             {user.isVerified && (
-              <BadgeCheck className="h-4 w-4 text-primary fill-primary-foreground" />
+              <BadgeCheck className="h-3.5 w-3.5 text-foreground/60" />
             )}
           </div>
           {timestamp && (

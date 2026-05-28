@@ -291,19 +291,25 @@ function BannerManager({ kind }: { kind: Kind }) {
   );
 }
 
+import { PromotionsManager } from "@/components/admin/PromotionsManager";
+
 export default function AdminBanners() {
   return (
     <div className="space-y-5">
       <SectionHeader
-        eyebrow="Home"
-        title="Banners"
-        subtitle="Upload and order the home hero slider and offer cards."
+        eyebrow="Marketing"
+        title="Banners & Promotions"
+        subtitle="Upload home sliders, offer cards, and scheduled promo content across the app."
       />
-      <Tabs defaultValue="hero">
-        <TabsList>
+      <Tabs defaultValue="promotions">
+        <TabsList className="flex-wrap h-auto">
+          <TabsTrigger value="promotions">Promotions</TabsTrigger>
           <TabsTrigger value="hero">Hero slider</TabsTrigger>
           <TabsTrigger value="offer">Offer cards</TabsTrigger>
         </TabsList>
+        <TabsContent value="promotions" className="mt-4">
+          <PromotionsManager />
+        </TabsContent>
         <TabsContent value="hero" className="mt-4">
           <BannerManager kind="hero" />
         </TabsContent>

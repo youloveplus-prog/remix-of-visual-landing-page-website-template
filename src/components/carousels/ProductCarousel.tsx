@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Product } from "@/types";
 
 interface ProductCarouselProps {
@@ -41,31 +41,14 @@ export function ProductCarousel({ products, title, viewAllHref, className }: Pro
 
   return (
     <div className={cn("relative", className)}>
-      {/* Header — editorial style */}
+      {/* Unified header */}
       {(title || viewAllHref) && (
-        <div className="flex items-end justify-between gap-3 mb-3 sm:mb-4 px-3 sm:px-4 lg:px-0">
-          <div className="flex items-stretch gap-3 min-w-0">
-            <span
-              aria-hidden
-              className="w-[3px] rounded-full self-stretch shrink-0"
-              style={{ background: "var(--gradient-primary)" }}
-            />
-            {title && (
-              <h2 className="font-display text-[17px] sm:text-xl lg:text-2xl font-semibold tracking-tight truncate">
-                {title}
-              </h2>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            {viewAllHref && (
-              <Link
-                to={viewAllHref}
-                className="text-[12px] sm:text-[13px] font-semibold text-primary hover:underline underline-offset-4"
-              >
-                View all
-              </Link>
-            )}
-            <div className="hidden md:flex items-center gap-1.5">
+        <div className="px-3 sm:px-4 lg:px-0">
+          <div className="flex items-end justify-between gap-3">
+            <div className="min-w-0 flex-1">
+              {title && <SectionHeader title={title} viewAllHref={viewAllHref} />}
+            </div>
+            <div className="hidden md:flex items-center gap-1.5 mb-1 shrink-0">
               <CarouselArrow direction="prev" disabled={!canPrev} onClick={scrollPrev} />
               <CarouselArrow direction="next" disabled={!canNext} onClick={scrollNext} />
             </div>

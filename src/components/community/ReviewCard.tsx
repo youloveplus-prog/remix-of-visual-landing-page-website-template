@@ -11,20 +11,20 @@ interface ReviewCardProps {
 
 function ReviewCardImpl({ review }: ReviewCardProps) {
   return (
-    <article className="bg-card border-b border-border p-4 space-y-4">
+    <article className="bg-card border border-border rounded-2xl p-4 space-y-3.5">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between gap-3">
         <CreatorCard user={review.user} timestamp={review.timestamp} />
         {review.isVerifiedPurchase && <VerifiedBuyerBadge />}
       </div>
 
-      {/* Rating */}
-      <div className="flex items-center gap-2">
+      {/* Rating + title */}
+      <div className="space-y-1.5">
         <div className="flex items-center gap-0.5">
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
-              className={`h-4 w-4 ${
+              className={`h-3.5 w-3.5 ${
                 i < review.rating
                   ? "fill-gold text-gold"
                   : "fill-muted text-muted"
@@ -33,12 +33,12 @@ function ReviewCardImpl({ review }: ReviewCardProps) {
           ))}
         </div>
         {review.title && (
-          <span className="font-semibold text-sm">{review.title}</span>
+          <h4 className="font-semibold text-[14px] leading-snug">{review.title}</h4>
         )}
       </div>
 
       {/* Content */}
-      <p className="text-sm text-muted-foreground">{review.content}</p>
+      <p className="text-[13.5px] text-foreground/80 leading-relaxed">{review.content}</p>
 
       {/* Images */}
       {review.images && review.images.length > 0 && (
@@ -48,13 +48,13 @@ function ReviewCardImpl({ review }: ReviewCardProps) {
               key={index}
               src={image}
               alt={`Review image ${index + 1}`}
-              className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
+              className="w-20 h-20 rounded-xl object-cover flex-shrink-0"
             />
           ))}
           {review.videoUrl && (
-            <div className="relative w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
-              <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
-                <Play className="h-8 w-8 fill-foreground" />
+            <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-secondary">
+              <div className="absolute inset-0 bg-background/40 flex items-center justify-center">
+                <Play className="h-6 w-6 fill-foreground" />
               </div>
             </div>
           )}
@@ -65,10 +65,12 @@ function ReviewCardImpl({ review }: ReviewCardProps) {
       <ProductTag product={review.product} variant="inline" />
 
       {/* Helpful */}
-      <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-        <ThumbsUp className="h-4 w-4" />
-        <span>Helpful ({review.helpfulCount})</span>
-      </button>
+      <div className="border-t border-border pt-3">
+        <button className="flex items-center gap-2 text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors">
+          <ThumbsUp className="h-3.5 w-3.5" />
+          <span>Helpful (<span className="tabular-nums">{review.helpfulCount}</span>)</span>
+        </button>
+      </div>
     </article>
   );
 }

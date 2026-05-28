@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
@@ -73,76 +72,74 @@ const Settings = () => {
 
   return (
     <AppLayout>
-      <div className="container mx-auto px-4 pt-3 pb-24 max-w-2xl space-y-4">
-        {/* Profile */}
-        <div className="glass rounded-2xl p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <User className="h-5 w-5 text-primary" />
-            <h2 className="font-semibold">Profile</h2>
-          </div>
+      <div className="container mx-auto px-4 pt-4 pb-24 max-w-2xl space-y-8">
+        <header className="space-y-1">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Account</p>
+          <h1 className="font-display text-2xl lg:text-3xl font-semibold tracking-tight">Settings</h1>
+        </header>
 
-          <div className="flex items-center gap-4 mb-6">
+        {/* Profile */}
+        <Section icon={User} title="Profile">
+          <div className="flex items-center gap-4 mb-5">
             <div className="relative">
-              <Avatar className="h-20 w-20">
+              <Avatar className="h-16 w-16">
                 <AvatarImage src={profile?.avatar_url || ""} />
-                <AvatarFallback className="text-2xl">
+                <AvatarFallback className="text-lg">
                   {profile?.username?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <button className="absolute bottom-0 right-0 p-1.5 rounded-full bg-primary text-primary-foreground">
+              <button
+                aria-label="Change avatar"
+                className="absolute -bottom-1 -right-1 h-7 w-7 grid place-items-center rounded-full bg-foreground text-background border-2 border-card"
+              >
                 <Camera className="h-3 w-3" />
               </button>
             </div>
-            <div className="flex-1">
-              <p className="font-medium">{profile?.full_name || profile?.username || "User"}</p>
-              <p className="text-sm text-muted-foreground">{user.email}</p>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-[15px] truncate">{profile?.full_name || profile?.username || "User"}</p>
+              <p className="text-[12.5px] text-muted-foreground truncate">{user.email}</p>
             </div>
-            {!editMode && <Button variant="outline" onClick={handleEditProfile}>Edit</Button>}
+            {!editMode && <Button variant="outline" size="sm" onClick={handleEditProfile}>Edit</Button>}
           </div>
 
           {editMode ? (
             <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="username" className="text-[12px] text-muted-foreground font-medium">Username</Label>
                 <Input id="username" value={formData.username}
                   onChange={(e) => setFormData((p) => ({ ...p, username: e.target.value }))} />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="full_name">Full Name</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="full_name" className="text-[12px] text-muted-foreground font-medium">Full name</Label>
                 <Input id="full_name" value={formData.full_name}
                   onChange={(e) => setFormData((p) => ({ ...p, full_name: e.target.value }))} />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="bio">Bio</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="bio" className="text-[12px] text-muted-foreground font-medium">Bio</Label>
                 <Input id="bio" value={formData.bio}
                   onChange={(e) => setFormData((p) => ({ ...p, bio: e.target.value }))} />
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 pt-1">
                 <Button onClick={handleSaveProfile} disabled={updateProfile.isPending}>
-                  {updateProfile.isPending ? "Saving..." : "Save Changes"}
+                  {updateProfile.isPending ? "Saving…" : "Save changes"}
                 </Button>
-                <Button variant="outline" onClick={() => setEditMode(false)}>Cancel</Button>
+                <Button variant="ghost" onClick={() => setEditMode(false)}>Cancel</Button>
               </div>
             </div>
           ) : (
-            <div className="space-y-2 text-sm">
+            <div className="divide-y divide-border/60 text-[13.5px]">
               <Row label="Username" value={profile?.username} />
-              <Row label="Full Name" value={profile?.full_name} />
+              <Row label="Full name" value={profile?.full_name} />
               <Row label="Bio" value={profile?.bio} />
             </div>
           )}
-        </div>
+        </Section>
 
         {/* Privacy */}
-        <div className="glass rounded-2xl p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Shield className="h-5 w-5 text-primary" />
-            <h2 className="font-semibold">Privacy</h2>
-          </div>
-
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Profile visibility</Label>
+        <Section icon={Shield} title="Privacy">
+          <div className="space-y-5">
+            <div className="space-y-1.5">
+              <Label className="text-[12px] text-muted-foreground font-medium">Profile visibility</Label>
               <Select
                 value={settings?.profile_visibility ?? "public"}
                 onValueChange={(v) => setSetting({ profile_visibility: v as UserSettings["profile_visibility"] })}
@@ -157,10 +154,8 @@ const Settings = () => {
               </Select>
             </div>
 
-            <Separator />
-
-            <div className="space-y-2">
-              <Label>Who can message me</Label>
+            <div className="space-y-1.5">
+              <Label className="text-[12px] text-muted-foreground font-medium">Who can message me</Label>
               <Select
                 value={settings?.allow_messages_from ?? "everyone"}
                 onValueChange={(v) => setSetting({ allow_messages_from: v as UserSettings["allow_messages_from"] })}
@@ -175,99 +170,85 @@ const Settings = () => {
               </Select>
             </div>
 
-            <Separator />
-
-            <ToggleRow
-              icon={<Eye className="h-4 w-4 text-muted-foreground" />}
-              title="Show online status"
-              desc="Let others see when you're active"
-              checked={settings?.show_online_status ?? true}
-              disabled={settingsLoading}
-              onChange={(c) => setSetting({ show_online_status: c })}
-            />
-            <Separator />
-            <ToggleRow
-              title="Show my orders to followers"
-              desc="Recent purchases visible on your profile"
-              checked={settings?.show_orders_to_followers ?? false}
-              disabled={settingsLoading}
-              onChange={(c) => setSetting({ show_orders_to_followers: c })}
-            />
+            <div className="divide-y divide-border/60 -mx-1">
+              <ToggleRow
+                icon={<Eye className="h-4 w-4 text-foreground/60" />}
+                title="Show online status"
+                desc="Let others see when you're active"
+                checked={settings?.show_online_status ?? true}
+                disabled={settingsLoading}
+                onChange={(c) => setSetting({ show_online_status: c })}
+              />
+              <ToggleRow
+                title="Show my orders to followers"
+                desc="Recent purchases visible on your profile"
+                checked={settings?.show_orders_to_followers ?? false}
+                disabled={settingsLoading}
+                onChange={(c) => setSetting({ show_orders_to_followers: c })}
+              />
+            </div>
           </div>
-        </div>
+        </Section>
 
         {/* Notifications */}
-        <div className="glass rounded-2xl p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Bell className="h-5 w-5 text-primary" />
-            <h2 className="font-semibold">Notifications</h2>
-          </div>
-          <div className="space-y-4">
+        <Section icon={Bell} title="Notifications">
+          <div className="divide-y divide-border/60 -mx-1">
             <ToggleRow title="Order updates" desc="Get notified about your orders"
               checked={settings?.notify_orders ?? true} disabled={settingsLoading}
               onChange={(c) => setSetting({ notify_orders: c })} />
-            <Separator />
             <ToggleRow title="Promotions" desc="Receive deals and offers"
               checked={settings?.notify_promotions ?? true} disabled={settingsLoading}
               onChange={(c) => setSetting({ notify_promotions: c })} />
-            <Separator />
             <ToggleRow title="Community" desc="Likes and comments on your posts"
               checked={settings?.notify_community ?? true} disabled={settingsLoading}
               onChange={(c) => setSetting({ notify_community: c })} />
-            <Separator />
             <ToggleRow title="Messages" desc="New direct messages"
               checked={settings?.notify_messages ?? true} disabled={settingsLoading}
               onChange={(c) => setSetting({ notify_messages: c })} />
-            <Separator />
             <ToggleRow title="New followers" desc="When someone follows you"
               checked={settings?.notify_follows ?? true} disabled={settingsLoading}
               onChange={(c) => setSetting({ notify_follows: c })} />
           </div>
-        </div>
+        </Section>
 
         {/* Appearance & Preferences */}
-        <div className="glass rounded-2xl p-5 space-y-4">
-          <div className="flex items-center gap-2">
-            <Palette className="h-5 w-5 text-primary" />
-            <h2 className="font-semibold">Appearance & Preferences</h2>
+        <Section icon={Palette} title="Appearance & preferences">
+          <div className="divide-y divide-border/60 -mx-1">
+            <PrefRow
+              icon={<Moon className="h-4 w-4 text-foreground/60" />}
+              title="Theme"
+              desc="Switch between light and dark"
+              control={<ThemeToggle />}
+            />
+            <PrefRow
+              icon={<Coins className="h-4 w-4 text-foreground/60" />}
+              title="Currency"
+              desc="Display prices in your preferred currency"
+              control={<CurrencyToggle />}
+            />
           </div>
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-start gap-2 min-w-0">
-              <Moon className="h-4 w-4 text-muted-foreground mt-0.5" />
-              <div className="min-w-0">
-                <p className="font-medium text-sm">Theme</p>
-                <p className="text-xs text-muted-foreground">Switch between light and dark</p>
-              </div>
-            </div>
-            <ThemeToggle />
-          </div>
-          <Separator />
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-start gap-2 min-w-0">
-              <Coins className="h-4 w-4 text-muted-foreground mt-0.5" />
-              <div className="min-w-0">
-                <p className="font-medium text-sm">Currency</p>
-                <p className="text-xs text-muted-foreground">Display prices in your preferred currency</p>
-              </div>
-            </div>
-            <CurrencyToggle />
-          </div>
-        </div>
+        </Section>
 
-        {/* Other Settings */}
-        <div className="glass rounded-2xl overflow-hidden">
-          <button onClick={() => navigate("/auth?mode=reset")} className="w-full flex items-center justify-between p-4 hover:bg-secondary/50">
-            <div className="flex items-center gap-3"><Lock className="h-5 w-5 text-muted-foreground" /><span>Change Password</span></div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+        {/* Security */}
+        <Section icon={Lock} title="Security">
+          <button
+            onClick={() => navigate("/auth?mode=reset")}
+            className="w-full -mx-1 px-1 py-3 flex items-center justify-between hover:bg-secondary/40 rounded-lg transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <Lock className="h-4 w-4 text-foreground/60" />
+              <span className="text-[14px] font-medium">Change password</span>
+            </div>
+            <ChevronRight className="h-4 w-4 text-muted-foreground" />
           </button>
-        </div>
+        </Section>
 
-        <Button variant="destructive" className="w-full" onClick={handleSignOut}>
-          <LogOut className="h-4 w-4 mr-2" /> Sign Out
+        <Button variant="outline" className="w-full text-destructive hover:text-destructive" onClick={handleSignOut}>
+          <LogOut className="h-4 w-4 mr-2" /> Sign out
         </Button>
 
-        <section className="pt-4">
-          <h2 className="font-semibold text-lg mb-3">About ASIKON</h2>
+        <section className="pt-2">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-3">About ASIKON</p>
           <MissionVision />
         </section>
       </div>
@@ -275,11 +256,44 @@ const Settings = () => {
   );
 };
 
+function Section({
+  icon: Icon, title, children,
+}: { icon: React.ElementType; title: string; children: React.ReactNode }) {
+  return (
+    <section className="rounded-2xl border border-border bg-card p-5">
+      <header className="flex items-center gap-2 mb-4">
+        <Icon className="h-4 w-4 text-foreground/60" />
+        <h2 className="font-medium text-[14px] tracking-tight">{title}</h2>
+      </header>
+      {children}
+    </section>
+  );
+}
+
+function PrefRow({
+  icon, title, desc, control,
+}: { icon?: React.ReactNode; title: string; desc: string; control: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between gap-3 px-1 py-3">
+      <div className="flex items-start gap-2.5 min-w-0">
+        <span className="mt-0.5">{icon}</span>
+        <div className="min-w-0">
+          <p className="font-medium text-[14px]">{title}</p>
+          <p className="text-[12px] text-muted-foreground">{desc}</p>
+        </div>
+      </div>
+      {control}
+    </div>
+  );
+}
+
 function Row({ label, value }: { label: string; value?: string | null }) {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between py-2.5 gap-3">
       <span className="text-muted-foreground">{label}</span>
-      <span>{value || "Not set"}</span>
+      <span className={value ? "text-foreground text-right truncate" : "text-muted-foreground/60 text-right"}>
+        {value || "Not set"}
+      </span>
     </div>
   );
 }
@@ -295,12 +309,12 @@ function ToggleRow({
   disabled?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <div className="flex items-start gap-2 min-w-0">
-        {icon}
+    <div className="flex items-center justify-between gap-3 px-1 py-3">
+      <div className="flex items-start gap-2.5 min-w-0">
+        {icon && <span className="mt-0.5">{icon}</span>}
         <div className="min-w-0">
-          <p className="font-medium text-sm">{title}</p>
-          <p className="text-xs text-muted-foreground">{desc}</p>
+          <p className="font-medium text-[14px]">{title}</p>
+          <p className="text-[12px] text-muted-foreground">{desc}</p>
         </div>
       </div>
       <Switch checked={checked} onCheckedChange={onChange} disabled={disabled} />

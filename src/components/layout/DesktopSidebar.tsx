@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "@/assets/logo.png";
 import {
   Home,
   Library,
@@ -229,16 +230,48 @@ export function DesktopSidebar({
 
   return (
     <aside
-      style={{ top: "var(--app-header-h)" }}
       onMouseEnter={() => isCollapsed && setIsHoverExpanded(true)}
       onMouseLeave={() => setIsHoverExpanded(false)}
       className={cn(
-        "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
+        "fixed left-0 top-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
         expanded ? "w-60" : "w-16",
         isCollapsed && isHoverExpanded && "shadow-2xl shadow-black/40",
         className
       )}
     >
+      {/* Brand logo area */}
+      <div className={cn(
+        "h-[72px] flex items-center px-4 border-b border-border/40 bg-background/40",
+        expanded ? "justify-start gap-2.5" : "justify-center"
+      )}>
+        <Link to="/" className="group flex items-center gap-2.5">
+          <span className={cn(
+            "relative grid place-items-center rounded-xl transition-all duration-300",
+            "ring-1 ring-border/60 bg-card/70 backdrop-blur-xl h-10 w-10 shrink-0"
+          )}>
+            <img
+              src={logo}
+              alt="Asikon logo"
+              className="w-6 h-6 object-contain"
+            />
+            <span
+              aria-hidden
+              className="absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ background: "var(--gradient-primary-soft)" }}
+            />
+          </span>
+          {expanded && (
+            <div className="leading-none animate-fade-in">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
+                ​
+              </p>
+              <h1 className="font-display font-bold text-gradient text-xl">
+                Asikon
+              </h1>
+            </div>
+          )}
+        </Link>
+      </div>
       {/* Collapse Toggle */}
       <Button
         variant="ghost"

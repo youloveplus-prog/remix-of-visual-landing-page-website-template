@@ -10,17 +10,17 @@ interface ProductTagProps {
 export function ProductTag({ product, variant = "overlay" }: ProductTagProps) {
   if (variant === "inline") {
     return (
-      <div className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
-        <img 
-          src={product.image} 
+      <div className="flex items-center gap-3 p-2.5 bg-card border border-border rounded-xl">
+        <img
+          src={product.image}
           alt={product.name}
-          className="w-12 h-12 rounded-lg object-cover"
+          className="w-10 h-10 rounded-lg object-cover"
         />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium truncate">{product.name}</p>
-          <Price amount={product.price} className="text-sm text-primary font-semibold" />
+          <p className="text-[12.5px] font-semibold truncate">{product.name}</p>
+          <Price amount={product.price} className="text-[12.5px] text-foreground/80 font-semibold" />
         </div>
-        <button className="p-2 rounded-full bg-primary text-primary-foreground">
+        <button className="h-8 w-8 rounded-full bg-foreground text-background flex items-center justify-center hover:opacity-90 transition-opacity">
           <ShoppingBag className="h-4 w-4" />
         </button>
       </div>

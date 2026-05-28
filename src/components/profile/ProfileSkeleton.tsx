@@ -5,34 +5,50 @@ export function ProfileSkeleton() {
   return (
     <AppLayout showBottomNav>
       <div className="space-y-0">
-        <Skeleton className="w-full h-32 rounded-none" />
-        <Skeleton className="h-20 w-20 -mt-10 ml-4 rounded-full border-4 border-background" />
-        <Skeleton className="w-40 h-5 mt-3 ml-4" />
-        <Skeleton className="w-24 h-3 mt-1 ml-4" />
+        {/* Cover */}
+        <Skeleton className="w-full h-32 sm:h-44 rounded-none" />
 
-        <div className="grid grid-cols-5 gap-2 py-4 mt-4 border-t border-b border-border/60 px-4">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="flex flex-col items-center gap-1.5">
-              <Skeleton className="w-8 h-5" />
-              <Skeleton className="w-12 h-2" />
-            </div>
-          ))}
+        {/* Avatar + identity (centered) */}
+        <div className="flex flex-col items-center px-4 -mt-12 sm:-mt-16">
+          <Skeleton className="h-24 w-24 sm:h-32 sm:w-32 rounded-full border-4 border-background" />
+          <Skeleton className="w-40 h-5 mt-3" />
+          <Skeleton className="w-24 h-3 mt-2" />
+          <Skeleton className="w-28 h-5 mt-2 rounded-full" />
+          <Skeleton className="w-64 h-3 mt-3" />
         </div>
 
-        <div className="flex gap-2 px-4 mt-4">
-          <Skeleton className="flex-1 h-9 rounded-lg" />
-          <Skeleton className="flex-1 h-9 rounded-lg" />
+        {/* 3-cell stats */}
+        <div className="px-4 pt-4">
+          <div className="grid grid-cols-3 rounded-2xl border border-border/60 overflow-hidden">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="flex flex-col items-center justify-center py-3 gap-1.5">
+                <Skeleton className="w-10 h-5" />
+                <Skeleton className="w-14 h-2.5" />
+              </div>
+            ))}
+          </div>
+          {/* XP bar */}
+          <Skeleton className="mt-3 h-14 w-full rounded-2xl" />
         </div>
 
+        {/* Actions */}
+        <div className="flex gap-2 px-4 pt-3">
+          <Skeleton className="flex-1 h-10 rounded-lg" />
+          <Skeleton className="h-10 w-10 rounded-lg" />
+          <Skeleton className="h-10 w-10 rounded-lg" />
+        </div>
+
+        {/* Tabs */}
         <div className="flex gap-2 px-4 mt-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <Skeleton key={i} className="h-8 w-20 rounded-full" />
+            <Skeleton key={i} className="h-9 w-20 rounded-full" />
           ))}
         </div>
 
+        {/* Content placeholders */}
         <div className="space-y-3 px-4 mt-4 pb-6">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="h-24 w-full rounded-2xl" />
+            <Skeleton key={i} className="h-28 w-full rounded-2xl" />
           ))}
         </div>
       </div>

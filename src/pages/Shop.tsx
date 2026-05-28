@@ -1,16 +1,15 @@
-import { Sparkles } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CategoryCarousel } from "@/components/carousels";
 import { ShopFilters } from "@/components/shop/ShopFilters";
 import { DesktopFilterRail } from "@/components/shop/DesktopFilterRail";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { CourseVideoCard } from "@/components/shop/CourseVideoCard";
 import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, SortOption } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const MAX_PRICE = 500;
@@ -28,8 +27,8 @@ function detectProductType(name: string): ProductType {
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState(searchParams.get("category") ?? "All");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, MAX_PRICE]);
   const [productType, setProductType] = useState<ProductType>("all");
@@ -37,12 +36,15 @@ const Shop = () => {
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
 
-  // Sync URL params (?type=courses, ?filter=trending|new|deals) → state
+  // Sync URL → state (q, type, filter, category)
   useEffect(() => {
+    setSearchQuery(searchParams.get("q") ?? "");
     const type = searchParams.get("type") as ProductType | null;
     if (type && ["all", "courses", "books", "kits", "prompts"].includes(type)) {
       setProductType(type);
     }
+    const cat = searchParams.get("category");
+    setActiveCategory(cat ?? "All");
     const filter = searchParams.get("filter");
     if (filter === "trending" || filter === "popular") setSortBy("popular");
     else if (filter === "new") setSortBy("newest");
@@ -53,6 +55,14 @@ const Shop = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    const next = new URLSearchParams(searchParams);
+    if (value.trim()) next.set("q", value);
+    else next.delete("q");
+    setSearchParams(next, { replace: true });
+  };
+
   const handleTypeChange = (t: ProductType) => {
     setProductType(t);
     const next = new URLSearchParams(searchParams);
@@ -60,6 +70,15 @@ const Shop = () => {
     else next.set("type", t);
     setSearchParams(next, { replace: true });
   };
+
+  const handleCategoryChange = (name: string) => {
+    setActiveCategory(name);
+    const next = new URLSearchParams(searchParams);
+    if (name === "All") next.delete("category");
+    else next.set("category", name);
+    setSearchParams(next, { replace: true });
+  };
+
 
   const { data: categories, isLoading: categoriesLoading } = useCategories();
 
@@ -92,16 +111,27 @@ const Shop = () => {
     });
   }, [products, productType, minRating, onSaleOnly, featuredOnly]);
 
-  // Transform categories for carousel
+  // Filter category pills by current query so categories matching the search bubble up
+  const q = searchQuery.trim().toLowerCase();
+  const matchedCategories = useMemo(() => {
+    const all = categories ?? [];
+    if (!q) return all;
+    const matches = all.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q),
+    );
+    return matches.length > 0 ? matches : all;
+  }, [categories, q]);
+
   const categoryItems = [
     { id: "all", name: "All", slug: "all", icon: "📚" },
-    ...(categories?.map((cat) => ({
+    ...matchedCategories.map((cat) => ({
       id: cat.id,
       name: cat.name,
       slug: cat.slug,
       icon: cat.icon || "📦",
-    })) || []),
+    })),
   ];
+
 
   // Count active filters
   const activeFiltersCount = useMemo(() => {
@@ -123,36 +153,18 @@ const Shop = () => {
     setMinRating(0);
     setOnSaleOnly(false);
     setFeaturedOnly(false);
+    setSearchParams(new URLSearchParams(), { replace: true });
   };
+
 
   return (
     <AppLayout>
-      <Helmet>
-        <title>Shop — Courses, Books & Kits | Asikon</title>
-        <meta name="description" content="Browse curated courses, books, study kits, and prompt libraries — every item vetted by ASIKON mentors." />
-      </Helmet>
+      <SEO
+        title="Explore — Courses, Books & Kits"
+        description="Browse curated courses, books, study kits, and prompt libraries — every item vetted by ASIKON mentors."
+        url="https://asikonpro.lovable.app/shop"
+      />
       <div className="container-editorial pb-8 lg:pb-16">
-        {/* Editorial header band — minimal on mobile, full on desktop */}
-        <div className="hidden lg:block pt-10 pb-8">
-          <p className="eyebrow-bar mb-2">ASIKON Marketplace</p>
-          <h1 className="display-2 mb-1">Learn smarter. Shop with intent.</h1>
-          <p className="text-sm lg:text-base text-muted-foreground max-w-2xl">
-            Curated courses, books, kits, and prompt libraries — every item vetted by ASIKON mentors.
-          </p>
-        </div>
-
-        {/* Points Progress — compact glass strip */}
-        <div className="mt-3 lg:mt-0 mb-4 lg:mb-6 p-3 lg:p-4 glass rounded-2xl">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-[13px] font-medium">2x Learning XP Active</span>
-            </div>
-            <span className="text-[11px] text-muted-foreground">Level 5</span>
-          </div>
-          <Progress value={65} className="h-1.5" />
-          <p className="text-[11px] text-muted-foreground mt-1">On Skill-Up Fridays</p>
-        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6 lg:gap-8">
           {/* Desktop sticky filter rail */}
@@ -179,7 +191,7 @@ const Shop = () => {
             <div className="lg:[&>div>div>button:last-child]:hidden">
               <ShopFilters
                 searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
+                onSearchChange={handleSearchChange}
                 sortBy={sortBy}
                 onSortChange={setSortBy}
                 priceRange={priceRange}
@@ -209,18 +221,32 @@ const Shop = () => {
               <CategoryCarousel
                 categories={categoryItems}
                 activeCategory={activeCategory}
-                onCategoryChange={setActiveCategory}
+                onCategoryChange={handleCategoryChange}
               />
             )}
 
             {/* Results Count */}
-            <div className="text-sm text-muted-foreground">
+            <div className="flex items-center justify-between gap-3 text-sm text-muted-foreground">
               {productsLoading ? (
                 <Skeleton className="h-4 w-24" />
               ) : (
-                `${filteredProducts?.length || 0} learning resources found`
+                <span>
+                  {filteredProducts?.length || 0} learning resources found
+                  {searchQuery.trim() && (
+                    <> for <span className="text-foreground font-medium">"{searchQuery}"</span></>
+                  )}
+                </span>
+              )}
+              {searchQuery.trim() && (
+                <button
+                  onClick={() => handleSearchChange("")}
+                  className="text-primary hover:underline text-xs font-medium shrink-0"
+                >
+                  Clear search
+                </button>
               )}
             </div>
+
 
             {/* Products Grid */}
             <div>
@@ -248,31 +274,48 @@ const Shop = () => {
                         to={`/product/${product.slug}`}
                         className="block h-full focus-ring rounded-2xl"
                       >
-                        <ProductCard
-                          product={{
-                            id: product.id,
-                            name: product.name,
-                            brand: "Asikon Academy",
-                            price: product.price,
-                            originalPrice: product.original_price || undefined,
-                            image: product.image_url || "/placeholder.svg",
-                            rating: product.rating || 0,
-                            reviews: product.review_count || 0,
-                            isNew: false,
-                            isTrending: product.is_featured || false,
-                          }}
-                        />
+                        {activeCategory === "Courses" ? (
+                          <CourseVideoCard
+                            product={{
+                              id: product.id,
+                              name: product.name,
+                              brand: "Asikon Academy",
+                              price: product.price,
+                              originalPrice: product.original_price || undefined,
+                              image: product.image_url || "/placeholder.svg",
+                              rating: product.rating || 0,
+                              reviews: product.review_count || 0,
+                              isNew: false,
+                              isTrending: product.is_featured || false,
+                            }}
+                          />
+                        ) : (
+                          <ProductCard
+                            product={{
+                              id: product.id,
+                              name: product.name,
+                              brand: "Asikon Academy",
+                              price: product.price,
+                              originalPrice: product.original_price || undefined,
+                              image: product.image_url || "/placeholder.svg",
+                              rating: product.rating || 0,
+                              reviews: product.review_count || 0,
+                              isNew: false,
+                              isTrending: product.is_featured || false,
+                            }}
+                          />
+                        )}
                       </Link>
                     </Reveal>
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center glass rounded-2xl">
-                  <p className="text-muted-foreground mb-4">No products found</p>
+                <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border bg-card">
+                  <p className="text-muted-foreground mb-4">No products match your filters.</p>
                   {(searchQuery || activeFiltersCount > 0) && (
                     <button
                       onClick={handleClearFilters}
-                      className="text-primary hover:underline text-sm font-semibold"
+                      className="text-primary hover:underline text-sm font-medium"
                     >
                       Clear all filters
                     </button>

@@ -518,51 +518,56 @@ export default function AdminUsers() {
         subtitle="Search, filter and moderate every member."
       />
 
-      <Reveal className="flex flex-wrap items-center gap-2">
-        <div className="relative flex-1 min-w-[220px] max-w-md">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search by name, username, or ID…"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            className="pl-9 bg-background/60"
-          />
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          {ROLE_OPTIONS.map((r) => (
-            <Button
-              key={r}
-              size="sm"
-              variant={roleFilter === r ? "default" : "outline"}
-              onClick={() => setRoleFilter(r)}
-              className="h-8"
-            >
-              {r}
+      <Reveal className="space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="relative flex-1 min-w-[200px]">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search name, username, or ID…"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              className="pl-9 h-10 bg-background/60 rounded-xl"
+            />
+          </div>
+          <div className="flex gap-1.5 sm:ml-auto">
+            <Button size="sm" variant="outline" className="h-10 rounded-xl px-3" onClick={exportPage}>
+              <Download className="h-3.5 w-3.5 sm:mr-1.5" />
+              <span className="hidden sm:inline">Export page</span>
             </Button>
-          ))}
-        </div>
-        <div className="flex gap-1.5">
-          {BAN_OPTIONS.map((b) => (
-            <Button
-              key={b}
-              size="sm"
-              variant={banFilter === b ? "default" : "outline"}
-              onClick={() => setBanFilter(b)}
-              className="h-8 capitalize"
-            >
-              {b}
+            <Button size="sm" variant="outline" className="h-10 rounded-xl px-3" onClick={exportAll} disabled={totalCount === 0}>
+              <Download className="h-3.5 w-3.5 sm:mr-1.5" />
+              <span className="hidden sm:inline">Export all</span>
             </Button>
-          ))}
+          </div>
         </div>
-        <div className="ml-auto flex gap-1.5">
-          <Button size="sm" variant="outline" className="h-8" onClick={exportPage}>
-            <Download className="h-3.5 w-3.5 sm:mr-1.5" />
-            <span className="hidden sm:inline">Export page</span>
-          </Button>
-          <Button size="sm" variant="outline" className="h-8" onClick={exportAll} disabled={totalCount === 0}>
-            <Download className="h-3.5 w-3.5 sm:mr-1.5" />
-            <span className="hidden sm:inline">Export all</span>
-          </Button>
+        {/* Horizontally scrollable chip filters — comfortable on mobile */}
+        <div className="-mx-3 md:mx-0 px-3 md:px-0 overflow-x-auto no-scrollbar">
+          <div className="flex items-center gap-1.5 w-max md:w-auto md:flex-wrap">
+            <span className="text-[10px] uppercase tracking-wider text-muted-foreground/70 mr-1 shrink-0">Role</span>
+            {ROLE_OPTIONS.map((r) => (
+              <Button
+                key={r}
+                size="sm"
+                variant={roleFilter === r ? "default" : "outline"}
+                onClick={() => setRoleFilter(r)}
+                className="h-8 rounded-full px-3 shrink-0 text-[11px] capitalize"
+              >
+                {r.replace("_", " ")}
+              </Button>
+            ))}
+            <span className="text-[10px] uppercase tracking-wider text-muted-foreground/70 mx-1 ml-3 shrink-0">Status</span>
+            {BAN_OPTIONS.map((b) => (
+              <Button
+                key={b}
+                size="sm"
+                variant={banFilter === b ? "default" : "outline"}
+                onClick={() => setBanFilter(b)}
+                className="h-8 rounded-full px-3 shrink-0 text-[11px] capitalize"
+              >
+                {b}
+              </Button>
+            ))}
+          </div>
         </div>
       </Reveal>
 

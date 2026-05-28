@@ -1,10 +1,13 @@
-import { 
-  Package, 
-  Heart, 
-  LayoutDashboard, 
-  Gift, 
-  HelpCircle, 
-  Info 
+import {
+  Package,
+  Heart,
+  Trophy,
+  Bell,
+  HelpCircle,
+  Info,
+  Mail,
+  FileText,
+  ShieldCheck,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -45,10 +48,13 @@ export function SidebarSecondary({ onClose }: SidebarSecondaryProps) {
   const items = [
     { icon: <Package className="w-5 h-5" />, label: "My Orders", href: "/orders" },
     { icon: <Heart className="w-5 h-5" />, label: "Wishlist", href: "/wishlist" },
-    { icon: <LayoutDashboard className="w-5 h-5" />, label: "Creator Dashboard", href: "/creator" },
-    { icon: <Gift className="w-5 h-5" />, label: "Refer & Earn", href: "/referral" },
-    { icon: <HelpCircle className="w-5 h-5" />, label: "Support / Help", href: "/support" },
-    { icon: <Info className="w-5 h-5" />, label: "About Brand", href: "/about" },
+    { icon: <Bell className="w-5 h-5" />, label: "Notifications", href: "/notifications" },
+    { icon: <Trophy className="w-5 h-5" />, label: "Leaderboard", href: "/leaderboard" },
+    { icon: <HelpCircle className="w-5 h-5" />, label: "Help & FAQ", href: "/help" },
+    { icon: <Mail className="w-5 h-5" />, label: "Contact", href: "/contact" },
+    { icon: <Info className="w-5 h-5" />, label: "About ASIKON", href: "/about" },
+    { icon: <FileText className="w-5 h-5" />, label: "Terms", href: "/terms" },
+    { icon: <ShieldCheck className="w-5 h-5" />, label: "Privacy", href: "/privacy" },
   ];
 
   return (

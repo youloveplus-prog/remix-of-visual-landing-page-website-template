@@ -129,6 +129,13 @@ function FeedPostCard({ post, user }: { post: FeedPost; user: ProfileFeedTabProp
   );
 }
 
+import { EmptyState as SharedEmptyState } from "@/components/ui/empty-state";
+
+/**
+ * Local profile-tab empty state — thin wrapper around the shared
+ * EmptyState primitive so the visual language stays consistent
+ * across cart, wishlist, search, and profile tabs.
+ */
 export function EmptyState({
   icon,
   title,
@@ -141,13 +148,16 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="py-16 px-6 flex flex-col items-center text-center">
-      <div className="h-16 w-16 rounded-full bg-secondary/50 flex items-center justify-center text-muted-foreground/70 mb-4">
-        {icon}
-      </div>
-      <p className="font-semibold">{title}</p>
-      {hint && <p className="text-sm text-muted-foreground mt-1 max-w-xs">{hint}</p>}
-      {action && <div className="mt-4">{action}</div>}
-    </div>
+    <SharedEmptyState
+      title={title}
+      description={hint}
+      illustration={
+        <div className="h-16 w-16 rounded-2xl gradient-primary-soft border border-primary/20 flex items-center justify-center text-primary mb-1">
+          {icon}
+        </div>
+      }
+      secondary={action}
+      className="my-3"
+    />
   );
 }

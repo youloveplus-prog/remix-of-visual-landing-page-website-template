@@ -43,9 +43,12 @@ const maxWidthMap: Record<MaxWidth, string> = {
 /**
  * Consistent mobile-app page shell.
  * - Uses the global MobileHeader/DesktopHeader from AppLayout (don't double-stack).
- * - AppLayout already offsets the page by `--app-header-h`, so the sticky tab
- *   strip is rendered in normal flow with `sticky top-0` and sits flush under
- *   the header with zero gap.
+ * - AppLayout already offsets the page by `--app-header-h`; the sticky strip
+ *   is rendered as a sibling outside `.page-enter` (which sets `will-change:
+ *   transform` and would otherwise create a containing block that breaks
+ *   `position: sticky` relative to the viewport).
+ * - Order matters: `bleed` MUST render before `sticky` so cover art / hero
+ *   art appears above the sticky strip in document flow.
  */
 export function MobilePage({
   children,
@@ -58,28 +61,36 @@ export function MobilePage({
 }: MobilePageProps) {
   const isContainer = maxWidth === "full" || maxWidth === "wide";
   const widthClass = isContainer ? "container-editorial" : `mx-auto w-full ${maxWidthMap[maxWidth]}`;
+  // `container-editorial` already includes px-4 sm:px-6 lg:px-8.
+  // For max-w-* widths we need to add the gutters ourselves.
+  const paddingClass = padded && !isContainer ? "px-4 sm:px-6 lg:px-8" : undefined;
   return (
-    <div className="page-enter page-enter-active">
+    <>
       {bleed}
       {sticky && (
-        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md hairline-bottom">
-          <div className={cn(widthClass, padded && "px-4 sm:px-6 lg:px-8")}>
+        <div
+          className="sticky z-30 w-full bg-background hairline-bottom"
+          style={{ top: "var(--app-header-h, 56px)" }}
+        >
+          <div className={cn(widthClass, paddingClass)}>
             {sticky}
           </div>
         </div>
       )}
-      <div
-        className={cn(
-          widthClass,
-          padded && "px-4 sm:px-6 lg:px-8",
-          sticky ? "pt-2" : "pt-2 lg:pt-6",
-          "pb-6 min-w-0 overflow-x-clip",
-          spacing,
-          className,
-        )}
-      >
-        {children}
+      <div className="page-enter page-enter-active">
+        <div
+          className={cn(
+            widthClass,
+            paddingClass,
+            sticky ? "pt-2" : "pt-2 lg:pt-6",
+            "pb-6 min-w-0 overflow-x-clip",
+            spacing,
+            className,
+          )}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

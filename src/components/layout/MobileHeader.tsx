@@ -1,6 +1,5 @@
 import { useRef } from "react";
-import { ShoppingCart, Search, ChevronLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ChevronLeft, Search, ShoppingBag } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
@@ -10,7 +9,7 @@ import logo from "@/assets/logo.png";
 
 interface MobileHeaderProps {
   onMenuClick: () => void;
-  onSearchClick: () => void;
+  onSearchClick?: () => void;
   cartCount?: number;
 }
 
@@ -35,30 +34,38 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
   const tabTitle = (activeTab && TAB_TITLES[activeTab]) ?? "Asikon";
   const innerTitle = getRouteTitle(pathname);
 
+  const iconBtnCls = cn(
+    "relative w-11 h-11 rounded-full bg-transparent border-0",
+    "flex items-center justify-center text-foreground/70 hover:text-foreground",
+    "active:opacity-50 transition-opacity duration-100",
+  );
+
   return (
     <header
       ref={ref}
       data-app-header
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       className={cn(
-        "fixed top-0 inset-x-0 z-40",
-        "transition-[background-color,border-color,box-shadow] duration-300 ease-out",
+        "fixed top-0 inset-x-0 z-40 transition-[box-shadow,border-color,background-color] duration-300 ease-out",
+        "bg-[linear-gradient(to_bottom,hsl(var(--primary)/0.16),hsl(var(--primary)/0.04)_55%,hsl(var(--background))_100%)]",
+        "dark:bg-[linear-gradient(to_bottom,hsl(var(--primary)/0.26),hsl(var(--primary)/0.06)_55%,hsl(var(--background))_100%)]",
+        "backdrop-blur-xl supports-[backdrop-filter]:bg-background/60",
         scrolled
-          ? "bg-background/80 backdrop-blur-2xl border-b border-border/25 shadow-[0_1px_16px_-6px_hsl(0_0%_0%/0.10)]"
-          : "bg-transparent border-b border-transparent",
+          ? "border-b border-border/40 shadow-[0_2px_18px_-8px_hsl(0_0%_0%/0.18)]"
+          : "border-b border-transparent",
       )}
     >
-      <div className="flex items-center justify-between px-4" style={{ height: 48 }}>
+      <div className="relative flex items-center gap-2 px-3" style={{ height: 52 }}>
         {inner ? (
           <button
             type="button"
             onClick={() => navigate(-1)}
             aria-label="Go back"
             style={{ WebkitTapHighlightColor: "transparent" }}
-            className="flex items-center gap-1.5 -ml-1 active:opacity-50 transition-opacity duration-100"
+            className="flex items-center gap-1.5 -ml-1 active:opacity-50 transition-opacity duration-100 min-w-0"
           >
-            <ChevronLeft className="h-5 w-5 text-muted-foreground shrink-0" strokeWidth={2.2} />
-            <span className="text-[15px] font-semibold tracking-tight text-foreground truncate max-w-[200px]">
+            <ChevronLeft className="h-5 w-5 text-foreground shrink-0" strokeWidth={2.2} />
+            <span className="text-[15px] font-semibold tracking-tight text-foreground truncate max-w-[180px]">
               {innerTitle}
             </span>
           </button>
@@ -68,46 +75,39 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
             onClick={onMenuClick}
             aria-label="Open menu"
             style={{ WebkitTapHighlightColor: "transparent" }}
-            className="flex items-center gap-2 -ml-0.5 active:opacity-50 transition-opacity duration-100"
+            className="flex items-center gap-2 active:opacity-70 transition-opacity duration-100"
           >
-            <img
-              src={logo}
-              alt="Asikon"
-              className="h-7 w-7 rounded-[10px] object-contain shrink-0"
-            />
-            <span className="text-[17px] font-bold tracking-tight leading-none text-foreground">
+            <img src={logo} alt="Asikon" className="h-7 w-7 rounded-md object-contain" />
+            <span className="font-display font-semibold text-[17px] tracking-tight text-foreground">
               {tabTitle}
             </span>
           </button>
         )}
 
-        <div className="flex items-center -mr-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onSearchClick}
-            aria-label="Search"
-            style={{ WebkitTapHighlightColor: "transparent" }}
-            className="h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-transparent active:bg-transparent active:opacity-50 transition-opacity duration-100"
-          >
-            <Search className="h-[19px] w-[19px]" strokeWidth={2} />
-          </Button>
-
-          <Link to="/cart" aria-label="Cart">
-            <Button
-              variant="ghost"
-              size="icon"
+        <div className="ml-auto flex items-center gap-0.5">
+          {onSearchClick && (
+            <button
+              type="button"
+              onClick={onSearchClick}
+              aria-label="Search"
               style={{ WebkitTapHighlightColor: "transparent" }}
-              className="relative h-10 w-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-transparent active:bg-transparent active:opacity-50 transition-opacity duration-100"
+              className={iconBtnCls}
             >
-              <ShoppingCart className="h-[19px] w-[19px]" strokeWidth={2} />
-              {cartCount > 0 && (
-                <span
-                  aria-label={`${cartCount} items in cart`}
-                  className="absolute top-[9px] right-[9px] h-[7px] w-[7px] rounded-full bg-primary ring-[1.5px] ring-background shadow-[0_0_5px_hsl(var(--primary)/0.55)]"
-                />
-              )}
-            </Button>
+              <Search className="h-[20px] w-[20px]" strokeWidth={2} />
+            </button>
+          )}
+          <Link
+            to="/cart"
+            aria-label="Cart"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            className={iconBtnCls}
+          >
+            <ShoppingBag className="h-[20px] w-[20px]" strokeWidth={2} />
+            {cartCount > 0 && (
+              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
+                {cartCount > 9 ? "9+" : cartCount}
+              </span>
+            )}
           </Link>
         </div>
       </div>

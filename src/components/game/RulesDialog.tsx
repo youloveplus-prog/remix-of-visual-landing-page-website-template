@@ -19,8 +19,8 @@ export function RulesDialog({ open, onOpenChange }: Props) {
         </DialogHeader>
         <ul className="space-y-2.5 text-sm">
           {RULES.map((r) => (
-            <li key={r} className="flex gap-2.5 rounded-xl bg-secondary/40 border border-border/40 px-3 py-2.5">
-              <span className="text-primary font-semibold shrink-0">✦</span>
+            <li key={r} className="flex gap-2.5 rounded-xl bg-secondary/40 border border-border px-3 py-2.5">
+              <span className="text-foreground font-semibold shrink-0">✦</span>
               <span>{r}</span>
             </li>
           ))}

@@ -10,7 +10,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
 
   if (loading || isLoading) {
     return (
-      <div className="min-h-screen grid place-items-center bg-background">
+      <div className="min-h-dvh grid place-items-center bg-background">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
       </div>
     );
@@ -20,7 +20,7 @@ export function AdminGuard({ children }: { children: React.ReactNode }) {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen grid place-items-center px-6 py-12 bg-background">
+      <div className="min-h-dvh grid place-items-center px-6 py-12 bg-background">
         <div className="relative w-full max-w-md animate-fade-in">
           <div
             className="absolute -inset-4 rounded-[2rem] blur-3xl opacity-70"

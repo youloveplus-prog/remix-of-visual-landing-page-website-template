@@ -11,6 +11,7 @@ import { NotificationsMenu } from "./NotificationsMenu";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MegaMenu } from "./MegaMenu";
 
 interface SlimDesktopHeaderProps {
   cartCount?: number;
@@ -73,6 +74,24 @@ export function SlimDesktopHeader({
             <ThemeToggle />
             <UserMenu />
           </div>
+        </div>
+      </div>
+
+      {/* Mega Menu band */}
+      <div
+        className={cn(
+          "hairline-bottom transition-all duration-300 relative",
+          "bg-background/40 backdrop-blur-xl",
+          "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.06)]",
+          isScrolled ? "h-0 opacity-0 py-0 overflow-hidden" : "py-1 opacity-100"
+        )}
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, hsl(var(--primary) / 0.06), transparent 70%), radial-gradient(60% 80% at 50% 0%, hsl(var(--primary) / 0.08), transparent 70%)",
+        }}
+      >
+        <div className="flex items-center px-4 lg:px-6">
+          <MegaMenu />
         </div>
       </div>
     </header>

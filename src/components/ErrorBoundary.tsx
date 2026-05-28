@@ -36,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
     if (!this.state.error) return this.props.children;
 
     return (
-      <main className="relative min-h-screen w-full bg-background flex items-center justify-center px-6 overflow-hidden">
+      <main className="relative min-h-dvh w-full bg-background flex items-center justify-center px-6 overflow-hidden">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-40 -left-40 w-[480px] h-[480px] rounded-full blur-[140px] bg-primary/20"
@@ -57,7 +57,7 @@ export class ErrorBoundary extends Component<Props, State> {
               Something went wrong
             </h1>
             <p className="text-sm text-muted-foreground">
-              Apu hit a snag rendering this page. Reload to try again, or head back home.
+              Asikon AI hit a snag rendering this page. Reload to try again, or head back home.
             </p>
             {import.meta.env.DEV && this.state.error?.message && (
               <pre className="text-[11px] text-left text-destructive/80 bg-destructive/5 border border-destructive/20 rounded-lg p-3 mt-3 overflow-auto max-h-40">

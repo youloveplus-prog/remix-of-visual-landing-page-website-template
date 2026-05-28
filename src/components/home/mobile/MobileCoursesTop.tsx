@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Star, ArrowUpRight } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 const fallbackCourses = [
   { id: "f1", name: "Advanced UX Design Course for Senior Designers", image_url: courseAiMl, rating: 4.8, review_count: 87, slug: "advanced-ux" },

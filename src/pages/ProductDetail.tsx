@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Truck, Clock, ShieldCheck, BookOpen, Play, CheckCircle2, GraduationCap, Award, Users, Globe, Infinity as InfinityIcon } from "lucide-react";
+import {
+  Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Zap, ShieldCheck,
+  Play, CheckCircle2, Award, Users, Globe, Infinity as InfinityIcon, ArrowLeft,
+  RotateCcw, Sparkles,
+} from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
-import { MobileCard } from "@/components/ui/mobile-card";
-import { MobileSection } from "@/components/ui/mobile-section";
+
+import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { StickyActionBar } from "@/components/ui/sticky-action-bar";
 import { ProductCarousel } from "@/components/carousels";
-import { TrustIndicators, SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ } from "@/components/product";
+import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ } from "@/components/product";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Price } from "@/lib/currency";
+import { cn } from "@/lib/utils";
 
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 const colors = [
@@ -38,10 +44,10 @@ const courseFaqs = [
 ];
 
 const productFaqs = [
-  { question: "Is this product authentic?", answer: "Yes, every product on ASIKON is verified and shipped from trusted sellers." },
-  { question: "How long does delivery take?", answer: "Standard delivery takes 3-5 business days inside Bangladesh. Cash on delivery available." },
-  { question: "What is your return policy?", answer: "7-day easy returns. Items must be unused and in original packaging." },
-  { question: "Do you ship outside Bangladesh?", answer: "International shipping is rolling out soon — stay tuned!" },
+  { question: "Is this product authentic?", answer: "Yes — every product on ASIKON is digital, verified, and delivered instantly from trusted creators." },
+  { question: "How do I get access after buying?", answer: "Instantly. The moment your payment is verified, the product unlocks in your library — no waiting, no shipping." },
+  { question: "What is your refund policy?", answer: "7-day money-back guarantee. If it's not for you, request a refund from your order page and we'll process it." },
+  { question: "Can I use it outside Bangladesh?", answer: "Yes. All products are digital, so they work anywhere with an internet connection." },
 ];
 
 const courseCurriculum = [
@@ -78,17 +84,16 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     if (!user) {
-      toast({ title: "Please login", description: "You need to be logged in to add items to cart.", variant: "destructive" });
-      return;
-    }
-    if (!selectedSize) {
-      toast({ title: "Select size", description: "Please select a size before adding to cart.", variant: "destructive" });
+      toast({ title: "Please sign in", description: "You need to be logged in to add items to cart.", variant: "destructive" });
       return;
     }
     if (!product) return;
-
+    if (!isCourse && !isBook && !selectedSize) {
+      toast({ title: "Select a size", description: "Please select a size first.", variant: "destructive" });
+      return;
+    }
     addToCart.mutate({ productId: product.id, quantity }, {
-      onSuccess: () => toast({ title: "Added to cart!", description: `${product.name} has been added.` }),
+      onSuccess: () => toast({ title: "Added to cart", description: product.name }),
       onError: () => toast({ title: "Error", description: "Failed to add item.", variant: "destructive" }),
     });
   };
@@ -96,13 +101,11 @@ const ProductDetail = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="6xl">
+        <MobilePage maxWidth="wide">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Skeleton className="aspect-square rounded-2xl" />
             <div className="space-y-4">
-              <Skeleton className="h-8 w-3/4" />
-              <Skeleton className="h-6 w-1/4" />
-              <Skeleton className="h-24 w-full" />
+              <Skeleton className="h-8 w-3/4" /><Skeleton className="h-6 w-1/4" /><Skeleton className="h-24 w-full" />
             </div>
           </div>
         </MobilePage>
@@ -113,10 +116,10 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="6xl">
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <h1 className="text-lg font-semibold mb-2">Product Not Found</h1>
-            <Link to="/shop"><Button>Back to Shop</Button></Link>
+        <MobilePage maxWidth="reading">
+          <div className="py-20 text-center">
+            <h1 className="font-display text-xl font-semibold mb-2">Product not found</h1>
+            <Link to="/shop"><Button>Back to shop</Button></Link>
           </div>
         </MobilePage>
       </AppLayout>
@@ -130,29 +133,240 @@ const ProductDetail = () => {
   const name = product.name || "";
   const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
   const isBook = /book|hardcover|edition/i.test(name);
-  const isDigital = isCourse || /prompt|library|subscription|tutor/i.test(name);
+
+  const canonical = `https://asikonpro.lovable.app/product/${slug}`;
+  const productDesc = (product.description || `Buy ${name} on Asikon.`).slice(0, 155);
 
   return (
     <AppLayout>
-      <MobilePage maxWidth="6xl" spacing="space-y-8 lg:space-y-12" className="pb-sticky-cta">
-        {/* Main Product Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-6 lg:gap-12">
-          {/* Image Gallery — sticky on desktop */}
-          <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1rem)] lg:self-start">
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary/30 border border-border/50">
+      <SEO
+        title={name}
+        description={productDesc}
+        url={canonical}
+        image={product.image_url || undefined}
+        type="product"
+      >
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name,
+          description: product.description || name,
+          image: images.filter(Boolean),
+          sku: product.id,
+          offers: {
+            "@type": "Offer",
+            url: canonical,
+            priceCurrency: "BDT",
+            price: product.price,
+            availability: (product.stock ?? 0) > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+          },
+          ...(product.rating ? { aggregateRating: { "@type": "AggregateRating", ratingValue: product.rating, reviewCount: product.review_count || 1 } } : {}),
+        })}</script>
+      </SEO>
+      <MobilePage maxWidth="wide" spacing="space-y-10" className="pb-sticky-cta lg:pb-10">
+        <Link to="/shop" className="hidden lg:inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
+          <ArrowLeft className="h-3.5 w-3.5" /> Shop
+        </Link>
+
+        {/* Mobile hero (reference style) */}
+        <div className="lg:hidden space-y-4">
+          <div className="rounded-[28px] bg-muted/50 dark:bg-muted/25 px-5 pt-5 pb-6 overflow-hidden">
+            <div className="grid grid-cols-3 items-center">
+              <Link to="/shop" aria-label="Back" className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 shadow-sm justify-self-start">
+                <ChevronLeft className="h-4 w-4" />
+              </Link>
+              <Sparkles className="h-4 w-4 text-foreground/40 justify-self-center" />
+              <span className="justify-self-end" />
+            </div>
+
+            <div className="relative grid grid-cols-[1fr_3fr_1fr] items-center gap-2 mt-2">
+              <img
+                src={images[(selectedImage - 1 + images.length) % images.length] || "/placeholder.svg"}
+                alt=""
+                aria-hidden
+                className="aspect-square object-contain opacity-40 -ml-6 pointer-events-none select-none"
+              />
+              <img
+                src={images[selectedImage] || "/placeholder.svg"}
+                alt={product.name}
+                className="aspect-square object-contain drop-shadow-2xl"
+              />
+              <img
+                src={images[(selectedImage + 1) % images.length] || "/placeholder.svg"}
+                alt=""
+                aria-hidden
+                className="aspect-square object-contain opacity-40 -mr-6 pointer-events-none select-none"
+              />
+            </div>
+
+
+            {images.length > 1 && (
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setSelectedImage((p) => (p > 0 ? p - 1 : images.length - 1))}
+                  aria-label="Previous"
+                  className="h-8 w-8 rounded-full bg-background grid place-items-center shadow-sm active:opacity-60"
+                ><ChevronLeft className="h-3.5 w-3.5" /></button>
+                <span className="text-[12px] tabular-nums text-muted-foreground font-medium min-w-[2.5rem] text-center">{selectedImage + 1}/{images.length}</span>
+                <button
+                  onClick={() => setSelectedImage((p) => (p < images.length - 1 ? p + 1 : 0))}
+                  aria-label="Next"
+                  className="h-8 w-8 rounded-full bg-background grid place-items-center shadow-sm active:opacity-60"
+                ><ChevronRight className="h-3.5 w-3.5" /></button>
+              </div>
+            )}
+
+            {images.length > 1 && (
+              <div className="mt-5 flex items-center justify-center gap-3 overflow-x-auto no-scrollbar">
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    className={cn(
+                      "h-14 w-14 rounded-full grid place-items-center bg-background shadow-sm shrink-0 transition-all",
+                      selectedImage === idx ? "ring-2 ring-foreground scale-105" : "opacity-80"
+                    )}
+                    aria-label={`Image ${idx + 1}`}
+                  >
+                    <img src={img || "/placeholder.svg"} alt="" className="h-9 w-9 object-contain rounded-full" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Info card */}
+          <div className="bg-background rounded-[28px] px-5 pt-5 pb-5 shadow-sm border border-border/40 space-y-4">
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+              {discountPercentage > 0 ? (<><Sparkles className="h-3 w-3" /> Save {discountPercentage}%</>) : "New Arrival"}
+            </span>
+
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h1 className="font-display text-[26px] leading-[1.05] font-bold tracking-tight">{product.name}</h1>
+                <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground mt-1.5">ASIKON</p>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="flex justify-end">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={cn("h-3.5 w-3.5", i < Math.round(product.rating || 0) ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40")} />
+                  ))}
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-1">{(product.review_count || 0).toLocaleString()} reviews</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-3 pt-1">
+              <div className="flex items-baseline gap-2 min-w-0">
+                <Price amount={product.price} className="text-[28px] font-display font-bold tracking-tight tabular-nums" />
+                {product.original_price && (
+                  <Price amount={product.original_price} strike className="text-sm text-muted-foreground tabular-nums" />
+                )}
+              </div>
+              <Button
+                onClick={handleAddToCart}
+                disabled={addToCart.isPending}
+                className="rounded-full h-12 px-5 bg-foreground text-background hover:bg-foreground/90"
+              >
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {isCourse ? "Enroll" : "Add to cart"}
+              </Button>
+            </div>
+
+            <div className="flex items-center gap-1.5 text-[12.5px] text-foreground/80">
+              <CheckCircle2 className="h-3.5 w-3.5 text-success" />
+              <span>Instant access — delivered to your library</span>
+            </div>
+          </div>
+
+          {product.description && (
+            <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+              <h3 className="font-semibold text-[15px] mb-2">Description</h3>
+              <p className="text-[13.5px] text-foreground/80 leading-relaxed whitespace-pre-wrap">{product.description}</p>
+            </div>
+          )}
+
+          <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+            <h3 className="font-semibold text-[15px] mb-3">Product Details</h3>
+            <div className="grid grid-cols-2 gap-2.5">
+              {[
+                { icon: Zap, label: "Instant Access", sub: "Unlock now" },
+                { icon: ShieldCheck, label: "Secure Checkout", sub: "SSL + bKash" },
+                { icon: RotateCcw, label: "7-Day Refund", sub: "No questions" },
+                { icon: Award, label: "Verified", sub: "Trusted creator" },
+              ].map(({ icon: Icon, label, sub }) => (
+                <div key={label} className="flex items-center gap-2.5 rounded-xl bg-muted/50 px-3 py-2.5">
+                  <span className="h-8 w-8 rounded-full bg-background grid place-items-center shrink-0">
+                    <Icon className="h-4 w-4 text-primary" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[12.5px] font-semibold leading-tight truncate">{label}</p>
+                    <p className="text-[11px] text-muted-foreground leading-tight truncate">{sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop main */}
+        <div className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
+          {/* Gallery */}
+          <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
+            <div className="relative aspect-square rounded-2xl lg:rounded-[1.75rem] overflow-hidden bg-muted ring-1 ring-border/40 lg:shadow-xl lg:shadow-amber-900/5">
+              <div className="hidden lg:block absolute top-3 left-1/2 -translate-x-1/2 h-1 w-16 rounded-full bg-foreground/20 z-10" />
               <img src={images[selectedImage] || "/placeholder.svg"} alt={product.name} className="w-full h-full object-cover" />
               {images.length > 1 && (
                 <>
-                  <button onClick={() => setSelectedImage((prev) => (prev > 0 ? prev - 1 : images.length - 1))} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full glass hover:bg-background"><ChevronLeft className="h-5 w-5" /></button>
-                  <button onClick={() => setSelectedImage((prev) => (prev < images.length - 1 ? prev + 1 : 0))} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full glass hover:bg-background"><ChevronRight className="h-5 w-5" /></button>
+                  <button
+                    onClick={() => setSelectedImage((p) => (p > 0 ? p - 1 : images.length - 1))}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60"
+                    style={{ WebkitTapHighlightColor: "transparent" }}
+                    aria-label="Previous image"
+                  ><ChevronLeft className="h-4 w-4" /></button>
+                  <button
+                    onClick={() => setSelectedImage((p) => (p < images.length - 1 ? p + 1 : 0))}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60"
+                    style={{ WebkitTapHighlightColor: "transparent" }}
+                    aria-label="Next image"
+                  ><ChevronRight className="h-4 w-4" /></button>
                 </>
               )}
-              {discountPercentage > 0 && <Badge variant="destructive" className="absolute top-3 left-3 font-bold">-{discountPercentage}%</Badge>}
+              {discountPercentage > 0 && (
+                <Badge className="absolute top-3 left-3 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground border-0 font-semibold shadow-lg shadow-primary/20 px-2.5 py-1">
+                  <Sparkles className="h-3 w-3 mr-1" />
+                  Save {discountPercentage}%
+                </Badge>
+              )}
+              <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+                <button className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 hover:bg-background transition-colors" aria-label="Save">
+                  <Heart className="h-4 w-4" />
+                </button>
+                <button className="h-9 w-9 rounded-full bg-background/85 backdrop-blur grid place-items-center active:opacity-60 hover:bg-background transition-colors" aria-label="Share">
+                  <Share2 className="h-4 w-4" />
+                </button>
+              </div>
+              {images.length > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 lg:hidden">
+                  {images.map((_, idx) => (
+                    <span key={idx} className={cn("h-1 rounded-full transition-all", selectedImage === idx ? "w-5 bg-foreground" : "w-1 bg-foreground/40")} />
+                  ))}
+                </div>
+              )}
             </div>
             {images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
+              <div className="hidden lg:flex gap-2.5 pt-1">
                 {images.map((img, idx) => (
-                  <button key={idx} onClick={() => setSelectedImage(idx)} className={`flex-shrink-0 w-14 h-14 lg:w-20 lg:h-20 rounded-xl overflow-hidden border-2 transition-colors ${selectedImage === idx ? "border-primary" : "border-transparent hover:border-primary/50"}`}>
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedImage(idx)}
+                    className={cn(
+                      "flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden ring-2 transition-all",
+                      selectedImage === idx ? "ring-primary" : "ring-border/40 hover:ring-border"
+                    )}
+                    style={{ WebkitTapHighlightColor: "transparent" }}
+                  >
                     <img src={img || "/placeholder.svg"} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
@@ -160,155 +374,217 @@ const ProductDetail = () => {
             )}
           </div>
 
-          {/* Product Info */}
-          <div className="space-y-5">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-2">ASIKON Marketplace</p>
-              <h1 className="font-display text-[20px] lg:text-3xl font-semibold tracking-tight leading-snug mb-2">{product.name}</h1>
-              <div className="flex items-center gap-1 text-[13px]">
-                <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                <span className="font-medium">{product.rating || 0}</span>
-                <span className="text-muted-foreground">({product.review_count || 0} reviews)</span>
+          {/* Info */}
+          <div className="space-y-5 lg:space-y-6">
+            <div className="space-y-3">
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">ASIKON</p>
+              <h1 className="font-display text-[28px] leading-[1.05] lg:text-[40px] xl:text-[44px] font-bold tracking-tight text-foreground">
+                {product.name}
+              </h1>
+              <div className="flex items-center gap-2 text-[13.5px]">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={cn("h-4 w-4", i < Math.round(product.rating || 0) ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40")} />
+                  ))}
+                </div>
+                <span className="font-medium tabular-nums">{(product.rating || 0).toFixed(1)}/5</span>
+                <span className="text-muted-foreground">({(product.review_count || 0).toLocaleString()} Reviews)</span>
               </div>
             </div>
 
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <Price amount={product.price} className="text-2xl lg:text-3xl font-bold" />
-              {product.original_price && <Price amount={product.original_price} strike className="text-base text-muted-foreground" />}
-              {discountPercentage > 0 && <Badge variant="secondary" className="text-success">Save {discountPercentage}%</Badge>}
+            <div className="flex items-baseline gap-3 flex-wrap">
+              <Price amount={product.price} className="text-3xl lg:text-[34px] font-display font-bold tracking-tight tabular-nums" />
+              {product.original_price && (
+                <Price amount={product.original_price} strike className="text-lg text-muted-foreground tabular-nums" />
+              )}
+              {discountPercentage > 0 && (
+                <span className="text-[11px] font-semibold text-success uppercase tracking-wider px-2 py-0.5 rounded-full bg-success/10">
+                  Save {discountPercentage}%
+                </span>
+              )}
             </div>
-
-            <div className="flex items-center gap-4 text-[13px]">
-              <div className="flex items-center gap-1.5 text-success"><Truck className="h-4 w-4" /><span>Free Shipping</span></div>
-              <div className="flex items-center gap-1.5 text-muted-foreground"><Clock className="h-4 w-4" /><span>3-5 days</span></div>
-            </div>
-
-            <TrustIndicators />
 
             {isCourse ? (
-              <div className="grid grid-cols-2 gap-2 text-[13px]">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 text-[13px]">
                 {[
                   { icon: InfinityIcon, label: "Lifetime access" },
                   { icon: Award, label: "Verified certificate" },
                   { icon: Globe, label: "Bangla + English" },
                   { icon: Users, label: "24/7 AI Tutor" },
                 ].map(({ icon: Icon, label }) => (
-                  <MobileCard key={label} variant="soft" className="!p-3 flex items-center gap-2">
-                    <Icon className="h-4 w-4 text-primary shrink-0" />
+                  <div key={label} className="flex items-center gap-2">
+                    <Icon className="h-3.5 w-3.5 text-primary shrink-0" />
                     <span>{label}</span>
-                  </MobileCard>
+                  </div>
                 ))}
               </div>
-            ) : isBook ? (
-              <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
-            ) : (
-              <>
+            ) : isBook ? null : (
+              <div className="space-y-5">
                 <ColorSelector colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
                 <SizeSelector sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
-                <QuantitySelector quantity={quantity} onIncrease={() => setQuantity((q) => q + 1)} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} />
-              </>
+              </div>
             )}
 
-            <div className="hidden lg:flex gap-3">
-              <Button className="flex-1 gradient-primary border-0" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-                <ShoppingCart className="h-5 w-5 mr-2" />{addToCart.isPending ? "Adding..." : isCourse ? "Enroll Now" : "Add to Cart"}
+            <div className="flex items-center gap-1.5 text-[13px] text-foreground/80">
+              <CheckCircle2 className="h-4 w-4 text-success" />
+              <span>Instant access — delivered to your library</span>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-3 pt-1">
+              <div className="flex items-center gap-2 rounded-full border border-border bg-card px-2 py-1.5">
+                <button
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  className="h-8 w-8 rounded-full grid place-items-center hover:bg-muted transition-colors"
+                  aria-label="Decrease"
+                >−</button>
+                <span className="w-6 text-center font-semibold tabular-nums">{quantity}</span>
+                <button
+                  onClick={() => setQuantity((q) => q + 1)}
+                  className="h-8 w-8 rounded-full grid place-items-center hover:bg-muted transition-colors"
+                  aria-label="Increase"
+                >+</button>
+              </div>
+              <Button className="flex-1 rounded-full" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {addToCart.isPending ? "Adding..." : isCourse ? "Enroll now" : "Add to cart"}
               </Button>
-              <Button variant="outline" size="lg"><Heart className="h-5 w-5" /></Button>
-              <Button variant="outline" size="lg"><Share2 className="h-5 w-5" /></Button>
+              <Button variant="outline" size="lg" className="rounded-full h-12 w-12 p-0" aria-label="Save"><Heart className="h-4 w-4" /></Button>
             </div>
 
             {product.description && (
-              <MobileCard variant="glass">
-                <h3 className="font-semibold text-sm mb-2">{isCourse ? "About this course" : isBook ? "About this book" : "About this product"}</h3>
-                <p className="text-[13px] text-muted-foreground leading-relaxed">{product.description}</p>
-                <p className="text-[11px] text-muted-foreground mt-3 flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-success" />
-                  {isDigital ? "Instant access after purchase. Lifetime updates included." : "Authentic, verified by ASIKON. COD available."}
-                </p>
-              </MobileCard>
-            )}
-          </div>
-        </div>
-
-        {/* Course-specific sections */}
-        {isCourse && (
-          <>
-            <MobileSection title="What you will learn">
-              <MobileCard variant="glass">
-                <div className="grid sm:grid-cols-2 gap-3">
-                  {courseLearnings.map((item) => (
-                    <div key={item} className="flex items-start gap-2 text-[13px]">
-                      <CheckCircle2 className="h-4 w-4 mt-0.5 text-success flex-shrink-0" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
+              <div className="rounded-2xl border border-border/60 bg-card/60 p-4 lg:p-5">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-semibold text-[15px]">Description</h3>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />
                 </div>
-              </MobileCard>
-            </MobileSection>
+                <p className="text-[13.5px] text-foreground/80 leading-relaxed whitespace-pre-wrap">{product.description}</p>
+              </div>
+            )}
 
-            <MobileSection
-              title="Curriculum"
-              subtitle={`${courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h`}
-            >
-              <div className="space-y-2">
-                {courseCurriculum.map((m, i) => (
-                  <MobileCard key={m.module} variant="glass" className="flex items-center gap-3 !p-3">
-                    <div className="w-8 h-8 rounded-full gradient-primary text-primary-foreground flex items-center justify-center text-sm font-bold flex-shrink-0">
-                      {i + 1}
+            <div className="rounded-2xl border border-border/60 bg-card/60 p-4 lg:p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-[15px]">Product Details</h3>
+                <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />
+              </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                {[
+                  { icon: Zap, label: "Instant Access", sub: "Unlock now" },
+                  { icon: ShieldCheck, label: "Secure Checkout", sub: "SSL + bKash" },
+                  { icon: RotateCcw, label: "7-Day Refund", sub: "No questions" },
+                  { icon: Award, label: "Verified", sub: "Trusted creator" },
+                ].map(({ icon: Icon, label, sub }) => (
+                  <div key={label} className="flex items-center gap-2.5 rounded-xl bg-muted/50 px-3 py-2.5">
+                    <span className="h-8 w-8 rounded-full bg-background grid place-items-center shrink-0">
+                      <Icon className="h-4 w-4 text-primary" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-[12.5px] font-semibold leading-tight truncate">{label}</p>
+                      <p className="text-[11px] text-muted-foreground leading-tight truncate">{sub}</p>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{m.module}</p>
-                      <p className="text-xs text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
-                    </div>
-                    <Play className="h-4 w-4 text-muted-foreground" />
-                  </MobileCard>
+                  </div>
                 ))}
               </div>
-            </MobileSection>
+            </div>
+          </div>
+        </div>
+        </div>
 
-            <MobileSection title="Your Instructor">
-              <MobileCard variant="glass" className="flex items-center gap-4">
+        {/* Course-specific */}
+        {isCourse && (
+          <>
+            <DetailSection title="What you will learn">
+              <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
+                {courseLearnings.map((item) => (
+                  <div key={item} className="flex items-start gap-2.5 text-[13.5px]">
+                    <CheckCircle2 className="h-4 w-4 mt-0.5 text-success flex-shrink-0" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </DetailSection>
+
+            <DetailSection
+              title="Curriculum"
+              action={<span className="text-[12px] text-muted-foreground">{courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h</span>}
+            >
+              <ol className="divide-y divide-border/40">
+                {courseCurriculum.map((m, i) => (
+                  <li key={m.module} className="flex items-center gap-3 py-3">
+                    <span className="grid place-items-center h-8 w-8 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[14px] font-medium truncate">{m.module}</p>
+                      <p className="text-[12px] text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
+                    </div>
+                    <Play className="h-4 w-4 text-foreground/50" />
+                  </li>
+                ))}
+              </ol>
+            </DetailSection>
+
+            <DetailSection title="Your instructor">
+              <div className="flex items-center gap-4">
                 <img
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&q=80"
                   alt="Instructor"
-                  className="w-14 h-14 rounded-full object-cover border-2 border-primary/30 shrink-0"
+                  className="w-14 h-14 rounded-full object-cover shrink-0"
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm">ASIKON Mentor Team</p>
-                  <p className="text-[12px] text-muted-foreground leading-relaxed">Engineers, educators, and AI researchers helping students learn smarter and stay motivated.</p>
+                  <p className="font-semibold text-[14px]">ASIKON Mentor Team</p>
+                  <p className="text-[12.5px] text-muted-foreground leading-relaxed">Engineers, educators, and AI researchers helping students learn smarter.</p>
                 </div>
-              </MobileCard>
-            </MobileSection>
+              </div>
+            </DetailSection>
           </>
         )}
 
-        {/* Reviews */}
-        <ProductReviews reviews={mockReviews} averageRating={product.rating || 4.5} totalReviews={product.review_count || 36} ratingDistribution={[{ stars: 5, count: 24 }, { stars: 4, count: 8 }, { stars: 3, count: 3 }, { stars: 2, count: 1 }, { stars: 1, count: 0 }]} />
+        <DetailSection title="Reviews">
+          <ProductReviews
+            reviews={mockReviews}
+            averageRating={product.rating || 4.5}
+            totalReviews={product.review_count || 36}
+            ratingDistribution={[
+              { stars: 5, count: 24 }, { stars: 4, count: 8 }, { stars: 3, count: 3 }, { stars: 2, count: 1 }, { stars: 1, count: 0 },
+            ]}
+          />
+        </DetailSection>
 
-        {/* FAQ */}
-        <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
+        <DetailSection title="FAQ">
+          <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
+        </DetailSection>
 
-        {/* Related Products */}
         {relatedProducts && relatedProducts.length > 0 && (
-          <ProductCarousel title={isCourse ? "Continue Learning" : "You May Also Like"} products={relatedProducts.filter((p) => p.id !== product.id).slice(0, 8).map((p) => ({ id: p.id, name: p.name, brand: "ASIKON", price: p.price, originalPrice: p.original_price || undefined, image: p.image_url || "/placeholder.svg", rating: p.rating || 0, reviews: p.review_count || 0, isTrending: p.is_featured || false }))} />
+          <DetailSection title={isCourse ? "Continue learning" : "You may also like"}>
+            <ProductCarousel
+              title=""
+              products={relatedProducts
+                .filter((p) => p.id !== product.id)
+                .slice(0, 8)
+                .map((p) => ({
+                  id: p.id, name: p.name, brand: "ASIKON",
+                  price: p.price, originalPrice: p.original_price || undefined,
+                  image: p.image_url || "/placeholder.svg",
+                  rating: p.rating || 0, reviews: p.review_count || 0,
+                  isTrending: p.is_featured || false,
+                }))}
+            />
+          </DetailSection>
         )}
       </MobilePage>
 
-      {/* Sticky Mobile CTA */}
-      <div
-        className="fixed bottom-16 left-0 right-0 z-40 glass-strong border-t border-border/40 lg:hidden"
-        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-      >
-        <div className="container-editorial py-3 flex items-center gap-3">
+      {/* Mobile sticky CTA */}
+      <StickyActionBar>
+        <div className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
-            <Price amount={product.price} className="text-xl font-bold" />
-            {product.original_price && <Price amount={product.original_price} strike className="text-sm text-muted-foreground ml-2" />}
+            <Price amount={product.price} className="text-lg font-semibold" />
+            {product.original_price && (
+              <Price amount={product.original_price} strike className="text-[12px] text-muted-foreground ml-2" />
+            )}
           </div>
-          <Button className="gradient-primary border-0 px-6" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-            <ShoppingCart className="h-5 w-5 mr-2" />{isCourse ? "Enroll" : "Buy Now"}
+          <Button size="lg" className="px-6" onClick={handleAddToCart} disabled={addToCart.isPending}>
+            <ShoppingCart className="h-4 w-4 mr-2" />{isCourse ? "Enroll" : "Add to cart"}
           </Button>
         </div>
-      </div>
+      </StickyActionBar>
     </AppLayout>
   );
 };

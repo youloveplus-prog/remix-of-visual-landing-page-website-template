@@ -1,60 +1,86 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Sparkles, BookOpenText, CalendarCheck2, LineChart, GraduationCap, Wand2,
-  ShoppingBag, Gamepad2,
+  ShoppingBag, Gamepad2, Users, MessageSquare, Bell, Heart, Trophy, Settings,
+  HelpCircle, Bookmark, Video, Radio,
 } from "lucide-react";
 import { Reveal } from "@/components/transitions/Reveal";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 type Tile = { icon: any; label: string; href: string };
 
 const TILES: Tile[] = [
   { icon: BookOpenText,   label: "Continue", href: "/learn" },
   { icon: Sparkles,       label: "AI Tutor", href: "/learn" },
-  { icon: CalendarCheck2, label: "Planner",  href: "/learn" },
-  { icon: LineChart,      label: "Progress", href: "/profile" },
-  { icon: GraduationCap,  label: "Mentors",  href: "/mentors" },
+  { icon: GraduationCap,  label: "Courses",  href: "/shop?type=courses" },
   { icon: Wand2,          label: "Prompts",  href: "/prompts" },
-  { icon: ShoppingBag,    label: "Shop",     href: "/shop" },
-  { icon: Gamepad2,       label: "Games",    href: "/game" },
+  { icon: Gamepad2,       label: "Earn",     href: "/game" },
+  { icon: Users,          label: "Mentors",  href: "/mentors" },
 ];
 
+const ALL_TILES: Tile[] = [
+  ...TILES,
+  { icon: CalendarCheck2, label: "Planner",   href: "/learn" },
+  { icon: LineChart,      label: "Progress",  href: "/profile" },
+  { icon: ShoppingBag,    label: "Explore",   href: "/shop" },
+  { icon: MessageSquare,  label: "Messages",  href: "/messages" },
+  { icon: Bell,           label: "Alerts",    href: "/notifications" },
+  { icon: Heart,          label: "Wishlist",  href: "/wishlist" },
+  { icon: Bookmark,       label: "Saved",     href: "/profile" },
+  { icon: Trophy,         label: "Rewards",   href: "/profile" },
+  { icon: Video,          label: "Videos",    href: "/community" },
+  { icon: Radio,          label: "Live",      href: "/community" },
+  { icon: HelpCircle,     label: "Help",      href: "/contact" },
+  { icon: Settings,       label: "Settings",  href: "/settings" },
+];
+
+function TileLink({ icon: Icon, label, href, onClick, index = 0 }: Tile & { onClick?: () => void; index?: number }) {
+  return (
+    <Link
+      to={href}
+      onClick={onClick}
+      className="flex flex-col items-center gap-1.5 pressable focus-ring group animate-fade-in"
+      style={{ animationDelay: `${index * 45}ms`, animationFillMode: "backwards" }}
+    >
+      <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-[0_10px_24px_-12px_hsl(var(--primary)/0.55)] group-hover:bg-primary/5">
+        <Icon className="h-5 w-5 text-foreground transition-transform duration-300 group-hover:scale-110 group-hover:text-primary" strokeWidth={2} />
+      </div>
+      <span className="text-[11px] font-medium text-foreground/80 text-center leading-tight">{label}</span>
+    </Link>
+  );
+}
+
 export function QuickAccessGrid() {
+  const [open, setOpen] = useState(false);
+
   return (
     <Reveal as="section" className="section-x">
       <div className="flex items-end justify-between mb-2">
         <h2 className="font-semibold text-base">Quick Actions</h2>
-        <Link to="/profile" className="text-xs text-primary font-medium">See all</Link>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <button className="text-xs text-foreground/70 hover:text-foreground font-medium">
+              See all
+            </button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="rounded-t-3xl max-h-[80vh] overflow-y-auto">
+            <SheetHeader className="mb-4">
+              <SheetTitle className="text-left">All Quick Actions</SheetTitle>
+            </SheetHeader>
+            <div className="grid grid-cols-4 gap-4 pb-6">
+              {ALL_TILES.map((t, i) => (
+                <TileLink key={t.label} {...t} index={i} onClick={() => setOpen(false)} />
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
 
-      {/* Mobile: single-row scroll, category-style chips */}
-      <div className="md:hidden flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1">
-        {TILES.map(({ icon: Icon, label, href }) => (
-          <Link
-            key={label}
-            to={href}
-            className="shrink-0 flex flex-col items-center gap-1.5 pressable focus-ring"
-          >
-            <div className="w-14 h-14 rounded-2xl glass border border-border/60 flex items-center justify-center bg-white/[0.04] backdrop-blur-xl shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]">
-              <Icon className="h-5 w-5 text-primary" strokeWidth={2} />
-            </div>
-            <span className="text-[11px] font-medium text-foreground/80">{label}</span>
-          </Link>
-        ))}
-      </div>
-
-      {/* Desktop: grid */}
-      <div className="hidden md:grid grid-cols-8 gap-3">
-        {TILES.map(({ icon: Icon, label, href }) => (
-          <Link
-            key={label}
-            to={href}
-            className="group focus-ring flex flex-col items-center gap-1.5 rounded-2xl py-2"
-          >
-            <div className="w-14 h-14 rounded-2xl glass border border-border/60 flex items-center justify-center bg-white/[0.04] backdrop-blur-xl shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.18)] group-hover:bg-white/[0.08] transition">
-              <Icon className="h-5 w-5 text-primary" strokeWidth={2} />
-            </div>
-            <span className="text-[11.5px] font-medium text-foreground/85">{label}</span>
-          </Link>
+      {/* 6 tiles in 2 rows of 3 — mobile + desktop */}
+      <div className="grid grid-cols-3 gap-3">
+        {TILES.map((t, i) => (
+          <TileLink key={t.label} {...t} index={i} />
         ))}
       </div>
     </Reveal>

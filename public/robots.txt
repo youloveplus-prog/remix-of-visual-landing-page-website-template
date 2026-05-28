@@ -12,3 +12,12 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /asikonasik
+Disallow: /checkout
+Disallow: /cart
+Disallow: /orders
+Disallow: /settings
+Disallow: /auth
+Disallow: /reset-password
+
+Sitemap: https://asikonpro.lovable.app/sitemap.xml

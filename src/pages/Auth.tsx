@@ -11,7 +11,7 @@ import {
   BookOpen,
   ShieldCheck,
   CheckCircle2,
-  Github,
+  Code2 as Github,
   ArrowRight,
   Flame,
 } from "lucide-react";
@@ -101,21 +101,21 @@ function FloatingField({
           aria-describedby={error ? `${id}-err` : hint ? `${id}-hint` : undefined}
           placeholder=" "
           className={cn(
-            "peer w-full rounded-xl bg-input/60 dark:bg-input/40 border px-4 pt-5 pb-2 text-[15px] text-foreground",
-            "outline-none transition-all duration-200",
-            "focus:bg-background focus:shadow-[0_0_0_4px_hsl(var(--primary)/0.12)]",
+            "peer w-full rounded-xl bg-card border px-4 pt-5 pb-2 text-[15px] text-foreground",
+            "outline-none transition-colors duration-150",
+            "focus:border-foreground/40",
             error
               ? "border-destructive/60 focus:border-destructive"
-              : "border-border focus:border-primary",
+              : "border-border",
             trailing && "pr-12",
           )}
         />
         <label
           htmlFor={id}
           className={cn(
-            "pointer-events-none absolute left-4 transition-all duration-200 origin-left",
+            "pointer-events-none absolute left-4 transition-all duration-150 origin-left",
             float
-              ? "top-1.5 text-[10.5px] font-semibold tracking-wider uppercase text-primary"
+              ? "top-1.5 text-[10.5px] font-medium tracking-wider uppercase text-muted-foreground"
               : "top-1/2 -translate-y-1/2 text-sm text-muted-foreground",
             error && float && "text-destructive",
           )}
@@ -127,7 +127,7 @@ function FloatingField({
         )}
       </div>
       {error ? (
-        <p id={`${id}-err`} className="text-xs text-destructive ml-1 animate-fade-in">
+        <p id={`${id}-err`} className="text-xs text-destructive ml-1">
           {error}
         </p>
       ) : hint ? (
@@ -331,125 +331,88 @@ const Auth = () => {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-dvh bg-background flex items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <main className="relative min-h-screen w-full bg-background overflow-hidden">
+    <main className="relative min-h-dvh w-full bg-background">
       <SEO
         title="Sign in"
         description="Sign in or create your Asikon account to access AI tutoring, courses, and the learner community."
       />
-      {/* Ambient brand glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 -left-40 w-[520px] h-[520px] rounded-full blur-[140px] bg-primary/20"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-40 -right-40 w-[520px] h-[520px] rounded-full blur-[140px] bg-accent/20"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.5]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 30% 20%, hsl(var(--primary) / 0.06) 0%, transparent 55%), radial-gradient(circle at 75% 85%, hsl(var(--accent) / 0.06) 0%, transparent 55%)",
-        }}
-      />
 
-      <div className="relative z-10 grid lg:grid-cols-2 min-h-screen">
+      <div className="relative grid lg:grid-cols-2 min-h-dvh">
         {/* ============== Brand pane (desktop only) ============== */}
-        <aside className="hidden lg:flex relative flex-col justify-between p-12 xl:p-16 overflow-hidden">
-          <div
-            aria-hidden
-            className="absolute inset-6 rounded-[36px] gradient-primary opacity-90"
-          />
-          <div
-            aria-hidden
-            className="absolute inset-6 rounded-[36px] bg-[radial-gradient(circle_at_top_right,white,transparent_60%)] opacity-10"
-          />
-
-          <div className="relative z-10 flex items-center gap-3 text-primary-foreground">
-            <div className="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center p-1.5">
+        <aside className="hidden lg:flex relative flex-col justify-between p-12 xl:p-16 bg-secondary/40 border-r border-border">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-card border border-border flex items-center justify-center p-1.5">
               <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
             </div>
             <div>
-              <p
-                className="text-lg font-bold tracking-tight"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Asikon
-              </p>
-              <p className="text-[11px] uppercase tracking-[0.22em] opacity-70">
+              <p className="font-display text-[15px] font-semibold tracking-tight">Asikon</p>
+              <p className="text-[10.5px] uppercase tracking-[0.2em] text-muted-foreground">
                 Learn AI · Build Skills
               </p>
             </div>
           </div>
 
-          <div className="relative z-10 space-y-8 text-primary-foreground">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs font-medium">
-                <Flame className="h-3.5 w-3.5" />
+          <div className="space-y-10 max-w-md">
+            <div className="space-y-5">
+              <div className="inline-flex items-center gap-2 text-[11.5px] text-muted-foreground">
+                <Flame className="h-3.5 w-3.5 text-foreground/60" />
                 Trusted by 12,400+ learners
               </div>
-              <h1
-                className="text-4xl xl:text-5xl font-bold leading-[1.1] tracking-tight"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
+              <h1 className="font-display text-4xl xl:text-5xl font-semibold leading-[1.05] tracking-tight">
                 Your AI learning
                 <br />
                 journey starts here.
               </h1>
-              <p className="text-base xl:text-lg text-primary-foreground/80 max-w-md leading-relaxed">
+              <p className="text-[15px] text-muted-foreground leading-relaxed">
                 Master ML, Python, and modern AI tools with expert-led courses,
                 a 24/7 AI tutor, and a community building real projects.
               </p>
             </div>
 
-            {/* Feature chips */}
-            <div className="grid grid-cols-2 gap-3 max-w-md">
+            {/* Feature list — flat, editorial */}
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-4">
               {[
                 { icon: GraduationCap, title: "Expert courses", sub: "200+ lessons" },
-                { icon: Sparkles, title: "AI Tutor", sub: "Bangla + English" },
+                { icon: Sparkles, title: "AI tutor", sub: "Bangla + English" },
                 { icon: BookOpen, title: "Prompt library", sub: "1,000+ prompts" },
                 { icon: ShieldCheck, title: "Lifetime access", sub: "Yours forever" },
               ].map((f) => (
-                <div
-                  key={f.title}
-                  className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-3.5 hover:bg-white/15 transition-all"
-                >
-                  <f.icon className="h-4 w-4 mb-2 opacity-90" />
-                  <p className="text-sm font-semibold leading-tight">{f.title}</p>
-                  <p className="text-[11px] text-primary-foreground/70">{f.sub}</p>
-                </div>
+                <li key={f.title} className="flex items-start gap-3">
+                  <f.icon className="h-4 w-4 mt-1 text-foreground/60 shrink-0" />
+                  <div>
+                    <p className="text-[13.5px] font-medium leading-tight">{f.title}</p>
+                    <p className="text-[12px] text-muted-foreground mt-0.5">{f.sub}</p>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
 
-            {/* Testimonial */}
-            <div className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-5 max-w-md">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-300 to-rose-400 flex items-center justify-center text-sm font-bold">
+            {/* Testimonial — quiet card */}
+            <figure className="rounded-2xl border border-border bg-card p-5">
+              <blockquote className="text-[14px] text-foreground/90 leading-relaxed">
+                "The AI tutor answered my doubts at 2 a.m. before exams. Asikon
+                doesn't just teach — it learns with you."
+              </blockquote>
+              <figcaption className="flex items-center gap-3 mt-4">
+                <div className="w-8 h-8 rounded-full bg-secondary grid place-items-center text-xs font-medium text-foreground/70">
                   S
                 </div>
                 <div>
-                  <p className="text-sm font-semibold">Sadia R.</p>
-                  <p className="text-[11px] text-primary-foreground/70">
-                    ML Engineer · Class of 2025
-                  </p>
+                  <p className="text-[12.5px] font-medium">Sadia R.</p>
+                  <p className="text-[11px] text-muted-foreground">ML Engineer · Class of 2025</p>
                 </div>
-              </div>
-              <p className="text-sm text-primary-foreground/90 italic leading-relaxed">
-                "The AI tutor answered my doubts at 2 a.m. before exams. Asikon
-                doesn't just teach — it learns with you."
-              </p>
-            </div>
+              </figcaption>
+            </figure>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between text-primary-foreground/70 text-xs">
+          <div className="flex items-center justify-between text-[11.5px] text-muted-foreground">
             <p>© {new Date().getFullYear()} Asikon Technologies</p>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5" />
@@ -460,24 +423,16 @@ const Auth = () => {
 
         {/* ============== Form pane ============== */}
         <section
-          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-screen lg:items-center lg:justify-center"
+          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center"
           style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
         >
-          <div className="w-full max-w-[440px] mx-auto animate-fade-in flex-1 flex flex-col lg:block">
+          <div className="w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
             {/* Mobile brand */}
-            <div className="lg:hidden flex flex-col items-center mb-7">
-              <div className="relative w-16 h-16 mb-3 group">
-                <div className="absolute inset-0 rounded-[20px] rotate-3 gradient-primary shadow-[0_0_40px_hsl(var(--primary)/0.45)] group-hover:rotate-6 transition-transform duration-500" />
-                <div className="absolute inset-[3px] rounded-[17px] bg-background flex items-center justify-center p-2">
-                  <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
-                </div>
+            <div className="lg:hidden flex items-center justify-center gap-2.5 mb-8">
+              <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center p-1.5">
+                <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
               </div>
-              <h1
-                className="text-2xl font-bold text-gradient"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Asikon
-              </h1>
+              <span className="font-display text-[17px] font-semibold tracking-tight">Asikon</span>
             </div>
 
             {activeView === "forgot-password" ? (
@@ -498,14 +453,11 @@ const Auth = () => {
             ) : (
               <>
                 {/* Heading */}
-                <div className="mb-7 text-center lg:text-left">
-                  <h2
-                    className="text-[1.75rem] lg:text-3xl font-bold tracking-tight leading-tight"
-                    style={{ fontFamily: "var(--font-display)" }}
-                  >
-                    {activeView === "login" ? "Welcome back" : "Create your account"}
+                <div className="mb-7">
+                  <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
+                    {activeView === "login" ? "Welcome back." : "Create your account."}
                   </h2>
-                  <p className="text-muted-foreground text-sm mt-1.5">
+                  <p className="text-muted-foreground text-[14px] mt-2">
                     {activeView === "login"
                       ? "Continue your learning journey with Asikon."
                       : "Build skills with real projects, in minutes."}
@@ -572,7 +524,7 @@ const Auth = () => {
                       />
 
                       <div className="flex items-center justify-between pt-1">
-                        <label className="flex items-center gap-2 cursor-pointer select-none group">
+                        <label className="flex items-center gap-2 cursor-pointer select-none">
                           <span className="relative">
                             <input
                               type="checkbox"
@@ -580,17 +532,15 @@ const Auth = () => {
                               onChange={(e) => setRememberMe(e.target.checked)}
                               className="peer sr-only"
                             />
-                            <span className="block w-4 h-4 rounded-md border border-border bg-background peer-checked:gradient-primary peer-checked:border-transparent transition-all" />
+                            <span className="block w-4 h-4 rounded-[5px] border border-border bg-background peer-checked:bg-foreground peer-checked:border-foreground transition-colors" />
                             <CheckCircle2
                               className={cn(
-                                "absolute inset-0 m-auto h-3 w-3 text-primary-foreground transition-opacity",
+                                "absolute inset-0 m-auto h-3 w-3 text-background transition-opacity",
                                 rememberMe ? "opacity-100" : "opacity-0",
                               )}
                             />
                           </span>
-                          <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-                            Remember me
-                          </span>
+                          <span className="text-xs text-muted-foreground">Remember me</span>
                         </label>
                         <button
                           type="button"
@@ -599,7 +549,7 @@ const Auth = () => {
                             setForgotEmail(loginEmail);
                             clearErrors();
                           }}
-                          className="text-xs font-semibold text-primary hover:text-primary/80 transition-colors focus-ring rounded-md"
+                          className="text-xs font-medium text-foreground hover:text-foreground/70 underline-offset-4 hover:underline transition-colors"
                         >
                           Forgot password?
                         </button>
@@ -709,33 +659,20 @@ const Auth = () => {
 
             {/* Bottom-aligned switch & trust strip */}
             {activeView !== "forgot-password" && (
-              <div className="mt-auto pt-10 lg:pt-12 space-y-4">
-                <div className="relative">
-                  <div className="absolute inset-x-0 top-1/2 h-px bg-border" />
-                  <div className="relative flex justify-center">
-                    <span className="px-3 bg-background text-[10.5px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
-                      {activeView === "login" ? "New here?" : "Already a member?"}
-                    </span>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveView(activeView === "login" ? "register" : "login");
-                    clearErrors();
-                  }}
-                  className={cn(
-                    "w-full h-12 rounded-xl border border-border bg-card/60 backdrop-blur-sm",
-                    "text-sm font-semibold text-foreground",
-                    "hover:border-primary/50 hover:bg-card hover:-translate-y-0.5 active:translate-y-0",
-                    "transition-all duration-200 focus-ring",
-                    "flex items-center justify-center gap-2",
-                  )}
-                >
-                  {activeView === "login" ? "Create a free account" : "Sign in to your account"}
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+              <div className="mt-auto pt-10 lg:pt-12 space-y-5">
+                <p className="text-center text-[13px] text-muted-foreground">
+                  {activeView === "login" ? "New to Asikon?" : "Already a member?"}{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveView(activeView === "login" ? "register" : "login");
+                      clearErrors();
+                    }}
+                    className="font-medium text-foreground underline-offset-4 hover:underline"
+                  >
+                    {activeView === "login" ? "Create an account" : "Sign in"}
+                  </button>
+                </p>
 
                 <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
                   <ShieldCheck className="h-3.5 w-3.5" />
@@ -759,16 +696,7 @@ function PrimaryCta({
   children: React.ReactNode;
 }) {
   return (
-    <Button
-      type="submit"
-      disabled={loading}
-      className={cn(
-        "w-full h-12 rounded-xl gradient-primary text-primary-foreground font-semibold text-sm",
-        "shadow-[0_10px_30px_-10px_hsl(var(--primary)/0.6)] hover:shadow-[0_14px_36px_-10px_hsl(var(--primary)/0.7)]",
-        "hover:opacity-95 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200",
-        "disabled:opacity-70 disabled:hover:translate-y-0",
-      )}
-    >
+    <Button type="submit" size="lg" disabled={loading} className="w-full">
       {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
       {children}
     </Button>
@@ -790,10 +718,10 @@ function OAuthButton({
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "h-11 rounded-xl border border-border bg-card hover:bg-secondary",
+        "h-11 rounded-xl border border-border bg-card hover:bg-secondary/60",
         "flex items-center justify-center gap-2 text-sm font-medium text-foreground",
-        "transition-all hover:-translate-y-0.5 hover:border-primary/40 active:translate-y-0",
-        "disabled:opacity-60 focus-ring",
+        "transition-colors duration-150 active:scale-[0.99]",
+        "disabled:opacity-60",
       )}
     >
       {loading ? (
@@ -803,10 +731,7 @@ function OAuthButton({
       ) : (
         <Github className="h-4 w-4" />
       )}
-      <span className="hidden sm:inline">
-        {provider === "google" ? "Google" : "GitHub"}
-      </span>
-      <span className="sm:hidden">{provider === "google" ? "Google" : "GitHub"}</span>
+      <span>{provider === "google" ? "Google" : "GitHub"}</span>
     </button>
   );
 }
@@ -853,36 +778,30 @@ function ForgotPasswordView({
       </button>
 
       {sent ? (
-        <div className="text-center py-4 space-y-5 animate-fade-in">
-          <div className="w-16 h-16 rounded-2xl gradient-primary-soft border border-primary/20 flex items-center justify-center mx-auto">
-            <Mail className="h-7 w-7 text-primary" />
+        <div className="py-4 space-y-5">
+          <div className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center">
+            <Mail className="h-5 w-5 text-foreground/70" />
           </div>
           <div className="space-y-2">
-            <h2
-              className="text-2xl font-bold tracking-tight"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Check your email
+            <h2 className="font-display text-[26px] font-semibold tracking-tight leading-[1.1]">
+              Check your email.
             </h2>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-[14px]">
               We sent a reset link to{" "}
-              <strong className="text-foreground">{email}</strong>
+              <strong className="text-foreground font-medium">{email}</strong>.
             </p>
           </div>
-          <Button variant="outline" onClick={onResend} className="rounded-xl">
+          <Button variant="outline" onClick={onResend}>
             Send again
           </Button>
         </div>
       ) : (
         <>
           <div className="mb-6">
-            <h2
-              className="text-2xl font-bold tracking-tight"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Reset your password
+            <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
+              Reset your password.
             </h2>
-            <p className="text-muted-foreground text-sm mt-1.5">
+            <p className="text-muted-foreground text-[14px] mt-2">
               Enter your email and we'll send you a secure reset link.
             </p>
           </div>

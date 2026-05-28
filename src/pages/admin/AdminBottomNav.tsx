@@ -42,11 +42,12 @@ export function AdminBottomNav() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-border/60 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.25)]"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 liquid-nav border-t border-border/60"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       aria-label="Admin navigation"
+      role="navigation"
     >
-      <div className="relative flex h-16 w-full items-stretch">
+      <div className="relative flex h-[68px] w-full items-stretch">
         {activeIndex >= 0 && (
           <span
             aria-hidden
@@ -66,14 +67,18 @@ export function AdminBottomNav() {
               key={item.url}
               to={item.url}
               end={item.end}
+              aria-label={item.title}
+              aria-current={active ? "page" : undefined}
               className={cn(
                 "relative z-10 flex flex-1 flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium min-h-[44px]",
+                "outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 rounded-2xl",
                 active ? "text-primary" : "text-muted-foreground",
               )}
             >
               <item.icon
                 className={cn("h-[22px] w-[22px] transition-transform", active && "scale-110")}
                 strokeWidth={active ? 2.4 : 2}
+                aria-hidden
               />
               <span className={active ? "font-semibold" : ""}>{item.title}</span>
             </NavLink>
@@ -84,33 +89,43 @@ export function AdminBottomNav() {
           <SheetTrigger asChild>
             <button
               type="button"
-              className="relative z-10 flex flex-1 flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium text-muted-foreground min-h-[44px]"
+              aria-label="More admin sections"
+              className="relative z-10 flex flex-1 flex-col items-center justify-center gap-0.5 text-[10.5px] font-medium text-muted-foreground min-h-[44px] outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
             >
-              <MoreHorizontal className="h-[22px] w-[22px]" />
+              <MoreHorizontal className="h-[22px] w-[22px]" aria-hidden />
               <span>More</span>
             </button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="rounded-t-3xl glass-strong border-border/60 max-h-[80vh] overflow-y-auto">
+          <SheetContent
+            side="bottom"
+            aria-describedby={undefined}
+            className="rounded-t-3xl glass-strong border-border/60 max-h-[85vh] overflow-y-auto pb-8"
+          >
             <SheetHeader className="text-left">
               <SheetTitle>
                 <span className="text-gradient">Admin menu</span>
               </SheetTitle>
             </SheetHeader>
-            <div className="grid grid-cols-3 gap-3 mt-4 pb-6">
+            <div className="grid grid-cols-3 gap-3 mt-4" role="list">
               {more.map((item) => {
                 const active = isActive(item.url, item.end);
                 return (
                   <NavLink
                     key={item.url}
                     to={item.url}
+                    role="listitem"
+                    aria-label={item.title}
+                    aria-current={active ? "page" : undefined}
                     className={cn(
                       "pressable flex flex-col items-center justify-center gap-2 rounded-2xl border p-4 text-xs font-medium transition-colors min-h-[88px]",
+                      "outline-none focus-visible:ring-2 focus-visible:ring-primary",
                       active
                         ? "border-primary/40 bg-primary/10 text-primary"
                         : "border-border/60 bg-card hover:bg-muted/50",
                     )}
                   >
                     <span
+                      aria-hidden
                       className={cn(
                         "grid place-items-center h-9 w-9 rounded-xl",
                         active ? "gradient-primary text-primary-foreground" : "bg-muted/60",

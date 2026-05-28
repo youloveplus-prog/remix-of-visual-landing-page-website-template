@@ -19,7 +19,7 @@ export function usePosts(options: UsePostsOptions = {}) {
     queryFn: async () => {
       let query = supabase
         .from("posts")
-        .select(`*, profiles (*)`)
+        .select(`*, profiles!posts_user_id_profiles_fkey (*)`)
         .order("created_at", { ascending: false })
         .limit(limit);
       if (type) query = query.eq("type", type);
@@ -51,7 +51,7 @@ export function usePost(postId: string) {
         .from("posts")
         .select(`
           *,
-          profiles (*)
+          profiles!posts_user_id_profiles_fkey (*)
         `)
         .eq("id", postId)
         .single();
@@ -158,7 +158,7 @@ export function usePostComments(postId: string) {
         .from("post_comments")
         .select(`
           *,
-          profiles (*)
+          profiles!post_comments_user_id_profiles_fkey (*)
         `)
         .eq("post_id", postId)
         .order("created_at", { ascending: true });

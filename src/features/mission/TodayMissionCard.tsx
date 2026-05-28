@@ -14,7 +14,7 @@ export function TodayMissionCard() {
 
   if (isLoading) {
     return (
-      <div className="rounded-3xl glass border border-primary/20 p-5 lg:p-6">
+      <div className="rounded-3xl bg-card border border-border p-5 lg:p-6">
         <Skeleton className="h-3 w-24 mb-3" />
         <Skeleton className="h-6 w-3/4 mb-2" />
         <Skeleton className="h-4 w-full mb-4" />
@@ -29,7 +29,7 @@ export function TodayMissionCard() {
       <CardShell>
         <h2 className="text-lg lg:text-xl font-bold">{copy.mission.needsTrackTitle}</h2>
         <p className="text-sm text-muted-foreground mt-1 mb-4">{copy.mission.needsTrackSubtitle}</p>
-        <Button asChild variant="premium"><Link to="/learn">Browse tracks</Link></Button>
+        <Button asChild><Link to="/learn">Browse tracks</Link></Button>
       </CardShell>
     );
   }
@@ -48,7 +48,7 @@ export function TodayMissionCard() {
   if (mission.completed) {
     return (
       <CardShell>
-        <div className="flex items-center gap-2 text-primary mb-2">
+        <div className="flex items-center gap-2 text-foreground mb-2">
           <CheckCircle2 className="h-5 w-5" />
           <span className="text-xs font-semibold uppercase tracking-[0.16em]">{copy.mission.completedTitle}</span>
         </div>
@@ -60,7 +60,7 @@ export function TodayMissionCard() {
 
   return (
     <CardShell>
-      <div className="flex items-center gap-2 text-primary mb-2">
+      <div className="flex items-center gap-2 text-foreground mb-2">
         <Sparkles className="h-4 w-4" />
         <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">{copy.mission.eyebrow}</span>
       </div>
@@ -72,7 +72,7 @@ export function TodayMissionCard() {
         </p>
       )}
       <div className="flex items-center gap-3 mt-4">
-        <Button asChild variant="premium" size="lg" className="group">
+        <Button asChild size="lg" className="group">
           <Link to={`/lesson/${lesson.id}`}>
             {copy.mission.cta}
             <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
@@ -88,10 +88,7 @@ export function TodayMissionCard() {
 
 function CardShell({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      className="relative overflow-hidden rounded-3xl border border-primary/25 p-5 lg:p-6"
-      style={{ background: "var(--gradient-primary-soft)" }}
-    >
+    <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-5 lg:p-6">
       {children}
     </div>
   );

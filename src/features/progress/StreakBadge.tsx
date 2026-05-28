@@ -9,7 +9,7 @@ export function StreakBadge({ days, className }: { days: number; className?: str
       className={cn(
         "inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold border",
         active
-          ? "border-primary/40 bg-primary/10 text-primary"
+          ? "border-border bg-secondary text-foreground"
           : "border-border/60 bg-muted/40 text-muted-foreground",
         className,
       )}

@@ -1,4 +1,4 @@
-import { Truck, MapPin, RefreshCw } from "lucide-react";
+import { Zap, ShieldCheck, RefreshCw } from "lucide-react";
 
 interface TrustStripProps {
   show?: boolean;
@@ -8,9 +8,9 @@ export function TrustStrip({ show = true }: TrustStripProps) {
   if (!show) return null;
 
   const trustItems = [
-    { icon: <Truck className="w-3.5 h-3.5" />, text: "Cash on Delivery Available" },
-    { icon: <MapPin className="w-3.5 h-3.5" />, text: "Made in Bangladesh" },
-    { icon: <RefreshCw className="w-3.5 h-3.5" />, text: "7 Days Easy Exchange" },
+    { icon: <Zap className="w-3.5 h-3.5" />, text: "Instant Digital Access" },
+    { icon: <ShieldCheck className="w-3.5 h-3.5" />, text: "Secure Checkout" },
+    { icon: <RefreshCw className="w-3.5 h-3.5" />, text: "7-Day Money-Back Guarantee" },
   ];
 
   return (

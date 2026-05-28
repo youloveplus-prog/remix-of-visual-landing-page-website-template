@@ -13,7 +13,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <main className="relative min-h-screen w-full bg-background flex items-center justify-center px-6 overflow-hidden">
+    <main className="relative min-h-dvh w-full bg-background flex items-center justify-center px-6 overflow-hidden">
       <Helmet>
         <title>Page not found — Asikon</title>
         <meta name="robots" content="noindex" />
@@ -47,7 +47,7 @@ const NotFound = () => {
           Page not found
         </h1>
         <p className="text-sm text-muted-foreground mb-7 max-w-sm mx-auto leading-relaxed">
-          This page wandered off. Let's get you back to learning — Apu is waiting.
+          This page wandered off. Let's get you back to learning — Asikon AI is waiting.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-2 justify-center">
@@ -60,7 +60,7 @@ const NotFound = () => {
           <Button asChild variant="secondary" className="h-11 px-6">
             <Link to="/learn">
               <Compass className="h-4 w-4 mr-1.5" />
-              Ask Apu
+              Ask Asikon AI
             </Link>
           </Button>
         </div>

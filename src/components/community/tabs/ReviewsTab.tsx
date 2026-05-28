@@ -1,8 +1,12 @@
-import { Star, Loader2 } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import { useState, useMemo } from "react";
-import { ReviewCard } from "@/components/community/ReviewCard";
-import { mockReviews } from "@/lib/community-mock-data";
-import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { supabase } from "@/integrations/supabase/client";
+import { adaptPost, hydrateWithProfiles, type PostRow, formatTime } from "@/lib/community-adapters";
 import { cn } from "@/lib/utils";
 
 const filters = [
@@ -16,21 +20,35 @@ const filters = [
 
 export function ReviewsTab() {
   const [activeFilter, setActiveFilter] = useState(0);
+  const navigate = useNavigate();
 
-  const filteredReviews = useMemo(() => {
-    return activeFilter === 0 
-      ? mockReviews 
-      : mockReviews.filter(r => r.rating === activeFilter);
-  }, [activeFilter]);
-
-  const { displayedItems, isLoading, loaderRef } = useInfiniteScroll({
-    items: filteredReviews,
-    itemsPerPage: 3,
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["community-reviews"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("id, content, images, rating, type, user_id, created_at, product_id")
+        .eq("type", "review")
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (error) throw error;
+      return hydrateWithProfiles((data ?? []) as PostRow[]);
+    },
   });
+
+  const reviews = useMemo(() => (data ?? []).map((row) => ({
+    raw: row,
+    post: adaptPost(row),
+  })), [data]);
+
+  const filtered = useMemo(() => {
+    return activeFilter === 0
+      ? reviews
+      : reviews.filter((r) => r.raw.rating === activeFilter);
+  }, [reviews, activeFilter]);
 
   return (
     <div className="space-y-4">
-      {/* Filter pills */}
       <div className="flex gap-2 px-4 overflow-x-auto hide-scrollbar">
         {filters.map((filter) => (
           <button
@@ -49,44 +67,84 @@ export function ReviewsTab() {
         ))}
       </div>
 
-      {/* Stats banner */}
-      <div className="mx-4 p-4 bg-secondary/50 rounded-xl">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-bold">4.8</span>
-              <div className="flex items-center gap-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-4 w-4 ${
-                      i < 5 ? "fill-gold text-gold" : "fill-muted text-muted"
-                    }`}
-                  />
-                ))}
+      {isLoading ? (
+        <div className="px-4 space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-card border border-border rounded-2xl p-4 space-y-3">
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <Skeleton className="h-3 w-1/3" />
               </div>
+              <Skeleton className="h-3 w-1/4" />
+              <Skeleton className="h-4 w-5/6" />
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Based on 1,234 verified reviews</p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm font-medium text-success">98% Verified</p>
-            <p className="text-xs text-muted-foreground">Purchases</p>
-          </div>
+          ))}
         </div>
-      </div>
+      ) : isError ? (
+        <div className="px-4 py-12 text-center space-y-3">
+          <p className="text-sm text-muted-foreground">Could not load reviews. Try again.</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="px-4 py-16 text-center space-y-3">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
+            <Star className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <h3 className="font-display font-semibold text-base">No reviews yet</h3>
+          <p className="text-sm text-muted-foreground">Be the first to share your experience.</p>
+          <Button onClick={() => navigate("/community/create")}>Write a review</Button>
+        </div>
+      ) : (
+        <div className="px-4 space-y-3">
+          {filtered.map(({ raw, post }) => (
+            <article key={raw.id} className="bg-card border border-border rounded-2xl p-4 space-y-3">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={post.user.avatar} alt={post.user.name} />
+                  <AvatarFallback>{post.user.name[0]}</AvatarFallback>
+                </Avatar>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-sm truncate">{post.user.name}</p>
+                  <p className="text-[11.5px] text-muted-foreground">{formatTime(raw.created_at)}</p>
+                </div>
+              </div>
 
-      {/* Reviews list with infinite scroll */}
-      <div className="space-y-0">
-        {displayedItems.map((review) => (
-          <ReviewCard key={review._loopKey} review={review} />
-        ))}
-        
-        <div ref={loaderRef} className="flex justify-center py-4">
-          {isLoading && (
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-          )}
+              {raw.rating != null ? (
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={cn(
+                        "h-3.5 w-3.5",
+                        i < (raw.rating ?? 0) ? "fill-gold text-gold" : "fill-muted text-muted"
+                      )}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <Quote className="h-4 w-4 text-muted-foreground" />
+              )}
+
+              {raw.content && (
+                <p className="text-[13.5px] text-foreground/80 leading-relaxed">{raw.content}</p>
+              )}
+
+              {raw.images && raw.images.length > 0 && (
+                <div className="flex gap-2 overflow-x-auto hide-scrollbar">
+                  {raw.images.map((image, i) => (
+                    <img
+                      key={i}
+                      src={image}
+                      alt={`Review image ${i + 1}`}
+                      className="w-20 h-20 rounded-xl object-cover flex-shrink-0"
+                    />
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }

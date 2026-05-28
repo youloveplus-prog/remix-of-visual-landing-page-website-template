@@ -9,7 +9,7 @@ interface VerifiedBuyerBadgeProps {
 export function VerifiedBuyerBadge({ className, showText = true }: VerifiedBuyerBadgeProps) {
   return (
     <div className={cn(
-      "inline-flex items-center gap-1 px-2 py-0.5 bg-success/20 text-success rounded-full text-xs font-medium",
+      "inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-500/30 rounded-full text-[10.5px] font-semibold",
       className
     )}>
       <ShieldCheck className="h-3 w-3" />

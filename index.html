@@ -2,8 +2,14 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="msapplication-navbutton-color" content="#0a0a0f" />
     <title>Asikon — AI-Powered Learning Platform</title>
     <meta name="description" content="Asikon is the AI-powered learning platform where students discover courses, books, and study essentials with smart recommendations." />
     <meta name="author" content="Asikon" />
@@ -33,6 +39,36 @@
     <meta name="apple-mobile-web-app-title" content="Asikon" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Fonts: Space Grotesk (display) + Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Sitewide structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Asikon",
+        "url": "https://asikonpro.lovable.app/",
+        "logo": "https://asikonpro.lovable.app/favicon.ico",
+        "description": "Asikon is an AI-powered learning platform with courses, books, study tools, and 1-on-1 mentorship."
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Asikon",
+        "url": "https://asikonpro.lovable.app/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://asikonpro.lovable.app/shop?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
 
   <body>

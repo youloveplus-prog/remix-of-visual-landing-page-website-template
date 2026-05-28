@@ -1,0 +1,19 @@
+# Asikon
+
+> Asikon is an AI-powered learning platform that combines courses, books, study tools, a 24/7 AI tutor, a learner community, and 1-on-1 mentorship for students in Bangladesh and beyond.
+
+Asikon helps students discover expert-led courses, get personalized AI tutoring, connect with mentors, and shop study essentials with cash on delivery and verified reviews.
+
+## Pages
+
+- [Home](/): AI tutor, featured courses, learning tracks, daily missions, and trust signals.
+- [Explore / Shop](/shop): Courses, books, prompt libraries, and study essentials with search, categories, and filters.
+- [Learn](/learn): Conversational AI tutor for any subject, with thread history and lesson tracks.
+- [Mentors](/mentors): 1-on-1 personal tutors for children — book a slot via the waitlist.
+- [Community](/community): Verified-buyer posts, reviews, videos, shorts, and live sessions.
+- [Prompts](/prompts): Curated library of AI prompts for studying and productivity.
+- [About](/about): Mission, vision, and how Asikon works.
+
+## Optional
+
+- [Welcome](/welcome): Onboarding overview for new users.

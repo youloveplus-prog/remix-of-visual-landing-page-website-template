@@ -66,7 +66,7 @@ export default function CreateContent() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-dvh bg-background">
         {/* Header */}
         <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-xl border-b border-border/50">
           <div className="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">

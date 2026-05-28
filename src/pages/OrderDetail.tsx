@@ -1,25 +1,24 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard } from "lucide-react";
+import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard, ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
-import { MobileCard } from "@/components/ui/mobile-card";
-import { MobileSection } from "@/components/ui/mobile-section";
-import { Badge } from "@/components/ui/badge";
+import { PageHero } from "@/components/ui/page-hero";
+import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useOrder } from "@/hooks/useOrders";
 import { useAuth } from "@/hooks/useAuth";
-import { Skeleton } from "@/components/ui/skeleton";
-import { format } from "date-fns";
 import { Price } from "@/lib/currency";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
-const statusConfig = {
-  pending: { label: "Pending", icon: Clock, color: "bg-yellow-500/10 text-yellow-600" },
-  processing: { label: "Processing", icon: Package, color: "bg-blue-500/10 text-blue-600" },
-  shipped: { label: "Shipped", icon: Truck, color: "bg-purple-500/10 text-purple-600" },
-  delivered: { label: "Delivered", icon: CheckCircle, color: "bg-green-500/10 text-green-600" },
-  cancelled: { label: "Cancelled", icon: XCircle, color: "bg-red-500/10 text-red-600" },
-};
+const STEPS = [
+  { id: "pending", label: "Placed", icon: Clock },
+  { id: "processing", label: "Confirmed", icon: Package },
+  { id: "shipped", label: "Shipped", icon: Truck },
+  { id: "delivered", label: "Delivered", icon: CheckCircle },
+] as const;
 
 const OrderDetail = () => {
   const { id } = useParams();
@@ -27,27 +26,14 @@ const OrderDetail = () => {
   const { user, loading: authLoading } = useAuth();
   const { data: order, isLoading } = useOrder(id || "");
 
-  if (authLoading) {
-    return (
-      <AppLayout>
-        <MobilePage maxWidth="4xl">
-          <p className="text-center text-muted-foreground py-10">Loading...</p>
-        </MobilePage>
-      </AppLayout>
-    );
-  }
-
-  if (!user) {
-    navigate("/auth");
-    return null;
-  }
+  if (authLoading) return <AppLayout><MobilePage maxWidth="standard"><Skeleton className="h-8 w-40" /></MobilePage></AppLayout>;
+  if (!user) { navigate("/auth"); return null; }
 
   if (isLoading) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="4xl">
-          <Skeleton className="h-8 w-48" />
-          <Skeleton className="h-64 rounded-2xl" />
+        <MobilePage maxWidth="standard">
+          <Skeleton className="h-8 w-48" /><Skeleton className="h-64 rounded-2xl" />
         </MobilePage>
       </AppLayout>
     );
@@ -56,177 +42,140 @@ const OrderDetail = () => {
   if (!order) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="4xl">
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <h1 className="text-lg font-semibold mb-2">Order Not Found</h1>
-            <p className="text-sm text-muted-foreground mb-4">The order you're looking for doesn't exist.</p>
-            <Link to="/orders"><Button>View All Orders</Button></Link>
+        <MobilePage maxWidth="standard">
+          <div className="py-20 text-center">
+            <h1 className="font-display text-xl font-semibold mb-1">Order not found</h1>
+            <p className="text-sm text-muted-foreground mb-5">The order you're looking for doesn't exist.</p>
+            <Link to="/orders"><Button>View all orders</Button></Link>
           </div>
         </MobilePage>
       </AppLayout>
     );
   }
 
-  const status = statusConfig[order.status as keyof typeof statusConfig] || statusConfig.pending;
-  const StatusIcon = status.icon;
-  const shippingAddress = order.shipping_address as Record<string, string> | null;
-
-  const STEPS = ["pending", "processing", "shipped", "delivered"] as const;
-  const currentIdx = STEPS.indexOf(order.status as typeof STEPS[number]);
+  const currentIdx = STEPS.findIndex((s) => s.id === order.status);
+  const activeIdx = currentIdx === -1 ? 0 : currentIdx;
   const isCancelled = order.status === "cancelled";
 
   return (
     <AppLayout>
-      <MobilePage maxWidth="4xl">
-        {/* Status strip */}
-        <MobileCard variant="glass" className="flex items-center justify-between">
-          <div className="min-w-0">
-            <p className="text-[13px] font-semibold">Order #{order.id.slice(0, 8)}</p>
-            <p className="text-[11px] text-muted-foreground">
-              Placed {format(new Date(order.created_at || ""), "MMM dd, yyyy")}
-            </p>
-          </div>
-          <Badge className={status.color}>
-            <StatusIcon className="h-3 w-3 mr-1" />
-            {status.label}
-          </Badge>
-        </MobileCard>
+      <MobilePage maxWidth="standard" spacing="space-y-8">
+        <Link to="/orders" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
+          <ArrowLeft className="h-3.5 w-3.5" /> All orders
+        </Link>
 
-        {/* Tracking timeline */}
-        <MobileSection title="Order Tracking">
-          <MobileCard variant="glass">
-            {isCancelled ? (
-              <div className="flex items-center gap-3 rounded-xl border border-destructive/40 bg-destructive/10 p-3">
-                <XCircle className="h-5 w-5 text-destructive shrink-0" />
-                <div>
-                  <p className="font-semibold text-sm">Order cancelled</p>
-                  <p className="text-xs text-muted-foreground">This order is no longer being processed.</p>
-                </div>
+        <PageHero
+          eyebrow={`Order #${order.id.slice(0, 8)}`}
+          title={isCancelled ? "Cancelled" : STEPS[activeIdx].label}
+          subtitle={`Placed ${format(new Date(order.created_at || ""), "MMMM dd, yyyy")}`}
+        />
+
+        {/* Timeline */}
+        <DetailSection divided={false}>
+          {isCancelled ? (
+            <div className="flex items-center gap-3 rounded-xl border border-destructive/40 bg-destructive/5 p-4">
+              <XCircle className="h-5 w-5 text-destructive shrink-0" />
+              <div>
+                <p className="font-semibold text-sm">Order cancelled</p>
+                <p className="text-xs text-muted-foreground">This order is no longer being processed.</p>
               </div>
-            ) : (
-              <div className="flex items-center justify-between gap-1">
+            </div>
+          ) : (
+            <>
+              {/* Horizontal on desktop */}
+              <div className="hidden sm:flex items-center">
                 {STEPS.map((step, i) => {
-                  const cfg = statusConfig[step];
-                  const Icon = cfg.icon;
-                  const active = i <= Math.max(0, currentIdx);
+                  const Icon = step.icon;
+                  const done = i <= activeIdx;
                   return (
-                    <div key={step} className="flex-1 flex items-center">
-                      <div className="flex flex-col items-center gap-1 min-w-0 flex-1">
-                        <div
-                          className={
-                            "h-9 w-9 rounded-full flex items-center justify-center border-2 transition-colors " +
-                            (active
-                              ? "bg-primary/15 border-primary text-primary"
-                              : "bg-muted border-border text-muted-foreground")
-                          }
-                        >
+                    <div key={step.id} className="flex-1 flex items-center">
+                      <div className="flex flex-col items-center gap-2 min-w-0 flex-1">
+                        <div className={cn("h-9 w-9 rounded-full grid place-items-center transition-colors", done ? "bg-foreground text-background" : "bg-muted text-muted-foreground")}>
                           <Icon className="h-4 w-4" />
                         </div>
-                        <span className={"text-[10px] text-center " + (active ? "text-foreground font-medium" : "text-muted-foreground")}>
-                          {cfg.label}
-                        </span>
+                        <span className={cn("text-[11px]", done ? "text-foreground font-medium" : "text-muted-foreground")}>{step.label}</span>
                       </div>
-                      {i < STEPS.length - 1 && (
-                        <div className={"h-0.5 flex-1 mx-1 mb-4 " + (i < currentIdx ? "bg-primary" : "bg-border")} />
-                      )}
+                      {i < STEPS.length - 1 && <div className={cn("h-px flex-1 -mt-6 mx-1", i < activeIdx ? "bg-foreground" : "bg-border")} />}
                     </div>
                   );
                 })}
               </div>
-            )}
-          </MobileCard>
-        </MobileSection>
+              {/* Vertical on mobile */}
+              <ol className="sm:hidden relative pl-6">
+                <div className="absolute left-[11px] top-2 bottom-2 w-px bg-border" />
+                {STEPS.map((step, i) => {
+                  const Icon = step.icon;
+                  const done = i <= activeIdx;
+                  return (
+                    <li key={step.id} className="relative pb-4 last:pb-0">
+                      <div className={cn("absolute -left-6 top-0 h-6 w-6 rounded-full grid place-items-center", done ? "bg-foreground text-background" : "bg-muted text-muted-foreground")}>
+                        <Icon className="h-3 w-3" />
+                      </div>
+                      <p className={cn("text-[13px]", done ? "font-medium" : "text-muted-foreground")}>{step.label}</p>
+                    </li>
+                  );
+                })}
+              </ol>
+            </>
+          )}
+        </DetailSection>
 
         {/* Items */}
-        <MobileSection title="Items">
-          <MobileCard variant="glass">
-            <div className="space-y-4">
-              {order.order_items?.map((item) => (
-                <div key={item.id} className="flex gap-3">
-                  <div className="w-14 h-14 rounded-xl bg-secondary overflow-hidden shrink-0">
-                    <img
-                      src={item.products?.image_url || "/placeholder.svg"}
-                      alt={item.products?.name || "Product"}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm line-clamp-1">{item.products?.name || "Product"}</p>
-                    <p className="text-xs text-muted-foreground">Qty {item.quantity}</p>
-                  </div>
-                  <Price amount={item.price} className="font-semibold text-sm" />
+        <DetailSection title="Items">
+          <ul className="divide-y divide-border/40">
+            {order.order_items?.map((item) => (
+              <li key={item.id} className="flex gap-3 py-3">
+                <div className="w-14 h-14 rounded-xl bg-muted overflow-hidden shrink-0">
+                  <img src={item.products?.image_url || "/placeholder.svg"} alt={item.products?.name || ""} loading="lazy" className="w-full h-full object-cover" />
                 </div>
-              ))}
-            </div>
-            <Separator className="my-4" />
-            <div className="space-y-1.5 text-[13px]">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>${(order.total - 10).toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Shipping</span>
-                <span>$10.00</span>
-              </div>
-              <Separator className="my-2" />
-              <div className="flex justify-between font-bold text-[15px]">
-                <span>Total</span>
-                <span>${order.total.toFixed(2)}</span>
-              </div>
-            </div>
-          </MobileCard>
-        </MobileSection>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-[14px] line-clamp-1">{item.products?.name || "Product"}</p>
+                  <p className="text-[12px] text-muted-foreground">Qty {item.quantity}</p>
+                </div>
+                <Price amount={item.price} className="font-semibold text-[14px]" />
+              </li>
+            ))}
+          </ul>
+          <Separator />
+          <div className="space-y-1.5 text-[13px]">
+            <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span className="tabular-nums">${(order.total - 10).toFixed(2)}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Shipping</span><span className="tabular-nums">$10.00</span></div>
+            <div className="flex justify-between font-semibold text-[15px] pt-2"><span>Total</span><span className="tabular-nums">${order.total.toFixed(2)}</span></div>
+          </div>
+        </DetailSection>
 
         {/* Shipping */}
-        <MobileSection title="Shipping Address">
-          <MobileCard variant="glass">
-            <div className="flex items-start gap-3">
-              <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-              {shippingAddress ? (
-                <div className="text-[13px] text-muted-foreground space-y-0.5 min-w-0">
-                  <p className="font-medium text-foreground">{shippingAddress.fullName}</p>
-                  <p>{shippingAddress.phone}</p>
-                  <p>{shippingAddress.street}</p>
-                  <p>{shippingAddress.city}, {shippingAddress.state} {shippingAddress.zipCode}</p>
-                  <p>{shippingAddress.country}</p>
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">No address provided</p>
-              )}
-            </div>
-          </MobileCard>
-        </MobileSection>
+        <DetailSection title={<span className="inline-flex items-center gap-2"><MapPin className="h-4 w-4 text-foreground/60" /> Shipping address</span>}>
+          {(() => {
+            const a = order.shipping_address as Record<string, string> | null;
+            if (!a) return <p className="text-sm text-muted-foreground">No address provided</p>;
+            return (
+              <div className="text-[13px] text-muted-foreground space-y-0.5 leading-relaxed">
+                <p className="font-medium text-foreground">{a.fullName}</p>
+                <p>{a.phone}</p>
+                <p>{a.street}</p>
+                <p>{a.city}, {a.state} {a.zipCode}</p>
+                <p>{a.country}</p>
+              </div>
+            );
+          })()}
+        </DetailSection>
 
         {/* Payment */}
-        <MobileSection title="Payment">
-          <MobileCard variant="glass">
-            <div className="flex items-start gap-3">
-              <CreditCard className="h-4 w-4 text-primary mt-0.5 shrink-0" />
-              <div className="text-[13px] min-w-0">
-                <p className="font-medium">
-                  {order.payment_method === "cod"
-                    ? "Cash on Delivery"
-                    : order.payment_method === "card"
-                    ? "Credit/Debit Card"
-                    : order.payment_method || "N/A"}
-                </p>
-                <p className="text-muted-foreground capitalize mt-0.5">
-                  Status: {order.payment_status || "Pending"}
-                </p>
-              </div>
-            </div>
-          </MobileCard>
-        </MobileSection>
+        <DetailSection title={<span className="inline-flex items-center gap-2"><CreditCard className="h-4 w-4 text-foreground/60" /> Payment</span>}>
+          <div className="text-[13px]">
+            <p className="font-medium text-foreground">
+              {order.payment_method === "card" ? "Credit / debit card" : order.payment_method === "bkash" ? "bKash" : order.payment_method === "cod" ? "Cash on delivery (legacy)" : "N/A"}
+            </p>
+            <p className="text-muted-foreground capitalize mt-0.5">Status: {order.payment_status || "Pending"}</p>
+          </div>
+        </DetailSection>
 
         {order.tracking_number && (
-          <MobileSection title="Tracking">
-            <MobileCard variant="glass">
-              <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">Tracking number</p>
-              <p className="font-mono text-sm bg-secondary/60 px-3 py-2 rounded-lg">{order.tracking_number}</p>
-            </MobileCard>
-          </MobileSection>
+          <DetailSection title="Tracking">
+            <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground mb-1.5">Tracking number</p>
+            <p className="font-mono text-sm bg-muted/60 px-3 py-2.5 rounded-lg">{order.tracking_number}</p>
+          </DetailSection>
         )}
       </MobilePage>
     </AppLayout>
