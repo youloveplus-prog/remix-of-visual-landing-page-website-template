@@ -237,26 +237,27 @@ function NavItem({
     >
       <span className="relative inline-flex z-10">
         {item.iconFill === AsikonIcon ? (
-          <img
-            src={asikonMark}
-            alt=""
+          <span
             aria-hidden
             className={cn(
-              "h-[26px] w-[26px]",
-              "transition-all duration-200",
-              active ? "opacity-100 nav-ai-active" : "opacity-40"
-            )}
-            style={
+              "grid place-items-center rounded-2xl transition-all duration-300",
               active
-                ? {
-                    filter:
-                      "invert(32%) sepia(98%) saturate(748%)" +
-                      " hue-rotate(215deg) brightness(105%)" +
-                      " contrast(101%)",
-                  }
-                : undefined
-            }
-          />
+                ? "h-12 w-12 -mt-4 bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-[0_10px_24px_-6px_hsl(var(--primary)/0.7),inset_0_1px_0_hsl(0_0%_100%/0.25)] ring-2 ring-background scale-105"
+                : "h-11 w-11 -mt-2 bg-secondary/60 border border-border text-foreground/70"
+            )}
+          >
+            <img
+              src={asikonMark}
+              alt=""
+              aria-hidden
+              className={cn("h-[22px] w-[22px] transition-all duration-200", active ? "opacity-100" : "opacity-70")}
+              style={
+                active
+                  ? { filter: "brightness(0) invert(1)" }
+                  : undefined
+              }
+            />
+          </span>
         ) : (
           <Icon
             aria-hidden
@@ -287,14 +288,16 @@ function NavItem({
         )}
       </span>
 
-      <span
-        className={cn(
-          "pointer-events-none relative z-10 text-[10px] leading-none",
-          active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
-        )}
-      >
-        {item.label}
-      </span>
+      {!(item.iconFill === AsikonIcon && active) && (
+        <span
+          className={cn(
+            "pointer-events-none relative z-10 text-[10px] leading-none",
+            active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
+          )}
+        >
+          {item.label}
+        </span>
+      )}
     </NavLink>
   );
 }

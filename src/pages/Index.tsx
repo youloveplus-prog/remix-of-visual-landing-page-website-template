@@ -15,7 +15,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { MobileScroller } from "@/components/ui/mobile-scroller";
-import { GreetingStrip } from "@/components/home/workspace/GreetingStrip";
+// GreetingStrip is intentionally not rendered on mobile home; FlexiTopSection serves as the hero.
 import { QuickAccessGrid } from "@/components/home/workspace/QuickAccessGrid";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
