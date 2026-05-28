@@ -429,7 +429,7 @@ export default function Welcome() {
                 </Link>
               </div>
               <ul className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-primary-foreground/90">
-                {["Cash on Delivery", "Made in Bangladesh", "7-Day Exchange", "Verified Reviews"].map((t) => (
+                {["Instant Access", "Bangla + English", "Secure Checkout", "Verified Reviews"].map((t) => (
                   <li key={t} className="inline-flex items-center gap-1.5">
                     <CheckCircle2 className="h-3.5 w-3.5" /> {t}
                   </li>

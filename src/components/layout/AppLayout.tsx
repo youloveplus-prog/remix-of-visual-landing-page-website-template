@@ -11,6 +11,7 @@ import { SiteFooter } from "./SiteFooter";
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/hooks/useCart";
 
 
 // Context to share sidebar state
@@ -91,8 +92,8 @@ export function AppLayout({
     setIsCollapsed(next);
   };
 
-  // Mock cart count - TODO: Replace with real cart state
-  const cartCount = 2;
+  const { data: cartItems } = useCart();
+  const cartCount = cartItems?.length ?? 0;
 
   const { pathname } = useLocation();
   const isHome = pathname === "/";

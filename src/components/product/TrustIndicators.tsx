@@ -1,12 +1,13 @@
-import { ShieldCheck, Truck, RefreshCw, CreditCard } from "lucide-react";
+import { ShieldCheck, Zap, RefreshCw, Lock } from "lucide-react";
 
 export function TrustIndicators() {
   const indicators = [
-    { icon: CreditCard, label: "Cash on Delivery", color: "text-success" },
-    { icon: RefreshCw, label: "Easy Returns", color: "text-primary" },
-    { icon: Truck, label: "Fast Delivery", color: "text-amber-500" },
-    { icon: ShieldCheck, label: "Quality Checked", color: "text-success" },
+    { icon: Zap, label: "Instant Access", color: "text-success" },
+    { icon: Lock, label: "Secure Checkout", color: "text-primary" },
+    { icon: RefreshCw, label: "7-Day Money-Back", color: "text-amber-500" },
+    { icon: ShieldCheck, label: "Verified Quality", color: "text-success" },
   ];
+
 
   return (
     <div className="flex flex-wrap gap-3">

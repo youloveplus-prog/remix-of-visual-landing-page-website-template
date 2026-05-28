@@ -5,7 +5,7 @@ import { panelClass, headlineClass, subheadClass } from "@/components/home/_pane
 const FAQS = [
   { q: "Need prior experience?", a: "No — most courses start from zero." },
   { q: "Is the AI tutor free?", a: "Daily free messages + welcome coins." },
-  { q: "bKash / Nagad?", a: "Yes — plus COD on physical books." },
+  { q: "Payment options?", a: "Card and bKash. All products are digital — instant access." },
   { q: "Certificates?", a: "Yes, for every paid course." },
 ];
 

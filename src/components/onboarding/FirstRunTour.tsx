@@ -25,7 +25,7 @@ const STEPS: Step[] = [
   {
     icon: ShoppingBag,
     title: "Trust-first marketplace",
-    body: "Courses, books and digital products with COD, verified buyer reviews, and made-in-BD trust signals.",
+    body: "Courses, ebooks and digital products with instant access, secure checkout, and verified buyer reviews.",
   },
   {
     icon: Users,

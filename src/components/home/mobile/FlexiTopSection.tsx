@@ -18,7 +18,7 @@ type Tile = {
 const pillActions: Tile[] = [
   { icon: ShoppingBag, label: "Shop", href: "/shop" },
   { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
-  { icon: Sparkles, label: "AI tutor", href: "/ai-tutor" },
+  { icon: Sparkles, label: "AI tutor", href: "/learn" },
   { icon: Tag, label: "Deals", href: "/shop?filter=deals" },
 ];
 
