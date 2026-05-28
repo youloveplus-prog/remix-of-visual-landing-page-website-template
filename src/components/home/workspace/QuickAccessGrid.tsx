@@ -13,17 +13,17 @@ type Tile = { icon: any; label: string; href: string };
 const TILES: Tile[] = [
   { icon: BookOpenText,   label: "Continue", href: "/learn" },
   { icon: Sparkles,       label: "AI Tutor", href: "/learn" },
-  { icon: CalendarCheck2, label: "Planner",  href: "/learn" },
-  { icon: LineChart,      label: "Progress", href: "/profile" },
-  { icon: GraduationCap,  label: "Mentors",  href: "/mentors" },
+  { icon: GraduationCap,  label: "Courses",  href: "/shop?type=courses" },
   { icon: Wand2,          label: "Prompts",  href: "/prompts" },
-  { icon: ShoppingBag,    label: "Explore",  href: "/shop" },
-  { icon: Gamepad2,       label: "Games",    href: "/game" },
+  { icon: Gamepad2,       label: "Earn",     href: "/game" },
+  { icon: Users,          label: "Mentors",  href: "/mentors" },
 ];
 
 const ALL_TILES: Tile[] = [
   ...TILES,
-  { icon: Users,          label: "Community", href: "/community" },
+  { icon: CalendarCheck2, label: "Planner",   href: "/learn" },
+  { icon: LineChart,      label: "Progress",  href: "/profile" },
+  { icon: ShoppingBag,    label: "Explore",   href: "/shop" },
   { icon: MessageSquare,  label: "Messages",  href: "/messages" },
   { icon: Bell,           label: "Alerts",    href: "/notifications" },
   { icon: Heart,          label: "Wishlist",  href: "/wishlist" },
@@ -77,26 +77,10 @@ export function QuickAccessGrid() {
         </Sheet>
       </div>
 
-      {/* Mobile: 4-column scrollable grid */}
-      <div className="md:hidden grid grid-cols-4 gap-3 overflow-y-auto no-scrollbar -mx-4 px-4 pb-1">
+      {/* 6 tiles in 2 rows of 3 — mobile + desktop */}
+      <div className="grid grid-cols-3 gap-3">
         {TILES.map((t, i) => (
           <TileLink key={t.label} {...t} index={i} />
-        ))}
-      </div>
-
-      {/* Desktop: grid */}
-      <div className="hidden md:grid grid-cols-8 gap-3">
-        {TILES.map(({ icon: Icon, label, href }) => (
-          <Link
-            key={label}
-            to={href}
-            className="group focus-ring flex flex-col items-center gap-1.5 rounded-2xl py-2"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-card border border-border flex items-center justify-center group-hover:bg-secondary transition">
-              <Icon className="h-5 w-5 text-foreground" strokeWidth={2} />
-            </div>
-            <span className="text-[11.5px] font-medium text-foreground/85">{label}</span>
-          </Link>
         ))}
       </div>
     </Reveal>

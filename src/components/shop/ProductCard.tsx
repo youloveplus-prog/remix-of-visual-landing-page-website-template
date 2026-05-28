@@ -43,15 +43,15 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             "transition-[transform,box-shadow,border-color] duration-300",
             "shadow-[0_2px_10px_-2px_hsl(var(--foreground)/0.06)]",
             "hover:shadow-[0_20px_25px_-5px_hsl(var(--foreground)/0.1)] hover:-translate-y-1 hover:border-primary/30",
-            "active:scale-[0.99]",
+            "active:scale-[0.97]",
             isFeatured && "lg:flex-row"
           )}
         >
-          {/* Image — YouTube-style 16:9 thumbnail */}
+          {/* Image — taller 4:3 thumbnail */}
           <figure
             className={cn(
               "relative overflow-hidden bg-secondary/30",
-              isCompact ? "aspect-square" : "aspect-video",
+              isCompact ? "aspect-square" : "aspect-[4/3]",
               isFeatured && "lg:w-1/2 lg:aspect-auto lg:h-full"
             )}
           >

@@ -1,67 +1,57 @@
-import { useMemo } from "react";
-import { Loader2 } from "lucide-react";
-import { mockPosts } from "@/lib/mock-data";
-import {
-  mockVideos,
-  mockShorts,
-  mockReviews,
-  mockLiveSessions,
-  mockOffers,
-} from "@/lib/community-mock-data";
-import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { Loader2, Sparkles } from "lucide-react";
 import { FeedStoriesRail } from "../feed/FeedStoriesRail";
 import { FeedItemRenderer } from "../feed/FeedItemRenderer";
 import type { FeedItem } from "../feed/feed-types";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import { supabase } from "@/integrations/supabase/client";
+import { adaptPost, type PostRow } from "@/lib/community-adapters";
 
-/**
- * Build a mixed, deterministic feed from all mock sources. Memoized at module
- * scope so it runs exactly once across the app lifetime — never causes
- * re-renders in MyFeedTab.
- */
-const buildMixedFeed = (): FeedItem[] => {
-  const items: FeedItem[] = [];
-  const maxLength = Math.max(
-    mockPosts.length,
-    mockVideos.length,
-    mockShorts.length,
-    mockReviews.length,
-    mockLiveSessions.length,
-    mockOffers.length,
+function FeedSkeleton() {
+  return (
+    <div className="mx-auto w-full max-w-[640px] bg-card border border-border rounded-2xl p-4 space-y-3">
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-10 w-10 rounded-full" />
+        <div className="space-y-2 flex-1">
+          <Skeleton className="h-3 w-1/3" />
+          <Skeleton className="h-2.5 w-1/4" />
+        </div>
+      </div>
+      <Skeleton className="h-4 w-5/6" />
+      <Skeleton className="aspect-video w-full rounded-xl" />
+    </div>
   );
-
-  for (let i = 0; i < maxLength; i++) {
-    const post = mockPosts[i];
-    if (post) items.push({ type: "post", data: post, id: `post-${post.id}` });
-
-    const video = mockVideos[i];
-    if (video) items.push({ type: "video", data: video, id: `video-${video.id}` });
-
-    const short = mockShorts[i];
-    if (short && i % 3 === 0) {
-      items.push({ type: "short", data: short, id: `short-${short.id}` });
-    }
-
-    const review = mockReviews[i];
-    if (review) items.push({ type: "review", data: review, id: `review-${review.id}` });
-
-    const live = mockLiveSessions[i];
-    if (live && live.isLive) {
-      items.push({ type: "live", data: live, id: `live-${live.id}` });
-    }
-
-    const offer = mockOffers[i];
-    if (offer) items.push({ type: "offer", data: offer, id: `offer-${offer.id}` });
-  }
-
-  return items;
-};
+}
 
 export function MyFeedTab() {
-  // Stable reference — `useMemo([])` returns the same array on every render.
-  const allContent = useMemo<FeedItem[]>(buildMixedFeed, []);
+  const navigate = useNavigate();
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["community-feed"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select(
+          `id, content, images, video_url, rating, type, user_id, created_at, product_id,
+           profiles:profiles!posts_user_id_fkey (id, username, full_name, avatar_url, is_verified, trust_score)`
+        )
+        .order("created_at", { ascending: false })
+        .limit(30);
+      if (error) throw error;
+      return (data ?? []) as unknown as PostRow[];
+    },
+  });
 
-  const { displayedItems, isLoading, loaderRef } = useInfiniteScroll<FeedItem>({
-    items: allContent,
+  const items: FeedItem[] = (data ?? []).map((row) => ({
+    id: `post-${row.id}`,
+    type: "post" as const,
+    data: adaptPost(row),
+  }));
+
+  const { displayedItems, isLoading: scrollLoading, loaderRef } = useInfiniteScroll<FeedItem>({
+    items,
     itemsPerPage: 4,
   });
 
@@ -69,21 +59,42 @@ export function MyFeedTab() {
     <div className="space-y-5">
       <FeedStoriesRail />
 
-      <div className="space-y-5">
-        {displayedItems.map((item, index) => (
-          <FeedItemRenderer
-            key={item._loopKey ?? `${item.id}-${index}`}
-            item={item}
-            index={index}
-          />
-        ))}
-
-        <div ref={loaderRef} className="flex justify-center py-4">
-          {isLoading && (
-            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" aria-hidden />
-          )}
+      {isLoading ? (
+        <div className="space-y-5">
+          {[1, 2, 3].map((i) => <FeedSkeleton key={i} />)}
         </div>
-      </div>
+      ) : isError ? (
+        <div className="mx-auto max-w-[640px] py-12 text-center space-y-3">
+          <p className="text-sm text-muted-foreground">Could not load feed. Try again.</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
+        </div>
+      ) : items.length === 0 ? (
+        <div className="mx-auto max-w-[640px] py-16 text-center space-y-4">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
+            <Sparkles className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <div>
+            <h3 className="font-display font-semibold text-base">Your feed is empty</h3>
+            <p className="text-sm text-muted-foreground mt-1">Be the first to share something with the community.</p>
+          </div>
+          <Button onClick={() => navigate("/community/create")}>Create a post</Button>
+        </div>
+      ) : (
+        <div className="space-y-5">
+          {displayedItems.map((item, index) => (
+            <FeedItemRenderer
+              key={item._loopKey ?? `${item.id}-${index}`}
+              item={item}
+              index={index}
+            />
+          ))}
+          <div ref={loaderRef} className="flex justify-center py-4">
+            {scrollLoading && (
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" aria-hidden />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

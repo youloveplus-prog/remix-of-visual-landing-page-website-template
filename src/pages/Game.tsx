@@ -41,10 +41,10 @@ const Game = () => {
   };
 
   const quickActions = [
-    { icon: Trophy, label: "Rank", color: "text-foreground", onClick: () => setShowRank(true) },
-    { icon: History, label: "History", color: "text-foreground", onClick: () => setShowHistory(true) },
-    { icon: BookOpen, label: "Rules", color: "text-foreground", onClick: () => setShowRules(true) },
-    { icon: UserPlus, label: "Invite", color: "text-foreground", onClick: handleInvite },
+    { icon: Trophy, label: "Rank", color: "text-amber-400", onClick: () => setShowRank(true) },
+    { icon: History, label: "History", color: "text-blue-400", onClick: () => setShowHistory(true) },
+    { icon: BookOpen, label: "Rules", color: "text-violet-400", onClick: () => setShowRules(true) },
+    { icon: UserPlus, label: "Invite", color: "text-emerald-400", onClick: handleInvite },
   ];
 
 
@@ -295,7 +295,7 @@ const Game = () => {
                     onClick={action.onClick}
                     className="rounded-xl bg-secondary/40 hover:bg-secondary border border-border p-3 flex flex-col items-center gap-1.5 transition-colors focus-ring"
                   >
-                    <action.icon className={`h-5 w-5 ${action.color}`} />
+                    <action.icon className={`h-5 w-5 ${action.color}`} aria-hidden />
                     <span className="text-[11.5px] font-medium">{action.label}</span>
                   </button>
                 ))}

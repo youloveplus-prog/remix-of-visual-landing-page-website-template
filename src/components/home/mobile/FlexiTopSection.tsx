@@ -8,30 +8,71 @@ import {
   BookOpen,
   Bot,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Tile = {
   icon: typeof ShoppingBag;
   label: string;
   href: string;
+  from: string;
+  to: string;
+  iconColor: string;
 };
 
 const pillActions: Tile[] = [
-  { icon: ShoppingBag, label: "Shop", href: "/shop" },
-  { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
-  { icon: Sparkles, label: "AI tutor", href: "/learn" },
-  { icon: Tag, label: "Deals", href: "/shop?filter=deals" },
+  {
+    icon: ShoppingBag,
+    label: "Shop",
+    href: "/shop",
+    from: "from-blue-500/15",
+    to: "to-blue-500/5",
+    iconColor: "text-blue-500",
+  },
+  {
+    icon: GraduationCap,
+    label: "Courses",
+    href: "/shop?type=courses",
+    from: "from-violet-500/15",
+    to: "to-violet-500/5",
+    iconColor: "text-violet-500",
+  },
+  {
+    icon: Sparkles,
+    label: "AI tutor",
+    href: "/learn",
+    from: "from-primary/15",
+    to: "to-primary/5",
+    iconColor: "text-primary",
+  },
+  {
+    icon: Tag,
+    label: "Deals",
+    href: "/shop?filter=deals",
+    from: "from-amber-500/15",
+    to: "to-amber-500/5",
+    iconColor: "text-amber-500",
+  },
 ];
 
-function PillTile({ icon: Icon, label, href }: Tile) {
+function PillTile(t: Tile) {
+  const { icon: Icon, label, href } = t;
   return (
     <Link
       to={href}
       className="flex flex-col items-center gap-2 focus-ring rounded-2xl pressable group p-1 -m-1 min-h-11"
     >
-      <div className="midnight-tile w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br from-primary/15 to-primary/5 border-primary/20 transition-all duration-300 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:shadow-[0_14px_30px_-12px_hsl(var(--primary)/0.55)]">
+      <div
+        className={cn(
+          "midnight-tile w-16 h-16 rounded-2xl flex items-center justify-center border border-transparent",
+          "bg-gradient-to-br",
+          t.from,
+          t.to,
+          "transition-all duration-300 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:shadow-[0_14px_30px_-12px_hsl(var(--primary)/0.45)]",
+        )}
+      >
         <Icon
           aria-hidden
-          className="h-5 w-5 text-primary transition-transform duration-300 motion-safe:group-hover:scale-110"
+          className={cn("h-5 w-5 transition-transform duration-300 motion-safe:group-hover:scale-110", t.iconColor)}
           strokeWidth={2.2}
         />
       </div>

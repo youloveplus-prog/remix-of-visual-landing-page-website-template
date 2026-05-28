@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Bell, ChevronLeft, Search, ShoppingBag } from "lucide-react";
+import { ChevronLeft, Search, ShoppingBag } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
@@ -14,7 +14,7 @@ interface MobileHeaderProps {
 }
 
 const TAB_TITLES: Record<string, string> = {
-  home: "ASIKON",
+  home: "Asikon",
   explore: "Explore",
   ai: "AI Tutor",
   community: "Community",
@@ -31,14 +31,13 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
 
   const inner = isInnerRoute(pathname);
   const activeTab = getActiveTab(pathname);
-  const tabTitle = (activeTab && TAB_TITLES[activeTab]) ?? "ASIKON";
+  const tabTitle = (activeTab && TAB_TITLES[activeTab]) ?? "Asikon";
   const innerTitle = getRouteTitle(pathname);
 
   const iconBtnCls = cn(
-    "relative w-9 h-9 rounded-full bg-white/90 dark:bg-card/80 border border-white/70 dark:border-border/60",
-    "shadow-[0_1px_2px_hsl(0_0%_0%/0.06)] backdrop-blur",
-    "flex items-center justify-center text-foreground",
-    "active:scale-95 active:opacity-80 transition-transform duration-100",
+    "relative w-11 h-11 rounded-full bg-transparent border-0",
+    "flex items-center justify-center text-foreground/70 hover:text-foreground",
+    "active:opacity-50 transition-opacity duration-100",
   );
 
   return (
@@ -56,7 +55,7 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
           : "border-b border-transparent",
       )}
     >
-      <div className="relative flex items-center gap-2 px-3" style={{ height: 56 }}>
+      <div className="relative flex items-center gap-2 px-3" style={{ height: 52 }}>
         {inner ? (
           <button
             type="button"
@@ -78,16 +77,14 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
             style={{ WebkitTapHighlightColor: "transparent" }}
             className="flex items-center gap-2 active:opacity-70 transition-opacity duration-100"
           >
-            <span className="w-9 h-9 rounded-full bg-white border border-white/60 shadow-sm flex items-center justify-center">
-              <img src={logo} alt="Asikon" className="h-5 w-5 rounded-md object-contain" />
-            </span>
-            <span className="font-display font-black tracking-[0.22em] text-[15px] text-foreground">
+            <img src={logo} alt="Asikon" className="h-7 w-7 rounded-md object-contain" />
+            <span className="font-display font-semibold text-[17px] tracking-tight text-foreground">
               {tabTitle}
             </span>
           </button>
         )}
 
-        <div className="ml-auto flex items-center gap-1.5">
+        <div className="ml-auto flex items-center gap-0.5">
           {onSearchClick && (
             <button
               type="button"
@@ -96,7 +93,7 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
               style={{ WebkitTapHighlightColor: "transparent" }}
               className={iconBtnCls}
             >
-              <Search className="h-[18px] w-[18px]" strokeWidth={2} />
+              <Search className="h-[20px] w-[20px]" strokeWidth={2} />
             </button>
           )}
           <Link
@@ -105,21 +102,12 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
             style={{ WebkitTapHighlightColor: "transparent" }}
             className={iconBtnCls}
           >
-            <ShoppingBag className="h-[18px] w-[18px]" strokeWidth={2} />
+            <ShoppingBag className="h-[20px] w-[20px]" strokeWidth={2} />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
+              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
                 {cartCount > 9 ? "9+" : cartCount}
               </span>
             )}
-          </Link>
-          <Link
-            to="/notifications"
-            aria-label="Notifications"
-            style={{ WebkitTapHighlightColor: "transparent" }}
-            className={iconBtnCls}
-          >
-            <Bell className="h-[18px] w-[18px]" strokeWidth={2} />
-            <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
           </Link>
         </div>
       </div>
