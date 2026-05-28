@@ -1,19 +1,25 @@
-## Problem
-`/ai-tutor` returns 404 because the route was renamed to `/learn` in the earlier copy-hygiene fixes. Internal links were updated, but external bookmarks / browser history / direct URL entry still hits the old path.
+## Scope
+Refine the shop product card to match selected "Refined Editorial" direction. Change product grid to 1-col mobile / 2-col tablet / 3-col desktop (per user direction). Applies to all shop categories including Courses.
 
-## Fix
-Add a redirect route in `src/App.tsx`:
-```tsx
-<Route path="/ai-tutor" element={<Navigate to="/learn" replace />} />
+## Changes
+
+**1. `src/index.css`** — update `.grid-products`:
+```
+grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6
 ```
 
-This ensures anyone arriving at `/ai-tutor` (bookmarks, history, shared links) is seamlessly redirected to `/learn` with a 301-equivalent client-side replace navigation.
+**2. `src/components/shop/ProductCard.tsx`** — refine visual styling per v1 prototype (structure unchanged, all props/handlers preserved):
+- Title: `text-lg md:text-xl font-bold leading-tight font-display` (Space Grotesk)
+- Price: `text-lg font-bold text-primary` (was foreground); strikethrough `text-sm`
+- Discount badge: `rounded-full bg-primary text-primary-foreground uppercase tracking-wider shadow-md` (was square dark)
+- Wishlist: `h-9 w-9` slightly larger, `bg-background/90 backdrop-blur-sm shadow-sm`
+- Bottom row: rating left, optional category eyebrow right (`uppercase tracking-widest text-muted-foreground`)
+- Padding: `p-4 md:p-5`
+- Hover: `-translate-y-1` lift
 
-## Scope
-- Only `src/App.tsx` — one line addition.
-- No other files touched.
-- No functional or visual changes to `/learn` itself.
+All design tokens from existing HSL system — no raw colors. No behavior changes, no removed fields, no functional code touched.
 
 ## Out of scope
-- `/shop?category=ai-tutor` links are query params on an existing route and are unaffected.
-- Asset file names (`ai-tutor.webp`) are cosmetic and untouched.
+- ProductCarousel, compact/featured variants unchanged
+- Filters, search, sort untouched
+- No data model changes
