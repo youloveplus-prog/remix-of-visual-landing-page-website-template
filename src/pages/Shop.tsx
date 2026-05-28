@@ -6,6 +6,7 @@ import { CategoryCarousel } from "@/components/carousels";
 import { ShopFilters } from "@/components/shop/ShopFilters";
 import { DesktopFilterRail } from "@/components/shop/DesktopFilterRail";
 import { ProductCard } from "@/components/shop/ProductCard";
+import { CourseVideoCard } from "@/components/shop/CourseVideoCard";
 import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, SortOption } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
@@ -273,20 +274,37 @@ const Shop = () => {
                         to={`/product/${product.slug}`}
                         className="block h-full focus-ring rounded-2xl"
                       >
-                        <ProductCard
-                          product={{
-                            id: product.id,
-                            name: product.name,
-                            brand: "Asikon Academy",
-                            price: product.price,
-                            originalPrice: product.original_price || undefined,
-                            image: product.image_url || "/placeholder.svg",
-                            rating: product.rating || 0,
-                            reviews: product.review_count || 0,
-                            isNew: false,
-                            isTrending: product.is_featured || false,
-                          }}
-                        />
+                        {activeCategory === "Courses" ? (
+                          <CourseVideoCard
+                            product={{
+                              id: product.id,
+                              name: product.name,
+                              brand: "Asikon Academy",
+                              price: product.price,
+                              originalPrice: product.original_price || undefined,
+                              image: product.image_url || "/placeholder.svg",
+                              rating: product.rating || 0,
+                              reviews: product.review_count || 0,
+                              isNew: false,
+                              isTrending: product.is_featured || false,
+                            }}
+                          />
+                        ) : (
+                          <ProductCard
+                            product={{
+                              id: product.id,
+                              name: product.name,
+                              brand: "Asikon Academy",
+                              price: product.price,
+                              originalPrice: product.original_price || undefined,
+                              image: product.image_url || "/placeholder.svg",
+                              rating: product.rating || 0,
+                              reviews: product.review_count || 0,
+                              isNew: false,
+                              isTrending: product.is_featured || false,
+                            }}
+                          />
+                        )}
                       </Link>
                     </Reveal>
                   ))}
