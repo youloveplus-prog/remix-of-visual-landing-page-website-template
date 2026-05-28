@@ -39,9 +39,9 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
         <article
           ref={ref}
           className={cn(
-            "group relative bg-card rounded-2xl overflow-hidden border border-border/60 h-full flex flex-col",
+            "group relative bg-card rounded-xl md:rounded-2xl overflow-hidden border border-border/60 h-full flex flex-col",
             "transition-[transform,box-shadow,border-color] duration-300",
-            "shadow-[0_2px_15px_-3px_hsl(var(--foreground)/0.07)]",
+            "shadow-[0_2px_10px_-2px_hsl(var(--foreground)/0.06)]",
             "hover:shadow-[0_20px_25px_-5px_hsl(var(--foreground)/0.1)] hover:-translate-y-1 hover:border-primary/30",
             "active:scale-[0.99]",
             isFeatured && "lg:flex-row"
@@ -77,7 +77,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               }}
               aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
               className={cn(
-                "no-min-tap absolute top-3 right-3 h-9 w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-sm shadow-sm",
+                "no-min-tap absolute top-2 right-2 md:top-3 md:right-3 h-8 w-8 md:h-9 md:w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-sm shadow-sm",
                 isWishlisted
                   ? "bg-primary/15 ring-1 ring-primary/40"
                   : "bg-background/90 hover:bg-background"
@@ -92,7 +92,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             </button>
 
             {/* Badge stack — capped at 2, calm tonal styling */}
-            <div className="absolute top-3 left-3 flex flex-col gap-1 max-w-[60%]">
+            <div className="absolute top-2 left-2 md:top-3 md:left-3 flex flex-col gap-1 max-w-[60%]">
               {discount > 0 && (
                 <Badge className="text-[10px] md:text-[11px] font-bold bg-primary text-primary-foreground border-0 px-2.5 py-1 rounded-full tracking-wider uppercase shadow-md">
                   −{discount}%
@@ -164,7 +164,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
           {/* Content */}
           <div
             className={cn(
-              "p-4 md:p-5 flex-1 flex flex-col",
+              "p-3 md:p-5 flex-1 flex flex-col",
               isFeatured && "lg:flex-1 lg:justify-center lg:p-6"
             )}
           >
@@ -174,8 +174,8 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
 
             <h3
               className={cn(
-                "font-display font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-3",
-                isCompact ? "text-base min-h-[2.5rem]" : "text-lg md:text-xl min-h-[3rem]",
+                "font-display font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors mb-2 md:mb-3",
+                isCompact ? "text-sm md:text-base min-h-[2rem] md:min-h-[2.5rem]" : "text-sm md:text-xl min-h-[2.5rem] md:min-h-[3rem]",
                 isFeatured && "lg:text-2xl lg:line-clamp-3 lg:min-h-0"
               )}
             >
@@ -188,7 +188,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
                   amount={product.price}
                   className={cn(
                     "font-bold text-primary tracking-tight",
-                    isCompact ? "text-base" : "text-lg",
+                    isCompact ? "text-sm md:text-base" : "text-base md:text-lg",
                     isFeatured && "lg:text-2xl"
                   )}
                 />
