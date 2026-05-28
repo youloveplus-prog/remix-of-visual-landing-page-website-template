@@ -392,7 +392,7 @@ const Index = () => {
           "@type": "FAQPage",
           mainEntity: [
             { "@type": "Question", name: "What is Asikon?", acceptedAnswer: { "@type": "Answer", text: "Asikon is an AI-powered learning platform with courses, books, a 24/7 AI tutor, and 1-on-1 mentorship." } },
-            { "@type": "Question", name: "Is cash on delivery available?", acceptedAnswer: { "@type": "Answer", text: "Yes — cash on delivery is available across Bangladesh on all shop orders." } },
+            { "@type": "Question", name: "How do I pay?", acceptedAnswer: { "@type": "Answer", text: "We accept card and bKash. All products are digital with instant access — no shipping required." } },
             { "@type": "Question", name: "Do I get a certificate?", acceptedAnswer: { "@type": "Answer", text: "Yes, every Asikon course includes a verified completion certificate you can share on LinkedIn or your CV." } },
           ],
         })}</script>
