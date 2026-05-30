@@ -448,6 +448,8 @@ const Index = () => {
             </>
           ) : (
             <>
+              <EduvoraHero variant="marketing" />
+              <PartnerMarquee />
               <div className="hidden lg:block"><DesktopHeroBento /></div>
               <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
