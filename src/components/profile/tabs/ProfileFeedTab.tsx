@@ -93,9 +93,13 @@ function FeedPostCard({ post, user }: { post: FeedPost; user: ProfileFeedTabProp
         <p className="px-4 pb-3 text-sm whitespace-pre-wrap">{post.content}</p>
       )}
 
-      {post.images && post.images[0] && (
+      {(post.images?.[0] || post.videoUrl) && (
         <div className="relative">
-          <img src={post.images[0]} alt="" className="w-full max-h-[520px] object-cover" />
+          {post.images?.[0] ? (
+            <img src={post.images[0]} alt="" className="w-full max-h-[520px] object-cover" />
+          ) : (
+            <video src={post.videoUrl!} controls className="w-full max-h-[520px] bg-black" />
+          )}
           {post.productSlug && (
             <Link
               to={`/product/${post.productSlug}`}
@@ -106,10 +110,6 @@ function FeedPostCard({ post, user }: { post: FeedPost; user: ProfileFeedTabProp
             </Link>
           )}
         </div>
-      )}
-
-      {post.videoUrl && !post.images?.[0] && (
-        <video src={post.videoUrl} controls className="w-full max-h-[520px] bg-black" />
       )}
 
       <div className="flex items-center gap-4 px-3.5 py-3 border-t border-border/40">
