@@ -111,7 +111,7 @@ export function ProfileTabs({
   };
 
   return (
-    <div className="relative border-b border-border">
+    <div className="relative border-b border-border bg-card/80 backdrop-blur-xl">
       {/* Fade edges hint at scrollable content */}
       <div
         aria-hidden
@@ -131,7 +131,7 @@ export function ProfileTabs({
       >
         <span
           aria-hidden
-          className="absolute -bottom-px h-[2px] rounded-full bg-foreground transition-[transform,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          className="absolute -bottom-px h-[2.5px] rounded-full gradient-primary transition-[transform,width] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
           style={{ width: indicator.width, transform: `translateX(${indicator.left}px)` }}
         />
 
