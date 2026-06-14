@@ -15,10 +15,10 @@ const categories = [
 ];
 
 const cardTints = [
-  "from-indigo-900/50 to-slate-800",
-  "from-purple-900/50 to-slate-800",
-  "from-cyan-900/40 to-slate-800",
-  "from-fuchsia-900/40 to-slate-800",
+  "from-primary/20 to-secondary/40",
+  "from-primary/25 to-secondary/40",
+  "from-accent/20 to-secondary/40",
+  "from-primary/20 to-accent/30",
 ];
 const badgeTints = ["bg-indigo-500", "bg-purple-500", "bg-cyan-500", "bg-fuchsia-500"];
 const rankTints = ["bg-indigo-600", "bg-purple-600", "bg-teal-600"];
