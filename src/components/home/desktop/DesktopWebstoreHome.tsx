@@ -126,8 +126,9 @@ export function DesktopWebstoreHome() {
   const top3c = useMemo<CardItem[]>(() => (products ?? []).slice(3, 6).map((p) => toCard(p, "Fresh")), [products]);
 
   return (
-    <div className="hidden lg:block">
-      <div className="mx-auto max-w-6xl px-6 py-8 space-y-12 text-foreground">
+    <div className="hidden lg:block dark home-midnight bg-[#0a0a1a] text-foreground">
+      <div className="mx-auto max-w-6xl px-6 py-8 space-y-12">
+
         {/* Search bar — Chrome-style pill */}
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
