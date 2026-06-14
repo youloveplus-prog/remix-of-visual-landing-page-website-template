@@ -38,7 +38,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
     // Tag chips — derive from product fields without changing the data shape.
     const chips: string[] = [
       ...(Array.isArray((product as any).tags) ? ((product as any).tags as string[]) : []),
-      ...(product.category ? [String(product.category)] : []),
+      ...((product as any).category ? [String((product as any).category)] : []),
     ]
       .filter(Boolean)
       .slice(0, isCompact ? 2 : 3);
