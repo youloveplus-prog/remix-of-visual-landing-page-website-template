@@ -148,7 +148,7 @@ export function DesktopWebstoreHome() {
             <div className="absolute top-0 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
             <div className="absolute bottom-0 right-10 w-64 h-64 bg-indigo-300 rounded-full blur-3xl" />
           </div>
-          <h1 className="relative font-display text-5xl xl:text-6xl font-bold mb-3 leading-[1.05] tracking-tight text-primary-foreground">
+          <h1 className="relative font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 leading-[1.05] tracking-tight text-primary-foreground">
             Master AI with<br />Practical Skills
           </h1>
           <p className="relative text-primary-foreground/80 text-sm mb-6 max-w-md">
