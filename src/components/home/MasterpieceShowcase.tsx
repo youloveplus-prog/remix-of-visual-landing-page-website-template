@@ -145,6 +145,7 @@ export function MasterpieceShowcase() {
           {/* Removed access/guarantee/tutor chips */}
         </div>
       </div>
-    </section>
+    </div></section>
+
   );
 }
