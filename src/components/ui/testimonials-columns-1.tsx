@@ -32,7 +32,7 @@ export const TestimonialsColumn = (props: {
             {props.testimonials.map(({ text, image, name, role }, i) => (
               <div
                 key={i}
-                className the ="relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.15)] max-w-xs w-full"
+                className="relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.15)] max-w-xs w-full"
               >
                 <img
                   src={image}
