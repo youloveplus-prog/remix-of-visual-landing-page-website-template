@@ -32,21 +32,21 @@ export const TestimonialsColumn = (props: {
             {props.testimonials.map(({ text, image, name, role }, i) => (
               <div
                 key={i}
-                className="p-6 rounded-3xl border border-border bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.15)] max-w-xs w-full"
+                className="relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.15)] max-w-xs w-full"
               >
-                <div className="text-sm leading-relaxed text-foreground/90">{text}</div>
-                <div className="flex items-center gap-2 mt-5">
-                  <img
-                    src={image}
-                    alt={name}
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 rounded-full object-cover"
-                    loading="lazy"
-                  />
-                  <div className="flex flex-col">
-                    <div className="font-display font-semibold tracking-tight leading-5">{name}</div>
-                    <div className="leading-5 text-xs tracking-tight text-muted-foreground">{role}</div>
+                <img
+                  src={image}
+                  alt={name}
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-full object-cover flex-shrink-0 mt-0.5"
+                  loading="lazy"
+                />
+                <div className="flex flex-col min-w-0">
+                  <div className="text-sm leading-relaxed text-foreground/90 line-clamp-3">{text}</div>
+                  <div className="mt-2">
+                    <div className="font-display font-semibold tracking-tight leading-5 text-sm truncate">{name}</div>
+                    <div className="leading-4 text-xs tracking-tight text-muted-foreground truncate">{role}</div>
                   </div>
                 </div>
               </div>
