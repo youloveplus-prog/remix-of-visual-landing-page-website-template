@@ -233,7 +233,7 @@ export function DesktopWebstoreHome() {
               <p className="text-sm text-muted-foreground mt-1">Tools, prompts and rituals that compound your progress</p>
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {[
               { icon: GraduationCap, title: "Courses library", desc: "120+ structured lessons across AI, Python, and product.", href: "/shop?type=courses" },
               { icon: BookOpen, title: "Books & PDFs", desc: "Hand-picked, instantly delivered. No shipping.", href: "/shop?type=books" },
