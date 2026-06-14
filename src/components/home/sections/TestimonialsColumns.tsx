@@ -84,8 +84,8 @@ export function TestimonialsColumns({ title = "Loved by learners across Banglade
           </p>
         </motion.div>
 
-        {/* Mobile: compact 2-column static grid */}
-        <div className="grid grid-cols-2 gap-3 mt-8 md:hidden">
+        {/* Mobile: 1-col on xs, tighter 2-col on sm */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-3 mt-8 md:hidden">
           {testimonials.map((t, i) => (
             <div
               key={i}
