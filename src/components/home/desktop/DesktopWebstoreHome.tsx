@@ -127,8 +127,7 @@ export function DesktopWebstoreHome() {
   const top3c = useMemo<CardItem[]>(() => (products ?? []).slice(3, 6).map((p) => toCard(p, "Fresh")), [products]);
 
   return (
-    <div className="dark home-midnight bg-[#0a0a1a] text-foreground">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-8 lg:space-y-12">
+    <section className="dark home-midnight section-x py-6 lg:py-8 space-y-8 lg:space-y-12 bg-[#0a0a1a] text-foreground">
 
         {/* Search bar — Chrome-style pill */}
         <div className="relative">
@@ -279,7 +278,6 @@ export function DesktopWebstoreHome() {
           </div>
         </section>
 
-      </div>
-    </div>
+    </section>
   );
 }

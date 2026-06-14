@@ -406,7 +406,7 @@ const Index = () => {
 
 
         {/* Shared content — same sections render on mobile and desktop so both surfaces stay in sync */}
-        <MobilePage spacing="space-y-6 lg:space-y-14">
+        <MobilePage spacing="space-y-6 lg:space-y-14" className="pt-0 lg:pt-0">
           {user ? (
             <>
               {/* New Eduvora-style hero + partner strip */}
