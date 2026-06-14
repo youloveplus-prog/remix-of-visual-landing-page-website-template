@@ -401,6 +401,11 @@ const Index = () => {
         })}</script>
       </SEO>
       <div className="home-midnight min-h-screen">
+        {/* New desktop home — Web-store classic layout (≥lg) */}
+        {user && <DesktopWebstoreHome />}
+
+        {/* Mobile (and signed-out) home — original sections */}
+        <div className={user ? "lg:hidden" : ""}>
         <MobilePage spacing="space-y-6 lg:space-y-14">
           {user ? (
             <>
@@ -462,7 +467,9 @@ const Index = () => {
             </>
           )}
         </MobilePage>
+        </div>
       </div>
+
 
     </AppLayout>
   );
