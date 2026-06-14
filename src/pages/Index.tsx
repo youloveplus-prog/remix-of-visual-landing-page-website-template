@@ -401,12 +401,12 @@ const Index = () => {
         })}</script>
       </SEO>
       <div className="home-midnight min-h-screen">
-        {/* New desktop home — Web-store classic layout (≥lg) */}
-        <DesktopWebstoreHome />
+        {/* Desktop webstore-classic hero/layout (≥lg) — keeps the rich desktop overview */}
+        <div className="hidden lg:block">
+          <DesktopWebstoreHome />
+        </div>
 
-        {/* Mobile (and tablet) home — original sections */}
-        <div className="lg:hidden">
-
+        {/* Shared content — same sections render on mobile and desktop so both surfaces stay in sync */}
         <MobilePage spacing="space-y-6 lg:space-y-14">
           {user ? (
             <>
@@ -419,13 +419,8 @@ const Index = () => {
                 {heroSection && <ImageHeroSlider />}
               </div>
 
-              <div className="hidden lg:block"><DesktopHeroBento /></div>
               <div className="lg:hidden"><FlexiTopSection /></div>
 
-              {/* Hero slider on desktop after bento */}
-              <div className="hidden lg:block">
-                {heroSection && <ImageHeroSlider />}
-              </div>
               <BrandStrip />
 
               {/* 3 — The single most important thing on the screen */}
@@ -457,7 +452,6 @@ const Index = () => {
             <>
               <EduvoraHero variant="marketing" />
               <PartnerMarquee />
-              <div className="hidden lg:block"><DesktopHeroBento /></div>
               <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
               <BrandStrip />
@@ -468,8 +462,8 @@ const Index = () => {
             </>
           )}
         </MobilePage>
-        </div>
       </div>
+
 
 
     </AppLayout>
