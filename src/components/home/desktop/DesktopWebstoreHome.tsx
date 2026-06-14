@@ -204,10 +204,10 @@ export function DesktopWebstoreHome() {
         </section>
 
         {/* Editorial — AI Tutor */}
-        <section className="rounded-3xl bg-primary/10 border border-primary/20 p-8 flex gap-8 items-center">
+        <section className="rounded-3xl bg-primary/10 border border-primary/20 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
           <div className="flex-1">
             <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary mb-3">Asikon AI · 24/7</span>
-            <h3 className="font-display text-3xl font-bold text-foreground mb-2 tracking-tight">Your personal AI tutor</h3>
+            <h3 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-2 tracking-tight">Your personal AI tutor</h3>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-lg">
               Ask anything in Bangla or English. Get instant, patient, step-by-step answers on your courses, prompts, and code.
             </p>
@@ -219,10 +219,11 @@ export function DesktopWebstoreHome() {
               Try AI Tutor
             </Link>
           </div>
-          <div className="w-44 h-44 bg-primary/15 rounded-3xl flex items-center justify-center border border-primary/30 shrink-0">
-            <Sparkles className="w-20 h-20 text-primary/60" />
+          <div className="w-32 h-32 sm:w-44 sm:h-44 bg-primary/15 rounded-3xl flex items-center justify-center border border-primary/30 shrink-0 mx-auto sm:mx-0">
+            <Sparkles className="w-16 h-16 sm:w-20 sm:h-20 text-primary/60" />
           </div>
         </section>
+
 
         {/* Extend your learning — quick tools 4-up */}
         <section>
