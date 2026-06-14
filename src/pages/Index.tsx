@@ -41,6 +41,7 @@ const MobileCoursesTop = lazy(() => import("@/components/home/mobile/MobileCours
 const GalleryCarousel = lazy(() => import("@/components/home/mobile/GalleryCarousel").then(m => ({ default: m.GalleryCarousel })));
 const MasterpieceShowcase = lazy(() => import("@/components/home/MasterpieceShowcase").then(m => ({ default: m.MasterpieceShowcase })));
 const ComingSoonTrio = lazy(() => import("@/components/home/ComingSoonTrio"));
+const TestimonialsColumns = lazy(() => import("@/components/home/sections/TestimonialsColumns").then(m => ({ default: m.TestimonialsColumns })));
 const SectionFallback = () => <div className="section-x"><Skeleton className="w-full h-32 rounded-2xl" /></div>;
 
 
@@ -447,6 +448,7 @@ const Index = () => {
               <Suspense fallback={<SectionFallback />}><MasterpieceShowcase /></Suspense>
               <Suspense fallback={<SectionFallback />}><ComingSoonTrio /></Suspense>
               {restSections.map(renderSection)}
+              <Suspense fallback={<SectionFallback />}><TestimonialsColumns /></Suspense>
 
               {/* 8 — Quiet personal footer: progress + activity */}
               <Suspense fallback={<SectionFallback />}><ProgressSnapshot /></Suspense>
@@ -463,6 +465,7 @@ const Index = () => {
               <Suspense fallback={<SectionFallback />}><MasterpieceShowcase /></Suspense>
               <Suspense fallback={<SectionFallback />}><ComingSoonTrio /></Suspense>
               {restSections.map(renderSection)}
+              <Suspense fallback={<SectionFallback />}><TestimonialsColumns /></Suspense>
             </>
           )}
         </MobilePage>
