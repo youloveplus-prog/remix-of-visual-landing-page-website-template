@@ -251,7 +251,7 @@ const Shop = () => {
             {/* Products Grid */}
             <div>
               {productsLoading ? (
-                <div className="grid-products">
+                <div className={activeCategory === "Courses" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6" : "grid-products"}>
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                     <div key={i} className="space-y-3">
                       <Skeleton className="aspect-[4/5] rounded-2xl" />
@@ -262,7 +262,7 @@ const Shop = () => {
                   ))}
                 </div>
               ) : filteredProducts && filteredProducts.length > 0 ? (
-                <div className="grid-products">
+                <div className={activeCategory === "Courses" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6" : "grid-products"}>
                   {filteredProducts.map((product, idx) => (
                     <Reveal
                       key={product.id}
