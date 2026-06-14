@@ -134,7 +134,7 @@ export function DesktopWebstoreHome() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Link
             to="/shop"
-            className="block w-full bg-slate-900/50 border border-slate-800 rounded-full py-3 pl-11 pr-4 text-sm text-muted-foreground hover:border-primary/40 transition-colors focus-ring"
+            className="block w-full bg-secondary/60 border border-border rounded-full py-3 pl-11 pr-4 text-sm text-muted-foreground hover:border-primary/40 transition-colors focus-ring"
           >
             Search courses, mentors, prompts, and tools
           </Link>
