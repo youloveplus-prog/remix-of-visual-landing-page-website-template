@@ -254,16 +254,14 @@ function NavItem({
         )}
       </span>
 
-      {!(item.iconFill === AsikonIcon && active) && (
-        <span
-          className={cn(
-            "pointer-events-none relative z-10 text-[10px] leading-none",
-            active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
-          )}
-        >
-          {item.label}
-        </span>
-      )}
+      <span
+        className={cn(
+          "pointer-events-none relative z-10 text-[10px] leading-none",
+          active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
+        )}
+      >
+        {item.label}
+      </span>
     </NavLink>
   );
 }
