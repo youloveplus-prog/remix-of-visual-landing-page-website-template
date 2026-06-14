@@ -31,7 +31,7 @@ export function MobileScroller({
       {/* Mobile: horizontal snap scroll with edge bleed */}
       <div
         className={cn(
-          "md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-4 px-4 pr-10",
+          "md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-4 px-4 pr-4",
           gap,
           className,
         )}
