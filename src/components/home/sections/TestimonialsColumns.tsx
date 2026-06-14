@@ -9,7 +9,7 @@ const testimonials = [
     role: "Python Student, Dhaka",
   },
   {
-    text: "Bought the prompt library and within a week I was earning from freelance writing gigs. Best investment I made.",
+    text: "Bought the prompt library, and within a week I was earning from freelance writing gigs. Best investment I made.",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
     name: "Tanvir Hossain",
     role: "Freelancer, Chattogram",
@@ -84,7 +84,27 @@ export function TestimonialsColumns({ title = "Loved by learners across Banglade
           </p>
         </motion.div>
 
-        <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[640px] overflow-hidden">
+        {/* Mobile: compact 2-column static grid */}
+        <div className="grid grid-cols-2 gap-3 mt-8 md:hidden">
+          {testimonials.map((t, i) => (
+            <div
+              key={i}
+              className="flex flex-col gap-2 p-3 rounded-xl border border-border bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.15)]"
+            >
+              <p className="text-xs leading-relaxed text-foreground/90 line-clamp-4">{t.text}</p>
+              <div className="flex items-center gap-2 mt-auto">
+                <img src={t.image} alt={t.name} width={28} height={28} className="h-7 w-7 rounded-full object-cover flex-shrink-0" loading="lazy" />
+                <div className="min-w-0">
+                  <div className="font-display font-semibold text-xs leading-4 truncate">{t.name}</div>
+                  <div className="text-[10px] leading-3 text-muted-foreground truncate">{t.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: animated columns */}
+        <div className="hidden md:flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[640px] overflow-hidden">
           <TestimonialsColumn testimonials={firstColumn} duration={15} />
           <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
           <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
