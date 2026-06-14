@@ -26,33 +26,33 @@
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 234 70% 50%;
+    --primary: 0 72% 45%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 20% 96%;
-    --secondary-foreground: 222 47% 14%;
-    --muted: 220 20% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 162 100% 39%;
+    --secondary: 0 15% 96%;
+    --secondary-foreground: 0 30% 14%;
+    --muted: 0 10% 96%;
+    --muted-foreground: 0 5% 42%;
+    --accent: 0 82% 55%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 16% 90%;
-    --input: 220 16% 92%;
-    --ring: 234 70% 50%;
+    --border: 0 10% 90%;
+    --input: 0 10% 92%;
+    --ring: 0 72% 45%;
     --radius: 0.75rem;
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 234 70% 50%;
+    --sidebar-primary: 0 72% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 162 100% 39%;
+    --sidebar-accent: 0 82% 55%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 16% 90%;
-    --sidebar-ring: 234 70% 50%;
-    --chart-1: 234 70% 50%;
-    --chart-2: 162 100% 39%;
-    --chart-3: 38 92% 50%;
-    --chart-4: 220 90% 55%;
-    --chart-5: 270 60% 55%;
+    --sidebar-border: 0 10% 90%;
+    --sidebar-ring: 0 72% 45%;
+    --chart-1: 0 72% 45%;
+    --chart-2: 0 82% 55%;
+    --chart-3: 18 92% 50%;
+    --chart-4: 350 80% 50%;
+    --chart-5: 30 80% 50%;
     --gold: 38 92% 50%;
     --success: 162 70% 38%;
     --font-sans: 'Inter', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
@@ -63,12 +63,12 @@
     --glass-border: 220 16% 88%;
     --glass-highlight: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(234 70% 50%) 0%, hsl(220 80% 56%) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(234 70% 50% / 0.08) 0%, hsl(162 100% 39% / 0.05) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 33% 98%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(0 72% 45%) 0%, hsl(350 80% 32%) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(0 72% 45% / 0.10) 0%, hsl(0 82% 55% / 0.06) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 15% 98%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.5) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(234 70% 50% / 0.06) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(162 100% 39% / 0.05) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(0 72% 45% / 0.08) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(350 80% 50% / 0.06) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 30%, hsl(var(--border)) 70%, transparent);
 
     /* Calm 3-tier shadow system (Apple-style: large blur, low opacity, downward) */
@@ -78,7 +78,7 @@
     --shadow-lg: 0 12px 32px -12px hsl(222 47% 11% / 0.10);
     --shadow-xl: 0 24px 56px -20px hsl(222 47% 11% / 0.14);
     --shadow-2xl: 0 36px 72px -28px hsl(222 47% 11% / 0.18);
-    --shadow-glow: 0 0 0 1px hsl(234 70% 50% / 0.18), 0 8px 24px -8px hsl(234 70% 50% / 0.22);
+    --shadow-glow: 0 0 0 1px hsl(0 72% 45% / 0.18), 0 8px 24px -8px hsl(0 72% 45% / 0.30);
     --shadow-elevated: 0 12px 32px -16px hsl(222 47% 11% / 0.12);
 
     --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -93,50 +93,50 @@
 
   .dark {
     /* === Dark theme (calm, premium alt) === */
-    --background: 222 47% 5%;
+    --background: 0 60% 3%;
     --foreground: 0 0% 98%;
-    --card: 222 40% 8%;
+    --card: 0 40% 7%;
     --card-foreground: 0 0% 98%;
-    --popover: 222 40% 9%;
+    --popover: 0 40% 8%;
     --popover-foreground: 0 0% 98%;
-    --primary: 234 80% 62%;
+    --primary: 0 78% 52%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 222 30% 13%;
+    --secondary: 0 30% 12%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 222 25% 14%;
-    --muted-foreground: 220 12% 65%;
-    --accent: 162 90% 45%;
-    --accent-foreground: 222 47% 8%;
+    --muted: 0 25% 12%;
+    --muted-foreground: 0 8% 65%;
+    --accent: 0 85% 60%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 222 25% 16%;
-    --input: 222 25% 12%;
-    --ring: 234 80% 62%;
-    --sidebar-background: 222 47% 5%;
+    --border: 0 25% 15%;
+    --input: 0 25% 11%;
+    --ring: 0 78% 52%;
+    --sidebar-background: 0 60% 3%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 234 80% 62%;
+    --sidebar-primary: 0 78% 52%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 162 90% 45%;
-    --sidebar-accent-foreground: 222 47% 8%;
-    --sidebar-border: 222 25% 16%;
-    --sidebar-ring: 234 80% 62%;
-    --chart-1: 234 80% 62%;
-    --chart-2: 162 90% 45%;
-    --chart-3: 45 95% 55%;
-    --chart-4: 220 90% 65%;
-    --chart-5: 270 70% 65%;
+    --sidebar-accent: 0 85% 60%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 25% 15%;
+    --sidebar-ring: 0 78% 52%;
+    --chart-1: 0 78% 52%;
+    --chart-2: 0 85% 60%;
+    --chart-3: 18 90% 55%;
+    --chart-4: 350 80% 55%;
+    --chart-5: 30 80% 55%;
 
     /* Glass tokens — dark (toned down) */
-    --glass-bg: 222 40% 9%;
-    --glass-border: 222 20% 22%;
+    --glass-bg: 0 40% 8%;
+    --glass-border: 0 30% 20%;
     --glass-highlight: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(234 80% 62%) 0%, hsl(220 85% 65%) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(234 80% 62% / 0.14) 0%, hsl(162 90% 45% / 0.08) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(222 40% 9%) 0%, hsl(222 47% 5%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(0 78% 52%) 0%, hsl(350 70% 32%) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(0 78% 52% / 0.18) 0%, hsl(0 85% 60% / 0.08) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 40% 8%) 0%, hsl(0 60% 3%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(234 80% 62% / 0.14) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(162 90% 45% / 0.10) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(0 78% 52% / 0.20) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(350 80% 50% / 0.12) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
     --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
@@ -145,7 +145,7 @@
     --shadow-lg: 0 16px 36px -12px hsl(0 0% 0% / 0.6);
     --shadow-xl: 0 28px 56px -20px hsl(0 0% 0% / 0.7);
     --shadow-2xl: 0 40px 72px -28px hsl(0 0% 0% / 0.75);
-    --shadow-glow: 0 0 0 1px hsl(234 80% 62% / 0.3), 0 12px 32px -8px hsl(234 80% 62% / 0.4);
+    --shadow-glow: 0 0 0 1px hsl(0 78% 52% / 0.35), 0 12px 32px -8px hsl(0 78% 52% / 0.45);
     --shadow-elevated: 0 20px 48px -16px hsl(0 0% 0% / 0.65);
   }
 
@@ -809,23 +809,23 @@
    Bento tile + glow utilities, theme-aware. Midnight Indigo palette is
    applied only in dark mode; light mode inherits the default light theme. */
 .dark .home-midnight {
-  --background: 240 43% 7%;        /* #0a0a1a */
+  --background: 0 60% 3%;          /* near-black with red tint */
   --foreground: 0 0% 98%;
-  --card: 240 43% 14%;             /* #141432 */
+  --card: 0 40% 8%;
   --card-foreground: 0 0% 98%;
-  --popover: 240 43% 14%;
+  --popover: 0 40% 8%;
   --popover-foreground: 0 0% 98%;
-  --primary: 244 76% 59%;          /* #4f46e5 */
+  --primary: 0 78% 52%;            /* crimson */
   --primary-foreground: 0 0% 100%;
-  --secondary: 240 51% 24%;        /* #1e1e5a */
+  --secondary: 0 40% 14%;
   --secondary-foreground: 0 0% 98%;
-  --muted: 240 30% 18%;
-  --muted-foreground: 220 14% 70%;
-  --accent: 244 76% 59%;
+  --muted: 0 25% 12%;
+  --muted-foreground: 0 8% 70%;
+  --accent: 0 85% 60%;
   --accent-foreground: 0 0% 100%;
-  --input: 240 30% 18%;
-  --ring: 244 76% 59%;
-  background-color: hsl(240 43% 7%);
+  --input: 0 25% 12%;
+  --ring: 0 78% 52%;
+  background-color: hsl(0 60% 3%);
   color: hsl(0 0% 98%);
 }
 
