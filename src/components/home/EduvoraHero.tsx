@@ -105,7 +105,7 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
         </div>
 
         {/* stat cards row */}
-        <div className="relative mt-4 lg:mt-8 grid grid-cols-3 gap-1.5 sm:gap-3">
+        <div className="relative mt-4 lg:mt-8 grid grid-cols-3 gap-2 sm:gap-3">
           <StatCard
             icon={<Star className="h-4 w-4" />}
             value="98%"
