@@ -52,7 +52,7 @@ export function MasterpieceShowcase() {
   const frontBook = visible[frontIdx].book;
 
   return (
-    <section className="relative overflow-hidden py-10 lg:py-20 rounded-3xl mx-2 lg:mx-6 my-4 lg:my-8 bg-gradient-to-br from-[hsl(var(--primary)/0.08)] via-background to-[hsl(var(--primary)/0.15)]">
+    <section className="section-x"><div className="relative overflow-hidden py-10 lg:py-20 rounded-3xl my-4 lg:my-8 bg-gradient-to-br from-[hsl(var(--primary)/0.08)] via-background to-[hsl(var(--primary)/0.15)]">
       <div aria-hidden className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-primary/20 blur-3xl pointer-events-none" />
       <div aria-hidden className="absolute -bottom-40 right-0 w-[500px] h-[500px] rounded-full bg-primary/15 blur-3xl pointer-events-none" />
 
