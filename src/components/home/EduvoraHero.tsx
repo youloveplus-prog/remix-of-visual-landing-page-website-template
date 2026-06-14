@@ -105,7 +105,7 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
         </div>
 
         {/* stat cards row */}
-        <div className="relative mt-4 lg:mt-8 grid grid-cols-3 gap-1.5 sm:gap-3">
+        <div className="relative mt-4 lg:mt-8 grid grid-cols-3 gap-2 sm:gap-3">
           <StatCard
             icon={<Star className="h-4 w-4" />}
             value="98%"
@@ -142,14 +142,15 @@ function StatCard({
   return (
     <div
       className={
-        dark
+        (dark
           ? "rounded-2xl bg-foreground text-background p-2 sm:p-4 flex flex-col gap-1 sm:gap-2"
-          : "rounded-2xl bg-card text-card-foreground p-2 sm:p-4 flex flex-col gap-1 sm:gap-2"
+          : "rounded-2xl bg-card text-card-foreground p-2 sm:p-4 flex flex-col gap-1 sm:gap-2") +
+        " items-center text-center sm:items-start sm:text-left"
       }
     >
       <div
         className={
-          "grid place-items-center h-6 w-6 sm:h-8 sm:w-8 rounded-full " +
+          "grid place-items-center h-6 w-6 sm:h-8 sm:w-8 rounded-full shrink-0 " +
           (dark
             ? "bg-background/10 text-background"
             : "bg-foreground text-background")
@@ -157,11 +158,11 @@ function StatCard({
       >
         {icon}
       </div>
-      <div className="leading-tight">
-        <p className="font-display font-bold text-sm sm:text-lg">{value}</p>
+      <div className="leading-tight min-w-0">
+        <p className="font-display font-bold text-sm sm:text-lg truncate">{value}</p>
         <p
           className={
-            "text-[10px] sm:text-xs " +
+            "text-[10px] sm:text-xs truncate " +
             (dark ? "text-background/70" : "text-muted-foreground")
           }
         >
