@@ -640,7 +640,7 @@
 
   /* Consistent horizontal padding for page sections — tighter on mobile (16px)
      for a native-app feel, desktop relies on parent container so cards align flush. */
-  .section-x { @apply px-2 sm:px-4 lg:px-0; }
+  .section-x { @apply px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto; }
 
   /* Site-wide eyebrow label */
   .eyebrow { @apply text-[10px] uppercase tracking-[0.16em] font-semibold text-muted-foreground; }
