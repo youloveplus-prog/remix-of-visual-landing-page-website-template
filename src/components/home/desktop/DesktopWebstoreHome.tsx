@@ -173,7 +173,7 @@ export function DesktopWebstoreHome() {
                 className={
                   c.active
                     ? "shrink-0 bg-primary/15 border border-primary/30 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 text-foreground hover:bg-primary/25 transition-colors"
-                    : "shrink-0 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:border-slate-700 transition-colors"
+                    : "shrink-0 bg-card border border-border px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
                 }
               >
                 {c.active && <span className="w-2 h-2 rounded-full bg-primary" />}
