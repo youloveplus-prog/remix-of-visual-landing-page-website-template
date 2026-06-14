@@ -1,22 +1,12 @@
-import { type LucideIcon } from "lucide-react";
+import { BookOpen, type LucideIcon } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
-import asikonMark from "@/assets/icons/asikon-mark.svg";
 import exploreOutline from "@/assets/icons/explore-outline.svg";
 import exploreSolid from "@/assets/icons/explore-solid.svg";
 
-const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
-  <img
-    src={asikonMark}
-    alt=""
-    aria-hidden
-    className={className as string}
-    style={{ objectFit: "contain" }}
-  />
-);
 
 const ExploreOutlineIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
   <span
