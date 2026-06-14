@@ -1,7 +1,7 @@
 // Single source of truth mapping pathname → active mobile tab.
 // Used by BottomNav (active chip) and MobileHeader (title + back chevron).
 
-export type TabId = "home" | "explore" | "game" | "ai" | "community" | "profile" | null;
+export type TabId = "home" | "explore" | "game" | "learn" | "community" | "profile" | null;
 
 export interface TabDef {
   id: Exclude<TabId, null>;
@@ -14,7 +14,7 @@ export const TABS: TabDef[] = [
   { id: "home", label: "Home", path: "/", matches: [] },
   { id: "explore", label: "Explore", path: "/shop", matches: ["/shop", "/product", "/cart", "/checkout", "/orders", "/wishlist"] },
   { id: "game", label: "Earn", path: "/game", matches: ["/game", "/track", "/lesson"] },
-  { id: "ai", label: "AI", path: "/learn", matches: ["/learn", "/prompts"] },
+  { id: "learn", label: "Learn", path: "/learn", matches: ["/learn", "/prompts"] },
   { id: "community", label: "Community", path: "/community", matches: ["/community"] },
   { id: "profile", label: "Profile", path: "/profile", matches: ["/profile", "/settings", "/about", "/mentors"] },
 ];
@@ -39,7 +39,7 @@ export function isInnerRoute(pathname: string): boolean {
 
 export function getRouteTitle(pathname: string): string {
   if (pathname === "/") return "Asikon";
-  if (pathname.startsWith("/learn")) return "AI Tutor";
+  if (pathname.startsWith("/learn")) return "Learn";
   if (pathname.startsWith("/track")) return "Track";
   if (pathname.startsWith("/lesson")) return "Lesson";
   if (pathname.startsWith("/product")) return "Product";
