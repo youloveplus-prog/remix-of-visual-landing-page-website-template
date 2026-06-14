@@ -334,7 +334,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (<ProductCardSkeleton key={i} />))}
         </div>
       ) : (
-        <MobileScroller itemWidthMobile="48%" gridCols="md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" gap="gap-3 lg:gap-4">
+        <MobileScroller itemWidthMobile="calc(50% - 6px)" gridCols="md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5" gap="gap-2 lg:gap-4">
           {curated.map((p: any) => (
             <Link key={p.id} to={`/product/${p.slug}`} className="h-full block focus-ring rounded-2xl">
               <ProductCard product={transformProduct(p)} variant="compact" />
