@@ -258,7 +258,7 @@ export function DesktopWebstoreHome() {
         <ProductGrid items={newArrivals} title="New arrivals" viewAllHref="/shop?filter=new" />
 
         {/* Final editorial — community */}
-        <section className="rounded-3xl bg-slate-900/40 border border-slate-800 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
+        <section className="rounded-3xl bg-card border border-border p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
           <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0 mx-auto sm:mx-0">
             <MessageCircle className="h-12 w-12 sm:h-14 sm:w-14 text-primary/70" />
           </div>
@@ -270,7 +270,7 @@ export function DesktopWebstoreHome() {
             </p>
             <Link
               to="/community"
-              className="inline-flex items-center gap-2 text-sm font-bold text-foreground border border-slate-700 px-5 py-2.5 rounded-lg hover:border-primary/40 hover:bg-slate-900 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-bold text-foreground border border-border px-5 py-2.5 rounded-lg hover:border-primary/40 hover:bg-secondary transition-colors"
             >
               <Trophy className="h-4 w-4 text-primary" />
               Open community
