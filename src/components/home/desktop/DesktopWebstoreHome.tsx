@@ -259,13 +259,13 @@ export function DesktopWebstoreHome() {
         <ProductGrid items={newArrivals} title="New arrivals" viewAllHref="/shop?filter=new" />
 
         {/* Final editorial — community */}
-        <section className="rounded-3xl bg-slate-900/40 border border-slate-800 p-8 flex gap-8 items-center">
-          <div className="w-32 h-32 rounded-3xl bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0">
-            <MessageCircle className="h-14 w-14 text-primary/70" />
+        <section className="rounded-3xl bg-slate-900/40 border border-slate-800 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0 mx-auto sm:mx-0">
+            <MessageCircle className="h-12 w-12 sm:h-14 sm:w-14 text-primary/70" />
           </div>
           <div className="flex-1">
             <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary mb-3">Community</span>
-            <h3 className="font-display text-2xl font-bold text-foreground mb-2 tracking-tight">From verified learners</h3>
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-2 tracking-tight">From verified learners</h3>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-xl">
               Real reviews and posts from buyers who completed the course — no paid placements, no fake hype.
             </p>
@@ -278,6 +278,7 @@ export function DesktopWebstoreHome() {
             </Link>
           </div>
         </section>
+
       </div>
     </div>
   );
