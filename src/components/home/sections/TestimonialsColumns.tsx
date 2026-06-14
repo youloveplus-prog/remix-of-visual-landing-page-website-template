@@ -84,23 +84,10 @@ export function TestimonialsColumns({ title = "Loved by learners across Banglade
           </p>
         </motion.div>
 
-        {/* Mobile: 1-col on xs, tighter 2-col on sm */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-3 mt-8 md:hidden">
-          {testimonials.map((t, i) => (
-            <div
-              key={i}
-              className="flex flex-col gap-2 p-3 rounded-xl border border-border bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.15)]"
-            >
-              <p className="text-xs leading-relaxed text-foreground/90 line-clamp-4">{t.text}</p>
-              <div className="flex items-center gap-2 mt-auto">
-                <img src={t.image} alt={t.name} width={28} height={28} className="h-7 w-7 rounded-full object-cover flex-shrink-0" loading="lazy" />
-                <div className="min-w-0">
-                  <div className="font-display font-semibold text-xs leading-4 truncate">{t.name}</div>
-                  <div className="text-[10px] leading-3 text-muted-foreground truncate">{t.role}</div>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* Mobile: animated 1-col (xs) / 2-col (sm) */}
+        <div className="flex md:hidden justify-center gap-3 mt-8 [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)] max-h-[480px] overflow-hidden">
+          <TestimonialsColumn testimonials={firstColumn} duration={15} />
+          <TestimonialsColumn testimonials={secondColumn} className="hidden sm:block" duration={19} />
         </div>
 
         {/* Desktop: animated columns */}
@@ -109,6 +96,7 @@ export function TestimonialsColumns({ title = "Loved by learners across Banglade
           <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
           <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
         </div>
+
       </div>
     </section>
   );
