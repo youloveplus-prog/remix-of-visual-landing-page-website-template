@@ -20,6 +20,7 @@ import { QuickAccessGrid } from "@/components/home/workspace/QuickAccessGrid";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
+import { DesktopWebstoreHome } from "@/components/home/desktop/DesktopWebstoreHome";
 import { BrandStrip } from "@/components/home/BrandStrip";
 import { EduvoraHero } from "@/components/home/EduvoraHero";
 import { PartnerMarquee } from "@/components/home/PartnerMarquee";
