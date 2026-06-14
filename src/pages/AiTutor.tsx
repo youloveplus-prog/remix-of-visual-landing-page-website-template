@@ -61,15 +61,15 @@ export default function Learn() {
   useEffect(() => {
     if (loading || isLoading || threadId || !user) return;
     if (threads && threads.length > 0) {
-      navigate(`/learn/${threads[0].id}`, { replace: true });
+      navigate(`/ai-tutor/${threads[0].id}`, { replace: true });
     } else if (!createThread.isPending && threads && threads.length === 0) {
-      createThread.mutateAsync().then((t) => navigate(`/learn/${t.id}`, { replace: true }));
+      createThread.mutateAsync().then((t) => navigate(`/ai-tutor/${t.id}`, { replace: true }));
     }
   }, [threads, threadId, isLoading, loading, user]);
 
   const handleNew = async () => {
     const t = await createThread.mutateAsync();
-    navigate(`/learn/${t.id}`);
+    navigate(`/ai-tutor/${t.id}`);
   };
 
   const handleBack = () => navigate("/game");
