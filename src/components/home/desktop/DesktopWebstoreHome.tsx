@@ -80,17 +80,17 @@ function ProductGrid({ items, title, viewAllHref }: { items: CardItem[]; title: 
 
 function TopChartsPanel({ title, items }: { title: string; items: CardItem[] }) {
   return (
-    <div className="bg-slate-900/30 rounded-2xl border border-slate-800 p-5 flex flex-col">
+    <div className="bg-card rounded-2xl border border-border p-5 flex flex-col">
       <h3 className="font-display text-base font-bold mb-4 tracking-tight">{title}</h3>
       <div className="space-y-4 flex-1">
         {items.slice(0, 3).map((item, i) => (
           <Link key={item.id} to={item.href} className="flex items-center gap-3 group">
-            <span className="text-sm font-bold text-slate-500 w-4 tabular-nums">{i + 1}</span>
+            <span className="text-sm font-bold text-muted-foreground w-4 tabular-nums">{i + 1}</span>
             <div className={`w-10 h-10 ${rankTints[i % rankTints.length]} rounded-lg shrink-0 overflow-hidden flex items-center justify-center`}>
               {item.image ? (
                 <img src={item.image} alt="" loading="lazy" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-xs font-bold text-white">{item.title[0]?.toUpperCase()}</span>
+                <span className="text-xs font-bold text-primary-foreground">{item.title[0]?.toUpperCase()}</span>
               )}
             </div>
             <div className="flex-1 min-w-0">
@@ -100,7 +100,7 @@ function TopChartsPanel({ title, items }: { title: string; items: CardItem[] }) 
           </Link>
         ))}
       </div>
-      <button className="w-full mt-5 pt-3 border-t border-slate-800 text-[10px] text-primary font-bold uppercase tracking-widest">
+      <button className="w-full mt-5 pt-3 border-t border-border text-[10px] text-primary font-bold uppercase tracking-widest">
         See all
       </button>
     </div>
