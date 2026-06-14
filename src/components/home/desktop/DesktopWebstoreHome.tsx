@@ -55,7 +55,8 @@ function ProductGrid({ items, title, viewAllHref }: { items: CardItem[]; title: 
         <h2 className="font-display text-2xl font-bold tracking-tight">{title}</h2>
         <Link to={viewAllHref} className="text-sm text-primary font-semibold hover:underline">See more</Link>
       </div>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+
         {items.slice(0, 4).map((item, i) => (
           <Link key={item.id} to={item.href} className="group cursor-pointer focus-ring rounded-xl">
             <CardImage image={item.image} index={i} initial={item.title[0]?.toUpperCase() ?? "A"} />
@@ -126,8 +127,8 @@ export function DesktopWebstoreHome() {
   const top3c = useMemo<CardItem[]>(() => (products ?? []).slice(3, 6).map((p) => toCard(p, "Fresh")), [products]);
 
   return (
-    <div className="hidden lg:block dark home-midnight bg-[#0a0a1a] text-foreground">
-      <div className="mx-auto max-w-6xl px-6 py-8 space-y-12">
+    <div className="dark home-midnight bg-[#0a0a1a] text-foreground">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-8 lg:space-y-12">
 
         {/* Search bar — Chrome-style pill */}
         <div className="relative">
@@ -141,12 +142,13 @@ export function DesktopWebstoreHome() {
         </div>
 
         {/* Hero collection banner */}
-        <section className="relative rounded-3xl overflow-hidden aspect-[3/1] bg-gradient-to-br from-[hsl(var(--primary))] to-indigo-900 flex flex-col items-center justify-center p-10 text-center shadow-2xl shadow-primary/20">
+        <section className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[2/1] lg:aspect-[3/1] bg-gradient-to-br from-[hsl(var(--primary))] to-indigo-900 flex flex-col items-center justify-center p-6 sm:p-8 lg:p-10 text-center shadow-2xl shadow-primary/20">
+
           <div aria-hidden className="absolute inset-0 opacity-25 pointer-events-none">
             <div className="absolute top-0 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
             <div className="absolute bottom-0 right-10 w-64 h-64 bg-indigo-300 rounded-full blur-3xl" />
           </div>
-          <h1 className="relative font-display text-5xl xl:text-6xl font-bold mb-3 leading-[1.05] tracking-tight text-primary-foreground">
+          <h1 className="relative font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 leading-[1.05] tracking-tight text-primary-foreground">
             Master AI with<br />Practical Skills
           </h1>
           <p className="relative text-primary-foreground/80 text-sm mb-6 max-w-md">
@@ -194,7 +196,7 @@ export function DesktopWebstoreHome() {
             </div>
             <Link to="/leaderboard" className="text-sm text-primary font-semibold hover:underline">See all</Link>
           </div>
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
             <TopChartsPanel title="Trending" items={top3a.length ? top3a : top3b} />
             <TopChartsPanel title="Popular" items={top3b} />
             <TopChartsPanel title="New & notable" items={top3c.length ? top3c : top3b} />
@@ -202,10 +204,10 @@ export function DesktopWebstoreHome() {
         </section>
 
         {/* Editorial — AI Tutor */}
-        <section className="rounded-3xl bg-primary/10 border border-primary/20 p-8 flex gap-8 items-center">
+        <section className="rounded-3xl bg-primary/10 border border-primary/20 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
           <div className="flex-1">
             <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary mb-3">Asikon AI · 24/7</span>
-            <h3 className="font-display text-3xl font-bold text-foreground mb-2 tracking-tight">Your personal AI tutor</h3>
+            <h3 className="font-display text-2xl sm:text-3xl font-bold text-foreground mb-2 tracking-tight">Your personal AI tutor</h3>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-lg">
               Ask anything in Bangla or English. Get instant, patient, step-by-step answers on your courses, prompts, and code.
             </p>
@@ -217,10 +219,11 @@ export function DesktopWebstoreHome() {
               Try AI Tutor
             </Link>
           </div>
-          <div className="w-44 h-44 bg-primary/15 rounded-3xl flex items-center justify-center border border-primary/30 shrink-0">
-            <Sparkles className="w-20 h-20 text-primary/60" />
+          <div className="w-32 h-32 sm:w-44 sm:h-44 bg-primary/15 rounded-3xl flex items-center justify-center border border-primary/30 shrink-0 mx-auto sm:mx-0">
+            <Sparkles className="w-16 h-16 sm:w-20 sm:h-20 text-primary/60" />
           </div>
         </section>
+
 
         {/* Extend your learning — quick tools 4-up */}
         <section>
@@ -230,7 +233,7 @@ export function DesktopWebstoreHome() {
               <p className="text-sm text-muted-foreground mt-1">Tools, prompts and rituals that compound your progress</p>
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {[
               { icon: GraduationCap, title: "Courses library", desc: "120+ structured lessons across AI, Python, and product.", href: "/shop?type=courses" },
               { icon: BookOpen, title: "Books & PDFs", desc: "Hand-picked, instantly delivered. No shipping.", href: "/shop?type=books" },
@@ -256,13 +259,13 @@ export function DesktopWebstoreHome() {
         <ProductGrid items={newArrivals} title="New arrivals" viewAllHref="/shop?filter=new" />
 
         {/* Final editorial — community */}
-        <section className="rounded-3xl bg-slate-900/40 border border-slate-800 p-8 flex gap-8 items-center">
-          <div className="w-32 h-32 rounded-3xl bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0">
-            <MessageCircle className="h-14 w-14 text-primary/70" />
+        <section className="rounded-3xl bg-slate-900/40 border border-slate-800 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
+          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0 mx-auto sm:mx-0">
+            <MessageCircle className="h-12 w-12 sm:h-14 sm:w-14 text-primary/70" />
           </div>
           <div className="flex-1">
             <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-primary mb-3">Community</span>
-            <h3 className="font-display text-2xl font-bold text-foreground mb-2 tracking-tight">From verified learners</h3>
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground mb-2 tracking-tight">From verified learners</h3>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-xl">
               Real reviews and posts from buyers who completed the course — no paid placements, no fake hype.
             </p>
@@ -275,6 +278,7 @@ export function DesktopWebstoreHome() {
             </Link>
           </div>
         </section>
+
       </div>
     </div>
   );
