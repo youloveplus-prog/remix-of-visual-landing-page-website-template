@@ -55,7 +55,8 @@ function ProductGrid({ items, title, viewAllHref }: { items: CardItem[]; title: 
         <h2 className="font-display text-2xl font-bold tracking-tight">{title}</h2>
         <Link to={viewAllHref} className="text-sm text-primary font-semibold hover:underline">See more</Link>
       </div>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+
         {items.slice(0, 4).map((item, i) => (
           <Link key={item.id} to={item.href} className="group cursor-pointer focus-ring rounded-xl">
             <CardImage image={item.image} index={i} initial={item.title[0]?.toUpperCase() ?? "A"} />
