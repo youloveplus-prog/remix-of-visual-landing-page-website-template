@@ -29,11 +29,11 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-6 items-center">
           {/* LEFT */}
           <div className="space-y-4 sm:space-y-6">
-            <h1 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[2rem] sm:text-5xl lg:text-6xl">
+            <h1 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[1.5rem] sm:text-5xl lg:text-6xl">
               Master AI with
               <br />
               practical{" "}
-              <span className="inline-block border-2 border-primary-foreground/80 rounded-md px-3 py-0.5 mt-1">
+              <span className="inline-block border-2 border-primary-foreground/80 rounded-md px-2 py-0 sm:px-3 sm:py-0.5 mt-1">
                 skills
               </span>
             </h1>
