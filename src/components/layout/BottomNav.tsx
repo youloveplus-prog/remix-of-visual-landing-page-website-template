@@ -1,22 +1,12 @@
-import { type LucideIcon } from "lucide-react";
+import { BookOpen, type LucideIcon } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
-import asikonMark from "@/assets/icons/asikon-mark.svg";
 import exploreOutline from "@/assets/icons/explore-outline.svg";
 import exploreSolid from "@/assets/icons/explore-solid.svg";
 
-const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
-  <img
-    src={asikonMark}
-    alt=""
-    aria-hidden
-    className={className as string}
-    style={{ objectFit: "contain" }}
-  />
-);
 
 const ExploreOutlineIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
   <span
@@ -175,7 +165,7 @@ export function BottomNav() {
   const tabs: (Tab & { badge?: number; dot?: boolean })[] = [
     { id: "home", iconOutline: HomeOutline, iconFill: HomeFill, label: "Home", path: "/" },
     { id: "explore", iconOutline: ExploreOutlineIcon, iconFill: ExploreFillIcon, label: "Explore", path: "/shop", badge: cartCount },
-    { id: "ai", iconOutline: AsikonIcon, iconFill: AsikonIcon, label: "AI", path: "/learn" },
+    { id: "learn", iconOutline: BookOpen, iconFill: BookOpen, label: "Learn", path: "/learn" },
     { id: "community", iconOutline: CommunityOutline, iconFill: CommunityFill, label: "Community", path: "/community", dot: false },
     { id: "profile", iconOutline: ProfileOutline, iconFill: ProfileFill, label: "Profile", path: "/profile" },
   ];
@@ -236,40 +226,16 @@ function NavItem({
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
       <span className="relative inline-flex z-10">
-        {item.iconFill === AsikonIcon ? (
-          <span
-            aria-hidden
-            className={cn(
-              "grid place-items-center rounded-2xl transition-all duration-300",
-              active
-                ? "h-12 w-12 -mt-4 bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-[0_10px_24px_-6px_hsl(var(--primary)/0.7),inset_0_1px_0_hsl(0_0%_100%/0.25)] ring-2 ring-background scale-105"
-                : "h-11 w-11 -mt-2 bg-secondary/60 border border-border text-foreground/70"
-            )}
-          >
-            <img
-              src={asikonMark}
-              alt=""
-              aria-hidden
-              className={cn("h-[22px] w-[22px] transition-all duration-200", active ? "opacity-100" : "opacity-70")}
-              style={
-                active
-                  ? { filter: "brightness(0) invert(1)" }
-                  : undefined
-              }
-            />
-          </span>
-        ) : (
-          <Icon
-            aria-hidden
-            className={cn(
-              "h-[24px] w-[24px]",
-              "transition-all duration-200",
-              active
-                ? "text-primary"
-                : "text-muted-foreground/60"
-            )}
-          />
-        )}
+        <Icon
+          aria-hidden
+          className={cn(
+            "h-[24px] w-[24px]",
+            "transition-all duration-200",
+            active
+              ? "text-primary"
+              : "text-muted-foreground/60"
+          )}
+        />
 
         {showBadge && (
           <span
@@ -288,16 +254,14 @@ function NavItem({
         )}
       </span>
 
-      {!(item.iconFill === AsikonIcon && active) && (
-        <span
-          className={cn(
-            "pointer-events-none relative z-10 text-[10px] leading-none",
-            active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
-          )}
-        >
-          {item.label}
-        </span>
-      )}
+      <span
+        className={cn(
+          "pointer-events-none relative z-10 text-[10px] leading-none",
+          active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
+        )}
+      >
+        {item.label}
+      </span>
     </NavLink>
   );
 }
