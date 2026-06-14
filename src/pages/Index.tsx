@@ -402,10 +402,11 @@ const Index = () => {
       </SEO>
       <div className="home-midnight min-h-screen">
         {/* New desktop home — Web-store classic layout (≥lg) */}
-        {user && <DesktopWebstoreHome />}
+        <DesktopWebstoreHome />
 
-        {/* Mobile (and signed-out) home — original sections */}
-        <div className={user ? "lg:hidden" : ""}>
+        {/* Mobile (and tablet) home — original sections */}
+        <div className="lg:hidden">
+
         <MobilePage spacing="space-y-6 lg:space-y-14">
           {user ? (
             <>
