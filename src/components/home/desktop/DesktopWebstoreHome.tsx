@@ -127,8 +127,8 @@ export function DesktopWebstoreHome() {
   const top3c = useMemo<CardItem[]>(() => (products ?? []).slice(3, 6).map((p) => toCard(p, "Fresh")), [products]);
 
   return (
-    <div className="hidden lg:block dark home-midnight bg-[#0a0a1a] text-foreground">
-      <div className="mx-auto max-w-6xl px-6 py-8 space-y-12">
+    <div className="dark home-midnight bg-[#0a0a1a] text-foreground">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-6 lg:py-8 space-y-8 lg:space-y-12">
 
         {/* Search bar — Chrome-style pill */}
         <div className="relative">
@@ -142,7 +142,8 @@ export function DesktopWebstoreHome() {
         </div>
 
         {/* Hero collection banner */}
-        <section className="relative rounded-3xl overflow-hidden aspect-[3/1] bg-gradient-to-br from-[hsl(var(--primary))] to-indigo-900 flex flex-col items-center justify-center p-10 text-center shadow-2xl shadow-primary/20">
+        <section className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[2/1] lg:aspect-[3/1] bg-gradient-to-br from-[hsl(var(--primary))] to-indigo-900 flex flex-col items-center justify-center p-6 sm:p-8 lg:p-10 text-center shadow-2xl shadow-primary/20">
+
           <div aria-hidden className="absolute inset-0 opacity-25 pointer-events-none">
             <div className="absolute top-0 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
             <div className="absolute bottom-0 right-10 w-64 h-64 bg-indigo-300 rounded-full blur-3xl" />
