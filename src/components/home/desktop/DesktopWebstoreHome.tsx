@@ -130,6 +130,9 @@ export function DesktopWebstoreHome() {
   return (
     <section className="home-midnight section-x py-6 lg:py-8 space-y-8 lg:space-y-12 text-foreground">
 
+        {/* Hero image slider — top of page */}
+        <ImageHeroSlider />
+
         {/* Search bar — Chrome-style pill */}
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -141,27 +144,6 @@ export function DesktopWebstoreHome() {
           </Link>
         </div>
 
-        {/* Hero collection banner */}
-        <section className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[2/1] lg:aspect-[3/1] bg-gradient-to-br from-[hsl(var(--primary))] to-indigo-900 flex flex-col items-center justify-center p-6 sm:p-8 lg:p-10 text-center shadow-2xl shadow-primary/20">
-
-          <div aria-hidden className="absolute inset-0 opacity-25 pointer-events-none">
-            <div className="absolute top-0 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-10 w-64 h-64 bg-indigo-300 rounded-full blur-3xl" />
-          </div>
-          <h1 className="relative font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 leading-[1.05] tracking-tight text-primary-foreground">
-            Master AI with<br />Practical Skills
-          </h1>
-          <p className="relative text-primary-foreground/80 text-sm mb-6 max-w-md">
-            Hands-on learning with the industry's best mentors, instant AI tutoring, and a community that ships.
-          </p>
-          <Link
-            to="/shop"
-            className="relative inline-flex items-center gap-2 bg-background text-foreground text-sm font-bold px-6 py-2.5 rounded-full hover:bg-background/90 transition-colors"
-          >
-            Browse collection
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </section>
 
         {/* Top categories */}
         <section>
