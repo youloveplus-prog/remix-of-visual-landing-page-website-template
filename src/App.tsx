@@ -32,6 +32,7 @@ const SettingsMod = () => import("./pages/Settings");
 const CreateContentMod = () => import("./pages/CreateContent");
 const MentorsMod = () => import("./pages/Mentors");
 const LearnMod = () => import("./pages/Learn");
+const AiTutorMod = () => import("./pages/AiTutor");
 const NotFoundMod = () => import("./pages/NotFound");
 const ResetPasswordMod = () => import("./pages/ResetPassword");
 const AboutMod = () => import("./pages/About");
@@ -76,6 +77,7 @@ const Settings = lazy(SettingsMod);
 const CreateContent = lazy(CreateContentMod);
 const Mentors = lazy(MentorsMod);
 const Learn = lazy(LearnMod);
+const AiTutor = lazy(AiTutorMod);
 const Revision = lazy(() => import("./pages/Revision"));
 const NotFound = lazy(NotFoundMod);
 const About = lazy(AboutMod);
@@ -191,9 +193,9 @@ function AnimatedRoutes() {
           <Route path="/create" element={<CreateContent />} />
           <Route path="/mentors" element={<Mentors />} />
           <Route path="/learn" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
-          <Route path="/ai-tutor" element={<Navigate to="/learn" replace />} />
+          <Route path="/ai-tutor" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
+          <Route path="/ai-tutor/:threadId" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
           <Route path="/revision" element={<ErrorBoundary><Revision /></ErrorBoundary>} />
-          <Route path="/learn/:threadId" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
           <Route path="/about" element={<About />} />
           <Route path="/prompts" element={<Prompts />} />
           <Route path="/welcome" element={<Welcome />} />
