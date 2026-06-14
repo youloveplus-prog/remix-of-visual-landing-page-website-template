@@ -165,7 +165,7 @@ export function BottomNav() {
   const tabs: (Tab & { badge?: number; dot?: boolean })[] = [
     { id: "home", iconOutline: HomeOutline, iconFill: HomeFill, label: "Home", path: "/" },
     { id: "explore", iconOutline: ExploreOutlineIcon, iconFill: ExploreFillIcon, label: "Explore", path: "/shop", badge: cartCount },
-    { id: "ai", iconOutline: AsikonIcon, iconFill: AsikonIcon, label: "AI", path: "/learn" },
+    { id: "learn", iconOutline: BookOpen, iconFill: BookOpen, label: "Learn", path: "/learn" },
     { id: "community", iconOutline: CommunityOutline, iconFill: CommunityFill, label: "Community", path: "/community", dot: false },
     { id: "profile", iconOutline: ProfileOutline, iconFill: ProfileFill, label: "Profile", path: "/profile" },
   ];
@@ -226,40 +226,16 @@ function NavItem({
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
       <span className="relative inline-flex z-10">
-        {item.iconFill === AsikonIcon ? (
-          <span
-            aria-hidden
-            className={cn(
-              "grid place-items-center rounded-2xl transition-all duration-300",
-              active
-                ? "h-12 w-12 -mt-4 bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-[0_10px_24px_-6px_hsl(var(--primary)/0.7),inset_0_1px_0_hsl(0_0%_100%/0.25)] ring-2 ring-background scale-105"
-                : "h-11 w-11 -mt-2 bg-secondary/60 border border-border text-foreground/70"
-            )}
-          >
-            <img
-              src={asikonMark}
-              alt=""
-              aria-hidden
-              className={cn("h-[22px] w-[22px] transition-all duration-200", active ? "opacity-100" : "opacity-70")}
-              style={
-                active
-                  ? { filter: "brightness(0) invert(1)" }
-                  : undefined
-              }
-            />
-          </span>
-        ) : (
-          <Icon
-            aria-hidden
-            className={cn(
-              "h-[24px] w-[24px]",
-              "transition-all duration-200",
-              active
-                ? "text-primary"
-                : "text-muted-foreground/60"
-            )}
-          />
-        )}
+        <Icon
+          aria-hidden
+          className={cn(
+            "h-[24px] w-[24px]",
+            "transition-all duration-200",
+            active
+              ? "text-primary"
+              : "text-muted-foreground/60"
+          )}
+        />
 
         {showBadge && (
           <span
