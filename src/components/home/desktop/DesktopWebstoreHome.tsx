@@ -196,7 +196,7 @@ export function DesktopWebstoreHome() {
             </div>
             <Link to="/leaderboard" className="text-sm text-primary font-semibold hover:underline">See all</Link>
           </div>
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
             <TopChartsPanel title="Trending" items={top3a.length ? top3a : top3b} />
             <TopChartsPanel title="Popular" items={top3b} />
             <TopChartsPanel title="New & notable" items={top3c.length ? top3c : top3b} />
