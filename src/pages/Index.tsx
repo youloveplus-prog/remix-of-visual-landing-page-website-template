@@ -401,10 +401,9 @@ const Index = () => {
         })}</script>
       </SEO>
       <div className="home-midnight min-h-screen">
-        {/* Desktop webstore-classic hero/layout (≥lg) — keeps the rich desktop overview */}
-        <div className="hidden lg:block">
-          <DesktopWebstoreHome />
-        </div>
+        {/* Webstore-classic overview — renders on all sizes so mobile sees the same content */}
+        <DesktopWebstoreHome />
+
 
         {/* Shared content — same sections render on mobile and desktop so both surfaces stay in sync */}
         <MobilePage spacing="space-y-6 lg:space-y-14">
