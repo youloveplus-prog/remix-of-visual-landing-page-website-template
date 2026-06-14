@@ -13,7 +13,7 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
   return (
     <section className="section-x pt-3 lg:pt-5">
       <div
-        className="relative overflow-hidden rounded-3xl text-primary-foreground p-5 sm:p-8 lg:p-12"
+        className="relative overflow-hidden rounded-3xl text-primary-foreground p-4 sm:p-8 lg:p-12"
         style={{ background: "var(--gradient-primary)" }}
       >
         {/* radial light accent */}
