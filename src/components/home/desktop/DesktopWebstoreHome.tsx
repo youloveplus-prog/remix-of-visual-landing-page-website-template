@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { ArrowRight, Search, Sparkles, GraduationCap, BookOpen, MessageCircle, Users, Wand2, Trophy, Star } from "lucide-react";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
-import { ImageHeroSlider } from "@/components/home/ImageHeroSlider";
+import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 
 const categories = [
   { id: "all", label: "All topics", href: "/shop", dotClass: "bg-indigo-400", active: true },
