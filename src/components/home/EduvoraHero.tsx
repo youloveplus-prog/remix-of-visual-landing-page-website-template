@@ -60,28 +60,6 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
             {/* social proof row */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
               <div className="flex items-center gap-2 sm:gap-3 rounded-full border border-primary-foreground/30 bg-primary-foreground/5 px-2 py-1 sm:px-3 sm:py-1.5">
-                <div className="flex -space-x-100px] sm:text-base text-primary-foreground/85 max-w-md leading-relaxed">
-              Learn AI through simple, hands-on courses designed to help you build
-              real-world skills — not just theory. Start quickly, progress
-              confidently, apply immediately.
-            </p>
-
-            <div className="flex items-center gap-2">
-              <Link
-                to={ctaHref}
-                aria-label={ctaLabel}
-                className="group inline-flex items-center gap-2 rounded-full bg-foreground text-background pl-1.5 pr-5 py-1.5 text-sm font-semibold uppercase tracking-wide hover:opacity-90 transition"
-              >
-                <span className="grid place-items-center h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-background text-foreground">
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-                {ctaLabel}
-              </Link>
-            </div>
-
-            {/* social proof row */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
-              <div className="flex items-center gap-2 sm:gap-3 rounded-full border border-primary-foreground/30 bg-primary-foreground/5 px-2 py-1 sm:px-3 sm:py-1.5">
                 <div className="flex -space-x-2">
                   {[0, 1, 2, 3].map((i) => (
                     <div
@@ -127,7 +105,7 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
         </div>
 
         {/* stat cards row */}
-        <div className="relative mt-4 lg:mt-8 grid grid-cols-3 gap-2 sm:gap-3">
+        <div className="relative mt-4 lg:mt-8 grid grid-cols-3 gap-1.5 sm:gap-3">
           <StatCard
             icon={<Star className="h-4 w-4" />}
             value="98%"
@@ -165,13 +143,13 @@ function StatCard({
     <div
       className={
         dark
-          ? "rounded-2xl bg-foreground text-background p-3 sm:p-4 flex flex-col gap-2"
-          : "rounded-2xl bg-card text-card-foreground p-3 sm:p-4 flex flex-col gap-2"
+          ? "rounded-2xl bg-foreground text-background p-2 sm:p-4 flex flex-col gap-1 sm:gap-2"
+          : "rounded-2xl bg-card text-card-foreground p-2 sm:p-4 flex flex-col gap-1 sm:gap-2"
       }
     >
       <div
         className={
-          "grid place-items-center h-7 w-7 sm:h-8 sm:w-8 rounded-full " +
+          "grid place-items-center h-6 w-6 sm:h-8 sm:w-8 rounded-full " +
           (dark
             ? "bg-background/10 text-background"
             : "bg-foreground text-background")
@@ -180,7 +158,7 @@ function StatCard({
         {icon}
       </div>
       <div className="leading-tight">
-        <p className="font-display font-bold text-base sm:text-lg">{value}</p>
+        <p className="font-display font-bold text-sm sm:text-lg">{value}</p>
         <p
           className={
             "text-[10px] sm:text-xs " +
