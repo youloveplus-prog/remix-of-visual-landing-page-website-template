@@ -1,181 +1,230 @@
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { SEO } from "@/components/SEO";
-import { ArrowLeft, Plus, Menu } from "lucide-react";
-import { LearnChat } from "@/components/learn/LearnChat";
-import { ThreadList } from "@/components/learn/ThreadList";
-import { useAiThreads, useCreateAiThread } from "@/hooks/useAiTutor";
-import { useAuth } from "@/hooks/useAuth";
+import { Link } from "react-router-dom";
+import { Sparkles, BookOpen, Clock, ArrowRight, Bot, Flame, Trophy, ChevronRight } from "lucide-react";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { MobilePage } from "@/components/layout/MobilePage";
+import { MobileSection } from "@/components/ui/mobile-section";
+import { MobileCard } from "@/components/ui/mobile-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import tutorAvatar from "@/assets/asikon-tutor-avatar.webp";
-import asikonLogo from "@/assets/logo.png";
-
-function StandaloneShell({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background">
-      {children}
-    </div>
-  );
-}
-
-function TopBar({ onNew, onBack, showMenu }: { onNew?: () => void; onBack: () => void; showMenu?: React.ReactNode }) {
-  return (
-    <header className="flex items-center gap-2 h-12 px-2 border-b border-border bg-background/80 backdrop-blur-md shrink-0">
-      <Button variant="ghost" size="icon" onClick={onBack} aria-label="Back" className="h-9 w-9">
-        <ArrowLeft className="h-5 w-5" />
-      </Button>
-      {showMenu}
-      <div className="flex-1 min-w-0">
-        <h1 className="text-sm font-semibold leading-tight truncate">Asikon AI</h1>
-      </div>
-      {onNew && (
-        <Button variant="ghost" size="icon" onClick={onNew} aria-label="New chat" className="h-9 w-9">
-          <Plus className="h-5 w-5" />
-        </Button>
-      )}
-    </header>
-  );
-}
-
-function LearnSkeleton() {
-  return (
-    <div className="flex-1 flex flex-col min-h-0 p-4 gap-3">
-      <Skeleton className="h-24 w-full rounded-2xl" />
-      <Skeleton className="h-24 w-3/4 rounded-2xl" />
-      <div className="mt-auto">
-        <Skeleton className="h-14 w-full rounded-3xl" />
-      </div>
-    </div>
-  );
-}
+import { Progress } from "@/components/ui/progress";
+import { SEO } from "@/components/SEO";
+import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
+import { StreakBadge } from "@/features/progress/StreakBadge";
+import { XPBar } from "@/features/progress/XPBar";
+import { useTracks, useLessonCompletions } from "@/hooks/useTracks";
+import { useLearnerProfile } from "@/hooks/useLearnerProfile";
+import { useAuth } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 
 export default function Learn() {
-  const { threadId } = useParams<{ threadId?: string }>();
-  const navigate = useNavigate();
-  const { user, loading } = useAuth();
-  const { data: threads, isLoading } = useAiThreads();
-  const createThread = useCreateAiThread();
+  const { user } = useAuth();
+  const { data: profile } = useLearnerProfile();
+  const { data: tracks = [], isLoading: tracksLoading } = useTracks();
+  const { data: done } = useLessonCompletions();
 
-  useEffect(() => {
-    if (loading || isLoading || threadId || !user) return;
-    if (threads && threads.length > 0) {
-      navigate(`/learn/${threads[0].id}`, { replace: true });
-    } else if (!createThread.isPending && threads && threads.length === 0) {
-      createThread.mutateAsync().then((t) => navigate(`/learn/${t.id}`, { replace: true }));
-    }
-  }, [threads, threadId, isLoading, loading, user]);
-
-  const handleNew = async () => {
-    const t = await createThread.mutateAsync();
-    navigate(`/learn/${t.id}`);
-  };
-
-  const handleBack = () => navigate("/game");
-
-  if (loading) {
-    return (
-      <StandaloneShell>
-        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
-        <TopBar onBack={handleBack} />
-        <LearnSkeleton />
-      </StandaloneShell>
-    );
-  }
-
-  if (!user) {
-    return (
-      <StandaloneShell>
-        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url="https://asikonpro.lovable.app/learn" />
-        <TopBar onBack={handleBack} />
-        <div className="relative flex-1 min-h-0 overflow-y-auto">
-          {/* Ambient brand glow */}
-          <div aria-hidden className="pointer-events-none absolute inset-0">
-            <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full blur-3xl opacity-40"
-              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.25), transparent 70%)" }} />
-            <div className="absolute bottom-0 right-0 w-[360px] h-[360px] rounded-full blur-3xl opacity-30"
-              style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.18), transparent 70%)" }} />
-          </div>
-
-          <div className="relative min-h-full flex flex-col items-center justify-center px-6 py-10 text-center animate-fade-in">
-
-            <div className="relative mb-6">
-              <span aria-hidden className="absolute inset-0 -m-10 rounded-full blur-3xl opacity-70"
-                style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.30), transparent 70%)" }} />
-              <div className="relative h-28 w-28 rounded-[28px] bg-gradient-to-br from-primary/15 via-card to-card border border-border shadow-xl grid place-items-center">
-                <img src={asikonLogo} alt="Asikon" className="h-16 w-16 object-contain" />
-              </div>
-            </div>
-
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium tracking-wide uppercase bg-primary/10 text-primary border border-primary/20 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              Asikon AI · 24/7 tutor
-            </span>
-
-            <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mb-2">
-              Your study buddy, <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">on demand</span>
-            </h1>
-            <p className="text-muted-foreground mb-6 text-[15px] leading-relaxed max-w-sm">
-              Ask anything — SSC, HSC, Math, Physics, English. Bangla or English, whichever helps.
-            </p>
-
-            <Button size="lg" onClick={() => navigate("/auth?redirect=/learn")} className="rounded-full px-6 shadow-lg">
-              Sign in to start
-            </Button>
-
-            <div className="grid grid-cols-3 gap-2 mt-8 w-full max-w-sm">
-              {[
-                { label: "Explain", sub: "any concept" },
-                { label: "Quiz me", sub: "with MCQs" },
-                { label: "Plan", sub: "revision" },
-              ].map((c) => (
-                <div key={c.label} className="px-3 py-2.5 rounded-xl bg-card/60 backdrop-blur border border-border">
-                  <div className="text-[13px] font-semibold leading-tight">{c.label}</div>
-                  <div className="text-[10.5px] text-muted-foreground leading-tight mt-0.5">{c.sub}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </StandaloneShell>
-    );
-  }
-
+  const activeTrack = tracks.find((t) => t.id === profile?.active_track_id);
+  const otherTracks = tracks.filter((t) => t.id !== profile?.active_track_id);
 
   return (
-    <StandaloneShell>
+    <AppLayout>
       <SEO
-        title="Asikon AI"
-        description="Chat with Asikon AI, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds."
+        title="Learn — Asikon"
+        description="Your personal learning hub. Daily missions, guided tracks, and a 24/7 AI tutor."
         url="https://asikonpro.lovable.app/learn"
-      >
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Course",
-          name: "Asikon AI",
-          description: "24/7 AI study buddy for SSC, HSC, and beyond. Get instant answers, MCQs, and revision plans.",
-          provider: { "@type": "Organization", name: "Asikon", sameAs: "https://asikonpro.lovable.app/" },
-        })}</script>
-      </SEO>
-      <div className="flex flex-1 min-h-0">
-        <aside className="hidden lg:flex w-64 border-r border-border flex-col">
-          <ThreadList activeId={threadId} />
-        </aside>
-        <div className="relative flex-1 min-w-0 min-h-0">
-          {threadId ? (
-            <LearnChat key={threadId} threadId={threadId} onBack={handleBack} />
-          ) : isLoading ? (
-            <LearnSkeleton />
+      />
+      <MobilePage maxWidth="wide" spacing="space-y-6">
+        {/* Header */}
+        <header className="flex items-start justify-between gap-3 pt-1">
+          <div className="min-w-0">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Learn
+            </p>
+            <h1 className="font-display text-2xl sm:text-3xl font-semibold leading-tight mt-0.5">
+              Keep your streak alive
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1 max-w-md">
+              One small lesson today. That's the whole game.
+            </p>
+          </div>
+          {user && (
+            <StreakBadge days={profile?.streak_days ?? 0} className="shrink-0 mt-1" />
+          )}
+        </header>
+
+        {/* Today's mission */}
+        <TodayMissionCard />
+
+        {/* Progress strip (signed-in only) */}
+        {user && (
+          <MobileCard variant="glass" className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Your progress
+              </span>
+              <Link to="/profile" className="text-[12px] font-medium text-primary inline-flex items-center gap-0.5">
+                Profile <ChevronRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+            <XPBar xp={profile?.xp ?? 0} />
+            <div className="grid grid-cols-3 gap-2 pt-1">
+              <Stat icon={Flame} value={profile?.streak_days ?? 0} label="streak" />
+              <Stat icon={Trophy} value={done?.size ?? 0} label="done" />
+              <Stat icon={Sparkles} value={profile?.xp ?? 0} label="xp" />
+            </div>
+          </MobileCard>
+        )}
+
+        {/* AI Tutor banner */}
+        <Link
+          to="/ai-tutor"
+          className="block group rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent p-4 sm:p-5 pressable"
+        >
+          <div className="flex items-center gap-4">
+            <div className="relative shrink-0">
+              <span aria-hidden className="absolute inset-0 -m-3 rounded-full blur-2xl bg-primary/30 opacity-70" />
+              <div className="relative h-12 w-12 rounded-2xl bg-gradient-to-br from-primary to-primary/60 grid place-items-center text-primary-foreground shadow-md">
+                <Bot className="h-6 w-6" />
+              </div>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">
+                Asikon AI · 24/7
+              </p>
+              <h3 className="font-display text-base sm:text-lg font-semibold leading-tight mt-0.5">
+                Ask anything — get clear answers
+              </h3>
+              <p className="text-[12.5px] text-muted-foreground mt-0.5 line-clamp-1">
+                Explain a concept, quiz me, plan revision.
+              </p>
+            </div>
+            <ArrowRight className="h-5 w-5 text-primary group-hover:translate-x-0.5 transition-transform shrink-0" />
+          </div>
+        </Link>
+
+        {/* Continue learning */}
+        {activeTrack && (
+          <MobileSection title="Continue where you left off">
+            <TrackRow track={activeTrack} doneIds={done} active />
+          </MobileSection>
+        )}
+
+        {/* Browse tracks */}
+        <MobileSection
+          title={activeTrack ? "Explore more tracks" : "Pick your track"}
+          subtitle={activeTrack ? undefined : "Pick one focused thing. You can switch any time."}
+        >
+          {tracksLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-24 w-full rounded-2xl" />
+              ))}
+            </div>
+          ) : otherTracks.length === 0 && !activeTrack ? (
+            <MobileCard variant="soft" className="text-center text-sm text-muted-foreground py-8">
+              No tracks yet. Check back soon.
+            </MobileCard>
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
-              Loading your chat...
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {otherTracks.map((t, i) => (
+                <TrackRow key={t.id} track={t} doneIds={done} index={i} />
+              ))}
             </div>
           )}
-        </div>
-      </div>
-    </StandaloneShell>
+        </MobileSection>
+
+        {/* Quick actions */}
+        <MobileSection title="Quick actions">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <QuickTile to="/prompts" icon={Sparkles} label="Prompt library" />
+            <QuickTile to="/revision" icon={BookOpen} label="Revision" />
+            <QuickTile to="/courses" icon={BookOpen} label="Courses" />
+            <QuickTile to="/ai-tutor" icon={Bot} label="AI tutor" />
+          </div>
+        </MobileSection>
+      </MobilePage>
+    </AppLayout>
   );
 }
 
+function Stat({ icon: Icon, value, label }: { icon: any; value: number; label: string }) {
+  return (
+    <div className="rounded-xl border border-border/50 bg-card/60 px-2.5 py-2 flex items-center gap-2">
+      <Icon className="h-3.5 w-3.5 text-primary shrink-0" />
+      <div className="min-w-0">
+        <p className="text-sm font-semibold tabular-nums leading-none">{value}</p>
+        <p className="text-[10.5px] text-muted-foreground uppercase tracking-wider mt-0.5">{label}</p>
+      </div>
+    </div>
+  );
+}
 
+function TrackRow({
+  track,
+  doneIds,
+  active,
+  index = 0,
+}: {
+  track: { id: string; slug: string; name: string; description: string | null; icon: string | null };
+  doneIds?: Set<string>;
+  active?: boolean;
+  index?: number;
+}) {
+  // Lightweight placeholder progress — TrackDetail computes the real value.
+  return (
+    <Link
+      to={`/track/${track.slug}`}
+      className={cn(
+        "group flex items-center gap-3 rounded-2xl border bg-card p-3.5 pressable",
+        active ? "border-primary/40 bg-primary/5" : "border-border/60",
+      )}
+      style={{ animationDelay: `${Math.min(index, 6) * 40}ms` }}
+    >
+      <div
+        className={cn(
+          "h-11 w-11 rounded-xl grid place-items-center text-lg shrink-0",
+          active
+            ? "bg-gradient-to-br from-primary to-primary/60 text-primary-foreground"
+            : "bg-secondary/60 text-foreground/80",
+        )}
+        aria-hidden
+      >
+        {track.icon ? <span>{track.icon}</span> : <BookOpen className="h-5 w-5" />}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <p className="text-[14px] font-semibold leading-tight truncate">{track.name}</p>
+          {active && (
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/20">
+              Active
+            </span>
+          )}
+        </div>
+        {track.description && (
+          <p className="text-[12px] text-muted-foreground leading-snug mt-0.5 line-clamp-1">
+            {track.description}
+          </p>
+        )}
+        {active && (
+          <div className="mt-2">
+            <Progress value={Math.min(100, (doneIds?.size ?? 0) * 10)} className="h-1" />
+          </div>
+        )}
+      </div>
+      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-0.5 transition-transform shrink-0" />
+    </Link>
+  );
+}
+
+function QuickTile({ to, icon: Icon, label }: { to: string; icon: any; label: string }) {
+  return (
+    <Link
+      to={to}
+      className="flex flex-col items-center justify-center gap-1.5 rounded-2xl border border-border/60 bg-card p-3 pressable text-center"
+    >
+      <span className="h-9 w-9 rounded-xl bg-primary/10 text-primary grid place-items-center">
+        <Icon className="h-4.5 w-4.5" />
+      </span>
+      <span className="text-[12px] font-medium leading-tight">{label}</span>
+    </Link>
+  );
+}
