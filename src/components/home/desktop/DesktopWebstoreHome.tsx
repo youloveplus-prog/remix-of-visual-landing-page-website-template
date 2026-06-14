@@ -15,22 +15,22 @@ const categories = [
 ];
 
 const cardTints = [
-  "from-indigo-900/50 to-slate-800",
-  "from-purple-900/50 to-slate-800",
-  "from-cyan-900/40 to-slate-800",
-  "from-fuchsia-900/40 to-slate-800",
+  "from-primary/20 to-secondary/40",
+  "from-primary/25 to-secondary/40",
+  "from-accent/20 to-secondary/40",
+  "from-primary/20 to-accent/30",
 ];
 const badgeTints = ["bg-indigo-500", "bg-purple-500", "bg-cyan-500", "bg-fuchsia-500"];
 const rankTints = ["bg-indigo-600", "bg-purple-600", "bg-teal-600"];
 
 function CardImage({ image, index, initial }: { image?: string | null; index: number; initial: string }) {
   return (
-    <div className={`aspect-video bg-slate-900 rounded-xl mb-3 overflow-hidden border border-slate-800 group-hover:border-indigo-500/50 transition-all`}>
+    <div className={`aspect-video bg-card rounded-xl mb-3 overflow-hidden border border-border group-hover:border-primary/40 transition-all`}>
       {image ? (
         <img src={image} alt="" loading="lazy" className="w-full h-full object-cover" />
       ) : (
         <div className={`w-full h-full bg-gradient-to-tr ${cardTints[index % cardTints.length]} flex items-center justify-center p-4`}>
-          <div className={`w-12 h-12 ${badgeTints[index % badgeTints.length]} rounded-lg shadow-lg flex items-center justify-center font-bold text-lg font-display`}>
+          <div className={`w-12 h-12 ${badgeTints[index % badgeTints.length]} rounded-lg shadow-lg flex items-center justify-center font-bold text-lg font-display text-primary-foreground`}>
             {initial}
           </div>
         </div>
@@ -80,17 +80,17 @@ function ProductGrid({ items, title, viewAllHref }: { items: CardItem[]; title: 
 
 function TopChartsPanel({ title, items }: { title: string; items: CardItem[] }) {
   return (
-    <div className="bg-slate-900/30 rounded-2xl border border-slate-800 p-5 flex flex-col">
+    <div className="bg-card rounded-2xl border border-border p-5 flex flex-col">
       <h3 className="font-display text-base font-bold mb-4 tracking-tight">{title}</h3>
       <div className="space-y-4 flex-1">
         {items.slice(0, 3).map((item, i) => (
           <Link key={item.id} to={item.href} className="flex items-center gap-3 group">
-            <span className="text-sm font-bold text-slate-500 w-4 tabular-nums">{i + 1}</span>
+            <span className="text-sm font-bold text-muted-foreground w-4 tabular-nums">{i + 1}</span>
             <div className={`w-10 h-10 ${rankTints[i % rankTints.length]} rounded-lg shrink-0 overflow-hidden flex items-center justify-center`}>
               {item.image ? (
                 <img src={item.image} alt="" loading="lazy" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-xs font-bold text-white">{item.title[0]?.toUpperCase()}</span>
+                <span className="text-xs font-bold text-primary-foreground">{item.title[0]?.toUpperCase()}</span>
               )}
             </div>
             <div className="flex-1 min-w-0">
@@ -100,7 +100,7 @@ function TopChartsPanel({ title, items }: { title: string; items: CardItem[] }) 
           </Link>
         ))}
       </div>
-      <button className="w-full mt-5 pt-3 border-t border-slate-800 text-[10px] text-primary font-bold uppercase tracking-widest">
+      <button className="w-full mt-5 pt-3 border-t border-border text-[10px] text-primary font-bold uppercase tracking-widest">
         See all
       </button>
     </div>
@@ -127,14 +127,14 @@ export function DesktopWebstoreHome() {
   const top3c = useMemo<CardItem[]>(() => (products ?? []).slice(3, 6).map((p) => toCard(p, "Fresh")), [products]);
 
   return (
-    <section className="dark home-midnight section-x py-6 lg:py-8 space-y-8 lg:space-y-12 bg-[#0a0a1a] text-foreground">
+    <section className="home-midnight section-x py-6 lg:py-8 space-y-8 lg:space-y-12 text-foreground">
 
         {/* Search bar — Chrome-style pill */}
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Link
             to="/shop"
-            className="block w-full bg-slate-900/50 border border-slate-800 rounded-full py-3 pl-11 pr-4 text-sm text-muted-foreground hover:border-primary/40 transition-colors focus-ring"
+            className="block w-full bg-secondary/60 border border-border rounded-full py-3 pl-11 pr-4 text-sm text-muted-foreground hover:border-primary/40 transition-colors focus-ring"
           >
             Search courses, mentors, prompts, and tools
           </Link>
@@ -173,7 +173,7 @@ export function DesktopWebstoreHome() {
                 className={
                   c.active
                     ? "shrink-0 bg-primary/15 border border-primary/30 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 text-foreground hover:bg-primary/25 transition-colors"
-                    : "shrink-0 bg-slate-900 border border-slate-800 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:border-slate-700 transition-colors"
+                    : "shrink-0 bg-card border border-border px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
                 }
               >
                 {c.active && <span className="w-2 h-2 rounded-full bg-primary" />}
@@ -242,7 +242,7 @@ export function DesktopWebstoreHome() {
               <Link
                 key={tile.title}
                 to={tile.href}
-                className="group rounded-2xl bg-slate-900/40 border border-slate-800 p-5 hover:border-primary/40 hover:-translate-y-0.5 transition-all focus-ring"
+                className="group rounded-2xl bg-card border border-border p-5 hover:border-primary/40 hover:-translate-y-0.5 transition-all focus-ring"
               >
                 <div className="w-11 h-11 rounded-xl bg-primary/15 border border-primary/25 text-primary flex items-center justify-center mb-4">
                   <tile.icon className="h-5 w-5" />
@@ -258,7 +258,7 @@ export function DesktopWebstoreHome() {
         <ProductGrid items={newArrivals} title="New arrivals" viewAllHref="/shop?filter=new" />
 
         {/* Final editorial — community */}
-        <section className="rounded-3xl bg-slate-900/40 border border-slate-800 p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
+        <section className="rounded-3xl bg-card border border-border p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center">
           <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0 mx-auto sm:mx-0">
             <MessageCircle className="h-12 w-12 sm:h-14 sm:w-14 text-primary/70" />
           </div>
@@ -270,7 +270,7 @@ export function DesktopWebstoreHome() {
             </p>
             <Link
               to="/community"
-              className="inline-flex items-center gap-2 text-sm font-bold text-foreground border border-slate-700 px-5 py-2.5 rounded-lg hover:border-primary/40 hover:bg-slate-900 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-bold text-foreground border border-border px-5 py-2.5 rounded-lg hover:border-primary/40 hover:bg-secondary transition-colors"
             >
               <Trophy className="h-4 w-4 text-primary" />
               Open community
