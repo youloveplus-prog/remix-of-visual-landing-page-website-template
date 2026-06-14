@@ -35,7 +35,7 @@ export const TestimonialsColumn = (props: {
                 className="p-6 rounded-3xl border border-border bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.15)] max-w-xs w-full"
               >
                 <div className="text-sm leading-relaxed text-foreground/90">{text}</div>
-                <div className="flex items-center gap-2 mt-5">
+                <div className="flex items-center gap-3 mt-4">
                   <img
                     src={image}
                     alt={name}
@@ -44,9 +44,9 @@ export const TestimonialsColumn = (props: {
                     className="h-10 w-10 rounded-full object-cover"
                     loading="lazy"
                   />
-                  <div className="flex flex-col">
-                    <div className="font-display font-semibold tracking-tight leading-5">{name}</div>
-                    <div className="leading-5 text-xs tracking-tight text-muted-foreground">{role}</div>
+                  <div className="flex flex-col min-w-0">
+                    <div className="font-display font-semibold tracking-tight leading-5 truncate">{name}</div>
+                    <div className="leading-5 text-xs tracking-tight text-muted-foreground truncate">{role}</div>
                   </div>
                 </div>
               </div>
