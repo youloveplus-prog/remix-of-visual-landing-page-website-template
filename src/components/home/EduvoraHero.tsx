@@ -11,9 +11,9 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
   const ctaLabel = variant === "marketing" ? "Start learning" : "Explore courses";
 
   return (
-    <section className="section-x pt-3 lg:pt-5">
+    <section className="section-x pt-2 lg:pt-5">
       <div
-        className="relative overflow-hidden rounded-3xl text-primary-foreground p-5 sm:p-8 lg:p-12"
+        className="relative overflow-hidden rounded-3xl text-primary-foreground p-4 sm:p-8 lg:p-12"
         style={{ background: "var(--gradient-primary)" }}
       >
         {/* radial light accent */}
@@ -26,9 +26,9 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
           }}
         />
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-6 items-center">
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-6 items-center">
           {/* LEFT */}
-          <div className="space-y-5 sm:space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <h1 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[2rem] sm:text-5xl lg:text-6xl">
               Master AI with
               <br />
@@ -98,14 +98,14 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
                 src={courseAiMl}
                 alt="Asikon courses"
                 loading="eager"
-                className="relative w-full aspect-[4/3] object-cover rounded-2xl shadow-2xl"
+                className="relative w-full aspect-[16/9] sm:aspect-[4/3] object-cover rounded-2xl shadow-2xl"
               />
             </div>
           </div>
         </div>
 
         {/* stat cards row */}
-        <div className="relative mt-6 lg:mt-8 grid grid-cols-3 gap-2 sm:gap-3">
+        <div className="relative mt-4 lg:mt-8 grid grid-cols-3 gap-2 sm:gap-3">
           <StatCard
             icon={<Star className="h-4 w-4" />}
             value="98%"
