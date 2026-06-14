@@ -127,16 +127,16 @@
     --chart-5: 270 70% 65%;
 
     /* Glass tokens — dark (toned down) */
-    --glass-bg: 0 40% 8%;
-    --glass-border: 0 30% 20%;
+    --glass-bg: 222 40% 9%;
+    --glass-border: 222 20% 22%;
     --glass-highlight: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(0 78% 52%) 0%, hsl(350 70% 32%) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(0 78% 52% / 0.18) 0%, hsl(0 85% 60% / 0.08) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(0 40% 8%) 0%, hsl(0 60% 3%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(234 80% 62%) 0%, hsl(220 85% 65%) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(234 80% 62% / 0.14) 0%, hsl(162 90% 45% / 0.08) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(222 40% 9%) 0%, hsl(222 47% 5%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(0 78% 52% / 0.20) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(350 80% 50% / 0.12) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(234 80% 62% / 0.14) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(162 90% 45% / 0.10) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
     --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
@@ -145,7 +145,7 @@
     --shadow-lg: 0 16px 36px -12px hsl(0 0% 0% / 0.6);
     --shadow-xl: 0 28px 56px -20px hsl(0 0% 0% / 0.7);
     --shadow-2xl: 0 40px 72px -28px hsl(0 0% 0% / 0.75);
-    --shadow-glow: 0 0 0 1px hsl(0 78% 52% / 0.35), 0 12px 32px -8px hsl(0 78% 52% / 0.45);
+    --shadow-glow: 0 0 0 1px hsl(234 80% 62% / 0.3), 0 12px 32px -8px hsl(234 80% 62% / 0.4);
     --shadow-elevated: 0 20px 48px -16px hsl(0 0% 0% / 0.65);
   }
 
