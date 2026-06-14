@@ -58,13 +58,35 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
             </div>
 
             {/* social proof row */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <div className="flex items-center gap-3 rounded-full border border-primary-foreground/30 bg-primary-foreground/5 px-3 py-1.5">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+              <div className="flex items-center gap-2 sm:gap-3 rounded-full border border-primary-foreground/30 bg-primary-foreground/5 px-2 py-1 sm:px-3 sm:py-1.5">
+                <div className="flex -space-x-100px] sm:text-base text-primary-foreground/85 max-w-md leading-relaxed">
+              Learn AI through simple, hands-on courses designed to help you build
+              real-world skills — not just theory. Start quickly, progress
+              confidently, apply immediately.
+            </p>
+
+            <div className="flex items-center gap-2">
+              <Link
+                to={ctaHref}
+                aria-label={ctaLabel}
+                className="group inline-flex items-center gap-2 rounded-full bg-foreground text-background pl-1.5 pr-5 py-1.5 text-sm font-semibold uppercase tracking-wide hover:opacity-90 transition"
+              >
+                <span className="grid place-items-center h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-background text-foreground">
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+                {ctaLabel}
+              </Link>
+            </div>
+
+            {/* social proof row */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+              <div className="flex items-center gap-2 sm:gap-3 rounded-full border border-primary-foreground/30 bg-primary-foreground/5 px-2 py-1 sm:px-3 sm:py-1.5">
                 <div className="flex -space-x-2">
                   {[0, 1, 2, 3].map((i) => (
                     <div
                       key={i}
-                      className="h-7 w-7 rounded-full ring-2 ring-primary bg-gradient-to-br from-amber-200 to-rose-300"
+                      className="h-6 w-6 sm:h-7 sm:w-7 rounded-full ring-2 ring-primary bg-gradient-to-br from-amber-200 to-rose-300"
                       style={{ filter: `hue-rotate(${i * 40}deg)` }}
                     />
                   ))}
@@ -79,7 +101,7 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
               <Link
                 to="/about"
                 aria-label="Watch intro"
-                className="grid place-items-center h-11 w-11 rounded-full bg-foreground text-background ring-2 ring-primary-foreground/40 hover:scale-105 transition"
+                className="grid place-items-center h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-foreground text-background ring-2 ring-primary-foreground/40 hover:scale-105 transition"
               >
                 <Play className="h-4 w-4 fill-current" />
               </Link>
