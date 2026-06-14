@@ -20,6 +20,7 @@ import { QuickAccessGrid } from "@/components/home/workspace/QuickAccessGrid";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 import { FlexiTopSection } from "@/components/home/mobile/FlexiTopSection";
 import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
+import { DesktopWebstoreHome } from "@/components/home/desktop/DesktopWebstoreHome";
 import { BrandStrip } from "@/components/home/BrandStrip";
 import { EduvoraHero } from "@/components/home/EduvoraHero";
 import { PartnerMarquee } from "@/components/home/PartnerMarquee";
@@ -400,6 +401,12 @@ const Index = () => {
         })}</script>
       </SEO>
       <div className="home-midnight min-h-screen">
+        {/* New desktop home — Web-store classic layout (≥lg) */}
+        <DesktopWebstoreHome />
+
+        {/* Mobile (and tablet) home — original sections */}
+        <div className="lg:hidden">
+
         <MobilePage spacing="space-y-6 lg:space-y-14">
           {user ? (
             <>
@@ -461,7 +468,9 @@ const Index = () => {
             </>
           )}
         </MobilePage>
+        </div>
       </div>
+
 
     </AppLayout>
   );
