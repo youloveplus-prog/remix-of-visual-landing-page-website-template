@@ -25,12 +25,12 @@ const rankTints = ["bg-indigo-600", "bg-purple-600", "bg-teal-600"];
 
 function CardImage({ image, index, initial }: { image?: string | null; index: number; initial: string }) {
   return (
-    <div className={`aspect-video bg-slate-900 rounded-xl mb-3 overflow-hidden border border-slate-800 group-hover:border-indigo-500/50 transition-all`}>
+    <div className={`aspect-video bg-card rounded-xl mb-3 overflow-hidden border border-border group-hover:border-primary/40 transition-all`}>
       {image ? (
         <img src={image} alt="" loading="lazy" className="w-full h-full object-cover" />
       ) : (
         <div className={`w-full h-full bg-gradient-to-tr ${cardTints[index % cardTints.length]} flex items-center justify-center p-4`}>
-          <div className={`w-12 h-12 ${badgeTints[index % badgeTints.length]} rounded-lg shadow-lg flex items-center justify-center font-bold text-lg font-display`}>
+          <div className={`w-12 h-12 ${badgeTints[index % badgeTints.length]} rounded-lg shadow-lg flex items-center justify-center font-bold text-lg font-display text-primary-foreground`}>
             {initial}
           </div>
         </div>
