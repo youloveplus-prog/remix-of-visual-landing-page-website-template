@@ -98,7 +98,7 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
                 src={courseAiMl}
                 alt="Asikon courses"
                 loading="eager"
-                className="relative w-full aspect-[4/3] object-cover rounded-2xl shadow-2xl"
+                className="relative w-full aspect-[16/9] sm:aspect-[4/3] object-cover rounded-2xl shadow-2xl"
               />
             </div>
           </div>
