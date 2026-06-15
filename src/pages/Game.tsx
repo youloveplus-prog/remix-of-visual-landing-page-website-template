@@ -94,7 +94,7 @@ const Game = () => {
           {/* MAIN COLUMN */}
           <div className="space-y-4 lg:space-y-8 min-w-0">
             {/* Balance Hero */}
-            <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-5 lg:p-8">
+            <div className="relative overflow-hidden rounded-3xl border border-border liquid-glass p-5 lg:p-8">
               <div className="relative">
                 <p className="eyebrow-bar mb-2">Total balance</p>
                 <div className="flex items-baseline gap-2 mb-5">

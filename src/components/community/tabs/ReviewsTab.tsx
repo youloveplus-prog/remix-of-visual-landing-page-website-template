@@ -70,7 +70,7 @@ export function ReviewsTab() {
       {isLoading ? (
         <div className="px-4 space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-card border border-border rounded-2xl p-4 space-y-3">
+            <div key={i} className="liquid-glass border border-border rounded-2xl p-4 space-y-3">
               <div className="flex items-center gap-3">
                 <Skeleton className="h-10 w-10 rounded-full" />
                 <Skeleton className="h-3 w-1/3" />
@@ -97,7 +97,7 @@ export function ReviewsTab() {
       ) : (
         <div className="px-4 space-y-3">
           {filtered.map(({ raw, post }) => (
-            <article key={raw.id} className="bg-card border border-border rounded-2xl p-4 space-y-3">
+            <article key={raw.id} className="liquid-glass border border-border rounded-2xl p-4 space-y-3">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={post.user.avatar} alt={post.user.name} />

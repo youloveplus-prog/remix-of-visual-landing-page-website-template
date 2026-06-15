@@ -55,7 +55,7 @@ export function ChatWindow({ chat, onBack }: ChatWindowProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-border glass-strong">
+      <div className="flex items-center gap-3 p-4 border-b border-border liquid-nav">
         {onBack && (
           <Button variant="ghost" size="icon" onClick={onBack} className="lg:hidden">
             <ArrowLeft className="h-5 w-5" />
@@ -121,7 +121,7 @@ export function ChatWindow({ chat, onBack }: ChatWindowProps) {
       </ScrollArea>
 
       {/* Input */}
-      <div className="p-4 border-t border-border glass-strong">
+      <div className="p-4 border-t border-border liquid-nav">
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" className="flex-shrink-0">
             <Image className="h-5 w-5" />

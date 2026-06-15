@@ -318,7 +318,7 @@ export function ShopFilters({
               </div>
 
               {/* Apply Button */}
-              <div className="sticky bottom-0 -mx-6 px-6 pt-2 pb-2 bg-background/95 backdrop-blur-sm border-t border-border/60">
+              <div className="sticky bottom-0 -mx-6 px-6 pt-2 pb-2 liquid-nav border-t border-border/60">
                 <Button onClick={handleApply} className="w-full">
                   Apply Filters
                 </Button>

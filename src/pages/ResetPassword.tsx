@@ -117,7 +117,7 @@ const ResetPassword = () => {
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
         ) : !validSession ? (
-          <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-4">
+          <div className="rounded-2xl border border-border liquid-glass p-6 text-center space-y-4">
             <p className="text-sm text-muted-foreground">
               This reset link is invalid or has expired. Please request a new one.
             </p>
@@ -129,7 +129,7 @@ const ResetPassword = () => {
             </Button>
           </div>
         ) : done ? (
-          <div className="rounded-2xl border border-border bg-card p-8 text-center space-y-4 animate-fade-in">
+          <div className="rounded-2xl border border-border liquid-glass p-8 text-center space-y-4 animate-fade-in">
             <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto">
               <CheckCircle2 className="h-7 w-7 text-emerald-500" />
             </div>

@@ -134,7 +134,7 @@ function BannerManager({ kind }: { kind: Kind }) {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-border/60 p-4 space-y-3 bg-card">
+      <div className="rounded-2xl border border-border/60 p-4 space-y-3 liquid-glass">
         <h3 className="font-semibold">
           Add new {kind === "hero" ? "Hero" : "Offer"} banner
         </h3>
@@ -223,7 +223,7 @@ function BannerManager({ kind }: { kind: Kind }) {
             {data!.map((b, i) => (
               <div
                 key={b.id}
-                className="rounded-2xl border border-border/60 p-3 flex items-center gap-3 bg-card"
+                className="rounded-2xl border border-border/60 p-3 flex items-center gap-3 liquid-glass"
               >
                 <img
                   src={b.image_url}

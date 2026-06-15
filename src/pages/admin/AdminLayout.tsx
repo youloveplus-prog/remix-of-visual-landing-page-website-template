@@ -226,7 +226,7 @@ export default function AdminLayout() {
         <AdminSidebar />
 
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-14 md:h-16 sticky top-0 z-30 border-b border-border/50 flex items-center px-3 md:px-6 gap-2.5 md:gap-3 glass-strong" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+          <header className="h-14 md:h-16 sticky top-0 z-30 border-b border-border/50 flex items-center px-3 md:px-6 gap-2.5 md:gap-3 liquid-nav" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
             <NavLink
               to="/"
               aria-label="Back to Asikon app"
