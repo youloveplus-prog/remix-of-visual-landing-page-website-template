@@ -33,7 +33,7 @@ export function SectionHeader({
   accent = true,
 }: SectionHeaderProps) {
   return (
-    <div className={cn("flex items-end justify-between gap-3 mb-4", className)}>
+    <div className={cn("flex flex-col items-center text-center gap-2 mb-6", className)}>
       <div className="min-w-0">
         {eyebrow && (
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70 mb-1.5">
@@ -49,7 +49,7 @@ export function SectionHeader({
           {title}
         </h2>
         {subtitle && (
-          <p className="text-[12px] sm:text-sm text-muted-foreground mt-1.5 line-clamp-1">
+          <p className="text-[12px] sm:text-sm text-muted-foreground mt-1.5 max-w-[52ch] mx-auto">
             {subtitle}
           </p>
         )}
@@ -57,7 +57,7 @@ export function SectionHeader({
       {viewAllHref && (
         <Link
           to={viewAllHref}
-          className="group/va shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors focus-ring rounded-md px-1 -mx-1 mb-1"
+          className="group/va inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors focus-ring rounded-md px-1"
         >
           <span>{viewAllLabel}</span>
           <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover/va:translate-x-0.5" />
@@ -66,3 +66,4 @@ export function SectionHeader({
     </div>
   );
 }
+

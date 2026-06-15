@@ -64,9 +64,9 @@ export function HomeSection({
       className={cn("space-y-5 sm:space-y-6", className)}
     >
       {hasHeader && (
-        <header className="space-y-2">
+        <header className="flex flex-col items-center text-center gap-2">
           {variant === "department" ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center gap-3">
               <span aria-hidden className="block h-px w-6 bg-foreground/30" />
               {eyebrow && <span className="editorial-pagenum">{eyebrow}</span>}
               {title && (
@@ -74,27 +74,33 @@ export function HomeSection({
                   {title}
                 </h3>
               )}
-              {action && <div className="ml-auto">{action}</div>}
+              <span aria-hidden className="block h-px w-6 bg-foreground/30" />
             </div>
           ) : (
-            <div className="flex items-end justify-between gap-4">
-              <div className="min-w-0">
-                {eyebrow && (
-                  <p className="editorial-eyebrow mb-2">{eyebrow}</p>
-                )}
-                {title && <h3 className="editorial-subhead">{title}</h3>}
-              </div>
-              {action && <div className="shrink-0">{action}</div>}
+            <div className="min-w-0">
+              {eyebrow && (
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70 mb-1.5">
+                  {eyebrow}
+                </p>
+              )}
+              {title && (
+                <h3 className="font-display font-bold leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] lg:text-[40px] text-brand-gradient">
+                  {title}
+                </h3>
+              )}
             </div>
           )}
 
           {dek && (
             <Reveal delay={120}>
-              <p className="editorial-dek max-w-[52ch]">{dek}</p>
+              <p className="editorial-dek max-w-[52ch] mx-auto">{dek}</p>
             </Reveal>
           )}
+
+          {action && <div className="mt-1">{action}</div>}
         </header>
       )}
+
 
       <Reveal delay={hasHeader ? 180 : 0}>
         <div className={cn(bodyClassName)}>{children}</div>
