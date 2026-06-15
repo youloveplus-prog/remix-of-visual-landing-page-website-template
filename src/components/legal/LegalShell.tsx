@@ -3,6 +3,9 @@ import { SEO } from "@/components/SEO";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
+import { useLegalPresence } from "@/hooks/useLegalPresence";
+import { LegalPresenceContext } from "@/components/legal/LegalPresenceContext";
+import { Eye } from "lucide-react";
 
 interface LegalShellProps {
   eyebrow: string;
@@ -34,6 +37,10 @@ export const LegalShell = ({
   const depthFiredRef = useRef<Set<number>>(new Set());
   const sectionViewedRef = useRef<Set<number>>(new Set());
   const pageKey = analyticsSlug ?? canonical;
+  const { counts: presenceCounts, total: presenceTotal } = useLegalPresence(
+    pageKey,
+    activeSection
+  );
 
   const handleScroll = useCallback(() => {
     if (!toc || toc.length === 0) return;
@@ -98,15 +105,31 @@ export const LegalShell = ({
   const cleanTitle = title.replace(/[.!?]+$/, "");
 
   return (
+    <LegalPresenceContext.Provider value={{ counts: presenceCounts, total: presenceTotal }}>
     <AppLayout>
       <SEO title={metaTitle} description={metaDescription} url={canonical} />
 
       {/* Simple header */}
       <header className="border-b border-border/50 bg-background">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 pt-16 pb-12 sm:pt-20 sm:pb-14">
-          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
-            {eyebrow}
-          </p>
+          <div className="flex items-center gap-3 mb-3">
+            <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              {eyebrow}
+            </p>
+            {presenceTotal > 0 && (
+              <span
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary"
+                aria-live="polite"
+                title="Live viewers on this page right now"
+              >
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+                </span>
+                {presenceTotal} {presenceTotal === 1 ? "person" : "people"} reading now
+              </span>
+            )}
+          </div>
           <h1 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-semibold tracking-tight text-foreground mb-4 leading-[1.1]">
             {cleanTitle}
           </h1>
@@ -136,21 +159,34 @@ export const LegalShell = ({
                   On this page
                 </p>
                 <ul className="space-y-1 border-l border-border">
-                  {toc.map((item) => (
+                  {toc.map((item) => {
+                    const live = presenceCounts[item.index] ?? 0;
+                    return (
                     <li key={item.index}>
                       <button
                         onClick={() => scrollTo(item.index, "desktop")}
                         className={cn(
-                          "block w-full text-left text-sm py-1.5 pl-4 -ml-px border-l-2 transition-colors",
+                          "flex w-full items-center justify-between gap-2 text-left text-sm py-1.5 pl-4 pr-2 -ml-px border-l-2 transition-colors",
                           activeSection === item.index
                             ? "border-primary text-foreground font-medium"
                             : "border-transparent text-muted-foreground hover:text-foreground"
                         )}
                       >
-                        {item.title}
+                        <span className="truncate">{item.title}</span>
+                        {live > 0 && (
+                          <span
+                            className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary tabular-nums"
+                            title={`${live} viewing now`}
+                            aria-label={`${live} viewing now`}
+                          >
+                            <Eye className="h-2.5 w-2.5" />
+                            {live}
+                          </span>
+                        )}
                       </button>
                     </li>
-                  ))}
+                    );
+                  })}
                 </ul>
               </nav>
             </aside>
@@ -186,5 +222,6 @@ export const LegalShell = ({
         </div>
       </div>
     </AppLayout>
+    </LegalPresenceContext.Provider>
   );
 };
