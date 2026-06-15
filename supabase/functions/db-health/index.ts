@@ -24,11 +24,50 @@ Deno.serve(async (req) => {
 
     const tableNames = (data ?? []).map((r: any) => r.table_name).sort();
 
+    // Fetch GRANT info for anon / authenticated / service_role on public tables
+    const { data: grantRows } = await admin
+      .schema("information_schema")
+      .from("role_table_grants")
+      .select("grantee,table_name,privilege_type")
+      .eq("table_schema", "public")
+      .in("grantee", ["anon", "authenticated", "service_role"]);
+
+    type RoleSummary = {
+      role: string;
+      tables_with_any_grant: number;
+      tables_missing_grants: string[];
+      privileges: Record<string, number>; // SELECT/INSERT/UPDATE/DELETE counts
+    };
+
+    const roles = ["anon", "authenticated", "service_role"] as const;
+    const grants: Record<string, RoleSummary> = {};
+    for (const role of roles) {
+      const rowsForRole = (grantRows ?? []).filter((r: any) => r.grantee === role);
+      const tablesWithGrant = new Set(rowsForRole.map((r: any) => r.table_name));
+      const privileges: Record<string, number> = {
+        SELECT: 0,
+        INSERT: 0,
+        UPDATE: 0,
+        DELETE: 0,
+      };
+      for (const r of rowsForRole as any[]) {
+        if (privileges[r.privilege_type] !== undefined) privileges[r.privilege_type]++;
+      }
+      const missing = tableNames.filter((t) => !tablesWithGrant.has(t));
+      grants[role] = {
+        role,
+        tables_with_any_grant: tablesWithGrant.size,
+        tables_missing_grants: missing,
+        privileges,
+      };
+    }
+
     return new Response(
       JSON.stringify({
         ok: true,
         table_count: tableNames.length,
         tables: tableNames,
+        grants,
         latency_ms: Date.now() - startedAt,
         checked_at: new Date().toISOString(),
       }),
