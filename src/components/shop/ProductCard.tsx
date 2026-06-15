@@ -134,26 +134,6 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               )}
             </div>
 
-            {/* Floating price pill — bottom-left of image */}
-            <div className="absolute bottom-2 left-2 md:bottom-2.5 md:left-2.5">
-              <div className="flex items-baseline gap-1 bg-card/95 backdrop-blur-md border border-border/60 rounded-full pl-2.5 pr-2.5 py-1 shadow-sm">
-                <Price
-                  amount={product.price}
-                  className={cn(
-                    "font-display font-bold text-foreground tracking-tight leading-none",
-                    isCompact ? "text-xs md:text-sm" : "text-sm md:text-base",
-                    isFeatured && "lg:text-lg"
-                  )}
-                />
-                {product.originalPrice && (
-                  <Price
-                    amount={product.originalPrice}
-                    strike
-                    className="text-[10px] text-muted-foreground"
-                  />
-                )}
-              </div>
-            </div>
 
             {/* Trust strip — slides up on hover, idle = clean image */}
             <div
@@ -194,6 +174,30 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             >
               {product.name}
             </h3>
+
+            {/* Price row — brought down into the content */}
+            <div className="flex items-baseline gap-1.5">
+              <Price
+                amount={product.price}
+                className={cn(
+                  "font-display font-bold text-foreground tracking-tight leading-none",
+                  isCompact ? "text-sm md:text-base" : "text-base md:text-lg",
+                  isFeatured && "lg:text-xl"
+                )}
+              />
+              {product.originalPrice && (
+                <Price
+                  amount={product.originalPrice}
+                  strike
+                  className="text-xs text-muted-foreground"
+                />
+              )}
+              {discount > 0 && (
+                <span className="text-[10px] font-semibold text-primary bg-primary/10 rounded-full px-1.5 py-0.5">
+                  Save {discount}%
+                </span>
+              )}
+            </div>
 
             {/* Consolidated meta row — verified · enrolled · rating */}
             {(product.instructorVerified || (product.kind === "course" && product.enrollmentCount) || product.rating > 0) && (
