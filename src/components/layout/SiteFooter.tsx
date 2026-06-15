@@ -44,15 +44,15 @@ export function SiteFooter() {
 
   return (
     <footer
-      className="hidden md:block bg-muted/30"
+      className="bg-muted/30"
       aria-labelledby="footer-heading"
     >
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
-      <div className="container-editorial py-14 lg:py-20">
+      <div className="container-editorial py-10 md:py-14 lg:py-20">
         {/* CTA card */}
         <div
-          className="relative overflow-hidden rounded-[2rem] px-8 py-16 sm:py-20 text-center text-primary-foreground shadow-[var(--shadow-elegant,0_30px_80px_-30px_hsl(var(--primary)/0.5))]"
+          className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] px-5 md:px-8 py-12 md:py-16 lg:py-20 text-center text-primary-foreground shadow-[var(--shadow-elegant,0_30px_80px_-30px_hsl(var(--primary)/0.5))]"
           style={{ background: "var(--gradient-primary)" }}
         >
           <div
@@ -83,7 +83,7 @@ export function SiteFooter() {
         </div>
 
         {/* Link grid */}
-        <div className="mt-14 grid gap-10 lg:grid-cols-12">
+        <div className="mt-10 md:mt-14 grid gap-8 md:gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Link to="/" className="inline-flex items-center gap-2">
               <span className="grid place-items-center h-8 w-8 rounded-lg bg-primary text-primary-foreground">
@@ -110,7 +110,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <nav className="lg:col-span-4 grid grid-cols-2 gap-8" aria-label="Footer">
+          <nav className="lg:col-span-4 grid grid-cols-2 gap-6 md:gap-8" aria-label="Footer">
             {columns.map((col) => (
               <div key={col.title}>
                 <h3 className="font-display text-lg font-bold tracking-tight text-foreground">
