@@ -1,24 +1,24 @@
 import { useEffect, useRef, useState } from "react";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 /**
  * Returns a ref + `inView` boolean that flips true the first time the element
- * enters the viewport. Used to trigger CSS-only entrance animations on spreads.
- * Always returns true under prefers-reduced-motion (animation collapses to its
- * final state).
+ * enters the viewport. Under prefers-reduced-motion, `inView` is true on mount
+ * so CSS-only animations collapse to their final state immediately.
  */
 export function useInViewOnce<T extends HTMLElement = HTMLDivElement>(
   rootMargin = "0px 0px -10% 0px",
 ) {
   const ref = useRef<T>(null);
+  const reduced = usePrefersReducedMotion();
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
       setInView(true);
       return;
     }
+    if (typeof window === "undefined") return;
     const el = ref.current;
     if (!el) return;
     const io = new IntersectionObserver(
@@ -32,7 +32,7 @@ export function useInViewOnce<T extends HTMLElement = HTMLDivElement>(
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [rootMargin]);
+  }, [rootMargin, reduced]);
 
   return { ref, inView };
 }

@@ -1,6 +1,7 @@
 import { MissionVision } from "@/components/about/MissionVision";
 import { Spread } from "./Spread";
 import { Reveal } from "@/components/transitions/Reveal";
+import { EDITORIAL_DELAY } from "./motion";
 
 const toc = [
   { n: "01", label: "Cover", anchor: "#cover" },
@@ -29,7 +30,7 @@ export function IssueIndex() {
             <p className="editorial-eyebrow mb-5">Contents</p>
             <ul className="space-y-3">
               {toc.map((item, i) => (
-                <Reveal key={item.n} as="li" staggerIndex={i} staggerStep={80}>
+                <Reveal key={item.n} as="li" staggerIndex={i} staggerStep={EDITORIAL_DELAY.tocStep}>
                   <a
                     href={item.anchor}
                     className="group flex items-baseline gap-4 py-1 transition-colors hover:text-primary"
