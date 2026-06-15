@@ -144,7 +144,7 @@ const Index = () => {
         <MobilePage
           maxWidth="full"
           padded={false}
-          spacing="space-y-14 sm:space-y-20 lg:space-y-32"
+          spacing="space-y-12 sm:space-y-20 lg:space-y-32"
           className="pt-0 lg:pt-0 pb-16 sm:pb-20"
         >
           {/* Spread 1 — Cover */}
@@ -152,7 +152,7 @@ const Index = () => {
             <EditorialCover />
           </div>
 
-          {/* Quiet partner marquee — sits between cover and index as a colophon strip */}
+          {/* Quiet partner marquee */}
           <PartnerMarquee />
 
           {/* Spread 2 — Issue Index */}
@@ -160,26 +160,26 @@ const Index = () => {
             <IssueIndex />
           </div>
 
-          {/* Spread 2.5 — Trust carousel */}
+          {/* Spread 3 — Trust carousel */}
           <div id="trust">
-            <Spread pageNumber="03 / 06" label="Why learners trust us">
+            <Spread pageNumber="03" label="Trust">
               <TrustCarousel />
             </Spread>
           </div>
 
-          {/* Spread 3 — Feature Story */}
+          {/* Spread 4 — Feature Story */}
           <div id="feature-story">
             <FeatureStory />
           </div>
 
-          {/* Spread 4 — Departments */}
+          {/* Spread 5 — Departments */}
           <div id="departments">
-            <Spread pageNumber="04 / 05" label="Departments">
-              <div className="space-y-16 lg:space-y-24">
+            <Spread pageNumber="05" label="Departments">
+              <div className="space-y-14 sm:space-y-16 lg:space-y-24">
                 <Department
-                  number="04.1"
+                  number="05.1"
                   name="Library"
-                  dek="Courses, books, and curated collections — admin-ordered, calmly presented."
+                  dek="Courses, books, and curated collections."
                 >
                   <div className="space-y-10">
                     <Suspense fallback={<Fallback />}><MobileCoursesTop /></Suspense>
@@ -189,9 +189,9 @@ const Index = () => {
                 </Department>
 
                 <Department
-                  number="04.2"
+                  number="05.2"
                   name="Workshop"
-                  dek="Tools for the day-to-day — quick access, AI assistance, and what we think you'll like next."
+                  dek="Quick access, AI help, and what's next for you."
                 >
                   <div className="space-y-8">
                     <Suspense fallback={<Fallback />}><QuickAccessGrid /></Suspense>
@@ -203,9 +203,9 @@ const Index = () => {
                 </Department>
 
                 <Department
-                  number="04.3"
+                  number="05.3"
                   name="Community"
-                  dek="What learners are making, asking, and celebrating this week."
+                  dek="What learners are making this week."
                 >
                   <div className="space-y-10">
                     <CommunityCarousel
@@ -218,9 +218,9 @@ const Index = () => {
                 </Department>
 
                 <Department
-                  number="04.4"
+                  number="05.4"
                   name="Mentorship"
-                  dek="Personal teachers for children — a calm, waitlist-only program."
+                  dek="Personal teachers for children — waitlist only."
                 >
                   <div className="space-y-10">
                     <Suspense fallback={<Fallback />}><MentorshipHomeSection /></Suspense>
@@ -231,7 +231,7 @@ const Index = () => {
             </Spread>
           </div>
 
-          {/* Spread 5 — Back Matter */}
+          {/* Spread 6 — Back Matter */}
           <div id="back-matter">
             <BackMatter showPersonal={!!user} />
           </div>
