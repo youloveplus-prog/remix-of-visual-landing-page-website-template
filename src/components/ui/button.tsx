@@ -41,7 +41,9 @@ const buttonVariants = cva(
         cta:
           "bg-brand-gradient text-primary-foreground shadow-md border border-primary/20 hover:shadow-lg hover:-translate-y-[1px] hover:brightness-[1.04]",
         premium:
-          "bg-brand-gradient text-primary-foreground shadow-md border border-primary/20 hover:shadow-lg hover:-translate-y-[1px] hover:brightness-[1.04]",
+          "group/btn relative overflow-hidden bg-foreground text-background border border-foreground/15 shadow-[0_10px_30px_-12px_hsl(var(--foreground)/0.45)] hover:-translate-y-[1px] hover:shadow-[0_18px_40px_-14px_hsl(var(--foreground)/0.55)] before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_25%,hsl(var(--background)/0.22)_45%,transparent_65%)] before:translate-x-[-120%] before:transition-transform before:duration-[900ms] before:ease-out hover:before:translate-x-[120%] after:absolute after:inset-x-3 after:top-0 after:h-px after:bg-gradient-to-r after:from-transparent after:via-background/40 after:to-transparent",
+        "premium-outline":
+          "group/btn relative overflow-hidden border border-foreground/20 bg-background/60 backdrop-blur text-foreground hover:bg-background hover:border-foreground/45 hover:-translate-y-[1px] hover:shadow-[0_14px_36px_-18px_hsl(var(--foreground)/0.35)] before:absolute before:inset-0 before:bg-[linear-gradient(110deg,transparent_25%,hsl(var(--foreground)/0.06)_45%,transparent_65%)] before:translate-x-[-120%] before:transition-transform before:duration-[900ms] before:ease-out hover:before:translate-x-[120%]",
         glass:
           "surface-panel backdrop-blur-md text-foreground hover:bg-muted/60",
         chip:
