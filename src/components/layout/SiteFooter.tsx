@@ -1,36 +1,43 @@
 import { Link } from "react-router-dom";
-import { Mail, Code2, Send, Camera, Users, ChevronRight } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
-const columns = [
+const linkColumns = [
   {
-    title: "Company",
+    title: "Links",
     links: [
       { label: "Home", to: "/" },
-      { label: "About us", to: "/about" },
-      { label: "Contact", to: "/contact" },
+      { label: "Shop", to: "/shop" },
+      { label: "About", to: "/about" },
+      { label: "Careers", to: "/about" },
+      { label: "Contact us", to: "/contact" },
+    ],
+  },
+  {
+    title: "Platform",
+    links: [
+      { label: "Learn", to: "/learn" },
+      { label: "Why ASIKON?", to: "/about" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Mentors", to: "/mentors" },
+      { label: "Community", to: "/community" },
       { label: "Help & FAQ", to: "/help" },
     ],
   },
   {
-    title: "Product",
+    title: "Socials",
     links: [
-      { label: "Shop", to: "/shop" },
-      { label: "Learn", to: "/learn" },
-      { label: "Mentors", to: "/mentors" },
-      { label: "Community", to: "/community" },
+      { label: "Facebook", to: "https://facebook.com", external: true },
+      { label: "Instagram", to: "https://instagram.com", external: true },
+      { label: "X (Formerly Twitter)", to: "https://twitter.com", external: true },
     ],
   },
-];
-
-const socials = [
-  { icon: Users, href: "https://facebook.com", label: "Facebook" },
-  { icon: Camera, href: "https://instagram.com", label: "Instagram" },
-  { icon: Send, href: "https://twitter.com", label: "Twitter" },
-  { icon: Code2, href: "https://github.com", label: "GitHub" },
-  { icon: Mail, href: "mailto:hello@asikon.app", label: "Email" },
 ];
 
 export function SiteFooter() {
@@ -44,101 +51,30 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="bg-muted/30" aria-label="ASIKON footer">
-
-      <div className="container-editorial py-10 md:py-14 lg:py-20">
-        {/* CTA card */}
-        <div
-          className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] px-5 md:px-8 py-12 md:py-16 lg:py-20 text-center text-primary-foreground shadow-[var(--shadow-elegant,0_30px_80px_-30px_hsl(var(--primary)/0.5))]"
-          style={{ background: "var(--gradient-primary)" }}
-        >
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(circle at 20% 80%, hsl(var(--primary-foreground)/0.25), transparent 55%), radial-gradient(circle at 85% 20%, hsl(var(--primary-foreground)/0.18), transparent 50%)",
-            }}
-          />
-          <div className="relative max-w-2xl mx-auto">
-            <h2 className="font-display font-black tracking-tight text-3xl sm:text-4xl lg:text-5xl leading-[1.1]">
-              Learn smarter.<br />Build with ASIKON.
-            </h2>
-            <p className="mt-5 text-sm sm:text-base text-primary-foreground/85 max-w-lg mx-auto leading-relaxed">
-              An AI-powered learning universe — calm, smart, and unmistakably made for Bangladeshi learners.
-            </p>
+    <footer className="bg-background text-foreground border-t border-border/60" aria-label="ASIKON footer">
+      <div className="container-editorial pt-12 md:pt-16 pb-0">
+        {/* Top: brand + newsletter */}
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
             <Link
-              to="/learn"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-background text-foreground pl-6 pr-2 py-2 text-sm font-semibold shadow-lg hover:-translate-y-0.5 hover:shadow-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              to="/"
+              className="inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded"
             >
-              Start learning
-              <span className="grid place-items-center h-8 w-8 rounded-full bg-foreground text-background">
-                <ChevronRight className="h-4 w-4" />
-              </span>
+              <img src={logo} alt="Asikon" className="h-7 w-7 rounded-lg object-contain shrink-0" />
+              <span className="font-display text-2xl font-black tracking-tight">ASIKON</span>
             </Link>
-          </div>
-        </div>
-
-        {/* Link grid */}
-        <div className="mt-10 md:mt-14 grid gap-8 md:gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <Link to="/" className="inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">
-              <img src={logo} alt="Asikon" className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg object-contain shrink-0" />
-              <span className="font-display text-xl sm:text-2xl font-black tracking-tight">ASIKON</span>
-            </Link>
-            <p className="mt-4 text-sm text-muted-foreground max-w-sm leading-relaxed">
-              AI-powered learning platform designed to help Bangladeshi learners grow effortlessly and confidently.
+            <p className="mt-5 max-w-md text-sm md:text-base text-muted-foreground leading-relaxed">
+              AI-powered learning platform blending modern tech with Bangladeshi context — built for learners across the Global South.
             </p>
-            <div className="mt-6 flex items-center gap-2">
-              {socials.map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="size-9 rounded-full grid place-items-center bg-background border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                >
-                  <Icon className="size-4" aria-hidden />
-                </a>
-              ))}
-            </div>
           </div>
 
-          <nav className="lg:col-span-4 grid grid-cols-2 gap-6 md:gap-8" aria-label="Footer navigation">
-            {columns.map((col) => (
-              <div key={col.title}>
-                <h3 className="font-display text-lg font-bold tracking-tight text-foreground">
-                  {col.title}
-                </h3>
-                <ul className="mt-4 space-y-3">
-                  {col.links.map((l) => (
-                    <li key={l.to + l.label}>
-                      <Link
-                        to={l.to}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded"
-                      >
-                        {l.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
-
-          <div className="lg:col-span-4">
-            <h3 id="newsletter-heading" className="font-display text-lg font-bold tracking-tight text-foreground">
-              Newsletter
-            </h3>
-            <p id="newsletter-desc" className="mt-4 text-sm text-muted-foreground leading-relaxed">
-              Get tips, product updates, and insights on learning smarter with AI.
-            </p>
+          <div className="lg:justify-self-end w-full lg:max-w-md">
+            <p className="text-sm text-foreground/90">Subscribe to our newsletter</p>
             <form
               onSubmit={handleSubscribe}
-              aria-labelledby="newsletter-heading"
-              className="mt-5 flex items-center gap-1 rounded-full border border-border bg-background p-1 pl-4 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/30 transition"
+              className="mt-3 flex items-center gap-1 rounded-full border border-border bg-card/60 p-1 pl-4 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/30 transition"
             >
+              <Mail className="h-4 w-4 text-muted-foreground shrink-0" aria-hidden />
               <label htmlFor="footer-email" className="sr-only">Email address</label>
               <input
                 id="footer-email"
@@ -146,34 +82,73 @@ export function SiteFooter() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email address"
-                className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/70"
-                aria-describedby="newsletter-desc"
+                placeholder="Enter your email"
+                className="flex-1 bg-transparent text-sm px-2 outline-none placeholder:text-muted-foreground/70"
               />
               <button
                 type="submit"
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                style={{ background: "var(--gradient-primary)" }}
+                aria-label="Subscribe"
+                className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                Subscribe
-                <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                <ArrowRight className="h-4 w-4" />
               </button>
             </form>
+            <p className="mt-3 font-dot text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              By subscribing you agree to our terms
+            </p>
           </div>
         </div>
 
+        {/* Link grid */}
+        <nav
+          aria-label="Footer navigation"
+          className="mt-14 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-4 md:gap-x-8"
+        >
+          {linkColumns.map((col) => (
+            <div key={col.title}>
+              <h3 className="font-dot text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                {col.title}
+              </h3>
+              <ul className="mt-5 space-y-3">
+                {col.links.map((l) => {
+                  const cls =
+                    "text-sm text-foreground/85 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded";
+                  return (
+                    <li key={l.to + l.label}>
+                      {"external" in l && l.external ? (
+                        <a href={l.to} target="_blank" rel="noopener noreferrer" className={cls}>
+                          {l.label}
+                        </a>
+                      ) : (
+                        <Link to={l.to} className={cls}>
+                          {l.label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
         {/* Bottom bar */}
         <div className="mt-12 pt-6 border-t border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} ASIKON. Made with care in Dhaka, Bangladesh.
+          <p className="font-dot text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            © Copyright {new Date().getFullYear()} ASIKON
           </p>
-          <p className="text-xs text-muted-foreground flex items-center gap-3">
-            <Link to="/privacy" className="hover:text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">Privacy Policy</Link>
-            <span className="opacity-40">·</span>
+          <p className="font-dot text-[11px] uppercase tracking-[0.18em] text-muted-foreground flex items-center gap-5">
             <Link to="/terms" className="hover:text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">Terms of Service</Link>
-            <span className="opacity-40">·</span>
+            <Link to="/privacy" className="hover:text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">Privacy Policy</Link>
             <Link to="/refund" className="hover:text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">Refunds</Link>
           </p>
+        </div>
+
+        {/* Giant ghost wordmark */}
+        <div className="relative mt-8 overflow-hidden" aria-hidden>
+          <div className="font-display font-black tracking-tighter text-center leading-none select-none text-foreground/[0.06] text-[28vw] sm:text-[22vw] lg:text-[18vw]">
+            ASIKON
+          </div>
         </div>
       </div>
     </footer>
