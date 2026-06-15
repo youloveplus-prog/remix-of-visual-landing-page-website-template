@@ -236,20 +236,22 @@ export function DesktopSidebar({
       )}
     >
       {/* Collapse Toggle */}
-      <Button
-        variant="ghost"
-        size="icon"
-        aria-label={isCollapsed ? "Expand sidebar (Ctrl/Cmd+B)" : "Collapse sidebar (Ctrl/Cmd+B)"}
-        title={isCollapsed ? "Expand (Ctrl/Cmd+B)" : "Collapse (Ctrl/Cmd+B)"}
-        className="absolute -right-3 top-4 z-50 h-6 w-6 rounded-full border border-border bg-background shadow-sm hover:bg-secondary"
-        onClick={() => setIsCollapsed(!isCollapsed)}
-      >
-        {isCollapsed ? (
-          <ChevronRight className="h-3 w-3" />
-        ) : (
-          <ChevronLeft className="h-3 w-3" />
-        )}
-      </Button>
+      <div className={cn("flex items-center", expanded ? "justify-end px-3 pt-3" : "justify-center pt-3")}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label={isCollapsed ? "Expand sidebar (Ctrl/Cmd+B)" : "Collapse sidebar (Ctrl/Cmd+B)"}
+          title={isCollapsed ? "Expand (Ctrl/Cmd+B)" : "Collapse (Ctrl/Cmd+B)"}
+          className="h-6 w-6 rounded-full border border-border bg-background shadow-sm hover:bg-secondary"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+          {isCollapsed ? (
+            <ChevronRight className="h-3 w-3" />
+          ) : (
+            <ChevronLeft className="h-3 w-3" />
+          )}
+        </Button>
+      </div>
 
       <ScrollArea className="flex-1 py-4 [&>[data-radix-scroll-area-viewport]]:overscroll-contain">
         <div className="space-y-5 px-3">
