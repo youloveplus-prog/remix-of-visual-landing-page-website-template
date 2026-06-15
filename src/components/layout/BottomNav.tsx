@@ -174,20 +174,21 @@ export function BottomNav() {
     <nav
       aria-label="Primary"
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 h-[var(--bottom-nav-h)] overflow-hidden supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
+        "fixed inset-x-0 bottom-0 z-50 supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
         "liquid-nav border-t border-border/40"
       )}
     >
-      <ul className="flex h-[72px] items-stretch px-1.5">
+      <ul className="flex h-[64px] items-stretch px-1">
         {tabs.map((item) => (
           <li key={item.path} className="flex-1 min-w-0">
-            <NavItem item={item} active={activeTab === item.id} />
+            <NavItem item={item} active={activeTab === item.id} isHome={item.path === "/"} />
           </li>
         ))}
       </ul>
     </nav>
   );
 }
+
 
 function NavItem({
   item,
