@@ -8,21 +8,17 @@ import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
-
-import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
 
-
 interface HomeTopHeaderProps {
-  showTrustStrip?: boolean;
   cartCount?: number;
 }
 
 /**
  * Full-width top header used only on the home page.
- * Features a mega menu. No sidebar is rendered on home.
+ * No sidebar is rendered on home.
  */
-export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopHeaderProps) {
+export function HomeTopHeader({ cartCount = 0 }: HomeTopHeaderProps) {
   const { hidden, scrollY } = useHeaderHidden();
   const isScrolled = scrollY > 8;
 
@@ -39,18 +35,18 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
         hidden && "-translate-y-full"
       )}
     >
-      {/* Row 1 — brand · search · actions */}
+      {/* Single centered row */}
       <div
         className={cn(
-          "relative z-[2] overflow-visible py-1 liquid-nav",
+          "relative z-[2] overflow-visible py-1.5 liquid-nav",
           "transition-[box-shadow] duration-300",
           "border-b border-border/50 dark:border-white/10",
           isScrolled && "shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
         )}
       >
-        <div className="container-editorial flex items-center gap-3">
+        <div className="container-editorial flex items-center justify-center gap-4">
           <HeaderBrand compact={isScrolled} />
-          <SmartSearch className="flex-1 max-w-xl ml-auto" />
+          <SmartSearch className="w-full max-w-md" />
           <div className="flex items-center gap-0.5">
             <Link to="/cart">
               <Button
@@ -70,18 +66,6 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
             <NotificationsMenu />
             <UserMenu />
           </div>
-        </div>
-      </div>
-
-      {/* Row 2 — primary navigation */}
-      <div
-        className={cn(
-          "relative z-[1] py-0.5 overflow-visible liquid-nav",
-          "border-b border-border/40 dark:border-white/5"
-        )}
-      >
-        <div className="container-editorial flex items-center justify-center">
-          <MegaMenu />
         </div>
       </div>
     </header>
