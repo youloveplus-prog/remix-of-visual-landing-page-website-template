@@ -1,4 +1,4 @@
-import { BookOpen, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
@@ -135,6 +135,41 @@ const ProfileFill: IconComponent = (props) => (
   </svg>
 );
 
+/* ---------- Learn (book) ---------- */
+const LearnOutline: IconComponent = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path
+      d="M4 4.5C4 3.67157 4.67157 3 5.5 3H18.5C19.3284 3 20 3.67157 20 4.5V19.5C20 20.3284 19.3284 21 18.5 21H5.5C4.67157 21 4 20.3284 4 19.5V4.5Z"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8 3V13L10.5 11L13 13V3"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+const LearnFill: IconComponent = (props) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path
+      d="M4 4.5C4 3.67157 4.67157 3 5.5 3H18.5C19.3284 3 20 3.67157 20 4.5V19.5C20 20.3284 19.3284 21 18.5 21H5.5C4.67157 21 4 20.3284 4 19.5V4.5Z"
+      fill="currentColor"
+    />
+    <path
+      d="M8 3V13L10.5 11L13 13V3"
+      stroke="hsl(var(--background))"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </svg>
+);
+
 interface Tab {
   id: Exclude<TabId, null>;
   iconOutline: IconComponent;
@@ -152,7 +187,7 @@ export function BottomNav() {
   const tabs: (Tab & { badge?: number; dot?: boolean })[] = [
     { id: "home", iconOutline: HomeOutline, iconFill: HomeFill, label: "Home", path: "/" },
     { id: "explore", iconOutline: ExploreOutline, iconFill: ExploreFill, label: "Explore", path: "/shop", badge: cartCount },
-    { id: "learn", iconOutline: BookOpen, iconFill: BookOpen, label: "Learn", path: "/learn" },
+    { id: "learn", iconOutline: LearnOutline, iconFill: LearnFill, label: "Learn", path: "/learn" },
     { id: "community", iconOutline: CommunityOutline, iconFill: CommunityFill, label: "Community", path: "/community", dot: false },
     { id: "profile", iconOutline: ProfileOutline, iconFill: ProfileFill, label: "Profile", path: "/profile" },
   ];
