@@ -1,11 +1,6 @@
-// Self-hosted fonts — trimmed to weights actually used. Bengali stack is
-// dynamically loaded only when needed (see loadBanglaFonts below).
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
-import "@fontsource/inter/700.css";
-import "@fontsource/space-grotesk/500.css";
-import "@fontsource/space-grotesk/700.css";
+// Display/body fonts (Satoshi, Sentient, Edensor, Departure Mono) are loaded
+// from Fontshare via <link> in index.html. Only the Bengali stack and a
+// monospaced fallback remain here, loaded conditionally below.
 import "@fontsource/jetbrains-mono/400.css";
 
 import { createRoot } from "react-dom/client";
