@@ -114,8 +114,8 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 5%;
     --muted-foreground: 0 0% 68%;
-    --accent: 162 90% 45%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 234 40% 22%;             /* dark indigo surface (was teal) */
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 18%;
