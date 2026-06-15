@@ -83,7 +83,7 @@ export function SiteFooter() {
         </div>
 
         {/* Link grid */}
-        <div className="mt-14 grid gap-10 lg:grid-cols-12">
+        <div className="mt-10 md:mt-14 grid gap-8 md:gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Link to="/" className="inline-flex items-center gap-2">
               <span className="grid place-items-center h-8 w-8 rounded-lg bg-primary text-primary-foreground">
