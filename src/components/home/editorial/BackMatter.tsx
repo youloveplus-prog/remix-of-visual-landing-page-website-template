@@ -34,8 +34,8 @@ interface BackMatterProps {
  */
 export function BackMatter({ showPersonal }: BackMatterProps) {
   return (
-    <Spread pageNumber="05 / 05" label="Back Matter">
-      <div className="space-y-16 lg:space-y-24">
+    <Spread pageNumber="06" label="Back Matter">
+      <div className="space-y-14 sm:space-y-16 lg:space-y-24">
         <Suspense fallback={<Fallback />}>
           <TestimonialsColumns />
         </Suspense>
@@ -49,7 +49,7 @@ export function BackMatter({ showPersonal }: BackMatterProps) {
         </Suspense>
 
         {showPersonal && (
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
             <Suspense fallback={<Fallback />}>
               <ProgressSnapshot />
             </Suspense>
@@ -61,8 +61,7 @@ export function BackMatter({ showPersonal }: BackMatterProps) {
 
         <div className="pt-6 border-t border-foreground/10">
           <p className="editorial-eyebrow">
-            Colophon · Set in Plus Jakarta Sans &amp; Departure Mono · Printed digitally,
-            instantly, from Dhaka.
+            Set in Plus Jakarta Sans. Made in Dhaka.
           </p>
         </div>
       </div>
