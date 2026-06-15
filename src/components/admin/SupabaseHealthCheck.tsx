@@ -1,6 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Database, RefreshCw, CheckCircle2, AlertTriangle } from "lucide-react";
+import {
+  Database,
+  RefreshCw,
+  CheckCircle2,
+  AlertTriangle,
+  ShieldCheck,
+  FileCode2,
+  ExternalLink,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +21,10 @@ interface HealthResponse {
   checked_at?: string;
   error?: string;
 }
+
+// Expected baseline for a fully-restored StyleVerse backend.
+// Update this if the canonical migration set changes.
+const EXPECTED_TABLE_COUNT = 50;
 
 export function SupabaseHealthCheck() {
   const { data, isLoading, isFetching, refetch, error } = useQuery<HealthResponse>({
