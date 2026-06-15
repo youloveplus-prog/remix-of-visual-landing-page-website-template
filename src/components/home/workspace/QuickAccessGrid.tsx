@@ -56,14 +56,15 @@ export function QuickAccessGrid() {
 
   return (
     <Reveal as="section" className="section-x">
-      <div className="flex items-end justify-between mb-2">
-        <h2 className="font-semibold text-base">Quick Actions</h2>
+      <div className="flex flex-col items-center text-center gap-1 mb-4">
+        <h2 className="font-display font-bold leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] text-brand-gradient">Quick Actions</h2>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <button className="text-xs text-foreground/70 hover:text-foreground font-medium">
+            <button className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">
               See all
             </button>
           </SheetTrigger>
+
           <SheetContent side="bottom" className="rounded-t-3xl max-h-[80vh] overflow-y-auto">
             <SheetHeader className="mb-4">
               <SheetTitle className="text-left">All Quick Actions</SheetTitle>
