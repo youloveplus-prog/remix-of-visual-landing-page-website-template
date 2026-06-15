@@ -4,15 +4,15 @@ import { join, relative } from 'path';
 const root = 'src';
 
 const patterns = [
-  { regex: /\bbg-white\b/, name: 'bg-white', riskBase: 'CRITICAL' },
-  { regex: /\bbg-gray-50\b/, name: 'bg-gray-50', riskBase: 'HIGH' },
-  { regex: /\bbg-gray-100\b/, name: 'bg-gray-100', riskBase: 'HIGH' },
-  { regex: /\bbg-slate-50\b/, name: 'bg-slate-50', riskBase: 'HIGH' },
-  { regex: /\bbg-slate-100\b/, name: 'bg-slate-100', riskBase: 'HIGH' },
-  { regex: /\bbg-zinc-50\b/, name: 'bg-zinc-50', riskBase: 'HIGH' },
-  { regex: /\bbg-zinc-100\b/, name: 'bg-zinc-100', riskBase: 'HIGH' },
-  { regex: /\bbg-stone-50\b/, name: 'bg-stone-50', riskBase: 'HIGH' },
-  { regex: /\bbg-stone-100\b/, name: 'bg-stone-100', riskBase: 'HIGH' },
+  { regex: /\bbg-white\b(?!\/)/, name: 'bg-white', riskBase: 'CRITICAL' },
+  { regex: /\bbg-gray-50\b(?!\/)/, name: 'bg-gray-50', riskBase: 'HIGH' },
+  { regex: /\bbg-gray-100\b(?!\/)/, name: 'bg-gray-100', riskBase: 'HIGH' },
+  { regex: /\bbg-slate-50\b(?!\/)/, name: 'bg-slate-50', riskBase: 'HIGH' },
+  { regex: /\bbg-slate-100\b(?!\/)/, name: 'bg-slate-100', riskBase: 'HIGH' },
+  { regex: /\bbg-zinc-50\b(?!\/)/, name: 'bg-zinc-50', riskBase: 'HIGH' },
+  { regex: /\bbg-zinc-100\b(?!\/)/, name: 'bg-zinc-100', riskBase: 'HIGH' },
+  { regex: /\bbg-stone-50\b(?!\/)/, name: 'bg-stone-50', riskBase: 'HIGH' },
+  { regex: /\bbg-stone-100\b(?!\/)/, name: 'bg-stone-100', riskBase: 'HIGH' },
   { regex: /\bbg-\[#f[0-9a-fA-F]{2,}\]/, name: 'light-hex-bg', riskBase: 'MEDIUM' },
   { regex: /\bbg-\[#[eE][0-9a-fA-F]{2,}\]/, name: 'light-hex-bg', riskBase: 'MEDIUM' },
 ];
