@@ -1,6 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Database, RefreshCw, CheckCircle2, AlertTriangle } from "lucide-react";
+import {
+  Database,
+  RefreshCw,
+  CheckCircle2,
+  AlertTriangle,
+  ShieldCheck,
+  FileCode2,
+  ExternalLink,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +21,10 @@ interface HealthResponse {
   checked_at?: string;
   error?: string;
 }
+
+// Expected baseline for a fully-restored StyleVerse backend.
+// Update this if the canonical migration set changes.
+const EXPECTED_TABLE_COUNT = 50;
 
 export function SupabaseHealthCheck() {
   const { data, isLoading, isFetching, refetch, error } = useQuery<HealthResponse>({
@@ -74,6 +86,9 @@ export function SupabaseHealthCheck() {
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Tables</p>
             <p className="text-2xl font-display font-bold tracking-tight">
               {data?.table_count ?? 0}
+              <span className="text-xs text-muted-foreground ml-1 font-normal">
+                / {EXPECTED_TABLE_COUNT}
+              </span>
             </p>
           </div>
           <div>
@@ -92,12 +107,53 @@ export function SupabaseHealthCheck() {
         </div>
       )}
 
-      {empty && (
-        <p className="text-[11px] text-muted-foreground mt-3">
-          The public schema has no tables. If you recently reverted, restore a snapshot from before
-          the backend was wiped, or run your migrations to recreate the schema.
+      {!isLoading && !failed && (data?.table_count ?? 0) < EXPECTED_TABLE_COUNT && (
+        <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-3">
+          Expected ~{EXPECTED_TABLE_COUNT} tables in <code className="font-mono">public</code>.
+          {empty
+            ? " Schema is empty — restore a pre-wipe snapshot or re-run migrations."
+            : ` Missing ~${EXPECTED_TABLE_COUNT - (data?.table_count ?? 0)} — some migrations may not have applied.`}
         </p>
       )}
+
+      {/* Readiness checks — surface what must be true for the app to function */}
+      <div className="mt-3 pt-3 border-t border-border/40 space-y-1.5">
+        <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
+          Readiness checks
+        </p>
+        <a
+          href="https://supabase.com/docs/guides/auth/row-level-security"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-2 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+          <span className="flex-1">RLS enabled + policies on every public table</span>
+          <ExternalLink className="w-3 h-3 opacity-60" />
+        </a>
+        <a
+          href="https://supabase.com/docs/guides/api/rest/generating-types"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-2 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <FileCode2 className="w-3.5 h-3.5 text-primary shrink-0" />
+          <span className="flex-1">
+            Types regenerated (<code className="font-mono">src/integrations/supabase/types.ts</code>)
+          </span>
+          <ExternalLink className="w-3 h-3 opacity-60" />
+        </a>
+        <a
+          href="https://supabase.com/docs/guides/database/postgres/row-level-security#grants"
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-2 text-[11px] text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <Database className="w-3.5 h-3.5 text-primary shrink-0" />
+          <span className="flex-1">GRANTs applied for anon / authenticated / service_role</span>
+          <ExternalLink className="w-3 h-3 opacity-60" />
+        </a>
+      </div>
 
       {healthy && data?.tables && data.tables.length > 0 && (
         <details className="mt-3">
