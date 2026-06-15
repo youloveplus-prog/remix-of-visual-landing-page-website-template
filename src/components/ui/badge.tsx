@@ -11,11 +11,11 @@ const badgeVariants = cva(
         default:
           "border-white/10 text-primary-foreground [background:var(--gradient-primary)] shadow-sm before:absolute before:inset-0 before:rounded-full before:bg-[linear-gradient(180deg,hsl(0_0%_100%/0.18),transparent_60%)] before:pointer-events-none",
         secondary:
-          "border-[hsl(var(--glass-border)/0.6)] bg-[hsl(var(--glass-bg)/0.6)] backdrop-blur-md text-secondary-foreground hover:bg-[hsl(var(--glass-bg)/0.8)]",
+          "liquid-glass-pill border-0 text-foreground",
         destructive:
           "border-white/10 bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border-[hsl(var(--glass-border)/0.7)] bg-[hsl(var(--glass-bg)/0.35)] backdrop-blur-md text-foreground hover:bg-[hsl(var(--glass-bg)/0.55)]",
+          "liquid-glass-pill border-0 text-foreground",
       },
     },
     defaultVariants: {
