@@ -51,7 +51,7 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="bg-background text-foreground border-t border-border/60" aria-label="ASIKON footer">
+    <footer className="hidden md:block bg-background text-foreground border-t border-border/60" aria-label="ASIKON footer">
       <div className="container-editorial pt-12 md:pt-16 pb-0">
         {/* Top: brand + newsletter */}
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
