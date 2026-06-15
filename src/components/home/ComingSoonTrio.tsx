@@ -137,7 +137,7 @@ export default function ComingSoonTrio() {
               </Link>
             </div>
             {/* emoji bubble + zzz */}
-            <div className="absolute -right-7 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white text-xs shadow-sm sm:-right-12 sm:h-10 sm:w-10 sm:text-base">
+            <div className="absolute -right-7 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 surface-panel text-xs shadow-sm sm:-right-12 sm:h-10 sm:w-10 sm:text-base">
               🥱
             </div>
             <span className="absolute -right-0.5 -top-2.5 text-[8px] font-bold text-[#9aa0b4] sm:-right-1 sm:-top-4 sm:text-xs">
