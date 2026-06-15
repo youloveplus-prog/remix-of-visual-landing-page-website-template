@@ -114,6 +114,24 @@ const Shop = () => {
     sortBy,
   });
 
+  // Scroll to product grid when arriving from hero CTA (retry once products load)
+  useEffect(() => {
+    if (location.hash !== "#products") return;
+    const tryScroll = () => {
+      const el = document.getElementById("products");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Clear hash so refresh doesn't re-scroll
+        window.history.replaceState(null, "", location.pathname + location.search);
+      }
+    };
+    // Immediate attempt + delayed retry after DOM settles
+    tryScroll();
+    const t1 = setTimeout(tryScroll, 120);
+    const t2 = setTimeout(tryScroll, 400);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [location, productsLoading]);
+
   // Apply remaining filters client-side
   const filteredProducts = useMemo(() => {
     if (!products) return products;
