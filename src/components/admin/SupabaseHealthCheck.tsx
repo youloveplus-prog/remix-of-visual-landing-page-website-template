@@ -13,10 +13,18 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
+interface RoleGrantSummary {
+  role: string;
+  tables_with_any_grant: number;
+  tables_missing_grants: string[];
+  privileges: Record<"SELECT" | "INSERT" | "UPDATE" | "DELETE", number>;
+}
+
 interface HealthResponse {
   ok: boolean;
   table_count?: number;
   tables?: string[];
+  grants?: Record<"anon" | "authenticated" | "service_role", RoleGrantSummary>;
   latency_ms?: number;
   checked_at?: string;
   error?: string;
