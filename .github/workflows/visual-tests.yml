@@ -131,7 +131,14 @@ jobs:
             } else {
               body += 'Failed — visual diffs detected or test errored.\n\n';
             }
-            body += `Artifact: [visual-screenshots](${runUrl}) (screenshots + red-highlighted diff overlays for any failing breakpoints).\n\n`;
+            const artifactName = hasMissingBaselines ? 'visual-baselines-candidate' : 'visual-screenshots';
+            if (status === 'success') {
+              body += `Artifact: [${artifactName}](${runUrl}) — captured screenshots.\n\n`;
+            } else if (hasMissingBaselines) {
+              body += `**Newly captured screenshots are uploaded as the [\`visual-baselines-candidate\`](${runUrl}) artifact** so you can review them immediately. Download from the run page, verify they look correct, then commit them under \`tests/visual/__baselines__/\` (or run \`python tests/visual/diff.py --update\` locally).\n\n`;
+            } else {
+              body += `Artifact: [${artifactName}](${runUrl}) — screenshots + red-highlighted diff overlays for failing breakpoints.\n\n`;
+            }
             if (log) body += '```\n' + log.slice(-3500) + '\n```\n';
 
             const { data: comments } = await github.rest.issues.listComments({
