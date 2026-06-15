@@ -3,15 +3,15 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Apple-calm Card.
- * Flat white surface, 1px hairline border, gentle shadow.
- * No glass, no inner sheen, no gradient — use <GlassPanel> for floating chrome.
+ * Liquid-glass Card.
+ * Frosted surface with specular edges, refractive sheen, and primary-tinted hover.
+ * Matches the About page treatment used across all pages.
  */
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl border border-border bg-card text-card-foreground shadow-sm transition-[box-shadow,border-color,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
+      "liquid-glass relative overflow-hidden rounded-2xl text-card-foreground transition-[box-shadow,border-color,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       className,
     )}
     {...props}
