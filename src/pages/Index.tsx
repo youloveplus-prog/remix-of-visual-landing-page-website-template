@@ -160,6 +160,13 @@ const Index = () => {
             <IssueIndex />
           </div>
 
+          {/* Spread 2.5 — Trust carousel */}
+          <div id="trust">
+            <Spread pageNumber="03 / 06" label="Why learners trust us">
+              <TrustCarousel />
+            </Spread>
+          </div>
+
           {/* Spread 3 — Feature Story */}
           <div id="feature-story">
             <FeatureStory />
