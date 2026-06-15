@@ -11,7 +11,7 @@ const toc = [
 ];
 
 const Refund = () => (
-  <LegalShell
+  <LegalShell analyticsSlug="refund"
     eyebrow="Legal"
     title="Refund & Return Policy."
     updated="May 2026"

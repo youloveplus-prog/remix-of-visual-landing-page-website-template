@@ -1,7 +1,8 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 interface LegalShellProps {
   eyebrow: string;
@@ -13,6 +14,8 @@ interface LegalShellProps {
   metaDescription: string;
   children: ReactNode;
   toc?: { index: number; title: string }[];
+  /** Stable page slug used as `page` in analytics events (e.g. "terms", "privacy", "refund"). */
+  analyticsSlug?: string;
 }
 
 export const LegalShell = ({
@@ -25,8 +28,12 @@ export const LegalShell = ({
   metaDescription,
   children,
   toc,
+  analyticsSlug,
 }: LegalShellProps) => {
   const [activeSection, setActiveSection] = useState(1);
+  const depthFiredRef = useRef<Set<number>>(new Set());
+  const sectionViewedRef = useRef<Set<number>>(new Set());
+  const pageKey = analyticsSlug ?? canonical;
 
   const handleScroll = useCallback(() => {
     if (!toc || toc.length === 0) return;
@@ -38,8 +45,32 @@ export const LegalShell = ({
       if (curr >= -80 && curr < offsets[best]) return i;
       return best;
     }, 0);
-    setActiveSection(toc[closest].index);
-  }, [toc]);
+    const nextIndex = toc[closest].index;
+    setActiveSection(nextIndex);
+
+    // Section-viewed (once per index per page-load)
+    if (!sectionViewedRef.current.has(nextIndex)) {
+      sectionViewedRef.current.add(nextIndex);
+      void track("legal_section_viewed", {
+        page: pageKey,
+        section_index: nextIndex,
+        section_title: toc[closest].title,
+      });
+    }
+
+    // Scroll-depth milestones (25/50/75/100)
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - window.innerHeight;
+    if (scrollable > 0) {
+      const pct = Math.min(100, Math.round((window.scrollY / scrollable) * 100));
+      for (const milestone of [25, 50, 75, 100]) {
+        if (pct >= milestone && !depthFiredRef.current.has(milestone)) {
+          depthFiredRef.current.add(milestone);
+          void track("legal_scroll_depth", { page: pageKey, depth: milestone });
+        }
+      }
+    }
+  }, [toc, pageKey]);
 
   useEffect(() => {
     if (!toc) return;
@@ -48,7 +79,14 @@ export const LegalShell = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll, toc]);
 
-  const scrollTo = (index: number) => {
+  const scrollTo = (index: number, source: "desktop" | "mobile") => {
+    const item = toc?.find((t) => t.index === index);
+    void track("legal_toc_click", {
+      page: pageKey,
+      section_index: index,
+      section_title: item?.title,
+      source,
+    });
     const el = document.getElementById(`section-${index}`);
     if (el) {
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
@@ -101,7 +139,7 @@ export const LegalShell = ({
                   {toc.map((item) => (
                     <li key={item.index}>
                       <button
-                        onClick={() => scrollTo(item.index)}
+                        onClick={() => scrollTo(item.index, "desktop")}
                         className={cn(
                           "block w-full text-left text-sm py-1.5 pl-4 -ml-px border-l-2 transition-colors",
                           activeSection === item.index
@@ -129,7 +167,7 @@ export const LegalShell = ({
                 {toc.map((item) => (
                   <li key={item.index}>
                     <button
-                      onClick={() => scrollTo(item.index)}
+                      onClick={() => scrollTo(item.index, "mobile")}
                       className="block w-full text-left text-sm px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
                     >
                       <span className="tabular-nums mr-2 text-xs">

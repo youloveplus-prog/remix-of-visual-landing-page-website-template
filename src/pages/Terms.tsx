@@ -15,7 +15,7 @@ const toc = [
 ];
 
 const Terms = () => (
-  <LegalShell
+  <LegalShell analyticsSlug="terms"
     eyebrow="Legal"
     title="Terms of Service."
     updated="May 2026"
