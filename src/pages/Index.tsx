@@ -28,6 +28,9 @@ import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
 import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
+import { StreakTile } from "@/components/home/workspace/StreakTile";
+import { RecommendedForYou } from "@/components/home/workspace/RecommendedForYou";
+import { AiTutorFab } from "@/components/home/AiTutorFab";
 
 // Lazy-load below-the-fold sections so their JS doesn't block first paint.
 const HowItWorks = lazy(() => import("@/components/home/sections/HowItWorks").then(m => ({ default: m.HowItWorks })));
@@ -167,18 +170,7 @@ const SECTION_RENDERERS: Record<string, (ctx: RenderCtx) => JSX.Element | null> 
             </div>
           </Link>
 
-          <div className="midnight-tile midnight-glow midnight-shine p-5 h-40 flex flex-col justify-between overflow-hidden"
-               style={{ background: "hsl(var(--primary) / 0.08)", borderColor: "hsl(var(--primary) / 0.25)" }}>
-            <div className="relative z-10 w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.5)]">
-              <Flame className="h-5 w-5" />
-            </div>
-            <div className="relative z-10">
-              <h3 className="font-display font-bold text-base text-foreground">Daily streak</h3>
-              <p className="text-[10px] uppercase tracking-widest font-semibold text-primary mt-1">
-                +30 XP today
-              </p>
-            </div>
-          </div>
+          <StreakTile />
 
         </div>
       </Reveal>
@@ -436,6 +428,9 @@ const Index = () => {
               {/* 4 — Continue where you left off */}
               <Suspense fallback={<SectionFallback />}><ContinueLearningRow /></Suspense>
 
+              {/* Personalized recommendations based on learner goal/interests */}
+              <RecommendedForYou />
+
               {/* 5 — Four calm tiles: Tutor / Shop / Community / Mentors */}
               <QuickAccessGrid />
 
@@ -473,6 +468,7 @@ const Index = () => {
 
 
 
+      {user && <AiTutorFab />}
     </AppLayout>
   );
 };
