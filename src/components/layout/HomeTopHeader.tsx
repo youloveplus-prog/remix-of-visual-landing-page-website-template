@@ -8,7 +8,7 @@ import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
-import { TrustStrip } from "./TrustStrip";
+
 import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
 
