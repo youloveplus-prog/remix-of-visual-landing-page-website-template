@@ -14,6 +14,7 @@ import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/hooks/useCart";
+import { sidebarPaddingClassLg } from "./layout-constants";
 
 
 // Context to share sidebar state
