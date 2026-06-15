@@ -5,7 +5,6 @@ import { RuleDraw, LabelRise } from "./motion-primitives";
 interface SpreadProps {
   children: ReactNode;
   className?: string;
-  pageNumber?: string; // e.g. "01" or "03"
   label?: string;
   rule?: boolean;
 }
@@ -22,7 +21,13 @@ export function Spread({ children, className, label, rule = true }: SpreadProps)
       )}
     >
       {rule && (
-        <div className="flex items-center gap-3 sm:gap-4 mb-={children}
+        <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 lg:mb-10">
+          <RuleDraw className="flex-1" />
+          {label && <LabelRise className="shrink-0">{label}</LabelRise>}
+          <RuleDraw className="flex-1" />
+        </div>
+      )}
+      {children}
     </section>
   );
 }
