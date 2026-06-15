@@ -216,6 +216,8 @@ export default function AdminOverview() {
         subtitle="Real-time snapshot of every key area of the platform."
       />
 
+      <SupabaseHealthCheck />
+
       {/* Headline KPIs (real 30-day sparklines where available) */}
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
         {baseStats.map((s, i) => (
