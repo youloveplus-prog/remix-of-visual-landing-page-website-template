@@ -52,32 +52,12 @@ const NEAR_TOP = 80;
 const DELTA = 8;
 
 export function useHeaderHidden(): { hidden: boolean; scrollY: number } {
-  const { isAnyOpen } = useHeaderMenuOpen();
-  const [hidden, setHidden] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const lastY = useRef(0);
-  const ticking = useRef(false);
 
   useEffect(() => {
     const onScroll = () => {
-      if (ticking.current) return;
-      ticking.current = true;
       window.requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const dy = y - lastY.current;
-
-        if (Math.abs(dy) > DELTA) {
-          if (y < NEAR_TOP) {
-            setHidden(false);
-          } else if (dy > 0) {
-            setHidden(true);
-          } else {
-            setHidden(false);
-          }
-          lastY.current = y;
-        }
-        setScrollY(y);
-        ticking.current = false;
+        setScrollY(window.scrollY);
       });
     };
 
@@ -86,9 +66,5 @@ export function useHeaderHidden(): { hidden: boolean; scrollY: number } {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Force visible while any menu is open.
-  if (isAnyOpen && hidden) {
-    return { hidden: false, scrollY };
-  }
-  return { hidden, scrollY };
+  return { hidden: false, scrollY };
 }
