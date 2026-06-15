@@ -120,7 +120,13 @@ export default function ContentDetail() {
               )}
             </div>
             <Button onClick={getOrPurchase} variant="premium" size="lg" disabled={owned}>
-              {owned ? "Owned — Open in Library" : item.is_free ? "Get free access" : "Purchase"}
+              {enrolled && item.kind === "course"
+                ? "Continue learning"
+                : owned
+                ? "Owned — Open in Library"
+                : item.is_free
+                ? item.kind === "course" ? "Enroll for free" : "Get free access"
+                : item.kind === "course" ? "Enroll now" : "Purchase"}
             </Button>
           </div>
         </Reveal>
