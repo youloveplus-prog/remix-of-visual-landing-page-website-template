@@ -39,18 +39,18 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
         hidden && "-translate-y-full"
       )}
     >
-      {/* Row 1 — brand · search · actions */}
+      {/* Single centered row */}
       <div
         className={cn(
-          "relative z-[2] overflow-visible py-1 liquid-nav",
+          "relative z-[2] overflow-visible py-1.5 liquid-nav",
           "transition-[box-shadow] duration-300",
           "border-b border-border/50 dark:border-white/10",
           isScrolled && "shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
         )}
       >
-        <div className="container-editorial flex items-center gap-3">
+        <div className="container-editorial flex items-center justify-center gap-4">
           <HeaderBrand compact={isScrolled} />
-          <SmartSearch className="flex-1 max-w-xl ml-auto" />
+          <SmartSearch className="w-full max-w-md" />
           <div className="flex items-center gap-0.5">
             <Link to="/cart">
               <Button
@@ -70,18 +70,6 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
             <NotificationsMenu />
             <UserMenu />
           </div>
-        </div>
-      </div>
-
-      {/* Row 2 — primary navigation */}
-      <div
-        className={cn(
-          "relative z-[1] py-0.5 overflow-visible liquid-nav",
-          "border-b border-border/40 dark:border-white/5"
-        )}
-      >
-        <div className="container-editorial flex items-center justify-center">
-          <MegaMenu />
         </div>
       </div>
     </header>
