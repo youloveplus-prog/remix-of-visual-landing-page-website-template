@@ -60,9 +60,9 @@ export function SiteFooter() {
             }}
           />
           <div className="relative max-w-2xl mx-auto">
-            <h3 className="font-display font-black tracking-tight text-3xl sm:text-4xl lg:text-5xl leading-[1.1]">
+            <h2 className="font-display font-black tracking-tight text-3xl sm:text-4xl lg:text-5xl leading-[1.1]">
               Learn smarter.<br />Build with ASIKON.
-            </h3>
+            </h2>
             <p className="mt-5 text-sm sm:text-base text-primary-foreground/85 max-w-lg mx-auto leading-relaxed">
               An AI-powered learning universe — calm, smart, and unmistakably made for Bangladeshi learners.
             </p>
