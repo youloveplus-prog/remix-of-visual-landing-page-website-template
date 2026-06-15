@@ -41,6 +41,7 @@ function detectKind(name: string): "course" | "ebook" | "service" | "bundle" {
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const [activeCategory, setActiveCategory] = useState(searchParams.get("category") ?? "All");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
@@ -49,6 +50,16 @@ const Shop = () => {
   const [minRating, setMinRating] = useState(0);
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
+
+  // Scroll to product grid when arriving from hero CTA
+  useEffect(() => {
+    if (location.hash === "#products") {
+      const el = document.getElementById("products");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, [location]);
 
   // Sync URL → state (q, type, filter, category)
   useEffect(() => {
