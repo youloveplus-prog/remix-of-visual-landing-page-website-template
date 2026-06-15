@@ -90,16 +90,23 @@ export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } =
           {items.map((b, idx) => {
             const isFirst = idx === 0;
             const Inner = (
-              <div className="group relative w-full aspect-[16/9] rounded-3xl overflow-hidden bg-card border border-border">
+              <div
+                className={cn(
+                  "group relative w-full overflow-hidden bg-card border border-border",
+                  fullWidth
+                    ? "rounded-none md:rounded-3xl aspect-[16/9] md:aspect-[21/9] xl:aspect-[24/9] 2xl:aspect-[32/10] max-h-[640px]"
+                    : "rounded-3xl aspect-[16/9]"
+                )}
+              >
                 <img
                   src={b.image_url}
                   alt={b.alt_text ?? b.title ?? "Promotional banner"}
                   loading={isFirst ? "eager" : "lazy"}
                   decoding={isFirst ? "sync" : "async"}
                   {...({ fetchpriority: isFirst ? "high" : "low" } as any)}
-                  width={1200}
-                  height={675}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  width={1920}
+                  height={720}
+                  className="absolute inset-0 w-full h-full object-cover object-center"
                 />
               </div>
             );
