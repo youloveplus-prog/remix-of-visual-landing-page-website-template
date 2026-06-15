@@ -62,31 +62,45 @@ jobs:
         run: python tests/visual/product-card-price.spec.py
 
       - name: Check baselines exist
+        id: baselines
         run: |
-          if [ ! -d tests/visual/__baselines__ ]; then
+          if [ ! -d tests/visual/__baselines__ ] || [ -z "$(ls -A tests/visual/__baselines__ 2>/dev/null)" ]; then
+            echo "missing=true" >> "$GITHUB_OUTPUT"
+            echo "Missing baselines" | tee /tmp/diff.log
             echo ""
             echo "========================================"
             echo "ERROR: Visual baseline images are missing"
             echo "----------------------------------------"
-            echo "Folder tests/visual/__baselines__/ does not exist."
+            echo "Folder tests/visual/__baselines__/ does not exist or is empty."
             echo ""
-            echo "To generate baselines, run locally:"
+            echo "The screenshots just captured in this run have been uploaded as the"
+            echo "'visual-baselines-candidate' artifact. Download it to review, or run"
+            echo "locally to regenerate and commit:"
             echo "  python tests/visual/diff.py --update"
-            echo ""
-            echo "Then commit the generated images:"
             echo "  git add tests/visual/__baselines__"
             echo "  git commit -m 'Add visual baselines'"
             echo "========================================"
             echo ""
             exit 1
           fi
+          echo "missing=false" >> "$GITHUB_OUTPUT"
+
+      - name: Upload baseline candidates (missing baselines)
+        if: always() && steps.baselines.outputs.missing == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines-candidate
+          path: tests/visual/__screenshots__/**
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Compare against baselines
         id: diff
+        if: steps.baselines.outputs.missing != 'true'
         run: python tests/visual/diff.py | tee /tmp/diff.log
 
       - name: Upload screenshots and diffs
-        if: always()
+        if: always() && steps.baselines.outputs.missing != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: visual-screenshots
@@ -117,7 +131,14 @@ jobs:
             } else {
               body += 'Failed — visual diffs detected or test errored.\n\n';
             }
-            body += `Artifact: [visual-screenshots](${runUrl}) (screenshots + red-highlighted diff overlays for any failing breakpoints).\n\n`;
+            const artifactName = hasMissingBaselines ? 'visual-baselines-candidate' : 'visual-screenshots';
+            if (status === 'success') {
+              body += `Artifact: [${artifactName}](${runUrl}) — captured screenshots.\n\n`;
+            } else if (hasMissingBaselines) {
+              body += `**Newly captured screenshots are uploaded as the [\`visual-baselines-candidate\`](${runUrl}) artifact** so you can review them immediately. Download from the run page, verify they look correct, then commit them under \`tests/visual/__baselines__/\` (or run \`python tests/visual/diff.py --update\` locally).\n\n`;
+            } else {
+              body += `Artifact: [${artifactName}](${runUrl}) — screenshots + red-highlighted diff overlays for failing breakpoints.\n\n`;
+            }
             if (log) body += '```\n' + log.slice(-3500) + '\n```\n';
 
             const { data: comments } = await github.rest.issues.listComments({
