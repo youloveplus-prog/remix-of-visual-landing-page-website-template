@@ -13,10 +13,18 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
+interface RoleGrantSummary {
+  role: string;
+  tables_with_any_grant: number;
+  tables_missing_grants: string[];
+  privileges: Record<"SELECT" | "INSERT" | "UPDATE" | "DELETE", number>;
+}
+
 interface HealthResponse {
   ok: boolean;
   table_count?: number;
   tables?: string[];
+  grants?: Record<"anon" | "authenticated" | "service_role", RoleGrantSummary>;
   latency_ms?: number;
   checked_at?: string;
   error?: string;
@@ -115,6 +123,84 @@ export function SupabaseHealthCheck() {
             : ` Missing ~${EXPECTED_TABLE_COUNT - (data?.table_count ?? 0)} — some migrations may not have applied.`}
         </p>
       )}
+
+      {/* GRANT / role permissions status */}
+      {!isLoading && !failed && data?.grants && (
+        <div className="mt-3 pt-3 border-t border-border/40">
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground mb-2">
+            Role permissions (public schema)
+          </p>
+          <div className="space-y-1.5">
+            {(["anon", "authenticated", "service_role"] as const).map((role) => {
+              const g = data.grants![role];
+              const total = data.table_count ?? 0;
+              const covered = g.tables_with_any_grant;
+              const missing = g.tables_missing_grants.length;
+              const ratio = total === 0 ? 0 : covered / total;
+              const status =
+                total === 0
+                  ? "neutral"
+                  : ratio === 1
+                    ? "ok"
+                    : ratio === 0
+                      ? "blocked"
+                      : "partial";
+              const dot =
+                status === "ok"
+                  ? "bg-emerald-500"
+                  : status === "blocked"
+                    ? "bg-destructive"
+                    : status === "partial"
+                      ? "bg-amber-500"
+                      : "bg-muted-foreground/40";
+              return (
+                <div key={role} className="text-[11px]">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-1.5 h-1.5 rounded-full ${dot} shrink-0`} />
+                    <code className="font-mono text-foreground">{role}</code>
+                    <span className="text-muted-foreground">
+                      {covered}/{total} tables
+                    </span>
+                    <span className="ml-auto text-muted-foreground font-mono text-[10px]">
+                      S:{g.privileges.SELECT} I:{g.privileges.INSERT} U:{g.privileges.UPDATE} D:
+                      {g.privileges.DELETE}
+                    </span>
+                  </div>
+                  {missing > 0 && total > 0 && (
+                    <details className="ml-3.5 mt-0.5">
+                      <summary className="text-[10px] text-amber-600 dark:text-amber-400 cursor-pointer hover:text-foreground">
+                        {missing} table{missing === 1 ? "" : "s"} missing GRANT
+                      </summary>
+                      <div className="mt-1 flex flex-wrap gap-1">
+                        {g.tables_missing_grants.slice(0, 30).map((t) => (
+                          <span
+                            key={t}
+                            className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-700 dark:text-amber-400 font-mono"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                        {g.tables_missing_grants.length > 30 && (
+                          <span className="text-[10px] text-muted-foreground">
+                            +{g.tables_missing_grants.length - 30} more
+                          </span>
+                        )}
+                      </div>
+                    </details>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-2">
+            No GRANTs → PostgREST returns <code className="font-mono">permission denied</code> even
+            when RLS allows the row. Add{" "}
+            <code className="font-mono">GRANT … TO authenticated</code> in a migration.
+          </p>
+        </div>
+      )}
+
+
 
       {/* Readiness checks — surface what must be true for the app to function */}
       <div className="mt-3 pt-3 border-t border-border/40 space-y-1.5">
