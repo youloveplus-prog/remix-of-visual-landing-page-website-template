@@ -11,8 +11,6 @@ import { NotificationsMenu } from "./NotificationsMenu";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { MegaMenu, BrowseMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
-import { CurrencyToggle } from "@/components/ui/currency-toggle";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 
 interface SlimDesktopHeaderProps {
@@ -85,7 +83,6 @@ export function SlimDesktopHeader({
 
           {/* Actions */}
           <div className="flex items-center gap-1">
-            <CurrencyToggle />
             <Link to="/cart">
               <Button
                 variant="ghost"
@@ -103,7 +100,6 @@ export function SlimDesktopHeader({
               </Button>
             </Link>
             <NotificationsMenu />
-            <ThemeToggle />
             <div className="ml-1 pl-1 border-l border-border/60">
               <UserMenu />
             </div>

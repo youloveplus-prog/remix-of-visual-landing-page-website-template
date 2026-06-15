@@ -11,8 +11,6 @@ import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
 import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
-import { CurrencyToggle } from "@/components/ui/currency-toggle";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 
 interface HomeTopHeaderProps {
@@ -73,7 +71,6 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
 
           {/* Actions (right) */}
           <div className="flex items-center gap-1.5 justify-self-end">
-            <CurrencyToggle />
             <Link to="/cart">
               <Button
                 variant="ghost"
@@ -90,7 +87,6 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
               </Button>
             </Link>
             <NotificationsMenu />
-            <ThemeToggle />
             <UserMenu />
           </div>
         </div>
