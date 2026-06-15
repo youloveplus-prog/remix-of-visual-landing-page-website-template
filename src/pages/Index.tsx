@@ -6,7 +6,7 @@ import { FirstRunTour } from "@/components/onboarding/FirstRunTour";
 
 import { CommunityCarousel } from "@/components/community/CommunityCarousel";
 import { ProductCarousel } from "@/components/carousels";
-import { mockPosts } from "@/lib/mock-data";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
