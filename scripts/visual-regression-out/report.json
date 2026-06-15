@@ -1,0 +1,653 @@
+{
+  "base": "http://localhost:8080",
+  "routes": [
+    {
+      "route": "/",
+      "light": {
+        "screenshot": "scripts/visual-regression-out/home_light.png"
+      },
+      "dark": {
+        "screenshot": "scripts/visual-regression-out/home_dark.png",
+        "panel_mismatches": [
+          {
+            "tag": "section",
+            "cls": "home-midnight pt-6 lg:pt-8",
+            "rect": {
+              "x": 0,
+              "y": 90,
+              "w": 1280,
+              "h": 530
+            },
+            "bg": "rgb(10, 10, 26)",
+            "maxChannel": 26
+          },
+          {
+            "tag": "div",
+            "cls": "group relative w-full overflow-hidden bg-card border border-border rounded-none md:rounded-3xl aspect-[16/9] md:aspect-[",
+            "rect": {
+              "x": 0,
+              "y": 122,
+              "w": 1280,
+              "h": 480
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "group relative w-full overflow-hidden bg-card border border-border rounded-none md:rounded-3xl aspect-[16/9] md:aspect-[",
+            "rect": {
+              "x": 1292,
+              "y": 122,
+              "w": 1280,
+              "h": 480
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "group relative w-full overflow-hidden bg-card border border-border rounded-none md:rounded-3xl aspect-[16/9] md:aspect-[",
+            "rect": {
+              "x": 2584,
+              "y": 122,
+              "w": 1280,
+              "h": 480
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "section",
+            "cls": "home-midnight section-x py-6 lg:py-8 space-y-8 lg:space-y-12 text-foreground",
+            "rect": {
+              "x": 64,
+              "y": 620,
+              "w": 1152,
+              "h": 2060
+            },
+            "bg": "rgb(10, 10, 26)",
+            "maxChannel": 26
+          },
+          {
+            "tag": "div",
+            "cls": "bg-card rounded-2xl border border-border p-5 flex flex-col",
+            "rect": {
+              "x": 96,
+              "y": 1239,
+              "w": 349,
+              "h": 227
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "bg-card rounded-2xl border border-border p-5 flex flex-col",
+            "rect": {
+              "x": 465,
+              "y": 1239,
+              "w": 349,
+              "h": 227
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "bg-card rounded-2xl border border-border p-5 flex flex-col",
+            "rect": {
+              "x": 835,
+              "y": 1239,
+              "w": 349,
+              "h": 227
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "a",
+            "cls": "group rounded-2xl bg-card border border-border p-5 hover:border-primary/40 hover:-translate-y-0.5 transition-all focus-r",
+            "rect": {
+              "x": 96,
+              "y": 1888,
+              "w": 257,
+              "h": 169
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "a",
+            "cls": "group rounded-2xl bg-card border border-border p-5 hover:border-primary/40 hover:-translate-y-0.5 transition-all focus-r",
+            "rect": {
+              "x": 373,
+              "y": 1888,
+              "w": 257,
+              "h": 169
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "a",
+            "cls": "group rounded-2xl bg-card border border-border p-5 hover:border-primary/40 hover:-translate-y-0.5 transition-all focus-r",
+            "rect": {
+              "x": 650,
+              "y": 1888,
+              "w": 257,
+              "h": 169
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "a",
+            "cls": "group rounded-2xl bg-card border border-border p-5 hover:border-primary/40 hover:-translate-y-0.5 transition-all focus-r",
+            "rect": {
+              "x": 927,
+              "y": 1888,
+              "w": 257,
+              "h": 169
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "section",
+            "cls": "rounded-3xl bg-card border border-border p-6 sm:p-8 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start sm:items-center",
+            "rect": {
+              "x": 96,
+              "y": 2400,
+              "w": 1088,
+              "h": 248
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "group relative w-full overflow-hidden bg-card border border-border rounded-3xl aspect-[16/9]",
+            "rect": {
+              "x": 341,
+              "y": 3572,
+              "w": 598,
+              "h": 337
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "group relative w-full overflow-hidden bg-card border border-border rounded-3xl aspect-[16/9]",
+            "rect": {
+              "x": 951,
+              "y": 3572,
+              "w": 598,
+              "h": 337
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "group relative w-full overflow-hidden bg-card border border-border rounded-3xl aspect-[16/9]",
+            "rect": {
+              "x": -257,
+              "y": 3572,
+              "w": 598,
+              "h": 337
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative w-[150px] h-[210px] sm:w-[190px] sm:h-[270px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-primary/20 bg-",
+            "rect": {
+              "x": 574,
+              "y": 4356,
+              "w": 133,
+              "h": 189
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative w-[150px] h-[210px] sm:w-[190px] sm:h-[270px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-primary/20 bg-",
+            "rect": {
+              "x": 574,
+              "y": 4356,
+              "w": 133,
+              "h": 189
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative w-[150px] h-[210px] sm:w-[190px] sm:h-[270px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-primary/20 bg-",
+            "rect": {
+              "x": 574,
+              "y": 4356,
+              "w": 133,
+              "h": 189
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative w-[150px] h-[210px] sm:w-[190px] sm:h-[270px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-primary/20 bg-",
+            "rect": {
+              "x": 574,
+              "y": 4356,
+              "w": 133,
+              "h": 189
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative w-[150px] h-[210px] sm:w-[190px] sm:h-[270px] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-primary/20 bg-",
+            "rect": {
+              "x": 574,
+              "y": 4356,
+              "w": 133,
+              "h": 189
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col transitio",
+            "rect": {
+              "x": 32,
+              "y": 7809,
+              "w": 231,
+              "h": 377
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col transitio",
+            "rect": {
+              "x": 279,
+              "y": 7809,
+              "w": 231,
+              "h": 377
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group/post mx-auto w-full max-w-[640px] bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden transiti",
+            "rect": {
+              "x": 96,
+              "y": 8303,
+              "w": 534,
+              "h": 533
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group/post mx-auto w-full max-w-[640px] bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden transiti",
+            "rect": {
+              "x": 650,
+              "y": 8303,
+              "w": 534,
+              "h": 689
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group/post mx-auto w-full max-w-[640px] bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden transiti",
+            "rect": {
+              "x": 1204,
+              "y": 8303,
+              "w": 534,
+              "h": 521
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col transitio",
+            "rect": {
+              "x": 96,
+              "y": 10021,
+              "w": 205,
+              "h": 351
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col transitio",
+            "rect": {
+              "x": 317,
+              "y": 10021,
+              "w": 205,
+              "h": 351
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col transitio",
+            "rect": {
+              "x": 32,
+              "y": 10488,
+              "w": 231,
+              "h": 377
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "article",
+            "cls": "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col transitio",
+            "rect": {
+              "x": 279,
+              "y": 10488,
+              "w": 231,
+              "h": 377
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 136,
+              "y": 11070,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 136,
+              "y": 11256,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 136,
+              "y": 11442,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 136,
+              "y": 11629,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 136,
+              "y": 11815,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 136,
+              "y": 12001,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 480,
+              "y": 11086,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 480,
+              "y": 11272,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 480,
+              "y": 11458,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 480,
+              "y": 11644,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 480,
+              "y": 11831,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 480,
+              "y": 12017,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 824,
+              "y": 11079,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 824,
+              "y": 11265,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 824,
+              "y": 11451,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 824,
+              "y": 11637,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 824,
+              "y": 11824,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          },
+          {
+            "tag": "div",
+            "cls": "relative flex flex-row items-start gap-3 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border bg-card shadow-[0_8p",
+            "rect": {
+              "x": 824,
+              "y": 12010,
+              "w": 320,
+              "h": 162
+            },
+            "bg": "rgb(20, 20, 51)",
+            "maxChannel": 51
+          }
+        ]
+      }
+    },
+    {
+      "route": "/shop",
+      "light": {
+        "screenshot": "scripts/visual-regression-out/shop_light.png"
+      },
+      "dark": {
+        "screenshot": "scripts/visual-regression-out/shop_dark.png",
+        "panel_mismatches": []
+      }
+    },
+    {
+      "route": "/community",
+      "light": {
+        "screenshot": "scripts/visual-regression-out/community_light.png"
+      },
+      "dark": {
+        "screenshot": "scripts/visual-regression-out/community_dark.png",
+        "panel_mismatches": []
+      }
+    },
+    {
+      "route": "/courses",
+      "light": {
+        "screenshot": "scripts/visual-regression-out/courses_light.png"
+      },
+      "dark": {
+        "screenshot": "scripts/visual-regression-out/courses_dark.png",
+        "panel_mismatches": []
+      }
+    },
+    {
+      "route": "/mentorship",
+      "light": {
+        "screenshot": "scripts/visual-regression-out/mentorship_light.png"
+      },
+      "dark": {
+        "screenshot": "scripts/visual-regression-out/mentorship_dark.png",
+        "panel_mismatches": []
+      }
+    },
+    {
+      "route": "/profile",
+      "light": {
+        "screenshot": "scripts/visual-regression-out/profile_light.png"
+      },
+      "dark": {
+        "screenshot": "scripts/visual-regression-out/profile_dark.png",
+        "panel_mismatches": []
+      }
+    },
+    {
+      "route": "/auth",
+      "light": {
+        "screenshot": "scripts/visual-regression-out/auth_light.png"
+      },
+      "dark": {
+        "screenshot": "scripts/visual-regression-out/auth_dark.png",
+        "panel_mismatches": []
+      }
+    }
+  ],
+  "mismatches": 48
+}
