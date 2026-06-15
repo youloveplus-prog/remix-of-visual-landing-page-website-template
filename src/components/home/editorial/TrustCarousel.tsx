@@ -89,15 +89,14 @@ export function TrustCarousel() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-background/20" />
                   </div>
-                  <div className="flex flex-col justify-center gap-3 sm:gap-4 p-5 sm:p-6 md:p-10 text-center md:text-left items-center md:items-start">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-primary">
-                      <Icon className="h-3.5 w-3.5" />
-                      <span className="editorial-eyebrow text-primary">{s.eyebrow}</span>
+                  <div className="flex flex-col justify-center gap-3 p-6 md:p-10 text-center md:text-left items-center md:items-start">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Icon className="h-4 w-4" />
                     </span>
-                    <h3 className="font-display font-bold text-xl sm:text-2xl md:text-3xl tracking-[-0.02em] leading-[1.15] max-w-[22ch] text-balance">
+                    <h3 className="editorial-headline max-w-[20ch]">
                       {s.title}
                     </h3>
-                    <p className="editorial-dek max-w-[36ch]">{s.body}</p>
+                    <p className="editorial-dek max-w-[34ch]">{s.body}</p>
                   </div>
                 </div>
               );
