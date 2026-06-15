@@ -52,15 +52,17 @@ export function SlimDesktopHeader({
           "hairline-bottom relative z-[2] overflow-visible py-2",
           "transition-[box-shadow,background-color] duration-300 ease-out",
           "bg-background/75 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/60",
-          "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.06)]",
+          "border-b border-primary/15",
+          "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.08),inset_0_-1px_0_hsl(var(--primary)/0.12)]",
           isScrolled &&
-            "shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]"
+            "shadow-[0_1px_0_0_hsl(var(--primary)/0.25),0_10px_30px_-14px_hsl(var(--primary)/0.35)]"
         )}
         style={{
           backgroundImage:
-            "linear-gradient(180deg, hsl(var(--glass-highlight) / 0.05), transparent 60%)",
+            "linear-gradient(180deg, hsl(var(--primary) / 0.08), transparent 65%), radial-gradient(80% 100% at 50% 0%, hsl(var(--primary) / 0.06), transparent 70%)",
         }}
       >
+
 
         <div className="flex items-center gap-3 px-4 lg:px-6">
           {/* Brand anchor — always visible */}

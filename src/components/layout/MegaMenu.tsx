@@ -305,11 +305,13 @@ export function MegaMenu({ className }: { className?: string }) {
               <NavigationMenuTrigger
                 className={cn(
                   "group/trg relative bg-transparent rounded-full px-3.5 h-9 text-sm font-medium",
-                  "data-[state=open]:bg-primary/10 data-[state=open]:text-primary",
-                  "hover:bg-secondary/60",
+                  "data-[state=open]:bg-primary data-[state=open]:text-primary-foreground data-[state=open]:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.55)]",
+                  "hover:bg-primary/10 hover:text-primary",
+                  "transition-colors",
                   active && "text-primary"
                 )}
               >
+
                 <Icon className="h-3.5 w-3.5 mr-1.5 opacity-80" />
                 {p.label}
                 {/* Animated underline */}
