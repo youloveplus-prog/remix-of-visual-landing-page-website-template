@@ -39,11 +39,14 @@ export function Breadcrumbs({ className }: BreadcrumbsProps) {
     return { href, label, isLast: i === parts.length - 1 };
   });
 
+
+
+
   return (
     <nav
       aria-label="Breadcrumb"
       className={cn(
-        "hidden lg:flex items-center gap-1.5 text-[12px] text-muted-foreground",
+        "hidden md:flex items-center gap-1.5 text-[12px] text-muted-foreground",
         className
       )}
     >

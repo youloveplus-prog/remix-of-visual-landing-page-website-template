@@ -10,9 +10,10 @@ import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
 import { MegaMenu } from "./MegaMenu";
+import { HeaderBrand } from "./HeaderBrand";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import logo from "@/assets/logo.png";
+
 
 interface HomeTopHeaderProps {
   showTrustStrip?: boolean;
@@ -48,35 +49,9 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
         }}
       >
         <div className="container-editorial grid grid-cols-[auto_1fr_auto] items-center gap-6">
-          {/* Logo (left) */}
-          <Link to="/" className="group flex-shrink-0 flex items-center gap-2.5">
-            <span
-              className={cn(
-                "relative grid place-items-center rounded-xl transition-all duration-300",
-                "ring-1 ring-border/60 bg-card/70 backdrop-blur-xl",
-                isScrolled ? "h-9 w-9" : "h-10 w-10"
-              )}
-            >
-              <img
-                src={logo}
-                alt="Asikon logo"
-                className={cn("transition-all duration-300", isScrolled ? "w-5 h-5" : "w-6 h-6")}
-              />
-            </span>
-            <div className="leading-none hidden sm:block">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
-                ​
-              </p>
-              <h1
-                className={cn(
-                  "font-display font-bold text-gradient transition-all duration-300",
-                  isScrolled ? "text-lg text-gray-50" : "text-xl"
-                )}
-              >
-                Asikon
-              </h1>
-            </div>
-          </Link>
+          {/* Brand (left) */}
+          <HeaderBrand compact={isScrolled} />
+
 
           {/* Search (center) */}
           <SmartSearch className="w-full max-w-2xl mx-auto" />
