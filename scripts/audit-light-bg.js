@@ -112,6 +112,11 @@ for (const [file, matches] of byFile) {
     console.log(`  Line ${m.line} | ${m.risk}${flag}`);
     console.log(`    Match: ${m.match}`);
     console.log(`    ${m.text.slice(0, 140)}${m.text.length > 140 ? '…' : ''}`);
+    if (m.risk === 'CRITICAL' && m.suggestion) {
+      console.log(`    → Replace with: ${m.suggestion.utility}`);
+      console.log(`    - ${m.suggestion.before.slice(0, 160)}`);
+      console.log(`    + ${m.suggestion.after.slice(0, 160)}`);
+    }
   }
 }
 
