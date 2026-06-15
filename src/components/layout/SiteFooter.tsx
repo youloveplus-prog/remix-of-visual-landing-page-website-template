@@ -43,11 +43,7 @@ export function SiteFooter() {
   };
 
   return (
-    <footer
-      className="bg-muted/30"
-      aria-labelledby="footer-heading"
-    >
-      <h2 id="footer-heading" className="sr-only">Footer</h2>
+    <footer className="bg-muted/30" aria-label="ASIKON footer">
 
       <div className="container-editorial py-10 md:py-14 lg:py-20">
         {/* CTA card */}
