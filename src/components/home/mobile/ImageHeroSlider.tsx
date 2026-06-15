@@ -39,7 +39,7 @@ const FALLBACK_BANNERS = [
   },
 ];
 
-export function ImageHeroSlider() {
+export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } = {}) {
   const { data: banners, isLoading } = useHomeBanners("hero");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
