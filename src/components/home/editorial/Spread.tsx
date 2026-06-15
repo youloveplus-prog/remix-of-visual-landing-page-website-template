@@ -17,7 +17,7 @@ export function Spread({ children, className }: SpreadProps) {
   return (
     <section
       className={cn(
-        "relative px-5 sm:px-8 lg:px-12 max-w-[1400px] mx-auto w-full",
+        "relative px-3 sm:px-6 lg:px-12 max-w-[1400px] mx-auto w-full",
         className,
       )}
     >
