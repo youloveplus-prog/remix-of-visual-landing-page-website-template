@@ -197,6 +197,14 @@ export default {
       maxWidth: {
         'container-apple': '1200px',
         'reading': '720px'
+      },
+      backgroundImage: {
+        'brand-gradient': 'var(--gradient-primary)',
+        'brand-gradient-soft': 'var(--gradient-primary-soft)',
+        'brand-aurora': 'var(--gradient-aurora)',
+        'brand-surface': 'var(--gradient-surface)',
+        'brand-sheen': 'var(--gradient-sheen)',
+        'brand-hairline': 'var(--gradient-hairline)'
       }
     }
   },
