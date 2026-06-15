@@ -81,9 +81,7 @@ export function SlimDesktopHeader({
       {/* Row 2 — primary navigation */}
       <div
         className={cn(
-          "relative z-[1] py-0.5 overflow-visible",
-          "bg-background/60 backdrop-blur-xl",
-          "dark:bg-black/70",
+          "relative z-[1] py-0.5 overflow-visible liquid-nav",
           "border-b border-border/40 dark:border-white/5"
         )}
       >
