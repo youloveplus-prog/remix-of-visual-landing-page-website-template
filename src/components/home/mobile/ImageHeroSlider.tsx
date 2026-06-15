@@ -60,7 +60,14 @@ export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } =
   if (isLoading) {
     return (
       <div className={fullWidth ? "" : "section-x"}>
-        <Skeleton className="w-full aspect-[21/10] rounded-3xl" />
+        <Skeleton
+          className={cn(
+            "w-full rounded-3xl",
+            fullWidth
+              ? "aspect-[16/9] md:aspect-[21/9] xl:aspect-[24/9] 2xl:aspect-[32/10] max-h-[640px]"
+              : "aspect-[21/10]"
+          )}
+        />
       </div>
     );
   }
