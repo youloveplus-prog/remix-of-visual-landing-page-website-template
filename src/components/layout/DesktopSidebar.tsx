@@ -229,25 +229,39 @@ export function DesktopSidebar({
   return (
     <aside
       className={cn(
-        "fixed left-0 top-[var(--app-header-h)] h-[calc(100dvh-var(--app-header-h))] z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width] overflow-hidden",
+        "fixed left-0 top-0 h-dvh z-40 hidden lg:flex flex-col border-r border-border/60 liquid-nav transition-[width] duration-300 ease-out will-change-[width] overflow-hidden",
         expanded ? "w-60" : "w-16",
         className
       )}
     >
-      {/* Collapse Toggle */}
-      <div className={cn("flex items-center", expanded ? "justify-end px-3 pt-3" : "justify-center pt-3")}>
+      {/* Brand + Collapse Toggle — sits flush with header */}
+      <div
+        className={cn(
+          "flex items-center shrink-0 border-b border-border/60 px-3",
+          expanded ? "justify-between" : "justify-center"
+        )}
+        style={{ height: "var(--app-header-h)" }}
+      >
+        {expanded && (
+          <Link
+            to="/"
+            className="font-display text-base font-semibold tracking-tight text-gradient truncate"
+          >
+            ASIKON
+          </Link>
+        )}
         <Button
           variant="ghost"
           size="icon"
           aria-label={isCollapsed ? "Expand sidebar (Ctrl/Cmd+B)" : "Collapse sidebar (Ctrl/Cmd+B)"}
           title={isCollapsed ? "Expand (Ctrl/Cmd+B)" : "Collapse (Ctrl/Cmd+B)"}
-          className="h-6 w-6 rounded-full border border-border bg-background shadow-sm hover:bg-secondary"
+          className="h-7 w-7 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/60"
           onClick={() => setIsCollapsed(!isCollapsed)}
         >
           {isCollapsed ? (
-            <ChevronRight className="h-3 w-3" />
+            <ChevronRight className="h-4 w-4" />
           ) : (
-            <ChevronLeft className="h-3 w-3" />
+            <ChevronLeft className="h-4 w-4" />
           )}
         </Button>
       </div>
@@ -263,7 +277,7 @@ export function DesktopSidebar({
               )}
           </div>
 
-          <Separator className="mx-3 opacity-60" />
+          <Separator className="opacity-60" />
 
           <div className="space-y-0.5">
             {expanded && <GroupHeader id="library" label="Library" />}
@@ -273,7 +287,7 @@ export function DesktopSidebar({
               )}
           </div>
 
-          <Separator className="mx-3 opacity-60" />
+          <Separator className="opacity-60" />
 
           <div className="space-y-0.5">
             {expanded && <GroupHeader id="account" label="Account" />}
@@ -285,9 +299,8 @@ export function DesktopSidebar({
         </div>
       </ScrollArea>
 
-
       {/* Bottom Navigation */}
-      <div className="border-t border-border/60 p-3 space-y-0.5 bg-background/40">
+      <div className="border-t border-border/60 p-3 space-y-0.5">
         {bottomNavItems.map((item) =>
           renderItem(item, location.pathname === item.href)
         )}
