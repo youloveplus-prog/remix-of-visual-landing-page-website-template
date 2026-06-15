@@ -39,7 +39,8 @@ export function Breadcrumbs({ className }: BreadcrumbsProps) {
     return { href, label, isLast: i === parts.length - 1 };
   });
 
-  void crumbs[crumbs.length - 1]?.label;
+
+
 
   return (
     <nav
