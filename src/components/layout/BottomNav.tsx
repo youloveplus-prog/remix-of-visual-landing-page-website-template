@@ -158,6 +158,8 @@ const LearnFill: IconComponent = (props) => (
     <path
       d="M4 4.5C4 3.67157 4.67157 3 5.5 3H18.5C19.3284 3 20 3.67157 20 4.5V19.5C20 20.3284 19.3284 21 18.5 21H5.5C4.67157 21 4 20.3284 4 19.5V4.5Z"
       fill="currentColor"
+      stroke="currentColor"
+      strokeWidth={1.5}
     />
     <path
       d="M8 3V13L10.5 11L13 13V3"
