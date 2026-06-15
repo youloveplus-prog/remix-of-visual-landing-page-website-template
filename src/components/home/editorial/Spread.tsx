@@ -19,19 +19,19 @@ export function Spread({ children, className, pageNumber, label, rule = true }: 
   return (
     <section
       className={cn(
-        "relative px-4 sm:px-6 lg:px-12 max-w-[1400px] mx-auto w-full",
+        "relative px-5 sm:px-6 lg:px-12 max-w-[1400px] mx-auto w-full",
         className,
       )}
     >
       {rule && (
-        <div className="flex items-center gap-4 mb-6 lg:mb-10">
+        <div className="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-6 lg:mb-10">
           <RuleDraw className="flex-1" />
           {label && <LabelRise className="shrink-0">{label}</LabelRise>}
           <RuleDraw className="flex-1" />
         </div>
       )}
       {children}
-      <div className="mt-8 lg:mt-14 flex items-center justify-between">
+      <div className="mt-7 sm:mt-10 lg:mt-14 flex items-center justify-between">
         <PageNumRise>ASIKON / EDITION 06</PageNumRise>
         <PageNumRise>{pageNumber}</PageNumRise>
       </div>
