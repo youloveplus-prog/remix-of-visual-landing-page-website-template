@@ -55,16 +55,19 @@ export function DesktopHeader({
           "hairline-bottom relative z-[2] overflow-visible py-2.5",
           "transition-[box-shadow,background-color] duration-300 ease-out",
           "bg-background/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
-          "border-b border-primary/15",
+          "dark:bg-black/80 dark:supports-[backdrop-filter]:bg-black/70",
+          "border-b border-primary/15 dark:border-white/10",
           "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.08),inset_0_-1px_0_hsl(var(--primary)/0.12)]",
+          "dark:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.04),inset_0_-1px_0_hsl(0_0%_100%/0.06)]",
           isScrolled &&
-            "shadow-[0_1px_0_0_hsl(var(--primary)/0.25),0_10px_30px_-14px_hsl(var(--primary)/0.35)]"
+            "shadow-[0_1px_0_0_hsl(var(--primary)/0.25),0_10px_30px_-14px_hsl(var(--primary)/0.35)] dark:shadow-[0_1px_0_0_hsl(0_0%_100%/0.08),0_10px_30px_-14px_hsl(0_0%_0%/0.8)]"
         )}
         style={{
           backgroundImage:
             "linear-gradient(180deg, hsl(var(--primary) / 0.08), transparent 65%), radial-gradient(80% 100% at 50% 0%, hsl(var(--primary) / 0.06), transparent 70%)",
         }}
       >
+
 
 
 
