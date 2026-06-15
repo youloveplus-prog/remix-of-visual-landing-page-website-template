@@ -3,7 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useScrollDirection } from "@/hooks/use-scroll-direction";
+import { useHeaderHidden } from "@/hooks/use-header-visibility";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
@@ -28,7 +28,9 @@ export function SlimDesktopHeader({
   cartCount = 0,
   isSidebarCollapsed = false,
 }: SlimDesktopHeaderProps) {
-  const { isScrolled } = useScrollDirection();
+  const { hidden, scrollY } = useHeaderHidden();
+  const isScrolled = scrollY > 8;
+
   const ref = useRef<HTMLElement>(null);
   useMeasuredHeaderHeight(ref);
 
@@ -37,31 +39,29 @@ export function SlimDesktopHeader({
       ref={ref}
       data-app-header
       className={cn(
-        // `isolate` keeps the mega menu's stacking context contained, `overflow-visible`
-        // ensures the panel is never clipped while rows resize during scroll.
         "fixed top-0 right-0 z-40 isolate overflow-visible",
-        "transition-[left] duration-300 ease-out",
-        isSidebarCollapsed ? "left-16" : "left-60"
+        "transition-[left,transform] duration-300 ease-out will-change-transform",
+        isSidebarCollapsed ? "left-16" : "left-60",
+        hidden && "-translate-y-full"
       )}
     >
+
       {/* Row 1 — Brand + Mega menu (or Browse) + Search + Actions */}
       <div
         className={cn(
-          "hairline-bottom relative z-[2] overflow-visible",
-          // Only padding + shadow animate — height of inner controls is stable so the
-          // mega-menu trigger position doesn't jitter while scrolling.
-          "transition-[padding,box-shadow,background-color] duration-300 ease-out will-change-[padding]",
+          "hairline-bottom relative z-[2] overflow-visible py-2",
+          "transition-[box-shadow,background-color] duration-300 ease-out",
           "bg-background/75 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/60",
           "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.06)]",
-          isScrolled
-            ? "py-1.5 shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]"
-            : "py-2"
+          isScrolled &&
+            "shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]"
         )}
         style={{
           backgroundImage:
             "linear-gradient(180deg, hsl(var(--glass-highlight) / 0.05), transparent 60%)",
         }}
       >
+
         <div className="flex items-center gap-3 px-4 lg:px-6">
           {/* Brand anchor — always visible */}
           <HeaderBrand compact={isScrolled} />
