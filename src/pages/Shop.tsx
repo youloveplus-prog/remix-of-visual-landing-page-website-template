@@ -14,17 +14,16 @@ import { useProducts, SortOption } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const KIND_MAP: Record<ProductType, "course" | "ebook" | "service" | "bundle" | undefined> = {
-  all: undefined,
+const MAX_PRICE = 500;
+
+type ProductType = "all" | "courses" | "ebooks" | "services" | "bundles";
+
+const KIND_MAP: Record<Exclude<ProductType, "all">, "course" | "ebook" | "service" | "bundle"> = {
   courses: "course",
   ebooks: "ebook",
   services: "service",
   bundles: "bundle",
 };
-
-const MAX_PRICE = 500;
-
-type ProductType = "all" | "courses" | "ebooks" | "services" | "bundles";
 
 function detectProductType(name: string): ProductType {
   const n = name.toLowerCase();
@@ -33,6 +32,11 @@ function detectProductType(name: string): ProductType {
   if (/\bbook|ebook|hardcover|paperback|pdf|guide|novel\b/.test(n)) return "ebooks";
   if (/\bcourse|masterclass|bootcamp|training|class|tutorial|workshop\b/.test(n)) return "courses";
   return "courses";
+}
+
+function detectKind(name: string): "course" | "ebook" | "service" | "bundle" {
+  const t = detectProductType(name);
+  return t === "all" ? "course" : KIND_MAP[t];
 }
 
 const Shop = () => {
