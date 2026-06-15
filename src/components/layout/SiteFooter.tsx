@@ -83,8 +83,8 @@ export function SiteFooter() {
         <div className="mt-10 md:mt-14 grid gap-8 md:gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <Link to="/" className="inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">
-              <img src={logo} alt="Asikon" className="h-8 w-8 rounded-lg object-contain" />
-              <span className="font-display text-2xl font-black tracking-tight">ASIKON</span>
+              <img src={logo} alt="Asikon" className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg object-contain shrink-0" />
+              <span className="font-display text-xl sm:text-2xl font-black tracking-tight">ASIKON</span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground max-w-sm leading-relaxed">
               AI-powered learning platform designed to help Bangladeshi learners grow effortlessly and confidently.
@@ -152,7 +152,7 @@ export function SiteFooter() {
               />
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 style={{ background: "var(--gradient-primary)" }}
               >
                 Subscribe
