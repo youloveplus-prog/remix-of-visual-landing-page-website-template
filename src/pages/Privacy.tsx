@@ -13,7 +13,7 @@ const toc = [
 ];
 
 const Privacy = () => (
-  <LegalShell
+  <LegalShell analyticsSlug="privacy"
     eyebrow="Legal"
     title="Privacy Policy."
     updated="May 2026"
