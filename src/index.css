@@ -1134,16 +1134,30 @@
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-weight: 800;
     letter-spacing: -0.035em;
-    line-height: 0.92;
-    font-size: clamp(2.75rem, 9vw, 6.5rem);
+    line-height: 0.95;
+    font-size: clamp(2.25rem, 11vw, 6.5rem);
     color: hsl(var(--foreground));
+    text-wrap: balance;
+  }
+  @media (min-width: 640px) {
+    .editorial-display {
+      line-height: 0.92;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+    }
   }
   .editorial-dek {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-weight: 400;
-    font-size: 1.0625rem;
-    line-height: 1.55;
+    font-size: 0.9375rem;
+    line-height: 1.6;
     color: hsl(var(--muted-foreground));
+    text-wrap: pretty;
+  }
+  @media (min-width: 640px) {
+    .editorial-dek { font-size: 1.0625rem; line-height: 1.55; }
+  }
+  .editorial-pullquote {
+    font-size: clamp(1.0625rem, 4.2vw, 1.75rem) !important;
   }
   .editorial-pullquote {
     font-family: 'Sentient', 'Plus Jakarta Sans', serif;
