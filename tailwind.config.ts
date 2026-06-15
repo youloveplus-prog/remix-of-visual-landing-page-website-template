@@ -115,7 +115,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          'Inter',
+          'Satoshi',
           'Hind Siliguri',
           'Noto Sans Bengali',
           'ui-sans-serif',
@@ -127,14 +127,22 @@ export default {
           'sans-serif'
         ],
         display: [
-          'Space Grotesk',
+          'Edensor',
+          'Satoshi',
           'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
           'sans-serif'
         ],
+        serif: [
+          'Sentient',
+          'ui-serif',
+          'Georgia',
+          'serif'
+        ],
         grotesk: [
-          'Space Grotesk',
+          'Edensor',
+          'Satoshi',
           'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
@@ -143,9 +151,15 @@ export default {
         bangla: [
           'Hind Siliguri',
           'Noto Sans Bengali',
-          'Inter',
+          'Satoshi',
           'ui-sans-serif',
           'sans-serif'
+        ],
+        dot: [
+          'Departure Mono',
+          'JetBrains Mono',
+          'ui-monospace',
+          'monospace'
         ],
         mono: [
           'JetBrains Mono',
