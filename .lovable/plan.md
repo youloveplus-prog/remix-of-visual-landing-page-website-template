@@ -1,79 +1,70 @@
-# Home Page — Quiet & Clear Pass
+# Enhance Community Section → Real-time Carousel
 
-Goal: remove visual noise, cut redundant words, and lock typography into a strict 3-size scale so every spread feels like the same magazine.
+Today the "From the community" carousel on Home renders static `mockPosts`. We'll turn it into a live feed: posts are fetched from the database, new posts stream in via Realtime, the carousel auto-plays, and a "LIVE" pulse + activity counters (likes/comments) update in place.
 
-## 1. One typography scale (shared)
+## What the user will see
 
-Replace ad-hoc sizes per component with a small token set in `index.css`:
+- The Community carousel on `/` shows the **latest community posts** instead of the same 3 mock entries.
+- A small **LIVE** chip with a pulsing dot sits next to the section title, plus "X people posting now" microcopy that increments as new posts arrive.
+- New posts **slide in from the left** of the carousel without a page refresh (toast: "New post from @username").
+- Like/comment counts on visible cards **animate** when they change (realtime UPDATE).
+- Carousel **auto-advances** every 5s, pauses on hover/touch, resumes after interaction. Loops infinitely (consistent with our infinite-scroll rule).
+- Empty state ("Be the first to share…") and skeleton loaders while fetching.
+- Fully responsive — same breakpoints as today (100% / 85% / 60% / 50% slides).
 
-- `editorial-display` — hero only (cover headline)
-- `editorial-headline` — spread H2 (Issue Index, Feature Story)
-- `editorial-subhead` — department H3 / card titles
-- `editorial-dek` — body paragraph
-- `editorial-eyebrow` — mono label (smaller, calmer letter-spacing 0.18em)
-- `editorial-pagenum` — folio/number
+## Scope
 
-Mobile-tuned sizes (locked, no inline `text-3xl/text-5xl` in components anymore):
+In: `CommunityCarousel`, Home Index wiring, new `community_posts` table + RLS, a `useCommunityFeed` hook, light visual polish on `PostCard` (count tick animation, "NEW" ribbon for <60s old posts).
+Out: full posting UX (already exists on `/community` + `/create`), comments thread, moderation tools, mentorship/masterpiece sections.
+
+## Technical changes
+
+### 1. Database (migration)
+- `public.community_posts` — `id uuid pk`, `user_id uuid` (→ profiles), `content text`, `images text[]`, `product_id uuid null`, `likes int default 0`, `comments int default 0`, `shares int default 0`, `created_at timestamptz default now()`.
+- GRANTs: `SELECT` to `anon, authenticated`; full CRUD to `authenticated`; `ALL` to `service_role`.
+- RLS: anyone can SELECT; INSERT/UPDATE/DELETE only `auth.uid() = user_id`.
+- `ALTER PUBLICATION supabase_realtime ADD TABLE public.community_posts;`
+- Seed 6 rows from the current mock data so the section is never empty.
+
+### 2. Hook — `src/hooks/useCommunityFeed.ts`
+- Initial fetch: `select * order by created_at desc limit 12` joined with `profiles` for user info.
+- Subscribes to `postgres_changes` on `community_posts` inside `useEffect`, tears down on unmount (per realtime guidance).
+- Handles `INSERT` (prepend), `UPDATE` (merge counts), `DELETE` (filter).
+- Maps DB rows → existing `Post` type so `PostCard` keeps working unchanged.
+- Returns `{ posts, isLoading, liveCount }` where `liveCount` = posts created in last 5 min.
+
+### 3. `src/components/community/CommunityCarousel.tsx`
+- Accept optional `posts` prop; when omitted, call `useCommunityFeed()`.
+- Add embla `Autoplay` plugin (5000ms, `stopOnInteraction:false`, `stopOnMouseEnter:true`) and `loop:true`.
+- Header gets a `<LivePulse count={liveCount} />` next to the title.
+- New-item enter animation via the existing `Reveal`/motion primitives.
+- Skeleton state: 2 placeholder cards while `isLoading`.
+- Empty state CTA → `/create`.
+
+### 4. `src/pages/Index.tsx`
+- Drop the `posts={mockPosts}` prop so the section self-loads.
+- Keep `title` and `viewAllHref` as-is.
+
+### 5. Minor `PostCard` polish
+- Count numbers wrapped in a `<TickNumber />` (1-line component using framer-motion `animate` on value change).
+- "NEW" pill (Departure Mono, butter chip) when `Date.now() - created_at < 60_000`.
+
+## Diagram
 
 ```text
-display    : clamp(2.25rem, 10vw, 5.5rem)   / leading 0.98
-headline   : clamp(1.625rem, 5.5vw, 2.75rem) / leading 1.1
-subhead    : 1.125rem → 1.25rem desktop      / leading 1.25
-dek        : 0.9375rem → 1rem desktop        / leading 1.6, color muted
-eyebrow    : 0.625rem, tracking 0.18em       / muted-foreground/80
+ community_posts (Postgres + Realtime)
+        │ select + subscribe
+        ▼
+ useCommunityFeed() ──► posts[], liveCount, isLoading
+        │
+        ▼
+ CommunityCarousel (embla + autoplay + loop)
+   ├─ SectionHeader + LivePulse
+   ├─ Skeleton / Empty / PostCards (TickNumber, NEW pill)
+   └─ Prev/Next arrows (desktop)
 ```
 
-All headlines get `text-wrap: balance`; deks get `text-wrap: pretty`.
-
-## 2. Copy refinements (shorter, plainer)
-
-| Where | Before | After |
-|---|---|---|
-| Cover eyebrow (right) | "An AI-powered learning journal" | (remove on mobile, keep on lg+ as "Learning journal · 2026") |
-| Cover headline | "Learning, re-imagined for every student." | "Learning, re-imagined." (2 lines, calmer) |
-| Cover pullquote | 2-sentence editor's note | "The calmest place on the internet to learn." (single line) |
-| Cover CTAs | "Enter the library" / "Find a 1-on-1 mentor" | "Browse courses" / "Find a mentor" |
-| Issue Index H2 | "Why we exist." | "Why ASIKON." |
-| Issue Index right | "Contents" list with hover "Read →" | Drop hover hint, keep numbered list |
-| Feature Story eyebrow | "Cover course" | "This week" |
-| Feature Story dek | 2-sentence paragraph | one sentence |
-| Feature Story CTA | "Read the syllabus" | "View course" |
-| Trust spread label | "Why learners trust us" | "Trust" |
-| Trust slide titles | Long sentences | 4–6 words each |
-| Department deks | 1–2 sentences each | one short clause each |
-| Back Matter colophon | Long sentence | "Set in Plus Jakarta Sans. Made in Dhaka." |
-| Page folios | "ASIKON / EDITION 06" + "01 / 05" both sides | left side only; folio simplifies to `01` |
-
-## 3. Spread structure cleanup
-
-- Remove the small "Read →" hover label on the TOC — extra ink.
-- Remove the bottom-left folio text ("ASIKON / EDITION 06"); keep only the right-side page number for a single calm marker.
-- Spread top label rule: thinner (0.5px equiv via opacity 0.5), shorter label tracking, no double rule on cover.
-- Department header: drop the long horizontal rule; replace with a single 24px tick before the number.
-- Trust carousel: drop the `Sparkles` pill from the feature image and the eyebrow chip inside slides — title + body is enough.
-
-## 4. Rhythm
-
-- Mobile vertical rhythm: `space-y-12` between spreads (was 14). Inside-spread: `space-y-6`.
-- Spread side padding: `px-5` mobile, `px-8` sm, `px-12` lg.
-- Headline → dek: 12px. Dek → CTA: 24px. Standardized across Cover / Feature / Index.
-
-## 5. Files to touch
-
-- `src/index.css` — add the 6 typography tokens, retire ad-hoc sizes.
-- `src/components/home/editorial/EditorialCover.tsx` — copy, CTA labels, drop one line.
-- `src/components/home/editorial/IssueIndex.tsx` — H2 copy, remove hover hint, use `editorial-headline`.
-- `src/components/home/editorial/FeatureStory.tsx` — eyebrow, dek, CTA label, use shared tokens.
-- `src/components/home/editorial/Spread.tsx` — single folio, thinner rule.
-- `src/components/home/editorial/Department.tsx` — tick instead of long rule, shorter deks via prop.
-- `src/components/home/editorial/TrustCarousel.tsx` — shorter titles, remove eyebrow chip.
-- `src/components/home/editorial/BackMatter.tsx` — shorter colophon.
-- `src/pages/Index.tsx` — spread label "Trust", department deks shortened, spacing tokens.
-
-## 6. Out of scope
-
-- No layout structure change (still magazine spreads, same order).
-- No color/theme changes.
-- No animation timing changes — existing motion stays.
-
-Approve and I'll ship it in one pass.
+## Risks / notes
+- Realtime billing: single channel, scoped to one table, cleaned up on unmount — safe.
+- Autoplay must respect `prefers-reduced-motion` — disable plugin when set.
+- Keeps the centered display typography rule (SectionHeader unchanged).

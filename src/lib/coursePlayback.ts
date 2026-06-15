@@ -15,7 +15,7 @@ export async function fetchPlayback(userId: string, slug: string): Promise<Playb
     .eq("course_slug", slug)
     .maybeSingle();
   if (error) return null;
-  return (data as PlaybackRow | null) ?? null;
+  return (data as unknown as PlaybackRow | null) ?? null;
 }
 
 /** Upsert latest position. Best-effort — failures are swallowed. */
