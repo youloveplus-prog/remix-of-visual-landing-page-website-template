@@ -82,10 +82,8 @@ export function SiteFooter() {
         {/* Link grid */}
         <div className="mt-10 md:mt-14 grid gap-8 md:gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <Link to="/" className="inline-flex items-center gap-2">
-              <span className="grid place-items-center h-8 w-8 rounded-lg bg-primary text-primary-foreground">
-                <Sparkles className="h-4 w-4" />
-              </span>
+            <Link to="/" className="inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">
+              <img src={logo} alt="Asikon" className="h-8 w-8 rounded-lg object-contain" />
               <span className="font-display text-2xl font-black tracking-tight">ASIKON</span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground max-w-sm leading-relaxed">
