@@ -81,13 +81,12 @@ export function FeatureStory() {
                 </span>
               )}
             </div>
-            <Link
-              to={lead?.slug ? `/product/${lead.slug}` : "/shop"}
-              className="group inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
-            >
-              Read the syllabus
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
+            <Button asChild variant="premium" size="lg">
+              <Link to={lead?.slug ? `/product/${lead.slug}` : "/shop"}>
+                Read the syllabus
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </Reveal>
       </div>
