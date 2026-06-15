@@ -178,7 +178,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
                   <NavigationMenuLink asChild>
                     <Link
                       to={it.href}
-                      className="group flex gap-3 rounded-xl p-2.5 hover:bg-secondary/60 focus-ring transition-all hover:translate-x-0.5"
+                      className="group flex gap-3 rounded-xl p-2.5 hover:bg-secondary/60 focus-ring-popover transition-all hover:translate-x-0.5"
                     >
                       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary/15 group-hover:shadow-[var(--shadow-glow)] transition-all">
                         <Icon className="h-4 w-4" />
@@ -210,7 +210,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
                 <NavigationMenuLink asChild>
                   <Link
                     to={q.href}
-                    className="group flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60 focus-ring transition-colors"
+                    className="group flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60 focus-ring-popover transition-colors"
                   >
                     <span className="truncate">{q.label}</span>
                     <ArrowRight className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
@@ -224,7 +224,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
         {/* Feature card */}
         <Link
           to={panel.feature.href}
-          className="group relative overflow-hidden rounded-xl border border-primary/20 flex flex-col focus-ring shadow-md"
+          className="group relative overflow-hidden rounded-xl border border-primary/20 flex flex-col focus-ring-popover shadow-md"
           style={{ background: "var(--gradient-primary-soft)" }}
         >
           <div className="relative h-24 overflow-hidden">
@@ -268,7 +268,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
         <NavigationMenuLink asChild>
           <Link
             to={panel.viewAllHref}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:gap-1.5 transition-all focus-ring rounded"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:gap-1.5 transition-all focus-ring-popover rounded"
           >
             {panel.viewAllLabel}
             <ArrowRight className="h-3.5 w-3.5" />

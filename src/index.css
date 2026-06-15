@@ -645,10 +645,19 @@
     .animate-fade-in { animation: none !important; opacity: 1 !important; }
   }
 
-  /* Consistent focus ring across the app */
+  /* Consistent focus ring across the app — readable on cream AND on pure black.
+     Uses ring-offset that matches the nearest surface (background/popover/card)
+     so the ring reads as a halo, not a doubled outline. */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:focus-visible:ring-offset-black;
   }
+  .focus-ring-popover {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover;
+  }
+  .focus-ring-card {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card;
+  }
+
 
   /* Consistent horizontal padding for page sections — tighter on mobile (16px)
      for a native-app feel, desktop relies on parent container so cards align flush. */
