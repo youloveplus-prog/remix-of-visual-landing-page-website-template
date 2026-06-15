@@ -283,7 +283,7 @@ export function MegaMenu({ className }: { className?: string }) {
     paths.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   return (
-    <NM className={cn("hidden lg:flex", className)}>
+    <NM className={cn("hidden md:flex", className)}>
       <NavigationMenuList className="gap-1">
         {PANELS.map((p) => {
           const Icon = p.icon;
@@ -342,5 +342,73 @@ export function MegaMenu({ className }: { className?: string }) {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NM>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Compact fallback navigation for narrow desktop widths (<md)
+// ─────────────────────────────────────────────────────────────
+import { Menu as MenuIcon } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+export function BrowseMenu({ className }: { className?: string }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        className={cn(
+          "md:hidden inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium",
+          "bg-secondary/60 hover:bg-secondary text-foreground transition-colors",
+          "ring-1 ring-border/60",
+          className
+        )}
+        aria-label="Browse navigation"
+      >
+        <MenuIcon className="h-4 w-4 opacity-80" />
+        Browse
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="start"
+        sideOffset={10}
+        className="w-64 rounded-2xl p-2 bg-popover/95 backdrop-blur-2xl"
+      >
+        {PANELS.map((p, idx) => {
+          const Icon = p.icon;
+          return (
+            <div key={p.label}>
+              {idx > 0 && <DropdownMenuSeparator className="my-1" />}
+              <DropdownMenuLabel className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-semibold">
+                <Icon className="h-3.5 w-3.5 opacity-80" />
+                {p.label}
+              </DropdownMenuLabel>
+              {p.items.slice(0, 4).map((it) => {
+                const ItIcon = it.icon;
+                return (
+                  <DropdownMenuItem key={it.href} asChild className="rounded-lg cursor-pointer">
+                    <Link to={it.href} className="flex items-center gap-2.5">
+                      <ItIcon className="h-4 w-4 opacity-70" />
+                      <span className="text-sm">{it.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
+            </div>
+          );
+        })}
+        <DropdownMenuSeparator className="my-1" />
+        <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
+          <Link to="/about" className="flex items-center gap-2.5">
+            <Compass className="h-4 w-4 opacity-70" />
+            <span className="text-sm">About</span>
+          </Link>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
