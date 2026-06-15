@@ -5,7 +5,13 @@ interface Props {
   poster?: string | null;
   src?: string | null;
   title: string;
+  /** Stable key (e.g. course slug) used to persist playback position. */
+  resumeKey?: string;
 }
+
+const STORAGE_PREFIX = "asikon:course-video:";
+// Don't restore if user finished within this many seconds of the end.
+const END_THRESHOLD = 5;
 
 const FALLBACK_SRC =
   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
@@ -17,7 +23,7 @@ function fmt(t: number) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-export function CourseVideoCard({ poster, src, title }: Props) {
+export function CourseVideoCard({ poster, src, title, resumeKey }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -61,26 +67,76 @@ export function CourseVideoCard({ poster, src, title }: Props) {
     setCurrent(v.currentTime);
   };
 
+  // Resume from saved timestamp once metadata is ready.
+  const restoredRef = useRef(false);
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
+    const storageKey = resumeKey ? `${STORAGE_PREFIX}${resumeKey}` : null;
+
+    const tryRestore = () => {
+      if (restoredRef.current || !storageKey) return;
+      const raw = localStorage.getItem(storageKey);
+      const saved = raw ? Number(raw) : NaN;
+      if (
+        Number.isFinite(saved) &&
+        saved > 1 &&
+        v.duration > 0 &&
+        saved < v.duration - END_THRESHOLD
+      ) {
+        try { v.currentTime = saved; } catch { /* ignored */ }
+      }
+      restoredRef.current = true;
+    };
+
+    let saveTick = 0;
+    const persist = () => {
+      if (!storageKey) return;
+      if (v.duration > 0 && v.currentTime >= v.duration - END_THRESHOLD) {
+        localStorage.removeItem(storageKey);
+      } else if (v.currentTime > 1) {
+        localStorage.setItem(storageKey, String(v.currentTime));
+      }
+    };
+
     const onPlay = () => setPlaying(true);
-    const onPause = () => setPlaying(false);
-    const onTime = () => setCurrent(v.currentTime);
-    const onMeta = () => setDuration(v.duration || 0);
+    const onPause = () => { setPlaying(false); persist(); };
+    const onTime = () => {
+      setCurrent(v.currentTime);
+      // throttle writes to ~1/sec
+      if (++saveTick % 4 === 0) persist();
+    };
+    const onMeta = () => {
+      setDuration(v.duration || 0);
+      tryRestore();
+    };
+    const onEnded = () => { if (storageKey) localStorage.removeItem(storageKey); };
+    const onVisibility = () => { if (document.hidden) persist(); };
+
     v.addEventListener("play", onPlay);
     v.addEventListener("pause", onPause);
     v.addEventListener("timeupdate", onTime);
     v.addEventListener("loadedmetadata", onMeta);
     v.addEventListener("durationchange", onMeta);
+    v.addEventListener("ended", onEnded);
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", persist);
+
+    // If metadata is already loaded by the time effect runs.
+    if (v.readyState >= 1) onMeta();
+
     return () => {
+      persist();
       v.removeEventListener("play", onPlay);
       v.removeEventListener("pause", onPause);
       v.removeEventListener("timeupdate", onTime);
       v.removeEventListener("loadedmetadata", onMeta);
       v.removeEventListener("durationchange", onMeta);
+      v.removeEventListener("ended", onEnded);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", persist);
     };
-  }, []);
+  }, [resumeKey]);
 
   const progress = duration > 0 ? (current / duration) * 100 : 0;
   const videoSrc = src ?? FALLBACK_SRC;

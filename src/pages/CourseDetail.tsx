@@ -45,7 +45,7 @@ export default function CourseDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-5 items-start">
           <div className="space-y-5 min-w-0">
-            <CourseVideoCard poster={detail.videoPoster} title={detail.title} />
+            <CourseVideoCard poster={detail.videoPoster} title={detail.title} resumeKey={slug} />
             <CourseMetaRow
               instructorName={detail.instructorName}
               instructorHandle={detail.instructorHandle}
