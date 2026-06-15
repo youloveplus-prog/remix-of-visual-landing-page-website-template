@@ -8,7 +8,6 @@ import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
-import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
 
 
@@ -18,8 +17,8 @@ interface SlimDesktopHeaderProps {
 }
 
 /**
- * Compact two-row header for non-home pages. Sits to the right of the sidebar.
- * Row 1: mega menu + search + actions. Row 2: breadcrumbs (collapses on scroll).
+ * Compact single-row header for non-home pages. Sits to the right of the sidebar,
+ * which already provides primary navigation.
  */
 export function SlimDesktopHeader({
   cartCount = 0,
@@ -42,11 +41,9 @@ export function SlimDesktopHeader({
         hidden && "-translate-y-full"
       )}
     >
-
-      {/* Row 1 — brand · search · actions */}
       <div
         className={cn(
-          "relative z-[2] overflow-visible py-1 liquid-nav",
+          "relative z-[2] overflow-visible py-2 liquid-nav",
           "transition-[box-shadow] duration-300 ease-out",
           "border-b border-border/50 dark:border-white/10",
           isScrolled && "shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
@@ -54,7 +51,7 @@ export function SlimDesktopHeader({
       >
         <div className="flex items-center gap-2.5 px-4 lg:px-6">
           <HeaderBrand compact={isScrolled} />
-          <SmartSearch className="flex-1 max-w-md ml-auto" />
+          <SmartSearch className="flex-1 max-w-xl mx-auto" />
           <div className="flex items-center gap-0.5">
             <Link to="/cart">
               <Button
@@ -75,18 +72,6 @@ export function SlimDesktopHeader({
             <NotificationsMenu />
             <UserMenu />
           </div>
-        </div>
-      </div>
-
-      {/* Row 2 — primary navigation */}
-      <div
-        className={cn(
-          "relative z-[1] py-0.5 overflow-visible liquid-nav",
-          "border-b border-border/40 dark:border-white/5"
-        )}
-      >
-        <div className="flex items-center px-4 lg:px-6">
-          <MegaMenu />
         </div>
       </div>
     </header>
