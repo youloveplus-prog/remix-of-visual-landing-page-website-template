@@ -51,16 +51,6 @@ const Shop = () => {
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
 
-  // Scroll to product grid when arriving from hero CTA
-  useEffect(() => {
-    if (location.hash === "#products") {
-      const el = document.getElementById("products");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  }, [location]);
-
   // Sync URL → state (q, type, filter, category)
   useEffect(() => {
     setSearchQuery(searchParams.get("q") ?? "");
@@ -123,6 +113,24 @@ const Shop = () => {
     maxPrice: priceRange[1] < MAX_PRICE ? priceRange[1] : undefined,
     sortBy,
   });
+
+  // Scroll to product grid when arriving from hero CTA (retry once products load)
+  useEffect(() => {
+    if (location.hash !== "#products") return;
+    const tryScroll = () => {
+      const el = document.getElementById("products");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Clear hash so refresh doesn't re-scroll
+        window.history.replaceState(null, "", location.pathname + location.search);
+      }
+    };
+    // Immediate attempt + delayed retry after DOM settles
+    tryScroll();
+    const t1 = setTimeout(tryScroll, 120);
+    const t2 = setTimeout(tryScroll, 400);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [location, productsLoading]);
 
   // Apply remaining filters client-side
   const filteredProducts = useMemo(() => {
