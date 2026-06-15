@@ -117,6 +117,7 @@ const AdminCourses = lazy(() => import("./pages/admin/AdminCourses"));
 const AdminServices = lazy(() => import("./pages/admin/AdminServices"));
 const DigitalList = lazy(() => import("./pages/DigitalList"));
 const CoursesList = lazy(() => import("./pages/CoursesList"));
+const CourseDetail = lazy(() => import("./pages/CourseDetail"));
 const ServicesList = lazy(() => import("./pages/ServicesList"));
 const ContentDetail = lazy(() => import("./pages/ContentDetail"));
 const Library = lazy(() => import("./pages/Library"));
@@ -213,6 +214,7 @@ function AnimatedRoutes() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/digital" element={<DigitalList />} />
           <Route path="/courses" element={<CoursesList />} />
+          <Route path="/courses/:slug" element={<CourseDetail />} />
           <Route path="/services" element={<ServicesList />} />
           <Route path="/content/:slug" element={<ContentDetail />} />
           <Route path="/library" element={<Library />} />
