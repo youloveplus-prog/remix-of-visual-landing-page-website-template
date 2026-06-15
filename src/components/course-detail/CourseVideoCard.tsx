@@ -5,7 +5,13 @@ interface Props {
   poster?: string | null;
   src?: string | null;
   title: string;
+  /** Stable key (e.g. course slug) used to persist playback position. */
+  resumeKey?: string;
 }
+
+const STORAGE_PREFIX = "asikon:course-video:";
+// Don't restore if user finished within this many seconds of the end.
+const END_THRESHOLD = 5;
 
 const FALLBACK_SRC =
   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
@@ -17,7 +23,7 @@ function fmt(t: number) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-export function CourseVideoCard({ poster, src, title }: Props) {
+export function CourseVideoCard({ poster, src, title, resumeKey }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
