@@ -3,7 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useScrollDirection } from "@/hooks/use-scroll-direction";
+import { useHeaderHidden } from "@/hooks/use-header-visibility";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
@@ -25,7 +25,9 @@ interface HomeTopHeaderProps {
  * Features a mega menu. No sidebar is rendered on home.
  */
 export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopHeaderProps) {
-  const { isScrolled } = useScrollDirection();
+  const { hidden, scrollY } = useHeaderHidden();
+  const isScrolled = scrollY > 8;
+
   const ref = useRef<HTMLElement>(null);
   useMeasuredHeaderHeight(ref);
 
@@ -33,15 +35,21 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
     <header
       ref={ref}
       data-app-header
-      className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+      className={cn(
+        "fixed top-0 left-0 right-0 z-40 isolate overflow-visible",
+        "transition-transform duration-300 ease-out will-change-transform",
+        hidden && "-translate-y-full"
+      )}
     >
       {/* Section 1 — Core: logo, search (center), actions */}
       <div
         className={cn(
-          "hairline-bottom transition-all duration-300",
+          "hairline-bottom relative z-[2] overflow-visible py-2",
+          "transition-[box-shadow,background-color] duration-300",
           "bg-background/55 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
-          isScrolled ? "py-1.5" : "py-2"
+          isScrolled && "shadow-[0_1px_0_0_hsl(var(--border)/0.6)]"
         )}
+
 
         style={{
           backgroundImage:
@@ -81,19 +89,20 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
         </div>
       </div>
 
-      {/* Section 2 — Premium Mega Menu band */}
+      {/* Section 2 — Premium Mega Menu band (always visible so users can access nav after scroll) */}
       <div
         className={cn(
-          "hairline-bottom transition-all duration-300 relative",
+          "hairline-bottom relative z-[1] py-1 overflow-visible",
+          "transition-[background-color] duration-300",
           "bg-background/40 backdrop-blur-xl",
-          "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.06)]",
-          isScrolled ? "h-0 opacity-0 py-0 overflow-hidden" : "py-1 opacity-100"
+          "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.06)]"
         )}
         style={{
           backgroundImage:
             "linear-gradient(180deg, hsl(var(--primary) / 0.06), transparent 70%), radial-gradient(60% 80% at 50% 0%, hsl(var(--primary) / 0.08), transparent 70%)",
         }}
       >
+
 
         <div className="container-editorial flex items-center justify-center">
           <MegaMenu />

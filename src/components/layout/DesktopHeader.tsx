@@ -3,7 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { useScrollDirection } from "@/hooks/use-scroll-direction";
+import { useHeaderHidden } from "@/hooks/use-header-visibility";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
@@ -27,7 +27,9 @@ export function DesktopHeader({
   cartCount = 0,
   isSidebarCollapsed = false,
 }: DesktopHeaderProps) {
-  const { isScrolled } = useScrollDirection();
+  const { hidden, scrollY } = useHeaderHidden();
+  const isScrolled = scrollY > 8;
+
   const ref = useRef<HTMLElement>(null);
   useMeasuredHeaderHeight(ref);
 
@@ -36,32 +38,32 @@ export function DesktopHeader({
       ref={ref}
       data-app-header
       className={cn(
-        // `isolate` + `overflow-visible` keep the mega menu's portal-free panel
-        // unclipped while the header's inner rows resize during scroll.
         "fixed top-0 z-40 isolate overflow-visible",
-        "transition-[left,right] duration-300 ease-out",
+        "transition-[left,right,transform] duration-300 ease-out will-change-transform",
         isSidebarCollapsed ? "left-16 right-0" : "left-60 right-0",
-        "lg:left-0 lg:right-0"
+        "lg:left-0 lg:right-0",
+        hidden && "-translate-y-full"
       )}
     >
+
       {/* Trust strip — hidden on scroll */}
       <TrustStrip show={showTrustStrip && !isScrolled} />
 
       {/* Primary row — logo · mega menu · search · actions */}
       <div
         className={cn(
-          "hairline-bottom relative z-[2] overflow-visible",
-          "transition-[padding,box-shadow,background-color] duration-300 ease-out will-change-[padding]",
+          "hairline-bottom relative z-[2] overflow-visible py-2.5",
+          "transition-[box-shadow,background-color] duration-300 ease-out",
           "bg-background/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
-          isScrolled
-            ? "py-1.5 shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]"
-            : "py-2.5"
+          isScrolled &&
+            "shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]"
         )}
         style={{
           backgroundImage:
             "linear-gradient(180deg, hsl(var(--glass-highlight) / 0.05), transparent 60%)",
         }}
       >
+
 
         <div className="container-editorial flex items-center gap-5">
           {/* Brand lockup */}

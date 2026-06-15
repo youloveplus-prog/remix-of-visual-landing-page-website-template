@@ -1,4 +1,7 @@
+import { useId, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useHeaderMenuOpen } from "@/hooks/use-header-visibility";
+
 import {
   GraduationCap,
   BookOpen,
@@ -171,7 +174,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
             {panel.items.map((it) => {
               const Icon = it.icon;
               return (
-                <li key={it.href}>
+                <li key={it.label}>
                   <NavigationMenuLink asChild>
                     <Link
                       to={it.href}
@@ -278,13 +281,22 @@ function PanelGrid({ panel }: { panel: Panel }) {
 
 export function MegaMenu({ className }: { className?: string }) {
   const { pathname } = useLocation();
+  const { setOpen } = useHeaderMenuOpen();
+  const id = useId();
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    setOpen(id, value !== "");
+    return () => setOpen(id, false);
+  }, [id, value, setOpen]);
 
   const isActive = (paths: string[]) =>
     paths.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   return (
-    <NM className={cn("hidden md:flex", className)}>
+    <NM value={value} onValueChange={setValue} className={cn("hidden md:flex", className)}>
       <NavigationMenuList className="gap-1">
+
         {PANELS.map((p) => {
           const Icon = p.icon;
           const active = isActive(p.matchPaths);

@@ -7,6 +7,8 @@ import { SlimDesktopHeader } from "./SlimDesktopHeader";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { Sidebar } from "./Sidebar";
 import { SiteFooter } from "./SiteFooter";
+import { HeaderMenuOpenProvider } from "@/hooks/use-header-visibility";
+
 
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { SkipLink } from "@/components/ui/skip-link";
@@ -104,20 +106,23 @@ export function AppLayout({
       <div className="min-h-dvh bg-background">
         <SkipLink />
         {/* Header */}
-        {isMobile ? (
-          <MobileHeader
-            onMenuClick={() => setSidebarOpen(true)}
-            onSearchClick={() => setSearchOpen(true)}
-            cartCount={cartCount}
-          />
-        ) : isHome ? (
-          <HomeTopHeader showTrustStrip={showTrustStrip} cartCount={cartCount} />
-        ) : (
-          <SlimDesktopHeader
-            cartCount={cartCount}
-            isSidebarCollapsed={isCollapsed}
-          />
-        )}
+        <HeaderMenuOpenProvider>
+          {isMobile ? (
+            <MobileHeader
+              onMenuClick={() => setSidebarOpen(true)}
+              onSearchClick={() => setSearchOpen(true)}
+              cartCount={cartCount}
+            />
+          ) : isHome ? (
+            <HomeTopHeader showTrustStrip={showTrustStrip} cartCount={cartCount} />
+          ) : (
+            <SlimDesktopHeader
+              cartCount={cartCount}
+              isSidebarCollapsed={isCollapsed}
+            />
+          )}
+        </HeaderMenuOpenProvider>
+
 
         {/* Mobile Sidebar (Sheet) */}
         <Sidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />

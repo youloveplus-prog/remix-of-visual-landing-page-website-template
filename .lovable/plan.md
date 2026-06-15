@@ -1,58 +1,39 @@
-# Desktop header refinement
+# Header scroll behavior + mega menu fix
 
-## The actual bug
-`MegaMenu` is gated `hidden lg:flex` (≥1024px). On any narrower desktop window the entire left side of `SlimDesktopHeader` and `DesktopHeader` collapses to nothing — search floats alone and the header reads as broken/empty (exactly what the screenshot shows). There is also no brand mark, no page context, and the bar lacks visual weight.
+## Problems
+1. When the mega menu panel is open and the user scrolls even a few pixels, the header row's `padding` transitions from `py-2.5` → `py-1.5`. This resizes the row mid-frame, Radix recomputes the panel position, and the pointer falls outside the trigger → the panel auto-closes.
+2. The header is always pinned, which the user finds heavy. They want it to slide away while scrolling down and slide back in on scroll-up — like a typical app bar.
 
-## Scope
-All three desktop headers, so they share one system:
-- `src/components/layout/SlimDesktopHeader.tsx` (non-home, e.g. /shop)
-- `src/components/layout/DesktopHeader.tsx`
-- `src/components/layout/HomeTopHeader.tsx`
+## Fix
 
-Mobile headers untouched. No business logic changes.
+### 1. `src/hooks/use-scroll-direction.ts`
+Expose a stable `direction` that only flips after the user moves more than the threshold in one direction (already mostly there). Add a small "near top" guard so the header always shows in the first ~80px of the page even when scrolling down.
 
-## What changes (visual / presentation only)
+### 2. New hook: `src/hooks/use-header-visibility.ts`
+Combines `useScrollDirection` with mega-menu "open" awareness:
+- Returns `hidden: boolean`.
+- `hidden = true` when `direction === 'down' && scrollY > 80 && !isMenuOpen`.
+- `hidden = false` otherwise (scroll-up, near top, or any panel open).
+- Exposes a tiny context (`HeaderMenuOpenContext`) that `MegaMenu` writes into via Radix `NavigationMenu`'s `onValueChange` (empty string = closed, non-empty = open). This way the header never hides — and never resizes — while a panel is open, killing the auto-close bug.
 
-1. **Brand lockup on the left (always visible)**
-   - Small ASIKON mark + wordmark linking to `/`, sized to the row height.
-   - Acts as the anchor so the header is never blank when MegaMenu collapses.
-   - Subtle hover ring using `--gradient-primary`.
+### 3. `src/components/layout/DesktopHeader.tsx` and `SlimDesktopHeader.tsx`
+- Wrap both with `HeaderMenuOpenProvider`.
+- Apply a `transform: translateY(-100%)` slide when `hidden` is true, with `transition-transform duration-300 ease-out`.
+- **Remove the `py-*` padding transition** on the primary row. The row keeps a single, stable padding (`py-2`), so the mega-menu trigger never shifts mid-hover. The "compact" feel comes from the slim brand (`HeaderBrand compact`) which we now drive off `scrollY > 80` instead of toggling row padding.
+- Keep the breadcrumb sub-row collapse on scroll (that row is below the menu and doesn't affect trigger position).
+- Keep `isolate overflow-visible` so the panel is never clipped.
 
-2. **MegaMenu visibility fix**
-   - Drop the `hidden lg:flex` gate inside `MegaMenu` and let the consumer decide.
-   - Show MegaMenu from `md` (≥768px) upward in the slim/desktop headers.
-   - Below `md`, render a compact "Browse" dropdown trigger (same PANELS data, single button) so the nav never disappears entirely on narrow desktop windows.
+### 4. `src/components/layout/MegaMenu.tsx`
+- Convert the Radix root to controlled mode: `value` + `onValueChange` wired to the `HeaderMenuOpenContext`. This both (a) lets the header know a panel is open so it won't hide, and (b) ensures the panel doesn't get torn down by an accidental re-mount during scroll.
 
-3. **Row composition (Row 1)**
-   ```text
-   [Logo] · [MegaMenu / Browse]   ———   [Search ▸ max-w-md]   [Currency] [Cart] [Bell] [Theme] | [User]
-   ```
-   - Search shrinks to `max-w-md` so the menu has breathing room.
-   - Vertical divider before user menu kept.
-   - Heights normalized to `h-11` row, actions `h-9 w-9` rounded `xl`.
-
-4. **Surface polish**
-   - Cream/black theming via existing tokens (no hardcoded colors).
-   - Stronger hairline + soft inset highlight at top edge.
-   - At rest: `bg-background/75 backdrop-blur-2xl`.
-   - On scroll: tighten to `py-1.5`, add the existing elegant shadow, fade hairline up.
-   - Remove redundant inline `linear-gradient` style; move to a single `.app-header-surface` utility in `index.css` for consistency across all three headers.
-
-5. **Row 2 (breadcrumbs / context)**
-   - Slim breadcrumbs row stays but gains a right-aligned **page title chip** (current route's primary label from existing `Breadcrumbs` data) so pages like `/shop` aren't an empty strip.
-   - Collapses on scroll exactly as today.
-
-6. **HomeTopHeader parity**
-   - Mirror the brand + MegaMenu/Browse pattern so home and inner pages feel like one system. Keep its existing translucent-over-hero treatment.
-
-## Technical notes
-- New small component `src/components/layout/HeaderBrand.tsx` (logo + wordmark).
-- New `BrowseMenu` (compact dropdown reusing `PANELS` from `MegaMenu.tsx`) exported from `MegaMenu.tsx`.
-- Add `.app-header-surface` and `.app-header-surface-scrolled` to `index.css`.
-- No route, data, or auth changes. No new dependencies.
-- Build check after edits (`tsc --noEmit` runs automatically).
+### 5. `src/components/layout/HomeTopHeader.tsx`
+Same translate-on-hidden treatment so behavior is consistent across all desktop headers.
 
 ## Out of scope
-- Product card layout, shop grid, filters.
-- Mobile header.
-- Sidebar.
+- Mobile header (request is desktop-only).
+- Visual restyle of the panel itself.
+- Any business logic / data changes.
+
+## Verification
+- Build passes.
+- Playwright: load `/shop`, hover Learn → panel opens, scroll 400px down → header slides up, panel closes cleanly; scroll up 1px → header slides back; hover Learn again → panel reopens reliably. Screenshot each step.
