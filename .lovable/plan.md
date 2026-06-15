@@ -1,113 +1,79 @@
-# Home page redesign — Editorial Magazine
+# Home Page — Quiet & Clear Pass
 
-**Direction:** Calm & editorial · Magazine layout · Mission/brand hero
-**Locked tokens (from memory):** Indigo `#3b4fe0`, warm cream `#faf6ef`, pure black dark, Plus Jakarta Sans, Departure Mono labels, Sentient quotes, 20px bento radius.
+Goal: remove visual noise, cut redundant words, and lock typography into a strict 3-size scale so every spread feels like the same magazine.
 
-## What changes
+## 1. One typography scale (shared)
 
-Today `src/pages/Index.tsx` stacks ~15 sections (WarmBentoHero, FlexiTopSection, TodayMissionCard, ContinueLearning, RecommendedForYou, QuickAccessGrid, AiAssistantBox, MobileCoursesTop, GalleryCarousel, MasterpieceShowcase, ComingSoonTrio, admin sections, Testimonials, ProgressSnapshot, ActivityFeed). It reads as a dense product surface, not as ASIKON's story.
+Replace ad-hoc sizes per component with a small token set in `index.css`:
 
-The redesign reshapes the page into a five-spread editorial **without removing functionality** — every existing section finds a home, just inside a magazine rhythm with generous whitespace and a clear front-to-back read.
+- `editorial-display` — hero only (cover headline)
+- `editorial-headline` — spread H2 (Issue Index, Feature Story)
+- `editorial-subhead` — department H3 / card titles
+- `editorial-dek` — body paragraph
+- `editorial-eyebrow` — mono label (smaller, calmer letter-spacing 0.18em)
+- `editorial-pagenum` — folio/number
 
-## New structure (top to bottom)
+Mobile-tuned sizes (locked, no inline `text-3xl/text-5xl` in components anymore):
 
 ```text
-┌──────────────────────────────────────────────┐
-│  SPREAD 1 — COVER                            │
-│  Eyebrow: ISSUE 06 · JUNE 2026               │
-│  Oversize display: ASIKON mission line       │
-│  Pull-quote (Sentient) + Enter buttons       │
-│  Quiet partner marquee at the bottom         │
-├──────────────────────────────────────────────┤
-│  SPREAD 2 — ISSUE INDEX (mission/brand lead) │
-│  Two-column: left = <MissionVision/> excerpt │
-│  Right = numbered TOC linking to the         │
-│  sections below (Today, Continue, Courses,   │
-│  Community, Mentors, Trust)                  │
-├──────────────────────────────────────────────┤
-│  SPREAD 3 — FEATURE STORY                    │
-│  Editorial featured course/product card:     │
-│  big image left, headline + dek + price +    │
-│  CTA right. Below: 3 supporting cards        │
-│  (Continue · Today's mission · AI Tutor)     │
-├──────────────────────────────────────────────┤
-│  SPREAD 4 — DEPARTMENTS (curated grid)       │
-│  Magazine grid of departments:               │
-│  • Library (courses + books carousels)       │
-│  • Workshop (prompts, AI tutor, planner)     │
-│  • Community (posts carousel)                │
-│  • Mentorship (waitlist promo)               │
-│  Each opens with a Departure Mono dept       │
-│  label + thin rule, then the existing        │
-│  carousels/components inside.                │
-├──────────────────────────────────────────────┤
-│  SPREAD 5 — BACK MATTER                      │
-│  Testimonials columns · Progress snapshot ·  │
-│  Activity feed · How it works · Why trust    │
-│  Closing colophon line                       │
-└──────────────────────────────────────────────┘
+display    : clamp(2.25rem, 10vw, 5.5rem)   / leading 0.98
+headline   : clamp(1.625rem, 5.5vw, 2.75rem) / leading 1.1
+subhead    : 1.125rem → 1.25rem desktop      / leading 1.25
+dek        : 0.9375rem → 1rem desktop        / leading 1.6, color muted
+eyebrow    : 0.625rem, tracking 0.18em       / muted-foreground/80
 ```
 
-## Section mapping (nothing deleted)
+All headlines get `text-wrap: balance`; deks get `text-wrap: pretty`.
 
-| Existing component | New home |
-|---|---|
-| `WarmBentoHero`, `FlexiTopSection`, `ImageHeroSlider`, `DesktopHeroBento`, `DesktopWebstoreHome` | Replaced by new **Cover** spread (kept as components, no longer rendered on `/`) |
-| `<MissionVision/>` excerpt | **Issue Index** left column |
-| `FeaturedProducts[0]` | **Feature Story** lead |
-| `TodayMissionCard`, `ContinueLearningRow`, AI tutor tile | **Feature Story** support row |
-| `MobileCoursesTop`, `GalleryCarousel`, `ProductCarousel` (trending / new arrivals / curated) | **Departments → Library** |
-| `QuickAccessGrid`, `AiAssistantBox`, `RecommendedForYou` | **Departments → Workshop** |
-| `CommunityCarousel`, `MasterpieceShowcase` | **Departments → Community** |
-| `MentorshipHomeSection`, `ComingSoonTrio` | **Departments → Mentorship** |
-| `TestimonialsColumns`, `ProgressSnapshot`, `ActivityFeed`, `HowItWorks`, `WhyTrust` | **Back Matter** |
-| `BrandStrip`, `PartnerMarquee` | Quiet footers between Cover and Index, and at end of Back Matter |
-| `AiTutorFab`, `FirstRunTour`, `SEO` JSON-LD | Unchanged |
-| Admin-ordered `useHomeSections` rest | Rendered inside Departments at the position admins already control |
+## 2. Copy refinements (shorter, plainer)
 
-## Editorial design rules
+| Where | Before | After |
+|---|---|---|
+| Cover eyebrow (right) | "An AI-powered learning journal" | (remove on mobile, keep on lg+ as "Learning journal · 2026") |
+| Cover headline | "Learning, re-imagined for every student." | "Learning, re-imagined." (2 lines, calmer) |
+| Cover pullquote | 2-sentence editor's note | "The calmest place on the internet to learn." (single line) |
+| Cover CTAs | "Enter the library" / "Find a 1-on-1 mentor" | "Browse courses" / "Find a mentor" |
+| Issue Index H2 | "Why we exist." | "Why ASIKON." |
+| Issue Index right | "Contents" list with hover "Read →" | Drop hover hint, keep numbered list |
+| Feature Story eyebrow | "Cover course" | "This week" |
+| Feature Story dek | 2-sentence paragraph | one sentence |
+| Feature Story CTA | "Read the syllabus" | "View course" |
+| Trust spread label | "Why learners trust us" | "Trust" |
+| Trust slide titles | Long sentences | 4–6 words each |
+| Department deks | 1–2 sentences each | one short clause each |
+| Back Matter colophon | Long sentence | "Set in Plus Jakarta Sans. Made in Dhaka." |
+| Page folios | "ASIKON / EDITION 06" + "01 / 05" both sides | left side only; folio simplifies to `01` |
 
-- **Type scale:** display headline `clamp(3rem, 9vw, 7rem)` Plus Jakarta Sans 800, dek `1.125rem` 400, body `0.9375rem` 400. One Sentient pull-quote per spread max.
-- **Labels:** Departure Mono uppercase, `0.625rem`, `letter-spacing: 0.22em`, used for eyebrows, dept names, page numbers.
-- **Rules:** 1px hairlines in `hsl(var(--foreground)/0.12)` between spreads. No drop shadows on hero. Bento tiles keep 20px radius inside Departments only.
-- **Whitespace:** vertical rhythm `space-y-20 lg:space-y-32` between spreads, `space-y-8` inside.
-- **Motion:** existing `Reveal` (fade-up 12px, 400ms ease-out). No marquees in the cover. Pull-quote fades in on scroll. No new motion libs.
-- **Signed page number** bottom-right of each spread (Departure Mono), e.g. `01 / 05`.
+## 3. Spread structure cleanup
 
-## File changes
+- Remove the small "Read →" hover label on the TOC — extra ink.
+- Remove the bottom-left folio text ("ASIKON / EDITION 06"); keep only the right-side page number for a single calm marker.
+- Spread top label rule: thinner (0.5px equiv via opacity 0.5), shorter label tracking, no double rule on cover.
+- Department header: drop the long horizontal rule; replace with a single 24px tick before the number.
+- Trust carousel: drop the `Sparkles` pill from the feature image and the eyebrow chip inside slides — title + body is enough.
 
-**Create**
-- `src/components/home/editorial/EditorialCover.tsx` — Spread 1
-- `src/components/home/editorial/IssueIndex.tsx` — Spread 2 (renders `<MissionVision variant="excerpt"/>` + TOC)
-- `src/components/home/editorial/FeatureStory.tsx` — Spread 3 (uses `useFeaturedProducts(1)` + `TodayMissionCard` + `ContinueLearningRow`)
-- `src/components/home/editorial/Department.tsx` — section wrapper (label + rule + children + page number)
-- `src/components/home/editorial/BackMatter.tsx` — Spread 5
+## 4. Rhythm
 
-**Edit**
-- `src/pages/Index.tsx` — replace the rendered tree with the five spreads; keep `SEO`, `FirstRunTour`, `AiTutorFab`, `useHomeSections`, `useProducts`, `useFeaturedProducts` data wiring; pass admin-ordered `restSections` into `<Department name="Library">` as children alongside the carousels.
-- `src/index.css` — add `.editorial-rule`, `.editorial-eyebrow`, `.editorial-pagenum` utility classes (tokens only, no hex).
+- Mobile vertical rhythm: `space-y-12` between spreads (was 14). Inside-spread: `space-y-6`.
+- Spread side padding: `px-5` mobile, `px-8` sm, `px-12` lg.
+- Headline → dek: 12px. Dek → CTA: 24px. Standardized across Cover / Feature / Index.
 
-**Keep but unused on `/`**
-- `WarmBentoHero`, `FlexiTopSection`, `DesktopHeroBento`, `DesktopWebstoreHome`, `ImageHeroSlider` remain in the repo for other surfaces — no deletions.
+## 5. Files to touch
 
-## Technical notes
+- `src/index.css` — add the 6 typography tokens, retire ad-hoc sizes.
+- `src/components/home/editorial/EditorialCover.tsx` — copy, CTA labels, drop one line.
+- `src/components/home/editorial/IssueIndex.tsx` — H2 copy, remove hover hint, use `editorial-headline`.
+- `src/components/home/editorial/FeatureStory.tsx` — eyebrow, dek, CTA label, use shared tokens.
+- `src/components/home/editorial/Spread.tsx` — single folio, thinner rule.
+- `src/components/home/editorial/Department.tsx` — tick instead of long rule, shorter deks via prop.
+- `src/components/home/editorial/TrustCarousel.tsx` — shorter titles, remove eyebrow chip.
+- `src/components/home/editorial/BackMatter.tsx` — shorter colophon.
+- `src/pages/Index.tsx` — spread label "Trust", department deks shortened, spacing tokens.
 
-- All copy that touches mission/vision pulls through `<MissionVision/>` per Core memory — no hardcoded mission strings.
-- Carousels stay on `embla-carousel-react` per memory.
-- Infinite-loop scroll behavior preserved (Departments still mount the existing carousels untouched).
-- Logged-out vs logged-in branches collapse into one tree; auth-gated sub-blocks (Today mission, Continue learning, Progress, Activity) render conditionally inside their spreads.
-- Lazy-loaded sections stay `lazy()` + `<Suspense>` to protect first paint.
-- No backend, schema, or RLS changes.
+## 6. Out of scope
 
-## Out of scope
+- No layout structure change (still magazine spreads, same order).
+- No color/theme changes.
+- No animation timing changes — existing motion stays.
 
-- Brand tokens (locked).
-- Removing/replacing the FAB content-creation flow.
-- Admin home-sections schema — admins keep ordering control inside the Library department.
-- Other routes (`/shop`, `/community`, etc.) are untouched.
-
-## Verification
-
-- Capture `/` at 560px and 1280px after build; confirm five distinct spreads, hairline rules visible, page numbers present.
-- Confirm `<MissionVision/>` renders in Issue Index and no mission strings are hardcoded (`rg -n "ASIKON" src/components/home/editorial`).
-- Confirm logged-in extras (Today mission, Continue, Progress, Activity) only render when `user` is set.
+Approve and I'll ship it in one pass.

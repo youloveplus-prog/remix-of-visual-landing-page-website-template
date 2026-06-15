@@ -1115,35 +1115,49 @@
   .editorial-eyebrow {
     font-family: 'Departure Mono', ui-monospace, monospace;
     font-size: 0.625rem;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground) / 0.8);
   }
   .editorial-pagenum {
     font-family: 'Departure Mono', ui-monospace, monospace;
     font-size: 0.625rem;
-    letter-spacing: 0.18em;
-    color: hsl(var(--muted-foreground) / 0.7);
+    letter-spacing: 0.16em;
+    color: hsl(var(--muted-foreground) / 0.6);
   }
   .editorial-rule {
     height: 1px;
     width: 100%;
-    background-color: hsl(var(--foreground) / 0.12);
+    background-color: hsl(var(--foreground) / 0.08);
   }
   .editorial-display {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-weight: 800;
     letter-spacing: -0.035em;
-    line-height: 0.95;
-    font-size: clamp(2.25rem, 11vw, 6.5rem);
+    line-height: 0.98;
+    font-size: clamp(2.25rem, 10vw, 5.5rem);
     color: hsl(var(--foreground));
     text-wrap: balance;
   }
-  @media (min-width: 640px) {
-    .editorial-display {
-      line-height: 0.92;
-      font-size: clamp(3rem, 9vw, 6.5rem);
-    }
+  .editorial-headline {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    font-size: clamp(1.625rem, 5.5vw, 2.75rem);
+    color: hsl(var(--foreground));
+    text-wrap: balance;
+  }
+  .editorial-subhead {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    font-size: 1.125rem;
+    color: hsl(var(--foreground));
+  }
+  @media (min-width: 1024px) {
+    .editorial-subhead { font-size: 1.25rem; }
   }
   .editorial-dek {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
@@ -1153,12 +1167,19 @@
     color: hsl(var(--muted-foreground));
     text-wrap: pretty;
   }
-  @media (min-width: 640px) {
-    .editorial-dek { font-size: 1.0625rem; line-height: 1.55; }
+  @media (min-width: 1024px) {
+    .editorial-dek { font-size: 1rem; line-height: 1.55; }
   }
   .editorial-pullquote {
-    font-size: clamp(1.0625rem, 4.2vw, 1.75rem) !important;
+    font-family: 'Sentient', 'Plus Jakarta Sans', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.0625rem, 3.6vw, 1.5rem);
+    line-height: 1.4;
+    color: hsl(var(--foreground) / 0.82);
+    text-wrap: balance;
   }
+}
   .editorial-pullquote {
     font-family: 'Sentient', 'Plus Jakarta Sans', serif;
     font-style: italic;
