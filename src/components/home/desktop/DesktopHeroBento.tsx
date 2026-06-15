@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { Link2, ArrowRight, Sparkles, GraduationCap, BookOpen, Bot, Plus, Settings, Gem } from "lucide-react";
 import tutorImg from "@/assets/ai-tutor.webp";
-import courseImg from "@/assets/course-ai-ml.webp";
-import promptImg from "@/assets/prompt-library.webp";
+import courseImg from "@/assets/course-ai-ml.jpg";
+import promptImg from "@/assets/prompt-library.jpg";
 
 function IconChip({ children }: { children: React.ReactNode }) {
   return (

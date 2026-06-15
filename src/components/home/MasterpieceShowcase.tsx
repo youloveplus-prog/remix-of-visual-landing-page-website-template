@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import coverAtomicHabits from "@/assets/cover-atomic-habits.jpg";
+import coverDeepWork from "@/assets/cover-deep-work.jpg";
+import coverSapiens from "@/assets/cover-sapiens.jpg";
+import coverPragmatic from "@/assets/cover-pragmatic.jpg";
+import coverCleanCode from "@/assets/cover-clean-code.jpg";
+import coverThinkingFastSlow from "@/assets/cover-thinking-fast-slow.jpg";
+import coverLeanStartup from "@/assets/cover-lean-startup.jpg";
+import coverHooked from "@/assets/cover-hooked.jpg";
+import coverShowYourWork from "@/assets/cover-show-your-work.jpg";
 
 const BOOKS = [
-  { title: "Atomic Habits", cover: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg" },
-  { title: "Deep Work", cover: "https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg" },
-  { title: "Sapiens", cover: "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg" },
-  { title: "The Pragmatic Programmer", cover: "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg" },
-  { title: "Clean Code", cover: "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg" },
-  { title: "Thinking, Fast and Slow", cover: "https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg" },
-  { title: "The Lean Startup", cover: "https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg" },
-  { title: "Hooked", cover: "https://covers.openlibrary.org/b/isbn/9781591847786-L.jpg" },
-  { title: "Show Your Work", cover: "https://covers.openlibrary.org/b/isbn/9780761178972-L.jpg" },
+  { title: "Atomic Habits", cover: coverAtomicHabits },
+  { title: "Deep Work", cover: coverDeepWork },
+  { title: "Sapiens", cover: coverSapiens },
+  { title: "The Pragmatic Programmer", cover: coverPragmatic },
+  { title: "Clean Code", cover: coverCleanCode },
+  { title: "Thinking, Fast and Slow", cover: coverThinkingFastSlow },
+  { title: "The Lean Startup", cover: coverLeanStartup },
+  { title: "Hooked", cover: coverHooked },
+  { title: "Show Your Work", cover: coverShowYourWork },
 ];
 
 // 7 fan slots; center index = 3 (front)

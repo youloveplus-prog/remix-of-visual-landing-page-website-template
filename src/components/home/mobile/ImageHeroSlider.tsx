@@ -6,9 +6,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useHomeBanners } from "@/hooks/useHomeBanners";
 import { cn } from "@/lib/utils";
 import { buildSrcSet, transformedSrc } from "@/lib/imageSrcset";
-import courseAiMl from "@/assets/course-ai-ml.webp";
-import coursePython from "@/assets/course-python.webp";
-import promptLibrary from "@/assets/prompt-library.webp";
+import courseAiMl from "@/assets/course-ai-ml.jpg";
+import coursePython from "@/assets/course-python.jpg";
+import promptLibrary from "@/assets/prompt-library.jpg";
 
 const FALLBACK_BANNERS = [
   {
