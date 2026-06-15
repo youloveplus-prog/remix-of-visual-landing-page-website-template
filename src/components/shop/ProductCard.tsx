@@ -20,12 +20,12 @@ interface ProductCardProps {
 }
 
 /**
- * Universal product card — "Style A" layout.
- * - Image fills the top with rounded corners, price chip floats top-right.
- * - Tonal strip across the bottom of the image carries an instant-access trust line
- *   (digital-only product — never use shipping/delivery copy).
- * - Title row pairs with an "Order Now ↗" affordance.
- * - Tag chips sit underneath for quick scanability.
+ * Universal product card — refined "Style A" layout.
+ * - Image well sits inside an inset ring with a soft top-down overlay
+ * - Floating price pill anchored bottom-left of the image
+ * - Trust strip slides up on hover (idle = clean image)
+ * - Title row pairs with a primary-tinted arrow CTA that fills on hover
+ * - Brand-tinted hover shadow + calmer lift
  */
 const DEFAULT_BRAND = "Asikon Academy";
 
@@ -50,23 +50,27 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
       .filter(Boolean)
       .slice(0, isCompact ? 2 : 3);
 
+    const ctaFull = product.kind ? CTA_BY_KIND[product.kind].full : "Order Now";
+    const ctaShort = product.kind ? CTA_BY_KIND[product.kind].short : "Order";
+
     return (
       <>
         <article
           ref={ref}
           className={cn(
             "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col",
-            "transition-[transform,box-shadow,border-color] duration-300",
-            "shadow-[0_2px_10px_-2px_hsl(var(--foreground)/0.06)]",
-            "hover:shadow-[0_20px_25px_-5px_hsl(var(--foreground)/0.1)] hover:-translate-y-1 hover:border-primary/30",
-            "active:scale-[0.97] p-1.5 md:p-2",
+            "transition-[transform,box-shadow,border-color] duration-300 ease-out",
+            "shadow-[0_2px_10px_-2px_hsl(var(--foreground)/0.05)]",
+            "hover:-translate-y-0.5 hover:border-primary/40",
+            "hover:shadow-[0_14px_36px_-14px_hsl(var(--primary)/0.28)]",
+            "active:scale-[0.98] p-1.5 md:p-2",
             isFeatured && "lg:flex-row lg:p-3"
           )}
         >
-          {/* Image block — rounded inside the card, with floating price chip + bottom strip */}
+          {/* Image well — inset ring + soft overlay for depth */}
           <figure
             className={cn(
-              "relative overflow-hidden rounded-xl md:rounded-2xl bg-secondary/40",
+              "relative overflow-hidden rounded-xl md:rounded-2xl bg-secondary/40 ring-1 ring-inset ring-border/60",
               isCompact ? "aspect-square" : "aspect-[4/3]",
               isFeatured && "lg:w-1/2 lg:aspect-auto lg:self-stretch"
             )}
@@ -74,31 +78,16 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             <SmartImage
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.04]"
             />
 
-            {/* Floating price chip — top-right, sits on image like Style A */}
-            <div className="absolute top-0 right-0 bg-card rounded-bl-2xl pl-2.5 pb-1.5 md:pl-3 md:pb-2">
-              <div className="flex items-baseline gap-1">
-                <Price
-                  amount={product.price}
-                  className={cn(
-                    "font-display font-bold text-foreground tracking-tight leading-none",
-                    isCompact ? "text-sm md:text-base" : "text-base md:text-lg",
-                    isFeatured && "lg:text-xl"
-                  )}
-                />
-                {product.originalPrice && (
-                  <Price
-                    amount={product.originalPrice}
-                    strike
-                    className="text-[10px] text-muted-foreground"
-                  />
-                )}
-              </div>
-            </div>
+            {/* Soft top-down overlay to seat the image */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-gradient-to-b from-foreground/5 via-transparent to-foreground/10"
+            />
 
-            {/* Wishlist — moved to top-left to free the price corner */}
+            {/* Wishlist — top-right */}
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -107,10 +96,10 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               }}
               aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
               className={cn(
-                "no-min-tap absolute top-2 left-2 md:top-3 md:left-3 h-8 w-8 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-sm shadow-sm",
+                "no-min-tap absolute top-2 right-2 md:top-2.5 md:right-2.5 h-8 w-8 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md shadow-sm",
                 isWishlisted
                   ? "bg-primary/15 ring-1 ring-primary/40"
-                  : "bg-background/90 hover:bg-background"
+                  : "bg-background/85 hover:bg-background"
               )}
             >
               <Heart
@@ -121,10 +110,10 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               />
             </button>
 
-            {/* Status badges — stacked below wishlist, capped */}
-            <div className="absolute top-12 left-2 md:left-3 flex flex-col gap-1 max-w-[60%]">
+            {/* Status badges — top-left, single column */}
+            <div className="absolute top-2 left-2 md:top-2.5 md:left-2.5 flex flex-col gap-1 max-w-[60%]">
               {discount > 0 && (
-                <Badge className="text-[10px] font-bold bg-primary text-primary-foreground border-0 px-2 py-0.5 rounded-full tracking-wider uppercase shadow-md">
+                <Badge className="text-[10px] font-bold border-0 px-2 py-0.5 rounded-full tracking-wider uppercase shadow-md text-primary-foreground bg-gradient-to-r from-primary to-primary/80">
                   −{discount}%
                 </Badge>
               )}
@@ -140,8 +129,35 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               )}
             </div>
 
-            {/* Trust strip — bottom of image, replaces "Free Delivery" with instant-access copy */}
-            <div className="absolute inset-x-0 bottom-0 bg-primary/85 backdrop-blur-sm text-primary-foreground">
+            {/* Floating price pill — bottom-left of image */}
+            <div className="absolute bottom-2 left-2 md:bottom-2.5 md:left-2.5">
+              <div className="flex items-baseline gap-1 bg-card/95 backdrop-blur-md border border-border/60 rounded-full pl-2.5 pr-2.5 py-1 shadow-sm">
+                <Price
+                  amount={product.price}
+                  className={cn(
+                    "font-display font-bold text-foreground tracking-tight leading-none",
+                    isCompact ? "text-xs md:text-sm" : "text-sm md:text-base",
+                    isFeatured && "lg:text-lg"
+                  )}
+                />
+                {product.originalPrice && (
+                  <Price
+                    amount={product.originalPrice}
+                    strike
+                    className="text-[10px] text-muted-foreground"
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Trust strip — slides up on hover, idle = clean image */}
+            <div
+              className={cn(
+                "absolute inset-x-0 bottom-0 translate-y-full opacity-0 transition-all duration-300 ease-out",
+                "group-hover:translate-y-0 group-hover:opacity-100",
+                "bg-gradient-to-r from-foreground/90 to-foreground/80 backdrop-blur-sm text-background"
+              )}
+            >
               <div className="flex items-center justify-center gap-1.5 px-2 py-1 md:py-1.5">
                 <Zap className="h-3 w-3 fill-current" />
                 <span className="text-[10px] md:text-[11px] font-medium tracking-wide truncate">
@@ -162,72 +178,83 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               <p className="eyebrow text-primary/80 line-clamp-1 -mb-1">{product.brand}</p>
             )}
 
-            {/* Title + Order Now */}
-            <div className="flex items-start justify-between gap-2">
-              <h3
-                className={cn(
-                  "font-display font-bold text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors min-w-0 flex-1",
-                  isCompact ? "text-sm md:text-base" : "text-sm md:text-lg",
-                  isFeatured && "lg:text-2xl lg:line-clamp-3"
-                )}
-              >
-                {product.name}
-              </h3>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setShowQuickView(true);
-                }}
-                className="shrink-0 inline-flex items-center gap-0.5 text-[11px] md:text-xs font-semibold text-foreground/90 hover:text-primary underline underline-offset-2 decoration-foreground/40 hover:decoration-primary transition-colors no-min-tap"
-                aria-label={`${product.kind ? CTA_BY_KIND[product.kind].full : "Order"} ${product.name}`}
-              >
-                <span className="hidden sm:inline">
-                  {product.kind ? CTA_BY_KIND[product.kind].full : "Order Now"}
-                </span>
-                <span className="sm:hidden">
-                  {product.kind ? CTA_BY_KIND[product.kind].short : "Order"}
-                </span>
-                <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
-              </button>
-            </div>
+            {/* Title */}
+            <h3
+              className={cn(
+                "font-display font-bold text-foreground leading-tight tracking-tight line-clamp-2 group-hover:text-primary transition-colors",
+                isCompact ? "text-sm md:text-base" : "text-sm md:text-[17px]",
+                isFeatured && "lg:text-2xl lg:line-clamp-3"
+              )}
+            >
+              {product.name}
+            </h3>
 
-            {/* Creator trust + social proof row */}
-            {(product.instructorVerified || (product.kind === "course" && product.enrollmentCount)) && (
-              <div className="flex items-center gap-2 text-[10px] md:text-[11px] text-muted-foreground">
+            {/* Consolidated meta row — verified · enrolled · rating */}
+            {(product.instructorVerified || (product.kind === "course" && product.enrollmentCount) || product.rating > 0) && (
+              <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] text-muted-foreground flex-wrap">
                 {product.instructorVerified && (
                   <span className="inline-flex items-center gap-1 text-primary font-medium">
                     <BadgeCheck className="h-3 w-3" /> Verified
                   </span>
                 )}
+                {product.instructorVerified && (product.kind === "course" && !!product.enrollmentCount) && (
+                  <span aria-hidden className="text-border">•</span>
+                )}
                 {product.kind === "course" && !!product.enrollmentCount && (
                   <span className="inline-flex items-center gap-1">
                     <Users className="h-3 w-3" />
-                    {product.enrollmentCount.toLocaleString()} enrolled
+                    {product.enrollmentCount.toLocaleString()}
                   </span>
                 )}
-              </div>
-            )}
-
-            {/* Tag chips */}
-            {chips.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1 md:gap-1.5">
-                {chips.map((c) => (
-                  <span
-                    key={c}
-                    className="text-[9px] md:text-[10px] font-medium text-muted-foreground bg-secondary/70 rounded-full px-2 py-0.5 line-clamp-1 max-w-full"
-                  >
-                    {c}
-                  </span>
-                ))}
+                {((product.instructorVerified || (product.kind === "course" && !!product.enrollmentCount)) && product.rating > 0) && (
+                  <span aria-hidden className="text-border">•</span>
+                )}
                 {product.rating > 0 && (
-                  <span className="ml-auto inline-flex items-center gap-0.5 text-[10px] md:text-[11px] font-medium text-muted-foreground">
+                  <span className="inline-flex items-center gap-0.5 font-medium">
                     <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                     {product.rating}
                   </span>
                 )}
               </div>
             )}
+
+            {/* Tag chips + CTA arrow */}
+            <div className="mt-auto flex items-end justify-between gap-2">
+              {chips.length > 0 ? (
+                <div className="flex flex-wrap items-center gap-1 md:gap-1.5 min-w-0">
+                  {chips.map((c) => (
+                    <span
+                      key={c}
+                      className="text-[9px] md:text-[10px] font-medium text-muted-foreground bg-secondary/70 rounded-full px-2 py-0.5 line-clamp-1 max-w-full"
+                    >
+                      {c}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <span />
+              )}
+
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowQuickView(true);
+                }}
+                aria-label={`${ctaFull} ${product.name}`}
+                className={cn(
+                  "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] md:text-xs font-semibold no-min-tap",
+                  "border border-border bg-background text-foreground",
+                  "transition-all duration-200",
+                  "group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary",
+                  "hover:bg-primary hover:text-primary-foreground hover:border-primary"
+                )}
+              >
+                <span className="hidden sm:inline">{ctaFull}</span>
+                <span className="sm:hidden">{ctaShort}</span>
+                <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </div>
 
             {isFeatured && (
               <div className="flex flex-wrap items-center gap-3 mt-2 pt-3 border-t border-border">
