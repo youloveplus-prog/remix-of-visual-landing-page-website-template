@@ -6,6 +6,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Users, ShoppingBag, BookOpen, Coins, TrendingUp, Award } from "lucide-react";
 import { Reveal } from "@/components/transitions/Reveal";
 
+type CreatedAtRow = { created_at: string };
+type OrderAnalyticsRow = CreatedAtRow & { total: number | string | null; payment_status: string | null };
+type RedemptionAnalyticsRow = CreatedAtRow & { coins_spent: number | string | null; reward_key: string | null };
+
 function bucketDays(rows: { created_at: string }[] | undefined | null, days = 30): number[] {
   const buckets = Array.from({ length: days }, () => 0);
   if (!rows?.length) return buckets;
@@ -121,7 +125,7 @@ export default function AdminAnalytics() {
         .select("created_at")
         .gte("created_at", since.toISOString());
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []) as CreatedAtRow[];
     },
   });
 
@@ -135,7 +139,7 @@ export default function AdminAnalytics() {
         .select("created_at,total,payment_status")
         .gte("created_at", since.toISOString());
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []) as OrderAnalyticsRow[];
     },
   });
 
@@ -162,7 +166,7 @@ export default function AdminAnalytics() {
         .order("created_at", { ascending: false })
         .limit(500);
       if (error) throw error;
-      return data ?? [];
+      return (data ?? []) as RedemptionAnalyticsRow[];
     },
   });
 
@@ -190,8 +194,9 @@ export default function AdminAnalytics() {
   );
 
   // Top redeemed rewards
-  const rewardCounts = (redemptionsQ.data ?? []).reduce<Record<string, number>>((acc, r: any) => {
-    acc[r.reward_key] = (acc[r.reward_key] ?? 0) + 1;
+  const rewardCounts = (redemptionsQ.data ?? []).reduce((acc: Record<string, number>, r) => {
+    const key = r.reward_key ?? "unknown";
+    acc[key] = (acc[key] ?? 0) + 1;
     return acc;
   }, {});
   const topRewards = Object.entries(rewardCounts)
