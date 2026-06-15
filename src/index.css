@@ -827,8 +827,39 @@
 }
 
 /* === Home bento theme ===
-   Bento tile + glow utilities, theme-aware. Midnight Indigo palette is
-   applied only in dark mode; light mode inherits the default light theme. */
+   Bento tile + glow utilities, theme-aware. Light mode now mirrors the
+   About page: warm cream base + soft indigo gradient wash and a primary
+   glow blob behind the hero. Dark mode keeps the Midnight Indigo palette. */
+.home-midnight {
+  position: relative;
+  isolation: isolate;
+}
+.home-midnight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--gradient-primary-soft);
+  opacity: 0.55;
+  mask-image: linear-gradient(180deg, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.6) 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.6) 55%, transparent 100%);
+}
+.home-midnight::after {
+  content: "";
+  position: absolute;
+  top: -10rem;
+  left: -10rem;
+  width: 36rem;
+  height: 36rem;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.22;
+  background: var(--gradient-primary);
+}
+
 .dark .home-midnight {
   --background: 240 43% 7%;        /* #0a0a1a */
   --foreground: 0 0% 98%;
@@ -848,6 +879,10 @@
   --ring: 244 76% 59%;
   background-color: hsl(240 43% 7%);
   color: hsl(0 0% 98%);
+}
+.dark .home-midnight::before,
+.dark .home-midnight::after {
+  display: none;
 }
 
 .midnight-tile {
