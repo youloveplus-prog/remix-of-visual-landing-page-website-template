@@ -175,13 +175,13 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               {product.name}
             </h3>
 
-            {/* Price row — brought down into the content */}
-            <div className="flex items-baseline gap-1.5">
+            {/* Price row — wraps gracefully on narrow cards; discount % already shown on image */}
+            <div className="flex items-baseline gap-x-1.5 gap-y-0.5 flex-wrap min-w-0">
               <Price
                 amount={product.price}
                 className={cn(
-                  "font-display font-bold text-foreground tracking-tight leading-none",
-                  isCompact ? "text-sm md:text-base" : "text-base md:text-lg",
+                  "font-display font-bold text-foreground tracking-tight leading-none whitespace-nowrap",
+                  isCompact ? "text-sm md:text-base" : "text-[15px] md:text-lg",
                   isFeatured && "lg:text-xl"
                 )}
               />
@@ -189,11 +189,11 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
                 <Price
                   amount={product.originalPrice}
                   strike
-                  className="text-xs text-muted-foreground"
+                  className="text-[11px] md:text-xs text-muted-foreground whitespace-nowrap leading-none"
                 />
               )}
               {discount > 0 && (
-                <span className="text-[10px] font-semibold text-primary bg-primary/10 rounded-full px-1.5 py-0.5">
+                <span className="hidden lg:inline text-[10px] font-semibold text-primary bg-primary/10 rounded-full px-1.5 py-0.5 leading-none whitespace-nowrap">
                   Save {discount}%
                 </span>
               )}
