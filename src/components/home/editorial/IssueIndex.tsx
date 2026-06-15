@@ -14,7 +14,7 @@ const toc = [
 
 export function IssueIndex() {
   return (
-    <Spread pageNumber="02" label="Index">
+    <Spread label="Index">
       <div className="grid lg:grid-cols-[1.4fr_1fr] gap-8 sm:gap-12 lg:gap-20">
         <Reveal>
           <div>
