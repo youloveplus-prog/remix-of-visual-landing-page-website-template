@@ -12,30 +12,26 @@ import workspace from "@/assets/trust-workspace.jpg";
 const slides = [
   {
     image: student,
-    eyebrow: "Real learners",
-    title: "12,400+ students learning today",
-    body: "Active from Dhaka to Chattogram — calm, focused, on their own schedule.",
+    title: "12,400+ learners today",
+    body: "Calm, focused, on their own schedule.",
     icon: BadgeCheck,
   },
   {
     image: certificate,
-    eyebrow: "Verified certificates",
-    title: "A signed completion for every course",
-    body: "Share it on LinkedIn, attach it to your CV, keep it forever.",
+    title: "Verified certificates",
+    body: "Signed completion you can share.",
     icon: ShieldCheck,
   },
   {
     image: mentor,
-    eyebrow: "1-on-1 mentorship",
-    title: "Personal teachers, waitlist-only",
-    body: "Hand-picked mentors who actually sit with your child each week.",
+    title: "1-on-1 mentorship",
+    body: "Hand-picked teachers, waitlist-only.",
     icon: BadgeCheck,
   },
   {
     image: workspace,
-    eyebrow: "Instant access",
-    title: "Buy today, start in 30 seconds",
-    body: "All digital — no shipping, no waiting. Pay with card or bKash.",
+    title: "Instant access",
+    body: "Card or bKash. Start in 30 seconds.",
     icon: Zap,
   },
 ];
