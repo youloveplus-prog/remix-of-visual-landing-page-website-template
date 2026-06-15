@@ -17,71 +17,77 @@
 
 @layer base {
   :root {
-    /* === Light theme (Apple-calm, default) ===
-       Spec: bg #F7F8FC, card #FFFFFF, text #0F172A, muted #64748B,
-       primary #2836D9 (indigo), accent #00C896 (mint). */
-    --background: 220 33% 98%;
-    --foreground: 222 47% 11%;
+    /* === Light theme (Warm cream + indigo blue — "Warm bento" direction) ===
+       bg #faf6ef cream, card #ffffff, ink #0f1224, muted ink #5b5e72,
+       primary #3b4fe0 indigo, warm chips: butter #fde2b8, lavender #ece6ff, mint #d8f0e4. */
+    --background: 39 55% 95%;          /* #faf6ef */
+    --foreground: 234 37% 11%;         /* #0f1224 */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 234 37% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 234 70% 50%;
+    --popover-foreground: 234 37% 11%;
+    --primary: 233 72% 55%;            /* #3b4fe0 indigo */
     --primary-foreground: 0 0% 100%;
-    --secondary: 220 20% 96%;
-    --secondary-foreground: 222 47% 14%;
-    --muted: 220 20% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 162 100% 39%;
-    --accent-foreground: 0 0% 100%;
+    --secondary: 39 67% 96%;           /* #fff8ec warm panel */
+    --secondary-foreground: 234 37% 11%;
+    --muted: 39 50% 92%;               /* warm muted */
+    --muted-foreground: 232 13% 40%;
+    --accent: 252 65% 95%;             /* lavender chip surface #ece6ff */
+    --accent-foreground: 233 72% 45%;
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 16% 90%;
-    --input: 220 16% 92%;
-    --ring: 234 70% 50%;
-    --radius: 0.75rem;
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 234 70% 50%;
+    --border: 39 30% 88%;
+    --input: 39 30% 92%;
+    --ring: 233 72% 55%;
+    --radius: 1.25rem;                 /* 20px — more rounded for bento */
+    --sidebar-background: 39 67% 96%;  /* warm cream sidebar */
+    --sidebar-foreground: 234 37% 11%;
+    --sidebar-primary: 233 72% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 162 100% 39%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 16% 90%;
-    --sidebar-ring: 234 70% 50%;
-    --chart-1: 234 70% 50%;
-    --chart-2: 162 100% 39%;
-    --chart-3: 38 92% 50%;
-    --chart-4: 220 90% 55%;
-    --chart-5: 270 60% 55%;
-    --gold: 38 92% 50%;
-    --success: 162 70% 38%;
-    --font-sans: 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Edensor', 'Satoshi', 'Hind Siliguri', ui-sans-serif, system-ui, sans-serif;
+    --sidebar-accent: 252 65% 95%;
+    --sidebar-accent-foreground: 233 72% 45%;
+    --sidebar-border: 39 30% 88%;
+    --sidebar-ring: 233 72% 55%;
+    --chart-1: 233 72% 55%;
+    --chart-2: 198 41% 60%;            /* sky-blue support */
+    --chart-3: 38 92% 70%;             /* butter */
+    --chart-4: 252 65% 80%;             /* lavender */
+    --chart-5: 152 40% 75%;             /* mint */
+    --gold: 38 92% 60%;
+    --success: 152 50% 42%;
+    --font-sans: 'Plus Jakarta Sans', 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Plus Jakarta Sans', 'Edensor', 'Satoshi', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Sentient', ui-serif, Georgia, serif;
     --font-dot: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-    /* Glass tokens — light (toned down) */
+    /* Warm chip surfaces (named tokens) */
+    --chip-butter: 38 92% 86%;         /* #fde2b8 */
+    --chip-lavender: 252 65% 95%;      /* #ece6ff */
+    --chip-mint: 152 47% 89%;          /* #d8f0e4 */
+    --chip-cream: 39 67% 96%;          /* #fff8ec */
+
+    /* Glass tokens — light (warm) */
     --glass-bg: 0 0% 100%;
-    --glass-border: 220 16% 88%;
+    --glass-border: 39 30% 86%;
     --glass-highlight: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(234 70% 50%) 0%, hsl(220 80% 56%) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(234 70% 50% / 0.08) 0%, hsl(162 100% 39% / 0.05) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 33% 98%) 100%);
-    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.5) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(234 70% 50% / 0.06) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(162 100% 39% / 0.05) 0%, transparent 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(233 72% 55%) 0%, hsl(220 80% 60%) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(233 72% 55% / 0.10) 0%, hsl(252 65% 80% / 0.10) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(39 55% 95%) 100%);
+    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.6) 0%, hsl(0 0% 100% / 0) 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(233 72% 55% / 0.10) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(38 92% 70% / 0.18) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 30%, hsl(var(--border)) 70%, transparent);
 
-    /* Calm 3-tier shadow system (Apple-style: large blur, low opacity, downward) */
-    --shadow-xs: 0 1px 2px hsl(222 47% 11% / 0.04);
-    --shadow-sm: 0 1px 3px hsl(222 47% 11% / 0.05);
-    --shadow-md: 0 4px 14px -4px hsl(222 47% 11% / 0.06);
-    --shadow-lg: 0 12px 32px -12px hsl(222 47% 11% / 0.10);
-    --shadow-xl: 0 24px 56px -20px hsl(222 47% 11% / 0.14);
-    --shadow-2xl: 0 36px 72px -28px hsl(222 47% 11% / 0.18);
-    --shadow-glow: 0 0 0 1px hsl(234 70% 50% / 0.18), 0 8px 24px -8px hsl(234 70% 50% / 0.22);
-    --shadow-elevated: 0 12px 32px -16px hsl(222 47% 11% / 0.12);
+    /* Warm shadow system (soft, downward, low opacity) */
+    --shadow-xs: 0 1px 2px hsl(234 37% 11% / 0.04);
+    --shadow-sm: 0 1px 3px hsl(234 37% 11% / 0.05);
+    --shadow-md: 0 6px 18px -6px hsl(234 37% 11% / 0.08);
+    --shadow-lg: 0 18px 40px -18px hsl(234 37% 11% / 0.12);
+    --shadow-xl: 0 28px 60px -24px hsl(234 37% 11% / 0.16);
+    --shadow-2xl: 0 30px 60px -30px hsl(234 37% 11% / 0.18);
+    --shadow-glow: 0 0 0 1px hsl(233 72% 55% / 0.18), 0 10px 28px -10px hsl(233 72% 55% / 0.24);
+    --shadow-elevated: 0 14px 36px -18px hsl(234 37% 11% / 0.14);
 
     --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
     --duration-fast: 160ms;
