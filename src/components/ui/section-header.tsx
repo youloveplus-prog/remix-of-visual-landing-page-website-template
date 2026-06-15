@@ -9,11 +9,19 @@ interface SectionHeaderProps {
   viewAllLabel?: string;
   className?: string;
   eyebrow?: string;
+  /**
+   * Render the title with the theme-aware brand gradient (`text-brand-gradient`).
+   * Defaults to `true` so editorial headers across the app share a consistent
+   * premium look in both light and dark modes. Set to `false` to opt out for
+   * dense surfaces where a flat title reads better.
+   */
+  accent?: boolean;
 }
 
 /**
- * Editorial section header — left accent bar (gradient), display font title,
- * optional eyebrow kicker, and an animated "View all →" link.
+ * Editorial section header — gradient display title, optional eyebrow kicker,
+ * and an animated "View all →" link. The gradient is sourced from the
+ * `text-brand-gradient` theme token so it swaps automatically with the theme.
  */
 export function SectionHeader({
   title,
@@ -22,6 +30,7 @@ export function SectionHeader({
   viewAllLabel = "View all",
   className,
   eyebrow,
+  accent = true,
 }: SectionHeaderProps) {
   return (
     <div className={cn("flex items-end justify-between gap-3 mb-4", className)}>
@@ -31,7 +40,12 @@ export function SectionHeader({
             {eyebrow}
           </p>
         )}
-        <h2 className="font-display font-bold text-foreground leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] lg:text-[40px]">
+        <h2
+          className={cn(
+            "font-display font-bold leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] lg:text-[40px]",
+            accent ? "text-brand-gradient" : "text-foreground",
+          )}
+        >
           {title}
         </h2>
         {subtitle && (
