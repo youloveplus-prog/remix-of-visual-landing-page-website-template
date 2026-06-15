@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useContentItem, useMyPurchases, getSignedAssetUrl } from "@/hooks/useContent";
+import { useEnrollInCourse, useEnrollments } from "@/hooks/useEnrollments";
 import { useAuth } from "@/hooks/useAuth";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -18,8 +19,11 @@ export default function ContentDetail() {
   const { user } = useAuth();
   const { data: item, isLoading } = useContentItem(slug ?? "");
   const { data: purchases = [] } = useMyPurchases();
+  const { data: enrollments = [] } = useEnrollments();
+  const enrollMutation = useEnrollInCourse();
 
   const owned = !!item && (item.is_free || purchases.some((p: any) => p.item_id === item.id));
+  const enrolled = !!item && enrollments.some((e) => e.item_id === item.id);
 
   const { data: assets = [] } = useQuery({
     queryKey: ["content_assets_public", item?.id],
@@ -59,8 +63,16 @@ export default function ContentDetail() {
         user_id: user.id,
         item_id: item.id,
       });
-      if (error && !error.message.includes("duplicate")) toast.error(error.message);
-      else toast.success("Unlocked! Find it in your Library.");
+      if (error && !error.message.includes("duplicate")) {
+        toast.error(error.message);
+        return;
+      }
+      if (item.kind === "course") {
+        try { await enrollMutation.mutateAsync(item.id); } catch {}
+        toast.success("Enrolled! Start learning.");
+      } else {
+        toast.success("Unlocked! Find it in your Library.");
+      }
       return;
     }
     // Paid — go to cart/checkout flow with a content marker
@@ -108,7 +120,13 @@ export default function ContentDetail() {
               )}
             </div>
             <Button onClick={getOrPurchase} variant="premium" size="lg" disabled={owned}>
-              {owned ? "Owned — Open in Library" : item.is_free ? "Get free access" : "Purchase"}
+              {enrolled && item.kind === "course"
+                ? "Continue learning"
+                : owned
+                ? "Owned — Open in Library"
+                : item.is_free
+                ? item.kind === "course" ? "Enroll for free" : "Get free access"
+                : item.kind === "course" ? "Enroll now" : "Purchase"}
             </Button>
           </div>
         </Reveal>

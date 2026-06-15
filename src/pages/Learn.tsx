@@ -14,6 +14,7 @@ import { XPBar } from "@/features/progress/XPBar";
 import { useTracks, useLessonCompletions } from "@/hooks/useTracks";
 import { useLearnerProfile } from "@/hooks/useLearnerProfile";
 import { useAuth } from "@/hooks/useAuth";
+import { MyCoursesSection } from "@/components/learn/MyCoursesSection";
 import { cn } from "@/lib/utils";
 
 export default function Learn() {
@@ -100,6 +101,9 @@ export default function Learn() {
             <ArrowRight className="h-5 w-5 text-primary group-hover:translate-x-0.5 transition-transform shrink-0" />
           </div>
         </Link>
+
+        {/* My enrolled courses */}
+        <MyCoursesSection />
 
         {/* Continue learning */}
         {activeTrack && (
