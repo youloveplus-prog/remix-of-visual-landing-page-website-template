@@ -130,7 +130,7 @@ export function DesktopHeroBento() {
             <IconChip><BookOpen className="h-4 w-4" /></IconChip>
             <h3 className="font-display font-bold text-lg">Use Template</h3>
           </div>
-          <div className="relative bg-white rounded-2xl p-2 flex items-center gap-2 shadow-sm">
+          <div className="relative surface-panel rounded-2xl p-2 flex items-center gap-2 shadow-sm">
             <img src={courseImg} alt="" className="w-14 h-14 rounded-xl object-cover" />
             <div className="flex-1 space-y-1.5">
               <div className="h-1.5 rounded-full bg-muted w-3/4" />
