@@ -53,6 +53,7 @@ const AdminBannersMod = () => import("./pages/admin/AdminBanners");
 const AdminTracksMod = () => import("./pages/admin/AdminTracks");
 const AdminLessonsMod = () => import("./pages/admin/AdminLessons");
 const AdminAnalyticsMod = () => import("./pages/admin/AdminAnalytics");
+const AdminLegalAnalyticsMod = () => import("./pages/admin/AdminLegalAnalytics");
 const AdminNotificationsMod = () => import("./pages/admin/AdminNotifications");
 const AdminRewardsMod = () => import("./pages/admin/AdminRewards");
 const AdminAuditLogMod = () => import("./pages/admin/AdminAuditLog");
@@ -98,6 +99,7 @@ const AdminBanners = lazy(AdminBannersMod);
 const AdminTracks = lazy(AdminTracksMod);
 const AdminLessons = lazy(AdminLessonsMod);
 const AdminAnalytics = lazy(AdminAnalyticsMod);
+const AdminLegalAnalytics = lazy(AdminLegalAnalyticsMod);
 const AdminNotifications = lazy(AdminNotificationsMod);
 const AdminRewards = lazy(AdminRewardsMod);
 const AdminAuditLog = lazy(AdminAuditLogMod);
@@ -232,6 +234,7 @@ function AnimatedRoutes() {
             <Route path="tracks" element={<AdminTracks />} />
             <Route path="lessons" element={<AdminLessons />} />
             <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="analytics/legal" element={<AdminLegalAnalytics />} />
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="rewards" element={<AdminRewards />} />
             <Route path="audit-log" element={<AdminAuditLog />} />
