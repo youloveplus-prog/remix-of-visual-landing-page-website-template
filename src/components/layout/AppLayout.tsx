@@ -104,20 +104,23 @@ export function AppLayout({
       <div className="min-h-dvh bg-background">
         <SkipLink />
         {/* Header */}
-        {isMobile ? (
-          <MobileHeader
-            onMenuClick={() => setSidebarOpen(true)}
-            onSearchClick={() => setSearchOpen(true)}
-            cartCount={cartCount}
-          />
-        ) : isHome ? (
-          <HomeTopHeader showTrustStrip={showTrustStrip} cartCount={cartCount} />
-        ) : (
-          <SlimDesktopHeader
-            cartCount={cartCount}
-            isSidebarCollapsed={isCollapsed}
-          />
-        )}
+        <HeaderMenuOpenProvider>
+          {isMobile ? (
+            <MobileHeader
+              onMenuClick={() => setSidebarOpen(true)}
+              onSearchClick={() => setSearchOpen(true)}
+              cartCount={cartCount}
+            />
+          ) : isHome ? (
+            <HomeTopHeader showTrustStrip={showTrustStrip} cartCount={cartCount} />
+          ) : (
+            <SlimDesktopHeader
+              cartCount={cartCount}
+              isSidebarCollapsed={isCollapsed}
+            />
+          )}
+        </HeaderMenuOpenProvider>
+
 
         {/* Mobile Sidebar (Sheet) */}
         <Sidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
