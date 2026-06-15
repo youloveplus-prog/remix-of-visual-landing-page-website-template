@@ -72,7 +72,7 @@ export function SiteFooter() {
             </p>
             <Link
               to="/learn"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-background text-foreground pl-6 pr-2 py-2 text-sm font-semibold shadow-lg hover:-translate-y-0.5 hover:shadow-xl transition"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-background text-foreground pl-6 pr-2 py-2 text-sm font-semibold shadow-lg hover:-translate-y-0.5 hover:shadow-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               Start learning
               <span className="grid place-items-center h-8 w-8 rounded-full bg-foreground text-background">
@@ -110,7 +110,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <nav className="lg:col-span-4 grid grid-cols-2 gap-6 md:gap-8" aria-label="Footer">
+          <nav className="lg:col-span-4 grid grid-cols-2 gap-6 md:gap-8" aria-label="Footer navigation">
             {columns.map((col) => (
               <div key={col.title}>
                 <h3 className="font-display text-lg font-bold tracking-tight text-foreground">
@@ -121,7 +121,7 @@ export function SiteFooter() {
                     <li key={l.to + l.label}>
                       <Link
                         to={l.to}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:underline"
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded"
                       >
                         {l.label}
                       </Link>
@@ -133,32 +133,35 @@ export function SiteFooter() {
           </nav>
 
           <div className="lg:col-span-4">
-            <h3 className="font-display text-lg font-bold tracking-tight text-foreground">
+            <h3 id="newsletter-heading" className="font-display text-lg font-bold tracking-tight text-foreground">
               Newsletter
             </h3>
-            <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+            <p id="newsletter-desc" className="mt-4 text-sm text-muted-foreground leading-relaxed">
               Get tips, product updates, and insights on learning smarter with AI.
             </p>
             <form
               onSubmit={handleSubscribe}
-              className="mt-5 flex items-center gap-1 rounded-full border border-border bg-background p-1 pl-4 focus-within:border-primary/50 transition"
+              aria-labelledby="newsletter-heading"
+              className="mt-5 flex items-center gap-1 rounded-full border border-border bg-background p-1 pl-4 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/30 transition"
             >
+              <label htmlFor="footer-email" className="sr-only">Email address</label>
               <input
+                id="footer-email"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
                 className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/70"
-                aria-label="Email address"
+                aria-describedby="newsletter-desc"
               />
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 style={{ background: "var(--gradient-primary)" }}
               >
                 Subscribe
-                <ChevronRight className="h-3.5 w-3.5" />
+                <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
             </form>
           </div>
