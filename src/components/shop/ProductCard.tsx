@@ -175,6 +175,30 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               {product.name}
             </h3>
 
+            {/* Price row — brought down into the content */}
+            <div className="flex items-baseline gap-1.5">
+              <Price
+                amount={product.price}
+                className={cn(
+                  "font-display font-bold text-foreground tracking-tight leading-none",
+                  isCompact ? "text-sm md:text-base" : "text-base md:text-lg",
+                  isFeatured && "lg:text-xl"
+                )}
+              />
+              {product.originalPrice && (
+                <Price
+                  amount={product.originalPrice}
+                  strike
+                  className="text-xs text-muted-foreground"
+                />
+              )}
+              {discount > 0 && (
+                <span className="text-[10px] font-semibold text-primary bg-primary/10 rounded-full px-1.5 py-0.5">
+                  Save {discount}%
+                </span>
+              )}
+            </div>
+
             {/* Consolidated meta row — verified · enrolled · rating */}
             {(product.instructorVerified || (product.kind === "course" && product.enrollmentCount) || product.rating > 0) && (
               <div className="flex items-center gap-1.5 text-[10px] md:text-[11px] text-muted-foreground flex-wrap">
