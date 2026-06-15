@@ -25,26 +25,26 @@ export function FeatureStory() {
   return (
     <Spread label="Feature">
       <Reveal>
-        <article className="relative overflow-hidden rounded-[24px] sm:rounded-[32px] border border-foreground/10 bg-card shadow-[0_1px_0_hsl(var(--foreground)/0.04),0_30px_60px_-40px_hsl(var(--primary)/0.35)]">
+        <article className="relative overflow-hidden rounded-2xl sm:rounded-[32px] border border-foreground/10 bg-card shadow-[0_1px_0_hsl(var(--foreground)/0.04),0_30px_60px_-40px_hsl(var(--primary)/0.35)]">
           {/* Top meta strip */}
-          <div className="flex items-center justify-between gap-3 px-5 sm:px-8 pt-5 sm:pt-6">
+          <div className="flex items-center justify-between gap-3 px-4 sm:px-8 pt-4 sm:pt-6">
             <div className="flex items-center gap-2">
               <span className="inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                 This week · Editor's pick
               </span>
             </div>
             {lead?.original_price && lead?.price !== undefined && (
-              <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary">
+              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-primary">
                 Save ৳{Number(lead.original_price) - Number(lead.price)}
               </span>
             )}
           </div>
 
-          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-0 lg:gap-0 mt-4 sm:mt-6">
+          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-0 lg:gap-0 mt-3 sm:mt-6">
             {/* Image side */}
-            <div className="relative px-5 sm:px-8 lg:pl-8 lg:pr-4">
-              <div className="relative aspect-[5/4] sm:aspect-[4/3] lg:aspect-[5/6] rounded-2xl sm:rounded-3xl overflow-hidden bg-muted ring-1 ring-foreground/5">
+            <div className="relative px-4 sm:px-8 lg:pl-8 lg:pr-4">
+              <div className="relative aspect-[16/10] sm:aspect-[4/3] lg:aspect-[5/6] rounded-xl sm:rounded-3xl overflow-hidden bg-muted ring-1 ring-foreground/5">
                 {isLoading ? (
                   <Skeleton className="absolute inset-0" />
                 ) : lead?.image_url ? (
@@ -66,12 +66,12 @@ export function FeatureStory() {
 
                 {/* Floating price tag */}
                 {lead?.price !== undefined && (
-                  <div className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4 inline-flex items-baseline gap-2 rounded-full bg-background/95 backdrop-blur px-3.5 py-2 shadow-lg border border-foreground/10">
-                    <span className="font-display font-bold text-base sm:text-lg tabular-nums">
+                  <div className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4 inline-flex items-baseline gap-2 rounded-full bg-background/95 backdrop-blur px-3 py-1.5 sm:px-3.5 sm:py-2 shadow-lg border border-foreground/10">
+                    <span className="font-display font-bold text-sm sm:text-lg tabular-nums">
                       ৳{lead.price}
                     </span>
                     {lead?.original_price && (
-                      <span className="text-xs text-muted-foreground line-through tabular-nums">
+                      <span className="text-[11px] sm:text-xs text-muted-foreground line-through tabular-nums">
                         ৳{lead.original_price}
                       </span>
                     )}
@@ -82,20 +82,20 @@ export function FeatureStory() {
 
             {/* Text side */}
             <Reveal delay={120}>
-              <div className="px-5 sm:px-8 lg:pl-6 lg:pr-10 py-6 sm:py-8 lg:py-10 flex flex-col">
-                <h2 className="editorial-headline mb-4 text-[clamp(1.75rem,4.2vw,2.75rem)] leading-[1.05]">
+              <div className="px-4 sm:px-8 lg:pl-6 lg:pr-10 py-5 sm:py-8 lg:py-10 flex flex-col">
+                <h2 className="editorial-headline mb-3 sm:mb-4 text-[clamp(1.4rem,4.2vw,2.75rem)] leading-[1.05]">
                   {lead?.name ?? "The course we'd start with today."}
                 </h2>
-                <p className="editorial-dek mb-6 max-w-[44ch] text-muted-foreground">
+                <p className="editorial-dek mb-4 sm:mb-6 max-w-[44ch] text-muted-foreground text-sm sm:text-base">
                   A calm, hand-picked starting point — paired with a 24/7 AI tutor.
                 </p>
 
                 {/* Trust chips */}
-                <ul className="flex flex-wrap gap-2 mb-7">
+                <ul className="flex flex-wrap gap-2 mb-5 sm:mb-7">
                   {["24/7 AI tutor", "Certificate", "Instant access", "Lifetime"].map((t) => (
                     <li
                       key={t}
-                      className="rounded-full bg-muted/60 border border-foreground/10 px-3 py-1 text-xs font-medium text-foreground/80"
+                      className="rounded-full bg-muted/60 border border-foreground/10 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-medium text-foreground/80"
                     >
                       {t}
                     </li>
@@ -103,7 +103,7 @@ export function FeatureStory() {
                 </ul>
 
                 <div className="mt-auto flex flex-col sm:flex-row gap-3 sm:items-center">
-                  <Button asChild variant="premium" size="lg" className="w-full sm:w-auto">
+                  <Button asChild variant="premium" size="default" className="w-full sm:w-auto sm:size-lg">
                     <Link to={lead?.slug ? `/product/${lead.slug}` : "/shop"}>
                       View course
                       <ArrowUpRight className="h-4 w-4" />
