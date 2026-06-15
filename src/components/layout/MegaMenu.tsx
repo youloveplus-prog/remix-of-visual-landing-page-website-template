@@ -295,7 +295,7 @@ export function MegaMenu({ className }: { className?: string }) {
 
   return (
     <NM value={value} onValueChange={setValue} className={cn("hidden md:flex", className)}>
-      <NavigationMenuList className="gap-1">
+      <NavigationMenuList className="gap-0.5">
 
         {PANELS.map((p) => {
           const Icon = p.icon;
@@ -304,26 +304,15 @@ export function MegaMenu({ className }: { className?: string }) {
             <NavigationMenuItem key={p.label}>
               <NavigationMenuTrigger
                 className={cn(
-                  "group/trg relative bg-transparent rounded-full px-3.5 h-9 text-sm font-medium",
+                  "group/trg relative bg-transparent rounded-full px-3 h-8 text-[13px] font-medium leading-none",
                   "data-[state=open]:bg-primary data-[state=open]:text-primary-foreground data-[state=open]:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.55)]",
                   "hover:bg-primary/10 hover:text-primary",
                   "transition-colors",
                   active && "text-primary"
                 )}
               >
-
-                <Icon className="h-3.5 w-3.5 mr-1.5 opacity-80" />
+                <Icon className="h-3.5 w-3.5 mr-1 opacity-80" />
                 {p.label}
-                {/* Animated underline */}
-                <span
-                  aria-hidden
-                  className={cn(
-                    "pointer-events-none absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full origin-center scale-x-0 transition-transform duration-300",
-                    "group-hover/trg:scale-x-100 group-data-[state=open]/trg:scale-x-100",
-                    active && "scale-x-100"
-                  )}
-                  style={{ background: "var(--gradient-primary)" }}
-                />
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <PanelGrid panel={p} />
@@ -336,21 +325,12 @@ export function MegaMenu({ className }: { className?: string }) {
             <Link
               to="/about"
               className={cn(
-                "group/lnk relative inline-flex items-center gap-1.5 px-3.5 h-9 text-sm font-medium rounded-full transition-colors hover:bg-secondary/60",
+                "inline-flex items-center gap-1 px-3 h-8 text-[13px] font-medium leading-none rounded-full transition-colors hover:bg-primary/10 hover:text-primary",
                 pathname === "/about" && "text-primary"
               )}
             >
               <Compass className="h-3.5 w-3.5 opacity-80" />
               About
-              <span
-                aria-hidden
-                className={cn(
-                  "pointer-events-none absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full origin-center scale-x-0 transition-transform duration-300",
-                  "group-hover/lnk:scale-x-100",
-                  pathname === "/about" && "scale-x-100"
-                )}
-                style={{ background: "var(--gradient-primary)" }}
-              />
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
