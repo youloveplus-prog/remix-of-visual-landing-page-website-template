@@ -222,5 +222,6 @@ export const LegalShell = ({
         </div>
       </div>
     </AppLayout>
+    </LegalPresenceContext.Provider>
   );
 };
