@@ -7,6 +7,8 @@ interface SEOProps {
   url?: string;
   type?: "website" | "article" | "product";
   noIndex?: boolean;
+  /** Skip emitting <link rel="canonical"> entirely (e.g. 404 pages). */
+  suppressCanonical?: boolean;
   children?: React.ReactNode;
 }
 
@@ -25,12 +27,14 @@ export function SEO({
   url,
   type = "website",
   noIndex = false,
+  suppressCanonical = false,
   children,
 }: SEOProps) {
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
-  const canonical =
-    url ??
-    (typeof window !== "undefined" ? window.location.href.split("?")[0] : undefined);
+  const canonical = suppressCanonical
+    ? undefined
+    : url ??
+      (typeof window !== "undefined" ? window.location.href.split("?")[0] : undefined);
   const ogImage = image ?? DEFAULT_OG;
 
   return (
