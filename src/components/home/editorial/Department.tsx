@@ -13,11 +13,10 @@ interface DepartmentProps {
  * Department — thin wrapper around HomeSection's `department` variant.
  * Kept as a named export so the editorial spreads keep their semantic naming.
  */
-export function Department({ name, number, dek, children, className }: DepartmentProps) {
+export function Department({ name, dek, children, className }: DepartmentProps) {
   return (
     <HomeSection
-      variant="department"
-      eyebrow={number}
+      variant="plain"
       title={name}
       dek={dek}
       className={className}
