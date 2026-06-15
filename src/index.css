@@ -931,13 +931,17 @@
 
 @layer components {
   .prose-legal { @apply text-foreground/90 leading-relaxed; }
-  .prose-legal h2 { @apply font-display text-2xl sm:text-3xl font-semibold mt-10 mb-4 first:mt-0; }
+  .prose-legal h2 {
+    @apply font-display text-xl sm:text-2xl font-semibold mt-0 mb-4 tracking-tight;
+    letter-spacing: -0.02em;
+  }
   .prose-legal p, .prose-legal li { @apply text-muted-foreground; }
-  .prose-legal ul, .prose-legal ol { @apply space-y-2 my-4 pl-5; }
+  .prose-legal ul, .prose-legal ol { @apply space-y-2 my-3 pl-5; }
   .prose-legal ul { @apply list-disc; }
   .prose-legal ol { @apply list-decimal; }
-  .prose-legal a { @apply text-primary underline underline-offset-4 hover:opacity-80; }
-  .prose-legal strong { @apply text-foreground; }
+  .prose-legal a { @apply text-primary underline underline-offset-4 hover:opacity-80 transition-opacity; }
+  .prose-legal strong { @apply text-foreground font-semibold; }
+  .prose-legal .legal-card + .legal-card { @apply mt-4; }
 }
 
 /* Hide all scrollbars on mobile (visual only — scrolling still works) */
