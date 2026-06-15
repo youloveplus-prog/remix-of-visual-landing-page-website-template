@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useHomeBanners } from "@/hooks/useHomeBanners";
 import { cn } from "@/lib/utils";
+import { buildSrcSet, transformedSrc } from "@/lib/imageSrcset";
 import courseAiMl from "@/assets/course-ai-ml.webp";
 import coursePython from "@/assets/course-python.webp";
 import promptLibrary from "@/assets/prompt-library.webp";
@@ -99,7 +100,13 @@ export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } =
                 )}
               >
                 <img
-                  src={b.image_url}
+                  src={transformedSrc(b.image_url, 1280)}
+                  srcSet={buildSrcSet(b.image_url)}
+                  sizes={
+                    fullWidth
+                      ? "(min-width: 1536px) 100vw, (min-width: 1024px) 100vw, 100vw"
+                      : "(min-width: 768px) 55vw, (min-width: 640px) 70vw, 100vw"
+                  }
                   alt={b.alt_text ?? b.title ?? "Promotional banner"}
                   loading={isFirst ? "eager" : "lazy"}
                   decoding={isFirst ? "sync" : "async"}
