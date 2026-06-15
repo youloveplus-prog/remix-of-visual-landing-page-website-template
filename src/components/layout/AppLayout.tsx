@@ -146,7 +146,7 @@ export function AppLayout({
             fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-dvh",
             "transition-all duration-300",
             !fillViewport && isMobile && showBottomNav && "pb-28",
-            !isMobile && showDesktopSidebar && (isCollapsed ? "lg:pl-16" : "lg:pl-60"),
+            !isMobile && showDesktopSidebar && sidebarPaddingClassLg(isCollapsed),
             className
           )}
           style={{
