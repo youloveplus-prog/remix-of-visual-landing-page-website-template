@@ -1179,16 +1179,6 @@
     color: hsl(var(--foreground) / 0.82);
     text-wrap: balance;
   }
-}
-  .editorial-pullquote {
-    font-family: 'Sentient', 'Plus Jakarta Sans', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
-    line-height: 1.35;
-    color: hsl(var(--foreground) / 0.85);
-  }
-}
 
 /* === Editorial spread entrance animations === */
 @layer components {
