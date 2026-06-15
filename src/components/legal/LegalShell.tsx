@@ -3,6 +3,9 @@ import { SEO } from "@/components/SEO";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
+import { useLegalPresence } from "@/hooks/useLegalPresence";
+import { LegalPresenceContext } from "@/components/legal/LegalPresenceContext";
+import { Eye } from "lucide-react";
 
 interface LegalShellProps {
   eyebrow: string;
@@ -34,6 +37,10 @@ export const LegalShell = ({
   const depthFiredRef = useRef<Set<number>>(new Set());
   const sectionViewedRef = useRef<Set<number>>(new Set());
   const pageKey = analyticsSlug ?? canonical;
+  const { counts: presenceCounts, total: presenceTotal } = useLegalPresence(
+    pageKey,
+    activeSection
+  );
 
   const handleScroll = useCallback(() => {
     if (!toc || toc.length === 0) return;
