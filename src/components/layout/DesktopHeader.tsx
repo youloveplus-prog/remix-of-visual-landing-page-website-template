@@ -106,14 +106,16 @@ export function DesktopHeader({
         </div>
       </div>
 
-      {/* Sub-row — Breadcrumbs only (collapses on scroll) */}
+      {/* Sub-row — Breadcrumbs only (collapses on scroll, sits BELOW the open mega menu) */}
       <div
         className={cn(
-          "hairline-bottom overflow-hidden transition-all duration-300",
+          "hairline-bottom overflow-hidden relative z-[1]",
+          "transition-[max-height,opacity,padding] duration-300 ease-out",
           "bg-background/40 backdrop-blur-xl",
-          isScrolled ? "max-h-0 opacity-0" : "max-h-10 opacity-100 py-1.5"
+          isScrolled ? "max-h-0 opacity-0 py-0" : "max-h-10 opacity-100 py-1.5"
         )}
       >
+
         <div className="container-editorial">
           <Breadcrumbs />
         </div>
