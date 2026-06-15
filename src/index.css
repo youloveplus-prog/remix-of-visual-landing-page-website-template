@@ -104,22 +104,23 @@
     /* === Dark theme (pure black) === */
     --background: 0 0% 0%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 4%;
+    --card: 0 0% 0%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 4%;
+    --popover: 0 0% 0%;
     --popover-foreground: 0 0% 98%;
     --primary: 234 80% 62%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 8%;
+    --secondary: 0 0% 6%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 7%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 0 0% 5%;
+    --muted-foreground: 0 0% 68%;
     --accent: 162 90% 45%;
     --accent-foreground: 0 0% 0%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 14%;
-    --input: 0 0% 10%;
+    --border: 0 0% 18%;
+    --input: 0 0% 8%;
+
     --ring: 234 80% 62%;
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 98%;
