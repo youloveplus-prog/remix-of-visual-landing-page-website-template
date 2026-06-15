@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useHomeBanners } from "@/hooks/useHomeBanners";
 import { cn } from "@/lib/utils";
+import { buildSrcSet, transformedSrc } from "@/lib/imageSrcset";
 import courseAiMl from "@/assets/course-ai-ml.webp";
 import coursePython from "@/assets/course-python.webp";
 import promptLibrary from "@/assets/prompt-library.webp";
