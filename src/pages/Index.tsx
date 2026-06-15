@@ -21,6 +21,7 @@ import { FeatureStory } from "@/components/home/editorial/FeatureStory";
 import { Department } from "@/components/home/editorial/Department";
 import { Spread } from "@/components/home/editorial/Spread";
 import { BackMatter } from "@/components/home/editorial/BackMatter";
+import { TrustCarousel } from "@/components/home/editorial/TrustCarousel";
 
 // Lazy department contents — protect first paint
 const QuickAccessGrid = lazy(() =>
@@ -157,6 +158,13 @@ const Index = () => {
           {/* Spread 2 — Issue Index */}
           <div id="issue-index">
             <IssueIndex />
+          </div>
+
+          {/* Spread 2.5 — Trust carousel */}
+          <div id="trust">
+            <Spread pageNumber="03 / 06" label="Why learners trust us">
+              <TrustCarousel />
+            </Spread>
           </div>
 
           {/* Spread 3 — Feature Story */}
