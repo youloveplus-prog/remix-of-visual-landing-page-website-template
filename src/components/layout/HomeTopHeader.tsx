@@ -8,19 +8,15 @@ import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
-
-import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
 
-
 interface HomeTopHeaderProps {
-  showTrustStrip?: boolean;
   cartCount?: number;
 }
 
 /**
  * Full-width top header used only on the home page.
- * Features a mega menu. No sidebar is rendered on home.
+ * No sidebar is rendered on home.
  */
 export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopHeaderProps) {
   const { hidden, scrollY } = useHeaderHidden();
