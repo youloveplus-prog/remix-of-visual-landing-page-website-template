@@ -153,7 +153,7 @@ export function DesktopHeroBento() {
             <h3 className="font-display font-bold text-lg">Track Progress</h3>
           </div>
           <div className="flex items-center justify-end gap-2">
-            <span className="rounded-full bg-white text-foreground px-4 py-2 text-sm font-semibold shadow-sm">
+            <span className="rounded-full surface-panel text-foreground px-4 py-2 text-sm font-semibold shadow-sm">
               Connect
             </span>
             <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center">
