@@ -1,46 +1,185 @@
-import { Play, Volume2, Maximize2 } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 interface Props {
   poster?: string | null;
+  src?: string | null;
   title: string;
-  currentTime?: string;
-  totalTime?: string;
-  progress?: number; // 0-100
 }
 
-export function CourseVideoCard({ poster, title, currentTime = "00:46", totalTime = "30:45", progress = 35 }: Props) {
-  return (
-    <div className="surface-panel rounded-3xl overflow-hidden">
-      <div className="relative aspect-video w-full bg-muted">
-        {poster ? (
-          <img src={poster} alt={title} className="absolute inset-0 w-full h-full object-cover" />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/10" />
-        )}
-        {/* dim overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+const FALLBACK_SRC =
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
-        {/* play button */}
+function fmt(t: number) {
+  if (!isFinite(t) || t < 0) t = 0;
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+export function CourseVideoCard({ poster, src, title }: Props) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  const togglePlay = useCallback(async () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      try {
+        await v.play();
+        setStarted(true);
+      } catch {/* ignored */}
+    } else {
+      v.pause();
+    }
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+  }, []);
+
+  const toggleFullscreen = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) document.exitFullscreen();
+    else el.requestFullscreen?.();
+  }, []);
+
+  const onSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = videoRef.current;
+    if (!v || !duration) return;
+    const pct = Number(e.target.value);
+    v.currentTime = (pct / 100) * duration;
+    setCurrent(v.currentTime);
+  };
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    const onTime = () => setCurrent(v.currentTime);
+    const onMeta = () => setDuration(v.duration || 0);
+    v.addEventListener("play", onPlay);
+    v.addEventListener("pause", onPause);
+    v.addEventListener("timeupdate", onTime);
+    v.addEventListener("loadedmetadata", onMeta);
+    v.addEventListener("durationchange", onMeta);
+    return () => {
+      v.removeEventListener("play", onPlay);
+      v.removeEventListener("pause", onPause);
+      v.removeEventListener("timeupdate", onTime);
+      v.removeEventListener("loadedmetadata", onMeta);
+      v.removeEventListener("durationchange", onMeta);
+    };
+  }, []);
+
+  const progress = duration > 0 ? (current / duration) * 100 : 0;
+  const videoSrc = src ?? FALLBACK_SRC;
+
+  return (
+    <div ref={containerRef} className="surface-panel rounded-3xl overflow-hidden">
+      <div className="relative aspect-video w-full bg-black group">
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          poster={poster ?? undefined}
+          preload="metadata"
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover cursor-pointer"
+          onClick={togglePlay}
+          aria-label={title}
+        />
+
+        {/* dim overlay only when not playing */}
+        {!playing && (
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        )}
+
+        {/* big play / pause button — hides while playing, reappears on hover */}
         <button
-          aria-label="Play video"
-          className="absolute inset-0 m-auto w-16 h-16 rounded-2xl bg-background/85 backdrop-blur-md grid place-items-center shadow-xl hover:scale-105 transition-transform"
+          type="button"
+          onClick={togglePlay}
+          aria-label={playing ? "Pause video" : "Play video"}
+          className={[
+            "absolute inset-0 m-auto w-16 h-16 rounded-2xl bg-background/85 backdrop-blur-md grid place-items-center shadow-xl transition-all",
+            playing
+              ? "opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100"
+              : "opacity-100 scale-100 hover:scale-105",
+          ].join(" ")}
         >
-          <Play className="w-6 h-6 text-foreground fill-foreground translate-x-[1px]" />
+          {playing ? (
+            <Pause className="w-6 h-6 text-foreground fill-foreground" />
+          ) : (
+            <Play className="w-6 h-6 text-foreground fill-foreground translate-x-[1px]" />
+          )}
         </button>
 
         {/* controls bar */}
-        <div className="absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-2xl bg-background/30 backdrop-blur-md px-3 py-2 text-white">
-          <button aria-label="Play" className="w-7 h-7 grid place-items-center rounded-full bg-white/20">
-            <Play className="w-3.5 h-3.5 fill-white" />
+        <div
+          className={[
+            "absolute bottom-3 left-3 right-3 flex items-center gap-3 rounded-2xl bg-background/30 backdrop-blur-md px-3 py-2 text-white transition-opacity",
+            started && playing ? "opacity-0 group-hover:opacity-100" : "opacity-100",
+          ].join(" ")}
+        >
+          <button
+            type="button"
+            onClick={togglePlay}
+            aria-label={playing ? "Pause" : "Play"}
+            className="w-7 h-7 grid place-items-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+          >
+            {playing ? (
+              <Pause className="w-3.5 h-3.5 fill-white" />
+            ) : (
+              <Play className="w-3.5 h-3.5 fill-white" />
+            )}
           </button>
-          <div className="flex-1 h-1.5 rounded-full bg-white/25 overflow-hidden">
-            <div className="h-full bg-primary" style={{ width: `${progress}%` }} />
+
+          <div className="relative flex-1 h-1.5 rounded-full bg-white/25 overflow-hidden">
+            <div
+              className="h-full bg-primary pointer-events-none"
+              style={{ width: `${progress}%` }}
+            />
+            <input
+              type="range"
+              min={0}
+              max={100}
+              step={0.1}
+              value={progress}
+              onChange={onSeek}
+              aria-label="Seek"
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
           </div>
+
           <span className="font-mono text-[11px] tabular-nums whitespace-nowrap">
-            {currentTime} / {totalTime}
+            {fmt(current)} / {fmt(duration)}
           </span>
-          <Maximize2 className="w-4 h-4 opacity-80" />
-          <Volume2 className="w-4 h-4 opacity-80" />
+
+          <button
+            type="button"
+            onClick={toggleFullscreen}
+            aria-label="Fullscreen"
+            className="opacity-80 hover:opacity-100 transition-opacity"
+          >
+            <Maximize2 className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={toggleMute}
+            aria-label={muted ? "Unmute" : "Mute"}
+            className="opacity-80 hover:opacity-100 transition-opacity"
+          >
+            {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+          </button>
         </div>
       </div>
     </div>
