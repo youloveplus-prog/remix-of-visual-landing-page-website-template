@@ -47,6 +47,14 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
+        brand: {
+          DEFAULT: 'hsl(var(--brand-from))',
+          from: 'hsl(var(--brand-from))',
+          via: 'hsl(var(--brand-via))',
+          to: 'hsl(var(--brand-to))',
+          'soft-from': 'hsl(var(--brand-soft-from))',
+          'soft-to': 'hsl(var(--brand-soft-to))'
+        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
@@ -189,6 +197,14 @@ export default {
       maxWidth: {
         'container-apple': '1200px',
         'reading': '720px'
+      },
+      backgroundImage: {
+        'brand-gradient': 'var(--gradient-primary)',
+        'brand-gradient-soft': 'var(--gradient-primary-soft)',
+        'brand-aurora': 'var(--gradient-aurora)',
+        'brand-surface': 'var(--gradient-surface)',
+        'brand-sheen': 'var(--gradient-sheen)',
+        'brand-hairline': 'var(--gradient-hairline)'
       }
     }
   },

@@ -71,11 +71,18 @@
     --glass-border: 39 30% 86%;
     --glass-highlight: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(233 72% 55%) 0%, hsl(220 80% 60%) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(233 72% 55% / 0.10) 0%, hsl(252 65% 80% / 0.10) 100%);
+    /* Brand gradient stops (HSL components — composable in Tailwind via from-brand-from / via-brand-via / to-brand-to) */
+    --brand-from: 233 72% 55%;
+    --brand-via: 226 76% 58%;
+    --brand-to: 220 80% 60%;
+    --brand-soft-from: 233 72% 55%;
+    --brand-soft-to: 252 65% 80%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.10) 0%, hsl(var(--brand-soft-to) / 0.10) 100%);
     --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(39 55% 95%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.6) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(233 72% 55% / 0.10) 0%, transparent 60%),
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-from) / 0.10) 0%, transparent 60%),
                        radial-gradient(50% 50% at 90% 20%, hsl(38 92% 70% / 0.18) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 30%, hsl(var(--border)) 70%, transparent);
 
@@ -141,12 +148,19 @@
     --glass-border: 0 0% 18%;
     --glass-highlight: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(234 80% 62%) 0%, hsl(220 85% 65%) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(234 80% 62% / 0.14) 0%, hsl(162 90% 45% / 0.08) 100%);
+    /* Brand gradient stops — dark theme overrides */
+    --brand-from: 234 80% 62%;
+    --brand-via: 227 82% 63%;
+    --brand-to: 220 85% 65%;
+    --brand-soft-from: 234 80% 62%;
+    --brand-soft-to: 162 90% 45%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.14) 0%, hsl(var(--brand-soft-to) / 0.08) 100%);
     --gradient-surface: linear-gradient(180deg, hsl(222 40% 9%) 0%, hsl(222 47% 5%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(234 80% 62% / 0.14) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(162 90% 45% / 0.10) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-from) / 0.14) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-soft-to) / 0.10) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
     --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
@@ -286,12 +300,42 @@
 }
 
 @layer utilities {
-  .gradient-primary {
-    background: var(--gradient-primary);
+  .gradient-primary,
+  .bg-brand-gradient {
+    background-image: var(--gradient-primary);
   }
 
-  .gradient-primary-soft {
-    background: var(--gradient-primary-soft);
+  .gradient-primary-soft,
+  .bg-brand-gradient-soft {
+    background-image: var(--gradient-primary-soft);
+  }
+
+  .bg-brand-aurora { background-image: var(--gradient-aurora); }
+  .bg-brand-surface { background-image: var(--gradient-surface); }
+  .bg-brand-sheen { background-image: var(--gradient-sheen); }
+
+  /* Gradient text — theme-aware brand gradient */
+  .text-brand-gradient {
+    background-image: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Gradient border helper — use on a positioned element */
+  .border-brand-gradient {
+    position: relative;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+  }
+  .border-brand-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    margin: -1px;
+    border-radius: inherit;
+    background-image: var(--gradient-primary);
   }
 
   .gradient-card {
