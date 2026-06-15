@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Play, Star, Users, CheckSquare } from "lucide-react";
-import courseAiMl from "@/assets/course-ai-ml.webp";
+import courseAiMl from "@/assets/course-ai-ml.jpg";
 
 interface EduvoraHeroProps {
   variant?: "marketing" | "app";
