@@ -20,6 +20,7 @@ import { Sparkline } from "@/components/admin/Sparkline";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { SupabaseHealthCheck } from "@/components/admin/SupabaseHealthCheck";
 
 /** Bucket an array of created_at timestamps into a 30-day count series. */
 function bucketDays(rows: { created_at: string }[] | undefined | null, days = 30): number[] {
