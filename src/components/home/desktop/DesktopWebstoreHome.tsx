@@ -128,11 +128,13 @@ export function DesktopWebstoreHome() {
   const top3c = useMemo<CardItem[]>(() => (products ?? []).slice(3, 6).map((p) => toCard(p, "Fresh")), [products]);
 
   return (
-    <section className="home-midnight section-x py-6 lg:py-8 space-y-8 lg:space-y-12 text-foreground">
+    <>
+      {/* Full-width hero — breaks out of section-x padding on desktop */}
+      <section className="home-midnight pt-6 lg:pt-8">
+        <ImageHeroSlider fullWidth />
+      </section>
 
-        {/* Hero image slider — top of page */}
-        <ImageHeroSlider />
-
+      <section className="home-midnight section-x py-6 lg:py-8 space-y-8 lg:space-y-12 text-foreground">
         {/* Search bar — Chrome-style pill */}
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -261,6 +263,7 @@ export function DesktopWebstoreHome() {
           </div>
         </section>
 
-    </section>
+      </section>
+    </>
   );
 }

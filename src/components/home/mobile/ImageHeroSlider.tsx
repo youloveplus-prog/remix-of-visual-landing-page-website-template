@@ -39,7 +39,7 @@ const FALLBACK_BANNERS = [
   },
 ];
 
-export function ImageHeroSlider() {
+export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } = {}) {
   const { data: banners, isLoading } = useHomeBanners("hero");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
@@ -59,7 +59,7 @@ export function ImageHeroSlider() {
 
   if (isLoading) {
     return (
-      <div className="section-x">
+      <div className={fullWidth ? "" : "section-x"}>
         <Skeleton className="w-full aspect-[21/10] rounded-3xl" />
       </div>
     );
@@ -77,7 +77,7 @@ export function ImageHeroSlider() {
   if (items.length === 0) return null;
 
   return (
-    <section className="section-x">
+    <section className={fullWidth ? "" : "section-x"}>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-3">
           {items.map((b, idx) => {
@@ -99,7 +99,10 @@ export function ImageHeroSlider() {
             return (
               <div
                 key={b.id}
-                className="shrink-0 grow-0 basis-full sm:basis-[70%] md:basis-[55%] pressable"
+                className={cn(
+                  "shrink-0 grow-0 basis-full pressable",
+                  !fullWidth && "sm:basis-[70%] md:basis-[55%]"
+                )}
               >
                 {b.link_url ? (
                   <Link to={b.link_url} className="block focus-ring rounded-3xl">
