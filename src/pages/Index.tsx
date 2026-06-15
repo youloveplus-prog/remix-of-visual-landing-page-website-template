@@ -453,7 +453,7 @@ const Index = () => {
             </>
           ) : (
             <>
-              <EduvoraHero variant="marketing" />
+              <WarmBentoHero />
               <PartnerMarquee />
               <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
