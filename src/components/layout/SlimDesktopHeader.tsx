@@ -35,9 +35,9 @@ export function SlimDesktopHeader({
       ref={ref}
       data-app-header
       className={cn(
-        "fixed top-0 right-0 z-40 isolate overflow-visible",
+        "fixed top-0 right-0 left-0 z-40 isolate overflow-visible",
         "transition-[left,transform] duration-300 ease-out will-change-transform",
-        isSidebarCollapsed ? "left-16" : "left-60",
+        isSidebarCollapsed ? "lg:left-16" : "lg:left-60",
         hidden && "-translate-y-full"
       )}
     >
