@@ -89,9 +89,30 @@ const COMPILED: Array<{ tpl: RouteSeoTemplate; re: RegExp }> = ROUTE_SEO.map((tp
   re: compile(tpl.pattern),
 }));
 
-export function matchRouteSeo(pathname: string): RouteSeoTemplate {
+/**
+ * Known client-side redirects. Kept in sync with the <Navigate> routes in App.tsx.
+ * When the user lands on a redirect alias we emit noindex + a canonical that
+ * points at the destination so crawlers consolidate signals on the real URL.
+ */
+export const ROUTE_REDIRECTS: Record<string, string> = {
+  "/index": "/",
+  "/faq": "/help",
+};
+
+export function matchRedirect(pathname: string): string | null {
+  return ROUTE_REDIRECTS[pathname] ?? null;
+}
+
+/**
+ * Returns the matching template, or `null` when the path is unknown
+ * (i.e. will render the 404 page). Callers should treat null as
+ * "noindex, no canonical".
+ */
+export function matchRouteSeo(pathname: string): RouteSeoTemplate | null {
   for (const { tpl, re } of COMPILED) {
     if (re.test(pathname)) return tpl;
   }
-  return FALLBACK;
+  return null;
 }
+
+export const FALLBACK_SEO = FALLBACK;
