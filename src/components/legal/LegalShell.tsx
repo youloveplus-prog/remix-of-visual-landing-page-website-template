@@ -51,100 +51,102 @@ export const LegalShell = ({
   const scrollTo = (index: number) => {
     const el = document.getElementById(`section-${index}`);
     if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 120;
+      const y = el.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
+
+  // Strip trailing punctuation from titles for a cleaner look
+  const cleanTitle = title.replace(/[.!?]+$/, "");
 
   return (
     <AppLayout>
       <SEO title={metaTitle} description={metaDescription} url={canonical} />
 
-      {/* Warm gradient hero header */}
-      <section className="relative overflow-hidden pt-20 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(var(--chip-butter)/0.35)] via-[hsl(var(--chip-lavender)/0.15)] to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-aurora pointer-events-none opacity-40" />
-        <div className="relative container-editorial max-w-3xl text-center mx-auto px-4">
-          <p className="eyebrow-bar mb-4 justify-center">{eyebrow}</p>
-          <h1 className="display-1 mb-5">{title}</h1>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-5">
-            Updated {updated}
+      {/* Simple header */}
+      <header className="border-b border-border/60 bg-background">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 pt-16 pb-10 sm:pt-20 sm:pb-12">
+          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
+            {eyebrow}
           </p>
-          <p className="body-lg text-muted-foreground max-w-xl mx-auto">{intro}</p>
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-3">
+            {cleanTitle}
+          </h1>
+          <p className="text-sm text-muted-foreground mb-5">
+            Last updated {updated}
+          </p>
+          <p className="text-base sm:text-lg text-foreground/75 max-w-2xl leading-relaxed">
+            {intro}
+          </p>
         </div>
-      </section>
+      </header>
 
-      {/* Content: TOC sidebar + bento cards */}
-      <section className="pb-24 sm:pb-32">
+      {/* Body: simple two-column with sticky TOC */}
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12 sm:py-16">
         <div
           className={cn(
-            "mx-auto px-4 sm:px-6",
             toc && toc.length > 0
-              ? "max-w-6xl grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8 lg:gap-12"
-              : "max-w-3xl"
+              ? "grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 lg:gap-16"
+              : ""
           )}
         >
-          {/* Sticky TOC sidebar */}
+          {/* Desktop sticky TOC */}
           {toc && toc.length > 0 && (
             <aside className="hidden lg:block">
-              <div className="sticky top-28">
-                <nav className="rounded-2xl bg-white/70 backdrop-blur-md border border-[hsl(var(--border))] p-4 shadow-sm">
-                  <p className="text-[11px] uppercase tracking-widest text-muted-foreground font-semibold mb-3 px-2">
-                    Contents
-                  </p>
-                  <ul className="space-y-1">
-                    {toc.map((item) => (
-                      <li key={item.index}>
-                        <button
-                          onClick={() => scrollTo(item.index)}
-                          className={cn(
-                            "w-full text-left text-sm px-3 py-2 rounded-xl transition-all duration-200",
-                            activeSection === item.index
-                              ? "bg-[hsl(var(--primary))] text-white font-medium shadow-sm"
-                              : "text-muted-foreground hover:text-foreground hover:bg-[hsl(var(--muted))]"
-                          )}
-                        >
-                          <span className="font-dot mr-2 opacity-60">
-                            {String(item.index).padStart(2, "0")}
-                          </span>
-                          {item.title}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              </div>
+              <nav className="sticky top-24">
+                <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-3">
+                  On this page
+                </p>
+                <ul className="space-y-1 border-l border-border">
+                  {toc.map((item) => (
+                    <li key={item.index}>
+                      <button
+                        onClick={() => scrollTo(item.index)}
+                        className={cn(
+                          "block w-full text-left text-sm py-1.5 pl-4 -ml-px border-l-2 transition-colors",
+                          activeSection === item.index
+                            ? "border-primary text-foreground font-medium"
+                            : "border-transparent text-muted-foreground hover:text-foreground"
+                        )}
+                      >
+                        {item.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </aside>
           )}
 
-          {/* Mobile TOC (horizontal chips) */}
+          {/* Mobile TOC */}
           {toc && toc.length > 0 && (
-            <div className="lg:hidden -mx-4 px-4 mb-6 overflow-x-auto pb-2">
-              <div className="flex gap-2 min-w-max">
+            <details className="lg:hidden mb-8 rounded-lg border border-border bg-card">
+              <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-foreground flex items-center justify-between">
+                <span>On this page</span>
+                <span className="text-muted-foreground text-xs">Tap to open</span>
+              </summary>
+              <ul className="px-2 pb-2">
                 {toc.map((item) => (
-                  <button
-                    key={item.index}
-                    onClick={() => scrollTo(item.index)}
-                    className={cn(
-                      "text-sm px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200 border",
-                      activeSection === item.index
-                        ? "bg-[hsl(var(--primary))] text-white border-transparent shadow-sm"
-                        : "bg-white/60 text-muted-foreground border-[hsl(var(--border))] hover:bg-white"
-                    )}
-                  >
-                    {item.title}
-                  </button>
+                  <li key={item.index}>
+                    <button
+                      onClick={() => scrollTo(item.index)}
+                      className="block w-full text-left text-sm px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
+                    >
+                      <span className="tabular-nums mr-2 text-xs">
+                        {String(item.index).padStart(2, "0")}
+                      </span>
+                      {item.title}
+                    </button>
+                  </li>
                 ))}
-              </div>
-            </div>
+              </ul>
+            </details>
           )}
 
-          {/* Card grid */}
-          <div className={cn("space-y-4", toc && toc.length > 0 ? "" : "max-w-3xl mx-auto")}>
-            {children}
-          </div>
+          {/* Content */}
+          <article className="min-w-0 space-y-10">{children}</article>
         </div>
-      </section>
+      </div>
     </AppLayout>
   );
 };
