@@ -58,7 +58,13 @@ export default {
           ring: 'hsl(var(--sidebar-ring))'
         },
         gold: 'hsl(45, 95%, 55%)',
-        success: 'hsl(150, 65%, 45%)'
+        success: 'hsl(150, 65%, 45%)',
+        chip: {
+          butter: 'hsl(var(--chip-butter))',
+          lavender: 'hsl(var(--chip-lavender))',
+          mint: 'hsl(var(--chip-mint))',
+          cream: 'hsl(var(--chip-cream))',
+        }
       },
       borderRadius: {
         lg: 'var(--radius)',
