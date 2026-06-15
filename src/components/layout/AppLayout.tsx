@@ -7,6 +7,8 @@ import { SlimDesktopHeader } from "./SlimDesktopHeader";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { Sidebar } from "./Sidebar";
 import { SiteFooter } from "./SiteFooter";
+import { HeaderMenuOpenProvider } from "@/hooks/use-header-visibility";
+
 
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { SkipLink } from "@/components/ui/skip-link";
