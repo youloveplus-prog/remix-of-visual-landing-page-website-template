@@ -42,28 +42,20 @@ export function DesktopHeader({
       )}
     >
 
-      {/* Primary row — logo · mega menu · search · actions */}
+      {/* Row 1 — brand · search · actions */}
       <div
         className={cn(
-          "hairline-bottom relative z-[2] overflow-visible py-1.5",
-          "transition-[box-shadow,background-color] duration-300 ease-out",
+          "relative z-[2] overflow-visible py-1.5",
+          "transition-[box-shadow] duration-300 ease-out",
           "bg-background/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/65",
-          "dark:bg-black/80 dark:supports-[backdrop-filter]:bg-black/70",
+          "dark:bg-black/85 dark:supports-[backdrop-filter]:bg-black/75",
           "border-b border-border/50 dark:border-white/10",
-          isScrolled && "shadow-[0_1px_0_0_hsl(var(--border)),0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
+          isScrolled && "shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
         )}
       >
         <div className="container-editorial flex items-center gap-4">
-          {/* Brand lockup */}
           <HeaderBrand compact={isScrolled} />
-
-          {/* Mega menu — primary navigation (md+) */}
-          <MegaMenu className="flex-shrink-0" />
-
-          {/* Search — flexes to fill remaining space */}
           <SmartSearch className="flex-1 max-w-xl ml-auto" />
-
-          {/* Actions */}
           <div className="flex items-center gap-0.5">
             <Link to="/cart">
               <Button
@@ -84,6 +76,20 @@ export function DesktopHeader({
             <NotificationsMenu />
             <UserMenu />
           </div>
+        </div>
+      </div>
+
+      {/* Row 2 — primary navigation */}
+      <div
+        className={cn(
+          "relative z-[1] py-1 overflow-visible",
+          "bg-background/60 backdrop-blur-xl",
+          "dark:bg-black/70",
+          "border-b border-border/40 dark:border-white/5"
+        )}
+      >
+        <div className="container-editorial flex items-center">
+          <MegaMenu />
         </div>
       </div>
     </header>
