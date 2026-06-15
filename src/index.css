@@ -300,12 +300,42 @@
 }
 
 @layer utilities {
-  .gradient-primary {
-    background: var(--gradient-primary);
+  .gradient-primary,
+  .bg-brand-gradient {
+    background-image: var(--gradient-primary);
   }
 
-  .gradient-primary-soft {
-    background: var(--gradient-primary-soft);
+  .gradient-primary-soft,
+  .bg-brand-gradient-soft {
+    background-image: var(--gradient-primary-soft);
+  }
+
+  .bg-brand-aurora { background-image: var(--gradient-aurora); }
+  .bg-brand-surface { background-image: var(--gradient-surface); }
+  .bg-brand-sheen { background-image: var(--gradient-sheen); }
+
+  /* Gradient text — theme-aware brand gradient */
+  .text-brand-gradient {
+    background-image: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Gradient border helper — use on a positioned element */
+  .border-brand-gradient {
+    position: relative;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+  }
+  .border-brand-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    margin: -1px;
+    border-radius: inherit;
+    background-image: var(--gradient-primary);
   }
 
   .gradient-card {
