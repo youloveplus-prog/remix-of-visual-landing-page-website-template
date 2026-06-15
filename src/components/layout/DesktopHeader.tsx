@@ -10,6 +10,7 @@ import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
+import { sidebarLeftOffsetClass } from "./layout-constants";
 
 
 interface DesktopHeaderProps {
@@ -36,7 +37,7 @@ export function DesktopHeader({
       className={cn(
         "fixed top-0 z-40 isolate overflow-visible",
         "transition-[left,right,transform] duration-300 ease-out will-change-transform",
-        isSidebarCollapsed ? "left-16 right-0" : "left-60 right-0",
+        sidebarLeftOffsetClass(isSidebarCollapsed) + " right-0",
         "lg:left-0 lg:right-0",
         hidden && "-translate-y-full"
       )}

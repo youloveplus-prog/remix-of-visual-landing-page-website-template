@@ -14,6 +14,7 @@ import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/hooks/useCart";
+import { sidebarPaddingClassLg } from "./layout-constants";
 
 
 // Context to share sidebar state
@@ -145,7 +146,7 @@ export function AppLayout({
             fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-dvh",
             "transition-all duration-300",
             !fillViewport && isMobile && showBottomNav && "pb-28",
-            !isMobile && showDesktopSidebar && (isCollapsed ? "lg:pl-16" : "lg:pl-60"),
+            !isMobile && showDesktopSidebar && sidebarPaddingClassLg(isCollapsed),
             className
           )}
           style={{
