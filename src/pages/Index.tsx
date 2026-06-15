@@ -23,6 +23,7 @@ import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
 import { DesktopWebstoreHome } from "@/components/home/desktop/DesktopWebstoreHome";
 import { BrandStrip } from "@/components/home/BrandStrip";
 import { EduvoraHero } from "@/components/home/EduvoraHero";
+import { WarmBentoHero } from "@/components/home/WarmBentoHero";
 import { PartnerMarquee } from "@/components/home/PartnerMarquee";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
