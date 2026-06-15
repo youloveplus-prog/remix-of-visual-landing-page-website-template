@@ -94,7 +94,7 @@ async def main():
                 await page.screenshot(path=str(shot))
                 entry[theme]["screenshot"] = str(shot.relative_to(Path.cwd()))
                 if theme == "dark":
-                    bad = await page.evaluate(EVAL_PANELS, PANEL_SELECTOR, DARK_MAX_CHANNEL)
+                    bad = await page.evaluate(EVAL_PANELS, [PANEL_SELECTOR, DARK_MAX_CHANNEL])
                     entry[theme]["panel_mismatches"] = bad
                     report["mismatches"] += len(bad)
             report["routes"].append(entry)
