@@ -9,13 +9,19 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-white/10 text-primary-foreground [background:var(--gradient-primary)] shadow-sm before:absolute before:inset-0 before:rounded-full before:bg-[linear-gradient(180deg,hsl(0_0%_100%/0.18),transparent_60%)] before:pointer-events-none",
+          "border-white/10 text-primary-foreground bg-brand-gradient shadow-sm before:absolute before:inset-0 before:rounded-full before:bg-[linear-gradient(180deg,hsl(0_0%_100%/0.18),transparent_60%)] before:pointer-events-none",
         secondary:
           "liquid-glass-pill border-0 text-foreground",
         destructive:
           "border-white/10 bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
           "liquid-glass-pill border-0 text-foreground",
+        brand:
+          "border-white/10 text-primary-foreground bg-brand-gradient shadow-sm before:absolute before:inset-0 before:rounded-full before:bg-[linear-gradient(180deg,hsl(0_0%_100%/0.18),transparent_60%)] before:pointer-events-none",
+        brandSoft:
+          "border-primary/15 text-primary bg-brand-gradient-soft shadow-sm",
+        brandText:
+          "border-transparent bg-transparent text-brand-gradient shadow-none",
       },
     },
     defaultVariants: {
