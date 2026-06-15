@@ -55,8 +55,10 @@
     --chart-5: 270 60% 55%;
     --gold: 38 92% 50%;
     --success: 162 70% 38%;
-    --font-sans: 'Inter', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Space Grotesk', 'Hind Siliguri', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Edensor', 'Satoshi', 'Hind Siliguri', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Sentient', ui-serif, Georgia, serif;
+    --font-dot: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
 
     /* Glass tokens — light (toned down) */
     --glass-bg: 0 0% 100%;
