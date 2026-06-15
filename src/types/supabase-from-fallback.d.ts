@@ -8,5 +8,6 @@ declare module "@supabase/supabase-js" {
      * public tables after a backend restore/revert.
      */
     from(relation: string): any;
+    rpc(fn: string, args?: any, options?: any): any;
   }
 }

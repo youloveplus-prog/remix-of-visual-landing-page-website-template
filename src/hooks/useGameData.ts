@@ -216,7 +216,8 @@ export function useLeaderboard() {
         .from("profiles")
         .select("id,full_name,username,avatar_url")
         .in("id", ids);
-      const pMap = new Map((profs ?? []).map((p) => [p.id, p]));
+      const profiles = (profs ?? []) as Array<Pick<LeaderboardEntry, "user_id" | "full_name" | "username" | "avatar_url"> & { id: string }>;
+      const pMap = new Map(profiles.map((p) => [p.id, p]));
       return rows.map((r) => ({
         ...r,
         full_name: pMap.get(r.user_id)?.full_name ?? null,

@@ -105,7 +105,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         whileTap={isDisabled ? undefined : { scale: 0.96 }}
         transition={{ type: "spring", stiffness: 500, damping: 30, mass: 0.4 }}
-        {...(props as React.ComponentProps<typeof motion.button>)}
+        {...(props as unknown as React.ComponentProps<typeof motion.button>)}
       >
         {loading && <Loader2 className="animate-spin" aria-hidden="true" />}
         {children}
