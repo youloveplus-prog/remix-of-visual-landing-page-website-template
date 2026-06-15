@@ -29,9 +29,9 @@ export function FeatureStory() {
 
   return (
     <Spread pageNumber="03 / 05" label="Feature Story">
-      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-16 items-center">
+      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-6 sm:gap-8 lg:gap-16 items-center">
         <Reveal>
-          <div className="relative aspect-[4/5] lg:aspect-[3/4] rounded-3xl overflow-hidden bg-muted">
+          <div className="relative aspect-[4/5] sm:aspect-[3/4] rounded-2xl sm:rounded-3xl overflow-hidden bg-muted">
             {isLoading ? (
               <Skeleton className="absolute inset-0" />
             ) : lead?.image_url ? (
@@ -50,8 +50,8 @@ export function FeatureStory() {
             ) : (
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/10 to-transparent" />
             )}
-            <div className="absolute top-4 left-4">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-background/85 backdrop-blur px-3 py-1.5">
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-background/85 backdrop-blur px-2.5 py-1 sm:px-3 sm:py-1.5">
                 <Sparkles className="h-3 w-3 text-primary" />
                 <span className="editorial-eyebrow text-foreground">This week's pick</span>
               </span>
@@ -62,17 +62,17 @@ export function FeatureStory() {
 
         <Reveal delay={120}>
           <div>
-            <p className="editorial-eyebrow mb-3">Cover course</p>
-            <h2 className="font-display font-bold text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.05] mb-4">
+            <p className="editorial-eyebrow mb-2.5 sm:mb-3">Cover course</p>
+            <h2 className="font-display font-bold text-[1.75rem] sm:text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.08] mb-3 sm:mb-4 text-balance">
               {lead?.name ?? "The course we'd start with today."}
             </h2>
-            <p className="editorial-dek mb-6">
+            <p className="editorial-dek mb-5 sm:mb-6">
               A hand-picked starting point from the ASIKON library — taught with
               calm, in-depth, and paired with a 24/7 AI tutor so questions never wait.
             </p>
-            <div className="flex items-baseline gap-3 mb-6">
+            <div className="flex items-baseline gap-3 mb-5 sm:mb-6">
               {lead?.price !== undefined && (
-                <span className="font-display font-bold text-2xl tabular-nums">
+                <span className="font-display font-bold text-xl sm:text-2xl tabular-nums">
                   ৳{lead.price}
                 </span>
               )}
@@ -82,7 +82,7 @@ export function FeatureStory() {
                 </span>
               )}
             </div>
-            <Button asChild variant="premium" size="lg">
+            <Button asChild variant="premium" size="lg" className="w-full sm:w-auto">
               <Link to={lead?.slug ? `/product/${lead.slug}` : "/shop"}>
                 Read the syllabus
                 <ArrowUpRight className="h-4 w-4" />
@@ -94,7 +94,7 @@ export function FeatureStory() {
 
       {/* Support row — auth-aware */}
       {user && (
-        <div className="mt-14 lg:mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="mt-10 sm:mt-14 lg:mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div className="md:col-span-2 lg:col-span-1">
             <TodayMissionCard />
           </div>
