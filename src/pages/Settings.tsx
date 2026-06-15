@@ -260,7 +260,7 @@ function Section({
   icon: Icon, title, children,
 }: { icon: React.ElementType; title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-2xl border border-border bg-card p-5">
+    <section className="rounded-2xl border border-border liquid-glass p-5">
       <header className="flex items-center gap-2 mb-4">
         <Icon className="h-4 w-4 text-foreground/60" />
         <h2 className="font-medium text-[14px] tracking-tight">{title}</h2>

@@ -14,7 +14,7 @@ export function TodayMissionCard() {
 
   if (isLoading) {
     return (
-      <div className="rounded-3xl bg-card border border-border p-5 lg:p-6">
+      <div className="rounded-3xl liquid-glass border border-border p-5 lg:p-6">
         <Skeleton className="h-3 w-24 mb-3" />
         <Skeleton className="h-6 w-3/4 mb-2" />
         <Skeleton className="h-4 w-full mb-4" />
@@ -88,7 +88,7 @@ export function TodayMissionCard() {
 
 function CardShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-5 lg:p-6">
+    <div className="relative overflow-hidden rounded-3xl border border-border liquid-glass p-5 lg:p-6">
       {children}
     </div>
   );

@@ -194,7 +194,7 @@ export const LegalShell = ({
 
           {/* Mobile TOC */}
           {toc && toc.length > 0 && (
-            <details className="lg:hidden mb-8 rounded-lg border border-border bg-card">
+            <details className="lg:hidden mb-8 rounded-lg border border-border liquid-glass">
               <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-foreground flex items-center justify-between">
                 <span>On this page</span>
                 <span className="text-muted-foreground text-xs">Tap to open</span>

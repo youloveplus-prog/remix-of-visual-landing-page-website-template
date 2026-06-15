@@ -121,7 +121,7 @@ export default function AdminHomeSections() {
           {rows.map((row, i) => (
             <div
               key={row.id}
-              className="rounded-2xl border border-border/60 bg-card p-3 md:p-4 flex flex-col md:flex-row md:items-center gap-3"
+              className="rounded-2xl border border-border/60 liquid-glass p-3 md:p-4 flex flex-col md:flex-row md:items-center gap-3"
             >
               <div className="flex items-center gap-2 md:w-64 shrink-0">
                 <GripVertical className="h-4 w-4 text-muted-foreground" />

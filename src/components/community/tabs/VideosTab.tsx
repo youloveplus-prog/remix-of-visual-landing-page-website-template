@@ -23,7 +23,7 @@ export function VideosTab() {
     return (
       <div className="px-4 space-y-4 pb-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-card border border-border rounded-2xl overflow-hidden">
+          <div key={i} className="liquid-glass border border-border rounded-2xl overflow-hidden">
             <Skeleton className="aspect-video w-full rounded-none" />
             <div className="p-4 space-y-2">
               <Skeleton className="h-4 w-4/5" />
@@ -59,7 +59,7 @@ export function VideosTab() {
   return (
     <div className="px-4 space-y-4 pb-4">
       {data.map((v: any) => (
-        <article key={v.id} className="bg-card rounded-2xl overflow-hidden border border-border">
+        <article key={v.id} className="liquid-glass rounded-2xl overflow-hidden border border-border">
           {v.video_url && (
             <video src={v.video_url} controls className="w-full aspect-video bg-black" />
           )}

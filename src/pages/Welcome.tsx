@@ -186,7 +186,7 @@ export default function Welcome() {
               const Icon = f.icon;
               return (
                 <Reveal key={f.title} delay={i * 60}>
-                  <div className="group h-full rounded-2xl border border-border bg-card p-6 hover:border-primary/40 hover:shadow-[var(--shadow-glow)] transition-all">
+                  <div className="group h-full rounded-2xl border border-border liquid-glass p-6 hover:border-primary/40 hover:shadow-[var(--shadow-glow)] transition-all">
                     <div className="h-11 w-11 rounded-xl gradient-primary flex items-center justify-center shadow-md">
                       <Icon className="h-5 w-5 text-primary-foreground" />
                     </div>
@@ -214,7 +214,7 @@ export default function Welcome() {
           <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((s, i) => (
               <Reveal key={s.value} delay={i * 70}>
-                <div className="rounded-2xl border border-border bg-card p-6 h-full">
+                <div className="rounded-2xl border border-border liquid-glass p-6 h-full">
                   <div className="flex items-start justify-between">
                     <p className="font-display font-bold text-4xl lg:text-5xl tracking-tight">{s.value}</p>
                     <span className="h-7 w-7 rounded-full bg-primary/10 border border-primary/20 grid place-items-center">
@@ -243,14 +243,14 @@ export default function Welcome() {
 
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
             <Reveal>
-              <div className="rounded-2xl overflow-hidden border border-border shadow-xl bg-card">
+              <div className="rounded-2xl overflow-hidden border border-border shadow-xl liquid-glass">
                 <img src={courseAiMl} alt="Asikon dashboard preview" className="w-full aspect-[4/3] object-cover" />
               </div>
             </Reveal>
             <div className="space-y-4">
               {steps.map((s, i) => (
                 <Reveal key={s.n} delay={i * 80}>
-                  <div className="rounded-2xl border border-border bg-card p-5 flex gap-4 items-start hover:border-primary/40 transition-colors">
+                  <div className="rounded-2xl border border-border liquid-glass p-5 flex gap-4 items-start hover:border-primary/40 transition-colors">
                     <span className="h-10 w-10 shrink-0 rounded-full gradient-primary text-primary-foreground grid place-items-center text-sm font-bold">
                       {s.n}
                     </span>
@@ -281,7 +281,7 @@ export default function Welcome() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
             {stories.map((s, i) => (
               <Reveal key={s.name} delay={i * 80}>
-                <figure className="h-full rounded-2xl border border-border bg-card p-6 flex flex-col">
+                <figure className="h-full rounded-2xl border border-border liquid-glass p-6 flex flex-col">
                   <div className="flex items-center gap-0.5 text-primary">
                     {[0, 1, 2, 3, 4].map((k) => (
                       <Star key={k} className="h-4 w-4 fill-current" />

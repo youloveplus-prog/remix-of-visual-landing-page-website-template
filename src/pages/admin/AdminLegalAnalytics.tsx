@@ -294,7 +294,7 @@ export default function AdminLegalAnalytics() {
                 "group flex items-center gap-3 rounded-2xl border px-4 py-3 transition-all",
                 isActive
                   ? "border-primary bg-primary/5 shadow-sm"
-                  : "border-border/60 bg-card hover:border-border hover:bg-muted/40"
+                  : "border-border/60 liquid-glass hover:border-border hover:bg-muted/40"
               )}
             >
               <div
@@ -332,7 +332,7 @@ export default function AdminLegalAnalytics() {
       {/* ===== Active page detail ===== */}
       <div className="grid grid-cols-1 xl:grid-cols-[1.4fr_1fr] gap-6">
         {/* Left: ranked sections leaderboard */}
-        <div className="rounded-3xl border border-border/60 bg-card overflow-hidden">
+        <div className="rounded-3xl border border-border/60 liquid-glass overflow-hidden">
           <div className="flex items-center justify-between px-6 py-5 border-b border-border/60">
             <div className="flex items-center gap-3 min-w-0">
               <div className="rounded-xl bg-primary/10 p-2 text-primary shrink-0">
@@ -429,7 +429,7 @@ export default function AdminLegalAnalytics() {
         {/* Right: heatmap + scroll depth */}
         <div className="space-y-6">
           {/* 30-day heatmap */}
-          <div className="rounded-3xl border border-border/60 bg-card p-6">
+          <div className="rounded-3xl border border-border/60 liquid-glass p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-display font-semibold text-sm">Daily section views</h3>
@@ -482,7 +482,7 @@ export default function AdminLegalAnalytics() {
           </div>
 
           {/* Scroll depth funnel */}
-          <div className="rounded-3xl border border-border/60 bg-card p-6">
+          <div className="rounded-3xl border border-border/60 liquid-glass p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="font-display font-semibold text-sm">Scroll depth funnel</h3>
@@ -546,7 +546,7 @@ function BigKpi({
   icon: any;
 }) {
   return (
-    <div className="bg-card px-6 py-6">
+    <div className="liquid-glass px-6 py-6">
       <div className="flex items-center justify-between mb-3">
         <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-semibold">
           {label}

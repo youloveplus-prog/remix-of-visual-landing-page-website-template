@@ -30,7 +30,7 @@ const Mentors = () => {
       <div className="container-editorial space-y-10 pb-32 pt-2 lg:pt-4">
         {/* Hero */}
         <section className="section-x">
-          <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 lg:p-10 text-center">
+          <div className="relative overflow-hidden rounded-2xl border border-border liquid-glass p-6 lg:p-10 text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary border border-border text-foreground/70 text-[10.5px] font-medium uppercase tracking-[0.16em] px-2.5 py-1 mb-3">
               New · Coming soon
             </span>
@@ -67,7 +67,7 @@ const Mentors = () => {
               {(mentors ?? []).map((m) => (
                 <article
                   key={m.id}
-                  className="h-full rounded-2xl border border-border bg-card p-4 flex flex-col transition-colors hover:bg-secondary/40"
+                  className="h-full rounded-2xl border border-border liquid-glass p-4 flex flex-col transition-colors hover:bg-secondary/40"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-foreground font-semibold text-lg shrink-0">
@@ -117,7 +117,7 @@ const Mentors = () => {
             ].map((s) => {
               const Icon = s.icon;
               return (
-                <div key={s.title} className="rounded-2xl bg-card border border-border p-4">
+                <div key={s.title} className="rounded-2xl liquid-glass border border-border p-4">
                   <div className="w-9 h-9 rounded-lg bg-secondary border border-border flex items-center justify-center mb-3">
                     <Icon className="h-4 w-4 text-foreground/70" />
                   </div>

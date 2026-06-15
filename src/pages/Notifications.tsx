@@ -45,7 +45,7 @@ const Notifications = () => {
           subtitle="Announcements from the team and important updates about your account."
         />
 
-        <div className="divide-y divide-border border-y border-border bg-card sm:rounded-2xl sm:border sm:divide-border">
+        <div className="divide-y divide-border border-y border-border liquid-glass sm:rounded-2xl sm:border sm:divide-border">
           {isLoading && (
             <div className="p-4 space-y-3">
               {[...Array(4)].map((_, i) => (

@@ -215,7 +215,7 @@ const Prompts = () => {
                     "shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm border transition-all pressable focus-ring",
                     active
                       ? "gradient-primary text-primary-foreground border-transparent shadow-[var(--shadow-glow)]"
-                      : "bg-card hover:bg-secondary border-border/60 text-foreground"
+                      : "liquid-glass hover:bg-secondary border-border/60 text-foreground"
                   )}
                   aria-pressed={active}
                 >
@@ -244,7 +244,7 @@ const Prompts = () => {
               const copied = copiedId === p.id;
               return (
                 <Reveal key={p.id} delay={Math.min(i, 6) * 40}>
-                  <article className="group relative h-full flex flex-col rounded-2xl border border-border/60 bg-card hover-lift overflow-hidden">
+                  <article className="group relative h-full flex flex-col rounded-2xl border border-border/60 liquid-glass hover-lift overflow-hidden">
                     <div className="p-4 flex flex-col gap-3 flex-1">
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="font-semibold text-sm sm:text-base leading-snug pr-2">

@@ -13,7 +13,7 @@ export function TrackProgress() {
 
   if (!profile?.active_track_id || !activeTrack) {
     return (
-      <div className="rounded-2xl border border-border/60 bg-card/60 p-4 flex items-center justify-between gap-3">
+      <div className="rounded-2xl border border-border/60 liquid-glass p-4 flex items-center justify-between gap-3">
         <div>
           <p className="font-semibold text-sm">No active track</p>
           <p className="text-xs text-muted-foreground">Pick one to start your daily mission.</p>
@@ -28,7 +28,7 @@ export function TrackProgress() {
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return (
-    <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+    <div className="rounded-2xl border border-border/60 liquid-glass p-4">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Active track</p>

@@ -280,13 +280,13 @@ const ProductDetail = () => {
           </div>
 
           {product.description && (
-            <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+            <div className="rounded-2xl border border-border/60 liquid-glass p-4">
               <h3 className="font-semibold text-[15px] mb-2">Description</h3>
               <p className="text-[13.5px] text-foreground/80 leading-relaxed whitespace-pre-wrap">{product.description}</p>
             </div>
           )}
 
-          <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
+          <div className="rounded-2xl border border-border/60 liquid-glass p-4">
             <h3 className="font-semibold text-[15px] mb-3">Product Details</h3>
             <div className="grid grid-cols-2 gap-2.5">
               {[
@@ -431,7 +431,7 @@ const ProductDetail = () => {
             </div>
 
             <div className="hidden lg:flex items-center gap-3 pt-1">
-              <div className="flex items-center gap-2 rounded-full border border-border bg-card px-2 py-1.5">
+              <div className="flex items-center gap-2 rounded-full border border-border liquid-glass px-2 py-1.5">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="h-8 w-8 rounded-full grid place-items-center hover:bg-muted transition-colors"
@@ -452,7 +452,7 @@ const ProductDetail = () => {
             </div>
 
             {product.description && (
-              <div className="rounded-2xl border border-border/60 bg-card/60 p-4 lg:p-5">
+              <div className="rounded-2xl border border-border/60 liquid-glass p-4 lg:p-5">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-[15px]">Description</h3>
                   <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />
@@ -461,7 +461,7 @@ const ProductDetail = () => {
               </div>
             )}
 
-            <div className="rounded-2xl border border-border/60 bg-card/60 p-4 lg:p-5">
+            <div className="rounded-2xl border border-border/60 liquid-glass p-4 lg:p-5">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold text-[15px]">Product Details</h3>
                 <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />

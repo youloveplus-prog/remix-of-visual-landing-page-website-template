@@ -75,7 +75,7 @@ export function ProfileStats({
   return (
     <div className="px-4 pt-4 space-y-3">
       <div
-        className="grid grid-cols-3 rounded-2xl border border-border bg-card overflow-hidden shadow-sm"
+        className="grid grid-cols-3 rounded-2xl border border-border liquid-glass overflow-hidden shadow-sm"
         role="group"
         aria-label="Profile statistics"
       >
@@ -104,7 +104,7 @@ export function ProfileStats({
         type="button"
         onClick={onXpClick || onLevelClick}
         aria-label={`Level ${level}, ${xpInLevel} of 100 XP toward next level`}
-        className="w-full rounded-2xl border border-border bg-card p-3.5 text-left transition-colors hover:bg-secondary/60 focus-ring shadow-sm"
+        className="w-full rounded-2xl border border-border liquid-glass p-3.5 text-left transition-colors hover:bg-secondary/60 focus-ring shadow-sm"
       >
         <div className="flex items-baseline justify-between gap-3">
           <div className="flex items-baseline gap-2 min-w-0">

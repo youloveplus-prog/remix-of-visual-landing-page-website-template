@@ -452,7 +452,7 @@ export function LearnChat({ threadId, onBack }: Props) {
                 <button
                   key={chip}
                   onClick={() => setInput((v) => (v ? `${v} ${chip}` : chip))}
-                  className="shrink-0 px-3 py-1 rounded-full border border-border bg-card hover:bg-secondary text-[12px] font-medium whitespace-nowrap transition-colors"
+                  className="shrink-0 px-3 py-1 rounded-full border border-border liquid-glass hover:bg-secondary text-[12px] font-medium whitespace-nowrap transition-colors"
                 >
                   {chip}
                 </button>
@@ -462,7 +462,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
           <PromptInput
             onSubmit={handlePromptSubmit}
-            className="rounded-2xl border border-border bg-card shadow-sm focus-within:border-primary/50 focus-within:shadow-lg focus-within:ring-4 focus-within:ring-primary/10 transition-all"
+            className="rounded-2xl border border-border liquid-glass shadow-sm focus-within:border-primary/50 focus-within:shadow-lg focus-within:ring-4 focus-within:ring-primary/10 transition-all"
           >
             <PromptInputTextarea
               value={input}
@@ -581,7 +581,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group relative overflow-hidden flex items-center gap-3 text-left p-3.5 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
+              className="group relative overflow-hidden flex items-center gap-3 text-left p-3.5 rounded-2xl liquid-glass border border-border hover:border-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
               <span
                 aria-hidden
@@ -616,7 +616,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           return (
             <div
               key={c.label}
-              className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-card border border-border"
+              className="flex flex-col items-center gap-1.5 p-3 rounded-xl liquid-glass border border-border"
             >
               <Icon className="w-4 h-4 text-foreground" />
               <span className="text-[11px] font-medium text-center leading-tight text-muted-foreground">
