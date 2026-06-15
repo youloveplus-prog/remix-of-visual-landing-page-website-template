@@ -305,8 +305,8 @@ export function MegaMenu({ className }: { className?: string }) {
               <NavigationMenuTrigger
                 className={cn(
                   "group/trg relative bg-transparent rounded-full px-3 h-8 text-[13px] font-medium leading-none",
-                  "data-[state=open]:bg-primary data-[state=open]:text-primary-foreground data-[state=open]:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.55)]",
-                  "hover:bg-primary/10 hover:text-primary",
+                  "data-[state=open]:!bg-primary data-[state=open]:!text-primary-foreground data-[state=open]:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.55)]",
+                  "hover:!bg-primary/10 hover:!text-primary focus:!bg-primary/10 focus:!text-primary",
                   "transition-colors",
                   active && "text-primary"
                 )}
