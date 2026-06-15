@@ -12,30 +12,26 @@ import workspace from "@/assets/trust-workspace.jpg";
 const slides = [
   {
     image: student,
-    eyebrow: "Real learners",
-    title: "12,400+ students learning today",
-    body: "Active from Dhaka to Chattogram — calm, focused, on their own schedule.",
+    title: "12,400+ learners today",
+    body: "Calm, focused, on their own schedule.",
     icon: BadgeCheck,
   },
   {
     image: certificate,
-    eyebrow: "Verified certificates",
-    title: "A signed completion for every course",
-    body: "Share it on LinkedIn, attach it to your CV, keep it forever.",
+    title: "Verified certificates",
+    body: "Signed completion you can share.",
     icon: ShieldCheck,
   },
   {
     image: mentor,
-    eyebrow: "1-on-1 mentorship",
-    title: "Personal teachers, waitlist-only",
-    body: "Hand-picked mentors who actually sit with your child each week.",
+    title: "1-on-1 mentorship",
+    body: "Hand-picked teachers, waitlist-only.",
     icon: BadgeCheck,
   },
   {
     image: workspace,
-    eyebrow: "Instant access",
-    title: "Buy today, start in 30 seconds",
-    body: "All digital — no shipping, no waiting. Pay with card or bKash.",
+    title: "Instant access",
+    body: "Card or bKash. Start in 30 seconds.",
     icon: Zap,
   },
 ];
@@ -93,15 +89,14 @@ export function TrustCarousel() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-background/20" />
                   </div>
-                  <div className="flex flex-col justify-center gap-3 sm:gap-4 p-5 sm:p-6 md:p-10 text-center md:text-left items-center md:items-start">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1.5 text-primary">
-                      <Icon className="h-3.5 w-3.5" />
-                      <span className="editorial-eyebrow text-primary">{s.eyebrow}</span>
+                  <div className="flex flex-col justify-center gap-3 p-6 md:p-10 text-center md:text-left items-center md:items-start">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Icon className="h-4 w-4" />
                     </span>
-                    <h3 className="font-display font-bold text-xl sm:text-2xl md:text-3xl tracking-[-0.02em] leading-[1.15] max-w-[22ch] text-balance">
+                    <h3 className="editorial-headline max-w-[20ch]">
                       {s.title}
                     </h3>
-                    <p className="editorial-dek max-w-[36ch]">{s.body}</p>
+                    <p className="editorial-dek max-w-[34ch]">{s.body}</p>
                   </div>
                 </div>
               );

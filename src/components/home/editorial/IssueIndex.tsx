@@ -5,22 +5,21 @@ import { EDITORIAL_DELAY } from "./motion";
 
 const toc = [
   { n: "01", label: "Cover", anchor: "#cover" },
-  { n: "02", label: "Issue Index", anchor: "#issue-index" },
-  { n: "03", label: "Feature Story", anchor: "#feature-story" },
-  { n: "04", label: "Departments", anchor: "#departments" },
-  { n: "05", label: "Back Matter", anchor: "#back-matter" },
+  { n: "02", label: "Index", anchor: "#issue-index" },
+  { n: "03", label: "Trust", anchor: "#trust" },
+  { n: "04", label: "Feature", anchor: "#feature-story" },
+  { n: "05", label: "Departments", anchor: "#departments" },
+  { n: "06", label: "Back Matter", anchor: "#back-matter" },
 ];
 
 export function IssueIndex() {
   return (
-    <Spread pageNumber="02 / 05" label="Issue Index">
-      <div className="grid lg:grid-cols-[1.4fr_1fr] gap-8 sm:gap-10 lg:gap-20">
+    <Spread pageNumber="02" label="Index">
+      <div className="grid lg:grid-cols-[1.4fr_1fr] gap-8 sm:gap-12 lg:gap-20">
         <Reveal>
           <div>
             <p className="editorial-eyebrow mb-3">In this issue</p>
-            <h2 className="font-display font-bold text-[1.75rem] sm:text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.08] mb-5 sm:mb-6 text-balance">
-              Why we exist.
-            </h2>
+            <h2 className="editorial-headline mb-5 sm:mb-6">Why ASIKON.</h2>
             <MissionVision variant="compact" />
           </div>
         </Reveal>
@@ -28,21 +27,18 @@ export function IssueIndex() {
         <Reveal delay={120}>
           <nav aria-label="Contents" className="lg:pl-8 lg:border-l lg:border-foreground/10">
             <p className="editorial-eyebrow mb-4 sm:mb-5">Contents</p>
-            <ul className="space-y-2 sm:space-y-3">
+            <ul className="space-y-2 sm:space-y-2.5">
               {toc.map((item, i) => (
                 <Reveal key={item.n} as="li" staggerIndex={i} staggerStep={EDITORIAL_DELAY.tocStep}>
                   <a
                     href={item.anchor}
-                    className="group flex items-baseline gap-3 sm:gap-4 py-1 transition-colors hover:text-primary"
+                    className="group flex items-baseline gap-4 py-1 transition-colors hover:text-primary"
                   >
-                    <span className="editorial-pagenum">{item.n}</span>
-                    <span className="font-display text-base sm:text-lg lg:text-xl font-medium flex-1">
+                    <span className="editorial-pagenum w-6">{item.n}</span>
+                    <span className="editorial-subhead font-medium flex-1">
                       {item.label}
                     </span>
-                    <span className="editorial-rule flex-1 max-w-[4rem] sm:max-w-[6rem] opacity-60" />
-                    <span className="editorial-eyebrow opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline">
-                      Read →
-                    </span>
+                    <span className="editorial-rule flex-1 max-w-[3rem] sm:max-w-[5rem]" />
                   </a>
                 </Reveal>
               ))}
