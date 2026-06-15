@@ -229,12 +229,9 @@ export function DesktopSidebar({
   return (
     <aside
       style={{ top: "var(--app-header-h)" }}
-      onMouseEnter={() => isCollapsed && setIsHoverExpanded(true)}
-      onMouseLeave={() => setIsHoverExpanded(false)}
       className={cn(
         "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
         expanded ? "w-60" : "w-16",
-        isCollapsed && isHoverExpanded && "shadow-2xl shadow-black/40",
         className
       )}
     >
