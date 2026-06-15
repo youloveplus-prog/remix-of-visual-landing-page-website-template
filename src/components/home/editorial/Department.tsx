@@ -1,27 +1,21 @@
 import { ReactNode } from "react";
-import { HomeSection } from "./HomeSection";
+import { cn } from "@/lib/utils";
 
 interface DepartmentProps {
-  name: string;
-  number: string;
+  /** @deprecated kept for API compatibility; no longer rendered to avoid duplicate titles */
+  name?: string;
+  /** @deprecated kept for API compatibility; no longer rendered */
+  number?: string;
+  /** @deprecated kept for API compatibility; no longer rendered */
   dek?: string;
   children: ReactNode;
   className?: string;
 }
 
 /**
- * Department — thin wrapper around HomeSection's `department` variant.
- * Kept as a named export so the editorial spreads keep their semantic naming.
+ * Department — transparent wrapper. Inner sections own their titles, so the
+ * department-level heading is intentionally not rendered to avoid duplicates.
  */
-export function Department({ name, dek, children, className }: DepartmentProps) {
-  return (
-    <HomeSection
-      variant="plain"
-      title={name}
-      dek={dek}
-      className={className}
-    >
-      {children}
-    </HomeSection>
-  );
+export function Department({ children, className }: DepartmentProps) {
+  return <div className={cn("w-full", className)}>{children}</div>;
 }
