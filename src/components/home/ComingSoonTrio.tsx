@@ -111,7 +111,7 @@ export default function ComingSoonTrio() {
             <span className="relative inline-block">
               Platform of 2026
               {/* tilted sticker */}
-              <span className="absolute -right-1 top-[42%] rotate-[-8deg] rounded-[5px] border border-black/10 bg-white px-1 py-0.5 text-center text-[7px] font-semibold leading-tight text-[#0e0e10] shadow-sm sm:-right-4 sm:rounded-[6px] sm:px-1.5 sm:text-[10px]">
+              <span className="absolute -right-1 top-[42%] rotate-[-8deg] rounded-[5px] border border-black/10 surface-panel px-1 py-0.5 text-center text-[7px] font-semibold leading-tight text-[#0e0e10] shadow-sm sm:-right-4 sm:rounded-[6px] sm:px-1.5 sm:text-[10px]">
                 free
               </span>
             </span>
