@@ -46,10 +46,7 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
       data-app-header
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       className={cn(
-        "fixed top-0 inset-x-0 z-40 transition-[box-shadow,border-color,background-color] duration-300 ease-out",
-        "bg-[linear-gradient(to_bottom,hsl(var(--primary)/0.16),hsl(var(--primary)/0.04)_55%,hsl(var(--background))_100%)]",
-        "dark:bg-[linear-gradient(to_bottom,hsl(var(--primary)/0.26),hsl(var(--primary)/0.06)_55%,hsl(var(--background))_100%)]",
-        "backdrop-blur-xl supports-[backdrop-filter]:bg-background/60",
+        "fixed top-0 inset-x-0 z-40 liquid-nav transition-[box-shadow,border-color] duration-300 ease-out",
         scrolled
           ? "border-b border-border/40 shadow-[0_2px_18px_-8px_hsl(0_0%_0%/0.18)]"
           : "border-b border-transparent",
