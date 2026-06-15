@@ -42,7 +42,7 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
       {/* Row 1 — brand · search · actions */}
       <div
         className={cn(
-          "relative z-[2] overflow-visible py-1.5",
+          "relative z-[2] overflow-visible py-1",
           "transition-[box-shadow] duration-300",
           "bg-background/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/65",
           "dark:bg-black/85 dark:supports-[backdrop-filter]:bg-black/75",
@@ -50,7 +50,7 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
           isScrolled && "shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
         )}
       >
-        <div className="container-editorial flex items-center gap-4">
+        <div className="container-editorial flex items-center gap-3">
           <HeaderBrand compact={isScrolled} />
           <SmartSearch className="flex-1 max-w-xl ml-auto" />
           <div className="flex items-center gap-0.5">
@@ -78,7 +78,7 @@ export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopH
       {/* Row 2 — primary navigation */}
       <div
         className={cn(
-          "relative z-[1] py-1 overflow-visible",
+          "relative z-[1] py-0.5 overflow-visible",
           "bg-background/60 backdrop-blur-xl",
           "dark:bg-black/70",
           "border-b border-border/40 dark:border-white/5"
