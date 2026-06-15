@@ -33,7 +33,8 @@ PANEL_SELECTOR = (
 )
 
 EVAL_PANELS = """
-(selector, maxChannel) => {
+(args) => {
+  const [selector, maxChannel] = args;
   const out = [];
   const els = document.querySelectorAll(selector);
   for (const el of els) {
