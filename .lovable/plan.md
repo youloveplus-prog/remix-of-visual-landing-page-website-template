@@ -1,120 +1,78 @@
-# Enhance Profile Page
 
-The profile page is structurally complete but has three classes of issues:
-visual polish gaps, a few hardcoded/no-op actions, and small UX bugs.
-This plan addresses all three without touching data hooks or routing.
+# ASIKON → Spec Alignment Plan
 
-## 1. Visual polish (UI only)
+Audit confirms the 5 tabs, schema, and most components already exist. Below is the gap-closing work, ordered by user impact. Each phase is independently shippable.
 
-**`ProfileHeader.tsx`**
-- Soften cover overlay: replace the single bottom gradient with a top
-  vignette + bottom fade so the back/share buttons stay readable on any
-  cover image.
-- Add a subtle ring + shadow halo around the centered avatar
-  (`ring-2 ring-background shadow-elegant`) and a hover lift on own profile.
-- Trust chip: upgrade to a small pill with gradient-primary-soft background
-  and a tier dot (gold/silver/bronze) instead of flat secondary.
+---
 
-**`ProfileStats.tsx`**
-- Animate numbers with a short count-up (200ms ease-out, respects
-  `prefers-reduced-motion`).
-- Replace the flat XP bar with `gradient-primary` fill + a soft glow when
-  > 80% to next level.
-- Add divider micro-labels with `font-grotesk` to match brand pairing.
+## Phase 1 — Home becomes a real dashboard (highest impact)
 
-**`ProfileActions.tsx`**
-- Give the primary Follow / Edit button `gradient-primary` and
-  `glow-primary` (matches buttons elsewhere in the app).
-- Add a confirm dialog for **Block** using shadcn `AlertDialog`.
+Today, signed-in users still land on a marketing page; the spec says Home must feel like a "student workspace."
 
-**`ProfileTabs.tsx`**
-- Make the active indicator `gradient-primary` instead of flat foreground.
-- Add a soft `bg-card/80 backdrop-blur` on the sticky bar so content
-  scrolling underneath reads cleanly.
+1. Split `src/pages/Index.tsx` cleanly:
+   - **Guest** → keep existing marketing sections (hero, partners, how-it-works, testimonials).
+   - **Authenticated** → render only the workspace: `GreetingStrip` (also on mobile), `TodayMissionCard`, `ContinueLearningRow`, `ProgressSnapshot`, `ActivityFeed`, `QuickAccessGrid`, plus a new `RecommendedForYou` row.
+2. Wire the streak tile to real data from `learner_profiles.streak_days` / XP (remove the hardcoded "+30 XP today").
+3. Add `RecommendedForYou`: simple v1 = "courses in your goal category you haven't purchased", later swap for ML.
+4. Move the AI tutor entry from a full `/ai-tutor` page into a floating FAB on Home + Learn (keeps the 5-tab nav clean per spec).
 
-## 2. Make actions workable
+## Phase 2 — Explore matches the marketplace spec
 
-Currently `onReport` and `onBlock` in `Profile.tsx` only fire a toast —
-no DB write. Wire them to real tables.
+1. Fix filter chips in `ShopFilters` to spec set: **Courses / eBooks / Services / Bundles** (drop "kits"/"prompts" from UI; keep DB enum but map "digital" → eBooks).
+2. Add `bundle` to `content_kind` enum + minimal bundle composition table (`bundle_items: bundle_id, content_item_id`).
+3. Restructure `Shop.tsx` from a single grid into stacked sections: **Featured carousel** (top hero), **Best Sellers**, **New Arrivals**, **Bundles**, **All results** (filtered grid stays below).
+4. Upgrade `ProductCard`:
+   - Show **verified creator badge** when `profiles.is_verified`.
+   - Show **enrollment count** for courses (new `content_items.enrollment_count` column, denormalized via trigger on `content_purchases`).
+   - Distinct CTA: "Enroll" for courses, "Buy" for digital, "Book" for services.
 
-**Migration** (single migration):
-```sql
-create table public.user_reports (
-  id uuid primary key default gen_random_uuid(),
-  reporter_id uuid not null references auth.users(id) on delete cascade,
-  reported_user_id uuid not null,
-  reason text not null,
-  details text,
-  created_at timestamptz not null default now(),
-  unique (reporter_id, reported_user_id)
-);
-grant select, insert on public.user_reports to authenticated;
-grant all on public.user_reports to service_role;
-alter table public.user_reports enable row level security;
-create policy "users insert own reports" on public.user_reports
-  for insert to authenticated with check (auth.uid() = reporter_id);
-create policy "users read own reports" on public.user_reports
-  for select to authenticated using (auth.uid() = reporter_id);
+## Phase 3 — Learn becomes a real course player
 
-create table public.user_blocks (
-  id uuid primary key default gen_random_uuid(),
-  blocker_id uuid not null references auth.users(id) on delete cascade,
-  blocked_id uuid not null,
-  created_at timestamptz not null default now(),
-  unique (blocker_id, blocked_id)
-);
-grant select, insert, delete on public.user_blocks to authenticated;
-grant all on public.user_blocks to service_role;
-alter table public.user_blocks enable row level security;
-create policy "users manage own blocks" on public.user_blocks
-  for all to authenticated
-  using (auth.uid() = blocker_id) with check (auth.uid() = blocker_id);
+1. Introduce enrollments: new `enrollments(user_id, content_item_id, progress, enrolled_at)` table, auto-created on successful course purchase. "My Courses" in `Learn.tsx` reads from this (keep `tracks` as curated paths alongside).
+2. Render `course_modules` + `course_lessons` in a curriculum accordion on the course detail screen (currently unused tables).
+3. Expand `LessonDetail.tsx` video player with tabs: **Overview / Transcript / Notes / Resources** (transcript + resources come from new lesson fields; notes stored per user).
+4. Add quiz UI: `quiz_questions` table (question, choices, correct_index), quiz-taking screen, write results to existing `quiz_attempts`.
+5. Add certificate: `certificates(user_id, content_item_id, issued_at, code)` issued at 100% lesson completion, rendered on a printable page.
+
+## Phase 4 — Item models, Profile, Community polish
+
+1. Item model completeness:
+   - Digital products: add `file_url`, `file_type`, `file_size`, `preview_url` to `content_items` (or formalize via `content_assets`).
+   - Services: add `availability` (jsonb slots) and `location` to `service_details`.
+2. Profile sub-tabs:
+   - Add **Creator Portfolio** tab (visible when `is_creator`) listing their content_items + aggregate rating.
+   - Rework **My Learning** tab to list enrolled courses with progress bars (uses Phase 3 enrollments).
+   - Add a **Preview as public** toggle on `ProfileEditModal`.
+3. Community:
+   - Emit structured activity events ("completed course X", "earned badge Y") into `posts` with a `type` field; render them with distinct cards in **My Feed**.
+   - Add **Comments** thread UI on `PostCard` (table already exists).
+   - Surface `LeaderboardSheet` as a Community sub-tab (or pinned card), not a separate route.
+
+## Phase 5 — Localization, onboarding goals, monetization extras
+
+1. Auth/onboarding: add **Language selector** (EN/BN) and **Goal selection** step in `Auth.tsx` / `Welcome.tsx`, writing to `profiles.preferred_language` and `profiles.goal`.
+2. Install `react-i18next`, scaffold `en.json` + `bn.json`, wrap top-nav strings + auth/onboarding first. Expand coverage incrementally — do **not** translate everything in one PR.
+3. Monetization v1: keep existing commission model; add a placeholder `subscriptions` table + admin toggle so the Profile/Settings can later expose a "Premium" plan. No subscription UI in this phase.
+
+---
+
+## Technical notes
+
+- **Schema migrations** in Phases 2–4 each ship as their own migration with required `GRANT`s + RLS policies (no public-schema table without grants).
+- **Existing memories respected**: digital-only, no COD, indigo brand, glass UI, infinite-loop scroll, FAB content creation, `<MissionVision />` for about copy, mentorship as the Service surface for parents/children.
+- **Out of scope** (not in spec or rejected by memory): COD checkout, POD, separate content-creation pages, "load more" buttons, red branding, on-site physical services.
+- **Deferred**: real ML recommendations (Phase 1 ships a heuristic), full Bangla translation coverage (Phase 5 ships scaffold + key screens), Stripe Connect payouts (current bKash+card stack stays).
+
+---
+
+## Suggested ship order
+
+```text
+Phase 1 (Home)        — 1 PR, frontend-only
+Phase 2 (Explore)     — 2 PRs: schema (bundle, enrollment_count) + UI
+Phase 3 (Learn)       — 3 PRs: enrollments, curriculum+player tabs, quiz+cert
+Phase 4 (Models+Prof) — 2 PRs: schema fill-in + profile/community UI
+Phase 5 (i18n+goals)  — 2 PRs: onboarding step + i18n scaffold
 ```
 
-**New hook `src/hooks/useUserModeration.ts`**
-- `useReportUser()` — insert into `user_reports`, toast on success/dup.
-- `useBlockUser()` — insert into `user_blocks`, invalidate
-  `["followers"]` / `["following"]` for both users.
-- `useIsBlocked(targetId)` — checks if current user blocked target.
-
-**`Profile.tsx`**
-- Add a `ReportDialog` with reason select (spam, harassment, impersonation,
-  other) and optional details; wire to `useReportUser`.
-- Wire Block to `useBlockUser` inside the AlertDialog confirm.
-- Follow / Message: when not signed in, navigate to
-  `/auth?redirect=/profile/${userId}` instead of just toasting.
-
-## 3. Small UX fixes
-
-- `Profile.tsx`: empty-state "Share your first post" currently routes to
-  `/community`; change to `/create` (the consolidated content page) for
-  own profile, keep `/community` for others.
-- `Profile.tsx`: Tabs default to `posts`, but if a non-owner lands on a
-  private tab via stale state nothing renders. Guard `renderTabContent`
-  with `if (!isOwnProfile && PRIVATE_TABS.includes(activeTab)) setActiveTab("posts")`.
-- `ProfileFeedTab.tsx`: video-only posts don't show the product tag —
-  hoist the product link out so it overlays both image and video.
-- `ProfileHeader.tsx`: website link strips `http(s)://` but `www.` is
-  kept; normalize display to drop both.
-
-## Out of scope
-
-- No changes to `useProfile`, `useProfileData`, `usePosts`, `useFollow*`
-  hooks beyond adding the new moderation hook.
-- No new tabs, no routing changes, no auth flow changes.
-- Existing skeletons, edit modal, lightbox, followers sheet untouched.
-
-## Files
-
-Create:
-- `supabase/migrations/<ts>_user_reports_blocks.sql`
-- `src/hooks/useUserModeration.ts`
-- `src/components/profile/ReportDialog.tsx`
-
-Edit:
-- `src/pages/Profile.tsx`
-- `src/components/profile/ProfileHeader.tsx`
-- `src/components/profile/ProfileStats.tsx`
-- `src/components/profile/ProfileActions.tsx`
-- `src/components/profile/ProfileTabs.tsx`
-- `src/components/profile/tabs/ProfileFeedTab.tsx`
+Pick a phase to start with and I'll begin implementation.
