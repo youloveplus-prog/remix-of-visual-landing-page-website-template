@@ -408,9 +408,10 @@ const Index = () => {
         >
           {user ? (
             <>
-              {/* New Eduvora-style hero + partner strip */}
-              <EduvoraHero variant="app" />
+              {/* Warm bento hero */}
+              <WarmBentoHero />
               <PartnerMarquee />
+
 
               {/* 1 — Hero slider (top priority on mobile) */}
               <div className="lg:hidden">
