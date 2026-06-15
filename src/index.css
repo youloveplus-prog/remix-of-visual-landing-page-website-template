@@ -1075,6 +1075,23 @@
     @apply text-foreground/90 not-italic;
     font-weight: 500;
   }
+
+  /* === Shared panel surfaces ===
+     Use these instead of hardcoded bg-[#f6f5f0] / bg-white so every page
+     consistently flips to pure black in dark mode via CSS tokens. */
+  .surface-panel {
+    background-color: var(--panel);
+    color: var(--panel-foreground);
+    border: 1px solid var(--panel-border);
+  }
+  .surface-panel-soft {
+    background-color: var(--panel-soft);
+    color: var(--panel-foreground);
+    border: 1px solid var(--panel-border);
+  }
+  .text-panel-fg { color: var(--panel-foreground); }
+  .text-panel-muted { color: var(--panel-muted); }
+  .border-panel { border-color: var(--panel-border); }
 }
 
 /* Hide all scrollbars on mobile (visual only — scrolling still works) */
