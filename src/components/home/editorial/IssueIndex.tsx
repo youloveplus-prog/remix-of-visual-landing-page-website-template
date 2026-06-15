@@ -1,6 +1,7 @@
 import { MissionVision } from "@/components/about/MissionVision";
 import { Spread } from "./Spread";
 import { Reveal } from "@/components/transitions/Reveal";
+import { EDITORIAL_DELAY } from "./motion";
 
 const toc = [
   { n: "01", label: "Cover", anchor: "#cover" },
