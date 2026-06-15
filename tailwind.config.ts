@@ -115,6 +115,7 @@ export default {
       },
       fontFamily: {
         sans: [
+          'Plus Jakarta Sans',
           'Satoshi',
           'Hind Siliguri',
           'Noto Sans Bengali',
@@ -127,6 +128,7 @@ export default {
           'sans-serif'
         ],
         display: [
+          'Plus Jakarta Sans',
           'Edensor',
           'Satoshi',
           'Hind Siliguri',
@@ -141,6 +143,7 @@ export default {
           'serif'
         ],
         grotesk: [
+          'Plus Jakarta Sans',
           'Edensor',
           'Satoshi',
           'Hind Siliguri',
