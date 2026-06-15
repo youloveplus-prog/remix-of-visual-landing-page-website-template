@@ -7,11 +7,6 @@ import { EDITORIAL_DELAY, EDITORIAL_PARALLAX } from "./motion";
 import { Button } from "@/components/ui/button";
 
 export function EditorialCover() {
-  const today = new Date().toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-  });
-
   const segments = [
     <>Learning,<br /></>,
     <span className="text-primary">re-imagined.</span>,
@@ -22,15 +17,8 @@ export function EditorialCover() {
       <ParallaxLayer
         strength={EDITORIAL_PARALLAX.coverHeadline}
         factor={-0.3}
-        className="pt-6 sm:pt-10 lg:pt-16"
+        className="pt-10 sm:pt-14 lg:pt-20"
       >
-        <div className="flex items-center justify-between mb-10 sm:mb-12 lg:mb-16">
-          <span className="editorial-eyebrow">Issue 06 · {today}</span>
-          <span className="editorial-eyebrow hidden lg:inline">
-            Learning journal
-          </span>
-        </div>
-
         <div className="flex flex-col items-center text-center">
           <WordRise
             words={segments}
@@ -44,7 +32,6 @@ export function EditorialCover() {
               <p className="editorial-pullquote max-w-[28ch] mx-auto px-2">
                 The calmest place on the internet to learn.
               </p>
-              <p className="editorial-eyebrow mt-3">— The ASIKON editors</p>
             </ParallaxLayer>
           </Reveal>
 
