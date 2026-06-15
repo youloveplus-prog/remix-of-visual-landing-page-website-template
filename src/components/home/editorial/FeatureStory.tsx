@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Suspense, lazy } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
+import { useScrollParallax } from "@/hooks/useScrollParallax";
 
 const ContinueLearningRow = lazy(() =>
   import("@/components/home/workspace/ContinueLearningRow").then((m) => ({
