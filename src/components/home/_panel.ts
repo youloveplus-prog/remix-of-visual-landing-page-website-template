@@ -30,13 +30,13 @@ export const TONES: Record<
 export const TONE_CYCLE: Tone[] = ["dark", "gray", "primary"];
 
 export const panelClass =
-  "relative overflow-hidden rounded-[22px] border border-black/5 bg-[#f6f5f0] px-4 pb-6 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-10 dark:bg-card dark:border-white/10";
+  "surface-panel relative overflow-hidden rounded-[22px] px-4 pb-6 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-10";
 
 export const chipClass =
   "inline-flex w-fit items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[10px] font-medium text-black sm:px-2.5 sm:py-1 sm:text-[11px] dark:bg-white/10 dark:text-foreground";
 
 export const headlineClass =
-  "font-grotesk text-[22px] font-black leading-[1.05] tracking-[-0.03em] text-[#0e0e10] sm:text-[40px] dark:text-foreground";
+  "font-grotesk text-[22px] font-black leading-[1.05] tracking-[-0.03em] text-panel-fg sm:text-[40px]";
 
 export const subheadClass =
-  "mt-2 text-[12px] text-[#5b5b62] sm:mt-3 sm:text-[15px] dark:text-muted-foreground";
+  "mt-2 text-[12px] text-panel-muted sm:mt-3 sm:text-[15px]";

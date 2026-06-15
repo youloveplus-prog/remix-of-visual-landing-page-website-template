@@ -80,7 +80,7 @@ const Sparkle = ({ className = "" }: { className?: string }) => (
 export default function ComingSoonTrio() {
   return (
     <section className="section-x">
-      <div className="relative overflow-hidden rounded-[22px] border border-black/5 bg-[#f6f5f0] px-4 pb-5 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-12 dark:bg-card dark:border-white/10">
+      <div className="surface-panel relative overflow-hidden rounded-[22px] px-4 pb-5 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-12">
         {/* Decorative floaters */}
         <div className="pointer-events-none absolute inset-0 select-none" aria-hidden>
           <div className="absolute left-[5%] top-[6%] h-4 w-4 rotate-[18deg] rounded-[4px] bg-[#1a1a1a] shadow-md sm:left-[8%] sm:top-[8%] sm:h-7 sm:w-7" />
@@ -104,7 +104,7 @@ export default function ComingSoonTrio() {
         {/* Hero */}
         <div className="relative mx-auto max-w-2xl text-center">
           <h1
-            className="font-grotesk text-[28px] font-extrabold leading-[1.05] tracking-[-0.035em] text-[#0e0e10] sm:text-[60px] dark:text-foreground"
+            className="font-grotesk text-[28px] font-extrabold leading-[1.05] tracking-[-0.035em] text-panel-fg sm:text-[60px]"
           >
             NO-1 Free-To-Learn
             <br />
@@ -117,7 +117,7 @@ export default function ComingSoonTrio() {
             </span>
           </h1>
 
-          <p className="mt-2.5 text-[12.5px] font-medium tracking-tight text-[#5b5b62] sm:mt-4 sm:text-[16px] dark:text-muted-foreground">
+          <p className="mt-2.5 text-[12.5px] font-medium tracking-tight text-panel-muted sm:mt-4 sm:text-[16px]">
             Learn without payment today!
           </p>
 

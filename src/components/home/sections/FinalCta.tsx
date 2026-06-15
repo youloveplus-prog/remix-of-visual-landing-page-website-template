@@ -19,9 +19,9 @@ export function FinalCta({
       <Reveal as="section" className="section-x">
         <Link
           to="/about"
-          className="flex items-center justify-between rounded-2xl border border-black/10 bg-[#f6f5f0] px-4 py-3 transition-colors hover:border-primary/40 dark:bg-card dark:border-white/10"
+          className="surface-panel flex items-center justify-between rounded-2xl px-4 py-3 transition-colors hover:border-primary/40"
         >
-          <span className="font-grotesk text-[13px] font-semibold text-[#0e0e10] dark:text-foreground">Learn more about ASIKON</span>
+          <span className="font-grotesk text-[13px] font-semibold text-panel-fg">Learn more about ASIKON</span>
           <ArrowRight className="h-4 w-4 text-primary" />
         </Link>
       </Reveal>
