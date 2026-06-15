@@ -12,8 +12,6 @@ import { TrustStrip } from "./TrustStrip";
 import { MegaMenu, BrowseMenu } from "./MegaMenu";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { HeaderBrand } from "./HeaderBrand";
-import { CurrencyToggle } from "@/components/ui/currency-toggle";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 
 interface DesktopHeaderProps {
@@ -88,7 +86,6 @@ export function DesktopHeader({
 
           {/* Actions */}
           <div className="flex items-center gap-1">
-            <CurrencyToggle />
             <Link to="/cart">
               <Button
                 variant="ghost"
@@ -106,7 +103,6 @@ export function DesktopHeader({
               </Button>
             </Link>
             <NotificationsMenu />
-            <ThemeToggle />
             <div className="ml-1 pl-1 border-l border-border/60">
               <UserMenu />
             </div>
