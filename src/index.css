@@ -1154,3 +1154,53 @@
     color: hsl(var(--foreground) / 0.85);
   }
 }
+
+/* === Editorial spread entrance animations === */
+@layer components {
+  .editorial-rule-draw {
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .editorial-rule-draw.is-in {
+    transform: scaleX(1);
+  }
+  .editorial-label-rise {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 600ms ease-out 120ms, transform 600ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
+  }
+  .editorial-label-rise.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .editorial-pagenum-rise {
+    opacity: 0;
+    transition: opacity 700ms ease-out 300ms;
+  }
+  .editorial-pagenum-rise.is-in {
+    opacity: 1;
+  }
+  /* Cover-only: word-by-word rise. Each child <span> gets its own delay. */
+  .editorial-word-rise > span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.6em);
+    transition: opacity 700ms ease-out, transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .editorial-word-rise.is-in > span {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .editorial-rule-draw,
+    .editorial-label-rise,
+    .editorial-pagenum-rise,
+    .editorial-word-rise > span {
+      transform: none !important;
+      opacity: 1 !important;
+      transition: none !important;
+    }
+  }
+}
