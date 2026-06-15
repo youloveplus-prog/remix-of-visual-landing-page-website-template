@@ -1,64 +1,113 @@
-## Button System Refresh — Plan
+# Home page redesign — Editorial Magazine
 
-Refine our existing bento-soft button language across three layers: the global shadcn primitive, shop/product actions, and course-detail page buttons. Motion-enhanced (framer-motion press scale + loading state baked into the primitive). Brand stays indigo/cream; no new color hardcoding.
+**Direction:** Calm & editorial · Magazine layout · Mission/brand hero
+**Locked tokens (from memory):** Indigo `#3b4fe0`, warm cream `#faf6ef`, pure black dark, Plus Jakarta Sans, Departure Mono labels, Sentient quotes, 20px bento radius.
 
-### 1. Global `Button` primitive — `src/components/ui/button.tsx`
+## What changes
 
-Refined `cva` variants + sizes + a `loading` prop. All values reference existing semantic tokens (`--primary`, `--secondary`, `--accent`, `--muted`, `--border`).
+Today `src/pages/Index.tsx` stacks ~15 sections (WarmBentoHero, FlexiTopSection, TodayMissionCard, ContinueLearning, RecommendedForYou, QuickAccessGrid, AiAssistantBox, MobileCoursesTop, GalleryCarousel, MasterpieceShowcase, ComingSoonTrio, admin sections, Testimonials, ProgressSnapshot, ActivityFeed). It reads as a dense product surface, not as ASIKON's story.
 
-**Variants (refined, not renamed — drop-in compatible):**
-- `default` — `bg-primary text-primary-foreground`, `rounded-2xl`, soft shadow `shadow-[0_2px_0_0_hsl(var(--primary)/0.25),0_8px_24px_-12px_hsl(var(--primary)/0.45)]`, hover lifts shadow.
-- `secondary` — warm-cream tile: `bg-secondary text-secondary-foreground`, `rounded-2xl`, 1px `border-border`, subtle inset highlight.
-- `outline` — transparent bg, `border-border`, hover `bg-muted/60`.
-- `ghost` — bg transparent, hover `bg-muted/70`, no border.
-- `destructive` — `bg-destructive text-destructive-foreground`, same shape language as default.
-- `link` — unchanged behavior, uses `story-link` underline animation.
-- **new `chip`** — full pill: `rounded-full px-3.5 py-1.5 text-xs font-medium bg-primary/10 text-foreground` for inline filter/meta buttons (shop filters, course chips).
-- **new `glass`** — `surface-panel` + backdrop blur for floating overlay actions (video controls, image overlays).
+The redesign reshapes the page into a five-spread editorial **without removing functionality** — every existing section finds a home, just inside a magazine rhythm with generous whitespace and a clear front-to-back read.
 
-**Sizes:** `sm` (h-9 px-3 text-sm), `default` (h-11 px-4 text-sm), `lg` (h-12 px-5 text-base), `xl` (h-14 px-6 text-base font-semibold) for hero CTAs, `icon` (h-11 w-11), `icon-sm` (h-9 w-9).
+## New structure (top to bottom)
 
-**Motion-enhanced behavior (baked in):**
-- Replace inner content with a `motion.span` wrapper using `whileTap={{ scale: 0.96 }}` and `transition={{ type: "spring", stiffness: 500, damping: 30 }}`. Disabled when `disabled || loading`.
-- New `loading?: boolean` prop renders a `Loader2` spinner (lucide) before children, sets `aria-busy`, disables pointer events, keeps button width stable.
-- Primary + destructive variants get a one-shot focus ring shimmer via Tailwind `ring-2 ring-primary/40 ring-offset-2 focus-visible:ring-offset-background`.
-- Hover lift uses `transition-[transform,box-shadow] duration-200 hover:-translate-y-[1px]` (skipped on `icon` size to avoid jitter in nav rails).
+```text
+┌──────────────────────────────────────────────┐
+│  SPREAD 1 — COVER                            │
+│  Eyebrow: ISSUE 06 · JUNE 2026               │
+│  Oversize display: ASIKON mission line       │
+│  Pull-quote (Sentient) + Enter buttons       │
+│  Quiet partner marquee at the bottom         │
+├──────────────────────────────────────────────┤
+│  SPREAD 2 — ISSUE INDEX (mission/brand lead) │
+│  Two-column: left = <MissionVision/> excerpt │
+│  Right = numbered TOC linking to the         │
+│  sections below (Today, Continue, Courses,   │
+│  Community, Mentors, Trust)                  │
+├──────────────────────────────────────────────┤
+│  SPREAD 3 — FEATURE STORY                    │
+│  Editorial featured course/product card:     │
+│  big image left, headline + dek + price +    │
+│  CTA right. Below: 3 supporting cards        │
+│  (Continue · Today's mission · AI Tutor)     │
+├──────────────────────────────────────────────┤
+│  SPREAD 4 — DEPARTMENTS (curated grid)       │
+│  Magazine grid of departments:               │
+│  • Library (courses + books carousels)       │
+│  • Workshop (prompts, AI tutor, planner)     │
+│  • Community (posts carousel)                │
+│  • Mentorship (waitlist promo)               │
+│  Each opens with a Departure Mono dept       │
+│  label + thin rule, then the existing        │
+│  carousels/components inside.                │
+├──────────────────────────────────────────────┤
+│  SPREAD 5 — BACK MATTER                      │
+│  Testimonials columns · Progress snapshot ·  │
+│  Activity feed · How it works · Why trust    │
+│  Closing colophon line                       │
+└──────────────────────────────────────────────┘
+```
 
-**Accessibility:** keep all existing `Slot` / `asChild` behavior. Spinner has `aria-hidden`. Disabled state retains 60% opacity, cursor-not-allowed.
+## Section mapping (nothing deleted)
 
-### 2. Course-detail page buttons — `src/components/course-detail/`
+| Existing component | New home |
+|---|---|
+| `WarmBentoHero`, `FlexiTopSection`, `ImageHeroSlider`, `DesktopHeroBento`, `DesktopWebstoreHome` | Replaced by new **Cover** spread (kept as components, no longer rendered on `/`) |
+| `<MissionVision/>` excerpt | **Issue Index** left column |
+| `FeaturedProducts[0]` | **Feature Story** lead |
+| `TodayMissionCard`, `ContinueLearningRow`, AI tutor tile | **Feature Story** support row |
+| `MobileCoursesTop`, `GalleryCarousel`, `ProductCarousel` (trending / new arrivals / curated) | **Departments → Library** |
+| `QuickAccessGrid`, `AiAssistantBox`, `RecommendedForYou` | **Departments → Workshop** |
+| `CommunityCarousel`, `MasterpieceShowcase` | **Departments → Community** |
+| `MentorshipHomeSection`, `ComingSoonTrio` | **Departments → Mentorship** |
+| `TestimonialsColumns`, `ProgressSnapshot`, `ActivityFeed`, `HowItWorks`, `WhyTrust` | **Back Matter** |
+| `BrandStrip`, `PartnerMarquee` | Quiet footers between Cover and Index, and at end of Back Matter |
+| `AiTutorFab`, `FirstRunTour`, `SEO` JSON-LD | Unchanged |
+| Admin-ordered `useHomeSections` rest | Rendered inside Departments at the position admins already control |
 
-- **`CourseVideoCard`** — swap raw `<button>` elements for the new primitive:
-  - Center play/pause: `<Button variant="glass" size="icon" className="w-16 h-16 rounded-2xl">` with motion press already baked in.
-  - Bottom control bar play, mute, fullscreen: `<Button variant="ghost" size="icon-sm" className="text-white hover:bg-white/15">`.
-  - Scrubber stays a styled `<input type="range">` (not a button).
-- **`CourseMetaRow`** chips → replace handcrafted `<span>` chips with `<Button variant="chip" size="sm" disabled>` so they share the system but stay non-interactive (no hover lift on disabled).
-- **`CourseDescription`** "Description ▾" dropdown trigger → `<Button variant="outline" size="sm" className="rounded-full">`.
+## Editorial design rules
 
-### 3. Shop & product action buttons
+- **Type scale:** display headline `clamp(3rem, 9vw, 7rem)` Plus Jakarta Sans 800, dek `1.125rem` 400, body `0.9375rem` 400. One Sentient pull-quote per spread max.
+- **Labels:** Departure Mono uppercase, `0.625rem`, `letter-spacing: 0.22em`, used for eyebrows, dept names, page numbers.
+- **Rules:** 1px hairlines in `hsl(var(--foreground)/0.12)` between spreads. No drop shadows on hero. Bento tiles keep 20px radius inside Departments only.
+- **Whitespace:** vertical rhythm `space-y-20 lg:space-y-32` between spreads, `space-y-8` inside.
+- **Motion:** existing `Reveal` (fade-up 12px, 400ms ease-out). No marquees in the cover. Pull-quote fades in on scroll. No new motion libs.
+- **Signed page number** bottom-right of each spread (Departure Mono), e.g. `01 / 05`.
 
-- **`ProductCard` add-to-cart** (`src/components/shop/*` and `src/pages/ProductDetail.tsx`): primary CTA becomes `<Button size="lg">Add to cart</Button>`; secondary "Buy now" becomes `<Button variant="secondary" size="lg">`. Wishlist heart → `<Button variant="ghost" size="icon">`.
-- **Quantity stepper** in cart/checkout: `<Button variant="outline" size="icon-sm">` for `-` / `+`, with motion press already from the primitive.
-- **Shop filter pills** (mobile sheet category + sort): `<Button variant="chip" size="sm">` with `data-state="on"` styling switching `bg-primary/10` ↔ `bg-primary text-primary-foreground`.
-- **`Cart` checkout CTA**: `<Button size="xl" loading={isProcessing}>Checkout</Button>` — exercises the new loading prop.
+## File changes
 
-### 4. Tokens & styles (no new colors)
+**Create**
+- `src/components/home/editorial/EditorialCover.tsx` — Spread 1
+- `src/components/home/editorial/IssueIndex.tsx` — Spread 2 (renders `<MissionVision variant="excerpt"/>` + TOC)
+- `src/components/home/editorial/FeatureStory.tsx` — Spread 3 (uses `useFeaturedProducts(1)` + `TodayMissionCard` + `ContinueLearningRow`)
+- `src/components/home/editorial/Department.tsx` — section wrapper (label + rule + children + page number)
+- `src/components/home/editorial/BackMatter.tsx` — Spread 5
 
-Confirm in `src/index.css` these tokens already exist; otherwise add as semantic vars in both light and dark blocks:
-- `--button-shadow-primary` (HSL alpha layering for the primary lift shadow)
-- `--button-shadow-soft` (secondary/outline subtle shadow)
+**Edit**
+- `src/pages/Index.tsx` — replace the rendered tree with the five spreads; keep `SEO`, `FirstRunTour`, `AiTutorFab`, `useHomeSections`, `useProducts`, `useFeaturedProducts` data wiring; pass admin-ordered `restSections` into `<Department name="Library">` as children alongside the carousels.
+- `src/index.css` — add `.editorial-rule`, `.editorial-eyebrow`, `.editorial-pagenum` utility classes (tokens only, no hex).
 
-If added, wire them via the `cva` strings — never inline hex.
+**Keep but unused on `/`**
+- `WarmBentoHero`, `FlexiTopSection`, `DesktopHeroBento`, `DesktopWebstoreHome`, `ImageHeroSlider` remain in the repo for other surfaces — no deletions.
 
-### 5. Dependencies
+## Technical notes
 
-`framer-motion` is already used (per CourseVideoCard / hero). No new packages.
+- All copy that touches mission/vision pulls through `<MissionVision/>` per Core memory — no hardcoded mission strings.
+- Carousels stay on `embla-carousel-react` per memory.
+- Infinite-loop scroll behavior preserved (Departments still mount the existing carousels untouched).
+- Logged-out vs logged-in branches collapse into one tree; auth-gated sub-blocks (Today mission, Continue learning, Progress, Activity) render conditionally inside their spreads.
+- Lazy-loaded sections stay `lazy()` + `<Suspense>` to protect first paint.
+- No backend, schema, or RLS changes.
 
-### 6. Acceptance
+## Out of scope
 
-- Every existing `<Button>` callsite still works (props are additive; variants are drop-in).
-- New variants `chip` and `glass` available and used on course detail + shop filters.
-- `loading` prop renders a spinner and disables interaction with stable width.
-- Press feels tactile (spring scale) on all enabled buttons; icon nav buttons don't jitter.
-- Light + dark themes pass `node scripts/audit-light-bg.js` with zero new CRITICAL hits.
-- Course detail video controls, meta chips, description trigger, shop product CTAs, quantity steppers, filter pills, and checkout button all visibly share the refreshed language.
+- Brand tokens (locked).
+- Removing/replacing the FAB content-creation flow.
+- Admin home-sections schema — admins keep ordering control inside the Library department.
+- Other routes (`/shop`, `/community`, etc.) are untouched.
+
+## Verification
+
+- Capture `/` at 560px and 1280px after build; confirm five distinct spreads, hairline rules visible, page numbers present.
+- Confirm `<MissionVision/>` renders in Issue Index and no mission strings are hardcoded (`rg -n "ASIKON" src/components/home/editorial`).
+- Confirm logged-in extras (Today mission, Continue, Progress, Activity) only render when `user` is set.
