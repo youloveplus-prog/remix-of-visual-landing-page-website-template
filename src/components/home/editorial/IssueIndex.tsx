@@ -14,11 +14,11 @@ const toc = [
 export function IssueIndex() {
   return (
     <Spread pageNumber="02 / 05" label="Issue Index">
-      <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-20">
+      <div className="grid lg:grid-cols-[1.4fr_1fr] gap-8 sm:gap-10 lg:gap-20">
         <Reveal>
           <div>
             <p className="editorial-eyebrow mb-3">In this issue</p>
-            <h2 className="font-display font-bold text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.05] mb-6">
+            <h2 className="font-display font-bold text-[1.75rem] sm:text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.08] mb-5 sm:mb-6 text-balance">
               Why we exist.
             </h2>
             <MissionVision variant="compact" />
