@@ -57,7 +57,7 @@ export function DesktopHeroBento() {
             <IconChip><Link2 className="h-4 w-4" /></IconChip>
             <h3 className="font-display font-bold text-lg">Drop a Link</h3>
           </div>
-          <div className="flex items-center gap-2 bg-white rounded-full pl-4 pr-1 py-1 shadow-sm">
+          <div className="flex items-center gap-2 surface-panel rounded-full pl-4 pr-1 py-1 shadow-sm">
             <Link2 className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
             <span className="text-xs text-muted-foreground flex-1 truncate">Paste any course url...</span>
             <span className="inline-flex items-center rounded-full bg-foreground text-background px-3 py-1.5 text-[11px] font-semibold">
