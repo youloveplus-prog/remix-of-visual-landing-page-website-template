@@ -228,9 +228,8 @@ export function DesktopSidebar({
 
   return (
     <aside
-      style={{ top: "var(--app-header-h)" }}
       className={cn(
-        "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
+        "fixed left-0 top-[var(--app-header-h)] h-[calc(100dvh-var(--app-header-h))] z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width] overflow-hidden",
         expanded ? "w-60" : "w-16",
         className
       )}
