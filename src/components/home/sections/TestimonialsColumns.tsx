@@ -73,9 +73,6 @@ export function TestimonialsColumns({ title = "Loved by learners across Banglade
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center justify-center max-w-2xl mx-auto text-center"
         >
-          <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-            Testimonials
-          </div>
           <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-5">
             {title}
           </h2>
