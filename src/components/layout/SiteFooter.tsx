@@ -173,11 +173,11 @@ export function SiteFooter() {
             © {new Date().getFullYear()} ASIKON. Made with care in Dhaka, Bangladesh.
           </p>
           <p className="text-xs text-muted-foreground flex items-center gap-3">
-            <Link to="/privacy" className="hover:text-foreground transition">Privacy Policy</Link>
+            <Link to="/privacy" className="hover:text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">Privacy Policy</Link>
             <span className="opacity-40">·</span>
-            <Link to="/terms" className="hover:text-foreground transition">Terms of Service</Link>
+            <Link to="/terms" className="hover:text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">Terms of Service</Link>
             <span className="opacity-40">·</span>
-            <Link to="/refund" className="hover:text-foreground transition">Refunds</Link>
+            <Link to="/refund" className="hover:text-foreground transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:rounded">Refunds</Link>
           </p>
         </div>
       </div>
