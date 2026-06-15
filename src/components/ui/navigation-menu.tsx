@@ -77,9 +77,10 @@ const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
 >(({ className, ...props }, ref) => (
-  // `justify-center` + no `left-0` lets Radix translate the viewport so the
-  // panel sits centered under the active trigger instead of pinned to the list's left edge.
-  <div className="absolute top-full left-1/2 -translate-x-1/2 flex justify-center z-50">
+  // Radix positions the Viewport absolutely with `left` calculated from the active trigger.
+  // The wrapper just needs to exist as a positioned container — `justify-center` is shadcn's default.
+  <div className="absolute left-0 top-full flex justify-center z-50">
+
     <NavigationMenuPrimitive.Viewport
       className={cn(
         "origin-top relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-2xl border border-border/70 bg-popover/95 backdrop-blur-2xl text-popover-foreground shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 md:w-[var(--radix-navigation-menu-viewport-width)]",
