@@ -15,6 +15,7 @@ import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/hooks/useCart";
 import { sidebarPaddingClassLg } from "./layout-constants";
+import { ResponsiveDebugOverlay } from "@/components/dev/ResponsiveDebugOverlay";
 
 
 // Context to share sidebar state
@@ -160,6 +161,7 @@ export function AppLayout({
 
 
         {/* BottomNav is rendered once at App root (persistent app-shell) — never remounts */}
+        <ResponsiveDebugOverlay />
       </div>
     </SidebarContext.Provider>
   );
