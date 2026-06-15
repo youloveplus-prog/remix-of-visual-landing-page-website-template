@@ -64,6 +64,7 @@ for (const file of walk(root)) {
         risk,
         missingDarkBg: !hasDarkBg,
         looksLikePanel,
+        suggestion: suggestReplacement(p.name, rawLine),
       });
     }
   });
