@@ -316,6 +316,9 @@ const Shop = () => {
                               reviews: product.review_count || 0,
                               isNew: false,
                               isTrending: product.is_featured || false,
+                              kind: detectKind(product.name),
+                              enrollmentCount: (product as any).enrollment_count ?? undefined,
+                              instructorVerified: (product as any).instructor_verified ?? undefined,
                             }}
                           />
                         )}
