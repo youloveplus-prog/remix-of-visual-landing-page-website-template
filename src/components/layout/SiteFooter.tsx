@@ -44,12 +44,12 @@ export function SiteFooter() {
 
   return (
     <footer
-      className="hidden md:block bg-muted/30"
+      className="bg-muted/30"
       aria-labelledby="footer-heading"
     >
       <h2 id="footer-heading" className="sr-only">Footer</h2>
 
-      <div className="container-editorial py-14 lg:py-20">
+      <div className="container-editorial py-10 md:py-14 lg:py-20">
         {/* CTA card */}
         <div
           className="relative overflow-hidden rounded-[2rem] px-8 py-16 sm:py-20 text-center text-primary-foreground shadow-[var(--shadow-elegant,0_30px_80px_-30px_hsl(var(--primary)/0.5))]"
