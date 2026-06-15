@@ -17,7 +17,7 @@ const CATS: Cat[] = [
   { icon: Briefcase,      label: "Business",    href: "/shop?category=business" },
   { icon: Smartphone,     label: "Apps",        href: "/shop?category=apps" },
   { icon: Gamepad2,       label: "Games",       href: "/shop?category=games" },
-  { icon: BookOpen,       label: "Books",       href: "/shop?type=books" },
+  { icon: BookOpen,       label: "Books",       href: "/shop?type=ebooks" },
   { icon: Wand2,          label: "Prompts",     href: "/prompts" },
   { icon: GraduationCap,  label: "Mentors",     href: "/mentors" },
   { icon: MessagesSquare, label: "Community",   href: "/community" },

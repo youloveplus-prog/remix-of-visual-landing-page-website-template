@@ -139,8 +139,8 @@ export function DesktopSidebar({
 
   const shopNavItems = [
     { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
-    { icon: BookOpen, label: "Books", href: "/shop?type=books" },
-    { icon: Package, label: "Student Kits", href: "/shop?type=kits" },
+    { icon: BookOpen, label: "Books", href: "/shop?type=ebooks" },
+    { icon: Package, label: "Student Kits", href: "/shop?type=bundles" },
     { icon: Wand2, label: "Prompt Library", href: "/prompts" },
     { icon: Sparkles, label: "New Arrivals", href: "/shop?filter=new" },
   ];

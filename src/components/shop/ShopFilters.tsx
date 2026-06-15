@@ -35,7 +35,7 @@ import { Badge } from "@/components/ui/badge";
 import { SortOption } from "@/hooks/useProducts";
 import { cn } from "@/lib/utils";
 
-export type ProductType = "all" | "courses" | "books" | "kits" | "prompts";
+export type ProductType = "all" | "courses" | "ebooks" | "services" | "bundles";
 
 interface ShopFiltersProps {
   searchQuery: string;
@@ -69,9 +69,9 @@ const sortOptions = [
 const TYPE_OPTIONS: { id: ProductType; label: string; icon: typeof LayoutGrid }[] = [
   { id: "all", label: "All", icon: LayoutGrid },
   { id: "courses", label: "Courses", icon: GraduationCap },
-  { id: "books", label: "Books", icon: BookOpen },
-  { id: "kits", label: "Kits", icon: Backpack },
-  { id: "prompts", label: "Prompts", icon: Wand2 },
+  { id: "ebooks", label: "eBooks", icon: BookOpen },
+  { id: "services", label: "Services", icon: Wand2 },
+  { id: "bundles", label: "Bundles", icon: Backpack },
 ];
 
 const RATING_OPTIONS = [

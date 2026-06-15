@@ -81,7 +81,7 @@ const PANELS: Panel[] = [
     icon: BookOpen,
     matchPaths: ["/shop", "/prompts"],
     items: [
-      { icon: BookOpen, label: "Books", href: "/shop?type=books", desc: "Curated reading list" },
+      { icon: BookOpen, label: "Books", href: "/shop?type=ebooks", desc: "Curated reading list" },
       { icon: Sparkles, label: "Prompts", href: "/prompts", desc: "1000+ AI prompt library" },
       { icon: Flame, label: "Trending", href: "/shop?filter=trending", desc: "What learners love" },
       { icon: Heart, label: "Deals", href: "/shop?filter=deals", desc: "Limited time offers" },
@@ -89,7 +89,7 @@ const PANELS: Panel[] = [
     quick: [
       { label: "New arrivals", href: "/shop?filter=new" },
       { label: "Bestsellers", href: "/shop?filter=trending" },
-      { label: "Student kits", href: "/shop?type=kits" },
+      { label: "Student kits", href: "/shop?type=bundles" },
       { label: "Gift cards", href: "/shop" },
     ],
     feature: {

@@ -1,4 +1,4 @@
-import { Heart, Star, ArrowUpRight, TrendingUp, Shield, Zap } from "lucide-react";
+import { Heart, Star, ArrowUpRight, TrendingUp, Shield, Zap, BadgeCheck, Users } from "lucide-react";
 import { useState, forwardRef, memo } from "react";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types";
@@ -6,6 +6,13 @@ import { Badge } from "@/components/ui/badge";
 import { SmartImage } from "@/components/ui/smart-image";
 import { Price } from "@/lib/currency";
 import { ProductQuickView } from "./ProductQuickView";
+
+const CTA_BY_KIND: Record<NonNullable<Product["kind"]>, { full: string; short: string }> = {
+  course: { full: "Enroll", short: "Enroll" },
+  ebook: { full: "Buy Now", short: "Buy" },
+  service: { full: "Book Now", short: "Book" },
+  bundle: { full: "Get Bundle", short: "Get" },
+};
 
 interface ProductCardProps {
   product: Product;
@@ -173,13 +180,34 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
                   setShowQuickView(true);
                 }}
                 className="shrink-0 inline-flex items-center gap-0.5 text-[11px] md:text-xs font-semibold text-foreground/90 hover:text-primary underline underline-offset-2 decoration-foreground/40 hover:decoration-primary transition-colors no-min-tap"
-                aria-label={`Order ${product.name}`}
+                aria-label={`${product.kind ? CTA_BY_KIND[product.kind].full : "Order"} ${product.name}`}
               >
-                <span className="hidden sm:inline">Order Now</span>
-                <span className="sm:hidden">Order</span>
+                <span className="hidden sm:inline">
+                  {product.kind ? CTA_BY_KIND[product.kind].full : "Order Now"}
+                </span>
+                <span className="sm:hidden">
+                  {product.kind ? CTA_BY_KIND[product.kind].short : "Order"}
+                </span>
                 <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
               </button>
             </div>
+
+            {/* Creator trust + social proof row */}
+            {(product.instructorVerified || (product.kind === "course" && product.enrollmentCount)) && (
+              <div className="flex items-center gap-2 text-[10px] md:text-[11px] text-muted-foreground">
+                {product.instructorVerified && (
+                  <span className="inline-flex items-center gap-1 text-primary font-medium">
+                    <BadgeCheck className="h-3 w-3" /> Verified
+                  </span>
+                )}
+                {product.kind === "course" && !!product.enrollmentCount && (
+                  <span className="inline-flex items-center gap-1">
+                    <Users className="h-3 w-3" />
+                    {product.enrollmentCount.toLocaleString()} enrolled
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Tag chips */}
             {chips.length > 0 && (

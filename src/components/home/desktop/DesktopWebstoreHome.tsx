@@ -7,7 +7,7 @@ import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 const categories = [
   { id: "all", label: "All topics", href: "/shop", dotClass: "bg-indigo-400", active: true },
   { id: "courses", label: "Courses", href: "/shop?type=courses" },
-  { id: "books", label: "Books", href: "/shop?type=books" },
+  { id: "books", label: "Books", href: "/shop?type=ebooks" },
   { id: "prompts", label: "Prompts", href: "/prompts" },
   { id: "ai", label: "AI Tutor", href: "/learn" },
   { id: "mentors", label: "Mentors", href: "/mentors" },
@@ -218,7 +218,7 @@ export function DesktopWebstoreHome() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {[
               { icon: GraduationCap, title: "Courses library", desc: "120+ structured lessons across AI, Python, and product.", href: "/shop?type=courses" },
-              { icon: BookOpen, title: "Books & PDFs", desc: "Hand-picked, instantly delivered. No shipping.", href: "/shop?type=books" },
+              { icon: BookOpen, title: "Books & PDFs", desc: "Hand-picked, instantly delivered. No shipping.", href: "/shop?type=ebooks" },
               { icon: Wand2, title: "Prompt packs", desc: "Battle-tested prompts for GPT-4, Claude, and Gemini.", href: "/prompts" },
               { icon: Users, title: "1-on-1 Mentors", desc: "Personal tutors for children. Waitlist now open.", href: "/mentors" },
             ].map((tile) => (

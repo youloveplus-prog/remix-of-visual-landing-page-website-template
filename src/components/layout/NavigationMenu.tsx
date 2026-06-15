@@ -19,8 +19,8 @@ const navItems = [
 
 const categories = [
   { label: "Courses", href: "/shop?type=courses", icon: "🎓" },
-  { label: "Books", href: "/shop?type=books", icon: "📚" },
-  { label: "Student Kits", href: "/shop?type=kits", icon: "🎒" },
+  { label: "Books", href: "/shop?type=ebooks", icon: "📚" },
+  { label: "Student Kits", href: "/shop?type=bundles", icon: "🎒" },
   { label: "Prompt Library", href: "/shop?type=prompts", icon: "🪄" },
   { label: "AI Tutor", href: "/shop?category=ai-tutor", icon: "🤖" },
   { label: "Gadgets", href: "/shop?category=gadgets", icon: "💻" },

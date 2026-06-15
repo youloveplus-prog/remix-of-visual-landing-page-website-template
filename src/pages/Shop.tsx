@@ -7,6 +7,8 @@ import { ShopFilters } from "@/components/shop/ShopFilters";
 import { DesktopFilterRail } from "@/components/shop/DesktopFilterRail";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { CourseVideoCard } from "@/components/shop/CourseVideoCard";
+import { ProductCarousel } from "@/components/carousels";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, SortOption } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
@@ -14,15 +16,27 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const MAX_PRICE = 500;
 
-type ProductType = "all" | "courses" | "books" | "kits" | "prompts";
+type ProductType = "all" | "courses" | "ebooks" | "services" | "bundles";
+
+const KIND_MAP: Record<Exclude<ProductType, "all">, "course" | "ebook" | "service" | "bundle"> = {
+  courses: "course",
+  ebooks: "ebook",
+  services: "service",
+  bundles: "bundle",
+};
 
 function detectProductType(name: string): ProductType {
   const n = name.toLowerCase();
-  if (/\bprompt|prompts\b/.test(n)) return "prompts";
-  if (/\bbook|hardcover|paperback|ebook|novel\b/.test(n)) return "books";
-  if (/\bkit|bundle|stationery|notebook|essentials\b/.test(n)) return "kits";
-  if (/\bcourse|masterclass|bootcamp|training|class|tutorial\b/.test(n)) return "courses";
+  if (/\bbundle|kit|pack|collection|set\b/.test(n)) return "bundles";
+  if (/\bmentorship|coaching|consultation|service|1[:-]1|one[- ]on[- ]one\b/.test(n)) return "services";
+  if (/\bbook|ebook|hardcover|paperback|pdf|guide|novel\b/.test(n)) return "ebooks";
+  if (/\bcourse|masterclass|bootcamp|training|class|tutorial|workshop\b/.test(n)) return "courses";
   return "courses";
+}
+
+function detectKind(name: string): "course" | "ebook" | "service" | "bundle" {
+  const t = detectProductType(name);
+  return t === "all" ? "course" : KIND_MAP[t];
 }
 
 const Shop = () => {
@@ -40,7 +54,7 @@ const Shop = () => {
   useEffect(() => {
     setSearchQuery(searchParams.get("q") ?? "");
     const type = searchParams.get("type") as ProductType | null;
-    if (type && ["all", "courses", "books", "kits", "prompts"].includes(type)) {
+    if (type && ["all", "courses", "ebooks", "services", "bundles"].includes(type)) {
       setProductType(type);
     }
     const cat = searchParams.get("category");
@@ -110,6 +124,40 @@ const Shop = () => {
       return true;
     });
   }, [products, productType, minRating, onSaleOnly, featuredOnly]);
+
+  // Section feeds — surfaced as top carousels when the user hasn't narrowed the view.
+  const transformForCarousel = (p: any) => ({
+    id: p.id,
+    name: p.name,
+    brand: "Asikon Academy",
+    price: p.price,
+    originalPrice: p.original_price || undefined,
+    image: p.image_url || "/placeholder.svg",
+    rating: p.rating || 0,
+    reviews: p.review_count || 0,
+    isNew: false,
+    isTrending: p.is_featured || false,
+    slug: p.slug,
+    kind: detectKind(p.name),
+  });
+
+  const featuredItems = useMemo(
+    () => (products ?? []).filter((p: any) => p.is_featured).slice(0, 10).map(transformForCarousel),
+    [products],
+  );
+  const bundleItems = useMemo(
+    () => (products ?? []).filter((p: any) => detectProductType(p.name) === "bundles").slice(0, 10).map(transformForCarousel),
+    [products],
+  );
+
+  const showSpotlights =
+    !searchQuery.trim() &&
+    productType === "all" &&
+    minRating === 0 &&
+    !onSaleOnly &&
+    !featuredOnly &&
+    priceRange[0] === 0 &&
+    priceRange[1] === MAX_PRICE;
 
   // Filter category pills by current query so categories matching the search bubble up
   const q = searchQuery.trim().toLowerCase();
@@ -247,6 +295,21 @@ const Shop = () => {
               )}
             </div>
 
+            {/* Marketplace spotlights — only when the user is browsing the unfiltered catalog */}
+            {showSpotlights && !productsLoading && featuredItems.length > 0 && (
+              <ProductCarousel
+                products={featuredItems}
+                title="Featured this week"
+                viewAllHref="/shop?filter=trending"
+              />
+            )}
+            {showSpotlights && !productsLoading && bundleItems.length > 0 && (
+              <ProductCarousel
+                products={bundleItems}
+                title="Bundles & collections"
+                viewAllHref="/shop?type=bundles"
+              />
+            )}
 
             {/* Products Grid */}
             <div>
@@ -302,6 +365,9 @@ const Shop = () => {
                               reviews: product.review_count || 0,
                               isNew: false,
                               isTrending: product.is_featured || false,
+                              kind: detectKind(product.name),
+                              enrollmentCount: (product as any).enrollment_count ?? undefined,
+                              instructorVerified: (product as any).instructor_verified ?? undefined,
                             }}
                           />
                         )}

@@ -65,7 +65,7 @@ const transformProduct = (p: any) => ({
 
 const quickCategories = [
   { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
-  { icon: BookOpen, label: "Books", href: "/shop?type=books" },
+  { icon: BookOpen, label: "Books", href: "/shop?type=ebooks" },
   { icon: Sparkles, label: "Prompts", href: "/prompts" },
   { icon: Flame, label: "Trending", href: "/shop?filter=trending" },
 ];
