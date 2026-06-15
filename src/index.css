@@ -1109,3 +1109,48 @@
   }
 }
 
+
+/* === Editorial home spreads === */
+@layer components {
+  .editorial-eyebrow {
+    font-family: 'Departure Mono', ui-monospace, monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+  .editorial-pagenum {
+    font-family: 'Departure Mono', ui-monospace, monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    color: hsl(var(--muted-foreground) / 0.7);
+  }
+  .editorial-rule {
+    height: 1px;
+    width: 100%;
+    background-color: hsl(var(--foreground) / 0.12);
+  }
+  .editorial-display {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    font-size: clamp(2.75rem, 9vw, 6.5rem);
+    color: hsl(var(--foreground));
+  }
+  .editorial-dek {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: hsl(var(--muted-foreground));
+  }
+  .editorial-pullquote {
+    font-family: 'Sentient', 'Plus Jakarta Sans', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+    line-height: 1.35;
+    color: hsl(var(--foreground) / 0.85);
+  }
+}
