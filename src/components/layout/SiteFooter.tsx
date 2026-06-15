@@ -110,7 +110,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <nav className="lg:col-span-4 grid grid-cols-2 gap-8" aria-label="Footer">
+          <nav className="lg:col-span-4 grid grid-cols-2 gap-6 md:gap-8" aria-label="Footer">
             {columns.map((col) => (
               <div key={col.title}>
                 <h3 className="font-display text-lg font-bold tracking-tight text-foreground">
