@@ -21,6 +21,7 @@ import { FeatureStory } from "@/components/home/editorial/FeatureStory";
 import { Department } from "@/components/home/editorial/Department";
 import { Spread } from "@/components/home/editorial/Spread";
 import { BackMatter } from "@/components/home/editorial/BackMatter";
+import { TrustCarousel } from "@/components/home/editorial/TrustCarousel";
 
 // Lazy department contents — protect first paint
 const QuickAccessGrid = lazy(() =>
