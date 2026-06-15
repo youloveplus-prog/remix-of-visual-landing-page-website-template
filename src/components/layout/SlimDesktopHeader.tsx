@@ -38,7 +38,7 @@ export function SlimDesktopHeader({
       className={cn(
         "fixed top-0 right-0 left-0 z-40 isolate overflow-visible",
         "transition-[left,transform] duration-300 ease-out will-change-transform",
-        isSidebarCollapsed ? "lg:left-16" : "lg:left-60",
+        sidebarLeftOffsetClass(isSidebarCollapsed, "lg"),
         hidden && "-translate-y-full"
       )}
     >
