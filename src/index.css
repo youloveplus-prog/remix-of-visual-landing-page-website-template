@@ -66,6 +66,14 @@
     --chip-mint: 152 47% 89%;          /* #d8f0e4 */
     --chip-cream: 39 67% 96%;          /* #fff8ec */
 
+    /* Shared panel surface tokens — used by .surface-panel utilities so
+       every page/section flips to pure black in dark mode automatically. */
+    --panel: #f6f5f0;
+    --panel-soft: #ffffff;
+    --panel-foreground: #0e0e10;
+    --panel-muted: #5b5b62;
+    --panel-border: rgba(0, 0, 0, 0.06);
+
     /* Glass tokens — light (warm) */
     --glass-bg: 0 0% 100%;
     --glass-border: 39 30% 86%;
@@ -142,6 +150,13 @@
     --chart-3: 45 95% 55%;
     --chart-4: 220 90% 65%;
     --chart-5: 270 70% 65%;
+
+    /* Shared panel surface tokens — dark = pure black for global consistency */
+    --panel: #000000;
+    --panel-soft: hsl(0 0% 4%);
+    --panel-foreground: hsl(0 0% 98%);
+    --panel-muted: hsl(0 0% 68%);
+    --panel-border: rgba(255, 255, 255, 0.10);
 
     /* Glass tokens — dark (toned down) */
     --glass-bg: 0 0% 6%;
