@@ -44,7 +44,7 @@ export const WarmBentoHero = () => {
 
               <div className="mt-5 flex flex-wrap items-center gap-2.5">
                 <Link
-                  to="/shop"
+                  to="/shop#products"
                   className="inline-flex items-center gap-1.5 rounded-full bg-background text-foreground px-4 py-2.5 text-sm font-semibold shadow-[0_8px_20px_-8px_hsl(0_0%_0%/0.35)] hover:-translate-y-0.5 transition-transform"
                 >
                   Start learning <ArrowUpRight className="h-4 w-4" />

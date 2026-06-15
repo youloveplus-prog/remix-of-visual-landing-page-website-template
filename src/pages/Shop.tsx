@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CategoryCarousel } from "@/components/carousels";
@@ -41,6 +41,7 @@ function detectKind(name: string): "course" | "ebook" | "service" | "bundle" {
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const [activeCategory, setActiveCategory] = useState(searchParams.get("category") ?? "All");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
@@ -49,6 +50,16 @@ const Shop = () => {
   const [minRating, setMinRating] = useState(0);
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [featuredOnly, setFeaturedOnly] = useState(false);
+
+  // Scroll to product grid when arriving from hero CTA
+  useEffect(() => {
+    if (location.hash === "#products") {
+      const el = document.getElementById("products");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, [location]);
 
   // Sync URL → state (q, type, filter, category)
   useEffect(() => {
@@ -312,7 +323,7 @@ const Shop = () => {
             )}
 
             {/* Products Grid */}
-            <div>
+            <div id="products">
               {productsLoading ? (
                 <div className={activeCategory === "Courses" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6" : "grid-products"}>
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
