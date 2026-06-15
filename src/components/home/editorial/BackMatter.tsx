@@ -59,11 +59,6 @@ export function BackMatter({ showPersonal }: BackMatterProps) {
           </div>
         )}
 
-        <div className="pt-6 border-t border-foreground/10">
-          <p className="editorial-eyebrow">
-            Set in Plus Jakarta Sans. Made in Dhaka.
-          </p>
-        </div>
       </div>
     </Spread>
   );
