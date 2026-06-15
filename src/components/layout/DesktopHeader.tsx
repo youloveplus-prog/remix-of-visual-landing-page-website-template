@@ -8,9 +8,7 @@ import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
-import { TrustStrip } from "./TrustStrip";
-import { MegaMenu, BrowseMenu } from "./MegaMenu";
-import { Breadcrumbs } from "./Breadcrumbs";
+import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
 
 
@@ -44,84 +42,48 @@ export function DesktopHeader({
       )}
     >
 
-      {/* Trust strip — hidden on scroll */}
-      <TrustStrip show={showTrustStrip && !isScrolled} />
-
       {/* Primary row — logo · mega menu · search · actions */}
       <div
         className={cn(
-          "hairline-bottom relative z-[2] overflow-visible py-2.5",
+          "hairline-bottom relative z-[2] overflow-visible py-1.5",
           "transition-[box-shadow,background-color] duration-300 ease-out",
-          "bg-background/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
+          "bg-background/80 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/65",
           "dark:bg-black/80 dark:supports-[backdrop-filter]:bg-black/70",
-          "border-b border-primary/15 dark:border-white/10",
-          "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.08),inset_0_-1px_0_hsl(var(--primary)/0.12)]",
-          "dark:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.04),inset_0_-1px_0_hsl(0_0%_100%/0.06)]",
-          isScrolled &&
-            "shadow-[0_1px_0_0_hsl(var(--primary)/0.25),0_10px_30px_-14px_hsl(var(--primary)/0.35)] dark:shadow-[0_1px_0_0_hsl(0_0%_100%/0.08),0_10px_30px_-14px_hsl(0_0%_0%/0.8)]"
+          "border-b border-border/50 dark:border-white/10",
+          isScrolled && "shadow-[0_1px_0_0_hsl(var(--border)),0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
         )}
-        style={{
-          backgroundImage:
-            "linear-gradient(180deg, hsl(var(--primary) / 0.08), transparent 65%), radial-gradient(80% 100% at 50% 0%, hsl(var(--primary) / 0.06), transparent 70%)",
-        }}
       >
-
-
-
-
-        <div className="container-editorial flex items-center gap-5">
+        <div className="container-editorial flex items-center gap-4">
           {/* Brand lockup */}
           <HeaderBrand compact={isScrolled} />
 
-          {/* Subtle divider */}
-          <span aria-hidden className="hidden md:block h-7 w-px bg-border/60" />
-
           {/* Mega menu — primary navigation (md+) */}
           <MegaMenu className="flex-shrink-0" />
-          <BrowseMenu />
-
 
           {/* Search — flexes to fill remaining space */}
           <SmartSearch className="flex-1 max-w-xl ml-auto" />
 
           {/* Actions */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5">
             <Link to="/cart">
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative h-10 w-10 rounded-xl hover:bg-secondary/60"
+                className="relative h-9 w-9 rounded-xl hover:bg-secondary/60"
                 title="Cart"
                 aria-label={`Cart${cartCount > 0 ? ` (${cartCount})` : ""}`}
               >
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 min-w-[20px] h-5 px-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center shadow-[var(--shadow-glow)] ring-2 ring-background">
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-background">
                     {cartCount > 9 ? "9+" : cartCount}
                   </span>
                 )}
               </Button>
             </Link>
             <NotificationsMenu />
-            <div className="ml-1 pl-1 border-l border-border/60">
-              <UserMenu />
-            </div>
+            <UserMenu />
           </div>
-        </div>
-      </div>
-
-      {/* Sub-row — Breadcrumbs only (collapses on scroll, sits BELOW the open mega menu) */}
-      <div
-        className={cn(
-          "hairline-bottom overflow-hidden relative z-[1]",
-          "transition-[max-height,opacity,padding] duration-300 ease-out",
-          "bg-background/40 backdrop-blur-xl",
-          isScrolled ? "max-h-0 opacity-0 py-0" : "max-h-10 opacity-100 py-1.5"
-        )}
-      >
-
-        <div className="container-editorial">
-          <Breadcrumbs />
         </div>
       </div>
     </header>

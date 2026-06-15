@@ -55,7 +55,7 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
           : "border-b border-transparent",
       )}
     >
-      <div className="relative flex items-center gap-2 px-3" style={{ height: 52 }}>
+      <div className="relative flex items-center gap-2 px-3" style={{ height: 44 }}>
         {inner ? (
           <button
             type="button"
