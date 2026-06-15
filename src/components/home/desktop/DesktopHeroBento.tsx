@@ -106,7 +106,7 @@ export function DesktopHeroBento() {
             <IconChip><Sparkles className="h-4 w-4" /></IconChip>
             <h3 className="font-display font-bold text-lg">Use a Preset</h3>
           </div>
-          <div className="bg-white rounded-2xl p-3 flex items-center gap-3 shadow-sm">
+          <div className="surface-panel rounded-2xl p-3 flex items-center gap-3 shadow-sm">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary-foreground" style={{ background: "var(--gradient-primary)" }}>
               <Bot className="h-5 w-5" />
             </div>
