@@ -95,33 +95,33 @@
   }
 
   .dark {
-    /* === Dark theme (calm, premium alt) === */
-    --background: 222 47% 5%;
+    /* === Dark theme (pure black) === */
+    --background: 0 0% 0%;
     --foreground: 0 0% 98%;
-    --card: 222 40% 8%;
+    --card: 0 0% 4%;
     --card-foreground: 0 0% 98%;
-    --popover: 222 40% 9%;
+    --popover: 0 0% 4%;
     --popover-foreground: 0 0% 98%;
     --primary: 234 80% 62%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 222 30% 13%;
+    --secondary: 0 0% 8%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 222 25% 14%;
-    --muted-foreground: 220 12% 65%;
+    --muted: 0 0% 7%;
+    --muted-foreground: 0 0% 65%;
     --accent: 162 90% 45%;
-    --accent-foreground: 222 47% 8%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 222 25% 16%;
-    --input: 222 25% 12%;
+    --border: 0 0% 14%;
+    --input: 0 0% 10%;
     --ring: 234 80% 62%;
-    --sidebar-background: 222 47% 5%;
+    --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 234 80% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 162 90% 45%;
-    --sidebar-accent-foreground: 222 47% 8%;
-    --sidebar-border: 222 25% 16%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 0 0% 14%;
     --sidebar-ring: 234 80% 62%;
     --chart-1: 234 80% 62%;
     --chart-2: 162 90% 45%;
@@ -130,8 +130,8 @@
     --chart-5: 270 70% 65%;
 
     /* Glass tokens — dark (toned down) */
-    --glass-bg: 222 40% 9%;
-    --glass-border: 222 20% 22%;
+    --glass-bg: 0 0% 6%;
+    --glass-border: 0 0% 18%;
     --glass-highlight: 0 0% 100%;
 
     --gradient-primary: linear-gradient(135deg, hsl(234 80% 62%) 0%, hsl(220 85% 65%) 100%);
