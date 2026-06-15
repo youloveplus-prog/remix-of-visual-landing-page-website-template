@@ -58,6 +58,20 @@ export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } =
     };
   }, [emblaApi]);
 
+  // Warm the browser cache for the next slide so transitions feel instant.
+  useEffect(() => {
+    const list = banners && banners.length > 0 ? banners : FALLBACK_BANNERS;
+    if (list.length < 2) return;
+    const nextIdx = (selected + 1) % list.length;
+    const next = list[nextIdx];
+    if (!next?.image_url) return;
+    const img = new Image();
+    img.decoding = "async";
+    img.src = transformedSrc(next.image_url, 1280);
+    const srcset = buildSrcSet(next.image_url);
+    if (srcset) (img as any).srcset = srcset;
+  }, [selected, banners]);
+
   if (isLoading) {
     return (
       <div className={fullWidth ? "" : "section-x"}>
