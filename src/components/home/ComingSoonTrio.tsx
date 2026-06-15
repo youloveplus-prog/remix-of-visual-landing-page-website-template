@@ -124,9 +124,9 @@ export default function ComingSoonTrio() {
           {/* Stacked layered CTA pill */}
           <div className="relative mt-5 inline-flex items-center justify-center sm:mt-7">
             {/* stack shadows */}
-            <span className="absolute inset-x-2 -bottom-2 h-full rounded-full border border-black/10 bg-white" />
-            <span className="absolute inset-x-1 -bottom-1 h-full rounded-full border border-black/10 bg-white" />
-            <div className="relative rounded-full border border-black/10 bg-white p-0.5 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.25)] sm:p-1">
+            <span className="absolute inset-x-2 -bottom-2 h-full rounded-full border border-black/10 surface-panel" />
+            <span className="absolute inset-x-1 -bottom-1 h-full rounded-full border border-black/10 surface-panel" />
+            <div className="relative rounded-full border border-black/10 surface-panel p-0.5 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.25)] sm:p-1">
               <Link
                 to="/courses"
                 className="relative inline-flex items-center gap-1.5 rounded-full bg-[#2541ff] px-4 py-2 text-[13px] font-extrabold tracking-tight text-white shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] transition-transform hover:scale-[1.03] hover:bg-[#1d36e0] sm:px-7 sm:py-3 sm:text-[16px]"
