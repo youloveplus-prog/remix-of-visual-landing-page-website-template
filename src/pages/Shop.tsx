@@ -14,14 +14,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const MAX_PRICE = 500;
 
-type ProductType = "all" | "courses" | "books" | "kits" | "prompts";
+type ProductType = "all" | "courses" | "ebooks" | "services" | "bundles";
 
 function detectProductType(name: string): ProductType {
   const n = name.toLowerCase();
-  if (/\bprompt|prompts\b/.test(n)) return "prompts";
-  if (/\bbook|hardcover|paperback|ebook|novel\b/.test(n)) return "books";
-  if (/\bkit|bundle|stationery|notebook|essentials\b/.test(n)) return "kits";
-  if (/\bcourse|masterclass|bootcamp|training|class|tutorial\b/.test(n)) return "courses";
+  if (/\bbundle|kit|pack|collection|set\b/.test(n)) return "bundles";
+  if (/\bmentorship|coaching|consultation|service|1[:-]1|one[- ]on[- ]one\b/.test(n)) return "services";
+  if (/\bbook|ebook|hardcover|paperback|pdf|guide|novel\b/.test(n)) return "ebooks";
+  if (/\bcourse|masterclass|bootcamp|training|class|tutorial|workshop\b/.test(n)) return "courses";
   return "courses";
 }
 
@@ -40,7 +40,7 @@ const Shop = () => {
   useEffect(() => {
     setSearchQuery(searchParams.get("q") ?? "");
     const type = searchParams.get("type") as ProductType | null;
-    if (type && ["all", "courses", "books", "kits", "prompts"].includes(type)) {
+    if (type && ["all", "courses", "ebooks", "services", "bundles"].includes(type)) {
       setProductType(type);
     }
     const cat = searchParams.get("category");
