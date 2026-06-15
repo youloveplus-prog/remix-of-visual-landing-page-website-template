@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { Spread } from "./Spread";
 import { Reveal } from "@/components/transitions/Reveal";
+import { Reveal } from "@/components/transitions/Reveal";
 import { useFeaturedProducts } from "@/hooks/useProducts";
 import { useAuth } from "@/hooks/useAuth";
 import { Suspense, lazy } from "react";
