@@ -263,6 +263,7 @@ export function DesktopWebstoreHome() {
           </div>
         </section>
 
-    </section>
+      </section>
+    </>
   );
 }
