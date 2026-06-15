@@ -162,7 +162,7 @@ const Index = () => {
 
           {/* Spread 3 — Trust carousel */}
           <div id="trust">
-            <Spread pageNumber="03" label="Trust">
+            <Spread label="Trust">
               <TrustCarousel />
             </Spread>
           </div>
@@ -174,7 +174,7 @@ const Index = () => {
 
           {/* Spread 5 — Departments */}
           <div id="departments">
-            <Spread pageNumber="05" label="Departments">
+            <Spread label="Departments">
               <div className="space-y-14 sm:space-y-16 lg:space-y-24">
                 <Department
                   number="05.1"

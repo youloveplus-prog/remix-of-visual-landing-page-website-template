@@ -23,7 +23,7 @@ export function FeatureStory() {
   const lead = featured?.[0];
 
   return (
-    <Spread pageNumber="04" label="Feature">
+    <Spread label="Feature">
       <div className="grid lg:grid-cols-[1.1fr_1fr] gap-6 sm:gap-10 lg:gap-16 items-center">
         <Reveal>
           <div className="relative aspect-[4/5] sm:aspect-[3/4] rounded-2xl sm:rounded-3xl overflow-hidden bg-muted">

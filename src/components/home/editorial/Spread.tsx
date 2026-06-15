@@ -1,19 +1,18 @@
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
-import { RuleDraw, LabelRise, PageNumRise } from "./motion-primitives";
+import { RuleDraw, LabelRise } from "./motion-primitives";
 
 interface SpreadProps {
   children: ReactNode;
   className?: string;
-  pageNumber: string; // e.g. "01" or "03"
   label?: string;
   rule?: boolean;
 }
 
 /**
- * Editorial spread wrapper. Quiet, single-folio version.
+ * Editorial spread wrapper.
  */
-export function Spread({ children, className, pageNumber, label, rule = true }: SpreadProps) {
+export function Spread({ children, className, label, rule = true }: SpreadProps) {
   return (
     <section
       className={cn(
@@ -29,9 +28,6 @@ export function Spread({ children, className, pageNumber, label, rule = true }: 
         </div>
       )}
       {children}
-      <div className="mt-8 sm:mt-10 lg:mt-14 flex items-center justify-end">
-        <PageNumRise>— {pageNumber}</PageNumRise>
-      </div>
     </section>
   );
 }

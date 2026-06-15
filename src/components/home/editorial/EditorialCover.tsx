@@ -18,7 +18,7 @@ export function EditorialCover() {
   ];
 
   return (
-    <Spread pageNumber="01" rule={false}>
+    <Spread rule={false}>
       <ParallaxLayer
         strength={EDITORIAL_PARALLAX.coverHeadline}
         factor={-0.3}

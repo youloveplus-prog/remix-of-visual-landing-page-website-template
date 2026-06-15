@@ -34,7 +34,7 @@ interface BackMatterProps {
  */
 export function BackMatter({ showPersonal }: BackMatterProps) {
   return (
-    <Spread pageNumber="06" label="Back Matter">
+    <Spread label="Back Matter">
       <div className="space-y-14 sm:space-y-16 lg:space-y-24">
         <Suspense fallback={<Fallback />}>
           <TestimonialsColumns />
