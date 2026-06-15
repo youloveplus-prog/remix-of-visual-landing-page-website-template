@@ -209,7 +209,6 @@ const Index = () => {
                 >
                   <div className="space-y-10">
                     <CommunityCarousel
-                      posts={mockPosts}
                       title="From the community"
                       viewAllHref="/community"
                     />
