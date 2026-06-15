@@ -33,9 +33,9 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         cta:
-          "text-primary-foreground shadow-md border border-primary/20 [background:var(--gradient-primary)] hover:shadow-lg",
+          "bg-brand-gradient text-primary-foreground shadow-md border border-primary/20 hover:shadow-lg hover:brightness-[1.04]",
         premium:
-          "text-primary-foreground shadow-md border border-primary/20 [background:var(--gradient-primary)] hover:shadow-lg",
+          "bg-brand-gradient text-primary-foreground shadow-md border border-primary/20 hover:shadow-lg hover:brightness-[1.04]",
         glass:
           "glass text-foreground hover:bg-[hsl(var(--glass-bg)/0.9)]",
       },
