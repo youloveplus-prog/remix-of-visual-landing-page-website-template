@@ -174,7 +174,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
             {panel.items.map((it) => {
               const Icon = it.icon;
               return (
-                <li key={it.href}>
+                <li key={it.label}>
                   <NavigationMenuLink asChild>
                     <Link
                       to={it.href}
