@@ -129,7 +129,7 @@ export default function Welcome() {
       />
 
       {/* Top Nav */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/60">
+      <header className="sticky top-0 z-40 liquid-nav border-b border-border/60">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/welcome" className="flex items-center gap-2 focus-ring rounded-lg">
             <img src={logo} alt="Asikon" className="h-8 w-8 rounded-lg" />

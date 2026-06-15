@@ -110,7 +110,7 @@ export const LegalShell = ({
       <SEO title={metaTitle} description={metaDescription} url={canonical} />
 
       {/* Simple header */}
-      <header className="border-b border-border/50 bg-background">
+      <header className="border-b border-border/50 liquid-nav">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 pt-16 pb-12 sm:pt-20 sm:pb-14">
           <div className="flex items-center gap-3 mb-3">
             <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">

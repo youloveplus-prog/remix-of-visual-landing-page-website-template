@@ -263,7 +263,7 @@ export function LearnChat({ threadId, onBack }: Props) {
   return (
     <div className="flex flex-col h-full bg-background">
       {/* Header */}
-      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
+      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border liquid-nav">
         {onBack && (
           <Button
             variant="ghost"
@@ -443,7 +443,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
       {/* Composer */}
       <div
-        className="shrink-0 border-t border-border bg-background/95 backdrop-blur-xl px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+        className="shrink-0 border-t border-border liquid-nav px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
       >
         <div className="mx-auto w-full max-w-3xl space-y-2">
           {!isEmpty && (

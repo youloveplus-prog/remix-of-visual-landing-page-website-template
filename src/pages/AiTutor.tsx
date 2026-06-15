@@ -22,7 +22,7 @@ function StandaloneShell({ children }: { children: React.ReactNode }) {
 
 function TopBar({ onNew, onBack, showMenu }: { onNew?: () => void; onBack: () => void; showMenu?: React.ReactNode }) {
   return (
-    <header className="flex items-center gap-2 h-12 px-2 border-b border-border bg-background/80 backdrop-blur-md shrink-0">
+    <header className="flex items-center gap-2 h-12 px-2 border-b border-border liquid-nav shrink-0">
       <Button variant="ghost" size="icon" onClick={onBack} aria-label="Back" className="h-9 w-9">
         <ArrowLeft className="h-5 w-5" />
       </Button>

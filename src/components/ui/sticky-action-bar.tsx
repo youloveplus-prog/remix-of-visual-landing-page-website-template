@@ -23,7 +23,7 @@ export function StickyActionBar({
   return (
     <div
       className={cn(
-        "fixed left-0 right-0 z-40 glass-strong hairline-bottom border-t border-border/40",
+        "fixed left-0 right-0 z-40 liquid-nav hairline-bottom border-t border-border/40",
         aboveBottomNav ? "bottom-16 lg:bottom-0" : "bottom-0",
         mobileOnly && "lg:hidden",
         className,

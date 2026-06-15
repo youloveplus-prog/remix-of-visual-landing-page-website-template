@@ -111,7 +111,7 @@ export function ProfileTabs({
   };
 
   return (
-    <div className="relative border-b border-border bg-card/80 backdrop-blur-xl">
+    <div className="relative border-b border-border liquid-nav">
       {/* Fade edges hint at scrollable content */}
       <div
         aria-hidden

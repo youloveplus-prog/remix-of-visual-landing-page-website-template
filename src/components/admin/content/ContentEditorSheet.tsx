@@ -322,7 +322,7 @@ export function ContentEditorSheet({ kind, open, onOpenChange, editing }: Props)
           </TabsContent>
         </Tabs>
 
-        <div className="sticky bottom-0 bg-background/95 backdrop-blur pt-4 pb-2 mt-4 border-t border-border/40">
+        <div className="sticky bottom-0 liquid-nav pt-4 pb-2 mt-4 border-t border-border/40">
           <Button
             onClick={() => save.mutate()}
             variant="premium"
