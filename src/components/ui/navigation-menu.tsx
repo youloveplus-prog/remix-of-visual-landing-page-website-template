@@ -79,7 +79,7 @@ const NavigationMenuViewport = React.forwardRef<
 >(({ className, ...props }, ref) => (
   // Radix positions the Viewport absolutely with `left` calculated from the active trigger.
   // The wrapper just needs to exist as a positioned container — `justify-center` is shadcn's default.
-  <div className="absolute left-0 top-full flex justify-center z-50">
+  <div className="absolute left-0 top-full flex justify-center z-[60]">
 
     <NavigationMenuPrimitive.Viewport
       className={cn(
