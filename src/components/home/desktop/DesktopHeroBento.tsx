@@ -86,7 +86,7 @@ export function DesktopHeroBento() {
           <div className="mt-auto relative z-10 flex items-center justify-between">
             <div className="flex -space-x-2">
               {[tutorImg, courseImg, promptImg].map((src, i) => (
-                <div key={i} className="w-9 h-9 rounded-full border-2 border-emerald-200 overflow-hidden bg-white">
+                <div key={i} className="w-9 h-9 rounded-full border-2 border-emerald-200 overflow-hidden surface-panel">
                   <img src={src} alt="" className="w-full h-full object-cover" />
                 </div>
               ))}
