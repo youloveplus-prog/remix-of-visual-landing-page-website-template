@@ -167,7 +167,7 @@ export const LegalShell = ({
                 {toc.map((item) => (
                   <li key={item.index}>
                     <button
-                      onClick={() => scrollTo(item.index, "desktop")}
+                      onClick={() => scrollTo(item.index, "mobile")}
                       className="block w-full text-left text-sm px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
                     >
                       <span className="tabular-nums mr-2 text-xs">
