@@ -9,11 +9,12 @@ import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
-import { MegaMenu } from "./MegaMenu";
+import { MegaMenu, BrowseMenu } from "./MegaMenu";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { HeaderBrand } from "./HeaderBrand";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import logo from "@/assets/logo.png";
+
 
 interface DesktopHeaderProps {
   showTrustStrip?: boolean;
@@ -56,41 +57,16 @@ export function DesktopHeader({
         }}
       >
         <div className="container-editorial flex items-center gap-5">
-          {/* Logo lockup */}
-          <Link
-            to="/"
-            className="group flex-shrink-0 flex items-center gap-2.5"
-            aria-label="Asikon — Home"
-          >
-            <span
-              className={cn(
-                "relative grid place-items-center rounded-xl transition-all duration-300",
-                "ring-1 ring-border/60 bg-card/70 backdrop-blur-xl",
-                "group-hover:ring-primary/40 group-hover:shadow-[var(--shadow-glow)]",
-                isScrolled ? "h-9 w-9" : "h-10 w-10"
-              )}
-            >
-              <img
-                src={logo}
-                alt=""
-                className={cn(
-                  "transition-all duration-300",
-                  isScrolled ? "w-5 h-5" : "w-6 h-6"
-                )}
-              />
-            </span>
-            <h1
-              className={cn(
-                "font-display font-bold text-gradient leading-none tracking-tight transition-all duration-300",
-                isScrolled ? "text-lg" : "text-xl"
-              )}
-            >
-              Asikon
-            </h1>
-          </Link>
+          {/* Brand lockup */}
+          <HeaderBrand compact={isScrolled} />
 
-          {/* Mega menu — primary navigation */}
+          {/* Subtle divider */}
+          <span aria-hidden className="hidden md:block h-7 w-px bg-border/60" />
+
+          {/* Mega menu — primary navigation (md+) */}
           <MegaMenu className="flex-shrink-0" />
+          <BrowseMenu />
+
 
           {/* Search — flexes to fill remaining space */}
           <SmartSearch className="flex-1 max-w-xl ml-auto" />
