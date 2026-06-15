@@ -1179,6 +1179,9 @@
     color: hsl(var(--foreground) / 0.82);
     text-wrap: balance;
   }
+}
+
+
 
 /* === Editorial spread entrance animations === */
 @layer components {
