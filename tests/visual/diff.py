@@ -94,10 +94,18 @@ def compare_pair(current: Path, baseline: Path, diff_out: Path) -> tuple[float, 
 
 def compare() -> int:
     if not BASELINES.exists():
-        print(
-            f"No baselines yet at {BASELINES.relative_to(Path.cwd())}. "
-            "Run `python tests/visual/diff.py --update` and commit them.",
-        )
+        print("=" * 60)
+        print("ERROR: Visual baseline images are missing")
+        print("-" * 60)
+        print(f"Folder not found: {BASELINES.relative_to(Path.cwd())}")
+        print()
+        print("To generate baselines, run:")
+        print("  python tests/visual/diff.py --update")
+        print()
+        print("Then commit the generated images:")
+        print("  git add tests/visual/__baselines__")
+        print("  git commit -m 'Add visual baselines'")
+        print("=" * 60)
         return 1
 
     if DIFFS.exists():
