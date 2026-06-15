@@ -357,7 +357,7 @@ export function BrowseMenu({ className }: { className?: string }) {
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "md:hidden inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-sm font-medium",
+          "md:hidden inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-[13px] font-medium",
           "bg-secondary/60 hover:bg-secondary text-foreground transition-colors",
           "ring-1 ring-border/60",
           className
