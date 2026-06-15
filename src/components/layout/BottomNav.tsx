@@ -4,41 +4,28 @@ import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
-import exploreOutline from "@/assets/icons/explore-outline.svg";
-import exploreSolid from "@/assets/icons/explore-solid.svg";
 
-
-const ExploreOutlineIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
-  <span
-    aria-hidden
-    className={cn("inline-block bg-current", className as string)}
-    style={{
-      WebkitMaskImage: `url(${exploreOutline})`,
-      maskImage: `url(${exploreOutline})`,
-      WebkitMaskRepeat: "no-repeat",
-      maskRepeat: "no-repeat",
-      WebkitMaskPosition: "center",
-      maskPosition: "center",
-      WebkitMaskSize: "contain",
-      maskSize: "contain",
-    }}
-  />
+/* ---------- Explore (compass) ---------- */
+const ExploreOutline: IconComponent = (props) => (
+  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path
+      d="M24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18S33.941 6 24 6Zm0-4C10.745 2 0 12.745 0 26s10.745 24 24 24 24-10.745 24-24S37.255 2 24 2Z"
+      fill="currentColor"
+    />
+    <path
+      d="M33.3 13.3 20 20l-6.7 13.3a1.1 1.1 0 0 0 1.4 1.4L28 28l6.7-13.3a1.1 1.1 0 0 0-1.4-1.4ZM24 26a2 2 0 1 1 2-2 2 2 0 0 1-2 2Z"
+      fill="currentColor"
+    />
+  </svg>
 );
-const ExploreFillIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
-  <span
-    aria-hidden
-    className={cn("inline-block bg-current", className as string)}
-    style={{
-      WebkitMaskImage: `url(${exploreSolid})`,
-      maskImage: `url(${exploreSolid})`,
-      WebkitMaskRepeat: "no-repeat",
-      maskRepeat: "no-repeat",
-      WebkitMaskPosition: "center",
-      maskPosition: "center",
-      WebkitMaskSize: "contain",
-      maskSize: "contain",
-    }}
-  />
+const ExploreFill: IconComponent = (props) => (
+  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path
+      d="M24 2C10.745 2 0 12.745 0 26s10.745 24 24 24 24-10.745 24-24S37.255 2 24 2Zm10.7 12.7L28 28 14.7 34.7a1.1 1.1 0 0 1-1.4-1.4L20 20l13.3-6.7a1.1 1.1 0 0 1 1.4 1.4Z"
+      fill="currentColor"
+    />
+    <path d="M24 22a2 2 0 1 0 2 2 2 2 0 0 0-2-2Z" fill="currentColor" />
+  </svg>
 );
 
 type IconComponent =
@@ -164,7 +151,7 @@ export function BottomNav() {
 
   const tabs: (Tab & { badge?: number; dot?: boolean })[] = [
     { id: "home", iconOutline: HomeOutline, iconFill: HomeFill, label: "Home", path: "/" },
-    { id: "explore", iconOutline: ExploreOutlineIcon, iconFill: ExploreFillIcon, label: "Explore", path: "/shop", badge: cartCount },
+    { id: "explore", iconOutline: ExploreOutline, iconFill: ExploreFill, label: "Explore", path: "/shop", badge: cartCount },
     { id: "learn", iconOutline: BookOpen, iconFill: BookOpen, label: "Learn", path: "/learn" },
     { id: "community", iconOutline: CommunityOutline, iconFill: CommunityFill, label: "Community", path: "/community", dot: false },
     { id: "profile", iconOutline: ProfileOutline, iconFill: ProfileFill, label: "Profile", path: "/profile" },
@@ -268,4 +255,3 @@ function NavItem({
     </NavLink>
   );
 }
-
