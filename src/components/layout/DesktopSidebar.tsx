@@ -230,7 +230,7 @@ export function DesktopSidebar({
     <aside
       className={cn(
         "fixed left-0 top-0 h-dvh z-40 hidden lg:flex flex-col border-r border-border/60 liquid-nav transition-[width] duration-300 ease-out will-change-[width] overflow-hidden",
-        expanded ? "w-60" : "w-16",
+        sidebarWidthClass(!expanded),
         className
       )}
     >
