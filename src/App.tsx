@@ -11,6 +11,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { installFetchTimer, logRoute } from "@/lib/perf";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { RouteSEO } from "./components/RouteSEO";
 
 
 installFetchTimer();
@@ -172,6 +173,7 @@ function AnimatedRoutes() {
 
   return (
     <PageTransition key={location.pathname}>
+      <RouteSEO />
       <Suspense fallback={null}>
         <Routes location={location}>
           <Route path="/" element={<Index />} />
