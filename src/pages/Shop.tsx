@@ -295,6 +295,21 @@ const Shop = () => {
               )}
             </div>
 
+            {/* Marketplace spotlights — only when the user is browsing the unfiltered catalog */}
+            {showSpotlights && !productsLoading && featuredItems.length > 0 && (
+              <ProductCarousel
+                products={featuredItems}
+                title="Featured this week"
+                viewAllHref="/shop?filter=trending"
+              />
+            )}
+            {showSpotlights && !productsLoading && bundleItems.length > 0 && (
+              <ProductCarousel
+                products={bundleItems}
+                title="Bundles & collections"
+                viewAllHref="/shop?type=bundles"
+              />
+            )}
 
             {/* Products Grid */}
             <div>
