@@ -12,7 +12,7 @@ export function StoryCircle({ story, isFirst }: StoryCircleProps) {
       <div
         className={cn(
           "relative w-16 h-16 rounded-full p-0.5",
-          "bg-gradient-to-br from-primary via-accent to-primary"
+          "bg-gradient-to-br from-primary via-primary/70 to-primary"
         )}
       >
         <div className="w-full h-full rounded-full bg-background p-0.5">
