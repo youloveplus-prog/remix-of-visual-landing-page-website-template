@@ -7,10 +7,20 @@ import { ShopFilters } from "@/components/shop/ShopFilters";
 import { DesktopFilterRail } from "@/components/shop/DesktopFilterRail";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { CourseVideoCard } from "@/components/shop/CourseVideoCard";
+import { ProductCarousel } from "@/components/carousels";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, SortOption } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
 import { Skeleton } from "@/components/ui/skeleton";
+
+const KIND_MAP: Record<ProductType, "course" | "ebook" | "service" | "bundle" | undefined> = {
+  all: undefined,
+  courses: "course",
+  ebooks: "ebook",
+  services: "service",
+  bundles: "bundle",
+};
 
 const MAX_PRICE = 500;
 
