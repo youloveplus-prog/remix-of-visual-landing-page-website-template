@@ -59,11 +59,12 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
           ref={ref}
           className={cn(
             "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col",
-            "transition-[transform,box-shadow,border-color] duration-300 ease-out",
+            "transition-[transform,box-shadow,border-color] duration-300 ease-out motion-reduce:transition-none",
             "shadow-[0_2px_10px_-2px_hsl(var(--foreground)/0.05)]",
-            "hover:-translate-y-0.5 hover:border-primary/40",
-            "hover:shadow-[0_14px_36px_-14px_hsl(var(--primary)/0.28)]",
-            "active:scale-[0.98] p-1.5 md:p-2",
+            "hover:border-primary/40 hover:shadow-[0_14px_36px_-14px_hsl(var(--primary)/0.28)]",
+            "motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-[0.98]",
+            "focus-within:border-primary/60 focus-within:ring-2 focus-within:ring-primary/40 focus-within:ring-offset-2 focus-within:ring-offset-background",
+            "p-1.5 md:p-2",
             isFeatured && "lg:flex-row lg:p-3"
           )}
         >
@@ -78,7 +79,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             <SmartImage
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.04]"
+              className="w-full h-full object-cover transition-transform duration-[600ms] ease-out motion-safe:group-hover:scale-[1.04] motion-reduce:transition-none"
             />
 
             {/* Soft top-down overlay to seat the image */}
@@ -89,20 +90,24 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
 
             {/* Wishlist — top-right */}
             <button
+              type="button"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 setIsWishlisted(!isWishlisted);
               }}
               aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+              aria-pressed={isWishlisted}
               className={cn(
-                "no-min-tap absolute top-2 right-2 md:top-2.5 md:right-2.5 h-8 w-8 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md shadow-sm",
+                "no-min-tap absolute top-2 right-2 md:top-2.5 md:right-2.5 h-9 w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md shadow-sm motion-reduce:transition-none",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card",
                 isWishlisted
                   ? "bg-primary/15 ring-1 ring-primary/40"
                   : "bg-background/85 hover:bg-background"
               )}
             >
               <Heart
+                aria-hidden="true"
                 className={cn(
                   "h-4 w-4 transition-colors",
                   isWishlisted ? "fill-primary text-primary" : "text-muted-foreground"
@@ -152,9 +157,10 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
 
             {/* Trust strip — slides up on hover, idle = clean image */}
             <div
+              aria-hidden="true"
               className={cn(
-                "absolute inset-x-0 bottom-0 translate-y-full opacity-0 transition-all duration-300 ease-out",
-                "group-hover:translate-y-0 group-hover:opacity-100",
+                "absolute inset-x-0 bottom-0 translate-y-full opacity-0 transition-all duration-300 ease-out motion-reduce:transition-none",
+                "group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100",
                 "bg-gradient-to-r from-foreground/90 to-foreground/80 backdrop-blur-sm text-background"
               )}
             >
@@ -236,23 +242,26 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
               )}
 
               <button
+                type="button"
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setShowQuickView(true);
                 }}
                 aria-label={`${ctaFull} ${product.name}`}
+                aria-haspopup="dialog"
                 className={cn(
-                  "shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] md:text-xs font-semibold no-min-tap",
+                  "shrink-0 inline-flex items-center gap-1 rounded-full px-3 py-1.5 min-h-9 text-[11px] md:text-xs font-semibold no-min-tap",
                   "border border-border bg-background text-foreground",
-                  "transition-all duration-200",
+                  "transition-all duration-200 motion-reduce:transition-none",
                   "group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary",
-                  "hover:bg-primary hover:text-primary-foreground hover:border-primary"
+                  "hover:bg-primary hover:text-primary-foreground hover:border-primary",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card"
                 )}
               >
                 <span className="hidden sm:inline">{ctaFull}</span>
                 <span className="sm:hidden">{ctaShort}</span>
-                <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight aria-hidden="true" className="h-3 w-3 md:h-3.5 md:w-3.5 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5 motion-reduce:transition-none" />
               </button>
             </div>
 
