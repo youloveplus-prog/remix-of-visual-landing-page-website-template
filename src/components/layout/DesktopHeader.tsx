@@ -10,6 +10,7 @@ import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { MegaMenu } from "./MegaMenu";
 import { HeaderBrand } from "./HeaderBrand";
+import { sidebarLeftOffsetClass } from "./layout-constants";
 
 
 interface DesktopHeaderProps {
