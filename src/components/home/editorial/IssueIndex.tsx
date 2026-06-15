@@ -27,20 +27,20 @@ export function IssueIndex() {
 
         <Reveal delay={120}>
           <nav aria-label="Contents" className="lg:pl-8 lg:border-l lg:border-foreground/10">
-            <p className="editorial-eyebrow mb-5">Contents</p>
-            <ul className="space-y-3">
+            <p className="editorial-eyebrow mb-4 sm:mb-5">Contents</p>
+            <ul className="space-y-2 sm:space-y-3">
               {toc.map((item, i) => (
                 <Reveal key={item.n} as="li" staggerIndex={i} staggerStep={EDITORIAL_DELAY.tocStep}>
                   <a
                     href={item.anchor}
-                    className="group flex items-baseline gap-4 py-1 transition-colors hover:text-primary"
+                    className="group flex items-baseline gap-3 sm:gap-4 py-1 transition-colors hover:text-primary"
                   >
                     <span className="editorial-pagenum">{item.n}</span>
-                    <span className="font-display text-lg lg:text-xl font-medium flex-1">
+                    <span className="font-display text-base sm:text-lg lg:text-xl font-medium flex-1">
                       {item.label}
                     </span>
-                    <span className="editorial-rule flex-1 max-w-[6rem] opacity-60" />
-                    <span className="editorial-eyebrow opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="editorial-rule flex-1 max-w-[4rem] sm:max-w-[6rem] opacity-60" />
+                    <span className="editorial-eyebrow opacity-0 group-hover:opacity-100 transition-opacity hidden sm:inline">
                       Read →
                     </span>
                   </a>
