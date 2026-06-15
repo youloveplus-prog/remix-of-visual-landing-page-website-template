@@ -34,7 +34,8 @@ export interface AdminNavItem {
 export const adminNavItems: AdminNavItem[] = [
   // Core
   { title: "Overview", url: "/asikonasik", icon: LayoutDashboard, end: true, section: "Core" },
-  { title: "Analytics", url: "/asikonasik/analytics", icon: BarChart3, section: "Core" },
+  { title: "Analytics", url: "/asikonasik/analytics", icon: BarChart3, section: "Core", end: true },
+  { title: "Legal Analytics", url: "/asikonasik/analytics/legal", icon: ScrollText, section: "Core" },
 
   // Content
   { title: "Products", url: "/asikonasik/products", icon: Package, section: "Content" },
