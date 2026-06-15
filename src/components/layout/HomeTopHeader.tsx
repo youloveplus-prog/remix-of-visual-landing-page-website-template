@@ -18,7 +18,7 @@ interface HomeTopHeaderProps {
  * Full-width top header used only on the home page.
  * No sidebar is rendered on home.
  */
-export function HomeTopHeader({ showTrustStrip = true, cartCount = 0 }: HomeTopHeaderProps) {
+export function HomeTopHeader({ cartCount = 0 }: HomeTopHeaderProps) {
   const { hidden, scrollY } = useHeaderHidden();
   const isScrolled = scrollY > 8;
 
