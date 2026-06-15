@@ -193,6 +193,7 @@ export function BottomNav() {
 function NavItem({
   item,
   active,
+  isHome,
 }: {
   item: {
     iconOutline: IconComponent;
@@ -203,6 +204,7 @@ function NavItem({
     dot?: boolean;
   };
   active: boolean;
+  isHome?: boolean;
 }) {
   const Icon = active ? item.iconFill : item.iconOutline;
   const { pathname } = useLocation();
@@ -220,10 +222,11 @@ function NavItem({
   return (
     <NavLink
       to={item.path}
+      end={isHome}
       aria-label={item.label}
       aria-current={active ? "page" : undefined}
       onClick={handleClick}
-      className="relative flex h-full w-full flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none"
+      className="relative flex h-full w-full flex-col items-center justify-center gap-1 select-none touch-manipulation outline-none active:scale-95 transition-transform"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
       <span className="relative inline-flex z-10">
@@ -231,12 +234,11 @@ function NavItem({
           aria-hidden
           className={cn(
             "h-[24px] w-[24px]",
-            "transition-all duration-200",
-            active
-              ? "text-primary"
-              : "text-muted-foreground/60"
+            "transition-colors duration-200",
+            active ? "text-primary" : "text-muted-foreground"
           )}
         />
+
 
         {showBadge && (
           <span
