@@ -22,7 +22,7 @@ const SLIDES: Slide[] = [
   { id: "g2", image: aiTutor, title: "24/7 AI tutor", caption: "Ask anything, anytime", href: "/learn" },
   { id: "g3", image: promptLibrary, title: "Prompt library", caption: "1000+ curated prompts", href: "/prompts" },
   { id: "g4", image: coursePython, title: "Python from zero", caption: "Beginner-friendly path", href: "/shop?type=courses" },
-  { id: "g5", image: bookHardcover, title: "Learning library", caption: "Books & study guides", href: "/shop?type=books" },
+  { id: "g5", image: bookHardcover, title: "Learning library", caption: "Books & study guides", href: "/shop?type=ebooks" },
 ];
 
 // Final spread layout (5 cards) — center one slightly raised, outer ones tilted

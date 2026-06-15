@@ -68,8 +68,8 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
   const shopItems = [
     { icon: <Library className="w-5 h-5" />, label: "Library Home", href: "/shop" },
     { icon: <GraduationCap className="w-5 h-5" />, label: "Courses", href: "/shop?type=courses" },
-    { icon: <BookOpen className="w-5 h-5" />, label: "Books", href: "/shop?type=books" },
-    { icon: <Package className="w-5 h-5" />, label: "Student Kits", href: "/shop?type=kits" },
+    { icon: <BookOpen className="w-5 h-5" />, label: "Books", href: "/shop?type=ebooks" },
+    { icon: <Package className="w-5 h-5" />, label: "Student Kits", href: "/shop?type=bundles" },
     { icon: <Wand2 className="w-5 h-5" />, label: "Prompt Library", href: "/prompts" },
     { icon: <Sparkles className="w-5 h-5" />, label: "New Arrivals", href: "/shop?category=new" },
   ];
