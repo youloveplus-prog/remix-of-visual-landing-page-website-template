@@ -144,7 +144,7 @@ export const LegalShell = ({
           )}
 
           {/* Content */}
-          <article className="min-w-0 space-y-10">{children}</article>
+          <article className="min-w-0 space-y-12 sm:space-y-14">{children}</article>
         </div>
       </div>
     </AppLayout>
