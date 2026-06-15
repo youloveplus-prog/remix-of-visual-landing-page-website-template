@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Reveal } from "@/components/transitions/Reveal";
 
 interface DepartmentProps {
   name: string;
@@ -9,13 +10,9 @@ interface DepartmentProps {
   className?: string;
 }
 
-/**
- * A "department" inside Spread 4. Editorial label + thin rule + body content.
- * Body is whatever existing carousel/component we want to host inside.
- */
 export function Department({ name, number, dek, children, className }: DepartmentProps) {
   return (
-    <section className={cn("space-y-6", className)}>
+    <Reveal as="section" className={cn("space-y-6", className)} variant="fade-up">
       <header className="flex items-baseline gap-4">
         <span className="editorial-pagenum">{number}</span>
         <h3 className="editorial-eyebrow text-foreground text-xs lg:text-sm tracking-[0.28em]">
@@ -24,9 +21,13 @@ export function Department({ name, number, dek, children, className }: Departmen
         <div className="editorial-rule flex-1" />
       </header>
       {dek && (
-        <p className="editorial-dek max-w-[60ch] -mt-2">{dek}</p>
+        <Reveal delay={120}>
+          <p className="editorial-dek max-w-[60ch] -mt-2">{dek}</p>
+        </Reveal>
       )}
-      <div>{children}</div>
-    </section>
+      <Reveal delay={180}>
+        <div>{children}</div>
+      </Reveal>
+    </Reveal>
   );
 }

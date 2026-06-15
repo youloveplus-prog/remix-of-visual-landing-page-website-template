@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Suspense, lazy } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
+import { useScrollParallax } from "@/hooks/useScrollParallax";
 
 const ContinueLearningRow = lazy(() =>
   import("@/components/home/workspace/ContinueLearningRow").then((m) => ({
@@ -23,12 +24,16 @@ export function FeatureStory() {
   const { user } = useAuth();
   const { data: featured, isLoading } = useFeaturedProducts(1);
   const lead = featured?.[0];
+  const { ref: imgRef, offset } = useScrollParallax<HTMLDivElement>(36);
 
   return (
     <Spread pageNumber="03 / 05" label="Feature Story">
       <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-16 items-center">
         <Reveal>
-          <div className="relative aspect-[4/5] lg:aspect-[3/4] rounded-3xl overflow-hidden bg-muted">
+          <div
+            ref={imgRef}
+            className="relative aspect-[4/5] lg:aspect-[3/4] rounded-3xl overflow-hidden bg-muted"
+          >
             {isLoading ? (
               <Skeleton className="absolute inset-0" />
             ) : lead?.image_url ? (
@@ -36,7 +41,11 @@ export function FeatureStory() {
                 src={lead.image_url}
                 alt={lead.name}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-[-8%] w-[116%] h-[116%] object-cover"
+                style={{
+                  transform: `translate3d(0, ${offset * -0.5}px, 0)`,
+                  willChange: "transform",
+                }}
               />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/10 to-transparent" />

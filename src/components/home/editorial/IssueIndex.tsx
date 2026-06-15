@@ -10,11 +10,6 @@ const toc = [
   { n: "05", label: "Back Matter", anchor: "#back-matter" },
 ];
 
-/**
- * Spread 2 — Issue Index.
- * Two-column: MissionVision (compact) on the left, table of contents on the right.
- * All mission copy flows through <MissionVision/> per project memory.
- */
 export function IssueIndex() {
   return (
     <Spread pageNumber="02 / 05" label="Issue Index">
@@ -33,8 +28,8 @@ export function IssueIndex() {
           <nav aria-label="Contents" className="lg:pl-8 lg:border-l lg:border-foreground/10">
             <p className="editorial-eyebrow mb-5">Contents</p>
             <ul className="space-y-3">
-              {toc.map((item) => (
-                <li key={item.n}>
+              {toc.map((item, i) => (
+                <Reveal key={item.n} as="li" staggerIndex={i} staggerStep={80}>
                   <a
                     href={item.anchor}
                     className="group flex items-baseline gap-4 py-1 transition-colors hover:text-primary"
@@ -48,7 +43,7 @@ export function IssueIndex() {
                       Read →
                     </span>
                   </a>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </nav>
