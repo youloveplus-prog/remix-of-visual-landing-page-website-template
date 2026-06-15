@@ -125,6 +125,34 @@ const Shop = () => {
     });
   }, [products, productType, minRating, onSaleOnly, featuredOnly]);
 
+  // Section feeds — surfaced as top carousels when the user hasn't narrowed the view.
+  const transformForCarousel = (p: any) => ({
+    id: p.id,
+    name: p.name,
+    brand: "Asikon Academy",
+    price: p.price,
+    originalPrice: p.original_price || undefined,
+    image: p.image_url || "/placeholder.svg",
+    rating: p.rating || 0,
+    reviews: p.review_count || 0,
+    isNew: false,
+    isTrending: p.is_featured || false,
+    slug: p.slug,
+    kind: detectKind(p.name),
+  });
+
+  const featuredItems = useMemo(
+    () => (products ?? []).filter((p: any) => p.is_featured).slice(0, 10).map(transformForCarousel),
+    [products],
+  );
+  const bundleItems = useMemo(
+    () => (products ?? []).filter((p: any) => detectProductType(p.name) === "bundles").slice(0, 10).map(transformForCarousel),
+    [products],
+  );
+
+  const showSpotlights =
+    !searchQuery.trim() && productType === "all" && activeFiltersCount === 0;
+
   // Filter category pills by current query so categories matching the search bubble up
   const q = searchQuery.trim().toLowerCase();
   const matchedCategories = useMemo(() => {
