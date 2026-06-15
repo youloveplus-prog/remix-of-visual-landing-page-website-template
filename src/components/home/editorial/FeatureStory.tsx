@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Spread } from "./Spread";
 import { Reveal } from "@/components/transitions/Reveal";
 import { useFeaturedProducts } from "@/hooks/useProducts";
@@ -17,19 +17,14 @@ const ContinueLearningRow = lazy(() =>
   })),
 );
 
-/**
- * Spread 3 — Feature Story.
- * Lead = the top featured course/product as an editorial cover card.
- * Support row = Today's mission · Continue learning.
- */
 export function FeatureStory() {
   const { user } = useAuth();
   const { data: featured, isLoading } = useFeaturedProducts(1);
   const lead = featured?.[0];
 
   return (
-    <Spread pageNumber="03 / 05" label="Feature Story">
-      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-6 sm:gap-8 lg:gap-16 items-center">
+    <Spread pageNumber="04" label="Feature">
+      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-6 sm:gap-10 lg:gap-16 items-center">
         <Reveal>
           <div className="relative aspect-[4/5] sm:aspect-[3/4] rounded-2xl sm:rounded-3xl overflow-hidden bg-muted">
             {isLoading ? (
@@ -50,27 +45,19 @@ export function FeatureStory() {
             ) : (
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/10 to-transparent" />
             )}
-            <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-background/85 backdrop-blur px-2.5 py-1 sm:px-3 sm:py-1.5">
-                <Sparkles className="h-3 w-3 text-primary" />
-                <span className="editorial-eyebrow text-foreground">This week's pick</span>
-              </span>
-            </div>
           </div>
         </Reveal>
 
-
         <Reveal delay={120}>
           <div>
-            <p className="editorial-eyebrow mb-2.5 sm:mb-3">Cover course</p>
-            <h2 className="font-display font-bold text-[1.75rem] sm:text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.08] mb-3 sm:mb-4 text-balance">
+            <p className="editorial-eyebrow mb-3">This week</p>
+            <h2 className="editorial-headline mb-3">
               {lead?.name ?? "The course we'd start with today."}
             </h2>
-            <p className="editorial-dek mb-5 sm:mb-6">
-              A hand-picked starting point from the ASIKON library — taught with
-              calm, in-depth, and paired with a 24/7 AI tutor so questions never wait.
+            <p className="editorial-dek mb-6 max-w-[42ch]">
+              A calm, hand-picked starting point — paired with a 24/7 AI tutor.
             </p>
-            <div className="flex items-baseline gap-3 mb-5 sm:mb-6">
+            <div className="flex items-baseline gap-3 mb-6">
               {lead?.price !== undefined && (
                 <span className="font-display font-bold text-xl sm:text-2xl tabular-nums">
                   ৳{lead.price}
@@ -84,7 +71,7 @@ export function FeatureStory() {
             </div>
             <Button asChild variant="premium" size="lg" className="w-full sm:w-auto">
               <Link to={lead?.slug ? `/product/${lead.slug}` : "/shop"}>
-                Read the syllabus
+                View course
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -92,7 +79,6 @@ export function FeatureStory() {
         </Reveal>
       </div>
 
-      {/* Support row — auth-aware */}
       {user && (
         <div className="mt-10 sm:mt-14 lg:mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div className="md:col-span-2 lg:col-span-1">
