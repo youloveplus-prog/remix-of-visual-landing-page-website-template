@@ -52,7 +52,7 @@ export function SiteFooter() {
       <div className="container-editorial py-10 md:py-14 lg:py-20">
         {/* CTA card */}
         <div
-          className="relative overflow-hidden rounded-[2rem] px-8 py-16 sm:py-20 text-center text-primary-foreground shadow-[var(--shadow-elegant,0_30px_80px_-30px_hsl(var(--primary)/0.5))]"
+          className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] px-5 md:px-8 py-12 md:py-16 lg:py-20 text-center text-primary-foreground shadow-[var(--shadow-elegant,0_30px_80px_-30px_hsl(var(--primary)/0.5))]"
           style={{ background: "var(--gradient-primary)" }}
         >
           <div
