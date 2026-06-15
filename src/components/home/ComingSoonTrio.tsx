@@ -80,7 +80,7 @@ const Sparkle = ({ className = "" }: { className?: string }) => (
 export default function ComingSoonTrio() {
   return (
     <section className="section-x">
-      <div className="relative overflow-hidden rounded-[22px] border border-black/5 bg-[#f6f5f0] px-4 pb-5 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-12 dark:bg-card dark:border-white/10">
+      <div className="surface-panel relative overflow-hidden rounded-[22px] px-4 pb-5 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-12">
         {/* Decorative floaters */}
         <div className="pointer-events-none absolute inset-0 select-none" aria-hidden>
           <div className="absolute left-[5%] top-[6%] h-4 w-4 rotate-[18deg] rounded-[4px] bg-[#1a1a1a] shadow-md sm:left-[8%] sm:top-[8%] sm:h-7 sm:w-7" />
