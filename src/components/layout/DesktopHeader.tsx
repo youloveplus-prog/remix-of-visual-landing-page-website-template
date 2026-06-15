@@ -9,7 +9,7 @@ import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { TrustStrip } from "./TrustStrip";
-import { NavigationMenu } from "./NavigationMenu";
+import { MegaMenu } from "./MegaMenu";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -43,68 +43,60 @@ export function DesktopHeader({
       {/* Trust strip — hidden on scroll */}
       <TrustStrip show={showTrustStrip && !isScrolled} />
 
-      {/* Row 1 — main header, true glass */}
+      {/* Primary row — logo · mega menu · search · actions */}
       <div
         className={cn(
           "hairline-bottom transition-all duration-300",
-          "bg-background/55 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
-          "[mask-image:linear-gradient(to_bottom,black,black)]",
-          isScrolled ? "py-2" : "py-3"
+          "bg-background/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
+          isScrolled ? "py-1.5 shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]" : "py-2.5"
         )}
         style={{
-          // Subtle top sheen
           backgroundImage:
-            "linear-gradient(180deg, hsl(var(--glass-highlight) / 0.04), transparent 60%)",
+            "linear-gradient(180deg, hsl(var(--glass-highlight) / 0.05), transparent 60%)",
         }}
       >
-        <div
-          className={cn(
-            "container-editorial flex items-center gap-6 transition-all duration-300"
-          )}
-        >
-          {/* Left — Logo lockup */}
-          <Link to="/" className="group flex-shrink-0 flex items-center gap-2.5">
+        <div className="container-editorial flex items-center gap-5">
+          {/* Logo lockup */}
+          <Link
+            to="/"
+            className="group flex-shrink-0 flex items-center gap-2.5"
+            aria-label="Asikon — Home"
+          >
             <span
               className={cn(
                 "relative grid place-items-center rounded-xl transition-all duration-300",
                 "ring-1 ring-border/60 bg-card/70 backdrop-blur-xl",
+                "group-hover:ring-primary/40 group-hover:shadow-[var(--shadow-glow)]",
                 isScrolled ? "h-9 w-9" : "h-10 w-10"
               )}
             >
               <img
                 src={logo}
-                alt="Asikon logo"
+                alt=""
                 className={cn(
                   "transition-all duration-300",
                   isScrolled ? "w-5 h-5" : "w-6 h-6"
                 )}
               />
-              <span
-                aria-hidden
-                className="absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{ background: "var(--gradient-primary-soft)" }}
-              />
             </span>
-            <div className="leading-none">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
-                ​
-              </p>
-              <h1
-                className={cn(
-                  "font-display font-bold text-gradient transition-all duration-300",
-                  isScrolled ? "text-lg text-gray-50" : "text-xl"
-                )}
-              >
-                Asikon
-              </h1>
-            </div>
+            <h1
+              className={cn(
+                "font-display font-bold text-gradient leading-none tracking-tight transition-all duration-300",
+                isScrolled ? "text-lg" : "text-xl"
+              )}
+            >
+              Asikon
+            </h1>
           </Link>
 
-          {/* Center — Search */}
-          <SmartSearch className="flex-1 max-w-2xl mx-auto" />
+          {/* Mega menu — primary navigation */}
+          <MegaMenu className="flex-shrink-0" />
 
-          {/* Right — Actions */}
-          <div className="flex items-center gap-1.5">
+          {/* Search — flexes to fill remaining space */}
+          <SmartSearch className="flex-1 max-w-xl ml-auto" />
+
+          {/* Actions */}
+          <div className="flex items-center gap-1">
             <CurrencyToggle />
             <Link to="/cart">
               <Button
@@ -112,10 +104,11 @@ export function DesktopHeader({
                 size="icon"
                 className="relative h-10 w-10 rounded-xl hover:bg-secondary/60"
                 title="Cart"
+                aria-label={`Cart${cartCount > 0 ? ` (${cartCount})` : ""}`}
               >
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center shadow-[var(--shadow-glow)]">
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[20px] h-5 px-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center shadow-[var(--shadow-glow)] ring-2 ring-background">
                     {cartCount > 9 ? "9+" : cartCount}
                   </span>
                 )}
@@ -123,25 +116,24 @@ export function DesktopHeader({
             </Link>
             <NotificationsMenu />
             <ThemeToggle />
-            <UserMenu />
+            <div className="ml-1 pl-1 border-l border-border/60">
+              <UserMenu />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Row 2 — Nav menu */}
+      {/* Sub-row — Breadcrumbs only (collapses on scroll) */}
       <div
         className={cn(
-          "hairline-bottom transition-all duration-300",
+          "hairline-bottom overflow-hidden transition-all duration-300",
           "bg-background/40 backdrop-blur-xl",
-          isScrolled ? "h-0 overflow-hidden opacity-0" : "py-2"
+          isScrolled ? "max-h-0 opacity-0" : "max-h-10 opacity-100 py-1.5"
         )}
       >
-        <div className="container-editorial flex items-center justify-between gap-4">
+        <div className="container-editorial">
           <Breadcrumbs />
-          <NavigationMenu />
-          <span aria-hidden className="hidden lg:block w-[1px]" />
         </div>
-
       </div>
     </header>
   );
