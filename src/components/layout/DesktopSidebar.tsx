@@ -158,10 +158,9 @@ export function DesktopSidebar({
     { icon: HelpCircle, label: "Help & Support", href: "/help" },
   ];
 
-  // Hover-to-expand when collapsed (visual only — main content padding stays at w-16)
-  const [isHoverExpanded, setIsHoverExpanded] = useState(false);
-  const expanded = !isCollapsed || isHoverExpanded;
-  const iconOnly = isCollapsed && !isHoverExpanded;
+  // Expand/collapse is controlled only by the chevron toggle — no hover expansion
+  const expanded = !isCollapsed;
+  const iconOnly = isCollapsed;
 
   // Collapsible group state, persisted per-group
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
@@ -230,12 +229,9 @@ export function DesktopSidebar({
   return (
     <aside
       style={{ top: "var(--app-header-h)" }}
-      onMouseEnter={() => isCollapsed && setIsHoverExpanded(true)}
-      onMouseLeave={() => setIsHoverExpanded(false)}
       className={cn(
         "fixed left-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
         expanded ? "w-60" : "w-16",
-        isCollapsed && isHoverExpanded && "shadow-2xl shadow-black/40",
         className
       )}
     >
