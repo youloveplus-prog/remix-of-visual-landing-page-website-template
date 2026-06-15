@@ -13,16 +13,16 @@ interface DepartmentProps {
 export function Department({ name, number, dek, children, className }: DepartmentProps) {
   return (
     <Reveal as="section" className={cn("space-y-5 sm:space-y-6", className)} variant="fade-up">
-      <header className="flex items-baseline gap-3 sm:gap-4">
+      <header className="flex items-center gap-3">
+        <span aria-hidden className="block h-px w-6 bg-foreground/30" />
         <span className="editorial-pagenum">{number}</span>
-        <h3 className="editorial-eyebrow text-foreground text-[0.6875rem] sm:text-xs lg:text-sm tracking-[0.24em] sm:tracking-[0.28em]">
+        <h3 className="editorial-eyebrow text-foreground tracking-[0.2em]">
           {name}
         </h3>
-        <div className="editorial-rule flex-1" />
       </header>
       {dek && (
         <Reveal delay={120}>
-          <p className="editorial-dek max-w-[60ch] -mt-1 sm:-mt-2">{dek}</p>
+          <p className="editorial-dek max-w-[52ch]">{dek}</p>
         </Reveal>
       )}
       <Reveal delay={180}>
