@@ -64,18 +64,18 @@ export const LegalShell = ({
       <SEO title={metaTitle} description={metaDescription} url={canonical} />
 
       {/* Simple header */}
-      <header className="border-b border-border/60 bg-background">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 pt-16 pb-10 sm:pt-20 sm:pb-12">
+      <header className="border-b border-border/50 bg-background">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 pt-16 pb-12 sm:pt-20 sm:pb-14">
           <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
             {eyebrow}
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-3">
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] font-semibold tracking-tight text-foreground mb-4 leading-[1.1]">
             {cleanTitle}
           </h1>
-          <p className="text-sm text-muted-foreground mb-5">
+          <p className="text-sm text-muted-foreground mb-6">
             Last updated {updated}
           </p>
-          <p className="text-base sm:text-lg text-foreground/75 max-w-2xl leading-relaxed">
+          <p className="text-base sm:text-lg text-foreground/70 max-w-2xl leading-relaxed">
             {intro}
           </p>
         </div>
@@ -144,7 +144,7 @@ export const LegalShell = ({
           )}
 
           {/* Content */}
-          <article className="min-w-0 space-y-10">{children}</article>
+          <article className="min-w-0 space-y-12 sm:space-y-14">{children}</article>
         </div>
       </div>
     </AppLayout>
