@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Mail, Code2, Send, Camera, Users, ChevronRight, Sparkles } from "lucide-react";
+import { Mail, Code2, Send, Camera, Users, ChevronRight } from "lucide-react";
+import logo from "@/assets/logo.png";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
