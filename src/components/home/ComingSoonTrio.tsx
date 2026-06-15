@@ -104,7 +104,7 @@ export default function ComingSoonTrio() {
         {/* Hero */}
         <div className="relative mx-auto max-w-2xl text-center">
           <h1
-            className="font-grotesk text-[28px] font-extrabold leading-[1.05] tracking-[-0.035em] text-[#0e0e10] sm:text-[60px] dark:text-foreground"
+            className="font-grotesk text-[28px] font-extrabold leading-[1.05] tracking-[-0.035em] text-panel-fg sm:text-[60px]"
           >
             NO-1 Free-To-Learn
             <br />
@@ -117,7 +117,7 @@ export default function ComingSoonTrio() {
             </span>
           </h1>
 
-          <p className="mt-2.5 text-[12.5px] font-medium tracking-tight text-[#5b5b62] sm:mt-4 sm:text-[16px] dark:text-muted-foreground">
+          <p className="mt-2.5 text-[12.5px] font-medium tracking-tight text-panel-muted sm:mt-4 sm:text-[16px]">
             Learn without payment today!
           </p>
 
