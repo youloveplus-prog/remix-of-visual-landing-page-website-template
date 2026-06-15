@@ -192,11 +192,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
                   className="text-[11px] md:text-xs text-muted-foreground whitespace-nowrap leading-none"
                 />
               )}
-              {discount > 0 && (
-                <span className="hidden lg:inline text-[10px] font-semibold text-primary bg-primary/10 rounded-full px-1.5 py-0.5 leading-none whitespace-nowrap">
-                  Save {discount}%
-                </span>
-              )}
+              {/* Save % is intentionally omitted here — the image already shows a −X% badge */}
             </div>
 
             {/* Consolidated meta row — verified · enrolled · rating */}
