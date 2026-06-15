@@ -36,7 +36,10 @@ export function DesktopHeader({
       ref={ref}
       data-app-header
       className={cn(
-        "fixed top-0 z-40 transition-all duration-300",
+        // `isolate` + `overflow-visible` keep the mega menu's portal-free panel
+        // unclipped while the header's inner rows resize during scroll.
+        "fixed top-0 z-40 isolate overflow-visible",
+        "transition-[left,right] duration-300 ease-out",
         isSidebarCollapsed ? "left-16 right-0" : "left-60 right-0",
         "lg:left-0 lg:right-0"
       )}
@@ -47,15 +50,19 @@ export function DesktopHeader({
       {/* Primary row — logo · mega menu · search · actions */}
       <div
         className={cn(
-          "hairline-bottom transition-all duration-300",
+          "hairline-bottom relative z-[2] overflow-visible",
+          "transition-[padding,box-shadow,background-color] duration-300 ease-out will-change-[padding]",
           "bg-background/70 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
-          isScrolled ? "py-1.5 shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]" : "py-2.5"
+          isScrolled
+            ? "py-1.5 shadow-[0_1px_0_0_hsl(var(--border)/0.6),0_8px_24px_-12px_hsl(var(--foreground)/0.08)]"
+            : "py-2.5"
         )}
         style={{
           backgroundImage:
             "linear-gradient(180deg, hsl(var(--glass-highlight) / 0.05), transparent 60%)",
         }}
       >
+
         <div className="container-editorial flex items-center gap-5">
           {/* Brand lockup */}
           <HeaderBrand compact={isScrolled} />
@@ -99,14 +106,16 @@ export function DesktopHeader({
         </div>
       </div>
 
-      {/* Sub-row — Breadcrumbs only (collapses on scroll) */}
+      {/* Sub-row — Breadcrumbs only (collapses on scroll, sits BELOW the open mega menu) */}
       <div
         className={cn(
-          "hairline-bottom overflow-hidden transition-all duration-300",
+          "hairline-bottom overflow-hidden relative z-[1]",
+          "transition-[max-height,opacity,padding] duration-300 ease-out",
           "bg-background/40 backdrop-blur-xl",
-          isScrolled ? "max-h-0 opacity-0" : "max-h-10 opacity-100 py-1.5"
+          isScrolled ? "max-h-0 opacity-0 py-0" : "max-h-10 opacity-100 py-1.5"
         )}
       >
+
         <div className="container-editorial">
           <Breadcrumbs />
         </div>

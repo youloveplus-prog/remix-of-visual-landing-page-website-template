@@ -37,14 +37,20 @@ export function SlimDesktopHeader({
       ref={ref}
       data-app-header
       className={cn(
-        "fixed top-0 right-0 z-40 transition-all duration-300",
+        // `isolate` keeps the mega menu's stacking context contained, `overflow-visible`
+        // ensures the panel is never clipped while rows resize during scroll.
+        "fixed top-0 right-0 z-40 isolate overflow-visible",
+        "transition-[left] duration-300 ease-out",
         isSidebarCollapsed ? "left-16" : "left-60"
       )}
     >
       {/* Row 1 — Brand + Mega menu (or Browse) + Search + Actions */}
       <div
         className={cn(
-          "hairline-bottom transition-all duration-300",
+          "hairline-bottom relative z-[2] overflow-visible",
+          // Only padding + shadow animate — height of inner controls is stable so the
+          // mega-menu trigger position doesn't jitter while scrolling.
+          "transition-[padding,box-shadow,background-color] duration-300 ease-out will-change-[padding]",
           "bg-background/75 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/60",
           "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.06)]",
           isScrolled
@@ -62,6 +68,8 @@ export function SlimDesktopHeader({
 
           {/* Subtle divider */}
           <span aria-hidden className="hidden md:block h-7 w-px bg-border/60" />
+
+
 
           {/* Primary navigation — mega menu at md+, compact Browse below */}
           <MegaMenu className="flex-shrink-0 min-w-0" />
@@ -99,14 +107,16 @@ export function SlimDesktopHeader({
       </div>
 
 
-      {/* Row 2 — Breadcrumbs (collapses on scroll) */}
+      {/* Row 2 — Breadcrumbs (collapses on scroll, sits BELOW the open mega menu) */}
       <div
         className={cn(
-          "hairline-bottom overflow-hidden transition-all duration-300",
+          "hairline-bottom overflow-hidden relative z-[1]",
+          "transition-[max-height,opacity,padding] duration-300 ease-out",
           "bg-background/40 backdrop-blur-xl",
-          isScrolled ? "max-h-0 opacity-0" : "max-h-10 opacity-100 py-1.5"
+          isScrolled ? "max-h-0 opacity-0 py-0" : "max-h-10 opacity-100 py-1.5"
         )}
       >
+
         <div className="px-4 lg:px-6">
           <Breadcrumbs />
         </div>
