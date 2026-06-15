@@ -23,6 +23,7 @@ import { DesktopHeroBento } from "@/components/home/desktop/DesktopHeroBento";
 import { DesktopWebstoreHome } from "@/components/home/desktop/DesktopWebstoreHome";
 import { BrandStrip } from "@/components/home/BrandStrip";
 import { EduvoraHero } from "@/components/home/EduvoraHero";
+import { WarmBentoHero } from "@/components/home/WarmBentoHero";
 import { PartnerMarquee } from "@/components/home/PartnerMarquee";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
@@ -407,9 +408,10 @@ const Index = () => {
         >
           {user ? (
             <>
-              {/* New Eduvora-style hero + partner strip */}
-              <EduvoraHero variant="app" />
+              {/* Warm bento hero */}
+              <WarmBentoHero />
               <PartnerMarquee />
+
 
               {/* 1 — Hero slider (top priority on mobile) */}
               <div className="lg:hidden">
@@ -451,7 +453,7 @@ const Index = () => {
             </>
           ) : (
             <>
-              <EduvoraHero variant="marketing" />
+              <WarmBentoHero />
               <PartnerMarquee />
               <div className="lg:hidden"><FlexiTopSection /></div>
               {heroSection && renderSection(heroSection)}
