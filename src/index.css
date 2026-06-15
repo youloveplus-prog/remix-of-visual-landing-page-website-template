@@ -126,8 +126,8 @@
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 234 80% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 162 90% 45%;
-    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-accent: 234 40% 18%;     /* dark indigo sidebar hover (was teal) */
+    --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 14%;
     --sidebar-ring: 234 80% 62%;
     --chart-1: 234 80% 62%;
