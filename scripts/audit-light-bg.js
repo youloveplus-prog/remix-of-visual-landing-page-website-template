@@ -20,6 +20,34 @@ const patterns = [
 // Heuristic: does this line look like a panel / card / surface?
 const panelIndicator = /\b(div|section|article|aside|main|header|footer|nav|Card)\b|\b(rounded|p-[0-9]|px-|py-|pt-|pb-|pl-|pr-|shadow|border-|min-h-|min-w-|w-full|h-full|max-w-|flex-|grid|space-y|gap-)\b/;
 
+// Map a light background token to a recommended surface-panel utility,
+// and produce a ready-to-paste replacement of the original line.
+function suggestReplacement(matchName, rawLine) {
+  // Pick the right utility based on how "soft" the source token reads.
+  // bg-white / pure surfaces => surface-panel
+  // bg-*-50/100, light hex   => surface-panel-soft (subtle elevation)
+  const isSoft = /50|100|light-hex-bg/.test(matchName);
+  const utility = isSoft ? 'surface-panel-soft' : 'surface-panel';
+
+  const tokenRegex = {
+    'bg-white': /\bbg-white\b(?!\/)/,
+    'bg-gray-50': /\bbg-gray-50\b(?!\/)/,
+    'bg-gray-100': /\bbg-gray-100\b(?!\/)/,
+    'bg-slate-50': /\bbg-slate-50\b(?!\/)/,
+    'bg-slate-100': /\bbg-slate-100\b(?!\/)/,
+    'bg-zinc-50': /\bbg-zinc-50\b(?!\/)/,
+    'bg-zinc-100': /\bbg-zinc-100\b(?!\/)/,
+    'bg-stone-50': /\bbg-stone-50\b(?!\/)/,
+    'bg-stone-100': /\bbg-stone-100\b(?!\/)/,
+    'light-hex-bg': /\bbg-\[#[eEfF][0-9a-fA-F]{2,}\]/,
+  }[matchName];
+
+  if (!tokenRegex) return null;
+  const replaced = rawLine.replace(tokenRegex, utility);
+  return { utility, before: rawLine.trim(), after: replaced.trim() };
+}
+
+
 function walk(dir, files = []) {
   for (const entry of readdirSync(dir)) {
     const full = join(dir, entry);
@@ -64,6 +92,7 @@ for (const file of walk(root)) {
         risk,
         missingDarkBg: !hasDarkBg,
         looksLikePanel,
+        suggestion: suggestReplacement(p.name, rawLine),
       });
     }
   });
@@ -83,6 +112,11 @@ for (const [file, matches] of byFile) {
     console.log(`  Line ${m.line} | ${m.risk}${flag}`);
     console.log(`    Match: ${m.match}`);
     console.log(`    ${m.text.slice(0, 140)}${m.text.length > 140 ? '…' : ''}`);
+    if (m.risk === 'CRITICAL' && m.suggestion) {
+      console.log(`    → Replace with: ${m.suggestion.utility}`);
+      console.log(`    - ${m.suggestion.before.slice(0, 160)}`);
+      console.log(`    + ${m.suggestion.after.slice(0, 160)}`);
+    }
   }
 }
 
