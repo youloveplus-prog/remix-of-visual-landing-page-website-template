@@ -17,10 +17,11 @@ export const MobileCoursesTop = () => {
 
   return (
     <section className="md:hidden section-x">
-      <div className="flex items-end justify-between mb-2">
-        <h2 className="font-semibold text-base">Popular Courses</h2>
-        <Link to="/shop?type=courses" className="text-xs text-primary font-medium">See all</Link>
+      <div className="flex flex-col items-center text-center gap-1 mb-4">
+        <h2 className="font-display font-bold leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] text-brand-gradient">Popular Courses</h2>
+        <Link to="/shop?type=courses" className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">See all</Link>
       </div>
+
       <div className="flex gap-3 overflow-x-auto no-scrollbar -mx-4 px-4 pb-1 snap-x snap-mandatory">
         {courses.map((c) => (
           <Link
