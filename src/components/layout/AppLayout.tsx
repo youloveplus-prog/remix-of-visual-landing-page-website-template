@@ -116,7 +116,7 @@ export function AppLayout({
               cartCount={cartCount}
             />
           ) : isHome ? (
-            <HomeTopHeader showTrustStrip={showTrustStrip} cartCount={cartCount} />
+          <HomeTopHeader cartCount={cartCount} />
           ) : (
             <SlimDesktopHeader
               cartCount={cartCount}
