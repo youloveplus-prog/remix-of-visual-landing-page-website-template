@@ -59,7 +59,7 @@ export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } =
 
   if (isLoading) {
     return (
-      <div className="section-x">
+      <div className={fullWidth ? "" : "section-x"}>
         <Skeleton className="w-full aspect-[21/10] rounded-3xl" />
       </div>
     );
