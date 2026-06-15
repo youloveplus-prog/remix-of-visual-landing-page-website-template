@@ -61,6 +61,26 @@ jobs:
           PREVIEW_URL: http://localhost:8080
         run: python tests/visual/product-card-price.spec.py
 
+      - name: Check baselines exist
+        run: |
+          if [ ! -d tests/visual/__baselines__ ]; then
+            echo ""
+            echo "========================================"
+            echo "ERROR: Visual baseline images are missing"
+            echo "----------------------------------------"
+            echo "Folder tests/visual/__baselines__/ does not exist."
+            echo ""
+            echo "To generate baselines, run locally:"
+            echo "  python tests/visual/diff.py --update"
+            echo ""
+            echo "Then commit the generated images:"
+            echo "  git add tests/visual/__baselines__"
+            echo "  git commit -m 'Add visual baselines'"
+            echo "========================================"
+            echo ""
+            exit 1
+          fi
+
       - name: Compare against baselines
         id: diff
         run: python tests/visual/diff.py | tee /tmp/diff.log
