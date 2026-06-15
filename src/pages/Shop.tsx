@@ -151,7 +151,13 @@ const Shop = () => {
   );
 
   const showSpotlights =
-    !searchQuery.trim() && productType === "all" && activeFiltersCount === 0;
+    !searchQuery.trim() &&
+    productType === "all" &&
+    minRating === 0 &&
+    !onSaleOnly &&
+    !featuredOnly &&
+    priceRange[0] === 0 &&
+    priceRange[1] === MAX_PRICE;
 
   // Filter category pills by current query so categories matching the search bubble up
   const q = searchQuery.trim().toLowerCase();
