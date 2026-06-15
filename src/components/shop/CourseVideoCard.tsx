@@ -31,21 +31,27 @@ export const CourseVideoCard = forwardRef<HTMLDivElement, CourseVideoCardProps>(
     return (
       <article ref={ref} className="group flex flex-col gap-3">
         {/* Thumbnail */}
-        <figure className="relative aspect-video overflow-hidden rounded-xl bg-secondary/30">
+        <figure className="relative aspect-video overflow-hidden rounded-xl bg-secondary/30 ring-1 ring-inset ring-border/60 transition-shadow duration-300 group-hover:shadow-[0_14px_36px_-14px_hsl(var(--primary)/0.28)]">
           <SmartImage
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            className="w-full h-full object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.04]"
+          />
+
+          {/* Soft top-down overlay */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-foreground/5 via-transparent to-foreground/20"
           />
 
           {(product as any).duration && (
-            <span className="absolute bottom-2 right-2 bg-black/80 text-white text-[11px] font-medium px-1.5 py-0.5 rounded">
+            <span className="absolute bottom-2 right-2 bg-foreground/85 text-background text-[11px] font-medium px-1.5 py-0.5 rounded backdrop-blur-sm">
               {(product as any).duration}
             </span>
           )}
 
           {discount > 0 && (
-            <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full shadow-md">
+            <span className="absolute top-2 left-2 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full shadow-md">
               −{discount}%
             </span>
           )}
@@ -58,7 +64,7 @@ export const CourseVideoCard = forwardRef<HTMLDivElement, CourseVideoCardProps>(
             }}
             aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
             className={cn(
-              "no-min-tap absolute top-2 right-2 h-8 w-8 grid place-items-center rounded-full backdrop-blur-sm transition-all",
+              "no-min-tap absolute top-2 right-2 h-8 w-8 grid place-items-center rounded-full backdrop-blur-md transition-all",
               "md:opacity-0 md:group-hover:opacity-100",
               isWishlisted
                 ? "bg-primary/15 ring-1 ring-primary/40"
