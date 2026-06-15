@@ -1,27 +1,45 @@
-Refine `src/components/shop/ProductCard.tsx` (and `CourseVideoCard.tsx`) so the shop grid feels more crafted without breaking the existing warm-bento system or data shape.
+## Course Detail Page — Plan
 
-## Visual upgrades
+Build a new `/courses/:slug` detail page modeled on the reference (learnspring UX Design Beginner layout), reusing our existing warm cream + indigo bento theme (not the reference's red/cream — we keep brand tokens).
 
-- **Layered image frame**: replace the flat `rounded-xl` image well with a soft inset ring (`ring-1 ring-border/60 ring-inset`) plus a faint top-down gradient overlay so the picture seats into the card instead of sitting flat on it.
-- **Repositioned price chip**: drop the rounded-bl-2xl notch and use a true floating pill — `bg-card/95 backdrop-blur border border-border/60 shadow-sm` — anchored bottom-left of the image, so it stops fighting the wishlist heart and reads as a real tag.
-- **Trust strip refinement**: keep the Zap + "Instant access · Lifetime" copy, but soften from solid `bg-primary/85` to a translucent `bg-foreground/85 text-background` gradient strip that only appears on hover (slides up). On idle the image is uninterrupted.
-- **Tighter badge stack**: discount / Trending / New chips move to the bottom-left of the image, single row, with consistent pill styling. Discount badge gets a subtle indigo→indigo-glow gradient.
-- **Title + CTA**: title scales up half a step on `md`, gets `tracking-tight`. The "Order Now ↗" affordance becomes an icon-only arrow button in the bottom row that fills with `bg-primary text-primary-foreground` on group-hover — keeps the title row clean.
-- **Meta row redesign**: rating, verified, enrollment count consolidate into a single divider-separated micro-row above the chips (`text-[11px] text-muted-foreground` with `•` separators).
-- **Hover state**: replace the `-translate-y-1 + big shadow` combo with a calmer `translate-y-[-2px]` + `shadow-[0_12px_32px_-12px_hsl(var(--primary)/0.25)]` (brand-tinted shadow). Image scales `1.04` (down from 1.05) for a more premium feel. Border tints to `border-primary/40`.
+### 1. Route & file
+- Add `src/pages/CourseDetail.tsx`
+- Register route in `src/App.tsx`: `<Route path="/courses/:slug" element={<CourseDetail />} />`
+- Link cards in `CoursesList.tsx` to `/courses/<slug>`
 
-## Featured variant
+### 2. Layout (desktop ≥lg, two-column inside `AppLayout`)
+```text
+┌─ Breadcrumb: Our Courses / All Courses / <Title> ──────── [search] ┐
+│                                                                    │
+│ ┌──────────────── Video / Cover ─────────────┐  ┌─ Your Progress ─┐│
+│ │  16:9 hero with play overlay + scrubber    │  │ 3 / 20          ││
+│ └────────────────────────────────────────────┘  │ ○ Lesson 1  ✓   ││
+│ ┌─ Instructor row (avatar, name, handle) ───┐  │ ○ Lesson 2  ✓   ││
+│ │  ★ 4.3   ◷ 8 weeks   ▤ 14 lessons         │  │ ○ Lesson 3      ││
+│ └────────────────────────────────────────────┘  │   …             ││
+│ ┌─ Tabs: Description ▾ ─────────────────────┐  │                 ││
+│ │  Long course description paragraphs       │  │                 ││
+│ └────────────────────────────────────────────┘  └─────────────────┘│
+└────────────────────────────────────────────────────────────────────┘
+```
+- Mobile: single column, progress collapses below content.
 
-The horizontal `lg:flex-row` featured layout gets a vertical brand-tinted divider between image and content, a larger price treatment, and the trust footer pinned to the bottom rather than inline.
+### 3. Components (all in `src/components/course-detail/`)
+- `CourseBreadcrumb.tsx` — chevron-separated trail using `lucide-react`.
+- `CourseVideoCard.tsx` — `surface-panel` rounded-3xl, 16:9 `<video>`/poster, gradient overlay, big play button, mock progress bar + time + volume/expand icons.
+- `CourseMetaRow.tsx` — instructor avatar + name/email, right side chip cluster: rating, duration, lessons (indigo chips using existing chip utilities).
+- `CourseDescription.tsx` — `surface-panel-soft` card with header "<Course Title>" + "Description ▾" dropdown trigger (shadcn `DropdownMenu`) and 2–3 paragraph body.
+- `CourseProgressCard.tsx` — sticky right rail (`lg:sticky lg:top-24`), header "Your Progress  3/20", scrollable `ul` of lessons. Each row: filled indigo circle with check (completed), outlined circle (pending), lesson title truncated.
 
-## Scope guardrails
+### 4. Data
+- Add `src/data/courseDetails.ts` exporting a `getCourseDetail(slug)` mock returning `{ title, instructor, rating, duration, lessons, description, videoPoster, progress: { completed, total, items: [{id,title,done}] } }`.
+- Use placeholder poster from existing `src/assets` (pick a course/learning image) and a sample mp4 from `/public` if available, otherwise just poster + play button (no real playback).
 
-- No new dependencies. Pure Tailwind + existing tokens (`--primary`, `--card`, `--border`, `--foreground`, brand chip surfaces).
-- No data shape changes. Same props, same `Product` type.
-- Light + dark themes both verified. No hardcoded colors.
-- `ProductQuickView` behavior unchanged.
-- Apply the same image-frame, price-pill, and hover treatment to `CourseVideoCard.tsx` so the shop grid stays cohesive.
+### 5. Styling rules
+- Use only semantic tokens (`bg-card`, `text-foreground`, `border-border`, `surface-panel`, `surface-panel-soft`, chip utilities). No hardcoded colors. Full dark-mode parity (run audit after).
+- Plus Jakarta Sans inherited; lesson numbers in Departure Mono via `font-mono` utility we already alias.
 
-## Verification
-
-After the edit, capture `/shop?type=ebooks` at desktop (1280) and mobile (375) via Playwright and confirm the grid renders without overflow or contrast regressions.
+### 6. Acceptance
+- `/courses` cards navigate to detail page.
+- Detail page matches reference structure: breadcrumb, hero video, instructor+meta chips, description card with dropdown, right progress rail with check/empty states.
+- Looks correct in light and dark themes; passes `node scripts/audit-light-bg.js` with zero new CRITICAL hits.
