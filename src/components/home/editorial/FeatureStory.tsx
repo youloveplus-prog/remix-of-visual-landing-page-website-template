@@ -8,7 +8,9 @@ import { Suspense, lazy } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TodayMissionCard } from "@/features/mission/TodayMissionCard";
 import { ParallaxLayer } from "./motion-primitives";
+import { ParallaxLayer } from "./motion-primitives";
 import { EDITORIAL_PARALLAX } from "./motion";
+import { Button } from "@/components/ui/button";
 
 const ContinueLearningRow = lazy(() =>
   import("@/components/home/workspace/ContinueLearningRow").then((m) => ({
