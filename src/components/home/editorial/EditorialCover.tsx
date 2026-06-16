@@ -29,7 +29,7 @@ export function EditorialCover() {
 
           <Reveal delay={EDITORIAL_DELAY.bodyAfterHeadline} className="w-full mt-7 sm:mt-9 lg:mt-12">
             <ParallaxLayer strength={EDITORIAL_PARALLAX.coverPullquote} factor={0.15}>
-              <p className="editorial-pullquote max-w-[28ch] mx-auto px-2">
+              <p className="editorial-pullquote dot-matrix-type max-w-[28ch] mx-auto px-2">
                 The calmest place on the internet to learn.
               </p>
             </ParallaxLayer>
