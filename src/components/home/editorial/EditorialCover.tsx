@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { Spread } from "./Spread";
@@ -10,6 +10,8 @@ import { Switch } from "@/components/ui/switch";
 import { useDotMatrixToggle } from "@/hooks/useDotMatrixToggle";
 
 export function EditorialCover() {
+  const [dotMatrixEnabled, toggleDotMatrix] = useDotMatrixToggle();
+
   const segments = [
     <>Learning,<br /></>,
     <span className="text-primary">re-imagined.</span>,
@@ -32,9 +34,20 @@ export function EditorialCover() {
 
           <Reveal delay={EDITORIAL_DELAY.bodyAfterHeadline} className="w-full mt-7 sm:mt-9 lg:mt-12">
             <ParallaxLayer strength={EDITORIAL_PARALLAX.coverPullquote} factor={0.15}>
-              <p className="editorial-pullquote dot-matrix-type max-w-[28ch] mx-auto px-2">
+              <p className={cn("editorial-pullquote dot-matrix-type max-w-[28ch] mx-auto px-2", !dotMatrixEnabled && "no-animation")}>
                 The calmest place on the internet to learn.
               </p>
+              <label className="mt-3 inline-flex items-center gap-2 cursor-pointer select-none">
+                <Switch
+                  id="dot-matrix-toggle"
+                  checked={dotMatrixEnabled}
+                  onCheckedChange={toggleDotMatrix}
+                  aria-label="Toggle dot-matrix animation"
+                />
+                <span className="text-xs text-muted-foreground font-medium tracking-wide">
+                  Animate
+                </span>
+              </label>
             </ParallaxLayer>
           </Reveal>
 
