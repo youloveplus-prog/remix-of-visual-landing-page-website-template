@@ -19,6 +19,11 @@ export function EditorialCover() {
     <span className="text-primary">re-imagined.</span>,
   ];
 
+  const handleToggle = useCallback((checked: boolean) => {
+    toggleDotMatrix();
+    setLiveText(`Dot-matrix animation ${checked ? "enabled" : "disabled"}`);
+  }, [toggleDotMatrix]);
+
   return (
     <Spread rule={false}>
       <ParallaxLayer
