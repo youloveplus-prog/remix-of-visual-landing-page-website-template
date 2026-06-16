@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { Spread } from "./Spread";
@@ -5,6 +6,8 @@ import { Reveal } from "@/components/transitions/Reveal";
 import { ParallaxLayer, WordRise } from "./motion-primitives";
 import { EDITORIAL_DELAY, EDITORIAL_PARALLAX } from "./motion";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { useDotMatrixToggle } from "@/hooks/useDotMatrixToggle";
 
 export function EditorialCover() {
   const segments = [
