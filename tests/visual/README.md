@@ -7,11 +7,21 @@ can't catch.
 
 ```bash
 python tests/visual/product-card-price.spec.py
+python tests/visual/issue-index-card.spec.py
 ```
 
-Asserts the `/shop` ProductCard price row at xs/sm/md/lg/xl never overflows,
-stays within 2 lines, and keeps the current price on the first line. Saves a
-screenshot per breakpoint to `__screenshots__/` for review.
+`product-card-price` asserts the `/shop` ProductCard price row at xs/sm/md/lg/xl
+never overflows, stays within 2 lines, and keeps the current price on the first
+line.
+
+`issue-index-card` renders the "Why ASIKON" editorial card on `/` at the same
+breakpoints and asserts: card doesn't overflow the viewport, headline font-size
+sits in the expected responsive band (40/48/56px), tight 0.9 leading, mono
+label >= 10px, the pulse dot is present and >= 7px, and the footer label stays
+on-screen.
+
+Both specs save per-breakpoint screenshots to `__screenshots__/` for review.
+
 
 ## Baseline diffing
 
