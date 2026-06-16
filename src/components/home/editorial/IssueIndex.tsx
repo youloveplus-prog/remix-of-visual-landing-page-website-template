@@ -6,7 +6,7 @@ export function IssueIndex() {
   return (
     <Spread>
       <Reveal>
-        <div className="w-full max-w-[420px] sm:max-w-[560px] mx-auto relative px-4 sm:px-0">
+        <div data-testid="issue-index-card" className="w-full max-w-[420px] sm:max-w-[560px] mx-auto relative px-4 sm:px-0">
           {/* Soft indigo glow */}
           <div
             aria-hidden
