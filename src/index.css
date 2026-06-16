@@ -59,6 +59,7 @@
     --font-display: 'Plus Jakarta Sans', 'Edensor', 'Satoshi', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Sentient', ui-serif, Georgia, serif;
     --font-dot: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
+    --font-dot-matrix: 'Tiny5', 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
 
     /* Warm chip surfaces (named tokens) */
     --chip-butter: 38 92% 86%;         /* #fde2b8 */
