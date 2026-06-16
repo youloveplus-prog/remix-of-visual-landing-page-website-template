@@ -8,9 +8,11 @@ import { EDITORIAL_DELAY, EDITORIAL_PARALLAX } from "./motion";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useDotMatrixToggle } from "@/hooks/useDotMatrixToggle";
+import { useState, useCallback } from "react";
 
 export function EditorialCover() {
   const [dotMatrixEnabled, toggleDotMatrix] = useDotMatrixToggle();
+  const [liveText, setLiveText] = useState("");
 
   const segments = [
     <>Learning,<br /></>,
