@@ -178,6 +178,13 @@ export default {
           'ui-monospace',
           'monospace'
         ],
+        'dot-matrix': [
+          'Tiny5',
+          'Departure Mono',
+          'JetBrains Mono',
+          'ui-monospace',
+          'monospace'
+        ],
         mono: [
           'JetBrains Mono',
           'ui-monospace',
