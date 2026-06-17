@@ -94,14 +94,14 @@ describe("ProductCard → /product/:slug navigation", () => {
     });
     renderCard(product);
     const link = screen.getByRole("link", { name: /view web dev bootcamp/i });
-    expect(link).toHaveAttribute("href", "/product/web-dev-bootcamp");
+    expect(link).getAttribute("href")).toBe("/product/web-dev-bootcamp");
   });
 
   it("falls back to `product-<id>` when no slug is set", () => {
     const product = makeProduct({ id: "42", name: "Atomic Habits" });
     renderCard(product);
     const link = screen.getByRole("link", { name: /view atomic habits/i });
-    expect(link).toHaveAttribute("href", "/product/product-42");
+    expect(link).getAttribute("href")).toBe("/product/product-42");
   });
 
   it("preserves id-shaped slugs verbatim — even when they are obviously invalid", () => {
@@ -115,7 +115,7 @@ describe("ProductCard → /product/:slug navigation", () => {
     });
     renderCard(product);
     const link = screen.getByRole("link", { name: /view broken slug product/i });
-    expect(link).toHaveAttribute("href", "/product/this-slug-does-not-exist");
+    expect(link).getAttribute("href")).toBe("/product/this-slug-does-not-exist");
   });
 
   it("clicking the card navigates to the slug-scoped detail route", () => {
@@ -140,7 +140,7 @@ describe("ProductCard → /product/:slug navigation", () => {
     // No SlugEcho means we're still on "/" — the link wasn't followed.
     expect(screen.queryByTestId("echoed-slug")).toBeNull();
     // And the button flipped to the pressed state.
-    expect(screen.getByRole("button", { name: /remove from wishlist/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /remove from wishlist/i })).toBeTruthy();
   });
 
   it("CTA button (quick view) does NOT navigate — opens the dialog instead", () => {
