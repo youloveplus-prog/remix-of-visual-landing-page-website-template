@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard, ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { DetailSection } from "@/components/ui/detail-section";
@@ -59,6 +60,11 @@ const OrderDetail = () => {
 
   return (
     <AppLayout>
+      <SEO
+        title={id ? `Order #${String(id).slice(0, 8)}` : "Order details"}
+        description="Track the status, items, and delivery details of your Asikon order."
+        noIndex
+      />
       <MobilePage maxWidth="standard" spacing="space-y-8">
         <Link to="/orders" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
           <ArrowLeft className="h-3.5 w-3.5" /> All orders

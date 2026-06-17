@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useToast } from "@/hooks/use-toast";
+import { SEO } from "@/components/SEO";
 
 type ContentType = "post" | "video" | "short" | "review" | "live";
 
@@ -66,6 +67,11 @@ export default function CreateContent() {
 
   return (
     <AppLayout>
+      <SEO
+        title="Create Content"
+        description="Share a post, video, short, review, or go live to the Asikon community."
+        noIndex
+      />
       <div className="min-h-dvh bg-background">
         {/* Header */}
         <div className="sticky top-0 z-10 liquid-nav border-b border-border/50">

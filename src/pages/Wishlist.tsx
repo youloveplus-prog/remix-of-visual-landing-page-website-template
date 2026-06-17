@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Heart, X, ShoppingCart } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,11 @@ const Wishlist = () => {
 
   return (
     <AppLayout>
+      <SEO
+        title="Wishlist"
+        description="The Asikon items you've saved for later, ready when you are."
+        noIndex
+      />
       <MobilePage maxWidth="wide" spacing="space-y-6">
         <PageHero
           eyebrow="Saved for later"

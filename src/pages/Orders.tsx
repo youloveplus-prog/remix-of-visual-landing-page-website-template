@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Package, ChevronRight, Clock, CheckCircle, Truck, XCircle, ShoppingBag } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { Button } from "@/components/ui/button";
@@ -40,6 +41,11 @@ const Orders = () => {
 
   return (
     <AppLayout>
+      <SEO
+        title="My Orders"
+        description="View and track all of your Asikon orders in one place."
+        noIndex
+      />
       <MobilePage maxWidth="standard" spacing="space-y-6">
         <PageHero eyebrow="History" title="Your orders" subtitle="Track and review past purchases." />
 

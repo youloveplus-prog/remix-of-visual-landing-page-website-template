@@ -3,6 +3,7 @@ import { ArrowLeft, CheckCircle2, Clock, Target } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { DetailSection } from "@/components/ui/detail-section";
@@ -58,6 +59,11 @@ export default function LessonDetail() {
 
   return (
     <AppLayout>
+      <SEO
+        title={lesson?.title ? `${lesson.title} — Lesson` : "Lesson"}
+        description="Continue your Asikon learning journey with this lesson."
+        type="article"
+      />
       <MobilePage maxWidth="reading" spacing="space-y-7" className="pb-sticky-cta lg:pb-6">
         {trackRow && (
           <Link to={`/track/${trackRow.slug}`} className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60 transition-opacity">
