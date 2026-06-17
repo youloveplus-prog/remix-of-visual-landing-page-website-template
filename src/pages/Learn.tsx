@@ -15,6 +15,7 @@ import { useTracks, useLessonCompletions } from "@/hooks/useTracks";
 import { useLearnerProfile } from "@/hooks/useLearnerProfile";
 import { useAuth } from "@/hooks/useAuth";
 import { MyCoursesSection } from "@/components/learn/MyCoursesSection";
+import { NextTopicCard } from "@/components/learn/NextTopicCard";
 import { cn } from "@/lib/utils";
 
 export default function Learn() {
