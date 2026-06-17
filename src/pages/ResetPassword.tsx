@@ -21,6 +21,44 @@ const schema = z
     path: ["confirm"],
   });
 
+function mapResetError(raw: string): { title: string; description: string } {
+  const m = raw.toLowerCase();
+  if (m.includes("jwt expired") || m.includes("token has expired")) {
+    return {
+      title: "Reset link expired",
+      description: "This password-reset link has expired. Please request a new one from the sign-in page.",
+    };
+  }
+  if (m.includes("invalid jwt") || m.includes("token is invalid")) {
+    return {
+      title: "Invalid reset link",
+      description: "This reset link is invalid or malformed. Please request a fresh one.",
+    };
+  }
+  if (m.includes("user not found") || m.includes("user doesn't exist")) {
+    return {
+      title: "Account not found",
+      description: "We couldn't find an account linked to this reset request. Please double-check your email and try again.",
+    };
+  }
+  if (m.includes("new password should be different")) {
+    return {
+      title: "Choose a different password",
+      description: "Your new password must be different from your current one.",
+    };
+  }
+  if (m.includes("rate limit")) {
+    return {
+      title: "Too many attempts",
+      description: "Please wait a moment before trying again.",
+    };
+  }
+  return {
+    title: "Couldn't update password",
+    description: raw || "The reset link may have expired. Please request a new one.",
+  };
+}
+
 const ResetPassword = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -76,9 +114,10 @@ const ResetPassword = () => {
       });
       setTimeout(() => navigate("/", { replace: true }), 1600);
     } catch (err: any) {
+      const msg = mapResetError(err.message ?? "");
       toast({
-        title: "Couldn't update password",
-        description: err.message || "The reset link may have expired. Please request a new one.",
+        title: msg.title,
+        description: msg.description,
         variant: "destructive",
       });
     } finally {
