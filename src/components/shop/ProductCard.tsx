@@ -25,6 +25,7 @@ import { Price } from "@/lib/currency";
 import { ProductQuickView } from "./ProductQuickView";
 import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
 import { logProductClick } from "@/lib/productAnalytics";
+import { useProductImpression } from "@/hooks/useProductImpression";
 
 const ICON_BY_NAME: Record<ProductCtaIcon, LucideIcon> = {
   "graduation-cap": GraduationCap,
@@ -92,23 +93,43 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
 
     const detailHref = `/product/${(product as any).slug || `product-${product.id}`}`;
 
+    const { elementRef: impressionRef, stateRef: impressionState } =
+      useProductImpression({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        slug: (product as any).slug,
+      });
+
     return (
       <>
         <Link
           to={detailHref}
-          onClick={() =>
+          onClick={() => {
+            const s = impressionState.current;
             logProductClick({
               productId: String(product.id),
               productSlug: (product as any).slug || `product-${product.id}`,
               productName: product.name,
               price: product.price,
-            })
-          }
+              maxVisibility: Number(s.maxVisibility.toFixed(2)),
+              dwellMs: Math.round(
+                s.dwellMs +
+                  (s.visibleSince != null
+                    ? performance.now() - s.visibleSince
+                    : 0),
+              ),
+            });
+          }}
           aria-label={`View ${product.name}`}
           className="block h-full no-underline focus:outline-none rounded-2xl md:rounded-3xl"
         >
         <article
-          ref={ref}
+          ref={(node) => {
+            impressionRef.current = node;
+            if (typeof ref === "function") ref(node);
+            else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+          }}
           className={cn(
             "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col",
             "transition-[transform,box-shadow,border-color] duration-300 ease-out motion-reduce:transition-none",
