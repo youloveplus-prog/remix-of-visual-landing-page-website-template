@@ -205,6 +205,35 @@ function EmptyRow({ message, sub }: { message: string; sub?: string }) {
   );
 }
 
+function ErrorRow({
+  message,
+  onRetry,
+}: {
+  message: string;
+  onRetry: () => void;
+}) {
+  return (
+    <div
+      className="rounded-xl border border-dashed border-destructive/30 bg-destructive/[0.03] px-3 py-4 text-center"
+      role="alert"
+      aria-live="polite"
+    >
+      <div className="flex items-center justify-center gap-1.5 mb-2">
+        <AlertCircle className="h-3.5 w-3.5 text-destructive/80" aria-hidden />
+        <p className="text-[12.5px] text-destructive/90 leading-snug font-medium">{message}</p>
+      </div>
+      <Button
+        size="sm"
+        variant="ghost"
+        className="h-7 px-3 text-[11px] text-muted-foreground hover:text-foreground"
+        onClick={onRetry}
+      >
+        Retry
+      </Button>
+    </div>
+  );
+}
+
 function CreatorListSkeleton({ count = 3 }: { count?: number }) {
   return (
     <ul className="space-y-3" aria-hidden>
