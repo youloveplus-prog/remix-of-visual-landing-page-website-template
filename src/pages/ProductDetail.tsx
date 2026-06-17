@@ -734,7 +734,7 @@ const ProductDetail = () => {
 
         <DetailSection id="reviews" title="Reviews">
           <ProductReviews
-            reviews={mockReviews}
+            productId={product.id}
             averageRating={product.rating || 4.5}
             totalReviews={product.review_count || 36}
             ratingDistribution={[
