@@ -30,7 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StickyActionBar } from "@/components/ui/sticky-action-bar";
 import { ProductCarousel } from "@/components/carousels";
-import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ } from "@/components/product";
+import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ, ProductStickyNav, ProductCurriculum } from "@/components/product";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
@@ -129,6 +129,7 @@ const ProductDetail = () => {
     excludeKinds: ["course", "service"],
   });
   const notFoundHeadingRef = useRef<HTMLHeadingElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (product === null && notFoundHeadingRef.current) {
@@ -177,11 +178,33 @@ const ProductDetail = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Skeleton className="aspect-square rounded-2xl" />
-            <div className="space-y-4">
-              <Skeleton className="h-8 w-3/4" /><Skeleton className="h-6 w-1/4" /><Skeleton className="h-24 w-full" />
+        <MobilePage maxWidth="wide" spacing="space-y-8">
+          {/* Skeleton mirrors the new two-pane layout so the page doesn't reflow. */}
+          <Skeleton className="hidden lg:block h-4 w-16 rounded-full" />
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
+            <div className="space-y-3">
+              <Skeleton className="aspect-square w-full rounded-2xl lg:rounded-[1.75rem]" />
+              <div className="hidden lg:flex gap-2.5">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={i} className="h-20 w-20 rounded-2xl" />
+                ))}
+              </div>
+            </div>
+            <div className="space-y-5">
+              <Skeleton className="h-3 w-16" />
+              <Skeleton className="h-10 lg:h-12 w-4/5" />
+              <Skeleton className="h-4 w-1/3" />
+              <Skeleton className="h-9 w-1/2" />
+              <Skeleton className="h-20 w-full rounded-2xl" />
+              <div className="flex gap-3">
+                <Skeleton className="h-12 flex-1 rounded-full" />
+                <Skeleton className="h-12 w-12 rounded-full" />
+              </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={i} className="h-14 rounded-xl" />
+                ))}
+              </div>
             </div>
           </div>
         </MobilePage>
@@ -430,7 +453,7 @@ const ProductDetail = () => {
         </div>
 
         {/* Desktop main */}
-        <div className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
+        <div ref={heroRef} className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
           {/* Gallery */}
           <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
@@ -571,6 +594,24 @@ const ProductDetail = () => {
               <Button variant="outline" size="lg" className="rounded-full h-12 w-12 p-0" aria-label="Save"><Heart className="h-4 w-4" /></Button>
             </div>
 
+            {/* Inline trust strip — visible right under the CTA so it lands at decision time. */}
+            <div className="hidden lg:flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5">
+                <Zap className="h-3.5 w-3.5 text-primary" />
+                Instant access
+              </span>
+              <span aria-hidden className="text-border">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <RotateCcw className="h-3.5 w-3.5 text-primary" />
+                7-day money back
+              </span>
+              <span aria-hidden className="text-border">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                Secure checkout
+              </span>
+            </div>
+
             {product.description && (
               <div className="rounded-2xl border border-border/60 liquid-glass p-4 lg:p-5">
                 <div className="flex items-center justify-between mb-2">
@@ -612,7 +653,7 @@ const ProductDetail = () => {
         {/* Course-specific */}
         {isCourse && (
           <>
-            <DetailSection title="What you will learn">
+            <DetailSection id="overview" title="What you will learn">
               <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
                 {courseLearnings.map((item) => (
                   <div key={item} className="flex items-start gap-2.5 text-[13.5px]">
@@ -624,24 +665,14 @@ const ProductDetail = () => {
             </DetailSection>
 
             <DetailSection
+              id="curriculum"
               title="Curriculum"
               action={<span className="text-[12px] text-muted-foreground">{courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h</span>}
             >
-              <ol className="divide-y divide-border/40">
-                {courseCurriculum.map((m, i) => (
-                  <li key={m.module} className="flex items-center gap-3 py-3">
-                    <span className="grid place-items-center h-8 w-8 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">{i + 1}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[14px] font-medium truncate">{m.module}</p>
-                      <p className="text-[12px] text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
-                    </div>
-                    <Play className="h-4 w-4 text-foreground/50" />
-                  </li>
-                ))}
-              </ol>
+              <ProductCurriculum modules={courseCurriculum} />
             </DetailSection>
 
-            <DetailSection title="Your instructor">
+            <DetailSection id="instructor" title="Your instructor">
               <div className="flex items-center gap-4">
                 <img
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&q=80"
@@ -657,7 +688,7 @@ const ProductDetail = () => {
           </>
         )}
 
-        <DetailSection title="Reviews">
+        <DetailSection id="reviews" title="Reviews">
           <ProductReviews
             reviews={mockReviews}
             averageRating={product.rating || 4.5}
@@ -668,7 +699,7 @@ const ProductDetail = () => {
           />
         </DetailSection>
 
-        <DetailSection title="FAQ">
+        <DetailSection id="faq" title="FAQ">
           <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
         </DetailSection>
 
@@ -705,6 +736,29 @@ const ProductDetail = () => {
           </Button>
         </div>
       </StickyActionBar>
+
+      {/* Desktop sticky sub-nav — appears after the hero scrolls out of view. */}
+      <ProductStickyNav
+        title={product.name}
+        price={product.price}
+        originalPrice={product.original_price}
+        ctaLabel={cta.primaryLabel}
+        ctaShortLabel={cta.primaryShortLabel}
+        onCta={handleAddToCart}
+        ctaDisabled={addToCart.isPending}
+        revealAfterRef={heroRef}
+        links={[
+          ...(isCourse
+            ? [
+                { id: "overview", label: "Overview" },
+                { id: "curriculum", label: "Curriculum" },
+                { id: "instructor", label: "Instructor" },
+              ]
+            : []),
+          { id: "reviews", label: "Reviews" },
+          { id: "faq", label: "FAQ" },
+        ]}
+      />
     </AppLayout>
   );
 };

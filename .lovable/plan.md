@@ -1,45 +1,78 @@
-# Product Details Page — Improvement Plan
+# Product Details UI/UX Enhancement
 
-## Root cause of "Product not found"
+Goal: make `/product/:slug` feel decisive, trustworthy, and fast — without changing data, pricing, or checkout logic.
 
-`useProduct(slug)` in `src/hooks/useProducts.ts` only queries the Supabase `products` table. That table isn't provisioned (console shows `[useProducts] Using seed catalog — products table not provisioned`), so the list pages fall back to `mockProducts` but the **detail page returns `null`** and renders the empty state.
+## What changes (by zone)
 
-The list builds slugs as `product-${p.id}` (e.g. `product-1`), and `Shop` links go to `/product/<slug>`, so every storefront click currently dead-ends on "Product not found".
+### 1. Hero / above-the-fold
+- Replace single image block with a **two-pane hero**: sticky media gallery on the left (desktop) and a focused "decision card" on the right.
+- Media gallery upgrades:
+  - Thumbnail rail with keyboard arrows + swipe on mobile.
+  - Zoom-on-hover (desktop) and pinch-zoom modal (mobile).
+  - Video thumbnails marked with a play glyph; auto-pause when out of view.
+  - Subtle skeleton + blur-up while images load.
+- Decision card (right):
+  - Eyebrow chip: kind (Course / eBook / Bundle…) + verified badge.
+  - H1 title in display font, one-line brand + rating + review count, last-line stock/seat status.
+  - Price block with original price, % saved, and a small "lifetime / instant access" microcopy.
+  - Primary CTA (kind-aware) + secondary outline (Add to wishlist / Share).
+  - Trust strip directly under CTA: Instant access · Money-back · Secure checkout.
 
-## Plan
+### 2. Sticky context bar
+- On scroll past the hero, a slim **sticky sub-nav** appears with: title, price, and CTA, plus jump links (Overview · Curriculum · Reviews · FAQ).
+- On mobile, replaces the current `StickyActionBar` with a single-row CTA + price + wishlist icon, safe-area aware.
 
-### 1. Fix the data layer (the actual bug)
-- In `useProduct`, mirror the list-hook pattern: if the Supabase query errors with `PGRST205` (or returns nothing), look the slug up in the `fallbackProducts` array derived from `mockProducts`.
-- Match by `slug` first, then by `id` as a safety net (older bookmarks).
-- Return `null` only when both sources miss, so the empty state is truly "unknown slug" not "no backend".
+### 3. Content sections (tabs → anchored sections)
+- Convert content into clearly separated `DetailSection`s with anchor IDs matching the sticky sub-nav.
+- For courses: redesigned **Curriculum** as collapsible modules with lesson count, duration, and a "preview" indicator on free lessons.
+- "What you'll learn" → 2-column bullet grid with check glyphs.
+- Instructor / Creator card with avatar, short bio, stats (students, courses, rating).
 
-### 2. Improve the empty state itself
-Replace the bare "Product not found / Back to shop" block with:
-- A friendlier headline + sub-copy explaining the item may have been removed.
-- Two CTAs: **Back to Shop** and **Browse Featured**.
-- A small "You might like" strip rendering 4 items from `useProducts({ featured: true, limit: 4 })` so the page is never a dead end.
-- Keep `<SEO>` with `noindex` on this state so 404-ish pages don't pollute search.
+### 4. Social proof
+- Reviews: summary block (avg rating, distribution bars, verified-buyer count) + filter chips (5★, with photos, verified).
+- Add a lightweight "X people viewed this today" line driven by the existing impression analytics — no new tables.
 
-### 3. Polish the loaded details page
-- **Trust row under the price**: Instant Access · Secure Checkout · 7-day Money-back (reuse existing trust tokens, digital-first per project memory — no shipping copy).
-- **Sticky CTA correctness**: hide size/color selectors when `isCourse || isBook || kind ∈ {ebook,bundle,service,course}` (today they always render for non-course/book — wrong for `service`/`bundle`).
-- **Gallery**: filter out falsy entries before rendering (current `[product?.image_url]` can become `[undefined]`), and add keyboard arrow navigation on the main image.
-- **Related products**: pass `excludeKinds` consistent with Shop, and exclude the current product id from the strip.
-- **Breadcrumb**: show on mobile too (currently `hidden lg:inline-flex`), using shorter `Shop ›  {category}` form.
-- **Skeleton parity**: extend the loading skeleton to match the new layout (price, trust row, CTA) so there's no layout shift.
+### 5. FAQ + closing
+- FAQ accordion with smoother open/close animation and "Still have questions?" CTA linking to support.
+- Related products carousel polished: same card refinements already in `ProductCard`.
 
-### 4. Tests
-- `useProduct` fallback: returns the seeded product when Supabase responds `PGRST205`, by slug and by id; returns `null` for unknown slugs.
-- `ProductDetail` empty state: renders friendlier copy, both CTAs, and the "You might like" strip; sets `noindex`.
-- `ProductDetail` loaded: size/color selectors are not rendered for `kind: "service"` and `kind: "bundle"`; trust row is present; related strip excludes the current product.
+### 6. Empty / loading / not-found
+- Skeleton mirrors the new two-pane layout so the page doesn't reflow on load.
+- Keep the existing not-found focus-management fix; restyle to match the new visual language.
 
-## Files to touch
+## Accessibility & performance
+- Every interactive element keyboard-reachable; visible focus rings using existing tokens.
+- `aria-current` on active sub-nav anchor; `aria-expanded` on accordions.
+- Respect `prefers-reduced-motion` — disable parallax/zoom transitions.
+- Lazy-load below-the-fold sections (reviews, FAQ, related) with `IntersectionObserver`.
+- Preload the primary hero image; defer gallery thumbnails.
 
-- `src/hooks/useProducts.ts` — add fallback inside `useProduct`.
-- `src/pages/ProductDetail.tsx` — empty state, trust row, selector gating, gallery guard, related filter, mobile breadcrumb, skeleton.
-- `src/components/SEO.tsx` — only if `noindex` prop isn't already supported (verify, add if missing).
-- `src/test/product-detail-fallback.test.tsx` (new) — hook + page tests above.
+## Design tokens (no hardcoded colors)
+- Reuse `--primary`, `--card`, `--muted`, `--border`, `--ring`.
+- Add two semantic helpers in `index.css` if missing: `--surface-trust` (soft mint tint) and `--surface-price` (warm cream) — both as HSL.
+- Typography: Plus Jakarta Sans for headings/body, Departure Mono for eyebrows/labels — already in the system.
+
+## Technical notes
+- All work stays in `src/pages/ProductDetail.tsx` and small new pieces under `src/components/product/`:
+  - `ProductHero.tsx` (media + decision card)
+  - `ProductStickyNav.tsx`
+  - `ProductCurriculum.tsx` (collapsible)
+  - `ReviewSummary.tsx`
+- No schema, no API, no routing changes. `useProduct` hook unchanged.
+- Reuses existing `DetailSection`, `Button`, `Badge`, `StickyActionBar` primitives.
+- Animations via Framer Motion (already in deps) — fade/slide only, no layout thrash.
 
 ## Out of scope
-- No schema changes / no provisioning of the `products` table (project runs on the seed catalog by design right now).
-- No changes to cart, checkout, or pricing logic.
+- Cart/checkout flow changes.
+- New backend tables or edge functions.
+- Variant/size logic for non-apparel products.
+
+## Suggested build order
+1. New `ProductHero` (media gallery + decision card) + skeleton parity.
+2. Sticky sub-nav + anchored sections.
+3. Curriculum accordion + "what you'll learn" grid + instructor card.
+4. Review summary + filter chips.
+5. FAQ polish + related carousel pass.
+6. Motion + reduced-motion + a11y sweep.
+
+Want me to proceed with this plan, or adjust scope (e.g. skip the sticky sub-nav, or focus on mobile only)?
