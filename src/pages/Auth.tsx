@@ -345,38 +345,54 @@ const Auth = () => {
       />
 
       <div className="relative grid lg:grid-cols-2 min-h-dvh">
-        {/* ============== Brand pane (desktop only) ============== */}
-        <aside className="hidden lg:flex relative flex-col justify-between p-12 xl:p-16 bg-secondary/40 border-r border-border">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-card border border-border flex items-center justify-center p-1.5">
+        {/* ============== Video brand pane (desktop only) ============== */}
+        <aside className="hidden lg:flex relative flex-col justify-between p-12 xl:p-16 overflow-hidden border-r border-border bg-[#0a0a1a] text-white">
+          {/* Background video */}
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="https://images.pexels.com/videos/3129957/free-video-3129957.jpg?auto=compress&cs=tinysrgb&w=1280"
+            className="absolute inset-0 h-full w-full object-cover opacity-70"
+          >
+            <source
+              src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4"
+              type="video/mp4"
+            />
+          </video>
+          {/* Gradient overlay for legibility */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a]/90 via-[#141432]/70 to-[#1e1e5a]/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent" />
+
+          {/* Content above video */}
+          <div className="relative z-10 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur border border-white/15 flex items-center justify-center p-1.5">
               <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
             </div>
             <div>
               <p className="font-display text-[15px] font-semibold tracking-tight">Asikon</p>
-              <p className="text-[10.5px] uppercase tracking-[0.2em] text-muted-foreground">
+              <p className="text-[10.5px] uppercase tracking-[0.2em] text-white/60">
                 Learn AI · Build Skills
               </p>
             </div>
           </div>
 
-          <div className="space-y-10 max-w-md">
-            <div className="space-y-5">
-              <div className="inline-flex items-center gap-2 text-[11.5px] text-muted-foreground">
-                <Flame className="h-3.5 w-3.5 text-foreground/60" />
-                Trusted by 12,400+ learners
-              </div>
-              <h1 className="font-display text-4xl xl:text-5xl font-semibold leading-[1.05] tracking-tight">
-                Your AI learning
-                <br />
-                journey starts here.
-              </h1>
-              <p className="text-[15px] text-muted-foreground leading-relaxed">
-                Master ML, Python, and modern AI tools with expert-led courses,
-                a 24/7 AI tutor, and a community building real projects.
-              </p>
+          <div className="relative z-10 space-y-8 max-w-md">
+            <div className="inline-flex items-center gap-2 text-[11.5px] text-white/70 rounded-full border border-white/15 bg-white/5 backdrop-blur px-3 py-1.5">
+              <Flame className="h-3.5 w-3.5 text-[#a5b4fc]" />
+              Trusted by 12,400+ learners
             </div>
+            <h1 className="font-display text-4xl xl:text-5xl font-semibold leading-[1.05] tracking-tight">
+              Your AI learning
+              <br />
+              journey starts here.
+            </h1>
+            <p className="text-[15px] text-white/75 leading-relaxed">
+              Master ML, Python, and modern AI tools with expert-led courses,
+              a 24/7 AI tutor, and a community building real projects.
+            </p>
 
-            {/* Feature list — flat, editorial */}
             <ul className="grid grid-cols-2 gap-x-6 gap-y-4">
               {[
                 { icon: GraduationCap, title: "Expert courses", sub: "200+ lessons" },
@@ -385,34 +401,17 @@ const Auth = () => {
                 { icon: ShieldCheck, title: "Lifetime access", sub: "Yours forever" },
               ].map((f) => (
                 <li key={f.title} className="flex items-start gap-3">
-                  <f.icon className="h-4 w-4 mt-1 text-foreground/60 shrink-0" />
+                  <f.icon className="h-4 w-4 mt-1 text-[#a5b4fc] shrink-0" />
                   <div>
-                    <p className="text-[13.5px] font-medium leading-tight">{f.title}</p>
-                    <p className="text-[12px] text-muted-foreground mt-0.5">{f.sub}</p>
+                    <p className="text-[13.5px] font-medium leading-tight text-white">{f.title}</p>
+                    <p className="text-[12px] text-white/60 mt-0.5">{f.sub}</p>
                   </div>
                 </li>
               ))}
             </ul>
-
-            {/* Testimonial — quiet card */}
-            <figure className="rounded-2xl border border-border bg-card p-5">
-              <blockquote className="text-[14px] text-foreground/90 leading-relaxed">
-                "The AI tutor answered my doubts at 2 a.m. before exams. Asikon
-                doesn't just teach — it learns with you."
-              </blockquote>
-              <figcaption className="flex items-center gap-3 mt-4">
-                <div className="w-8 h-8 rounded-full bg-secondary grid place-items-center text-xs font-medium text-foreground/70">
-                  S
-                </div>
-                <div>
-                  <p className="text-[12.5px] font-medium">Sadia R.</p>
-                  <p className="text-[11px] text-muted-foreground">ML Engineer · Class of 2025</p>
-                </div>
-              </figcaption>
-            </figure>
           </div>
 
-          <div className="flex items-center justify-between text-[11.5px] text-muted-foreground">
+          <div className="relative z-10 flex items-center justify-between text-[11.5px] text-white/60">
             <p>© {new Date().getFullYear()} Asikon Technologies</p>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5" />
