@@ -43,6 +43,7 @@ function PostCardImpl({ post, href }: PostCardProps) {
 
   const articleClass = cn(
     "group/post mx-auto w-full max-w-[640px]",
+    "-mx-4 sm:mx-auto",
     "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
     "transition-shadow duration-200",
     "sm:hover:shadow-[var(--shadow-md)]",

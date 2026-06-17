@@ -21,7 +21,7 @@ export function ShortsTab() {
 
   if (isLoading) {
     return (
-      <div className="px-4 pb-4 grid grid-cols-2 gap-3">
+      <div className="pb-4 grid grid-cols-2 gap-3">
         {[1, 2, 3, 4].map((i) => (
           <Skeleton key={i} className="aspect-[9/16] rounded-2xl" />
         ))}
@@ -31,7 +31,7 @@ export function ShortsTab() {
 
   if (isError) {
     return (
-      <div className="px-4 py-12 text-center space-y-3">
+      <div className="py-12 text-center space-y-3">
         <p className="text-sm text-muted-foreground">Could not load shorts. Try again.</p>
         <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
       </div>
@@ -40,7 +40,7 @@ export function ShortsTab() {
 
   if (!data || data.length === 0) {
     return (
-      <div className="px-4 py-16 text-center space-y-3">
+      <div className="py-16 text-center space-y-3">
         <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
           <Sparkles className="h-6 w-6 text-muted-foreground" />
         </div>
@@ -51,7 +51,7 @@ export function ShortsTab() {
   }
 
   return (
-    <div className="px-4 pb-4 grid grid-cols-2 gap-3">
+    <div className="pb-4 grid grid-cols-2 gap-3">
       {data.map((s: any) => (
         <article key={s.id} className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border">
           {s.video_url ? (

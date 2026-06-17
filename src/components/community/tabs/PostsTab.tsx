@@ -79,7 +79,7 @@ export function PostsTab() {
   }
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-4 sm:space-y-5">
       {displayedItems.map((post) => (
         <PostCard key={post._loopKey} post={post} />
       ))}

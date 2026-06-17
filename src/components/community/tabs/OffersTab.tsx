@@ -55,7 +55,7 @@ export function OffersTab() {
 
   if (offers.length === 0) {
     return (
-      <div className="px-4 py-16 text-center space-y-3">
+      <div className="py-16 text-center space-y-3">
         <div className="mx-auto h-14 w-14 rounded-full bg-muted flex items-center justify-center">
           <Tag className="h-6 w-6 text-muted-foreground" />
         </div>
@@ -66,7 +66,7 @@ export function OffersTab() {
   }
 
   return (
-    <div className="px-4 space-y-4">
+    <div className="space-y-4">
       <div className="flex items-center gap-2">
         <Tag className="h-4 w-4 text-primary" />
         <h2 className="font-display text-lg font-semibold">Current offers</h2>

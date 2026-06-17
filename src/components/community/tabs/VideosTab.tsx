@@ -21,7 +21,7 @@ export function VideosTab() {
 
   if (isLoading) {
     return (
-      <div className="px-4 space-y-4 pb-4">
+      <div className="space-y-4 pb-4">
         {[1, 2, 3].map((i) => (
           <div key={i} className="liquid-glass border border-border rounded-2xl overflow-hidden">
             <Skeleton className="aspect-video w-full rounded-none" />
@@ -37,7 +37,7 @@ export function VideosTab() {
 
   if (isError) {
     return (
-      <div className="px-4 py-12 text-center space-y-3">
+      <div className="py-12 text-center space-y-3">
         <p className="text-sm text-muted-foreground">Could not load videos. Try again.</p>
         <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
       </div>
@@ -46,7 +46,7 @@ export function VideosTab() {
 
   if (!data || data.length === 0) {
     return (
-      <div className="px-4 py-16 text-center space-y-3">
+      <div className="py-16 text-center space-y-3">
         <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
           <GraduationCap className="h-6 w-6 text-muted-foreground" />
         </div>
@@ -57,7 +57,7 @@ export function VideosTab() {
   }
 
   return (
-    <div className="px-4 space-y-4 pb-4">
+    <div className="space-y-4 pb-4">
       {data.map((v: any) => (
         <article key={v.id} className="liquid-glass rounded-2xl overflow-hidden border border-border">
           {v.video_url && (

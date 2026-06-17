@@ -49,7 +49,7 @@ export function ReviewsTab() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 px-4 overflow-x-auto hide-scrollbar">
+      <div className="flex gap-2 overflow-x-auto hide-scrollbar">
         {filters.map((filter) => (
           <button
             key={filter.value}
@@ -68,7 +68,7 @@ export function ReviewsTab() {
       </div>
 
       {isLoading ? (
-        <div className="px-4 space-y-3">
+        <div className="space-y-3">
           {[1, 2, 3].map((i) => (
             <div key={i} className="liquid-glass border border-border rounded-2xl p-4 space-y-3">
               <div className="flex items-center gap-3">
@@ -81,12 +81,12 @@ export function ReviewsTab() {
           ))}
         </div>
       ) : isError ? (
-        <div className="px-4 py-12 text-center space-y-3">
+        <div className="py-12 text-center space-y-3">
           <p className="text-sm text-muted-foreground">Could not load reviews. Try again.</p>
           <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
         </div>
       ) : filtered.length === 0 ? (
-        <div className="px-4 py-16 text-center space-y-3">
+        <div className="py-16 text-center space-y-3">
           <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
             <Star className="h-6 w-6 text-muted-foreground" />
           </div>
@@ -95,7 +95,7 @@ export function ReviewsTab() {
           <Button onClick={() => navigate("/community/create")}>Write a review</Button>
         </div>
       ) : (
-        <div className="px-4 space-y-3">
+        <div className="space-y-3">
           {filtered.map(({ raw, post }) => (
             <article key={raw.id} className="liquid-glass border border-border rounded-2xl p-4 space-y-3">
               <div className="flex items-center gap-3">
