@@ -63,3 +63,65 @@ export function resolveContentRoute(
       return null;
   }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Telemetry: lightweight event fired when a deep-link slug is redirected
+// because its content `kind` did not match the route it landed on.
+//
+// Pages call `useKindMismatchTelemetry(from, to, kind, slug)` once per render;
+// the hook dedupes by (from→to|slug) so a single navigation produces exactly
+// one event even under React StrictMode's double-invoke or re-renders.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface KindMismatchEvent {
+  /** Route the user opened. */
+  from: DetailRoute;
+  /** Canonical path we redirected them to. */
+  to: string;
+  /** The actual `kind` returned by the data source. */
+  kind: AnyContentKind;
+  /** The slug from the URL. */
+  slug: string;
+  /** ISO timestamp captured at log time. */
+  at: string;
+}
+
+export type KindMismatchLogger = (event: KindMismatchEvent) => void;
+
+const defaultLogger: KindMismatchLogger = (event) => {
+  if (typeof window !== "undefined" && typeof window.dispatchEvent === "function") {
+    try {
+      window.dispatchEvent(
+        new CustomEvent("asikon:kind-mismatch-redirect", { detail: event }),
+      );
+    } catch {
+      /* CustomEvent not available — fall through to console */
+    }
+  }
+  if (typeof console !== "undefined") {
+    // eslint-disable-next-line no-console
+    console.info("[content-routing] kind mismatch redirect", event);
+  }
+};
+
+let activeLogger: KindMismatchLogger = defaultLogger;
+
+/** Override the logger (tests only — call __resetKindMismatchLogger() after). */
+export function __setKindMismatchLogger(fn: KindMismatchLogger): void {
+  activeLogger = fn;
+}
+
+/** Restore the default logger. */
+export function __resetKindMismatchLogger(): void {
+  activeLogger = defaultLogger;
+}
+
+/** Direct emitter — exported for non-React callers. */
+export function logKindMismatchRedirect(
+  event: Omit<KindMismatchEvent, "at"> & { at?: string },
+): void {
+  activeLogger({ at: new Date().toISOString(), ...event });
+}
+
+// React hook lives in its own file to keep this module dependency-free for
+// the static helper tests. See ./useKindMismatchTelemetry.
