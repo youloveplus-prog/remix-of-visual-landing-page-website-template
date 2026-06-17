@@ -88,7 +88,7 @@ export function AiAssistantBox() {
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Ask anything in Bangla or English..."
                 style={{ fontFamily: SANS }}
-                className="w-full rounded-xl py-3 sm:py-3.5 px-4 sm:px-5 pr-12 text-sm outline-none transition-all bg-white dark:bg-[#1a1a18] text-[#2d2d2d] dark:text-[#c8c4bc] border border-[#e8e4dd] dark:border-[#2a2a28] placeholder:text-[#2d2d2d]/40 dark:placeholder:text-[#c8c4bc]/40 focus:ring-1 focus:ring-[#0d0d0d] dark:focus:ring-[#f5f3ee]"
+                className="w-full rounded-xl py-3 sm:py-3.5 px-4 sm:px-5 pr-12 text-sm outline-none transition-all bg-white dark:bg-[#1a1a18] text-foreground dark:text-[#c8c4bc] border border-white/30 dark:border-[#2a2a28] placeholder:text-foreground/40 dark:placeholder:text-[#c8c4bc]/40 focus:ring-1 focus:ring-white dark:focus:ring-[#f5f3ee]"
               />
               <button
                 type="submit"
