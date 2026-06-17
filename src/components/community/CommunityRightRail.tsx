@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Sparkles, TrendingUp, Radio, ArrowUpRight, type LucideIcon } from "lucide-react";
+import { Sparkles, TrendingUp, Radio, ArrowUpRight, AlertCircle, type LucideIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,6 +43,7 @@ export function CommunityRightRail() {
   // Replace these with real queries when wired to the backend.
   // Hardcoded data is treated as "already loaded".
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [creators, setCreators] = useState<Creator[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [live, setLive] = useState<LiveSession | null>(null);
@@ -58,6 +59,17 @@ export function CommunityRightRail() {
     return () => window.clearTimeout(t);
   }, []);
 
+  function handleRetry() {
+    setError(false);
+    setLoading(true);
+    window.setTimeout(() => {
+      setCreators(CREATORS);
+      setTags(TAGS);
+      setLive(LIVE);
+      setLoading(false);
+    }, 400);
+  }
+
   return (
     <aside
       className="hidden lg:block w-[320px] shrink-0 space-y-4 self-start sticky"
@@ -66,7 +78,9 @@ export function CommunityRightRail() {
     >
       {/* Creators */}
       <Tile icon={Sparkles} title="Creators to follow">
-        {loading ? (
+        {error ? (
+          <ErrorRow message="Couldn't load creators." onRetry={handleRetry} />
+        ) : loading ? (
           <CreatorListSkeleton count={3} />
         ) : creators.length === 0 ? (
           <EmptyRow message="No suggestions right now. Check back soon." />
@@ -95,7 +109,9 @@ export function CommunityRightRail() {
 
       {/* Tags */}
       <Tile icon={TrendingUp} title="Trending tags">
-        {loading ? (
+        {error ? (
+          <ErrorRow message="Couldn't load trending tags." onRetry={handleRetry} />
+        ) : loading ? (
           <TagCloudSkeleton count={8} />
         ) : tags.length === 0 ? (
           <EmptyRow message="No trending tags yet." />
@@ -116,7 +132,9 @@ export function CommunityRightRail() {
 
       {/* Live now */}
       <Tile icon={Radio} title="Live now" accent>
-        {loading ? (
+        {error ? (
+          <ErrorRow message="Couldn't load live sessions." onRetry={handleRetry} />
+        ) : loading ? (
           <LiveRowSkeleton />
         ) : !live ? (
           <EmptyRow
@@ -187,6 +205,35 @@ function EmptyRow({ message, sub }: { message: string; sub?: string }) {
     >
       <p className="text-[12.5px] text-muted-foreground leading-snug">{message}</p>
       {sub && <p className="text-[11px] text-muted-foreground/70 mt-1">{sub}</p>}
+    </div>
+  );
+}
+
+function ErrorRow({
+  message,
+  onRetry,
+}: {
+  message: string;
+  onRetry: () => void;
+}) {
+  return (
+    <div
+      className="rounded-xl border border-dashed border-destructive/30 bg-destructive/[0.03] px-3 py-4 text-center"
+      role="alert"
+      aria-live="polite"
+    >
+      <div className="flex items-center justify-center gap-1.5 mb-2">
+        <AlertCircle className="h-3.5 w-3.5 text-destructive/80" aria-hidden />
+        <p className="text-[12.5px] text-destructive/90 leading-snug font-medium">{message}</p>
+      </div>
+      <Button
+        size="sm"
+        variant="ghost"
+        className="h-7 px-3 text-[11px] text-muted-foreground hover:text-foreground"
+        onClick={onRetry}
+      >
+        Retry
+      </Button>
     </div>
   );
 }
