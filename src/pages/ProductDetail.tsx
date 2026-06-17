@@ -141,10 +141,28 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <AppLayout>
+        <SEO
+          title="Product not found"
+          description="We couldn't find the product you were looking for."
+          noIndex
+          suppressCanonical
+        />
         <MobilePage maxWidth="reading">
-          <div className="py-20 text-center">
-            <h1 className="font-display text-xl font-semibold mb-2">Product not found</h1>
-            <Link to="/shop"><Button>Back to shop</Button></Link>
+          <div className="py-16 text-center space-y-5">
+            <div className="mx-auto h-14 w-14 rounded-2xl bg-muted grid place-items-center">
+              <Package className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <div className="space-y-1.5">
+              <h1 className="font-display text-2xl font-semibold">Product not found</h1>
+              <p className="text-sm text-muted-foreground max-w-sm mx-auto">
+                This item may have been removed or the link is out of date. Try browsing our shop or featured picks.
+              </p>
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <Link to="/shop"><Button variant="outline" className="rounded-full">Back to shop</Button></Link>
+              <Link to="/shop?featured=1"><Button className="rounded-full">Browse featured</Button></Link>
+            </div>
+            <NotFoundSuggestions />
           </div>
         </MobilePage>
       </AppLayout>
