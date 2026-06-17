@@ -196,6 +196,53 @@ export type Database = {
         }
         Relationships: []
       }
+      learner_mastery: {
+        Row: {
+          attempts: number
+          correct_count: number
+          created_at: string
+          hint_count: number
+          id: string
+          last_practiced_at: string
+          mastery_score: number
+          topic_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attempts?: number
+          correct_count?: number
+          created_at?: string
+          hint_count?: number
+          id?: string
+          last_practiced_at?: string
+          mastery_score?: number
+          topic_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attempts?: number
+          correct_count?: number
+          created_at?: string
+          hint_count?: number
+          id?: string
+          last_practiced_at?: string
+          mastery_score?: number
+          topic_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "learner_mastery_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "curriculum_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       product_clicks: {
         Row: {
           clicked_at: string
@@ -409,14 +456,83 @@ export type Database = {
         }
         Relationships: []
       }
+      topic_prerequisites: {
+        Row: {
+          created_at: string
+          id: string
+          prerequisite_topic_id: string
+          topic_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          prerequisite_topic_id: string
+          topic_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          prerequisite_topic_id?: string
+          topic_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topic_prerequisites_prerequisite_topic_id_fkey"
+            columns: ["prerequisite_topic_id"]
+            isOneToOne: false
+            referencedRelation: "curriculum_topics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "topic_prerequisites_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "curriculum_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      get_next_recommended_topic: {
+        Args: never
+        Returns: {
+          chapter: string
+          display_name: string
+          mastery_score: number
+          reason: string
+          slug: string
+          subject: string
+          topic_id: string
+        }[]
+      }
       increment_post_engagement: {
         Args: { _field: string; _post_id: string }
         Returns: undefined
+      }
+      record_mastery_attempt: {
+        Args: { _hint_level?: number; _outcome: number; _topic_id: string }
+        Returns: {
+          attempts: number
+          correct_count: number
+          created_at: string
+          hint_count: number
+          id: string
+          last_practiced_at: string
+          mastery_score: number
+          topic_id: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "learner_mastery"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
     }
     Enums: {
