@@ -105,7 +105,7 @@ const waitForList = async () =>
 describe("Shop category picker — UI integration with fallback catalog", () => {
   it("renders the full storefront (no courses/services) on first load with 'All' active", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
     const kinds = allKinds();
     expect(kinds.length).toBeGreaterThan(0);
     for (const k of kinds) expect(["course", "service"]).not.toContain(k);
@@ -115,7 +115,7 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
 
   it("clicking 'Books' narrows the list to ebooks only", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
     clickCategory(/books/i);
     await waitFor(() => {
       const kinds = allKinds();
@@ -126,7 +126,7 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
 
   it("clicking 'Student Kits' narrows the list to bundles only", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
     clickCategory(/student kits/i);
     await waitFor(() => {
       const kinds = allKinds();
@@ -137,7 +137,7 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
 
   it("clicking 'Courses' on Shop shows the empty state (kind excluded by Shop)", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
     clickCategory(/^courses$/i);
     await waitFor(() => {
       expect(screen.queryByTestId("empty-state")).not.toBeNull();
@@ -148,7 +148,7 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
 
   it("clicking 'AI Tutor' on Shop also shows the empty state (service kind excluded)", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
     clickCategory(/ai tutor/i);
     await waitFor(() => {
       expect(screen.queryByTestId("empty-state")).not.toBeNull();
@@ -157,7 +157,7 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
 
   it("switching back from an empty category to 'All' restores the full list", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
 
     clickCategory(/^courses$/i);
     await waitFor(() => expect(screen.queryByTestId("empty-state")).not.toBeNull());
@@ -172,7 +172,7 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
 
   it("switching from 'Books' directly to 'Student Kits' replaces (not appends) the list", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
 
     clickCategory(/books/i);
     await waitFor(() => expect(allKinds().every((k) => k === "ebook")).toBe(true));
@@ -189,8 +189,8 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
 
   it("the active category button is visually marked when selected", async () => {
     renderHarness();
-    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /books/i })) throw new Error("cats"); });
-    const booksBtn = screen.getByRole("button", { name: /books/i });
+    await waitForList(); await waitFor(() => { if (!screen.queryByRole("button", { name: /Filter by Books/i })) throw new Error("cats"); });
+    const booksBtn = screen.getByRole("button", { name: /Filter by Books/i });
     expect(booksBtn.className).not.toMatch(/gradient-primary/);
     clickCategory(/books/i);
     await waitFor(() => expect(booksBtn.className).toMatch(/gradient-primary/));
