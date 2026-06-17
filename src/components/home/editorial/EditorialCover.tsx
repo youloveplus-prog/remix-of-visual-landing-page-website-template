@@ -7,7 +7,7 @@ import { Reveal } from "@/components/transitions/Reveal";
 import { ParallaxLayer, WordRise } from "./motion-primitives";
 import { EDITORIAL_DELAY, EDITORIAL_PARALLAX } from "./motion";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+
 import { useDotMatrixToggle } from "@/hooks/useDotMatrixToggle";
 import { useState, useCallback } from "react";
 import heroHome from "@/assets/hero-home.jpg";
@@ -67,26 +67,9 @@ export function EditorialCover() {
                 >
                   The calmest place on the internet to learn.
                 </p>
-                <span id="dot-matrix-desc" className="sr-only">
-                  Toggles the dot-matrix flicker effect on the pullquote text
-                </span>
                 <div aria-live="polite" aria-atomic="true" className="sr-only">
                   {liveText}
                 </div>
-                <label
-                  htmlFor="dot-matrix-toggle"
-                  className="mt-3 inline-flex items-center gap-2 cursor-pointer select-none py-2.5 px-1 -mx-1 rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background"
-                >
-                  <Switch
-                    id="dot-matrix-toggle"
-                    checked={dotMatrixEnabled}
-                    onCheckedChange={handleToggle}
-                    aria-describedby="dot-matrix-desc"
-                  />
-                  <span className="text-xs text-muted-foreground font-medium tracking-wide">
-                    Animate
-                  </span>
-                </label>
               </ParallaxLayer>
             </Reveal>
 

@@ -778,6 +778,53 @@ const Auth = () => {
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Secured with bank-grade encryption
                 </div>
+
+                {/* Mobile-only trust + value panel (mirrors desktop aside) */}
+                <div className="lg:hidden pt-4 space-y-5">
+                  <div className="flex items-center justify-center">
+                    <div className="inline-flex items-center gap-2 text-[11.5px] text-muted-foreground rounded-full border border-border bg-card px-3 py-1.5">
+                      <Flame className="h-3.5 w-3.5 text-primary" />
+                      Trusted by 12,400+ learners
+                    </div>
+                  </div>
+
+                  <ul className="grid grid-cols-2 gap-x-4 gap-y-4 rounded-2xl border border-border bg-card/60 backdrop-blur p-4">
+                    {[
+                      { icon: GraduationCap, title: "Expert courses", sub: "200+ lessons" },
+                      { icon: Sparkles, title: "AI tutor", sub: "Bangla + English" },
+                      { icon: BookOpen, title: "Prompt library", sub: "1,000+ prompts" },
+                      { icon: ShieldCheck, title: "Lifetime access", sub: "Yours forever" },
+                    ].map((f) => (
+                      <li key={f.title} className="flex items-start gap-2.5">
+                        <f.icon className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                        <div>
+                          <p className="text-[12.5px] font-medium leading-tight text-foreground">
+                            {f.title}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground mt-0.5">{f.sub}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <figure className="rounded-2xl border border-border bg-card/60 backdrop-blur p-4">
+                    <blockquote className="text-[13px] text-foreground/90 leading-relaxed">
+                      "The AI tutor answered my doubts at 2 a.m. before exams.
+                      Asikon doesn't just teach — it learns with you."
+                    </blockquote>
+                    <figcaption className="flex items-center gap-2.5 mt-3">
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-[#a78bfa] grid place-items-center text-[11px] font-semibold text-white">
+                        S
+                      </div>
+                      <div>
+                        <p className="text-[12px] font-medium text-foreground">Sadia R.</p>
+                        <p className="text-[10.5px] text-muted-foreground">
+                          ML Engineer · Class of 2025
+                        </p>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </div>
               </div>
             )}
           </div>
