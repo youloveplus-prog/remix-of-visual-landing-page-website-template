@@ -102,12 +102,12 @@ function FloatingField({
           aria-describedby={error ? `${id}-err` : hint ? `${id}-hint` : undefined}
           placeholder=" "
           className={cn(
-            "peer w-full rounded-xl bg-card border px-4 pt-5 pb-2 text-[15px] text-foreground",
-            "outline-none transition-colors duration-150",
-            "focus:border-foreground/40",
+            "peer w-full rounded-xl bg-secondary/60 border border-transparent px-4 pt-5 pb-2 text-[15px] text-foreground",
+            "outline-none transition-all duration-200",
+            "focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10",
             error
-              ? "border-destructive/60 focus:border-destructive"
-              : "border-border",
+              ? "border-destructive/60 focus:border-destructive focus:ring-destructive/10"
+              : "",
             trailing && "pr-12",
           )}
         />
@@ -513,12 +513,15 @@ const Auth = () => {
           />
 
           <div className="relative w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
-            {/* Mobile brand */}
-            <div className="lg:hidden flex items-center justify-center gap-2.5 mb-8">
-              <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center p-1.5 shadow-lg shadow-primary/10">
-                <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
+            {/* Mobile brand — bento tile + tagline */}
+            <div className="lg:hidden flex flex-col items-center text-center gap-3 mb-8">
+              <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center p-2.5 shadow-xl shadow-primary/25">
+                <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain brightness-0 invert" />
               </div>
-              <span className="font-display text-[17px] font-semibold tracking-tight">Asikon</span>
+              <div>
+                <h1 className="font-display text-[22px] font-semibold tracking-tight leading-none">Asikon</h1>
+                <p className="text-[12.5px] text-muted-foreground mt-1.5">The future of structured learning.</p>
+              </div>
             </div>
 
             {activeView === "otp" ? (
@@ -550,16 +553,40 @@ const Auth = () => {
               />
             ) : (
               <>
+                {/* Segmented Sign in / Sign up */}
+                <div role="tablist" aria-label="Authentication" className="flex p-1 bg-secondary/70 rounded-2xl mb-6 animate-fade-in">
+                  {(["login", "register"] as const).map((v) => (
+                    <button
+                      key={v}
+                      role="tab"
+                      aria-selected={activeView === v}
+                      type="button"
+                      onClick={() => {
+                        setActiveView(v);
+                        clearErrors();
+                      }}
+                      className={cn(
+                        "flex-1 py-2.5 text-[13px] font-semibold rounded-xl transition-all duration-200",
+                        activeView === v
+                          ? "bg-card text-primary shadow-sm"
+                          : "text-muted-foreground hover:text-foreground",
+                      )}
+                    >
+                      {v === "login" ? "Sign in" : "Sign up"}
+                    </button>
+                  ))}
+                </div>
+
                 {/* Heading */}
-                <div className="mb-7 animate-fade-in">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-primary mb-4">
+                <div className="mb-6 animate-fade-in">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-primary mb-3">
                     <Sparkles className="h-3 w-3" />
                     {activeView === "login" ? "Pick up where you left off" : "100 coins on signup"}
                   </span>
-                  <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
+                  <h2 className="font-display text-[24px] lg:text-[30px] font-semibold tracking-tight leading-[1.1]">
                     {activeView === "login" ? "Welcome back." : "Create your account."}
                   </h2>
-                  <p className="text-muted-foreground text-[14px] mt-2">
+                  <p className="text-muted-foreground text-[13.5px] mt-1.5">
                     {activeView === "login"
                       ? "Continue your learning journey with Asikon."
                       : "Build skills with real projects, in minutes."}
@@ -582,7 +609,7 @@ const Auth = () => {
 
                 <div className="flex items-center gap-3 my-5">
                   <div className="flex-1 h-px bg-border" />
-                  <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground font-medium">
+                  <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-medium">
                     or with email
                   </span>
                   <div className="flex-1 h-px bg-border" />
@@ -757,34 +784,39 @@ const Auth = () => {
               </>
             )}
 
-            {/* Bottom-aligned switch & trust strip */}
+            {/* Bottom-aligned trust strip */}
             {activeView !== "forgot-password" && activeView !== "otp" && (
-              <div className="mt-auto pt-10 lg:pt-12 space-y-5">
-                <p className="text-center text-[13px] text-muted-foreground">
-                  {activeView === "login" ? "New to Asikon?" : "Already a member?"}{" "}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveView(activeView === "login" ? "register" : "login");
-                      clearErrors();
-                    }}
-                    className="font-medium text-foreground underline-offset-4 hover:underline"
-                  >
-                    {activeView === "login" ? "Create an account" : "Sign in"}
-                  </button>
-                </p>
+              <div className="mt-auto pt-8 lg:pt-12 space-y-5">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="flex -space-x-2">
+                    {["from-primary to-[#a78bfa]", "from-amber-300 to-rose-400", "from-emerald-400 to-teal-500"].map((g, i) => (
+                      <div
+                        key={i}
+                        className={cn(
+                          "w-7 h-7 rounded-full border-2 border-background bg-gradient-to-br grid place-items-center text-[10px] font-semibold text-white",
+                          g,
+                        )}
+                      >
+                        {["S", "A", "M"][i]}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[11.5px] text-center leading-relaxed text-muted-foreground max-w-[260px]">
+                    Trusted by <span className="text-foreground font-bold">12,400+</span> learners building real AI skills.
+                  </p>
+                </div>
 
                 <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Secured with bank-grade encryption
                 </div>
 
-                {/* Mobile-only trust + value panel (mirrors desktop aside) */}
-                <div className="lg:hidden pt-4 space-y-5">
+                {/* Mobile-only value panel (mirrors desktop aside) */}
+                <div className="lg:hidden pt-2 space-y-4">
                   <div className="flex items-center justify-center">
                     <div className="inline-flex items-center gap-2 text-[11.5px] text-muted-foreground rounded-full border border-border bg-card px-3 py-1.5">
                       <Flame className="h-3.5 w-3.5 text-primary" />
-                      Trusted by 12,400+ learners
+                      Pick up where you left off
                     </div>
                   </div>
 
