@@ -2,6 +2,10 @@
 // from Fontshare via <link> in index.html. Only the Bengali stack and a
 // monospaced fallback remain here, loaded conditionally below.
 import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/dm-serif-display/400.css";
+import "@fontsource/fira-sans/300.css";
+import "@fontsource/fira-sans/400.css";
+import "@fontsource/fira-sans/500.css";
 
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
