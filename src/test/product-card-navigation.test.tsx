@@ -14,7 +14,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, within, fireEvent } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { createElement } from "react";
-import "@testing-library/jest-dom/vitest";
 
 // ProductCard pulls in QuickView → cart hooks → currency. Stub the heavy
 // dependents so we can render the card in isolation.
