@@ -54,7 +54,7 @@ const forgotSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
 
-type AuthView = "login" | "register" | "forgot-password";
+type AuthView = "login" | "register" | "forgot-password" | "otp";
 
 // ---- Floating-label themed input -----------------------------------------
 interface FloatingFieldProps {
