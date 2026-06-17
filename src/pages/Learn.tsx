@@ -56,6 +56,9 @@ export default function Learn() {
         {/* Today's mission */}
         <TodayMissionCard />
 
+        {/* Mastery-driven next topic */}
+        {user && <NextTopicCard />}
+
         {/* Progress strip (signed-in only) */}
         {user && (
           <MobileCard variant="glass" className="space-y-3">
