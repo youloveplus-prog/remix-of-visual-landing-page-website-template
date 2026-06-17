@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useContentItem, useMyPurchases, getSignedAssetUrl } from "@/hooks/useContent";
@@ -12,6 +12,7 @@ import { SEO } from "@/components/SEO";
 import { Lock, Play, FileText, Download } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { resolveContentRoute } from "@/lib/contentRouting";
 
 export default function ContentDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -21,6 +22,11 @@ export default function ContentDetail() {
   const { data: purchases = [] } = useMyPurchases();
   const { data: enrollments = [] } = useEnrollments();
   const enrollMutation = useEnrollInCourse();
+
+  // Guard: /content/:slug serves digital downloads & services only. A course
+  // slug opened here should canonically live at /courses/:slug.
+  const redirectTo = resolveContentRoute("content", item?.kind, slug ?? "");
+  if (redirectTo) return <Navigate to={redirectTo} replace />;
 
   const owned = !!item && (item.is_free || purchases.some((p: any) => p.item_id === item.id));
   const enrolled = !!item && enrollments.some((e) => e.item_id === item.id);

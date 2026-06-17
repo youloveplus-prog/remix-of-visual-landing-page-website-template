@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Navigate, useParams, Link } from "react-router-dom";
+import { resolveContentRoute } from "@/lib/contentRouting";
 import {
   Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Zap, ShieldCheck,
   Play, CheckCircle2, Award, Users, Globe, Infinity as InfinityIcon, ArrowLeft,
@@ -86,6 +87,15 @@ const ProductDetail = () => {
   const { toast } = useToast();
   const { data: product, isLoading } = useProduct(slug || "");
   const { data: relatedProducts } = useProducts({ limit: 8 });
+
+  // Guard: /product/:slug is for storefront SKUs only. Course/service slugs
+  // that somehow land here are forwarded to their canonical detail route.
+  const productRedirect = resolveContentRoute(
+    "product",
+    (product as any)?.kind,
+    slug || "",
+  );
+  if (productRedirect) return <Navigate to={productRedirect} replace />;
   const addToCart = useAddToCart();
 
   const [selectedImage, setSelectedImage] = useState(0);
