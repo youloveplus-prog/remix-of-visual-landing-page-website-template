@@ -7,7 +7,7 @@ import { Reveal } from "@/components/transitions/Reveal";
 import { ParallaxLayer, WordRise } from "./motion-primitives";
 import { EDITORIAL_DELAY, EDITORIAL_PARALLAX } from "./motion";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
+
 import { useDotMatrixToggle } from "@/hooks/useDotMatrixToggle";
 import { useState, useCallback } from "react";
 import heroHome from "@/assets/hero-home.jpg";
