@@ -171,6 +171,33 @@ Deno.serve(async (req) => {
         if (Object.keys(threadPatch).length > 0) {
           await supabase.from("ai_threads").update(threadPatch).eq("id", threadId);
         }
+
+        // Mastery update: when the assistant tags a known curriculum topic,
+        // record an attempt against the learner's mastery for that topic.
+        // Outcome heuristic blends Socratic step with hint level:
+        //   check step + low hint  → strong positive signal
+        //   try step              → moderate signal
+        //   plan/understand       → weak signal (still keeps last_practiced_at fresh)
+        if (topic_hint) {
+          const { data: topic } = await supabase
+            .from("curriculum_topics")
+            .select("id")
+            .eq("slug", topic_hint)
+            .maybeSingle();
+          if (topic?.id) {
+            const h = hint_level ?? 0;
+            let outcome = 0.3;
+            if (socratic_step === "check") outcome = Math.max(0, 0.95 - h * 0.12);
+            else if (socratic_step === "try") outcome = Math.max(0, 0.6 - h * 0.08);
+            else if (socratic_step === "plan") outcome = 0.4;
+            else if (socratic_step === "understand") outcome = 0.25;
+            await supabase.rpc("record_mastery_attempt", {
+              _topic_id: topic.id,
+              _outcome: outcome,
+              _hint_level: h,
+            });
+          }
+        }
       },
     });
   } catch (err) {
