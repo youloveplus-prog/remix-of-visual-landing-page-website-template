@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { mockProducts } from "@/lib/mock-data";
 import { readCache, writeCache, cacheKey } from "@/lib/query-cache";
 import { CATEGORY_KIND_FALLBACK } from "@/hooks/useCategories";
+import { resolveProductImageUrls } from "@/lib/storage-urls";
 import type { ProductKind } from "@/types";
 
 // Fallback products shaped to match the Supabase `products` table.
@@ -183,6 +184,7 @@ export function useProducts(options: UseProductsOptions = {}) {
         writeCache(ck, out);
         return out;
       }
+      await resolveProductImageUrls(data!);
       writeCache(ck, data!);
       return data!;
     },
@@ -206,7 +208,10 @@ export function useProduct(slug: string) {
       const isMissingTable =
         error && (error.code === "42P01" || error.code === "PGRST205");
       if (error && !isMissingTable) throw error;
-      if (data) return data;
+      if (data) {
+        await resolveProductImageUrls([data]);
+        return data;
+      }
 
       if (import.meta.env.DEV && isMissingTable) {
         // eslint-disable-next-line no-console
