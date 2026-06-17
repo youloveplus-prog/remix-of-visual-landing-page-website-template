@@ -25,7 +25,7 @@ export function FeatureStory() {
   return (
     <Spread label="Feature">
       <Reveal>
-        <article className="relative overflow-hidden rounded-2xl sm:rounded-[32px] border border-foreground/10 bg-card shadow-[0_1px_0_hsl(var(--foreground)/0.04),0_30px_60px_-40px_hsl(var(--primary)/0.35)]">
+        <article className="relative overflow-hidden rounded-2xl sm:rounded-[32px] border border-foreground/12 bg-card shadow-[inset_0_1px_0_hsl(var(--foreground)/0.06),0_30px_60px_-40px_hsl(var(--primary)/0.35)]">
 
           <div className="grid lg:grid-cols-[1.05fr_1fr] gap-0 lg:gap-0 mt-3 sm:mt-6">
             {/* Image side */}
