@@ -578,8 +578,8 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           Hi, I'm Asikon AI
         </h1>
         <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
-          Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
-          I'll explain in English or Bangla, whichever helps.
+          Show me what you've tried — I'll guide you, not just hand over the answer.
+          Bangla or English, your call. Tap the mic if you'd rather speak.
         </p>
       </div>
 
