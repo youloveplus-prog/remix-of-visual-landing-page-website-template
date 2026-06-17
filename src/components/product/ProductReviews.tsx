@@ -1,93 +1,59 @@
 import { useMemo, useState } from "react";
-import { Star, ThumbsUp, CheckCircle2, Image as ImageIcon } from "lucide-react";
+import { Star, ThumbsUp, CheckCircle2, Image as ImageIcon, Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-
-interface Review {
-  id: string;
-  userName: string;
-  userAvatar?: string;
-  rating: number;
-  title: string;
-  content: string;
-  images?: string[];
-  isVerifiedPurchase: boolean;
-  helpfulCount: number;
-  createdAt: string;
-}
+import {
+  useProductReviews,
+  type ReviewRatingFilter,
+  type ReviewSortBy,
+} from "@/hooks/useProductReviews";
 
 interface ProductReviewsProps {
-  reviews: Review[];
+  productId: string;
   averageRating: number;
   totalReviews: number;
   ratingDistribution: { stars: number; count: number }[];
 }
 
-type RatingFilter = "all" | 5 | 4 | 3 | 2 | 1;
-type SortBy = "top" | "newest";
-
-// Parse a relative ("2 days ago") or ISO timestamp into a sortable number.
-// Newer => larger. Unknown formats return 0 so they sink to the bottom of
-// "Newest" without throwing.
-function reviewRecency(createdAt: string): number {
-  const iso = Date.parse(createdAt);
-  if (!Number.isNaN(iso)) return iso;
-  const m = createdAt.match(/(\d+)\s*(minute|hour|day|week|month|year)s?\s*ago/i);
-  if (!m) return 0;
-  const n = Number(m[1]);
-  const unit = m[2].toLowerCase();
-  const ms: Record<string, number> = {
-    minute: 60_000,
-    hour: 3_600_000,
-    day: 86_400_000,
-    week: 7 * 86_400_000,
-    month: 30 * 86_400_000,
-    year: 365 * 86_400_000,
-  };
-  return Date.now() - n * (ms[unit] ?? 0);
+function formatRelative(iso: string): string {
+  const t = Date.parse(iso);
+  if (Number.isNaN(t)) return iso;
+  const diff = Date.now() - t;
+  const day = 86_400_000;
+  if (diff < day) return "Today";
+  if (diff < 2 * day) return "Yesterday";
+  if (diff < 30 * day) return `${Math.floor(diff / day)} days ago`;
+  if (diff < 365 * day) return `${Math.floor(diff / (30 * day))} months ago`;
+  return `${Math.floor(diff / (365 * day))} years ago`;
 }
 
 export function ProductReviews({
-  reviews,
+  productId,
   averageRating,
   totalReviews,
   ratingDistribution,
 }: ProductReviewsProps) {
   const maxCount = Math.max(...ratingDistribution.map((r) => r.count), 1);
-  const [ratingFilter, setRatingFilter] = useState<RatingFilter>("all");
+  const [ratingFilter, setRatingFilter] = useState<ReviewRatingFilter>("all");
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [withPhotos, setWithPhotos] = useState(false);
-  const [sortBy, setSortBy] = useState<SortBy>("top");
+  const [sortBy, setSortBy] = useState<ReviewSortBy>("top");
+
+  const { reviews, loading, error } = useProductReviews({
+    productId,
+    sortBy,
+    ratingFilter,
+    verifiedOnly,
+    withPhotos,
+  });
 
   const verifiedCount = useMemo(
     () => reviews.filter((r) => r.isVerifiedPurchase).length,
     [reviews],
   );
-
-  const filtered = useMemo(() => {
-    const list = reviews.filter((r) => {
-      if (ratingFilter !== "all" && r.rating !== ratingFilter) return false;
-      if (verifiedOnly && !r.isVerifiedPurchase) return false;
-      if (withPhotos && (!r.images || r.images.length === 0)) return false;
-      return true;
-    });
-    const sorted = [...list];
-    if (sortBy === "top") {
-      sorted.sort(
-        (a, b) =>
-          b.helpfulCount - a.helpfulCount ||
-          reviewRecency(b.createdAt) - reviewRecency(a.createdAt),
-      );
-    } else {
-      sorted.sort(
-        (a, b) => reviewRecency(b.createdAt) - reviewRecency(a.createdAt),
-      );
-    }
-    return sorted;
-  }, [reviews, ratingFilter, verifiedOnly, withPhotos, sortBy]);
 
   const chip = (active: boolean) =>
     cn(
@@ -121,9 +87,7 @@ export function ProductReviews({
             </div>
             <p className="text-[12px] text-muted-foreground mt-1">
               Based on {totalReviews.toLocaleString()} reviews
-              {verifiedCount > 0 && (
-                <> · {verifiedCount} verified</>
-              )}
+              {verifiedCount > 0 && <> · {verifiedCount} verified</>}
             </p>
           </div>
         </div>
@@ -137,7 +101,7 @@ export function ProductReviews({
                 key={item.stars}
                 type="button"
                 onClick={() =>
-                  setRatingFilter(active ? "all" : (item.stars as RatingFilter))
+                  setRatingFilter(active ? "all" : (item.stars as ReviewRatingFilter))
                 }
                 className={cn(
                   "w-full flex items-center gap-2 rounded-lg px-1.5 py-0.5 transition-colors text-left",
@@ -191,14 +155,14 @@ export function ProductReviews({
             );
           })}
         </div>
-        <p className="text-[12px] text-muted-foreground tabular-nums">
-          Showing {filtered.length} of {reviews.length}
+        <p className="text-[12px] text-muted-foreground tabular-nums flex items-center gap-1.5">
+          {loading && <Loader2 className="h-3 w-3 animate-spin" />}
+          Showing {reviews.length}
         </p>
       </div>
 
       {/* Filter chips */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-1 px-1">
-
         <button
           type="button"
           onClick={() => {
@@ -241,12 +205,17 @@ export function ProductReviews({
 
       {/* Review List */}
       <div className="space-y-4">
-        {filtered.length === 0 ? (
+        {error && (
+          <p className="text-[13px] text-destructive py-6 text-center">
+            Could not load reviews: {error}
+          </p>
+        )}
+        {!error && reviews.length === 0 ? (
           <p className="text-[13px] text-muted-foreground py-6 text-center">
-            No reviews match these filters yet.
+            {loading ? "Loading reviews…" : "No reviews match these filters yet."}
           </p>
         ) : (
-          filtered.map((review) => (
+          reviews.map((review) => (
             <article
               key={review.id}
               className="p-4 rounded-2xl bg-card border border-border/50"
@@ -281,7 +250,7 @@ export function ProductReviews({
                       ))}
                     </div>
                     <span className="text-xs text-muted-foreground">
-                      {review.createdAt}
+                      {formatRelative(review.createdAt)}
                     </span>
                   </div>
                 </div>
