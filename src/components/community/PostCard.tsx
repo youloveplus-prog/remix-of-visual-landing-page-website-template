@@ -147,7 +147,7 @@ function ImageCollage({ images, hasShopTag }: { images: string[]; hasShopTag: bo
         <SmartImage
           src={images[0]}
           alt="Post image"
-          className="w-full aspect-[4/5] sm:aspect-[16/11] object-cover"
+          className="w-full aspect-[4/3] sm:aspect-[16/11] object-cover"
         />
         {shopTag}
       </div>
