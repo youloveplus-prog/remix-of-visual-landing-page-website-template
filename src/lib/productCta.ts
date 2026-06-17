@@ -158,13 +158,13 @@ const KIND_FROM_PRODUCT_KIND: Record<string, ProductCtaKind> = {
 };
 
 const NAME_KEYWORDS: Array<[RegExp, ProductCtaKind]> = [
-  [/\b(course|masterclass|bootcamp|specialization|workshop)\b/i, "course"],
-  [/\b(book|hardcover|edition|guide|handbook|cookbook|ebook)\b/i, "book"],
-  [/\b(prompt|prompts|prompt pack)\b/i, "prompt"],
+  [/\b(courses?|masterclass|bootcamp|specialization|workshop)\b/i, "course"],
+  [/\b(books?|hardcover|edition|guides?|handbook|cookbook|ebooks?)\b/i, "book"],
+  [/\b(prompts?|prompt pack)\b/i, "prompt"],
   [/\b(ai tutor|tutor)\b/i, "ai-tutor"],
-  [/\b(kit|starter kit|toolkit)\b/i, "kit"],
-  [/\b(gadget|hardware|board|kit|sensor|device)\b/i, "gadget"],
-  [/\b(mentor|mentorship|coaching)\b/i, "mentorship"],
+  [/\b(kits?|starter kit|toolkit)\b/i, "kit"],
+  [/\b(gadgets?|hardware|board|sensor|device)\b/i, "gadget"],
+  [/\b(mentors?|mentorship|coaching)\b/i, "mentorship"],
 ];
 
 export interface ProductLike {
