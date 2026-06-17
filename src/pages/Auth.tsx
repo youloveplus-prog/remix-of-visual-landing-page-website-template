@@ -521,7 +521,19 @@ const Auth = () => {
               <span className="font-display text-[17px] font-semibold tracking-tight">Asikon</span>
             </div>
 
-            {activeView === "forgot-password" ? (
+            {activeView === "otp" ? (
+              <OtpVerification
+                email={otpEmail}
+                loading={otpLoading}
+                error={otpError}
+                onVerify={handleVerifyOtp}
+                onResend={handleResendOtp}
+                onBack={() => {
+                  setActiveView("register");
+                  setOtpError(null);
+                }}
+              />
+            ) : activeView === "forgot-password" ? (
               <ForgotPasswordView
                 email={forgotEmail}
                 setEmail={setForgotEmail}
