@@ -128,6 +128,13 @@ const ProductDetail = () => {
     limit: 8,
     excludeKinds: ["course", "service"],
   });
+  const notFoundHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (product === null && notFoundHeadingRef.current) {
+      notFoundHeadingRef.current.focus();
+    }
+  }, [product]);
 
   // Guard: /product/:slug is for storefront SKUs only. Course/service slugs
   // that somehow land here are forwarded to their canonical detail route.
