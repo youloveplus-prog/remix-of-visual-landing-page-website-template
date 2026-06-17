@@ -110,7 +110,7 @@ export function CommunityCarousel({
       </header>
 
       {/* Carousel body */}
-      <div className="relative mt-6">
+      <div className="relative mt-4 md:mt-6">
         <div
           aria-hidden
           className="hidden lg:block pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-background to-transparent"
@@ -184,7 +184,7 @@ function SkeletonRow() {
           key={i}
           className="flex-[0_0_100%] sm:flex-[0_0_85%] md:flex-[0_0_60%] lg:flex-[0_0_calc(50%-10px)] min-w-0"
         >
-          <div className="h-[520px] rounded-2xl bg-muted/40 animate-pulse" />
+          <div className="h-[360px] sm:h-[440px] md:h-[520px] rounded-2xl bg-muted/40 animate-pulse" />
         </div>
       ))}
     </div>
