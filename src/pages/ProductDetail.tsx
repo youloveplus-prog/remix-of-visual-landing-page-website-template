@@ -86,26 +86,36 @@ function NotFoundSuggestions() {
   const { data: featured } = useProducts({ featured: true, limit: 4, excludeKinds: ["course", "service"] });
   if (!featured || featured.length === 0) return null;
   return (
-    <div className="pt-6 text-left">
-      <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center">
+    <section aria-labelledby="not-found-suggestions-title" className="pt-6 text-left">
+      <h2
+        id="not-found-suggestions-title"
+        className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center"
+      >
         You might like
-      </p>
-      <div className="grid grid-cols-2 gap-3">
+      </h2>
+      <ul role="list" className="grid grid-cols-2 gap-3">
         {featured.slice(0, 4).map((p: any) => (
-          <Link
-            key={p.id}
-            to={`/product/${p.slug}`}
-            className="rounded-2xl border border-border/60 bg-card p-3 hover:border-border transition-colors active:opacity-70"
-          >
-            <div className="aspect-square rounded-xl bg-muted overflow-hidden mb-2">
-              <img src={p.image_url || "/placeholder.svg"} alt="" className="w-full h-full object-cover" />
-            </div>
-            <p className="text-[12.5px] font-medium leading-tight line-clamp-2">{p.name}</p>
-            <Price amount={p.price} className="text-[13px] font-semibold mt-1 block" />
-          </Link>
+          <li key={p.id}>
+            <Link
+              to={`/product/${p.slug}`}
+              aria-label={`View ${p.name}`}
+              className="block rounded-2xl border border-border/60 bg-card p-3 hover:border-border transition-colors active:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <div className="aspect-square rounded-xl bg-muted overflow-hidden mb-2">
+                <img
+                  src={p.image_url || "/placeholder.svg"}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-[12.5px] font-medium leading-tight line-clamp-2">{p.name}</p>
+              <Price amount={p.price} className="text-[13px] font-semibold mt-1 block" />
+            </Link>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </section>
   );
 }
 
