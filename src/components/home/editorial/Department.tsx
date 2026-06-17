@@ -16,6 +16,10 @@ interface DepartmentProps {
  * Department — transparent wrapper. Inner sections own their titles, so the
  * department-level heading is intentionally not rendered to avoid duplicates.
  */
-export function Department({ children, className }: DepartmentProps) {
-  return <div className={cn("w-full", className)}>{children}</div>;
+export function Department({ children, className, name }: DepartmentProps) {
+  return (
+    <div className={cn("w-full", className)} data-department-name={name}>
+      {children}
+    </div>
+  );
 }
