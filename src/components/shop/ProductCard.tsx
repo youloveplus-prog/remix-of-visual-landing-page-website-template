@@ -24,6 +24,7 @@ import { SmartImage } from "@/components/ui/smart-image";
 import { Price } from "@/lib/currency";
 import { ProductQuickView } from "./ProductQuickView";
 import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
+import { logProductClick } from "@/lib/productAnalytics";
 
 const ICON_BY_NAME: Record<ProductCtaIcon, LucideIcon> = {
   "graduation-cap": GraduationCap,
