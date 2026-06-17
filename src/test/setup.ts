@@ -25,9 +25,7 @@ class NoopObserver {
   disconnect() {}
   takeRecords() { return []; }
 }
-if (!(globalThis as any).IntersectionObserver) {
-  (globalThis as any).IntersectionObserver = NoopObserver as any;
-}
-if (!(globalThis as any).ResizeObserver) {
-  (globalThis as any).ResizeObserver = NoopObserver as any;
+for (const target of [globalThis, typeof window !== "undefined" ? window : null].filter(Boolean) as any[]) {
+  if (!target.IntersectionObserver) target.IntersectionObserver = NoopObserver;
+  if (!target.ResizeObserver) target.ResizeObserver = NoopObserver;
 }
