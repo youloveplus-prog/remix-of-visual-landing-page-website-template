@@ -43,7 +43,7 @@ export function AiAssistantBox() {
             <img
               src={logoImg}
               alt="Asikon"
-              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl object-contain shrink-0"
+              className="w-[clamp(2.5rem,calc(4vw+0.5rem),4rem)] h-[clamp(2.5rem,calc(4vw+0.5rem),4rem)] rounded-xl object-contain shrink-0"
             />
             <div className="min-w-0">
               <h2
