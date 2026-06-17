@@ -87,6 +87,14 @@ const ProductDetail = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const { data: product, isLoading } = useProduct(slug || "");
+  const { data: relatedProducts } = useProducts({
+    limit: 8,
+    excludeKinds: ["course", "service"],
+  });
+  const { slug } = useParams();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const { data: product, isLoading } = useProduct(slug || "");
   const { data: relatedProducts } = useProducts({ limit: 8 });
 
   // Guard: /product/:slug is for storefront SKUs only. Course/service slugs
