@@ -758,7 +758,7 @@ const Auth = () => {
             )}
 
             {/* Bottom-aligned switch & trust strip */}
-            {activeView !== "forgot-password" && (
+            {activeView !== "forgot-password" && activeView !== "otp" && (
               <div className="mt-auto pt-10 lg:pt-12 space-y-5">
                 <p className="text-center text-[13px] text-muted-foreground">
                   {activeView === "login" ? "New to Asikon?" : "Already a member?"}{" "}
