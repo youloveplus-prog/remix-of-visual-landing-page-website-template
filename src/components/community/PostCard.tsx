@@ -1,5 +1,6 @@
 import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, Bookmark, BadgeCheck } from "lucide-react";
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo, useState, type MouseEvent } from "react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -7,16 +8,30 @@ import { SmartImage } from "@/components/ui/smart-image";
 
 interface PostCardProps {
   post: Post;
+  /** When provided, the whole card becomes a link. Inner actions stay interactive. */
+  href?: string;
 }
 
-function PostCardImpl({ post }: PostCardProps) {
+function PostCardImpl({ post, href }: PostCardProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked || false);
   const [likes, setLikes] = useState(post.likes);
   const [saved, setSaved] = useState(false);
 
-  const handleLike = () => {
+  const stop = (e: MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleLike = (e: MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     setIsLiked(!isLiked);
     setLikes(isLiked ? likes - 1 : likes + 1);
+  };
+
+  const handleSave = (e: MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setSaved((s) => !s);
   };
 
   // Normalize to a single images array; supports legacy `image` field
@@ -26,15 +41,13 @@ function PostCardImpl({ post }: PostCardProps) {
     return [];
   }, [post.images, post.image]);
 
-  return (
-    <article
-      className={cn(
-        "group/post mx-auto w-full max-w-[640px]",
-        "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
-        "transition-shadow duration-200",
-        "sm:hover:shadow-[var(--shadow-md)]"
-      )}
-    >
+  const articleClass = cn(
+    "group/post mx-auto w-full max-w-[640px]",
+    "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
+    "transition-shadow duration-200",
+    "sm:hover:shadow-[var(--shadow-md)]",
+    href && "focus-within:ring-2 focus-within:ring-ring",
+  );
       {/* Header */}
       <header className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3 min-w-0">
