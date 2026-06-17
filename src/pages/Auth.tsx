@@ -368,15 +368,6 @@ const Auth = () => {
   const handleOAuth = async (provider: "google" | "github") => {
     setOauthLoading(provider);
     try {
-      if (provider === "google") {
-        const { lovable } = await import("@/integrations/lovable/index");
-        const result = await lovable.auth.signInWithOAuth("google", {
-          redirect_uri: `${window.location.origin}${redirectTo}`,
-        });
-        if (result.error) throw new Error(result.error.message || "Google sign-in failed");
-        if (result.redirected) return;
-        return;
-      }
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: { redirectTo: `${window.location.origin}${redirectTo}` },
