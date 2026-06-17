@@ -110,8 +110,9 @@ describe("Auth page — supabase.auth integration", () => {
 
     // OTP screen should mount
     await waitFor(() =>
-      expect(screen.getByText(/verify|verification|enter.*code/i)).toBeTruthy(),
+      expect(screen.getByText(/6-digit code/i)).toBeTruthy(),
     );
+
   });
 
   it("OTP verify calls supabase.auth.verifyOtp with type 'signup'", async () => {
