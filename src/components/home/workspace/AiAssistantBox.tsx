@@ -43,12 +43,12 @@ export function AiAssistantBox() {
             <img
               src={logoImg}
               alt="Asikon"
-              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl object-contain shrink-0"
+              className="w-[clamp(3rem,calc(6vw_+_0.5rem),4rem)] h-[clamp(3rem,calc(6vw_+_0.5rem),4rem)] rounded-xl object-contain shrink-0"
             />
             <div className="min-w-0">
               <h2
                 style={{ fontFamily: SERIF }}
-                className="text-xl sm:text-2xl md:text-3xl tracking-tight leading-none text-[#0d0d0d] dark:text-[#f5f3ee]"
+                className="text-xl sm:text-2xl md:text-3xl tracking-tight leading-none text-[#0d0d0d] dark:text-[#f5f3ee] whitespace-nowrap"
               >
                 {"Asikon AI".split("").map((ch, i) => (
                   <span
