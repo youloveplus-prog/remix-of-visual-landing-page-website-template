@@ -208,8 +208,11 @@ const ProductDetail = () => {
     : 0;
 
   const name = product.name || "";
-  const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
-  const isBook = /book|hardcover|edition/i.test(name);
+  const kind = (product as any).kind as string | undefined;
+  const isCourse = kind === "course" || /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
+  const isBook = kind === "ebook" || /book|hardcover|edition/i.test(name);
+  // Digital-only kinds never need size/color selectors.
+  const isDigitalOnly = isCourse || isBook || kind === "service" || kind === "bundle";
   const cta = getProductCta({ name, categoryName: (product as any).category ?? undefined });
   const CtaIcon = PRODUCT_CTA_ICON[cta.icon] ?? ShoppingCart;
 
