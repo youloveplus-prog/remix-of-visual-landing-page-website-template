@@ -46,20 +46,12 @@ export function AiAssistantBox() {
             alt="Asikon"
             className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl object-contain"
           />
-          <div className="flex items-baseline gap-2 animate-fade-in">
-            <h2
-              style={{ fontFamily: SERIF }}
-              className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-[#0d0d0d] dark:text-[#f5f3ee]"
-            >
-              Asikon AI
-            </h2>
-            <span
-              style={{ fontFamily: SANS }}
-              className="text-[10px] sm:text-xs uppercase tracking-[0.15em] opacity-60 text-[#2d2d2d] dark:text-[#c8c4bc]"
-            >
-              Bilingual Tutor Assistant
-            </span>
-          </div>
+          <h2
+            style={{ fontFamily: SERIF }}
+            className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-[#0d0d0d] dark:text-[#f5f3ee] animate-fade-in"
+          >
+            Asikon AI
+          </h2>
         </div>
 
         {/* Greeting */}
