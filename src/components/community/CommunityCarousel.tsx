@@ -179,6 +179,87 @@ export function CommunityCarousel({
   );
 }
 
+const MemoPostCard = React.memo(PostCard);
+
+function PostSlides({
+  posts,
+  viewAllHref,
+  postsOverride,
+  isNew,
+}: {
+  posts: Post[];
+  viewAllHref: string;
+  postsOverride: Post[] | undefined;
+  isNew: (id: string) => boolean;
+}) {
+  return (
+    <>
+      {posts.map((post) => {
+        const fresh = !postsOverride && isNew(post.id);
+        return (
+          <div
+            key={post.id}
+            className={cn(
+              SLIDE_CLASS,
+              "relative",
+              fresh && "animate-in fade-in slide-in-from-left-4 duration-500",
+            )}
+          >
+            {fresh && (
+              <span className="absolute top-3 left-3 z-20 inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[9px] font-mono uppercase tracking-[0.18em] text-primary-foreground shadow-md pointer-events-none">
+                <Sparkles className="h-2.5 w-2.5" />
+                New
+              </span>
+            )}
+            <MemoPostCard post={post} href={`${viewAllHref}?post=${post.id}`} />
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+function MobileControls({
+  emblaApi,
+  snaps,
+  selected,
+  canPrev,
+  canNext,
+}: {
+  emblaApi: ReturnType<typeof useEmblaCarousel>[1];
+  snaps: number[];
+  selected: number;
+  canPrev: boolean;
+  canNext: boolean;
+}) {
+  const onDotClick = useCallback(
+    (i: number) => emblaApi?.scrollTo(i),
+    [emblaApi],
+  );
+  const onPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const onNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="mt-4 flex items-center justify-between gap-3 md:hidden">
+      <ArrowBtn dir="prev" disabled={!canPrev} onClick={onPrev} />
+      <div className="flex items-center gap-1.5">
+        {snaps.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Go to slide ${i + 1}`}
+            onClick={() => onDotClick(i)}
+            className={cn(
+              "h-1.5 rounded-full transition-all duration-300",
+              i === selected ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground/40",
+            )}
+          />
+        ))}
+      </div>
+      <ArrowBtn dir="next" disabled={!canNext} onClick={onNext} />
+    </div>
+  );
+}
+
 function SkeletonRow() {
   return (
     <div className="flex gap-3 sm:gap-4 lg:gap-5">
