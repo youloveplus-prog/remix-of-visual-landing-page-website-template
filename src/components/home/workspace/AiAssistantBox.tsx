@@ -66,9 +66,9 @@ export function AiAssistantBox() {
         <div className="mb-6 sm:mb-8 text-center">
           <p
             style={{ fontFamily: SANS }}
-            className="text-2xl sm:text-3xl md:text-4xl font-light leading-relaxed font-bangla text-[#0d0d0d] dark:text-[#f5f3ee]"
+            className="text-2xl sm:text-3xl md:text-4xl font-light leading-relaxed text-[#0d0d0d] dark:text-[#f5f3ee]"
           >
-            আসসালামু আলাইকুম!
+            Assalamu Alaikum!
           </p>
           <p
             style={{ fontFamily: SANS }}
