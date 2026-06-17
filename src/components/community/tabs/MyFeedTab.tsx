@@ -42,31 +42,24 @@ export function MyFeedTab() {
   });
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       <FeedStoriesRail />
 
       {isLoading ? (
-        <div className="space-y-5">
-          {[1, 2, 3].map((i) => <FeedSkeleton key={i} />)}
-        </div>
+        <SkeletonList count={3}>
+          <FeedCardSkeleton />
+        </SkeletonList>
       ) : isError ? (
-        <div className="mx-auto max-w-[640px] py-12 text-center space-y-3">
-          <p className="text-sm text-muted-foreground">Could not load feed. Try again.</p>
-          <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
-        </div>
+        <CommunityError message="Could not load feed." onRetry={() => refetch()} />
       ) : items.length === 0 ? (
-        <div className="mx-auto max-w-[640px] py-16 text-center space-y-4">
-          <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
-            <Sparkles className="h-6 w-6 text-muted-foreground" />
-          </div>
-          <div>
-            <h3 className="font-display font-semibold text-base">Your feed is empty</h3>
-            <p className="text-sm text-muted-foreground mt-1">Be the first to share something with the community.</p>
-          </div>
-          <Button onClick={() => navigate("/community/create")}>Create a post</Button>
-        </div>
+        <CommunityEmpty
+          icon={Sparkles}
+          title="Your feed is empty"
+          description="Be the first to share something with the community."
+          action={{ label: "Create a post", onClick: () => navigate("/community/create") }}
+        />
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           {displayedItems.map((item, index) => (
             <FeedItemRenderer
               key={item._loopKey ?? `${item.id}-${index}`}
