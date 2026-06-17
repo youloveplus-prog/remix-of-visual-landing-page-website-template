@@ -389,7 +389,7 @@ const Shop = () => {
                               reviews: product.review_count || 0,
                               isNew: false,
                               isTrending: product.is_featured || false,
-                              kind: detectKind(product.name),
+                              kind: ((product as any).kind as "course" | "ebook" | "service" | "bundle") ?? detectKind(product.name),
                               enrollmentCount: (product as any).enrollment_count ?? undefined,
                               instructorVerified: (product as any).instructor_verified ?? undefined,
                             }}
