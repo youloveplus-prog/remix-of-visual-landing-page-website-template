@@ -162,7 +162,7 @@ const Shop = () => {
     isNew: false,
     isTrending: p.is_featured || false,
     slug: p.slug,
-    kind: detectKind(p.name),
+    kind: (p.kind as "course" | "ebook" | "service" | "bundle") ?? detectKind(p.name),
   });
 
   const featuredItems = useMemo(
