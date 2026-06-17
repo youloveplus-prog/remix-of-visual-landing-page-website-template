@@ -192,6 +192,7 @@ const ProductDetail = () => {
           suppressCanonical
         />
         <MobilePage maxWidth="reading">
+          <NotFoundFocus />
           <section
             role="alert"
             aria-live="assertive"
@@ -207,7 +208,11 @@ const ProductDetail = () => {
               <Package className="h-6 w-6 text-muted-foreground" />
             </div>
             <div className="space-y-1.5">
-              <h1 id="product-not-found-title" className="font-display text-2xl font-semibold">
+              <h1
+                id="product-not-found-title"
+                tabIndex={-1}
+                className="font-display text-2xl font-semibold outline-none"
+              >
                 Product not found
               </h1>
               <p id="product-not-found-desc" className="text-sm text-muted-foreground max-w-sm mx-auto">
