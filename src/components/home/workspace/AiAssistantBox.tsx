@@ -42,35 +42,35 @@ export function AiAssistantBox() {
   return (
     <section className="section-x">
       <div
-        className="relative w-full max-w-md mx-auto rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
+        className="relative w-full mx-auto rounded-[1.75rem] sm:rounded-[2rem] p-6 sm:p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)] max-w-md md:max-w-xl lg:max-w-2xl"
         style={{
           backgroundColor: SURFACE,
           border: `1px solid ${HAIRLINE}`,
         }}
       >
         {/* Identity */}
-        <div className="flex flex-col items-center mb-8">
+        <div className="flex flex-col items-center mb-6 sm:mb-8">
           <div
-            className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
+            className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center mb-3 sm:mb-4"
             style={{ backgroundColor: DEEP }}
             aria-hidden
           >
             <span
               style={{ fontFamily: SERIF, color: SURFACE }}
-              className="text-2xl leading-none"
+              className="text-xl sm:text-2xl md:text-3xl leading-none"
             >
               A
             </span>
           </div>
           <h2
             style={{ fontFamily: SERIF, color: DEEP }}
-            className="text-2xl tracking-tight text-center"
+            className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-center"
           >
             Asikon AI
           </h2>
           <p
             style={{ fontFamily: SANS, color: INK }}
-            className="text-[10px] uppercase tracking-[0.2em] opacity-60 mt-1"
+            className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] opacity-60 mt-1"
           >
             Bilingual Tutor Assistant
           </p>
