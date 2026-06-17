@@ -16,6 +16,9 @@ export interface StoredAiMessage {
   id: string;
   role: "user" | "assistant" | "system";
   parts: any[];
+  socratic_step?: "understand" | "plan" | "try" | "check" | null;
+  hint_level?: number | null;
+  topic_hint?: string | null;
 }
 
 export function useAiThreads() {
