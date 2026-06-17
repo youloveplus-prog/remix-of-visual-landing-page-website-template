@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Navigate, useParams, Link } from "react-router-dom";
 import { resolveContentRoute } from "@/lib/contentRouting";
 import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
