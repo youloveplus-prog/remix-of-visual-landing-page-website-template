@@ -63,6 +63,18 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
     const isFeatured = variant === "featured";
     const showBrand = product.brand && product.brand !== DEFAULT_BRAND;
 
+    // Distinct image silhouettes per content type:
+    //  - course → 16:9 cinematic (feels like video / lesson thumb)
+    //  - service → 4:3 classic deliverable card
+    //  - ebook / bundle / product → 1:1 square e-commerce tile
+    // Compact and featured variants still override (used by carousels / hero).
+    const aspectByKind =
+      product.kind === "course"
+        ? "aspect-video"
+        : product.kind === "service"
+          ? "aspect-[4/3]"
+          : "aspect-square";
+
     // Tag chips — derive from product fields without changing the data shape.
     const chips: string[] = [
       ...(Array.isArray((product as any).tags) ? ((product as any).tags as string[]) : []),
@@ -95,7 +107,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
           <figure
             className={cn(
               "relative overflow-hidden rounded-xl md:rounded-2xl bg-secondary/40 ring-1 ring-inset ring-border/60",
-              isCompact ? "aspect-square" : "aspect-[4/3]",
+              isCompact ? "aspect-square" : aspectByKind,
               isFeatured && "lg:w-1/2 lg:aspect-auto lg:self-stretch"
             )}
           >
