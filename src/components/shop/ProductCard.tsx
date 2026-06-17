@@ -16,6 +16,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState, forwardRef, memo } from "react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -88,8 +89,15 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
     const ctaFull = cta.primaryLabel;
     const ctaShort = cta.primaryShortLabel;
 
+    const detailHref = `/product/${(product as any).slug || `product-${product.id}`}`;
+
     return (
       <>
+        <Link
+          to={detailHref}
+          aria-label={`View ${product.name}`}
+          className="block h-full no-underline focus:outline-none rounded-2xl md:rounded-3xl"
+        >
         <article
           ref={ref}
           className={cn(
@@ -320,6 +328,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             )}
           </div>
         </article>
+        </Link>
 
         <ProductQuickView
           product={product}
