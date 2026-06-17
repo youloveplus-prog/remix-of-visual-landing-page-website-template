@@ -402,9 +402,9 @@ const Auth = () => {
         description="Sign in or create your Asikon account to access AI tutoring, courses, and the learner community."
       />
 
-      <div className="relative grid lg:grid-cols-2 min-h-dvh">
+      <div className="relative grid md:grid-cols-2 min-h-dvh">
         {/* ============== Video brand pane (desktop only) ============== */}
-        <aside className="hidden lg:flex relative flex-col justify-between p-12 xl:p-16 overflow-hidden border-r border-border bg-[#0a0a1a] text-white">
+        <aside className="hidden md:flex relative flex-col justify-between p-8 lg:p-12 xl:p-16 overflow-hidden border-r border-border bg-[#0a0a1a] text-white">
           {/* Background video */}
           <video
             autoPlay
@@ -497,7 +497,7 @@ const Auth = () => {
 
         {/* ============== Form pane ============== */}
         <section
-          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center overflow-hidden"
+          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] md:py-10 lg:py-14 min-h-dvh md:items-center md:justify-center overflow-hidden"
           style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
         >
           {/* Aurora background accents */}
@@ -512,9 +512,9 @@ const Auth = () => {
             }}
           />
 
-          <div className="relative w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
+          <div className="relative w-full max-w-[420px] mx-auto flex-1 flex flex-col md:block">
             {/* Mobile brand — bento tile + tagline */}
-            <div className="lg:hidden flex flex-col items-center text-center gap-3 mb-8">
+            <div className="md:hidden flex flex-col items-center text-center gap-3 mb-8">
               <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center p-2.5 shadow-xl shadow-primary/25">
                 <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain brightness-0 invert" />
               </div>
@@ -786,7 +786,7 @@ const Auth = () => {
 
             {/* Bottom-aligned trust strip */}
             {activeView !== "forgot-password" && activeView !== "otp" && (
-              <div className="mt-auto pt-8 lg:pt-12 space-y-5">
+              <div className="mt-auto pt-8 md:pt-12 space-y-5">
                 <div className="flex flex-col items-center gap-3">
                   <div className="flex -space-x-2">
                     {["from-primary to-[#a78bfa]", "from-amber-300 to-rose-400", "from-emerald-400 to-teal-500"].map((g, i) => (
@@ -812,7 +812,7 @@ const Auth = () => {
                 </div>
 
                 {/* Mobile-only value panel (mirrors desktop aside) */}
-                <div className="lg:hidden pt-2 space-y-4">
+                <div className="md:hidden pt-2 space-y-4">
                   <div className="flex items-center justify-center">
                     <div className="inline-flex items-center gap-2 text-[11.5px] text-muted-foreground rounded-full border border-border bg-card px-3 py-1.5">
                       <Flame className="h-3.5 w-3.5 text-primary" />
