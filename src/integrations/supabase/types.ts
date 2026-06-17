@@ -89,6 +89,45 @@ export type Database = {
         }
         Relationships: []
       }
+      product_impressions: {
+        Row: {
+          dwell_ms: number
+          id: string
+          max_visibility: number
+          observed_at: string
+          price: number | null
+          product_id: string
+          product_name: string
+          product_slug: string
+          viewport_h: number | null
+          viewport_w: number | null
+        }
+        Insert: {
+          dwell_ms?: number
+          id?: string
+          max_visibility?: number
+          observed_at?: string
+          price?: number | null
+          product_id: string
+          product_name: string
+          product_slug: string
+          viewport_h?: number | null
+          viewport_w?: number | null
+        }
+        Update: {
+          dwell_ms?: number
+          id?: string
+          max_visibility?: number
+          observed_at?: string
+          price?: number | null
+          product_id?: string
+          product_name?: string
+          product_slug?: string
+          viewport_h?: number | null
+          viewport_w?: number | null
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           brand: string | null

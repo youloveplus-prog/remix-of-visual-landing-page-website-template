@@ -11,11 +11,31 @@ export interface ProductClickEvent {
   price?: number;
   /** ISO timestamp captured at click time. */
   at: string;
+  /** Max visibility (0–1) reached before the click, if observed. */
+  maxVisibility?: number;
+  /** Total ms the card was visible before the click, if observed. */
+  dwellMs?: number;
+}
+
+export interface ProductImpressionEvent {
+  productId: string;
+  productSlug: string;
+  productName: string;
+  price?: number;
+  /** Max visibility (0–1) reached during the impression. */
+  maxVisibility: number;
+  /** Total ms the card was visible. */
+  dwellMs: number;
+  /** Viewport size at flush time. */
+  viewportW?: number;
+  viewportH?: number;
+  at: string;
 }
 
 export type ProductClickLogger = (event: ProductClickEvent) => void;
+export type ProductImpressionLogger = (event: ProductImpressionEvent) => void;
 
-const defaultLogger: ProductClickLogger = (event) => {
+const defaultClickLogger: ProductClickLogger = (event) => {
   if (
     typeof window !== "undefined" &&
     typeof window.dispatchEvent === "function"
@@ -58,21 +78,81 @@ const defaultLogger: ProductClickLogger = (event) => {
   }
 };
 
-let activeLogger: ProductClickLogger = defaultLogger;
+const defaultImpressionLogger: ProductImpressionLogger = (event) => {
+  if (
+    typeof window !== "undefined" &&
+    typeof window.dispatchEvent === "function"
+  ) {
+    try {
+      window.dispatchEvent(
+        new CustomEvent("asikon:product-impression", { detail: event }),
+      );
+    } catch {
+      /* CustomEvent not available */
+    }
+  }
 
-/** Override the logger (tests only — call resetProductClickLogger() after). */
+  if (import.meta.env.DEV && typeof console !== "undefined") {
+    // eslint-disable-next-line no-console
+    console.debug("[analytics] product-impression", event);
+  }
+
+  if (typeof supabase !== "undefined") {
+    try {
+      supabase
+        .from("product_impressions")
+        .insert({
+          product_id: event.productId,
+          product_slug: event.productSlug,
+          product_name: event.productName,
+          price: event.price ?? null,
+          max_visibility: event.maxVisibility,
+          dwell_ms: event.dwellMs,
+          viewport_w: event.viewportW ?? null,
+          viewport_h: event.viewportH ?? null,
+          observed_at: event.at,
+        })
+        .then(({ error }) => {
+          if (error && import.meta.env.DEV) {
+            // eslint-disable-next-line no-console
+            console.warn("[analytics] product-impression insert failed", error);
+          }
+        });
+    } catch {
+      /* silently drop */
+    }
+  }
+};
+
+let activeClickLogger: ProductClickLogger = defaultClickLogger;
+let activeImpressionLogger: ProductImpressionLogger = defaultImpressionLogger;
+
+/** Override the click logger (tests only — call __resetProductClickLogger after). */
 export function __setProductClickLogger(fn: ProductClickLogger): void {
-  activeLogger = fn;
+  activeClickLogger = fn;
 }
-
-/** Restore the default logger. */
 export function __resetProductClickLogger(): void {
-  activeLogger = defaultLogger;
+  activeClickLogger = defaultClickLogger;
+}
+export function __setProductImpressionLogger(
+  fn: ProductImpressionLogger,
+): void {
+  activeImpressionLogger = fn;
+}
+export function __resetProductImpressionLogger(): void {
+  activeImpressionLogger = defaultImpressionLogger;
 }
 
 /** Emit a product-click analytics event. */
 export function logProductClick(
   event: Omit<ProductClickEvent, "at"> & { at?: string },
 ): void {
-  activeLogger({ at: new Date().toISOString(), ...event });
+  activeClickLogger({ at: new Date().toISOString(), ...event });
+}
+
+/** Emit a product-impression analytics event. */
+export function logProductImpression(
+  event: Omit<ProductImpressionEvent, "at"> & { at?: string },
+): void {
+  activeImpressionLogger({ at: new Date().toISOString(), ...event });
 }
