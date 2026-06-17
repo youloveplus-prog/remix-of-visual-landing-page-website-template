@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 
 type Chip = { label: string; prompt: string };
 
@@ -40,17 +41,11 @@ export function AiAssistantBox() {
       >
         {/* Identity */}
         <div className="flex flex-col items-center mb-6 sm:mb-8">
-          <div
-            className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 bg-[#0d0d0d] dark:bg-[#f5f3ee]"
-            aria-hidden
-          >
-            <span
-              style={{ fontFamily: SERIF }}
-              className="text-xl sm:text-2xl md:text-3xl leading-none text-[#f5f3ee] dark:text-[#111110]"
-            >
-              A
-            </span>
-          </div>
+          <img
+            src={logoImg}
+            alt="Asikon"
+            className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl mb-3 sm:mb-4 object-contain"
+          />
           <h2
             style={{ fontFamily: SERIF }}
             className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-center text-[#0d0d0d] dark:text-[#f5f3ee]"
