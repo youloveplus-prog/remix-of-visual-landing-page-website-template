@@ -37,7 +37,7 @@ export function AiAssistantBox() {
   return (
     <section className="section-x">
       <div
-        className="relative w-full mx-auto rounded-xl sm:rounded-2xl lg:rounded-[2rem] p-5 sm:p-8 lg:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)] max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none bg-[#f5f3ee] dark:bg-[#111110] border border-[#e8e4dd] dark:border-[#2a2a28]"
+        className="relative w-full mx-auto rounded-xl sm:rounded-2xl lg:rounded-[2rem] p-5 sm:p-8 lg:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)] max-w-md sm:max-w-lg md:max-w-none bg-[#f5f3ee] dark:bg-[#111110] border border-[#e8e4dd] dark:border-[#2a2a28]"
       >
         {/* Identity */}
         <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
