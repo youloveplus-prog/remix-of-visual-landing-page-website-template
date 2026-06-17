@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { mockProducts } from "@/lib/mock-data";
 import { readCache, writeCache, cacheKey } from "@/lib/query-cache";
 import { CATEGORY_KIND_FALLBACK } from "@/hooks/useCategories";
+import { resolveProductImageUrls } from "@/lib/storage-urls";
 import type { ProductKind } from "@/types";
 
 // Fallback products shaped to match the Supabase `products` table.
