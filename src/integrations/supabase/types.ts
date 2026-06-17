@@ -62,6 +62,33 @@ export type Database = {
         }
         Relationships: []
       }
+      product_clicks: {
+        Row: {
+          clicked_at: string
+          id: string
+          price: number | null
+          product_id: string
+          product_name: string
+          product_slug: string
+        }
+        Insert: {
+          clicked_at?: string
+          id?: string
+          price?: number | null
+          product_id: string
+          product_name: string
+          product_slug: string
+        }
+        Update: {
+          clicked_at?: string
+          id?: string
+          price?: number | null
+          product_id?: string
+          product_name?: string
+          product_slug?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           brand: string | null
