@@ -35,7 +35,7 @@ const Notifications = () => {
       <SEO
         title="Notifications — ASIKON"
         description="Stay up to date with announcements, drops, and learning milestones from ASIKON."
-        url="https://asikonpro.lovable.app/notifications"
+        url="https://style-verse-suite.lovable.app/notifications"
       />
 
       <MobilePage maxWidth="reading" spacing="space-y-8">

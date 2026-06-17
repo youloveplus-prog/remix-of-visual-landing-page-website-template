@@ -20,7 +20,7 @@ const Terms = () => (
     title="Terms of Service."
     updated="May 2026"
     intro="The simple rules for using ASIKON — written in plain language."
-    canonical="https://asikonpro.lovable.app/terms"
+    canonical="https://style-verse-suite.lovable.app/terms"
     metaTitle="Terms of Service — ASIKON"
     metaDescription="The terms governing your use of ASIKON's learning, shop, community, and mentorship services."
     toc={toc}

@@ -55,11 +55,11 @@
     --chart-5: 152 40% 75%;             /* mint */
     --gold: 38 92% 60%;
     --success: 152 50% 42%;
-    --font-sans: 'Schibsted Grotesk', 'Plus Jakarta Sans', 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Clash Display', 'Plus Jakarta Sans', 'Satoshi', ui-sans-serif, system-ui, sans-serif;
-    --font-serif: 'Sentient', ui-serif, Georgia, serif;
+    --font-sans: 'Schibsted Grotesk', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Clash Display', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Clash Display', ui-serif, Georgia, serif;
     --font-dot: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
-    --font-dot-matrix: 'Tiny5', 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
+    --font-dot-matrix: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
 
     /* Warm chip surfaces (named tokens) */
     --chip-butter: 38 92% 86%;         /* #fde2b8 */
@@ -920,26 +920,9 @@
   background: var(--gradient-primary);
 }
 
-.dark .home-midnight {
-  --background: 240 43% 7%;        /* #0a0a1a */
-  --foreground: 0 0% 98%;
-  --card: 240 43% 14%;             /* #141432 */
-  --card-foreground: 0 0% 98%;
-  --popover: 240 43% 14%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 244 76% 59%;          /* #4f46e5 */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 240 51% 24%;        /* #1e1e5a */
-  --secondary-foreground: 0 0% 98%;
-  --muted: 240 30% 18%;
-  --muted-foreground: 220 14% 70%;
-  --accent: 244 76% 59%;
-  --accent-foreground: 0 0% 100%;
-  --input: 240 30% 18%;
-  --ring: 244 76% 59%;
-  background-color: hsl(240 43% 7%);
-  color: hsl(0 0% 98%);
-}
+/* In dark mode, inherit global tokens (pure black) instead of overriding
+   --card / --popover / --background — overrides produced rgb(20,20,51)
+   card surfaces flagged by the visual-regression scanner. */
 .dark .home-midnight::before,
 .dark .home-midnight::after {
   display: none;
@@ -1132,8 +1115,8 @@
     background-color: hsl(var(--foreground) / 0.08);
   }
   .editorial-display {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-weight: 700;
     letter-spacing: -0.035em;
     line-height: 0.98;
     font-size: clamp(2.25rem, 10vw, 5.5rem);
@@ -1141,7 +1124,7 @@
     text-wrap: balance;
   }
   .editorial-headline {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: var(--font-display);
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1.1;
@@ -1150,7 +1133,7 @@
     text-wrap: balance;
   }
   .editorial-subhead {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: var(--font-display);
     font-weight: 600;
     letter-spacing: -0.015em;
     line-height: 1.25;
@@ -1161,7 +1144,7 @@
     .editorial-subhead { font-size: 1.25rem; }
   }
   .editorial-dek {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: 0.9375rem;
     line-height: 1.6;
@@ -1172,9 +1155,9 @@
     .editorial-dek { font-size: 1rem; line-height: 1.55; }
   }
   .editorial-pullquote {
-    font-family: 'Sentient', 'Plus Jakarta Sans', serif;
+    font-family: var(--font-sans);
     font-style: italic;
-    font-weight: 400;
+    font-weight: 500;
     font-size: clamp(1.0625rem, 3.6vw, 1.5rem);
     line-height: 1.4;
     color: hsl(var(--foreground) / 0.82);

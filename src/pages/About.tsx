@@ -615,7 +615,7 @@ const About = () => {
       <SEO
         title="About ASIKON — AI-powered learning for Bangladesh"
         description="ASIKON is an AI-powered learning platform built to make education simple, smart, and accessible for every Bangladeshi student."
-        url="https://asikonpro.lovable.app/about"
+        url="https://style-verse-suite.lovable.app/about"
       />
 
       <CinematicHero />

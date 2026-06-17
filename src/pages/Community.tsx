@@ -33,7 +33,7 @@ const Community = () => {
       <SEO
         title="Community — Asikon Learners"
         description="Follow learners, share posts, watch videos and read trusted reviews on the Asikon community."
-        url="https://asikonpro.lovable.app/community"
+        url="https://style-verse-suite.lovable.app/community"
       />
       <MobilePage
         sticky={
