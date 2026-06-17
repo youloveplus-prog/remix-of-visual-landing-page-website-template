@@ -135,7 +135,11 @@ const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState<string | null>("black");
   const [quantity, setQuantity] = useState(1);
 
-  const images = product?.images?.length ? product.images : [product?.image_url];
+  const rawImages: (string | null | undefined)[] = (product as any)?.images?.length
+    ? (product as any).images
+    : [product?.image_url];
+  const filtered = rawImages.filter((src): src is string => !!src);
+  const images: string[] = filtered.length > 0 ? filtered : ["/placeholder.svg"];
 
   const handleAddToCart = () => {
     if (!user) {
