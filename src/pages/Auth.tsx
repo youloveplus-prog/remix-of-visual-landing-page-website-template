@@ -409,7 +409,6 @@ const Auth = () => {
                 </li>
               ))}
             </ul>
-          </div>
 
             {/* Floating testimonial card */}
             <figure className="rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-md p-5 shadow-2xl shadow-black/40">
