@@ -1,20 +1,20 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowUp } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { SmartImage } from "@/components/ui/smart-image";
 import aiTutor from "@/assets/ai-tutor.webp";
 
-const ALL_CHIPS = [
-  "Explain SSC Physics",
-  "Make a study plan",
-  "Quiz me on HSC Math",
-  "Summarise a chapter",
-  "Help me with English grammar",
-  "Explain the water cycle",
-  "What is photosynthesis?",
-  "Help me memorise vocabulary",
+type Chip = { label: string; tag: string; prompt: string };
+
+const ALL_CHIPS: Chip[] = [
+  { tag: "Physics", label: "Explain SSC Physics", prompt: "Explain SSC Physics" },
+  { tag: "Planner", label: "Make a study plan", prompt: "Make a study plan" },
+  { tag: "Math", label: "Quiz me on HSC Math", prompt: "Quiz me on HSC Math" },
+  { tag: "Reading", label: "Summarise a chapter", prompt: "Summarise a chapter" },
+  { tag: "Grammar", label: "English grammar help", prompt: "Help me with English grammar" },
+  { tag: "Science", label: "The water cycle", prompt: "Explain the water cycle" },
+  { tag: "Biology", label: "Photosynthesis 101", prompt: "What is photosynthesis?" },
+  { tag: "Vocab", label: "Memorise vocabulary", prompt: "Help me memorise vocabulary" },
 ];
 
 export function AiAssistantBox() {
@@ -29,72 +29,92 @@ export function AiAssistantBox() {
     if (!trimmed) return nav("/learn");
     nav(`/learn?q=${encodeURIComponent(trimmed)}`);
   };
+
   return (
     <section className="section-x">
-      <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-foreground/[0.05] via-foreground/[0.015] to-transparent p-4">
-        {/* Soft identity glow behind avatar */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -top-12 -left-6 h-40 w-40 rounded-full blur-3xl opacity-60"
-          style={{ background: "radial-gradient(circle, hsl(var(--foreground)/0.10), transparent 70%)" }}
-        />
-
-        {/* Identity row */}
-        <div className="relative flex items-center gap-3 mb-3">
-          <div className="relative shrink-0">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden ring-1 ring-border">
-              <SmartImage
-                src={aiTutor}
-                alt="Asikon AI tutor"
-                width={48}
-                height={48}
-                className="w-full h-full object-cover"
+      <div
+        className="relative w-full rounded-[24px] border border-primary/10 bg-card shadow-[0_8px_30px_-12px_hsl(var(--primary)/0.18)] overflow-hidden flex flex-col"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border/60">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="relative shrink-0">
+              <div className="w-12 h-12 rounded-2xl overflow-hidden ring-1 ring-primary/15 shadow-md shadow-primary/10">
+                <SmartImage
+                  src={aiTutor}
+                  alt="Asikon AI tutor"
+                  width={48}
+                  height={48}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span
+                aria-hidden
+                className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-emerald-500 ring-[3px] ring-card"
               />
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-background" aria-hidden />
+            <div className="min-w-0">
+              <p className="font-display font-bold text-[17px] leading-tight tracking-tight text-foreground truncate">
+                Asikon AI
+              </p>
+              <p className="font-dot text-[10px] tracking-[0.14em] uppercase text-primary/80 leading-tight mt-0.5">
+                Bilingual Tutor · Online
+              </p>
+            </div>
           </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-display font-semibold text-[15px] leading-tight tracking-tight">Asikon AI</p>
-            <p className="text-[11.5px] text-muted-foreground leading-tight">Online · Bangla & English</p>
+        </div>
+
+        {/* Welcome bubble */}
+        <div className="px-5 pt-4">
+          <div className="rounded-2xl bg-muted/50 px-4 py-3 border border-border/60">
+            <p className="text-[13px] leading-relaxed text-foreground/80">
+              <span className="font-bangla">আসসালামু আলাইকুম!</span> Pick a topic below or ask me anything in Bangla or English.
+            </p>
           </div>
+        </div>
+
+        {/* Suggestion chips — 2x2 grid */}
+        <div className="px-5 pt-3 grid grid-cols-2 gap-2">
+          {CHIPS.map((c) => (
+            <button
+              key={c.label}
+              type="button"
+              onClick={() => go(c.prompt)}
+              className="group text-left rounded-xl border border-primary/10 bg-background/40 px-3 py-2.5 hover:border-primary/50 hover:bg-primary/[0.04] transition-all"
+            >
+              <p className="font-dot text-[9.5px] tracking-[0.14em] uppercase text-primary/60 group-hover:text-primary leading-none mb-1.5">
+                {c.tag}
+              </p>
+              <p className="text-[12.5px] font-semibold text-foreground leading-tight truncate">
+                {c.label}
+              </p>
+            </button>
+          ))}
         </div>
 
         {/* Composer */}
         <form
-          onSubmit={(e) => { e.preventDefault(); go(q); }}
-          className="relative flex items-center gap-2 rounded-2xl border border-border bg-background/70 backdrop-blur-sm p-1.5 focus-within:border-foreground/40 transition-colors"
+          onSubmit={(e) => {
+            e.preventDefault();
+            go(q);
+          }}
+          className="m-5 mt-4 relative flex items-center rounded-2xl bg-muted/60 border border-transparent focus-within:border-primary/30 focus-within:bg-muted/80 transition-all p-1.5 pl-1"
         >
-          <Input
+          <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Ask Asikon AI anything…"
-            className="h-9 flex-1 bg-transparent border-0 shadow-none focus-visible:ring-0 text-[14px] px-2"
+            placeholder="Ask anything…"
+            aria-label="Ask Asikon AI"
+            className="flex-1 bg-transparent px-3 py-2 text-[14px] text-foreground placeholder:text-muted-foreground outline-none"
           />
-          <Button
+          <button
             type="submit"
-            size="icon"
-            aria-label="Ask"
-            className="h-9 w-9 shrink-0 rounded-xl bg-foreground text-background hover:bg-foreground/90"
+            aria-label="Send"
+            className="shrink-0 h-9 w-9 rounded-xl bg-primary text-primary-foreground grid place-items-center shadow-md shadow-primary/25 hover:scale-105 active:scale-95 transition-transform"
           >
-            <ArrowUp className="h-4 w-4" />
-          </Button>
+            <ArrowUp className="h-4 w-4" strokeWidth={2.5} />
+          </button>
         </form>
-
-        {/* Suggestion chips */}
-        <div className="relative mt-3 -mx-1 px-1 overflow-x-auto no-scrollbar">
-          <div className="flex gap-1.5 w-max">
-            {CHIPS.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => go(c)}
-                className="shrink-0 text-[11.5px] px-3 py-1.5 rounded-full border border-border bg-background/40 hover:border-foreground/40 hover:bg-secondary transition-colors"
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
