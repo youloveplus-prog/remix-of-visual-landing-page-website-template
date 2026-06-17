@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { act, render, screen, waitFor, within, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createElement, useMemo, useState, type ReactNode } from "react";
 
@@ -35,8 +34,8 @@ import { CategoryCarousel } from "@/components/carousels/CategoryCarousel";
 /**
  * Minimal harness that mirrors Shop's exact wiring:
  *   CategoryCarousel → setActiveCategory → useProducts({ categoryId, excludeKinds })
- * Renders the resulting product names + the empty state. Keeps the test
- * focused on data flow without dragging in the full AppLayout/SEO/etc tree.
+ * Keeps the test focused on data flow without dragging in the full
+ * AppLayout/SEO/etc tree.
  */
 function ShopCategoryHarness() {
   const { data: categories = [] } = useCategories();
@@ -92,10 +91,21 @@ const allKinds = () =>
   Array.from(screen.getByTestId("product-list").querySelectorAll<HTMLLIElement>("li"))
     .map((li) => li.dataset.kind!);
 
+const clickCategory = (name: RegExp) => {
+  act(() => {
+    fireEvent.click(screen.getByRole("button", { name }));
+  });
+};
+
+const waitForList = async () =>
+  waitFor(() => {
+    if (!screen.queryByTestId("product-list")) throw new Error("list not yet rendered");
+  });
+
 describe("Shop category picker — UI integration with fallback catalog", () => {
   it("renders the full storefront (no courses/services) on first load with 'All' active", async () => {
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
+    await waitForList();
     const kinds = allKinds();
     expect(kinds.length).toBeGreaterThan(0);
     for (const k of kinds) expect(["course", "service"]).not.toContain(k);
@@ -104,12 +114,9 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
   });
 
   it("clicking 'Books' narrows the list to ebooks only", async () => {
-    const user = userEvent.setup();
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
-
-    await user.click(screen.getByRole("button", { name: /books/i }));
-
+    await waitForList();
+    clickCategory(/books/i);
     await waitFor(() => {
       const kinds = allKinds();
       expect(kinds.length).toBeGreaterThan(0);
@@ -118,12 +125,9 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
   });
 
   it("clicking 'Student Kits' narrows the list to bundles only", async () => {
-    const user = userEvent.setup();
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
-
-    await user.click(screen.getByRole("button", { name: /student kits/i }));
-
+    await waitForList();
+    clickCategory(/student kits/i);
     await waitFor(() => {
       const kinds = allKinds();
       expect(kinds.length).toBeGreaterThan(0);
@@ -132,58 +136,48 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
   });
 
   it("clicking 'Courses' on Shop shows the empty state (kind excluded by Shop)", async () => {
-    const user = userEvent.setup();
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
-
-    await user.click(screen.getByRole("button", { name: /^courses$/i }));
-
+    await waitForList();
+    clickCategory(/^courses$/i);
     await waitFor(() => {
-      expect(screen.getByTestId("empty-state")).toBeInTheDocument();
-      expect(screen.queryByTestId("product-list")).not.toBeInTheDocument();
-      expect(screen.getByTestId("results-count")).toHaveTextContent("0");
+      expect(screen.queryByTestId("empty-state")).not.toBeNull();
+      expect(screen.queryByTestId("product-list")).toBeNull();
+      expect(screen.getByTestId("results-count").textContent).toBe("0");
     });
   });
 
   it("clicking 'AI Tutor' on Shop also shows the empty state (service kind excluded)", async () => {
-    const user = userEvent.setup();
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
-
-    await user.click(screen.getByRole("button", { name: /ai tutor/i }));
-
+    await waitForList();
+    clickCategory(/ai tutor/i);
     await waitFor(() => {
-      expect(screen.getByTestId("empty-state")).toBeInTheDocument();
+      expect(screen.queryByTestId("empty-state")).not.toBeNull();
     });
   });
 
   it("switching back from an empty category to 'All' restores the full list", async () => {
-    const user = userEvent.setup();
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
+    await waitForList();
 
-    await user.click(screen.getByRole("button", { name: /^courses$/i }));
-    await waitFor(() => expect(screen.getByTestId("empty-state")).toBeInTheDocument());
+    clickCategory(/^courses$/i);
+    await waitFor(() => expect(screen.queryByTestId("empty-state")).not.toBeNull());
 
-    await user.click(screen.getByRole("button", { name: /^all$/i }));
+    clickCategory(/^all$/i);
     await waitFor(() => {
-      const list = screen.getByTestId("product-list");
-      expect(within(list).getAllByRole("listitem").length).toBeGreaterThan(1);
+      const list = screen.queryByTestId("product-list");
+      expect(list).not.toBeNull();
+      expect(within(list!).getAllByRole("listitem").length).toBeGreaterThan(1);
     });
   });
 
   it("switching from 'Books' directly to 'Student Kits' replaces (not appends) the list", async () => {
-    const user = userEvent.setup();
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
+    await waitForList();
 
-    await user.click(screen.getByRole("button", { name: /books/i }));
-    await waitFor(() => {
-      const kinds = allKinds();
-      expect(kinds.every((k) => k === "ebook")).toBe(true);
-    });
+    clickCategory(/books/i);
+    await waitFor(() => expect(allKinds().every((k) => k === "ebook")).toBe(true));
 
-    await user.click(screen.getByRole("button", { name: /student kits/i }));
+    clickCategory(/student kits/i);
     await waitFor(() => {
       const kinds = allKinds();
       expect(kinds.length).toBeGreaterThan(0);
@@ -194,14 +188,14 @@ describe("Shop category picker — UI integration with fallback catalog", () => 
   });
 
   it("the active category button is visually marked when selected", async () => {
-    const user = userEvent.setup();
     renderHarness();
-    await waitFor(() => expect(screen.queryByTestId("product-list")).toBeInTheDocument());
-
+    await waitForList();
     const booksBtn = screen.getByRole("button", { name: /books/i });
     expect(booksBtn.className).not.toMatch(/gradient-primary/);
-
-    await user.click(booksBtn);
+    clickCategory(/books/i);
     await waitFor(() => expect(booksBtn.className).toMatch(/gradient-primary/));
   });
 });
+
+// silence unused-import warnings for types-only helpers
+void ({} as ReactNode);
