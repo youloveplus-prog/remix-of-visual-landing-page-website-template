@@ -293,6 +293,55 @@ const Auth = () => {
     }
   };
 
+  const handleVerifyOtp = async (code: string) => {
+    setOtpLoading(true);
+    setOtpError(null);
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email: otpEmail,
+        token: code,
+        type: "signup",
+      });
+      if (error) {
+        const msg = error.message?.toLowerCase() ?? "";
+        if (msg.includes("expired"))
+          throw new Error("This code has expired. Please request a new one.");
+        if (msg.includes("invalid") || msg.includes("token"))
+          throw new Error("That code isn't right. Double-check and try again.");
+        throw error;
+      }
+      if (data.session) {
+        toast({ title: "Email verified", description: "Welcome to Asikon!" });
+        navigate(redirectTo, { replace: true });
+      } else {
+        // Verified but no session — fall back to login
+        setActiveView("login");
+        toast({ title: "Email verified", description: "You can sign in now." });
+      }
+    } catch (err: any) {
+      setOtpError(err.message || "Verification failed. Please try again.");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setOtpError(null);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: otpEmail,
+        options: { emailRedirectTo: `${window.location.origin}/` },
+      });
+      if (error) throw error;
+    } catch (err: any) {
+      setOtpError(err.message || "Couldn't resend the code. Please try again shortly.");
+      throw err;
+    }
+  };
+
+
+
   const handleForgot = async (e: React.FormEvent) => {
     e.preventDefault();
     clearErrors();
