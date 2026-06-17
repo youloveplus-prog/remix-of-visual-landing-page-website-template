@@ -1,88 +1,45 @@
-# Sequential Improvement Plan
+# Product Details Page — Improvement Plan
 
-We'll ship improvements **one at a time**, smallest blast-radius first. After each step you review the preview, then say "next" to continue.
+## Root cause of "Product not found"
 
----
+`useProduct(slug)` in `src/hooks/useProducts.ts` only queries the Supabase `products` table. That table isn't provisioned (console shows `[useProducts] Using seed catalog — products table not provisioned`), so the list pages fall back to `mockProducts` but the **detail page returns `null`** and renders the empty state.
 
-## Phase 1 — Security & Data Integrity (P0)
+The list builds slugs as `product-${p.id}` (e.g. `product-1`), and `Shop` links go to `/product/<slug>`, so every storefront click currently dead-ends on "Product not found".
 
-**Step 1. Lock down `community_posts` RLS** *(scan flagged it; current schema already shows correct policies, so this may just need verification + a SECURITY DEFINER RPC for counter bumps).*
-- Audit current policies (already scoped to `auth.uid() = user_id` per latest schema — good).
-- Add `increment_post_engagement(post_id, field)` SECURITY DEFINER function so likes/comments/shares can be bumped without granting broad UPDATE.
-- Replace any client-side counter UPDATE with `rpc(...)`.
+## Plan
 
-**Step 2. Remove mock data from production feeds**
-- `FeedStoriesRail.tsx` + `FeedShortsRow.tsx`: fetch from Supabase (new `stories` / `shorts` tables or reuse `community_posts` filtered by type).
-- Add empty + loading states.
+### 1. Fix the data layer (the actual bug)
+- In `useProduct`, mirror the list-hook pattern: if the Supabase query errors with `PGRST205` (or returns nothing), look the slug up in the `fallbackProducts` array derived from `mockProducts`.
+- Match by `slug` first, then by `id` as a safety net (older bookmarks).
+- Return `null` only when both sources miss, so the empty state is truly "unknown slug" not "no backend".
 
-**Step 3. Surface DB failures in `useProducts`**
-- Remove silent `mockProducts` fallback.
-- Return `{ data, error, isLoading }`; render error UI in `Shop`.
-- Keep mock import dev-only (`import.meta.env.DEV`).
+### 2. Improve the empty state itself
+Replace the bare "Product not found / Back to shop" block with:
+- A friendlier headline + sub-copy explaining the item may have been removed.
+- Two CTAs: **Back to Shop** and **Browse Featured**.
+- A small "You might like" strip rendering 4 items from `useProducts({ featured: true, limit: 4 })` so the page is never a dead end.
+- Keep `<SEO>` with `noindex` on this state so 404-ish pages don't pollute search.
 
----
+### 3. Polish the loaded details page
+- **Trust row under the price**: Instant Access · Secure Checkout · 7-day Money-back (reuse existing trust tokens, digital-first per project memory — no shipping copy).
+- **Sticky CTA correctness**: hide size/color selectors when `isCourse || isBook || kind ∈ {ebook,bundle,service,course}` (today they always render for non-course/book — wrong for `service`/`bundle`).
+- **Gallery**: filter out falsy entries before rendering (current `[product?.image_url]` can become `[undefined]`), and add keyboard arrow navigation on the main image.
+- **Related products**: pass `excludeKinds` consistent with Shop, and exclude the current product id from the strip.
+- **Breadcrumb**: show on mobile too (currently `hidden lg:inline-flex`), using shorter `Shop ›  {category}` form.
+- **Skeleton parity**: extend the loading skeleton to match the new layout (price, trust row, CTA) so there's no layout shift.
 
-## Phase 2 — Quick SEO Wins (P1, low risk)
+### 4. Tests
+- `useProduct` fallback: returns the seeded product when Supabase responds `PGRST205`, by slug and by id; returns `null` for unknown slugs.
+- `ProductDetail` empty state: renders friendlier copy, both CTAs, and the "You might like" strip; sets `noindex`.
+- `ProductDetail` loaded: size/color selectors are not rendered for `kind: "service"` and `kind: "bundle"`; trust row is present; related strip excludes the current product.
 
-**Step 4. Add `<RouteSEO>` to 14 pages**
-Cart, Checkout, CoursesList, CreateContent, LessonDetail, OrderDetail, Orders, Privacy, Refund, ResetPassword, ServicesList, Settings, Terms, TrackDetail, Wishlist.
+## Files to touch
 
-**Step 5. Fix duplicate/missing `<h1>`**
-- `ProductDetail`: collapse to one H1.
-- Add visible/sr-only H1 to `Learn`, `Welcome`, `Settings`, authenticated `Game`.
-- Remove duplicate `<SEO>` mount in `AiTutor.tsx`.
+- `src/hooks/useProducts.ts` — add fallback inside `useProduct`.
+- `src/pages/ProductDetail.tsx` — empty state, trust row, selector gating, gallery guard, related filter, mobile breadcrumb, skeleton.
+- `src/components/SEO.tsx` — only if `noindex` prop isn't already supported (verify, add if missing).
+- `src/test/product-detail-fallback.test.tsx` (new) — hook + page tests above.
 
-**Step 6. Replace ephemeral OG image in `index.html`**
-- Generate a hosted OG image, swap `og:image` + `twitter:image`.
-
----
-
-## Phase 3 — Accessibility (P2, low risk)
-
-**Step 7. Restore focus-visible globally**
-- Replace blanket `outline: none` with `:focus-visible` ring in `index.css`.
-
-**Step 8. Fix alt text & ARIA labels**
-- Meaningful `alt` in `AdminProducts`, `Library`, `Orders`, `OrderDetail`.
-- `aria-label` on `BottomNav` icon buttons.
-- `aria-expanded` / `aria-haspopup` on `MegaMenu` triggers.
-
-**Step 9. Add `loading="lazy"` to 34 below-the-fold images.**
-
----
-
-## Phase 4 — Refactor God-Files (P1, higher risk)
-
-Each is a dedicated turn with build verification.
-
-**Step 10. Split `Auth.tsx`** (830 → ~150 + 5 subcomponents): `LoginForm`, `RegisterForm`, `OtpStep`, `ResetPasswordForm`, `OAuthButtons`.
-
-**Step 11. Split `prompt-input.tsx`** (1,463 lines) into logical parts + `React.memo`.
-
-**Step 12. Split admin god-files**: `UserDetailDrawer`, `AdminUsers`, `AdminLegalAnalytics` — extract data hooks + sub-components.
-
----
-
-## Phase 5 — Performance Polish (P2)
-
-**Step 13.** Memoize `Shop` filtering/sorting (`useMemo`).
-**Step 14.** `React.memo` on `PostCard`, `ProfileHeader`, `BentoGallery`.
-**Step 15.** Fix lazy-import indirection in `App.tsx` (use `React.lazy(() => import(...))` directly).
-**Step 16.** Skeletons for `AdminOverview` KPI cards (fix CLS).
-**Step 17.** Tree-shake `mock-data.ts` from prod bundle.
-**Step 18.** Split `useGameData` into per-slice React Query hooks with individual stale times.
-
----
-
-## Verification gates
-
-After each step:
-- TypeScript build passes.
-- Affected route renders in preview (Playwright screenshot for visual changes).
-- For RLS/data changes: confirm read/write works for owner + fails for non-owner.
-
----
-
-## Recommended start
-
-**Step 1 (RLS audit + engagement RPC).** Reply **"start"** to begin, or name a different step (e.g. "start with step 4") to reorder.
+## Out of scope
+- No schema changes / no provisioning of the `products` table (project runs on the seed catalog by design right now).
+- No changes to cart, checkout, or pricing logic.

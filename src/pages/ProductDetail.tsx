@@ -82,12 +82,42 @@ const courseLearnings = [
   "Lifetime access with future updates included",
 ];
 
+function NotFoundSuggestions() {
+  const { data: featured } = useProducts({ featured: true, limit: 4, excludeKinds: ["course", "service"] });
+  if (!featured || featured.length === 0) return null;
+  return (
+    <div className="pt-6 text-left">
+      <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center">
+        You might like
+      </p>
+      <div className="grid grid-cols-2 gap-3">
+        {featured.slice(0, 4).map((p: any) => (
+          <Link
+            key={p.id}
+            to={`/product/${p.slug}`}
+            className="rounded-2xl border border-border/60 bg-card p-3 hover:border-border transition-colors active:opacity-70"
+          >
+            <div className="aspect-square rounded-xl bg-muted overflow-hidden mb-2">
+              <img src={p.image_url || "/placeholder.svg"} alt="" className="w-full h-full object-cover" />
+            </div>
+            <p className="text-[12.5px] font-medium leading-tight line-clamp-2">{p.name}</p>
+            <Price amount={p.price} className="text-[13px] font-semibold mt-1 block" />
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const ProductDetail = () => {
   const { slug } = useParams();
   const { user } = useAuth();
   const { toast } = useToast();
   const { data: product, isLoading } = useProduct(slug || "");
-  const { data: relatedProducts } = useProducts({ limit: 8 });
+  const { data: relatedProducts } = useProducts({
+    limit: 8,
+    excludeKinds: ["course", "service"],
+  });
 
   // Guard: /product/:slug is for storefront SKUs only. Course/service slugs
   // that somehow land here are forwarded to their canonical detail route.
@@ -105,7 +135,11 @@ const ProductDetail = () => {
   const [selectedColor, setSelectedColor] = useState<string | null>("black");
   const [quantity, setQuantity] = useState(1);
 
-  const images = product?.images?.length ? product.images : [product?.image_url];
+  const rawImages: (string | null | undefined)[] = (product as any)?.images?.length
+    ? (product as any).images
+    : [product?.image_url];
+  const filtered = rawImages.filter((src): src is string => !!src);
+  const images: string[] = filtered.length > 0 ? filtered : ["/placeholder.svg"];
 
   const handleAddToCart = () => {
     if (!user) {
@@ -113,7 +147,7 @@ const ProductDetail = () => {
       return;
     }
     if (!product) return;
-    if (!isCourse && !isBook && !selectedSize) {
+    if (!isDigitalOnly && !selectedSize) {
       toast({ title: "Select a size", description: "Please select a size first.", variant: "destructive" });
       return;
     }
@@ -141,10 +175,28 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <AppLayout>
+        <SEO
+          title="Product not found"
+          description="We couldn't find the product you were looking for."
+          noIndex
+          suppressCanonical
+        />
         <MobilePage maxWidth="reading">
-          <div className="py-20 text-center">
-            <h1 className="font-display text-xl font-semibold mb-2">Product not found</h1>
-            <Link to="/shop"><Button>Back to shop</Button></Link>
+          <div className="py-16 text-center space-y-5">
+            <div className="mx-auto h-14 w-14 rounded-2xl bg-muted grid place-items-center">
+              <Package className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <div className="space-y-1.5">
+              <h1 className="font-display text-2xl font-semibold">Product not found</h1>
+              <p className="text-sm text-muted-foreground max-w-sm mx-auto">
+                This item may have been removed or the link is out of date. Try browsing our shop or featured picks.
+              </p>
+            </div>
+            <div className="flex items-center justify-center gap-2">
+              <Link to="/shop"><Button variant="outline" className="rounded-full">Back to shop</Button></Link>
+              <Link to="/shop?featured=1"><Button className="rounded-full">Browse featured</Button></Link>
+            </div>
+            <NotFoundSuggestions />
           </div>
         </MobilePage>
       </AppLayout>
@@ -156,8 +208,11 @@ const ProductDetail = () => {
     : 0;
 
   const name = product.name || "";
-  const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
-  const isBook = /book|hardcover|edition/i.test(name);
+  const kind = (product as any).kind as string | undefined;
+  const isCourse = kind === "course" || /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
+  const isBook = kind === "ebook" || /book|hardcover|edition/i.test(name);
+  // Digital-only kinds never need size/color selectors.
+  const isDigitalOnly = isCourse || isBook || kind === "service" || kind === "bundle";
   const cta = getProductCta({ name, categoryName: (product as any).category ?? undefined });
   const CtaIcon = PRODUCT_CTA_ICON[cta.icon] ?? ShoppingCart;
 
@@ -445,7 +500,7 @@ const ProductDetail = () => {
                   </div>
                 ))}
               </div>
-            ) : isBook ? null : (
+            ) : isDigitalOnly ? null : (
               <div className="space-y-5">
                 <ColorSelector colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
                 <SizeSelector sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
