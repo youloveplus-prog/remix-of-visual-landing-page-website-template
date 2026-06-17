@@ -61,7 +61,7 @@ export function useProductReviews({
       let q = supabase
         .from("product_reviews")
         .select(
-          "id, rating, title, content, images, is_verified_purchase, helpful_count, created_at, profiles:user_id(display_name, avatar_url)",
+          "id, rating, title, content, images, is_verified_purchase, helpful_count, created_at, profiles!product_reviews_user_profile_fkey(display_name, avatar_url)",
         )
         .eq("product_id", productId);
 
