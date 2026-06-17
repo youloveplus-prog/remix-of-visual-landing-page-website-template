@@ -83,7 +83,7 @@ export function useAiThreadMessages(threadId: string | undefined) {
 
       const { data, error } = await db
         .from("ai_messages")
-        .select("id,role,parts,created_at")
+        .select("id,role,parts,created_at,socratic_step,hint_level,topic_hint")
         .eq("thread_id", threadId)
         .eq("user_id", user.id)
         .order("created_at", { ascending: true });
@@ -92,6 +92,9 @@ export function useAiThreadMessages(threadId: string | undefined) {
         id: m.id,
         role: m.role,
         parts: m.parts ?? [],
+        socratic_step: m.socratic_step ?? null,
+        hint_level: m.hint_level ?? null,
+        topic_hint: m.topic_hint ?? null,
       }));
     },
   });
