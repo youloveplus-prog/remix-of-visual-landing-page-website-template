@@ -24,6 +24,7 @@ import { SmartImage } from "@/components/ui/smart-image";
 import { Price } from "@/lib/currency";
 import { ProductQuickView } from "./ProductQuickView";
 import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
+import { logProductClick } from "@/lib/productAnalytics";
 
 const ICON_BY_NAME: Record<ProductCtaIcon, LucideIcon> = {
   "graduation-cap": GraduationCap,
@@ -95,6 +96,14 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
       <>
         <Link
           to={detailHref}
+          onClick={() =>
+            logProductClick({
+              productId: String(product.id),
+              productSlug: (product as any).slug || `product-${product.id}`,
+              productName: product.name,
+              price: product.price,
+            })
+          }
           aria-label={`View ${product.name}`}
           className="block h-full no-underline focus:outline-none rounded-2xl md:rounded-3xl"
         >
