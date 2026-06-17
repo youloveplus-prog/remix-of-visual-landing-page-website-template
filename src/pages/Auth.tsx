@@ -726,7 +726,12 @@ function PrimaryCta({
   children: React.ReactNode;
 }) {
   return (
-    <Button type="submit" size="lg" disabled={loading} className="w-full">
+    <Button
+      type="submit"
+      size="lg"
+      disabled={loading}
+      className="w-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200 hover:-translate-y-0.5"
+    >
       {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
       {children}
     </Button>
