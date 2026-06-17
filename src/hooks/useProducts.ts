@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { mockProducts } from "@/lib/mock-data";
 import { readCache, writeCache, cacheKey } from "@/lib/query-cache";
+import { CATEGORY_KIND_FALLBACK } from "@/hooks/useCategories";
 import type { ProductKind } from "@/types";
 
 // Fallback products shaped to match the Supabase `products` table.
@@ -155,6 +156,16 @@ export function useProducts(options: UseProductsOptions = {}) {
         if (minPrice !== undefined) list = list.filter((p) => p.price >= minPrice);
         if (maxPrice !== undefined) list = list.filter((p) => p.price <= maxPrice);
         if (featured !== undefined) list = list.filter((p) => p.is_featured === featured);
+        // Seed products carry no `category_id`, so map the requested category
+        // to its kind whitelist and filter on that — this is why "Books",
+        // "Student Kits", etc. used to all return the same items.
+        if (categoryId) {
+          const allowedForCategory = CATEGORY_KIND_FALLBACK[categoryId];
+          if (allowedForCategory && allowedForCategory.length > 0) {
+            const set = new Set<ProductKind>(allowedForCategory);
+            list = list.filter((p) => set.has(p.kind));
+          }
+        }
         if (kinds && kinds.length > 0) {
           const allow = new Set(kinds);
           list = list.filter((p) => allow.has(p.kind));
