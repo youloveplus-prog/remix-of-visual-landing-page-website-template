@@ -89,8 +89,15 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
     const ctaFull = cta.primaryLabel;
     const ctaShort = cta.primaryShortLabel;
 
+    const detailHref = `/product/${(product as any).slug || `product-${product.id}`}`;
+
     return (
       <>
+        <Link
+          to={detailHref}
+          aria-label={`View ${product.name}`}
+          className="block h-full no-underline focus:outline-none rounded-2xl md:rounded-3xl"
+        >
         <article
           ref={ref}
           className={cn(
