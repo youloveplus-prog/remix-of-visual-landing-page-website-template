@@ -14,6 +14,104 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_messages: {
+        Row: {
+          attempt_payload: Json | null
+          created_at: string
+          hint_level: number | null
+          id: string
+          parts: Json
+          role: string
+          socratic_step: string | null
+          thread_id: string
+          topic_hint: string | null
+          topic_id: string | null
+          user_id: string
+        }
+        Insert: {
+          attempt_payload?: Json | null
+          created_at?: string
+          hint_level?: number | null
+          id?: string
+          parts?: Json
+          role: string
+          socratic_step?: string | null
+          thread_id: string
+          topic_hint?: string | null
+          topic_id?: string | null
+          user_id: string
+        }
+        Update: {
+          attempt_payload?: Json | null
+          created_at?: string
+          hint_level?: number | null
+          id?: string
+          parts?: Json
+          role?: string
+          socratic_step?: string | null
+          thread_id?: string
+          topic_hint?: string | null
+          topic_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "ai_threads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_messages_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "curriculum_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_threads: {
+        Row: {
+          active_step: string | null
+          active_topic_id: string | null
+          created_at: string
+          id: string
+          last_hint_level: number | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active_step?: string | null
+          active_topic_id?: string | null
+          created_at?: string
+          id?: string
+          last_hint_level?: number | null
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active_step?: string | null
+          active_topic_id?: string | null
+          created_at?: string
+          id?: string
+          last_hint_level?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_threads_active_topic_id_fkey"
+            columns: ["active_topic_id"]
+            isOneToOne: false
+            referencedRelation: "curriculum_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       community_posts: {
         Row: {
           avatar_url: string | null
@@ -59,6 +157,42 @@ export type Database = {
           updated_at?: string
           user_id?: string
           username?: string
+        }
+        Relationships: []
+      }
+      curriculum_topics: {
+        Row: {
+          chapter: string | null
+          class_level: string | null
+          created_at: string
+          display_name: string
+          id: string
+          skill: string | null
+          slug: string
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          chapter?: string | null
+          class_level?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          skill?: string | null
+          slug: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          chapter?: string | null
+          class_level?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          skill?: string | null
+          slug?: string
+          subject?: string | null
+          updated_at?: string
         }
         Relationships: []
       }

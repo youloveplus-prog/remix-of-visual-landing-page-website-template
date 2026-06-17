@@ -48,6 +48,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThreadList } from "@/components/learn/ThreadList";
+import { SocraticRail } from "@/components/learn/SocraticRail";
+import { VoiceInput } from "@/components/learn/VoiceInput";
+import { parseSocratic } from "@/lib/socraticParse";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.webp";
 
 // AI Elements
@@ -75,8 +78,8 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 const QUICK_PROMPTS = [
   {
     icon: BookOpen,
-    label: "Help me with SSC Math",
-    prompt: "I'm struggling with SSC math. Can you walk me through where to start?",
+    label: "I'm stuck on an SSC Math problem",
+    prompt: "I'm stuck on an SSC Math problem. Can you help me figure it out step by step? I'll share what I've tried.",
     tint: "from-blue-500/15 to-blue-500/0 text-blue-600 dark:text-blue-400 ring-blue-500/20",
   },
   {
@@ -87,8 +90,8 @@ const QUICK_PROMPTS = [
   },
   {
     icon: Brain,
-    label: "Explain Newton's 2nd law",
-    prompt: "Explain Newton's second law to me like I'm 12, with one real example.",
+    label: "Walk me through Newton's 2nd law",
+    prompt: "I'm trying to understand Newton's second law. Can we go through it together? Ask me what I already know first.",
     tint: "from-violet-500/15 to-violet-500/0 text-violet-600 dark:text-violet-400 ring-violet-500/20",
   },
   {
@@ -100,7 +103,7 @@ const QUICK_PROMPTS = [
 ];
 
 const CAPABILITIES = [
-  { icon: Brain, label: "Explain any concept" },
+  { icon: Brain, label: "Guide you through it" },
   { icon: ListChecks, label: "Practice with MCQs" },
   { icon: GraduationCap, label: "Plan your revision" },
 ];
@@ -375,7 +378,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             ) : (
               <>
                 {messages.map((m, idx) => {
-                  const text = (m.parts ?? [])
+                  const rawText = (m.parts ?? [])
                     .map((p: any) => (p.type === "text" ? p.text : ""))
                     .join("");
                   const isLast = idx === messages.length - 1;
@@ -386,11 +389,16 @@ export function LearnChat({ threadId, onBack }: Props) {
                     return (
                       <Message key={m.id} from="user">
                         <MessageContent className="group-[.is-user]:bg-primary group-[.is-user]:text-primary-foreground group-[.is-user]:rounded-2xl group-[.is-user]:rounded-br-md whitespace-pre-wrap text-[15px] leading-relaxed">
-                          {text}
+                          {rawText}
                         </MessageContent>
                       </Message>
                     );
                   }
+
+                  // Parse out the Socratic metadata header from the first line.
+                  // During streaming, the header may not have arrived yet — in
+                  // that case `meta` is null and `body` is the original text.
+                  const { meta, body } = parseSocratic(rawText);
 
                   return (
                     <Message key={m.id} from="assistant" className="max-w-full">
@@ -404,15 +412,22 @@ export function LearnChat({ threadId, onBack }: Props) {
                           <div className="text-xs font-semibold text-muted-foreground mb-0.5">
                             Asikon AI
                           </div>
+                          {meta && meta.step && meta.step !== "direct" && (
+                            <SocraticRail
+                              step={meta.step}
+                              hintLevel={meta.hint_level}
+                              topicHint={meta.topic_hint}
+                            />
+                          )}
                           <MessageContent className="text-[15px] leading-relaxed">
-                            <MessageResponse>{text || "…"}</MessageResponse>
+                            <MessageResponse>{body || "…"}</MessageResponse>
                             {isStreaming && (
                               <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-foreground animate-pulse" />
                             )}
                           </MessageContent>
-                          {text && !isStreaming && (
+                          {body && !isStreaming && (
                             <AssistantActions
-                              text={text}
+                              text={body}
                               onRegenerate={
                                 isLast && !isBusy ? () => regenerate() : undefined
                               }
@@ -482,16 +497,13 @@ export function LearnChat({ threadId, onBack }: Props) {
                 >
                   <span className="text-base leading-none">📎</span>
                 </PromptInputButton>
-                <PromptInputButton
-                  type="button"
-                  onClick={() =>
-                    toast("Voice questions are on the way — text works great for now.")
+                <VoiceInput
+                  disabled={isBusy}
+                  onTranscript={(t) =>
+                    setInput((v) => (v ? `${v} ${t}`.trim() : t))
                   }
-                  aria-label="Voice (coming soon)"
-                  title="Voice (coming soon)"
-                >
-                  <span className="text-base leading-none">🎤</span>
-                </PromptInputButton>
+                />
+
               </PromptInputTools>
               <div className="flex items-center gap-2">
                 {input.length > 500 && (
@@ -566,8 +578,8 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           Hi, I'm Asikon AI
         </h1>
         <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
-          Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
-          I'll explain in English or Bangla, whichever helps.
+          Show me what you've tried — I'll guide you, not just hand over the answer.
+          Bangla or English, your call. Tap the mic if you'd rather speak.
         </p>
       </div>
 
