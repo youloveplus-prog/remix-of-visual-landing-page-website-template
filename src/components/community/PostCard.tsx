@@ -255,7 +255,7 @@ function ActionButton({
   ariaLabel,
 }: {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void;
   active?: boolean;
   ariaLabel: string;
 }) {
