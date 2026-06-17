@@ -215,6 +215,7 @@ const ProductDetail = () => {
             </div>
             <div className="space-y-1.5">
               <h1
+                ref={notFoundHeadingRef}
                 id="product-not-found-title"
                 tabIndex={-1}
                 className="font-display text-2xl font-semibold outline-none"
