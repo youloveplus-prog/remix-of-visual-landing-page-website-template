@@ -243,6 +243,129 @@ export type Database = {
           },
         ]
       }
+      mentor_session_notes: {
+        Row: {
+          created_at: string
+          duration_minutes: number | null
+          growth_areas: string | null
+          homework: string | null
+          id: string
+          mentor_id: string | null
+          mentor_user_id: string
+          session_date: string
+          strengths: string | null
+          student_name: string
+          student_user_id: string | null
+          topics_covered: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          duration_minutes?: number | null
+          growth_areas?: string | null
+          homework?: string | null
+          id?: string
+          mentor_id?: string | null
+          mentor_user_id: string
+          session_date?: string
+          strengths?: string | null
+          student_name: string
+          student_user_id?: string | null
+          topics_covered?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          duration_minutes?: number | null
+          growth_areas?: string | null
+          homework?: string | null
+          id?: string
+          mentor_id?: string | null
+          mentor_user_id?: string
+          session_date?: string
+          strengths?: string | null
+          student_name?: string
+          student_user_id?: string | null
+          topics_covered?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      mentor_verifications: {
+        Row: {
+          background_check: boolean
+          created_at: string
+          id: string
+          id_check: boolean
+          mentor_id: string
+          notes: string | null
+          qualification_check: boolean
+          status: string
+          updated_at: string
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          background_check?: boolean
+          created_at?: string
+          id?: string
+          id_check?: boolean
+          mentor_id: string
+          notes?: string | null
+          qualification_check?: boolean
+          status?: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          background_check?: boolean
+          created_at?: string
+          id?: string
+          id_check?: boolean
+          mentor_id?: string
+          notes?: string | null
+          qualification_check?: boolean
+          status?: string
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: []
+      }
+      parent_links: {
+        Row: {
+          created_at: string
+          id: string
+          parent_user_id: string
+          relationship: string
+          status: string
+          student_user_id: string
+          updated_at: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          parent_user_id: string
+          relationship?: string
+          status?: string
+          student_user_id: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          parent_user_id?: string
+          relationship?: string
+          status?: string
+          student_user_id?: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       product_clicks: {
         Row: {
           clicked_at: string
@@ -492,6 +615,27 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -509,9 +653,20 @@ export type Database = {
           topic_id: string
         }[]
       }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       increment_post_engagement: {
         Args: { _field: string; _post_id: string }
         Returns: undefined
+      }
+      is_verified_parent_of: {
+        Args: { _student_user_id: string }
+        Returns: boolean
       }
       record_mastery_attempt: {
         Args: { _hint_level?: number; _outcome: number; _topic_id: string }
@@ -536,7 +691,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -663,6 +818,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
