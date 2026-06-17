@@ -1,70 +1,73 @@
-# Enhance Community Section → Real-time Carousel
+# Improve Community Carousel Header & Surrounding UX
 
-Today the "From the community" carousel on Home renders static `mockPosts`. We'll turn it into a live feed: posts are fetched from the database, new posts stream in via Realtime, the carousel auto-plays, and a "LIVE" pulse + activity counters (likes/comments) update in place.
+## Problem (current state)
+The header stacks three elements awkwardly: a `LivePulse` chip, the `SectionHeader` title, and a "View all" link — all crammed in the center with tight `gap-2`. On mobile, "Live • From the community • View all" looks like a run-on. Hierarchy is flat, the live signal feels decorative, and the carousel controls below have no relationship to the header.
 
-## What the user will see
+## Goals
+1. Clear visual hierarchy: title is the hero, live count is supportive metadata, "View all" is an action.
+2. Better use of horizontal space on tablet/desktop (title left, action right) while staying centered & calm on mobile.
+3. Tie the carousel arrows into the header on desktop so navigation feels intentional, not orphaned below.
+4. Improve the empty/skeleton states to match the same rhythm.
 
-- The Community carousel on `/` shows the **latest community posts** instead of the same 3 mock entries.
-- A small **LIVE** chip with a pulsing dot sits next to the section title, plus "X people posting now" microcopy that increments as new posts arrive.
-- New posts **slide in from the left** of the carousel without a page refresh (toast: "New post from @username").
-- Like/comment counts on visible cards **animate** when they change (realtime UPDATE).
-- Carousel **auto-advances** every 5s, pauses on hover/touch, resumes after interaction. Loops infinitely (consistent with our infinite-scroll rule).
-- Empty state ("Be the first to share…") and skeleton loaders while fetching.
-- Fully responsive — same breakpoints as today (100% / 85% / 60% / 50% slides).
+## Proposed Layout
 
-## Scope
-
-In: `CommunityCarousel`, Home Index wiring, new `community_posts` table + RLS, a `useCommunityFeed` hook, light visual polish on `PostCard` (count tick animation, "NEW" ribbon for <60s old posts).
-Out: full posting UX (already exists on `/community` + `/create`), comments thread, moderation tools, mentorship/masterpiece sections.
-
-## Technical changes
-
-### 1. Database (migration)
-- `public.community_posts` — `id uuid pk`, `user_id uuid` (→ profiles), `content text`, `images text[]`, `product_id uuid null`, `likes int default 0`, `comments int default 0`, `shares int default 0`, `created_at timestamptz default now()`.
-- GRANTs: `SELECT` to `anon, authenticated`; full CRUD to `authenticated`; `ALL` to `service_role`.
-- RLS: anyone can SELECT; INSERT/UPDATE/DELETE only `auth.uid() = user_id`.
-- `ALTER PUBLICATION supabase_realtime ADD TABLE public.community_posts;`
-- Seed 6 rows from the current mock data so the section is never empty.
-
-### 2. Hook — `src/hooks/useCommunityFeed.ts`
-- Initial fetch: `select * order by created_at desc limit 12` joined with `profiles` for user info.
-- Subscribes to `postgres_changes` on `community_posts` inside `useEffect`, tears down on unmount (per realtime guidance).
-- Handles `INSERT` (prepend), `UPDATE` (merge counts), `DELETE` (filter).
-- Maps DB rows → existing `Post` type so `PostCard` keeps working unchanged.
-- Returns `{ posts, isLoading, liveCount }` where `liveCount` = posts created in last 5 min.
-
-### 3. `src/components/community/CommunityCarousel.tsx`
-- Accept optional `posts` prop; when omitted, call `useCommunityFeed()`.
-- Add embla `Autoplay` plugin (5000ms, `stopOnInteraction:false`, `stopOnMouseEnter:true`) and `loop:true`.
-- Header gets a `<LivePulse count={liveCount} />` next to the title.
-- New-item enter animation via the existing `Reveal`/motion primitives.
-- Skeleton state: 2 placeholder cards while `isLoading`.
-- Empty state CTA → `/create`.
-
-### 4. `src/pages/Index.tsx`
-- Drop the `posts={mockPosts}` prop so the section self-loads.
-- Keep `title` and `viewAllHref` as-is.
-
-### 5. Minor `PostCard` polish
-- Count numbers wrapped in a `<TickNumber />` (1-line component using framer-motion `animate` on value change).
-- "NEW" pill (Departure Mono, butter chip) when `Date.now() - created_at < 60_000`.
-
-## Diagram
-
+### Mobile (sm and below)
 ```text
- community_posts (Postgres + Realtime)
-        │ select + subscribe
-        ▼
- useCommunityFeed() ──► posts[], liveCount, isLoading
-        │
-        ▼
- CommunityCarousel (embla + autoplay + loop)
-   ├─ SectionHeader + LivePulse
-   ├─ Skeleton / Empty / PostCards (TickNumber, NEW pill)
-   └─ Prev/Next arrows (desktop)
+        ● 248 live now
+     From the community
+   Stories, wins, and AI ——
+            experiments
+       [ View all → ]
 ```
+- Centered stack, generous `gap-3`.
+- Add an optional one-line subtitle/eyebrow under the title for context.
+- "View all" becomes a subtle ghost pill button instead of a tiny inline link → easier tap target (44px).
 
-## Risks / notes
-- Realtime billing: single channel, scoped to one table, cleaned up on unmount — safe.
-- Autoplay must respect `prefers-reduced-motion` — disable plugin when set.
-- Keeps the centered display typography rule (SectionHeader unchanged).
+### Desktop (md+)
+```text
+●  From the community            ←  →   View all →
+   248 creators live now
+```
+- Two-column flex: title block left, controls right.
+- Live pulse becomes a small inline dot + count to the left of the title (or above as an eyebrow).
+- Carousel prev/next arrows move up into the header row, sitting next to "View all". Removes the floating arrow cluster below the cards.
+
+## Changes
+
+### 1. `CommunityCarousel.tsx`
+- Replace the centered header `div` with a responsive header:
+  - `flex flex-col md:flex-row md:items-end md:justify-between gap-4`
+  - Left: eyebrow (LivePulse, smaller) + `h2` title + optional subtitle (`text-sm text-muted-foreground`).
+  - Right (md+): inline `[prev] [next]` arrows + `View all →` ghost button.
+- Hide the bottom arrow row on `md+`, keep it on mobile (centered, same as today but with a subtle progress dot indicator between them showing slide position).
+- Pass arrow controls as props/children instead of duplicating markup.
+
+### 2. `SectionHeader` usage
+- Drop `SectionHeader` here and inline a custom header so we control layout precisely. Keep `SectionHeader` for other sections.
+
+### 3. `LivePulse`
+- Add a `variant="inline" | "eyebrow"` prop so it can render small (dot + "248 live") without the chip background on desktop.
+
+### 4. Carousel body
+- Add slide progress dots on mobile under the cards (replaces the redundant arrow row when arrows move to header on desktop).
+- Increase top spacing (`mt-6` instead of `mt-2`) so header has room to breathe.
+
+### 5. Empty + Skeleton
+- Match new header rhythm: align skeleton/empty card to the same left edge as the title (no centering shift).
+- Empty state copy gets a friendlier two-line layout and a secondary "Browse community" link.
+
+### 6. Accessibility
+- Header arrows get `aria-controls` pointing to the carousel viewport id.
+- Live region: `aria-live="polite"` on the live count so screen readers announce updates.
+- Ensure focus ring on the new ghost "View all" button uses `focus-visible:ring-ring`.
+
+## Out of scope
+- PostCard visual changes.
+- Feed data / hook behavior.
+- Other sections using `SectionHeader`.
+
+## Acceptance
+- On 390px viewport: header is centered, title is the largest element, "View all" is a tappable pill, arrows sit under cards with a dot indicator.
+- On ≥768px: title left with live eyebrow, arrows + view-all right; no duplicate arrow row below.
+- Reduced-motion respected (already handled by autoplay).
+- No regressions in skeleton/empty states.
