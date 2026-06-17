@@ -110,7 +110,7 @@ export function AiAssistantBox() {
                     type="button"
                     onClick={() => go(c.prompt)}
                     style={{ fontFamily: SANS }}
-                    className="flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors text-center bg-white dark:bg-[#1a1a18] text-[#2d2d2d] dark:text-[#c8c4bc] border border-[#e8e4dd] dark:border-[#2a2a28] hover:border-[#0d0d0d] dark:hover:border-[#f5f3ee]"
+                    className="flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors text-center bg-white/15 dark:bg-[#1a1a18] text-white dark:text-[#c8c4bc] border border-white/25 dark:border-[#2a2a28] hover:border-white/50 dark:hover:border-[#f5f3ee]"
                   >
                     {c.label}
                   </button>
