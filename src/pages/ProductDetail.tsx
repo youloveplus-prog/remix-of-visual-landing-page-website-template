@@ -32,6 +32,7 @@ import { StickyActionBar } from "@/components/ui/sticky-action-bar";
 import { ProductCarousel } from "@/components/carousels";
 import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ, ProductStickyNav, ProductCurriculum } from "@/components/product";
 import { useProduct, useProducts } from "@/hooks/useProducts";
+import { useProductViewsToday } from "@/hooks/useProductViewsToday";
 import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -152,6 +153,8 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>("black");
   const [quantity, setQuantity] = useState(1);
+  const [zoomOrigin, setZoomOrigin] = useState<{ x: number; y: number } | null>(null);
+  const { data: viewsToday = 0 } = useProductViewsToday(product?.id);
 
   const rawImages: (string | null | undefined)[] = (product as any)?.images?.length
     ? (product as any).images
