@@ -45,7 +45,8 @@ export function CommunityCarousel({
       align: "start",
       slidesToScroll: 1,
       containScroll: "trimSnaps",
-      loop: posts.length > 2,
+      loop: true,
+      dragFree: false,
     },
     [autoplay.current],
   );
@@ -74,22 +75,31 @@ export function CommunityCarousel({
 
   return (
     <section className="section-x" aria-labelledby="community-carousel-title">
-      {/* Header */}
-      <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div className="flex flex-col items-center text-center gap-2 md:items-start md:text-left">
-          <LivePulse count={feed.liveCount} variant="inline" />
-          <h2
-            id="community-carousel-title"
-            className="font-display text-2xl sm:text-3xl md:text-4xl leading-tight tracking-tight"
+      {/* Header — left-aligned at every breakpoint to match the rest of the page */}
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col items-start text-left gap-2 min-w-0">
+          <Link
+            to={`${viewAllHref}?filter=live`}
+            className="inline-flex rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label="See live community activity"
           >
-            {title}
-          </h2>
+            <LivePulse count={feed.liveCount} variant="inline" />
+          </Link>
+          <Link
+            to={viewAllHref}
+            id="community-carousel-title"
+            className="font-display text-xl sm:text-2xl md:text-[28px] lg:text-3xl leading-tight tracking-tight hover:text-primary transition-colors"
+          >
+            <h2 className="inline">{title}</h2>
+          </Link>
           {subtitle && (
-            <p className="text-sm text-muted-foreground max-w-md">{subtitle}</p>
+            <p className="text-[13px] sm:text-sm text-muted-foreground max-w-md line-clamp-1 sm:line-clamp-2">
+              {subtitle}
+            </p>
           )}
         </div>
 
-        <div className="flex items-center justify-center gap-2 md:justify-end">
+        <div className="flex items-center justify-end gap-2 shrink-0">
           <div className="hidden md:flex items-center gap-1.5">
             <ArrowBtn dir="prev" disabled={!canPrev} onClick={() => emblaApi?.scrollPrev()} />
             <ArrowBtn dir="next" disabled={!canNext} onClick={() => emblaApi?.scrollNext()} />
@@ -97,7 +107,7 @@ export function CommunityCarousel({
           <Link
             to={viewAllHref}
             className={cn(
-              "inline-flex h-10 items-center gap-1.5 rounded-full px-4 text-sm font-medium",
+              "inline-flex h-9 sm:h-10 items-center gap-1.5 rounded-full px-3 sm:px-4 text-[13px] sm:text-sm font-medium",
               "bg-card/70 backdrop-blur-xl border border-border/60 text-foreground",
               "hover:bg-primary/10 hover:text-primary hover:border-primary/40",
               "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -110,7 +120,7 @@ export function CommunityCarousel({
       </header>
 
       {/* Carousel body */}
-      <div className="relative mt-4 md:mt-6">
+      <div className="relative mt-3 md:mt-5">
         <div
           aria-hidden
           className="hidden lg:block pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-background to-transparent"
@@ -127,32 +137,32 @@ export function CommunityCarousel({
         ) : (
           <>
             <div ref={emblaRef} className="overflow-hidden">
-              <div className="flex gap-4 lg:gap-5 items-stretch">
+              <div className="flex gap-3 sm:gap-4 lg:gap-5 items-stretch">
                 {posts.map((post) => {
                   const fresh = !postsOverride && feed.isNew(post.id);
                   return (
                     <div
                       key={post.id}
                       className={cn(
-                        "flex-[0_0_100%] sm:flex-[0_0_85%] md:flex-[0_0_60%] lg:flex-[0_0_calc(50%-10px)] min-w-0 relative",
+                        "flex-[0_0_88%] sm:flex-[0_0_70%] md:flex-[0_0_48%] lg:flex-[0_0_calc(50%-10px)] min-w-0 relative",
                         fresh && "animate-in fade-in slide-in-from-left-4 duration-500",
                       )}
                     >
                       {fresh && (
-                        <span className="absolute top-3 left-3 z-20 inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[9px] font-mono uppercase tracking-[0.18em] text-primary-foreground shadow-md">
+                        <span className="absolute top-3 left-3 z-20 inline-flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[9px] font-mono uppercase tracking-[0.18em] text-primary-foreground shadow-md pointer-events-none">
                           <Sparkles className="h-2.5 w-2.5" />
                           New
                         </span>
                       )}
-                      <PostCard post={post} />
+                      <PostCard post={post} href={`${viewAllHref}?post=${post.id}`} />
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* Mobile controls: arrows + progress dots */}
-            <div className="mt-5 flex items-center justify-center gap-4 md:hidden">
+            {/* Mobile controls: arrows + progress dots + subtle swipe hint */}
+            <div className="mt-4 flex items-center justify-between gap-3 md:hidden">
               <ArrowBtn dir="prev" disabled={!canPrev} onClick={() => emblaApi?.scrollPrev()} />
               <div className="flex items-center gap-1.5">
                 {snaps.map((_, i) => (
@@ -178,13 +188,13 @@ export function CommunityCarousel({
 
 function SkeletonRow() {
   return (
-    <div className="flex gap-4 lg:gap-5">
+    <div className="flex gap-3 sm:gap-4 lg:gap-5">
       {[0, 1].map((i) => (
         <div
           key={i}
-          className="flex-[0_0_100%] sm:flex-[0_0_85%] md:flex-[0_0_60%] lg:flex-[0_0_calc(50%-10px)] min-w-0"
+          className="flex-[0_0_88%] sm:flex-[0_0_70%] md:flex-[0_0_48%] lg:flex-[0_0_calc(50%-10px)] min-w-0"
         >
-          <div className="h-[360px] sm:h-[440px] md:h-[520px] rounded-2xl bg-muted/40 animate-pulse" />
+          <div className="h-[260px] sm:h-[340px] md:h-[420px] rounded-2xl bg-muted/40 animate-pulse" />
         </div>
       ))}
     </div>
