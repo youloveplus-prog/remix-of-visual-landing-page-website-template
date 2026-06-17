@@ -48,7 +48,7 @@ export function AiAssistantBox() {
             <div className="min-w-0">
               <h2
                 style={{ fontFamily: SERIF }}
-                className="text-xl sm:text-2xl md:text-3xl tracking-tight leading-none text-[#0d0d0d] dark:text-[#f5f3ee]"
+                className="text-xl sm:text-2xl md:text-3xl tracking-tight leading-none text-[#0d0d0d] dark:text-[#f5f3ee] whitespace-nowrap"
               >
                 {"Asikon AI".split("").map((ch, i) => (
                   <span
