@@ -182,22 +182,38 @@ const ProductDetail = () => {
           suppressCanonical
         />
         <MobilePage maxWidth="reading">
-          <div className="py-16 text-center space-y-5">
-            <div className="mx-auto h-14 w-14 rounded-2xl bg-muted grid place-items-center">
+          <section
+            role="alert"
+            aria-live="assertive"
+            aria-labelledby="product-not-found-title"
+            aria-describedby="product-not-found-desc"
+            data-testid="product-not-found"
+            className="py-16 text-center space-y-5"
+          >
+            <div
+              aria-hidden="true"
+              className="mx-auto h-14 w-14 rounded-2xl bg-muted grid place-items-center"
+            >
               <Package className="h-6 w-6 text-muted-foreground" />
             </div>
             <div className="space-y-1.5">
-              <h1 className="font-display text-2xl font-semibold">Product not found</h1>
-              <p className="text-sm text-muted-foreground max-w-sm mx-auto">
+              <h1 id="product-not-found-title" className="font-display text-2xl font-semibold">
+                Product not found
+              </h1>
+              <p id="product-not-found-desc" className="text-sm text-muted-foreground max-w-sm mx-auto">
                 This item may have been removed or the link is out of date. Try browsing our shop or featured picks.
               </p>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <Link to="/shop"><Button variant="outline" className="rounded-full">Back to shop</Button></Link>
-              <Link to="/shop?featured=1"><Button className="rounded-full">Browse featured</Button></Link>
-            </div>
+            <nav aria-label="Recovery actions" className="flex items-center justify-center gap-2">
+              <Link to="/shop" aria-label="Back to shop">
+                <Button variant="outline" className="rounded-full">Back to shop</Button>
+              </Link>
+              <Link to="/shop?featured=1" aria-label="Browse featured products">
+                <Button className="rounded-full">Browse featured</Button>
+              </Link>
+            </nav>
             <NotFoundSuggestions />
-          </div>
+          </section>
         </MobilePage>
       </AppLayout>
     );
