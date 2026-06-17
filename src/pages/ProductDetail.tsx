@@ -147,7 +147,7 @@ const ProductDetail = () => {
       return;
     }
     if (!product) return;
-    if (!isCourse && !isBook && !selectedSize) {
+    if (!isDigitalOnly && !selectedSize) {
       toast({ title: "Select a size", description: "Please select a size first.", variant: "destructive" });
       return;
     }
