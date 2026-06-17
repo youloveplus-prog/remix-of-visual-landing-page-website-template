@@ -76,9 +76,10 @@ const ResetPassword = () => {
       });
       setTimeout(() => navigate("/", { replace: true }), 1600);
     } catch (err: any) {
+      const msg = mapResetError(err.message ?? "");
       toast({
-        title: "Couldn't update password",
-        description: err.message || "The reset link may have expired. Please request a new one.",
+        title: msg.title,
+        description: msg.description,
         variant: "destructive",
       });
     } finally {
