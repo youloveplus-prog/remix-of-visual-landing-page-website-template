@@ -748,10 +748,11 @@ function OAuthButton({
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "h-11 rounded-xl border border-border bg-card hover:bg-secondary/60",
+        "group relative h-11 rounded-xl border border-border bg-card/80 backdrop-blur",
+        "hover:bg-secondary/60 hover:border-foreground/20 hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/5",
         "flex items-center justify-center gap-2 text-sm font-medium text-foreground",
-        "transition-colors duration-150 active:scale-[0.99]",
-        "disabled:opacity-60",
+        "transition-all duration-200 active:translate-y-0 active:scale-[0.99]",
+        "disabled:opacity-60 disabled:hover:translate-y-0",
       )}
     >
       {loading ? (
