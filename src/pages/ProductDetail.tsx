@@ -453,7 +453,7 @@ const ProductDetail = () => {
         </div>
 
         {/* Desktop main */}
-        <div className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
+        <div ref={heroRef} className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
           {/* Gallery */}
           <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
