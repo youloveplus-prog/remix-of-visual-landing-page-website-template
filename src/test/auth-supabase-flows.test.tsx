@@ -9,31 +9,34 @@ import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
 // --- Mocks -----------------------------------------------------------------
-const auth = {
-  signInWithPassword: vi.fn(),
-  signUp: vi.fn(),
-  verifyOtp: vi.fn(),
-  resend: vi.fn(),
-  resetPasswordForEmail: vi.fn(),
-  signInWithOAuth: vi.fn(),
-  onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
-  getSession: vi.fn(() => Promise.resolve({ data: { session: null } })),
-  signOut: vi.fn(),
-};
+const { auth, toastFn } = vi.hoisted(() => ({
+  auth: {
+    signInWithPassword: vi.fn(),
+    signUp: vi.fn(),
+    verifyOtp: vi.fn(),
+    resend: vi.fn(),
+    resetPasswordForEmail: vi.fn(),
+    signInWithOAuth: vi.fn(),
+    onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: () => {} } } })),
+    getSession: vi.fn(() => Promise.resolve({ data: { session: null } })),
+    signOut: vi.fn(),
+  },
+  toastFn: vi.fn(),
+}));
 
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: { auth },
 }));
 
 vi.mock("@/hooks/useAuth", () => ({
-  useAuth: () => ({ user: null, session: null, loading: false, isLoggedIn: false, signOut: vi.fn() }),
+  useAuth: () => ({ user: null, session: null, loading: false, isLoggedIn: false, signOut: () => {} }),
 }));
 
-const toastFn = vi.fn();
 vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({ toast: toastFn }),
   toast: toastFn,
 }));
+
 
 // Import AFTER mocks so the component picks them up.
 import Auth from "@/pages/Auth";
