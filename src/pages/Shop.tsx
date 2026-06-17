@@ -234,7 +234,7 @@ const Shop = () => {
       <SEO
         title="Explore — Courses, Books & Kits"
         description="Browse curated courses, books, study kits, and prompt libraries — every item vetted by ASIKON mentors."
-        url="https://asikonpro.lovable.app/shop"
+        url="https://style-verse-suite.lovable.app/shop"
       />
       <div className="container-editorial pb-8 lg:pb-16">
 

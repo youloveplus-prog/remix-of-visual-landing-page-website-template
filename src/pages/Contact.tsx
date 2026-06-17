@@ -26,7 +26,7 @@ const Contact = () => {
       <SEO
         title="Contact ASIKON — we'd love to hear from you"
         description="Reach the ASIKON team for support, partnerships, press, or feedback. We reply within one business day."
-        url="https://asikonpro.lovable.app/contact"
+        url="https://style-verse-suite.lovable.app/contact"
       />
 
       <Reveal as="section" className="pt-20 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-24">

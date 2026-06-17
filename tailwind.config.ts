@@ -130,8 +130,6 @@ export default {
       fontFamily: {
         sans: [
           'Schibsted Grotesk',
-          'Plus Jakarta Sans',
-          'Satoshi',
           'Hind Siliguri',
           'Noto Sans Bengali',
           'ui-sans-serif',
@@ -143,23 +141,19 @@ export default {
         ],
         display: [
           'Clash Display',
-          'Plus Jakarta Sans',
-          'Satoshi',
-          'Hind Siliguri',
+          'Schibsted Grotesk',
           'ui-sans-serif',
           'system-ui',
           'sans-serif'
         ],
         serif: [
-          'Sentient',
+          'Clash Display',
           'ui-serif',
           'Georgia',
           'serif'
         ],
         grotesk: [
           'Schibsted Grotesk',
-          'Plus Jakarta Sans',
-          'Satoshi',
           'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
@@ -168,7 +162,6 @@ export default {
         bangla: [
           'Hind Siliguri',
           'Noto Sans Bengali',
-          'Satoshi',
           'ui-sans-serif',
           'sans-serif'
         ],
@@ -179,13 +172,13 @@ export default {
           'monospace'
         ],
         'dot-matrix': [
-          'Tiny5',
           'Departure Mono',
           'JetBrains Mono',
           'ui-monospace',
           'monospace'
         ],
         mono: [
+          'Departure Mono',
           'JetBrains Mono',
           'ui-monospace',
           'SFMono-Regular',

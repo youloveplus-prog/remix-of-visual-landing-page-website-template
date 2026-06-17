@@ -181,49 +181,49 @@ function AnimatedRoutes() {
       <RouteSEO />
       <Suspense fallback={null}>
         <Routes location={location}>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<ErrorBoundary><Index /></ErrorBoundary>} />
           <Route path="/index" element={<Navigate to="/" replace />} />
           <Route path="/shop" element={<ErrorBoundary><Shop /></ErrorBoundary>} />
           <Route path="/community" element={<ErrorBoundary><Community /></ErrorBoundary>} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:userId" element={<Profile />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/product/:slug" element={<ProductDetail />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/orders/:id" element={<OrderDetail />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/create" element={<CreateContent />} />
-          <Route path="/mentors" element={<Mentors />} />
+          <Route path="/game" element={<ErrorBoundary><Game /></ErrorBoundary>} />
+          <Route path="/profile" element={<ErrorBoundary><Profile /></ErrorBoundary>} />
+          <Route path="/profile/:userId" element={<ErrorBoundary><Profile /></ErrorBoundary>} />
+          <Route path="/cart" element={<ErrorBoundary><Cart /></ErrorBoundary>} />
+          <Route path="/auth" element={<ErrorBoundary><Auth /></ErrorBoundary>} />
+          <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
+          <Route path="/product/:slug" element={<ErrorBoundary><ProductDetail /></ErrorBoundary>} />
+          <Route path="/checkout" element={<ErrorBoundary><Checkout /></ErrorBoundary>} />
+          <Route path="/orders" element={<ErrorBoundary><Orders /></ErrorBoundary>} />
+          <Route path="/orders/:id" element={<ErrorBoundary><OrderDetail /></ErrorBoundary>} />
+          <Route path="/wishlist" element={<ErrorBoundary><Wishlist /></ErrorBoundary>} />
+          <Route path="/settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
+          <Route path="/create" element={<ErrorBoundary><CreateContent /></ErrorBoundary>} />
+          <Route path="/mentors" element={<ErrorBoundary><Mentors /></ErrorBoundary>} />
           <Route path="/learn" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
           <Route path="/ai-tutor" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
           <Route path="/ai-tutor/:threadId" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
           <Route path="/revision" element={<ErrorBoundary><Revision /></ErrorBoundary>} />
-          <Route path="/about" element={<About />} />
-          <Route path="/prompts" element={<Prompts />} />
-          <Route path="/welcome" element={<Welcome />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/help" element={<Help />} />
+          <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
+          <Route path="/prompts" element={<ErrorBoundary><Prompts /></ErrorBoundary>} />
+          <Route path="/welcome" element={<ErrorBoundary><Welcome /></ErrorBoundary>} />
+          <Route path="/contact" element={<ErrorBoundary><Contact /></ErrorBoundary>} />
+          <Route path="/help" element={<ErrorBoundary><Help /></ErrorBoundary>} />
           <Route path="/faq" element={<Navigate to="/help" replace />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/refund" element={<Refund />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/digital" element={<DigitalList />} />
-          <Route path="/courses" element={<CoursesList />} />
-          <Route path="/courses/:slug" element={<CourseDetail />} />
-          <Route path="/services" element={<ServicesList />} />
-          <Route path="/content/:slug" element={<ContentDetail />} />
-          <Route path="/library" element={<Library />} />
+          <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
+          <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
+          <Route path="/refund" element={<ErrorBoundary><Refund /></ErrorBoundary>} />
+          <Route path="/notifications" element={<ErrorBoundary><Notifications /></ErrorBoundary>} />
+          <Route path="/leaderboard" element={<ErrorBoundary><Leaderboard /></ErrorBoundary>} />
+          <Route path="/digital" element={<ErrorBoundary><DigitalList /></ErrorBoundary>} />
+          <Route path="/courses" element={<ErrorBoundary><CoursesList /></ErrorBoundary>} />
+          <Route path="/courses/:slug" element={<ErrorBoundary><CourseDetail /></ErrorBoundary>} />
+          <Route path="/services" element={<ErrorBoundary><ServicesList /></ErrorBoundary>} />
+          <Route path="/content/:slug" element={<ErrorBoundary><ContentDetail /></ErrorBoundary>} />
+          <Route path="/library" element={<ErrorBoundary><Library /></ErrorBoundary>} />
           
           
-          <Route path="/track/:slug" element={<TrackDetail />} />
-          <Route path="/lesson/:id" element={<LessonDetail />} />
+          <Route path="/track/:slug" element={<ErrorBoundary><TrackDetail /></ErrorBoundary>} />
+          <Route path="/lesson/:id" element={<ErrorBoundary><LessonDetail /></ErrorBoundary>} />
           <Route path="/asikonasik" element={<AdminLayout />}>
             <Route index element={<AdminOverview />} />
             <Route path="users" element={<AdminUsers />} />

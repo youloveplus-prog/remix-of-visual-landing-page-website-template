@@ -18,7 +18,7 @@ const Privacy = () => (
     title="Privacy Policy."
     updated="May 2026"
     intro="What we collect, why, and the choices you have. We keep it short on purpose."
-    canonical="https://asikonpro.lovable.app/privacy"
+    canonical="https://style-verse-suite.lovable.app/privacy"
     metaTitle="Privacy Policy — ASIKON"
     metaDescription="How ASIKON collects, uses, and protects your personal data across learning, shopping, and community features."
     toc={toc}

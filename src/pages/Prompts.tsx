@@ -162,7 +162,7 @@ const Prompts = () => {
       <SEO
         title="AI Prompt Library — Asikon"
         description="1000+ curated AI prompts for studying, coding, writing, and productivity. Copy and use instantly."
-        url="https://asikonpro.lovable.app/prompts"
+        url="https://style-verse-suite.lovable.app/prompts"
       />
       <div className="container mx-auto px-4 pt-3 pb-24 space-y-6 pb-10">
         {/* Hero */}

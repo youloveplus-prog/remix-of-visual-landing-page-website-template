@@ -127,7 +127,7 @@ const Index = () => {
       <SEO
         title="Asikon — AI-Powered Learning Platform"
         description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners."
-        url="https://asikonpro.lovable.app/"
+        url="https://style-verse-suite.lovable.app/"
       >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",

@@ -16,7 +16,7 @@ const Refund = () => (
     title="Refund & Return Policy."
     updated="May 2026"
     intro="Shop confidently. If something isn't right, we'll make it right."
-    canonical="https://asikonpro.lovable.app/refund"
+    canonical="https://style-verse-suite.lovable.app/refund"
     metaTitle="Refund & Return Policy — ASIKON"
     metaDescription="ASIKON's return, refund, and replacement policy for products purchased through our shop."
     toc={toc}

@@ -31,7 +31,7 @@ export default function Learn() {
       <SEO
         title="Learn — Asikon"
         description="Your personal learning hub. Daily missions, guided tracks, and a 24/7 AI tutor."
-        url="https://asikonpro.lovable.app/learn"
+        url="https://style-verse-suite.lovable.app/learn"
       />
       <MobilePage maxWidth="wide" spacing="space-y-6">
         {/* Header */}
