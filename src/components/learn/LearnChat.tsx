@@ -135,6 +135,22 @@ export function LearnChat({ threadId, onBack }: Props) {
   const [input, setInput] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  // Deep-link: /ai-tutor?topic=ssc.physics.motion prefills a starter prompt
+  // so the Socratic tutor opens with a focused diagnostic on that topic.
+  const prefillRef = useRef(false);
+  useEffect(() => {
+    if (prefillRef.current) return;
+    if (!threadId) return;
+    if (initialMessages && initialMessages.length > 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const topic = params.get("topic");
+    if (topic) {
+      const pretty = topic.split(".").pop()?.replace(/-/g, " ") ?? topic;
+      setInput(`Tutor me on ${pretty} (topic: ${topic}). Start with a quick diagnostic.`);
+      prefillRef.current = true;
+    }
+  }, [threadId, initialMessages]);
+
   const activeThread = threads.find((t) => t.id === threadId);
   const threadTitle = activeThread?.title ?? "New chat";
 
