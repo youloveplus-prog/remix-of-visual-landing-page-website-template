@@ -3,8 +3,21 @@ import { useParams, Link } from "react-router-dom";
 import {
   Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Zap, ShieldCheck,
   Play, CheckCircle2, Award, Users, Globe, Infinity as InfinityIcon, ArrowLeft,
-  RotateCcw, Sparkles,
+  RotateCcw, Sparkles, GraduationCap, BookOpen, Download, Package, Cpu,
+  type LucideIcon,
 } from "lucide-react";
+import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
+
+const PRODUCT_CTA_ICON: Record<ProductCtaIcon, LucideIcon> = {
+  "graduation-cap": GraduationCap,
+  "book-open": BookOpen,
+  download: Download,
+  sparkles: Sparkles,
+  package: Package,
+  cpu: Cpu,
+  users: Users,
+  "arrow-up-right": ShoppingCart,
+};
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
@@ -133,6 +146,8 @@ const ProductDetail = () => {
   const name = product.name || "";
   const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
   const isBook = /book|hardcover|edition/i.test(name);
+  const cta = getProductCta({ name, categoryName: (product as any).category ?? undefined });
+  const CtaIcon = PRODUCT_CTA_ICON[cta.icon] ?? ShoppingCart;
 
   const canonical = `https://asikonpro.lovable.app/product/${slug}`;
   const productDesc = (product.description || `Buy ${name} on Asikon.`).slice(0, 155);
@@ -268,8 +283,8 @@ const ProductDetail = () => {
                 disabled={addToCart.isPending}
                 className="rounded-full h-12 px-5 bg-foreground text-background hover:bg-foreground/90"
               >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                {isCourse ? "Enroll" : "Add to cart"}
+                <CtaIcon className="h-4 w-4 mr-2" />
+                {cta.primaryLabel}
               </Button>
             </div>
 
@@ -445,8 +460,8 @@ const ProductDetail = () => {
                 >+</button>
               </div>
               <Button className="flex-1 rounded-full" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                {addToCart.isPending ? "Adding..." : isCourse ? "Enroll now" : "Add to cart"}
+                <CtaIcon className="h-4 w-4 mr-2" />
+                {addToCart.isPending ? "Adding..." : cta.primaryLabel}
               </Button>
               <Button variant="outline" size="lg" className="rounded-full h-12 w-12 p-0" aria-label="Save"><Heart className="h-4 w-4" /></Button>
             </div>
@@ -581,7 +596,7 @@ const ProductDetail = () => {
             )}
           </div>
           <Button size="lg" className="px-6" onClick={handleAddToCart} disabled={addToCart.isPending}>
-            <ShoppingCart className="h-4 w-4 mr-2" />{isCourse ? "Enroll" : "Add to cart"}
+            <CtaIcon className="h-4 w-4 mr-2" />{cta.primaryShortLabel}
           </Button>
         </div>
       </StickyActionBar>

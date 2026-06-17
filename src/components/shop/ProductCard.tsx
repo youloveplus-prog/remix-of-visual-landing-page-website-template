@@ -1,4 +1,20 @@
-import { Heart, Star, ArrowUpRight, TrendingUp, Shield, Zap, BadgeCheck, Users } from "lucide-react";
+import {
+  Heart,
+  Star,
+  ArrowUpRight,
+  TrendingUp,
+  Shield,
+  Zap,
+  BadgeCheck,
+  Users,
+  GraduationCap,
+  BookOpen,
+  Download,
+  Sparkles,
+  Package,
+  Cpu,
+  type LucideIcon,
+} from "lucide-react";
 import { useState, forwardRef, memo } from "react";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types";
@@ -6,12 +22,17 @@ import { Badge } from "@/components/ui/badge";
 import { SmartImage } from "@/components/ui/smart-image";
 import { Price } from "@/lib/currency";
 import { ProductQuickView } from "./ProductQuickView";
+import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
 
-const CTA_BY_KIND: Record<NonNullable<Product["kind"]>, { full: string; short: string }> = {
-  course: { full: "Enroll", short: "Enroll" },
-  ebook: { full: "Buy Now", short: "Buy" },
-  service: { full: "Book Now", short: "Book" },
-  bundle: { full: "Get Bundle", short: "Get" },
+const ICON_BY_NAME: Record<ProductCtaIcon, LucideIcon> = {
+  "graduation-cap": GraduationCap,
+  "book-open": BookOpen,
+  download: Download,
+  sparkles: Sparkles,
+  package: Package,
+  cpu: Cpu,
+  users: Users,
+  "arrow-up-right": ArrowUpRight,
 };
 
 interface ProductCardProps {
@@ -50,8 +71,10 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
       .filter(Boolean)
       .slice(0, isCompact ? 2 : 3);
 
-    const ctaFull = product.kind ? CTA_BY_KIND[product.kind].full : "Order Now";
-    const ctaShort = product.kind ? CTA_BY_KIND[product.kind].short : "Order";
+    const cta = getProductCta(product);
+    const CtaIcon = ICON_BY_NAME[cta.icon] ?? ArrowUpRight;
+    const ctaFull = cta.primaryLabel;
+    const ctaShort = cta.primaryShortLabel;
 
     return (
       <>
@@ -259,8 +282,14 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card"
                 )}
               >
-                <span className="hidden sm:inline">{ctaFull}</span>
-                <span className="sm:hidden">{ctaShort}</span>
+                <span className="hidden sm:inline-flex items-center gap-1">
+                  <CtaIcon aria-hidden="true" className="h-3.5 w-3.5" />
+                  {ctaFull}
+                </span>
+                <span className="sm:hidden inline-flex items-center gap-1">
+                  <CtaIcon aria-hidden="true" className="h-3.5 w-3.5" />
+                  {ctaShort}
+                </span>
                 <ArrowUpRight aria-hidden="true" className="h-3 w-3 md:h-3.5 md:w-3.5 transition-transform duration-200 motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5 motion-reduce:transition-none" />
               </button>
             </div>

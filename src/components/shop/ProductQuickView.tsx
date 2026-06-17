@@ -1,11 +1,11 @@
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Heart, Star, ShoppingCart, Minus, Plus, Package, Truck, Shield } from "lucide-react";
+import { Heart, Star, Minus, Plus, Package, Truck, Shield } from "lucide-react";
 import { useState } from "react";
 import { Product } from "@/types";
 import { cn } from "@/lib/utils";
 import { TrustBadge } from "@/components/ui/trust-badge";
 import { Price } from "@/lib/currency";
+import { ProductCtaButton } from "@/components/shop/ProductCtaButton";
 
 interface ProductQuickViewProps {
   product: Product | null;
@@ -148,10 +148,10 @@ export function ProductQuickView({ product, open, onOpenChange }: ProductQuickVi
 
             {/* Actions */}
             <div className="flex gap-3 mt-auto">
-              <Button className="flex-1 gradient-primary text-primary-foreground font-semibold h-12">
-                <ShoppingCart className="h-5 w-5 mr-2" />
-                Add to Cart
-              </Button>
+              <ProductCtaButton
+                product={product}
+                className="flex-1 gradient-primary text-primary-foreground h-12"
+              />
             </div>
 
             {/* Trust Badges */}

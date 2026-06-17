@@ -1,37 +1,55 @@
-Goal: Make the Quick Actions section dramatically more compact while surfacing all items for instant access — no "See all" sheet required.
+# Category-aware product CTAs
 
-```
-Current:  1 featured (full-width) + 5 bento tiles (2-col) + "See all" sheet
-Proposed: 1 compact featured row + 18-item dense icon grid (4-col mobile, 6-col desktop)
-```
+Replace the generic "Add to cart / Buy now" everywhere with a label + icon + post-purchase action that fits the product's category. The current categories drive the mapping; nothing in the database needs to change.
 
-### Changes
+## CTA mapping
 
-1. **Featured tile — compress to a horizontal banner**
-   - Same `bg-primary` and blur accents
-   - Height reduced from `min-h` bento to a single compact row (~56–64px)
-   - Icon left, label + kicker middle, arrow right
-   - Removes the large vertical footprint while keeping prominence
+| Category slug   | Primary CTA      | Secondary CTA    | Icon       | After purchase            |
+| --------------- | ---------------- | ---------------- | ---------- | ------------------------- |
+| `courses`       | Enroll now       | Start free preview | GraduationCap | Continue learning (→ /learn) |
+| `books`         | Read now         | Preview chapter  | BookOpen    | Open in reader (→ /library) |
+| `prompts`       | Download pack    | Copy sample      | Download    | Download again (→ /library) |
+| `ai-tutor`      | Start chatting   | Try a demo       | Sparkles    | Open AI Tutor (→ /tutor)    |
+| `kits`          | Get the kit      | What's inside    | Package     | Download files (→ /library) |
+| `gadgets`       | Get blueprint    | View specs       | Cpu         | Download files (→ /library) |
+| _fallback_      | Get access       | Learn more       | ArrowRight  | View in library             |
 
-2. **Inline all-access icon grid — replace bento tiles with a dense app-launcher grid**
-   - Use ALL_TILES (18 items) rendered as small icon + label cells
-   - 4 columns on mobile, 5–6 on desktop (gap-2, p-2)
-   - Each cell: 40×40 rounded-xl icon container + 2-line 10px label
-   - No kickers on grid items (reduces noise); keep label only
-   - Hover: subtle `bg-primary/5` tint + `scale-105`
+Already-owned items always show **Open / Continue** instead of the purchase CTA on every surface.
 
-3. **Remove the "See all" Sheet**
-   - All items are now visible inline
-   - Remove Sheet, SheetTrigger, SheetContent, SheetTile
-   - Remove TILES array (replaced by ALL_TILES inline)
+## Implementation
 
-4. **Section spacing reduction**
-   - Header margin `mb-5` → `mb-3`
-   - Section padding tighter
-   - "Dashboard" kicker + "Quick Actions" title can stack even more compactly
+1. **Single source of truth** — new `src/lib/productCta.ts`:
+   - Exports `type ProductCtaKind` and `getProductCta(product)` returning `{ kind, primaryLabel, secondaryLabel, icon, ownedLabel, ownedHref }`.
+   - Resolves from `product.category?.slug` first, then falls back to a keyword check on `category.name` / `product.name` for legacy rows (e.g. "course" in the title → courses).
+   - Pure, fully unit-testable; no React imports.
 
-### Result
-- Vertical space: ~60% reduction vs current bento layout
-- Access: 100% of quick actions visible without interaction (was 6/18)
-- Interaction: single tap on any item, no sheet navigation
-- Visual density matches the "workspace command center" intent
+2. **Reusable button** — new `src/components/shop/ProductCtaButton.tsx`:
+   - Props: `product`, `variant` (`primary` | `secondary` | `compact`), optional `owned`, `onPurchase`.
+   - Renders icon + label, handles owned state, forwards to existing cart / checkout handlers.
+
+3. **Swap the call sites** (no behavior change beyond label/icon/owned routing):
+   - `src/components/shop/ProductCard.tsx` — grid card primary action
+   - `src/components/shop/ProductQuickView.tsx` — quick view modal
+   - `src/pages/ProductDetail.tsx` — hero CTA + sticky bar
+   - `src/components/ui/sticky-action-bar.tsx` — accept a `product` prop and delegate
+   - `src/pages/Wishlist.tsx`, `src/pages/Learn.tsx`, `src/pages/ContentDetail.tsx`, `src/pages/TrackDetail.tsx`, `src/pages/Game.tsx` — same replacement
+   - `src/components/learn/MyCoursesSection.tsx` — already owned, show "Continue learning"
+
+4. **Owned detection** — read from the existing `useUserPurchases` / `useUserCourses` hook (whichever the page already uses). If a page doesn't have it, skip owned-state rendering for that surface (no new queries in this pass).
+
+5. **Tests**
+   - `src/lib/productCta.test.ts` — table-driven test covering each category slug, keyword fallback, and the owned override.
+   - Existing `tests/visual/product-card-price.spec.py` will catch any layout drift from the new icon/label.
+
+## Out of scope
+
+- No new database columns or migrations — category is enough.
+- No changes to checkout, cart logic, or pricing.
+- No admin UI for per-product CTA override (can be a follow-up if you ever need one).
+
+## Files touched
+
+- add: `src/lib/productCta.ts`, `src/lib/productCta.test.ts`, `src/components/shop/ProductCtaButton.tsx`
+- edit: 9 call sites listed above
+
+Approve and I'll implement.
