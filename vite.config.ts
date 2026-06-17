@@ -1,7 +1,29 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { generateSitemap } from "./scripts/generate-sitemap";
+
+/**
+ * Regenerates `public/sitemap.xml` once per Vite startup (dev + build).
+ * Runs at `buildStart` so the file is on disk before the dev server
+ * serves `public/` and before the build copies it into `dist/`.
+ */
+function sitemapPlugin(): Plugin {
+  let ran = false;
+  return {
+    name: "asikon-sitemap",
+    buildStart() {
+      if (ran) return;
+      ran = true;
+      try {
+        generateSitemap("public");
+      } catch (err) {
+        this.warn(`sitemap generation failed: ${(err as Error).message}`);
+      }
+    },
+  };
+}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -9,7 +31,11 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [
+    react(),
+    sitemapPlugin(),
+    mode === "development" && componentTagger(),
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
