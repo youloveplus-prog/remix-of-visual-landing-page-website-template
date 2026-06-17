@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 
 type Chip = { label: string; prompt: string };
 
