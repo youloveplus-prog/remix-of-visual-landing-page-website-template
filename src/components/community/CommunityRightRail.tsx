@@ -132,7 +132,9 @@ export function CommunityRightRail() {
 
       {/* Live now */}
       <Tile icon={Radio} title="Live now" accent>
-        {loading ? (
+        {error ? (
+          <ErrorRow message="Couldn't load live sessions." onRetry={handleRetry} />
+        ) : loading ? (
           <LiveRowSkeleton />
         ) : !live ? (
           <EmptyRow
