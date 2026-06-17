@@ -1,5 +1,6 @@
 import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, Bookmark, BadgeCheck } from "lucide-react";
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo, useState, type MouseEvent } from "react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -7,16 +8,30 @@ import { SmartImage } from "@/components/ui/smart-image";
 
 interface PostCardProps {
   post: Post;
+  /** When provided, the whole card becomes a link. Inner actions stay interactive. */
+  href?: string;
 }
 
-function PostCardImpl({ post }: PostCardProps) {
+function PostCardImpl({ post, href }: PostCardProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked || false);
   const [likes, setLikes] = useState(post.likes);
   const [saved, setSaved] = useState(false);
 
-  const handleLike = () => {
+  const stop = (e: MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  const handleLike = (e: MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     setIsLiked(!isLiked);
     setLikes(isLiked ? likes - 1 : likes + 1);
+  };
+
+  const handleSave = (e: MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setSaved((s) => !s);
   };
 
   // Normalize to a single images array; supports legacy `image` field
@@ -26,15 +41,16 @@ function PostCardImpl({ post }: PostCardProps) {
     return [];
   }, [post.images, post.image]);
 
-  return (
-    <article
-      className={cn(
-        "group/post mx-auto w-full max-w-[640px]",
-        "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
-        "transition-shadow duration-200",
-        "sm:hover:shadow-[var(--shadow-md)]"
-      )}
-    >
+  const articleClass = cn(
+    "group/post mx-auto w-full max-w-[640px]",
+    "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
+    "transition-shadow duration-200",
+    "sm:hover:shadow-[var(--shadow-md)]",
+    href && "focus-within:ring-2 focus-within:ring-ring",
+  );
+
+  const body = (
+    <>
       {/* Header */}
       <header className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3 min-w-0">
@@ -59,6 +75,7 @@ function PostCardImpl({ post }: PostCardProps) {
           </div>
         </div>
         <button
+          onClick={stop}
           aria-label="More options"
           className="p-2 -mr-2 hover:bg-secondary/60 rounded-full transition-colors"
         >
@@ -69,7 +86,7 @@ function PostCardImpl({ post }: PostCardProps) {
       {/* Caption (above images, Facebook-style) */}
       {post.content && (
         <div className="px-4 pb-3">
-          <p className="text-[14px] leading-[1.55] text-foreground/90 whitespace-pre-wrap">
+          <p className="text-[14px] leading-[1.55] text-foreground/90 whitespace-pre-wrap line-clamp-2 sm:line-clamp-3">
             {post.content}
           </p>
         </div>
@@ -96,19 +113,15 @@ function PostCardImpl({ post }: PostCardProps) {
               {likes.toLocaleString()}
             </span>
           </ActionButton>
-          <ActionButton ariaLabel="Comment">
+          <ActionButton ariaLabel="Comment" onClick={stop}>
             <MessageCircle className="h-[18px] w-[18px]" />
             <span className="text-[12.5px] font-medium tabular-nums">{post.comments}</span>
           </ActionButton>
-          <ActionButton ariaLabel="Share">
+          <ActionButton ariaLabel="Share" onClick={stop}>
             <Share2 className="h-[18px] w-[18px]" />
           </ActionButton>
         </div>
-        <ActionButton
-          onClick={() => setSaved((s) => !s)}
-          active={saved}
-          ariaLabel="Save"
-        >
+        <ActionButton onClick={handleSave} active={saved} ariaLabel="Save">
           <Bookmark
             className={cn(
               "h-[18px] w-[18px] transition-all",
@@ -120,8 +133,22 @@ function PostCardImpl({ post }: PostCardProps) {
 
       {/* Spacer for clean rhythm */}
       <div className="pb-3" />
-    </article>
+    </>
   );
+
+  if (href) {
+    return (
+      <Link
+        to={href}
+        aria-label={`Open post by ${post.user.name}`}
+        className="block focus:outline-none"
+      >
+        <article className={articleClass}>{body}</article>
+      </Link>
+    );
+  }
+
+  return <article className={articleClass}>{body}</article>;
 }
 
 /**
@@ -228,7 +255,7 @@ function ActionButton({
   ariaLabel,
 }: {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void;
   active?: boolean;
   ariaLabel: string;
 }) {
