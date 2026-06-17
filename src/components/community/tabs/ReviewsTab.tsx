@@ -72,36 +72,25 @@ export function ReviewsTab() {
       </div>
 
       {isLoading ? (
-        <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="liquid-glass border border-border rounded-2xl p-4 space-y-3">
-              <div className="flex items-center gap-3">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <Skeleton className="h-3 w-1/3" />
-              </div>
-              <Skeleton className="h-3 w-1/4" />
-              <Skeleton className="h-4 w-5/6" />
-            </div>
-          ))}
-        </div>
+        <SkeletonList count={3}>
+          <ReviewCardSkeleton />
+        </SkeletonList>
       ) : isError ? (
-        <div className="py-12 text-center space-y-3">
-          <p className="text-sm text-muted-foreground">Could not load reviews. Try again.</p>
-          <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
-        </div>
+        <CommunityError
+          message="Could not load reviews."
+          onRetry={() => refetch()}
+        />
       ) : filtered.length === 0 ? (
-        <div className="py-16 text-center space-y-3">
-          <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
-            <Star className="h-6 w-6 text-muted-foreground" />
-          </div>
-          <h3 className="font-display font-semibold text-base">No reviews yet</h3>
-          <p className="text-sm text-muted-foreground">Be the first to share your experience.</p>
-          <Button onClick={() => navigate("/community/create")}>Write a review</Button>
-        </div>
+        <CommunityEmpty
+          icon={Star}
+          title="No reviews yet"
+          description="Be the first to share your experience with the community."
+          action={{ label: "Write a review", onClick: () => navigate("/community/create") }}
+        />
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4 sm:space-y-5">
           {filtered.map(({ raw, post }) => (
-            <article key={raw.id} className="liquid-glass border border-border rounded-2xl p-4 space-y-3">
+            <article key={raw.id} className="rounded-2xl border border-border bg-card p-4 space-y-3">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={post.user.avatar} alt={post.user.name} />
