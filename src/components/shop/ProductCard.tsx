@@ -94,7 +94,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
     const detailHref = `/product/${(product as any).slug || `product-${product.id}`}`;
 
     const { elementRef: impressionRef, stateRef: impressionState } =
-      useProductImpression({
+      useProductImpression<HTMLDivElement>({
         id: product.id,
         name: product.name,
         price: product.price,

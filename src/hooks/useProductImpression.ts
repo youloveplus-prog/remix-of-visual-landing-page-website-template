@@ -39,8 +39,8 @@ const MIN_VISIBILITY = 0.5;
 const MIN_DWELL_MS = 400;
 const THRESHOLDS = [0, 0.25, 0.5, 0.75, 1];
 
-export function useProductImpression(product: Product) {
-  const elementRef = useRef<HTMLElement | null>(null);
+export function useProductImpression<T extends HTMLElement = HTMLElement>(product: Product) {
+  const elementRef = useRef<T | null>(null);
   const stateRef = useRef<ImpressionState>({
     maxVisibility: 0,
     dwellMs: 0,
