@@ -77,16 +77,16 @@ export function AiAssistantBox() {
         </div>
 
         {/* Greeting */}
-        <div className="mb-8 text-center">
+        <div className="mb-6 sm:mb-8 text-center">
           <p
             style={{ fontFamily: SANS, color: DEEP }}
-            className="text-2xl font-light leading-relaxed font-bangla"
+            className="text-2xl sm:text-3xl md:text-4xl font-light leading-relaxed font-bangla"
           >
             আসসালামু আলাইকুম!
           </p>
           <p
             style={{ fontFamily: SANS, color: INK }}
-            className="text-sm mt-2 opacity-80"
+            className="text-sm sm:text-base mt-2 opacity-80"
           >
             How can I help you with your studies today?
           </p>
@@ -98,7 +98,7 @@ export function AiAssistantBox() {
             e.preventDefault();
             go(q);
           }}
-          className="relative mb-10"
+          className="relative mb-6 sm:mb-8"
         >
           <label htmlFor="asikon-ask" className="sr-only">
             Ask Asikon AI
@@ -115,20 +115,20 @@ export function AiAssistantBox() {
               backgroundColor: "#ffffff",
               border: `1px solid ${HAIRLINE}`,
             }}
-            className="w-full rounded-2xl py-4 px-6 pr-14 outline-none transition-all placeholder:opacity-40 focus:ring-1"
+            className="w-full rounded-2xl py-3.5 sm:py-4 px-5 sm:px-6 pr-14 text-sm sm:text-base outline-none transition-all placeholder:opacity-40 focus:ring-1"
           />
           <button
             type="submit"
             aria-label="Send"
             style={{ backgroundColor: DEEP, color: SURFACE }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center hover:opacity-90 transition-opacity"
+            className="absolute right-2.5 sm:right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center hover:opacity-90 transition-opacity"
           >
-            <ArrowRight className="w-5 h-5" strokeWidth={2} />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />
           </button>
         </form>
 
         {/* Suggestions */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
           {CHIPS.map((c) => (
             <button
               key={c.label}
@@ -140,7 +140,7 @@ export function AiAssistantBox() {
                 backgroundColor: "#ffffff",
                 border: `1px solid ${HAIRLINE}`,
               }}
-              className="flex items-center justify-center p-3 text-xs font-medium rounded-xl transition-colors hover:[border-color:#0d0d0d]"
+              className="flex items-center justify-center px-3 py-3 sm:py-3.5 text-[11px] sm:text-xs font-medium rounded-xl transition-colors hover:[border-color:#0d0d0d] text-center"
             >
               {c.label}
             </button>
