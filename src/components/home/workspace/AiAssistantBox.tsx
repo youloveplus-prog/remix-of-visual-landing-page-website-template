@@ -40,24 +40,26 @@ export function AiAssistantBox() {
         className="relative w-full mx-auto rounded-xl sm:rounded-2xl lg:rounded-[2rem] p-5 sm:p-8 lg:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.02)] max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none bg-[#f5f3ee] dark:bg-[#111110] border border-[#e8e4dd] dark:border-[#2a2a28]"
       >
         {/* Identity */}
-        <div className="flex flex-col items-center mb-6 sm:mb-8">
+        <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
           <img
             src={logoImg}
             alt="Asikon"
-            className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl mb-3 sm:mb-4 object-contain"
+            className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl object-contain"
           />
-          <h2
-            style={{ fontFamily: SERIF }}
-            className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-center text-[#0d0d0d] dark:text-[#f5f3ee]"
-          >
-            Asikon AI
-          </h2>
-          <p
-            style={{ fontFamily: SANS }}
-            className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] opacity-60 mt-1 text-[#2d2d2d] dark:text-[#c8c4bc]"
-          >
-            Bilingual Tutor Assistant
-          </p>
+          <div className="flex flex-col items-start">
+            <h2
+              style={{ fontFamily: SERIF }}
+              className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-[#0d0d0d] dark:text-[#f5f3ee]"
+            >
+              Asikon AI
+            </h2>
+            <p
+              style={{ fontFamily: SANS }}
+              className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] opacity-60 mt-0.5 text-[#2d2d2d] dark:text-[#c8c4bc]"
+            >
+              Bilingual Tutor Assistant
+            </p>
+          </div>
         </div>
 
         {/* Greeting */}
