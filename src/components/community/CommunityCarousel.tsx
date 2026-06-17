@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
@@ -8,6 +8,21 @@ import { PostCard } from "./PostCard";
 import { LivePulse } from "./LivePulse";
 import { useCommunityFeed } from "@/hooks/useCommunityFeed";
 import type { Post } from "@/types";
+
+const SLIDE_CLASS =
+  "flex-[0_0_88%] sm:flex-[0_0_70%] md:flex-[0_0_48%] lg:flex-[0_0_calc(50%-10px)] min-w-0";
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+  return reduced;
+}
 
 interface CommunityCarouselProps {
   /** Optional override. When omitted the carousel self-loads from the live feed. */
@@ -26,10 +41,7 @@ export function CommunityCarousel({
   const feed = useCommunityFeed(12);
   const posts = postsOverride ?? feed.posts;
   const isLoading = postsOverride ? false : feed.isLoading;
-
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const autoplay = useRef(
     Autoplay({
@@ -66,12 +78,18 @@ export function CommunityCarousel({
     if (!emblaApi) return;
     setSnaps(emblaApi.scrollSnapList());
     update();
-    emblaApi.on("select", update);
-    emblaApi.on("reInit", () => {
+    const onSelect = () => update();
+    const onReInit = () => {
       setSnaps(emblaApi.scrollSnapList());
       update();
-    });
-  }, [emblaApi, update, posts.length]);
+    };
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onReInit);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onReInit);
+    };
+  }, [emblaApi, update]);
 
   return (
     <section className="section-x" aria-labelledby="community-carousel-title">
