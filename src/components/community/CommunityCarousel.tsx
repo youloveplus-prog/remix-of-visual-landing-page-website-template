@@ -119,8 +119,8 @@ export function CommunityCarousel({
 
         <div className="flex items-center justify-end gap-2 shrink-0">
           <div className="hidden md:flex items-center gap-1.5">
-            <ArrowBtn dir="prev" disabled={!canPrev} onClick={() => emblaApi?.scrollPrev()} />
-            <ArrowBtn dir="next" disabled={!canNext} onClick={() => emblaApi?.scrollNext()} />
+            <ArrowBtn dir="prev" disabled={!canPrev} onClick={useCallback(() => emblaApi?.scrollPrev(), [emblaApi])} />
+            <ArrowBtn dir="next" disabled={!canNext} onClick={useCallback(() => emblaApi?.scrollNext(), [emblaApi])} />
           </div>
           <Link
             to={viewAllHref}
