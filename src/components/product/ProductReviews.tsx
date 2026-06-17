@@ -158,8 +158,47 @@ export function ProductReviews({
         </div>
       </div>
 
+      {/* Sort + filter row */}
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div
+          role="tablist"
+          aria-label="Sort reviews"
+          className="inline-flex items-center rounded-full border border-border bg-background p-0.5"
+        >
+          {(
+            [
+              { key: "top", label: "Top" },
+              { key: "newest", label: "Newest" },
+            ] as const
+          ).map((opt) => {
+            const active = sortBy === opt.key;
+            return (
+              <button
+                key={opt.key}
+                role="tab"
+                aria-selected={active}
+                type="button"
+                onClick={() => setSortBy(opt.key)}
+                className={cn(
+                  "h-8 px-3.5 rounded-full text-[12.5px] font-medium transition-colors",
+                  active
+                    ? "bg-foreground text-background"
+                    : "text-foreground/70 hover:text-foreground",
+                )}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-[12px] text-muted-foreground tabular-nums">
+          Showing {filtered.length} of {reviews.length}
+        </p>
+      </div>
+
       {/* Filter chips */}
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-1 px-1">
+
         <button
           type="button"
           onClick={() => {
