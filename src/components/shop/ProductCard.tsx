@@ -126,9 +126,9 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
         >
         <article
           ref={(node) => {
-            impressionRef.current = node;
-            if (typeof ref === "function") ref(node);
-            else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+            impressionRef.current = node as unknown as HTMLDivElement | null;
+            if (typeof ref === "function") ref(node as unknown as HTMLDivElement);
+            else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node as unknown as HTMLDivElement | null;
           }}
           className={cn(
             "group relative bg-card rounded-2xl md:rounded-3xl overflow-hidden border border-border/60 h-full flex flex-col",
