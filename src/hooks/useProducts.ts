@@ -201,10 +201,26 @@ export function useProduct(slug: string) {
         .eq("slug", slug)
         .maybeSingle();
 
-      if (error) throw error;
-      return data;
+      // Missing table (PGRST205 / 42P01) or empty row → fall back to seed
+      // catalog so detail pages match what Shop/list pages render.
+      const isMissingTable =
+        error && (error.code === "42P01" || error.code === "PGRST205");
+      if (error && !isMissingTable) throw error;
+      if (data) return data;
+
+      if (import.meta.env.DEV && isMissingTable) {
+        // eslint-disable-next-line no-console
+        console.warn("[useProduct] Using seed catalog — products table not provisioned");
+      }
+      const fallback =
+        fallbackProducts.find((p) => p.slug === slug) ??
+        fallbackProducts.find((p) => p.id === slug) ??
+        null;
+      return fallback;
     },
     enabled: !!slug,
+    retry: 0,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
