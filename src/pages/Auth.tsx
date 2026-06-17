@@ -411,6 +411,24 @@ const Auth = () => {
             </ul>
           </div>
 
+            {/* Floating testimonial card */}
+            <figure className="rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-md p-5 shadow-2xl shadow-black/40">
+              <blockquote className="text-[14px] text-white/90 leading-relaxed">
+                "The AI tutor answered my doubts at 2 a.m. before exams. Asikon
+                doesn't just teach — it learns with you."
+              </blockquote>
+              <figcaption className="flex items-center gap-3 mt-4">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#a78bfa] grid place-items-center text-xs font-semibold text-white shadow-lg shadow-indigo-500/30">
+                  S
+                </div>
+                <div>
+                  <p className="text-[12.5px] font-medium text-white">Sadia R.</p>
+                  <p className="text-[11px] text-white/60">ML Engineer · Class of 2025</p>
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+
           <div className="relative z-10 flex items-center justify-between text-[11.5px] text-white/60">
             <p>© {new Date().getFullYear()} Asikon Technologies</p>
             <div className="flex items-center gap-1.5">
