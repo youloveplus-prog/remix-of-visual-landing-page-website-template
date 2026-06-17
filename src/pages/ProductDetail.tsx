@@ -460,9 +460,34 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
           {/* Gallery */}
           <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
-            <div className="relative aspect-square rounded-2xl lg:rounded-[1.75rem] overflow-hidden bg-muted ring-1 ring-border/40 lg:shadow-xl lg:shadow-amber-900/5">
+            <div
+              className="group relative aspect-square rounded-2xl lg:rounded-[1.75rem] overflow-hidden bg-muted ring-1 ring-border/40 lg:shadow-xl lg:shadow-amber-900/5"
+              onMouseMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                setZoomOrigin({
+                  x: ((e.clientX - r.left) / r.width) * 100,
+                  y: ((e.clientY - r.top) / r.height) * 100,
+                });
+              }}
+              onMouseLeave={() => setZoomOrigin(null)}
+            >
               <div className="hidden lg:block absolute top-3 left-1/2 -translate-x-1/2 h-1 w-16 rounded-full bg-foreground/20 z-10" />
-              <img src={images[selectedImage] || "/placeholder.svg"} alt={product.name} className="w-full h-full object-cover" />
+              <img
+                src={images[selectedImage] || "/placeholder.svg"}
+                alt={product.name}
+                className="w-full h-full object-cover transition-transform duration-200 ease-out motion-reduce:transform-none lg:group-hover:scale-[1.6]"
+                style={
+                  zoomOrigin
+                    ? { transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%` }
+                    : undefined
+                }
+                draggable={false}
+              />
+              {zoomOrigin && (
+                <span className="hidden lg:flex pointer-events-none absolute bottom-3 right-3 items-center gap-1 rounded-full bg-background/85 backdrop-blur px-2.5 py-1 text-[10.5px] font-medium text-foreground/70 shadow-sm">
+                  Hover to zoom
+                </span>
+              )}
               {images.length > 1 && (
                 <>
                   <button
@@ -614,6 +639,22 @@ const ProductDetail = () => {
                 Secure checkout
               </span>
             </div>
+
+            {viewsToday > 3 && (
+              <p
+                aria-live="polite"
+                className="hidden lg:flex items-center gap-1.5 text-[12px] text-foreground/70"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                <span className="tabular-nums font-medium text-foreground">
+                  {viewsToday.toLocaleString()}
+                </span>
+                <span>people viewed this today</span>
+              </p>
+            )}
 
             {product.description && (
               <div className="rounded-2xl border border-border/60 liquid-glass p-4 lg:p-5">
