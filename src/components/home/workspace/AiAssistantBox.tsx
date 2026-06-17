@@ -39,7 +39,7 @@ export function AiAssistantBox() {
       <div className="relative w-full mx-auto rounded-2xl lg:rounded-[1.75rem] p-4 sm:p-6 lg:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.02)] max-w-md sm:max-w-lg md:max-w-none bg-primary dark:bg-[#111110] border border-white/20 dark:border-[#2a2a28]">
         <div className="grid gap-4 sm:gap-5 md:gap-7 md:grid-cols-[auto_1fr] md:items-center">
           {/* Identity + Greeting */}
-          <div className="flex items-center gap-3 md:flex-col md:items-start md:gap-2 md:pr-6 md:border-r md:border-[#e8e4dd] dark:md:border-[#2a2a28]">
+          <div className="flex items-center gap-3 md:flex-col md:items-start md:gap-2 md:pr-6 md:border-r md:border-white/20 dark:md:border-[#2a2a28]">
             <img
               src={logoImg}
               alt="Asikon"
