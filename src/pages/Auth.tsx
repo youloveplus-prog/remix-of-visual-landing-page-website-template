@@ -481,7 +481,11 @@ const Auth = () => {
             ) : (
               <>
                 {/* Heading */}
-                <div className="mb-7">
+                <div className="mb-7 animate-fade-in">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-primary mb-4">
+                    <Sparkles className="h-3 w-3" />
+                    {activeView === "login" ? "Pick up where you left off" : "100 coins on signup"}
+                  </span>
                   <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
                     {activeView === "login" ? "Welcome back." : "Create your account."}
                   </h2>
@@ -491,8 +495,6 @@ const Auth = () => {
                       : "Build skills with real projects, in minutes."}
                   </p>
                 </div>
-
-                {/* No tab switcher — single CTA at the bottom controls account creation */}
 
                 {/* OAuth */}
                 <div className="grid grid-cols-2 gap-3 mb-5">
