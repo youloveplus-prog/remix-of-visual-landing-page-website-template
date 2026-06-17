@@ -45,6 +45,10 @@ vi.mock("@/hooks/use-toast", () => ({
 vi.mock("@/hooks/useCart", () => ({
   useAddToCart: () => ({ mutate: vi.fn(), isPending: false }),
 }));
+vi.mock("@/lib/currency", () => ({
+  Price: ({ amount, className }: { amount: number; className?: string }) =>
+    createElement("span", { className }, `৳${amount}`),
+}));
 
 beforeEach(() => {
   vi.spyOn(console, "warn").mockImplementation(() => {});
