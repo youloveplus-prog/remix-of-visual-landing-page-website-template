@@ -283,8 +283,8 @@ const ProductDetail = () => {
                 disabled={addToCart.isPending}
                 className="rounded-full h-12 px-5 bg-foreground text-background hover:bg-foreground/90"
               >
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                {isCourse ? "Enroll" : "Add to cart"}
+                <CtaIcon className="h-4 w-4 mr-2" />
+                {cta.primaryLabel}
               </Button>
             </div>
 
@@ -460,8 +460,8 @@ const ProductDetail = () => {
                 >+</button>
               </div>
               <Button className="flex-1 rounded-full" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                {addToCart.isPending ? "Adding..." : isCourse ? "Enroll now" : "Add to cart"}
+                <CtaIcon className="h-4 w-4 mr-2" />
+                {addToCart.isPending ? "Adding..." : cta.primaryLabel}
               </Button>
               <Button variant="outline" size="lg" className="rounded-full h-12 w-12 p-0" aria-label="Save"><Heart className="h-4 w-4" /></Button>
             </div>
@@ -596,7 +596,7 @@ const ProductDetail = () => {
             )}
           </div>
           <Button size="lg" className="px-6" onClick={handleAddToCart} disabled={addToCart.isPending}>
-            <ShoppingCart className="h-4 w-4 mr-2" />{isCourse ? "Enroll" : "Add to cart"}
+            <CtaIcon className="h-4 w-4 mr-2" />{cta.primaryShortLabel}
           </Button>
         </div>
       </StickyActionBar>
