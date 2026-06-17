@@ -497,16 +497,13 @@ export function LearnChat({ threadId, onBack }: Props) {
                 >
                   <span className="text-base leading-none">📎</span>
                 </PromptInputButton>
-                <PromptInputButton
-                  type="button"
-                  onClick={() =>
-                    toast("Voice questions are on the way — text works great for now.")
+                <VoiceInput
+                  disabled={isBusy}
+                  onTranscript={(t) =>
+                    setInput((v) => (v ? `${v} ${t}`.trim() : t))
                   }
-                  aria-label="Voice (coming soon)"
-                  title="Voice (coming soon)"
-                >
-                  <span className="text-base leading-none">🎤</span>
-                </PromptInputButton>
+                />
+
               </PromptInputTools>
               <div className="flex items-center gap-2">
                 {input.length > 500 && (
