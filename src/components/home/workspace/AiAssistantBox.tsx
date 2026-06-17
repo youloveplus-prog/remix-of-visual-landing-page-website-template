@@ -44,13 +44,21 @@ export function AiAssistantBox() {
           <img
             src={logoImg}
             alt="Asikon"
-            className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl object-contain"
+            className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-2xl object-contain shrink-0"
           />
           <h2
             style={{ fontFamily: SERIF }}
-            className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-[#0d0d0d] dark:text-[#f5f3ee] animate-fade-in"
+            className="text-2xl sm:text-3xl md:text-4xl tracking-tight leading-none text-[#0d0d0d] dark:text-[#f5f3ee]"
           >
-            Asikon AI
+            {"Asikon AI".split("").map((ch, i) => (
+              <span
+                key={i}
+                className="inline-block animate-fade-in"
+                style={{ animationDelay: `${i * 0.06}s` }}
+              >
+                {ch === " " ? "\u00A0" : ch}
+              </span>
+            ))}
           </h2>
         </div>
 
