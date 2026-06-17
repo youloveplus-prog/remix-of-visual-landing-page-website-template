@@ -199,7 +199,6 @@ const ProductDetail = () => {
           suppressCanonical
         />
         <MobilePage maxWidth="reading">
-          <NotFoundFocus />
           <section
             role="alert"
             aria-live="assertive"
