@@ -269,12 +269,15 @@ const Auth = () => {
         throw error;
       }
       if (data.user && !data.session) {
-        toast({
-          title: "Account created",
-          description: "Check your inbox to verify your email and unlock your learning hub.",
-        });
-        setActiveView("login");
+        // Email confirmation required — switch to OTP verification screen
+        setOtpEmail(registerEmail);
         setLoginEmail(registerEmail);
+        setOtpError(null);
+        setActiveView("otp");
+        toast({
+          title: "Check your inbox",
+          description: "We sent a 6-digit code to verify your email.",
+        });
       } else if (data.session) {
         toast({ title: "Welcome to Asikon!", description: "Your account is ready." });
         navigate(redirectTo, { replace: true });
