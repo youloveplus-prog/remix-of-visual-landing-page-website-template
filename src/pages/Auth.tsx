@@ -411,20 +411,34 @@ const Auth = () => {
       <div className="relative grid md:grid-cols-2 min-h-dvh">
         {/* ============== Video brand pane (desktop only) ============== */}
         <aside className="hidden md:flex relative flex-col justify-between p-8 lg:p-12 xl:p-16 overflow-hidden border-r border-border bg-[#0a0a1a] text-white">
-          {/* Background video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="https://images.pexels.com/videos/3129957/free-video-3129957.jpg?auto=compress&cs=tinysrgb&w=1280"
-            className="absolute inset-0 h-full w-full object-cover opacity-70"
-          >
-            <source
-              src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4"
-              type="video/mp4"
+          {/* Skeleton / poster / video stack */}
+          <div className="absolute inset-0">
+            {/* Lightweight skeleton while media loads */}
+            <div
+              className={cn(
+                "absolute inset-0 bg-[#0a0a1a] animate-pulse transition-opacity duration-700",
+                mediaReady ? "opacity-0 pointer-events-none" : "opacity-100"
+              )}
             />
-          </video>
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="https://images.pexels.com/videos/3129957/free-video-3129957.jpg?auto=compress&cs=tinysrgb&w=1280"
+              onLoadedData={() => setMediaReady(true)}
+              onError={() => setMediaReady(true)}
+              className={cn(
+                "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
+                mediaReady ? "opacity-70" : "opacity-0"
+              )}
+            >
+              <source
+                src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4"
+                type="video/mp4"
+              />
+            </video>
+          </div>
           {/* Gradient overlay for legibility */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a]/90 via-[#141432]/70 to-[#1e1e5a]/60" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent" />
