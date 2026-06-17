@@ -3,8 +3,21 @@ import { useParams, Link } from "react-router-dom";
 import {
   Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Zap, ShieldCheck,
   Play, CheckCircle2, Award, Users, Globe, Infinity as InfinityIcon, ArrowLeft,
-  RotateCcw, Sparkles,
+  RotateCcw, Sparkles, GraduationCap, BookOpen, Download, Package, Cpu,
+  type LucideIcon,
 } from "lucide-react";
+import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
+
+const PRODUCT_CTA_ICON: Record<ProductCtaIcon, LucideIcon> = {
+  "graduation-cap": GraduationCap,
+  "book-open": BookOpen,
+  download: Download,
+  sparkles: Sparkles,
+  package: Package,
+  cpu: Cpu,
+  users: Users,
+  "arrow-up-right": ShoppingCart,
+};
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
@@ -133,6 +146,8 @@ const ProductDetail = () => {
   const name = product.name || "";
   const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
   const isBook = /book|hardcover|edition/i.test(name);
+  const cta = getProductCta({ name, categoryName: (product as any).category ?? undefined });
+  const CtaIcon = PRODUCT_CTA_ICON[cta.icon] ?? ShoppingCart;
 
   const canonical = `https://asikonpro.lovable.app/product/${slug}`;
   const productDesc = (product.description || `Buy ${name} on Asikon.`).slice(0, 155);
