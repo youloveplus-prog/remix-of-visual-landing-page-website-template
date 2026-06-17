@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Search } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
@@ -9,10 +9,16 @@ import { CourseMetaRow } from "@/components/course-detail/CourseMetaRow";
 import { CourseDescription } from "@/components/course-detail/CourseDescription";
 import { CourseProgressCard } from "@/components/course-detail/CourseProgressCard";
 import { buildCourseDetail } from "@/data/courseDetails";
+import { resolveContentRoute } from "@/lib/contentRouting";
 
 export default function CourseDetail() {
   const { slug = "" } = useParams<{ slug: string }>();
   const { data: item, isLoading } = useContentItem(slug);
+
+  // Guard: /courses/:slug must only render courses. If the slug resolves to
+  // a service or digital download, bounce to its canonical route.
+  const redirectTo = resolveContentRoute("course", item?.kind, slug);
+  if (redirectTo) return <Navigate to={redirectTo} replace />;
 
   const detail = buildCourseDetail({
     title: item?.title,
