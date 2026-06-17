@@ -15,7 +15,7 @@ import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/hooks/useCart";
 import { sidebarPaddingClassLg } from "./layout-constants";
-import { ResponsiveDebugOverlay } from "@/components/dev/ResponsiveDebugOverlay";
+
 
 
 // Context to share sidebar state
