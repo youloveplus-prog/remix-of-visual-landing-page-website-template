@@ -184,6 +184,7 @@ export function useProducts(options: UseProductsOptions = {}) {
         writeCache(ck, out);
         return out;
       }
+      await resolveProductImageUrls(data!);
       writeCache(ck, data!);
       return data!;
     },
