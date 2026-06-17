@@ -2,12 +2,16 @@ import { Star, Quote } from "lucide-react";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { adaptPost, hydrateWithProfiles, type PostRow, formatTime } from "@/lib/community-adapters";
 import { cn } from "@/lib/utils";
+import {
+  CommunityEmpty,
+  CommunityError,
+  ReviewCardSkeleton,
+  SkeletonList,
+} from "@/components/community/CommunityState";
 
 const filters = [
   { label: "All", value: 0 },
