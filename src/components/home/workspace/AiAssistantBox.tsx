@@ -108,18 +108,29 @@ export function AiAssistantBox() {
         </form>
 
         {/* Suggestions */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
-          {CHIPS.map((c) => (
-            <button
-              key={c.label}
-              type="button"
-              onClick={() => go(c.prompt)}
-              style={{ fontFamily: SANS }}
-              className="flex items-center justify-center px-3 py-3 sm:py-3.5 text-[11px] sm:text-xs font-medium rounded-xl transition-colors text-center bg-white dark:bg-[#1a1a18] text-[#2d2d2d] dark:text-[#c8c4bc] border border-[#e8e4dd] dark:border-[#2a2a28] hover:border-[#0d0d0d] dark:hover:border-[#f5f3ee]"
-            >
-              {c.label}
-            </button>
-          ))}
+        <div className="overflow-hidden">
+          <div
+            className="flex gap-2.5 sm:gap-3 w-max"
+            style={{ animation: "marquee 18s linear infinite" }}
+          >
+            {[...CHIPS, ...CHIPS].map((c, i) => (
+              <button
+                key={`${c.label}-${i}`}
+                type="button"
+                onClick={() => go(c.prompt)}
+                style={{ fontFamily: SANS }}
+                className="flex-shrink-0 px-4 py-3 sm:py-3.5 text-xs sm:text-sm font-medium rounded-xl transition-colors text-center bg-white dark:bg-[#1a1a18] text-[#2d2d2d] dark:text-[#c8c4bc] border border-[#e8e4dd] dark:border-[#2a2a28] hover:border-[#0d0d0d] dark:hover:border-[#f5f3ee]"
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+          <style>{`
+            @keyframes marquee {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-50%); }
+            }
+          `}</style>
         </div>
       </div>
     </section>
