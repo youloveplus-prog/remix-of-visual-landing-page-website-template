@@ -328,6 +328,7 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             )}
           </div>
         </article>
+        </Link>
 
         <ProductQuickView
           product={product}
