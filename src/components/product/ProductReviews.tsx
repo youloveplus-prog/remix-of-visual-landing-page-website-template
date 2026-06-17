@@ -200,18 +200,14 @@ export function ProductReviews({
       <div className="flex items-center gap-2 overflow-x-auto no-scrollbar -mx-1 px-1">
         <button
           type="button"
-          onClick={() => {
-            setRatingFilter("all");
-            setVerifiedOnly(false);
-            setWithPhotos(false);
-          }}
+          onClick={resetAll}
           className={chip(ratingFilter === "all" && !verifiedOnly && !withPhotos)}
         >
           All reviews
         </button>
         <button
           type="button"
-          onClick={() => setVerifiedOnly((v) => !v)}
+          onClick={toggleVerified}
           className={chip(verifiedOnly)}
           aria-pressed={verifiedOnly}
         >
@@ -220,7 +216,7 @@ export function ProductReviews({
         </button>
         <button
           type="button"
-          onClick={() => setWithPhotos((v) => !v)}
+          onClick={togglePhotos}
           className={chip(withPhotos)}
           aria-pressed={withPhotos}
         >
