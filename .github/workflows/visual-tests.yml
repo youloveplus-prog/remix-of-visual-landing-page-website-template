@@ -61,7 +61,7 @@ jobs:
           PREVIEW_URL: http://localhost:8080
         run: |
           python tests/visual/product-card-price.spec.py
-          python tests/visual/issue-index-card.spec.py
+          python tests/visual/homepage-layout.spec.py
 
       - name: Check baselines exist
         id: baselines
