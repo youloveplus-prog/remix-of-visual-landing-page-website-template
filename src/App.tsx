@@ -166,6 +166,8 @@ function PersistentMobileShell() {
   if (!isMobile) return null;
   // Admin panel has its own bottom nav — never show the user nav on /asikonasik routes
   if (pathname === "/asikonasik" || pathname.startsWith("/asikonasik/")) return null;
+  // Auth pages should not show the bottom nav
+  if (pathname === "/auth" || pathname === "/reset-password") return null;
   return <BottomNav />;
 }
 
