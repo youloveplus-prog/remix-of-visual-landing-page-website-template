@@ -207,6 +207,7 @@ export function useProduct(slug: string) {
       // catalog so detail pages match what Shop/list pages render.
       const isMissingTable =
         error && (error.code === "42P01" || error.code === "PGRST205");
+      if (error && !isMissingTable) throw error;
       if (data) {
         await resolveProductImageUrls([data]);
         return data;
