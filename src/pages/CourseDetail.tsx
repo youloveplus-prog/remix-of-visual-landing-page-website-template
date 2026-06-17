@@ -10,6 +10,7 @@ import { CourseDescription } from "@/components/course-detail/CourseDescription"
 import { CourseProgressCard } from "@/components/course-detail/CourseProgressCard";
 import { buildCourseDetail } from "@/data/courseDetails";
 import { resolveContentRoute } from "@/lib/contentRouting";
+import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
 
 export default function CourseDetail() {
   const { slug = "" } = useParams<{ slug: string }>();
@@ -18,6 +19,7 @@ export default function CourseDetail() {
   // Guard: /courses/:slug must only render courses. If the slug resolves to
   // a service or digital download, bounce to its canonical route.
   const redirectTo = resolveContentRoute("course", item?.kind, slug);
+  useKindMismatchTelemetry("course", redirectTo, item?.kind, slug);
   if (redirectTo) return <Navigate to={redirectTo} replace />;
 
   const detail = buildCourseDetail({
