@@ -16,7 +16,7 @@ import { PartnerMarquee } from "@/components/home/PartnerMarquee";
 
 // Editorial spreads
 import { EditorialCover } from "@/components/home/editorial/EditorialCover";
-import { IssueIndex } from "@/components/home/editorial/IssueIndex";
+
 import { FeatureStory } from "@/components/home/editorial/FeatureStory";
 import { Department } from "@/components/home/editorial/Department";
 import { Spread } from "@/components/home/editorial/Spread";
@@ -155,12 +155,7 @@ const Index = () => {
           {/* Quiet partner marquee */}
           <PartnerMarquee />
 
-          {/* Spread 2 — Issue Index */}
-          <div id="issue-index">
-            <IssueIndex />
-          </div>
-
-          {/* Spread 3 — Trust carousel */}
+          {/* Spread 2 — Trust carousel */}
           <div id="trust">
             <Spread label="Trust">
               <TrustCarousel />
