@@ -61,7 +61,7 @@ export default function LessonDetail() {
     <AppLayout>
       <SEO
         title={lesson?.title ? `${lesson.title} — Lesson` : "Lesson"}
-        description={lesson?.summary ?? "Continue your Asikon learning journey with this lesson."}
+        description="Continue your Asikon learning journey with this lesson."
         type="article"
       />
       <MobilePage maxWidth="reading" spacing="space-y-7" className="pb-sticky-cta lg:pb-6">
