@@ -96,6 +96,14 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
       <>
         <Link
           to={detailHref}
+          onClick={() =>
+            logProductClick({
+              productId: String(product.id),
+              productSlug: (product as any).slug || `product-${product.id}`,
+              productName: product.name,
+              price: product.price,
+            })
+          }
           aria-label={`View ${product.name}`}
           className="block h-full no-underline focus:outline-none rounded-2xl md:rounded-3xl"
         >
