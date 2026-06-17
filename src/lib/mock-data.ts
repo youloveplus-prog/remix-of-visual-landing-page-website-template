@@ -9,6 +9,7 @@ import heroFashion from "@/assets/learning-hero.jpg";
 export const mockProducts: Product[] = [
   {
     id: "1",
+    kind: "course",
     name: "AI & Machine Learning Masterclass",
     price: 49,
     originalPrice: 120,
@@ -21,6 +22,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "2",
+    kind: "course",
     name: "Complete Python for Data Science (Course)",
     price: 39,
     image: coursePython,
@@ -31,6 +33,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "3",
+    kind: "ebook",
     name: "Atomic Habits — Hardcover Book",
     price: 18,
     originalPrice: 25,
@@ -42,6 +45,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "4",
+    kind: "bundle",
     name: "Student Essentials Kit (Notebook + Stationery)",
     price: 22,
     image: studentKit,
@@ -52,6 +56,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "5",
+    kind: "bundle",
     name: "1000+ AI Prompt Library (Lifetime)",
     price: 29,
     originalPrice: 79,
@@ -64,6 +69,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "6",
+    kind: "course",
     name: "Web Development Bootcamp (HTML, CSS, JS, React)",
     price: 59,
     originalPrice: 199,
@@ -76,6 +82,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "7",
+    kind: "course",
     name: "Deep Learning Specialization (Course)",
     price: 79,
     originalPrice: 199,
@@ -87,6 +94,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "8",
+    kind: "course",
     name: "Data Structures & Algorithms (Course)",
     price: 45,
     image: coursePython,
@@ -97,6 +105,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "9",
+    kind: "ebook",
     name: "Deep Work — Hardcover Book",
     price: 20,
     originalPrice: 28,
@@ -108,6 +117,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "10",
+    kind: "ebook",
     name: "Sapiens: A Brief History of Humankind",
     price: 24,
     originalPrice: 32,
@@ -120,6 +130,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "11",
+    kind: "ebook",
     name: "Clean Code — Programmer's Handbook",
     price: 32,
     image: bookHardcover,
@@ -130,6 +141,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "12",
+    kind: "service",
     name: "AI Tutor Premium (1 Year Subscription)",
     price: 99,
     originalPrice: 240,
@@ -142,6 +154,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "13",
+    kind: "bundle",
     name: "ChatGPT Power Prompts (500+ Pack)",
     price: 19,
     originalPrice: 49,
@@ -153,6 +166,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "14",
+    kind: "bundle",
     name: "Midjourney Prompt Library (Designers)",
     price: 25,
     image: promptLibrary,
@@ -163,6 +177,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "15",
+    kind: "bundle",
     name: "Premium Study Planner & Notebook Set",
     price: 18,
     originalPrice: 30,
@@ -173,6 +188,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "16",
+    kind: "bundle",
     name: "Scientific Calculator + Geometry Kit",
     price: 28,
     image: studentKit,
@@ -182,6 +198,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "17",
+    kind: "course",
     name: "IELTS Complete Prep Course + Books",
     price: 65,
     originalPrice: 150,
@@ -194,6 +211,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "18",
+    kind: "course",
     name: "SAT Math Mastery (Course + Practice)",
     price: 49,
     image: coursePython,
@@ -204,6 +222,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "19",
+    kind: "course",
     name: "Public Speaking Masterclass",
     price: 35,
     image: courseAiMl,
@@ -214,6 +233,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: "20",
+    kind: "bundle",
     name: "Productivity & Time Management Bundle",
     price: 27,
     originalPrice: 60,
