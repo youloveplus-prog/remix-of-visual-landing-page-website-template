@@ -112,7 +112,7 @@ describe("ProductDetail — 'Product not found' a11y", () => {
     const nav = within(region).getByRole("navigation", { name: /recovery actions/i });
     const back = within(nav).getByRole("link", { name: /back to shop/i });
     const featured = within(nav).getByRole("link", { name: /browse featured/i });
-    expect(back).toHaveAttribute("href", "/shop");
+    expect(back.getAttribute("href")).toBe("/shop");
     expect(featured.getAttribute("href")).toContain("/shop");
   });
 
