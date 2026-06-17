@@ -93,22 +93,36 @@ export function CommunityCarousel({
 
   return (
     <section className="section-x" aria-labelledby="community-carousel-title">
-      {/* Header — left-aligned at every breakpoint to match the rest of the page */}
-      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div className="flex flex-col items-start text-left gap-2 min-w-0">
-          <Link
-            to={`${viewAllHref}?filter=live`}
-            className="inline-flex rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            aria-label="See live community activity"
-          >
-            <LivePulse count={feed.liveCount} variant="inline" />
-          </Link>
+      {/* Header — editorial treatment with eyebrow rail, gradient title, refined CTA */}
+      <header className="relative flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div
+          aria-hidden
+          className="hidden sm:block absolute -top-2 left-0 h-px w-16 bg-gradient-to-r from-primary/60 to-transparent"
+        />
+        <div className="flex flex-col items-start text-left gap-2.5 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <Link
+              to={`${viewAllHref}?filter=live`}
+              className="inline-flex rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              aria-label="See live community activity"
+            >
+              <LivePulse count={feed.liveCount} variant="inline" />
+            </Link>
+            <span aria-hidden className="hidden sm:inline-block h-3 w-px bg-border/80" />
+            <span className="hidden sm:inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <Sparkles className="h-3 w-3 text-primary" />
+              Community
+            </span>
+          </div>
           <Link
             to={viewAllHref}
             id="community-carousel-title"
-            className="font-display text-xl sm:text-2xl md:text-[28px] lg:text-3xl leading-tight tracking-tight hover:text-primary transition-colors"
+            className="group/title font-display text-2xl sm:text-3xl md:text-[34px] lg:text-4xl leading-[1.05] tracking-tight"
           >
-            <h2 className="inline">{title}</h2>
+            <h2 className="inline bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent group-hover/title:from-primary group-hover/title:via-primary group-hover/title:to-primary/80 transition-[background] duration-300">
+              {title}
+            </h2>
+            <span aria-hidden className="ml-0.5 inline-block text-primary opacity-70 group-hover/title:opacity-100 transition-opacity">.</span>
           </Link>
           {subtitle && (
             <p className="text-[13px] sm:text-sm text-muted-foreground max-w-md line-clamp-1 sm:line-clamp-2">
@@ -125,14 +139,18 @@ export function CommunityCarousel({
           <Link
             to={viewAllHref}
             className={cn(
-              "inline-flex h-9 sm:h-10 items-center gap-1.5 rounded-full px-3 sm:px-4 text-[13px] sm:text-sm font-medium",
+              "group/cta relative inline-flex h-9 sm:h-10 items-center gap-1.5 rounded-full px-3.5 sm:px-4 text-[13px] sm:text-sm font-medium overflow-hidden",
               "bg-card/70 backdrop-blur-xl border border-border/60 text-foreground",
-              "hover:bg-primary/10 hover:text-primary hover:border-primary/40",
-              "transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "hover:border-primary/50 hover:text-primary",
+              "transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
             )}
           >
-            View all
-            <ArrowUpRight className="h-4 w-4" />
+            <span
+              aria-hidden
+              className="absolute inset-0 -translate-x-full group-hover/cta:translate-x-0 bg-gradient-to-r from-primary/10 via-primary/15 to-primary/5 transition-transform duration-500"
+            />
+            <span className="relative">View all</span>
+            <ArrowUpRight className="relative h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
           </Link>
         </div>
       </header>
