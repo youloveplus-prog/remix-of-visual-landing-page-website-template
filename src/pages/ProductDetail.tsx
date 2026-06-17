@@ -96,6 +96,7 @@ const ProductDetail = () => {
     (product as any)?.kind,
     slug || "",
   );
+  useKindMismatchTelemetry("product", productRedirect, (product as any)?.kind, slug || "");
   if (productRedirect) return <Navigate to={productRedirect} replace />;
   const addToCart = useAddToCart();
 
