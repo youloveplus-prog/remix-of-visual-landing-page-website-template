@@ -85,18 +85,38 @@ export function useProducts(options: UseProductsOptions = {}) {
       query = query.limit(limit);
 
       // Race the network call against a short timeout so the page never waits
-      // more than ~3.5s on a slow / blocked Supabase connection — we just fall
-      // back to the seeded mock products instead of spinning skeletons forever.
-      const timeoutPromise = new Promise<{ data: null; error: Error }>((resolve) =>
-        setTimeout(() => resolve({ data: null, error: new Error("timeout") }), 3500),
+      // more than ~3.5s on a slow / blocked Supabase connection.
+      const timeoutPromise = new Promise<{ data: null; error: { code: string; message: string } }>((resolve) =>
+        setTimeout(
+          () => resolve({ data: null, error: { code: "TIMEOUT", message: "Supabase request timed out" } }),
+          3500,
+        ),
       );
       const { data, error } = (await Promise.race([query, timeoutPromise])) as {
         data: any[] | null;
         error: any;
       };
 
-      if (error || !data || data.length === 0) {
-        // Apply equivalent client-side filters to fallback
+      // "Relation does not exist" (42P01) or PostgREST "not found" (PGRST205)
+      // means the products table hasn't been provisioned yet — fall back to
+      // the seed catalog so the storefront still renders. Any OTHER error
+      // (RLS denial, network failure, etc.) must surface to the user.
+      const isMissingTable =
+        error && (error.code === "42P01" || error.code === "PGRST205");
+      const shouldFallback = isMissingTable || !data || data.length === 0;
+
+      if (error && !isMissingTable && error.code !== "TIMEOUT") {
+        throw new Error(error.message ?? "Failed to load products");
+      }
+
+      if (shouldFallback) {
+        if (import.meta.env.DEV) {
+          // eslint-disable-next-line no-console
+          console.warn(
+            "[useProducts] Using seed catalog —",
+            isMissingTable ? "products table not provisioned" : "no rows returned",
+          );
+        }
         let list = [...fallbackProducts];
         if (search) list = list.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
         if (minPrice !== undefined) list = list.filter((p) => p.price >= minPrice);
@@ -112,8 +132,8 @@ export function useProducts(options: UseProductsOptions = {}) {
         writeCache(ck, out);
         return out;
       }
-      writeCache(ck, data);
-      return data;
+      writeCache(ck, data!);
+      return data!;
     },
     retry: 0,
     staleTime: 5 * 60 * 1000,
