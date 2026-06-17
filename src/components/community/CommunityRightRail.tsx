@@ -78,7 +78,9 @@ export function CommunityRightRail() {
     >
       {/* Creators */}
       <Tile icon={Sparkles} title="Creators to follow">
-        {loading ? (
+        {error ? (
+          <ErrorRow message="Couldn't load creators." onRetry={handleRetry} />
+        ) : loading ? (
           <CreatorListSkeleton count={3} />
         ) : creators.length === 0 ? (
           <EmptyRow message="No suggestions right now. Check back soon." />
