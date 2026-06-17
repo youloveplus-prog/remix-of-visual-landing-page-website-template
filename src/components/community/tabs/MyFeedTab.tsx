@@ -4,27 +4,16 @@ import { Loader2, Sparkles } from "lucide-react";
 import { FeedStoriesRail } from "../feed/FeedStoriesRail";
 import { FeedItemRenderer } from "../feed/FeedItemRenderer";
 import type { FeedItem } from "../feed/feed-types";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { supabase } from "@/integrations/supabase/client";
 import { adaptPost, hydrateWithProfiles, type PostRow } from "@/lib/community-adapters";
+import {
+  CommunityEmpty,
+  CommunityError,
+  FeedCardSkeleton,
+  SkeletonList,
+} from "@/components/community/CommunityState";
 
-function FeedSkeleton() {
-  return (
-    <div className="mx-auto w-full max-w-[640px] bg-card border border-border rounded-2xl p-4 space-y-3">
-      <div className="flex items-center gap-3">
-        <Skeleton className="h-10 w-10 rounded-full" />
-        <div className="space-y-2 flex-1">
-          <Skeleton className="h-3 w-1/3" />
-          <Skeleton className="h-2.5 w-1/4" />
-        </div>
-      </div>
-      <Skeleton className="h-4 w-5/6" />
-      <Skeleton className="aspect-video w-full rounded-xl" />
-    </div>
-  );
-}
 
 export function MyFeedTab() {
   const navigate = useNavigate();
