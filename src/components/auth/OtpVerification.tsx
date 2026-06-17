@@ -159,10 +159,7 @@ export function OtpVerification({
         className="space-y-5"
       >
         <div
-          className={cn(
-            "flex gap-2 sm:gap-2.5 justify-between",
-            error && "animate-[shake_0.4s_ease-in-out]",
-          )}
+          className="flex gap-2 sm:gap-2.5 justify-between"
           aria-label="One-time passcode"
           role="group"
         >
