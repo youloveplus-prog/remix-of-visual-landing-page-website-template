@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Navigate, useParams, Link } from "react-router-dom";
 import { resolveContentRoute } from "@/lib/contentRouting";
 import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
@@ -128,6 +128,13 @@ const ProductDetail = () => {
     limit: 8,
     excludeKinds: ["course", "service"],
   });
+  const notFoundHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (product === null && notFoundHeadingRef.current) {
+      notFoundHeadingRef.current.focus();
+    }
+  }, [product]);
 
   // Guard: /product/:slug is for storefront SKUs only. Course/service slugs
   // that somehow land here are forwarded to their canonical detail route.
@@ -207,7 +214,12 @@ const ProductDetail = () => {
               <Package className="h-6 w-6 text-muted-foreground" />
             </div>
             <div className="space-y-1.5">
-              <h1 id="product-not-found-title" className="font-display text-2xl font-semibold">
+              <h1
+                ref={notFoundHeadingRef}
+                id="product-not-found-title"
+                tabIndex={-1}
+                className="font-display text-2xl font-semibold outline-none"
+              >
                 Product not found
               </h1>
               <p id="product-not-found-desc" className="text-sm text-muted-foreground max-w-sm mx-auto">
