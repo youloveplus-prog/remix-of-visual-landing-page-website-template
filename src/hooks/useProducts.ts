@@ -86,6 +86,15 @@ export function useProducts(options: UseProductsOptions = {}) {
         query = query.lte("price", maxPrice);
       }
 
+      // Kind filtering — works when the real `products` table ships a
+      // `kind` column. PostgREST silently ignores filters on missing
+      // columns in newer versions; if it errors we fall back below.
+      if (kinds && kinds.length > 0) {
+        query = query.in("kind", kinds);
+      } else if (excludeKinds && excludeKinds.length > 0) {
+        query = query.not("kind", "in", `(${excludeKinds.map((k) => `"${k}"`).join(",")})`);
+      }
+
       // Apply sorting
       switch (sortBy) {
         case "price-asc":
@@ -146,6 +155,13 @@ export function useProducts(options: UseProductsOptions = {}) {
         if (minPrice !== undefined) list = list.filter((p) => p.price >= minPrice);
         if (maxPrice !== undefined) list = list.filter((p) => p.price <= maxPrice);
         if (featured !== undefined) list = list.filter((p) => p.is_featured === featured);
+        if (kinds && kinds.length > 0) {
+          const allow = new Set(kinds);
+          list = list.filter((p) => allow.has(p.kind));
+        } else if (excludeKinds && excludeKinds.length > 0) {
+          const deny = new Set(excludeKinds);
+          list = list.filter((p) => !deny.has(p.kind));
+        }
         switch (sortBy) {
           case "price-asc": list.sort((a, b) => a.price - b.price); break;
           case "price-desc": list.sort((a, b) => b.price - a.price); break;
