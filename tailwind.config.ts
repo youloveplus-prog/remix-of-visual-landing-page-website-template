@@ -129,6 +129,7 @@ export default {
       },
       fontFamily: {
         sans: [
+          'Schibsted Grotesk',
           'Plus Jakarta Sans',
           'Satoshi',
           'Hind Siliguri',
@@ -138,12 +139,11 @@ export default {
           '-apple-system',
           'BlinkMacSystemFont',
           'Segoe UI',
-          'Roboto',
           'sans-serif'
         ],
         display: [
+          'Clash Display',
           'Plus Jakarta Sans',
-          'Edensor',
           'Satoshi',
           'Hind Siliguri',
           'ui-sans-serif',
@@ -157,8 +157,8 @@ export default {
           'serif'
         ],
         grotesk: [
+          'Schibsted Grotesk',
           'Plus Jakarta Sans',
-          'Edensor',
           'Satoshi',
           'Hind Siliguri',
           'ui-sans-serif',

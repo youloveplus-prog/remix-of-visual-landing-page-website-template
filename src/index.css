@@ -55,8 +55,8 @@
     --chart-5: 152 40% 75%;             /* mint */
     --gold: 38 92% 60%;
     --success: 152 50% 42%;
-    --font-sans: 'Plus Jakarta Sans', 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Plus Jakarta Sans', 'Edensor', 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Schibsted Grotesk', 'Plus Jakarta Sans', 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Clash Display', 'Plus Jakarta Sans', 'Satoshi', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Sentient', ui-serif, Georgia, serif;
     --font-dot: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
     --font-dot-matrix: 'Tiny5', 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
