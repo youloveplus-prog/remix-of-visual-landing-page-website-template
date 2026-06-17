@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
+import { SEO } from "@/components/SEO";
 
 const schema = z
   .object({
@@ -87,6 +88,11 @@ const ResetPassword = () => {
 
   return (
     <main className="relative min-h-dvh w-full bg-background flex items-center justify-center overflow-hidden px-5 py-10">
+      <SEO
+        title="Reset Password"
+        description="Choose a new password for your Asikon account."
+        noIndex
+      />
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 -left-40 w-[480px] h-[480px] rounded-full blur-[140px] bg-primary/20"

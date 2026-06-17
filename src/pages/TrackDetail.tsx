@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { CheckCircle2, Clock, Lock, Play, ArrowLeft, Users, Star, BookOpen, Award } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { DetailSection } from "@/components/ui/detail-section";
@@ -61,6 +62,11 @@ export default function TrackDetail() {
 
   return (
     <AppLayout>
+      <SEO
+        title={track?.name ? `${track.name} — Learning Track` : "Learning Track"}
+        description={track?.description ?? "Follow a curated learning track on Asikon."}
+        type="article"
+      />
       <MobilePage maxWidth="reading" spacing="space-y-8" className="pb-sticky-cta lg:pb-6">
         <Link to="/" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60 transition-opacity">
           <ArrowLeft className="h-3.5 w-3.5" /> Back
