@@ -167,6 +167,7 @@ const Auth = () => {
   const { user, loading: authLoading } = useAuth();
 
   const [loading, setLoading] = useState(false);
+  const [mediaReady, setMediaReady] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<"google" | "github" | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [activeView, setActiveView] = useState<AuthView>("login");
