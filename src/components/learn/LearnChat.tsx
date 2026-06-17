@@ -48,6 +48,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThreadList } from "@/components/learn/ThreadList";
+import { SocraticRail } from "@/components/learn/SocraticRail";
+import { VoiceInput } from "@/components/learn/VoiceInput";
+import { parseSocratic } from "@/lib/socraticParse";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.webp";
 
 // AI Elements
