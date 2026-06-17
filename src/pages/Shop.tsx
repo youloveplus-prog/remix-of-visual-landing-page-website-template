@@ -104,7 +104,11 @@ const Shop = () => {
     return category?.id;
   }, [activeCategory, categories]);
 
-  // Fetch products with all filters
+  // Fetch products with all filters.
+  // The Shop is the storefront for *shoppable goods only* — courses live on
+  // /courses and services live on /services (both backed by `content_items`),
+  // so we explicitly exclude those kinds here so the same `products` table
+  // can store everything without leaking across pages.
   const { data: products, isLoading: productsLoading } = useProducts({
     limit: 50,
     categoryId: activeCategoryId,
@@ -112,6 +116,7 @@ const Shop = () => {
     minPrice: priceRange[0] > 0 ? priceRange[0] : undefined,
     maxPrice: priceRange[1] < MAX_PRICE ? priceRange[1] : undefined,
     sortBy,
+    excludeKinds: ["course", "service"],
   });
 
   // Scroll to product grid when arriving from hero CTA (retry once products load)
@@ -157,7 +162,7 @@ const Shop = () => {
     isNew: false,
     isTrending: p.is_featured || false,
     slug: p.slug,
-    kind: detectKind(p.name),
+    kind: (p.kind as "course" | "ebook" | "service" | "bundle") ?? detectKind(p.name),
   });
 
   const featuredItems = useMemo(
@@ -384,7 +389,7 @@ const Shop = () => {
                               reviews: product.review_count || 0,
                               isNew: false,
                               isTrending: product.is_featured || false,
-                              kind: detectKind(product.name),
+                              kind: ((product as any).kind as "course" | "ebook" | "service" | "bundle") ?? detectKind(product.name),
                               enrollmentCount: (product as any).enrollment_count ?? undefined,
                               instructorVerified: (product as any).instructor_verified ?? undefined,
                             }}
