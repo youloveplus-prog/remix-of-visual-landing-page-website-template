@@ -197,6 +197,11 @@ const Auth = () => {
     if (!authLoading && user) navigate(redirectTo, { replace: true });
   }, [user, authLoading, navigate, redirectTo]);
 
+  useEffect(() => {
+    const t = setTimeout(() => setMediaReady(true), 3500);
+    return () => clearTimeout(t);
+  }, []);
+
   const clearErrors = () => setErrors({});
   const collect = (r: z.SafeParseReturnType<any, any>) => {
     if (r.success) return false;
