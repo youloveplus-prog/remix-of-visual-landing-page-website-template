@@ -184,6 +184,11 @@ const Auth = () => {
   const [forgotEmail, setForgotEmail] = useState("");
   const [resetEmailSent, setResetEmailSent] = useState(false);
 
+  // OTP verification (after signup)
+  const [otpEmail, setOtpEmail] = useState("");
+  const [otpError, setOtpError] = useState<string | null>(null);
+  const [otpLoading, setOtpLoading] = useState(false);
+
   // Smart redirect after login (preserve ?redirect=/path)
   const redirectTo = params.get("redirect") || "/";
 
