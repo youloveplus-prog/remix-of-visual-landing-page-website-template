@@ -110,7 +110,7 @@ export function CommunityCarousel({
       </header>
 
       {/* Carousel body */}
-      <div className="relative mt-6">
+      <div className="relative mt-4 md:mt-6">
         <div
           aria-hidden
           className="hidden lg:block pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-background to-transparent"
