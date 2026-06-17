@@ -34,41 +34,85 @@ const LIVE: LiveSession = {
   thumbnail: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=120&h=120&fit=crop",
 };
 
+export interface RightRailData {
+  creators: Creator[];
+  tags: string[];
+  live: LiveSession | null;
+}
+
+export type RightRailFetcher = () => Promise<RightRailData>;
+
+/**
+ * Default fetcher — hardcoded content with a small simulated latency.
+ * Replace by passing a real `fetcher` prop (e.g. backed by Supabase queries).
+ */
+const defaultFetcher: RightRailFetcher = () =>
+  new Promise((resolve) => {
+    window.setTimeout(
+      () => resolve({ creators: CREATORS, tags: TAGS, live: LIVE }),
+      200,
+    );
+  });
+
 /**
  * Sticky right rail used on the community page on lg+ screens.
  * Each tile owns its own loading and empty state so the rail keeps
  * a consistent height and rhythm regardless of data availability.
  */
-export function CommunityRightRail() {
-  // Replace these with real queries when wired to the backend.
-  // Hardcoded data is treated as "already loaded".
+export function CommunityRightRail({
+  fetcher = defaultFetcher,
+}: {
+  fetcher?: RightRailFetcher;
+} = {}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [creators, setCreators] = useState<Creator[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [live, setLive] = useState<LiveSession | null>(null);
 
-  useEffect(() => {
-    // Simulate a tick of network latency so skeletons are visible on first paint.
-    const t = window.setTimeout(() => {
-      setCreators(CREATORS);
-      setTags(TAGS);
-      setLive(LIVE);
-      setLoading(false);
-    }, 200);
-    return () => window.clearTimeout(t);
-  }, []);
-
-  function handleRetry() {
+  async function load() {
     setError(false);
     setLoading(true);
-    window.setTimeout(() => {
-      setCreators(CREATORS);
-      setTags(TAGS);
-      setLive(LIVE);
+    try {
+      const data = await fetcher();
+      setCreators(data.creators);
+      setTags(data.tags);
+      setLive(data.live);
+    } catch {
+      setCreators([]);
+      setTags([]);
+      setLive(null);
+      setError(true);
+    } finally {
       setLoading(false);
-    }, 400);
+    }
   }
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await fetcher();
+        if (cancelled) return;
+        setCreators(data.creators);
+        setTags(data.tags);
+        setLive(data.live);
+      } catch {
+        if (cancelled) return;
+        setError(true);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [fetcher]);
+
+  function handleRetry() {
+    void load();
+  }
+
 
   return (
     <aside
