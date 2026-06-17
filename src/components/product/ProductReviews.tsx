@@ -38,10 +38,44 @@ export function ProductReviews({
   ratingDistribution,
 }: ProductReviewsProps) {
   const maxCount = Math.max(...ratingDistribution.map((r) => r.count), 1);
-  const [ratingFilter, setRatingFilter] = useState<ReviewRatingFilter>("all");
-  const [verifiedOnly, setVerifiedOnly] = useState(false);
-  const [withPhotos, setWithPhotos] = useState(false);
-  const [sortBy, setSortBy] = useState<ReviewSortBy>("top");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sortBy: ReviewSortBy = searchParams.get("r_sort") === "newest" ? "newest" : "top";
+  const ratingParam = searchParams.get("r_rating");
+  const ratingFilter: ReviewRatingFilter =
+    ratingParam && /^[1-5]$/.test(ratingParam)
+      ? (Number(ratingParam) as ReviewRatingFilter)
+      : "all";
+  const verifiedOnly = searchParams.get("r_verified") === "1";
+  const withPhotos = searchParams.get("r_photos") === "1";
+
+  const updateParams = useCallback(
+    (patch: Record<string, string | null>) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          for (const [k, v] of Object.entries(patch)) {
+            if (v === null) next.delete(k);
+            else next.set(k, v);
+          }
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
+
+  const setSortBy = (v: ReviewSortBy) =>
+    updateParams({ r_sort: v === "top" ? null : v });
+  const setRatingFilter = (v: ReviewRatingFilter) =>
+    updateParams({ r_rating: v === "all" ? null : String(v) });
+  const toggleVerified = () =>
+    updateParams({ r_verified: verifiedOnly ? null : "1" });
+  const togglePhotos = () =>
+    updateParams({ r_photos: withPhotos ? null : "1" });
+  const resetAll = () =>
+    updateParams({ r_rating: null, r_verified: null, r_photos: null });
 
   const { reviews, loading, error } = useProductReviews({
     productId,
