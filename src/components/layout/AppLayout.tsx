@@ -161,7 +161,6 @@ export function AppLayout({
 
 
         {/* BottomNav is rendered once at App root (persistent app-shell) — never remounts */}
-        <ResponsiveDebugOverlay />
       </div>
     </SidebarContext.Provider>
   );
