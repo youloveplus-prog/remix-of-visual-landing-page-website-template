@@ -736,6 +736,29 @@ const ProductDetail = () => {
           </Button>
         </div>
       </StickyActionBar>
+
+      {/* Desktop sticky sub-nav — appears after the hero scrolls out of view. */}
+      <ProductStickyNav
+        title={product.name}
+        price={product.price}
+        originalPrice={product.original_price}
+        ctaLabel={cta.primaryLabel}
+        ctaShortLabel={cta.primaryShortLabel}
+        onCta={handleAddToCart}
+        ctaDisabled={addToCart.isPending}
+        revealAfterRef={heroRef}
+        links={[
+          ...(isCourse
+            ? [
+                { id: "overview", label: "Overview" },
+                { id: "curriculum", label: "Curriculum" },
+                { id: "instructor", label: "Instructor" },
+              ]
+            : []),
+          { id: "reviews", label: "Reviews" },
+          { id: "faq", label: "FAQ" },
+        ]}
+      />
     </AppLayout>
   );
 };
