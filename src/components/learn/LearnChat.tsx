@@ -78,8 +78,8 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 const QUICK_PROMPTS = [
   {
     icon: BookOpen,
-    label: "Help me with SSC Math",
-    prompt: "I'm struggling with SSC math. Can you walk me through where to start?",
+    label: "I'm stuck on an SSC Math problem",
+    prompt: "I'm stuck on an SSC Math problem. Can you help me figure it out step by step? I'll share what I've tried.",
     tint: "from-blue-500/15 to-blue-500/0 text-blue-600 dark:text-blue-400 ring-blue-500/20",
   },
   {
@@ -90,8 +90,8 @@ const QUICK_PROMPTS = [
   },
   {
     icon: Brain,
-    label: "Explain Newton's 2nd law",
-    prompt: "Explain Newton's second law to me like I'm 12, with one real example.",
+    label: "Walk me through Newton's 2nd law",
+    prompt: "I'm trying to understand Newton's second law. Can we go through it together? Ask me what I already know first.",
     tint: "from-violet-500/15 to-violet-500/0 text-violet-600 dark:text-violet-400 ring-violet-500/20",
   },
   {
@@ -103,7 +103,7 @@ const QUICK_PROMPTS = [
 ];
 
 const CAPABILITIES = [
-  { icon: Brain, label: "Explain any concept" },
+  { icon: Brain, label: "Guide you through it" },
   { icon: ListChecks, label: "Practice with MCQs" },
   { icon: GraduationCap, label: "Plan your revision" },
 ];
