@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { z } from "zod";
 import asikonLogo from "@/assets/logo.png";
 import { SEO } from "@/components/SEO";
+import { OtpVerification } from "@/components/auth/OtpVerification";
 
 // ---- Validation -----------------------------------------------------------
 const loginSchema = z.object({
@@ -53,7 +54,7 @@ const forgotSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
 
-type AuthView = "login" | "register" | "forgot-password";
+type AuthView = "login" | "register" | "forgot-password" | "otp";
 
 // ---- Floating-label themed input -----------------------------------------
 interface FloatingFieldProps {
@@ -183,6 +184,11 @@ const Auth = () => {
   const [forgotEmail, setForgotEmail] = useState("");
   const [resetEmailSent, setResetEmailSent] = useState(false);
 
+  // OTP verification (after signup)
+  const [otpEmail, setOtpEmail] = useState("");
+  const [otpError, setOtpError] = useState<string | null>(null);
+  const [otpLoading, setOtpLoading] = useState(false);
+
   // Smart redirect after login (preserve ?redirect=/path)
   const redirectTo = params.get("redirect") || "/";
 
@@ -263,12 +269,15 @@ const Auth = () => {
         throw error;
       }
       if (data.user && !data.session) {
-        toast({
-          title: "Account created",
-          description: "Check your inbox to verify your email and unlock your learning hub.",
-        });
-        setActiveView("login");
+        // Email confirmation required — switch to OTP verification screen
+        setOtpEmail(registerEmail);
         setLoginEmail(registerEmail);
+        setOtpError(null);
+        setActiveView("otp");
+        toast({
+          title: "Check your inbox",
+          description: "We sent a 6-digit code to verify your email.",
+        });
       } else if (data.session) {
         toast({ title: "Welcome to Asikon!", description: "Your account is ready." });
         navigate(redirectTo, { replace: true });
@@ -283,6 +292,55 @@ const Auth = () => {
       setLoading(false);
     }
   };
+
+  const handleVerifyOtp = async (code: string) => {
+    setOtpLoading(true);
+    setOtpError(null);
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email: otpEmail,
+        token: code,
+        type: "signup",
+      });
+      if (error) {
+        const msg = error.message?.toLowerCase() ?? "";
+        if (msg.includes("expired"))
+          throw new Error("This code has expired. Please request a new one.");
+        if (msg.includes("invalid") || msg.includes("token"))
+          throw new Error("That code isn't right. Double-check and try again.");
+        throw error;
+      }
+      if (data.session) {
+        toast({ title: "Email verified", description: "Welcome to Asikon!" });
+        navigate(redirectTo, { replace: true });
+      } else {
+        // Verified but no session — fall back to login
+        setActiveView("login");
+        toast({ title: "Email verified", description: "You can sign in now." });
+      }
+    } catch (err: any) {
+      setOtpError(err.message || "Verification failed. Please try again.");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setOtpError(null);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: otpEmail,
+        options: { emailRedirectTo: `${window.location.origin}/` },
+      });
+      if (error) throw error;
+    } catch (err: any) {
+      setOtpError(err.message || "Couldn't resend the code. Please try again shortly.");
+      throw err;
+    }
+  };
+
+
 
   const handleForgot = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -463,7 +521,19 @@ const Auth = () => {
               <span className="font-display text-[17px] font-semibold tracking-tight">Asikon</span>
             </div>
 
-            {activeView === "forgot-password" ? (
+            {activeView === "otp" ? (
+              <OtpVerification
+                email={otpEmail}
+                loading={otpLoading}
+                error={otpError}
+                onVerify={handleVerifyOtp}
+                onResend={handleResendOtp}
+                onBack={() => {
+                  setActiveView("register");
+                  setOtpError(null);
+                }}
+              />
+            ) : activeView === "forgot-password" ? (
               <ForgotPasswordView
                 email={forgotEmail}
                 setEmail={setForgotEmail}
@@ -688,7 +758,7 @@ const Auth = () => {
             )}
 
             {/* Bottom-aligned switch & trust strip */}
-            {activeView !== "forgot-password" && (
+            {activeView !== "forgot-password" && activeView !== "otp" && (
               <div className="mt-auto pt-10 lg:pt-12 space-y-5">
                 <p className="text-center text-[13px] text-muted-foreground">
                   {activeView === "login" ? "New to Asikon?" : "Already a member?"}{" "}
