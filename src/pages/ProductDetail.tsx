@@ -594,6 +594,24 @@ const ProductDetail = () => {
               <Button variant="outline" size="lg" className="rounded-full h-12 w-12 p-0" aria-label="Save"><Heart className="h-4 w-4" /></Button>
             </div>
 
+            {/* Inline trust strip — visible right under the CTA so it lands at decision time. */}
+            <div className="hidden lg:flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5">
+                <Zap className="h-3.5 w-3.5 text-primary" />
+                Instant access
+              </span>
+              <span aria-hidden className="text-border">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <RotateCcw className="h-3.5 w-3.5 text-primary" />
+                7-day money back
+              </span>
+              <span aria-hidden className="text-border">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                Secure checkout
+              </span>
+            </div>
+
             {product.description && (
               <div className="rounded-2xl border border-border/60 liquid-glass p-4 lg:p-5">
                 <div className="flex items-center justify-between mb-2">
@@ -635,7 +653,7 @@ const ProductDetail = () => {
         {/* Course-specific */}
         {isCourse && (
           <>
-            <DetailSection title="What you will learn">
+            <DetailSection id="overview" title="What you will learn">
               <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
                 {courseLearnings.map((item) => (
                   <div key={item} className="flex items-start gap-2.5 text-[13.5px]">
@@ -647,24 +665,14 @@ const ProductDetail = () => {
             </DetailSection>
 
             <DetailSection
+              id="curriculum"
               title="Curriculum"
               action={<span className="text-[12px] text-muted-foreground">{courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h</span>}
             >
-              <ol className="divide-y divide-border/40">
-                {courseCurriculum.map((m, i) => (
-                  <li key={m.module} className="flex items-center gap-3 py-3">
-                    <span className="grid place-items-center h-8 w-8 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">{i + 1}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[14px] font-medium truncate">{m.module}</p>
-                      <p className="text-[12px] text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
-                    </div>
-                    <Play className="h-4 w-4 text-foreground/50" />
-                  </li>
-                ))}
-              </ol>
+              <ProductCurriculum modules={courseCurriculum} />
             </DetailSection>
 
-            <DetailSection title="Your instructor">
+            <DetailSection id="instructor" title="Your instructor">
               <div className="flex items-center gap-4">
                 <img
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&q=80"
@@ -680,7 +688,7 @@ const ProductDetail = () => {
           </>
         )}
 
-        <DetailSection title="Reviews">
+        <DetailSection id="reviews" title="Reviews">
           <ProductReviews
             reviews={mockReviews}
             averageRating={product.rating || 4.5}
@@ -691,7 +699,7 @@ const ProductDetail = () => {
           />
         </DetailSection>
 
-        <DetailSection title="FAQ">
+        <DetailSection id="faq" title="FAQ">
           <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
         </DetailSection>
 
