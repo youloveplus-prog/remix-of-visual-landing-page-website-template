@@ -130,7 +130,7 @@ describe("ProductDetail — 'Product not found' a11y", () => {
     await waitFor(() => {
       expect(
         screen.getByRole("heading", { name: /you might like/i, level: 2 }),
-      ).toBeInTheDocument();
+      ).toBeTruthy();
     });
     const list = screen.getByRole("list");
     const items = within(list).getAllByRole("listitem");
