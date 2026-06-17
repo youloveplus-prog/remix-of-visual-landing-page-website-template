@@ -439,13 +439,25 @@ const Auth = () => {
 
         {/* ============== Form pane ============== */}
         <section
-          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center"
+          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center overflow-hidden"
           style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
         >
-          <div className="w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
+          {/* Aurora background accents */}
+          <div className="pointer-events-none absolute -top-32 -right-24 h-80 w-80 rounded-full bg-primary/15 blur-[110px]" />
+          <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#a78bfa]/10 blur-[110px]" />
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.025]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+              backgroundSize: "22px 22px",
+            }}
+          />
+
+          <div className="relative w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
             {/* Mobile brand */}
             <div className="lg:hidden flex items-center justify-center gap-2.5 mb-8">
-              <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center p-1.5">
+              <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center p-1.5 shadow-lg shadow-primary/10">
                 <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
               </div>
               <span className="font-display text-[17px] font-semibold tracking-tight">Asikon</span>
