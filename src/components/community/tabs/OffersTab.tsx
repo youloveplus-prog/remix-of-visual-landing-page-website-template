@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import { Loader2, Tag, Clock, ExternalLink } from "lucide-react";
+import { Tag, Clock, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  CommunityEmpty,
+  CommunityError,
+  OfferCardSkeleton,
+  SkeletonGrid,
+} from "@/components/community/CommunityState";
 
 interface Promotion {
   id: string;
@@ -30,40 +36,49 @@ function timeLeft(ends_at: string | null) {
 export function OffersTab() {
   const [offers, setOffers] = useState<Promotion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const load = async () => {
+    setLoading(true);
+    setError(false);
+    const nowIso = new Date().toISOString();
+    const { data, error: err } = await supabase
+      .from("promotions")
+      .select("id,title,subtitle,image_url,cta_label,cta_url,ends_at,starts_at")
+      .eq("is_active", true)
+      .or(`ends_at.is.null,ends_at.gte.${nowIso}`)
+      .order("position", { ascending: true });
+    if (err) setError(true);
+    setOffers((data as Promotion[]) ?? []);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    (async () => {
-      const nowIso = new Date().toISOString();
-      const { data } = await supabase
-        .from("promotions")
-        .select("id,title,subtitle,image_url,cta_label,cta_url,ends_at,starts_at")
-        .eq("is_active", true)
-        .or(`ends_at.is.null,ends_at.gte.${nowIso}`)
-        .order("position", { ascending: true });
-      setOffers((data as Promotion[]) ?? []);
-      setLoading(false);
-    })();
+    load();
   }, []);
 
   if (loading) {
     return (
-      <div className="flex justify-center py-16">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </div>
+      <SkeletonGrid count={4} cols="sm:grid-cols-2">
+        <OfferCardSkeleton />
+      </SkeletonGrid>
     );
+  }
+
+  if (error) {
+    return <CommunityError message="Could not load offers." onRetry={load} />;
   }
 
   if (offers.length === 0) {
     return (
-      <div className="py-16 text-center space-y-3">
-        <div className="mx-auto h-14 w-14 rounded-full bg-muted flex items-center justify-center">
-          <Tag className="h-6 w-6 text-muted-foreground" />
-        </div>
-        <h3 className="font-display text-lg font-semibold">No active offers</h3>
-        <p className="text-sm text-muted-foreground">Check back soon for fresh deals.</p>
-      </div>
+      <CommunityEmpty
+        icon={Tag}
+        title="No active offers"
+        description="Check back soon for fresh deals and promotions."
+      />
     );
   }
+
 
   return (
     <div className="space-y-4">
