@@ -109,7 +109,9 @@ export function CommunityRightRail() {
 
       {/* Tags */}
       <Tile icon={TrendingUp} title="Trending tags">
-        {loading ? (
+        {error ? (
+          <ErrorRow message="Couldn't load trending tags." onRetry={handleRetry} />
+        ) : loading ? (
           <TagCloudSkeleton count={8} />
         ) : tags.length === 0 ? (
           <EmptyRow message="No trending tags yet." />
