@@ -1,55 +1,53 @@
-# Category-aware product CTAs
+# Optimize "From the community" homepage section
 
-Replace the generic "Add to cart / Buy now" everywhere with a label + icon + post-purchase action that fits the product's category. The current categories drive the mapping; nothing in the database needs to change.
+Make the carousel feel tighter on small screens, keep alignment consistent across breakpoints, and make every entry point land on the community page (including a clear per-card deep link, which currently doesn't exist).
 
-## CTA mapping
+## What's wrong today
 
-| Category slug   | Primary CTA      | Secondary CTA    | Icon       | After purchase            |
-| --------------- | ---------------- | ---------------- | ---------- | ------------------------- |
-| `courses`       | Enroll now       | Start free preview | GraduationCap | Continue learning (→ /learn) |
-| `books`         | Read now         | Preview chapter  | BookOpen    | Open in reader (→ /library) |
-| `prompts`       | Download pack    | Copy sample      | Download    | Download again (→ /library) |
-| `ai-tutor`      | Start chatting   | Try a demo       | Sparkles    | Open AI Tutor (→ /tutor)    |
-| `kits`          | Get the kit      | What's inside    | Package     | Download files (→ /library) |
-| `gadgets`       | Get blueprint    | View specs       | Cpu         | Download files (→ /library) |
-| _fallback_      | Get access       | Learn more       | ArrowRight  | View in library             |
+1. Cards are huge on mobile — single image is `aspect-[4/3]` and skeleton hits `360–520px`, so one card eats the whole viewport vertically.
+2. Header alignment differs from the rest of the homepage: it center-aligns on mobile while the page is left-aligned everywhere else, so the section looks misplaced when scrolling.
+3. Slide widths jump 100% → 85% → 60% → 50%; the `md` step (60%) leaves an awkward half-card peek on tablets.
+4. The whole card is not clickable — only the "View all" button leads to `/community`, and clicking a post does nothing. There's also no per-post route.
+5. Mobile controls (arrows + dots) appear at the bottom but the section already has the carousel buttons hidden on mobile, so the section never shows an obvious "swipe" affordance until you actually try.
+6. Embla `loop` flips on/off depending on `posts.length > 2`, which causes a re-init flicker when the live feed updates.
 
-Already-owned items always show **Open / Continue** instead of the purchase CTA on every surface.
+## What I'll change
 
-## Implementation
+### Alignment & responsiveness (`CommunityCarousel.tsx`)
+- Header: left-aligned at every breakpoint, drop the `items-center / text-center` mobile branch so it matches the other home sections.
+- Tighten heading scale: `text-xl sm:text-2xl md:text-[28px] lg:text-3xl`, subtitle clamps to 1 line on `xs`.
+- Slide widths: `flex-[0_0_88%] sm:flex-[0_0_70%] md:flex-[0_0_48%] lg:flex-[0_0_calc(50%-10px)]` so the half-card peek is consistent.
+- Skeleton heights drop to `h-[260px] sm:h-[340px] md:h-[420px]` to match the new card height.
+- Always set `loop: true` (Embla no-ops when there aren't enough slides) and add `dragFree: false` so swipes snap cleanly.
+- Add a subtle "Swipe →" eyebrow next to the dots on mobile the first time the carousel mounts.
+- Move the section gap rhythm: `mt-3 md:mt-5` instead of `mt-4 md:mt-6`.
 
-1. **Single source of truth** — new `src/lib/productCta.ts`:
-   - Exports `type ProductCtaKind` and `getProductCta(product)` returning `{ kind, primaryLabel, secondaryLabel, icon, ownedLabel, ownedHref }`.
-   - Resolves from `product.category?.slug` first, then falls back to a keyword check on `category.name` / `product.name` for legacy rows (e.g. "course" in the title → courses).
-   - Pure, fully unit-testable; no React imports.
+### Mobile card height (`PostCard.tsx`)
+- Reduce single-image aspect from `aspect-[4/3]` to `aspect-[5/4]` on mobile (`sm:aspect-[16/11]` stays).
+- Cap content area: caption clamps to 2 lines on mobile, 3 on `sm+`, with a "Read more" link to the community post.
 
-2. **Reusable button** — new `src/components/shop/ProductCtaButton.tsx`:
-   - Props: `product`, `variant` (`primary` | `secondary` | `compact`), optional `owned`, `onPurchase`.
-   - Renders icon + label, handles owned state, forwards to existing cart / checkout handlers.
+### Routing — make every entry lead to community
+- `PostCard` becomes a `<Link to={`/community/post/${post.id}`}>`-wrapped article. Interactive children (like, save, more) keep their own handlers and `stopPropagation`.
+- Add a passthrough route in `src/App.tsx`: `/community/post/:id` → existing `CommunityPostDetail` page if present, otherwise redirect to `/community#post-{id}`.
+- The whole section's "View all" stays as-is (already links to `/community`).
+- The `LivePulse` chip becomes a link to `/community?filter=live`.
+- The header title becomes a `<Link>` to `/community` for an extra entry point (styled as plain text, hover underline).
 
-3. **Swap the call sites** (no behavior change beyond label/icon/owned routing):
-   - `src/components/shop/ProductCard.tsx` — grid card primary action
-   - `src/components/shop/ProductQuickView.tsx` — quick view modal
-   - `src/pages/ProductDetail.tsx` — hero CTA + sticky bar
-   - `src/components/ui/sticky-action-bar.tsx` — accept a `product` prop and delegate
-   - `src/pages/Wishlist.tsx`, `src/pages/Learn.tsx`, `src/pages/ContentDetail.tsx`, `src/pages/TrackDetail.tsx`, `src/pages/Game.tsx` — same replacement
-   - `src/components/learn/MyCoursesSection.tsx` — already owned, show "Continue learning"
-
-4. **Owned detection** — read from the existing `useUserPurchases` / `useUserCourses` hook (whichever the page already uses). If a page doesn't have it, skip owned-state rendering for that surface (no new queries in this pass).
-
-5. **Tests**
-   - `src/lib/productCta.test.ts` — table-driven test covering each category slug, keyword fallback, and the owned override.
-   - Existing `tests/visual/product-card-price.spec.py` will catch any layout drift from the new icon/label.
-
-## Out of scope
-
-- No new database columns or migrations — category is enough.
-- No changes to checkout, cart logic, or pricing.
-- No admin UI for per-product CTA override (can be a follow-up if you ever need one).
+### Verification
+- Re-run `tests/visual/homepage-layout.spec.py` to confirm the section still fits the layout assertions (it already covers `#departments` order + horizontal overflow at xs/md/lg).
+- Add Playwright step to the same spec that clicks the first community card and asserts the URL ends in `/community/...`.
 
 ## Files touched
 
-- add: `src/lib/productCta.ts`, `src/lib/productCta.test.ts`, `src/components/shop/ProductCtaButton.tsx`
-- edit: 9 call sites listed above
+- edit: `src/components/community/CommunityCarousel.tsx`
+- edit: `src/components/community/PostCard.tsx`
+- edit: `src/App.tsx` (route alias if needed)
+- edit: `tests/visual/homepage-layout.spec.py` (add navigation assertion)
+
+## Out of scope
+
+- No backend changes — uses existing `useCommunityFeed`.
+- No new design tokens — sticks to current spacing/typography scale.
+- Per-post detail page itself isn't built here; if the route doesn't exist, the deep link falls back to `/community?post=<id>` so we don't ship a 404.
 
 Approve and I'll implement.
