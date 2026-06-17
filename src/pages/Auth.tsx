@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { z } from "zod";
 import asikonLogo from "@/assets/logo.png";
 import { SEO } from "@/components/SEO";
+import { OtpVerification } from "@/components/auth/OtpVerification";
 
 // ---- Validation -----------------------------------------------------------
 const loginSchema = z.object({
