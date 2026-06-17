@@ -409,6 +409,23 @@ const Auth = () => {
                 </li>
               ))}
             </ul>
+
+            {/* Floating testimonial card */}
+            <figure className="rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-md p-5 shadow-2xl shadow-black/40">
+              <blockquote className="text-[14px] text-white/90 leading-relaxed">
+                "The AI tutor answered my doubts at 2 a.m. before exams. Asikon
+                doesn't just teach — it learns with you."
+              </blockquote>
+              <figcaption className="flex items-center gap-3 mt-4">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#a78bfa] grid place-items-center text-xs font-semibold text-white shadow-lg shadow-indigo-500/30">
+                  S
+                </div>
+                <div>
+                  <p className="text-[12.5px] font-medium text-white">Sadia R.</p>
+                  <p className="text-[11px] text-white/60">ML Engineer · Class of 2025</p>
+                </div>
+              </figcaption>
+            </figure>
           </div>
 
           <div className="relative z-10 flex items-center justify-between text-[11.5px] text-white/60">
@@ -422,13 +439,25 @@ const Auth = () => {
 
         {/* ============== Form pane ============== */}
         <section
-          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center"
+          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center overflow-hidden"
           style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
         >
-          <div className="w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
+          {/* Aurora background accents */}
+          <div className="pointer-events-none absolute -top-32 -right-24 h-80 w-80 rounded-full bg-primary/15 blur-[110px]" />
+          <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#a78bfa]/10 blur-[110px]" />
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.025]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+              backgroundSize: "22px 22px",
+            }}
+          />
+
+          <div className="relative w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
             {/* Mobile brand */}
             <div className="lg:hidden flex items-center justify-center gap-2.5 mb-8">
-              <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center p-1.5">
+              <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center p-1.5 shadow-lg shadow-primary/10">
                 <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
               </div>
               <span className="font-display text-[17px] font-semibold tracking-tight">Asikon</span>
@@ -452,7 +481,11 @@ const Auth = () => {
             ) : (
               <>
                 {/* Heading */}
-                <div className="mb-7">
+                <div className="mb-7 animate-fade-in">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-primary mb-4">
+                    <Sparkles className="h-3 w-3" />
+                    {activeView === "login" ? "Pick up where you left off" : "100 coins on signup"}
+                  </span>
                   <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
                     {activeView === "login" ? "Welcome back." : "Create your account."}
                   </h2>
@@ -462,8 +495,6 @@ const Auth = () => {
                       : "Build skills with real projects, in minutes."}
                   </p>
                 </div>
-
-                {/* No tab switcher — single CTA at the bottom controls account creation */}
 
                 {/* OAuth */}
                 <div className="grid grid-cols-2 gap-3 mb-5">
@@ -695,7 +726,12 @@ function PrimaryCta({
   children: React.ReactNode;
 }) {
   return (
-    <Button type="submit" size="lg" disabled={loading} className="w-full">
+    <Button
+      type="submit"
+      size="lg"
+      disabled={loading}
+      className="w-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200 hover:-translate-y-0.5"
+    >
       {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
       {children}
     </Button>
@@ -717,10 +753,11 @@ function OAuthButton({
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "h-11 rounded-xl border border-border bg-card hover:bg-secondary/60",
+        "group relative h-11 rounded-xl border border-border bg-card/80 backdrop-blur",
+        "hover:bg-secondary/60 hover:border-foreground/20 hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/5",
         "flex items-center justify-center gap-2 text-sm font-medium text-foreground",
-        "transition-colors duration-150 active:scale-[0.99]",
-        "disabled:opacity-60",
+        "transition-all duration-200 active:translate-y-0 active:scale-[0.99]",
+        "disabled:opacity-60 disabled:hover:translate-y-0",
       )}
     >
       {loading ? (
