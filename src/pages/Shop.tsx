@@ -400,7 +400,11 @@ const Shop = () => {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border bg-card">
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border bg-card"
+                >
                   <p className="text-muted-foreground mb-4">No products match your filters.</p>
                   {(searchQuery || activeFiltersCount > 0) && (
                     <button
