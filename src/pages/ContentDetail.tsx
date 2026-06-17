@@ -13,6 +13,7 @@ import { Lock, Play, FileText, Download } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { resolveContentRoute } from "@/lib/contentRouting";
+import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
 
 export default function ContentDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -26,6 +27,7 @@ export default function ContentDetail() {
   // Guard: /content/:slug serves digital downloads & services only. A course
   // slug opened here should canonically live at /courses/:slug.
   const redirectTo = resolveContentRoute("content", item?.kind, slug ?? "");
+  useKindMismatchTelemetry("content", redirectTo, item?.kind, slug ?? "");
   if (redirectTo) return <Navigate to={redirectTo} replace />;
 
   const owned = !!item && (item.is_free || purchases.some((p: any) => p.item_id === item.id));

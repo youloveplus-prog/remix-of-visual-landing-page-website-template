@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navigate, useParams, Link } from "react-router-dom";
 import { resolveContentRoute } from "@/lib/contentRouting";
+import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
 import {
   Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Zap, ShieldCheck,
   Play, CheckCircle2, Award, Users, Globe, Infinity as InfinityIcon, ArrowLeft,
@@ -95,6 +96,7 @@ const ProductDetail = () => {
     (product as any)?.kind,
     slug || "",
   );
+  useKindMismatchTelemetry("product", productRedirect, (product as any)?.kind, slug || "");
   if (productRedirect) return <Navigate to={productRedirect} replace />;
   const addToCart = useAddToCart();
 
