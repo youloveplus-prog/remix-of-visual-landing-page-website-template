@@ -500,7 +500,7 @@ const ProductDetail = () => {
                   </div>
                 ))}
               </div>
-            ) : isBook ? null : (
+            ) : isDigitalOnly ? null : (
               <div className="space-y-5">
                 <ColorSelector colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
                 <SizeSelector sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
