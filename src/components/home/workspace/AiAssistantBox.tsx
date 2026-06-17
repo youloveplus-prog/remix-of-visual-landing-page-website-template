@@ -62,7 +62,7 @@ export function AiAssistantBox() {
               </h2>
               <p
                 style={{ fontFamily: SANS }}
-                className="text-[11px] sm:text-xs mt-1 opacity-70 text-[#2d2d2d] dark:text-[#c8c4bc]"
+                className="text-[11px] sm:text-xs mt-1 text-white/80 dark:text-[#c8c4bc]"
               >
                 Assalamu Alaikum! How can I help today?
               </p>
