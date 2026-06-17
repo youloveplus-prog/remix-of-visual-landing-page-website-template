@@ -157,4 +157,18 @@ describe("ProductDetail — 'Product not found' a11y", () => {
       expect(img.getAttribute("aria-hidden")).toBe("true");
     });
   });
+
+  it("moves focus to the heading when the not-found state appears", async () => {
+    renderAt("/product/unknown");
+    const heading = await screen.findByRole("heading", { name: /product not found/i, level: 1 });
+    await waitFor(() => {
+      expect(document.activeElement).toBe(heading);
+    });
+  });
+
+  it("sets tabIndex=-1 on the heading so it can receive programmatic focus", async () => {
+    renderAt("/product/unknown");
+    const heading = await screen.findByRole("heading", { name: /product not found/i, level: 1 });
+    expect(heading.getAttribute("tabindex")).toBe("-1");
+  });
 });
