@@ -26,20 +26,6 @@ export function FeatureStory() {
     <Spread label="Feature">
       <Reveal>
         <article className="relative overflow-hidden rounded-2xl sm:rounded-[32px] border border-foreground/10 bg-card shadow-[0_1px_0_hsl(var(--foreground)/0.04),0_30px_60px_-40px_hsl(var(--primary)/0.35)]">
-          {/* Top meta strip */}
-          <div className="flex items-center justify-between gap-3 px-4 sm:px-8 pt-4 sm:pt-6">
-            <div className="flex items-center gap-2">
-              <span className="inline-flex h-2 w-2 rounded-full bg-primary animate-pulse" />
-              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                This week · Editor's pick
-              </span>
-            </div>
-            {lead?.original_price && lead?.price !== undefined && (
-              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-primary">
-                Save ৳{Number(lead.original_price) - Number(lead.price)}
-              </span>
-            )}
-          </div>
 
           <div className="grid lg:grid-cols-[1.05fr_1fr] gap-0 lg:gap-0 mt-3 sm:mt-6">
             {/* Image side */}
