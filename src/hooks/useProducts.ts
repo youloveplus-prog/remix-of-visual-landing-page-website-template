@@ -2,8 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { mockProducts } from "@/lib/mock-data";
 import { readCache, writeCache, cacheKey } from "@/lib/query-cache";
+import type { ProductKind } from "@/types";
 
-// Fallback products shaped to match the Supabase `products` table
+// Fallback products shaped to match the Supabase `products` table.
+// `kind` is carried through so consumers (Shop, carousels) can filter by
+// content type even when running against the seed catalog.
 const fallbackProducts = mockProducts.map((p, i) => ({
   id: p.id,
   name: p.name,
@@ -15,6 +18,7 @@ const fallbackProducts = mockProducts.map((p, i) => ({
   review_count: p.reviews,
   is_featured: !!p.isTrending,
   category_id: null as string | null,
+  kind: (p.kind ?? "bundle") as ProductKind,
   created_at: new Date(Date.now() - i * 1000).toISOString(),
 }));
 
@@ -28,14 +32,34 @@ interface UseProductsOptions {
   minPrice?: number;
   maxPrice?: number;
   sortBy?: SortOption;
+  /** Restrict results to these kinds (whitelist). Takes precedence over excludeKinds. */
+  kinds?: ProductKind[];
+  /** Drop results matching these kinds (blacklist). Use on /shop to hide courses & services. */
+  excludeKinds?: ProductKind[];
 }
 
 export function useProducts(options: UseProductsOptions = {}) {
-  const { categoryId, featured, limit = 20, search, minPrice, maxPrice, sortBy = "newest" } = options;
+  const {
+    categoryId,
+    featured,
+    limit = 20,
+    search,
+    minPrice,
+    maxPrice,
+    sortBy = "newest",
+    kinds,
+    excludeKinds,
+  } = options;
 
-  const ck = cacheKey(["products", { categoryId, featured, limit, search, minPrice, maxPrice, sortBy }]);
+  const ck = cacheKey([
+    "products",
+    { categoryId, featured, limit, search, minPrice, maxPrice, sortBy, kinds, excludeKinds },
+  ]);
   return useQuery({
-    queryKey: ["products", { categoryId, featured, limit, search, minPrice, maxPrice, sortBy }],
+    queryKey: [
+      "products",
+      { categoryId, featured, limit, search, minPrice, maxPrice, sortBy, kinds, excludeKinds },
+    ],
     initialData: () => readCache<any[]>(ck),
     queryFn: async () => {
       let query = supabase
