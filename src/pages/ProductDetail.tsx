@@ -30,7 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StickyActionBar } from "@/components/ui/sticky-action-bar";
 import { ProductCarousel } from "@/components/carousels";
-import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ } from "@/components/product";
+import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ, ProductStickyNav, ProductCurriculum } from "@/components/product";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
@@ -129,6 +129,7 @@ const ProductDetail = () => {
     excludeKinds: ["course", "service"],
   });
   const notFoundHeadingRef = useRef<HTMLHeadingElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (product === null && notFoundHeadingRef.current) {
@@ -177,11 +178,33 @@ const ProductDetail = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Skeleton className="aspect-square rounded-2xl" />
-            <div className="space-y-4">
-              <Skeleton className="h-8 w-3/4" /><Skeleton className="h-6 w-1/4" /><Skeleton className="h-24 w-full" />
+        <MobilePage maxWidth="wide" spacing="space-y-8">
+          {/* Skeleton mirrors the new two-pane layout so the page doesn't reflow. */}
+          <Skeleton className="hidden lg:block h-4 w-16 rounded-full" />
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
+            <div className="space-y-3">
+              <Skeleton className="aspect-square w-full rounded-2xl lg:rounded-[1.75rem]" />
+              <div className="hidden lg:flex gap-2.5">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={i} className="h-20 w-20 rounded-2xl" />
+                ))}
+              </div>
+            </div>
+            <div className="space-y-5">
+              <Skeleton className="h-3 w-16" />
+              <Skeleton className="h-10 lg:h-12 w-4/5" />
+              <Skeleton className="h-4 w-1/3" />
+              <Skeleton className="h-9 w-1/2" />
+              <Skeleton className="h-20 w-full rounded-2xl" />
+              <div className="flex gap-3">
+                <Skeleton className="h-12 flex-1 rounded-full" />
+                <Skeleton className="h-12 w-12 rounded-full" />
+              </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={i} className="h-14 rounded-xl" />
+                ))}
+              </div>
             </div>
           </div>
         </MobilePage>
