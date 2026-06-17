@@ -148,12 +148,14 @@ const Index = () => {
           className="pt-0 lg:pt-0 pb-16 sm:pb-20"
         >
           {/* Spread 1 — Cover */}
-          <div id="cover">
+          <div id="cover" className="!mb-0">
             <EditorialCover />
           </div>
 
-          {/* Quiet partner marquee */}
-          <PartnerMarquee />
+          {/* Quiet partner marquee — pulled tight under the hero */}
+          <div className="!mt-6 sm:!mt-10 lg:!mt-12">
+            <PartnerMarquee />
+          </div>
 
           {/* Spread 2 — Trust carousel */}
           <div id="trust">
