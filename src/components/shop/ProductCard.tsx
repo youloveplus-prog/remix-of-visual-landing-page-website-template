@@ -16,6 +16,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState, forwardRef, memo } from "react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types";
 import { Badge } from "@/components/ui/badge";
