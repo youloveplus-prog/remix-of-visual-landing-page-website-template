@@ -378,7 +378,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             ) : (
               <>
                 {messages.map((m, idx) => {
-                  const text = (m.parts ?? [])
+                  const rawText = (m.parts ?? [])
                     .map((p: any) => (p.type === "text" ? p.text : ""))
                     .join("");
                   const isLast = idx === messages.length - 1;
@@ -389,11 +389,16 @@ export function LearnChat({ threadId, onBack }: Props) {
                     return (
                       <Message key={m.id} from="user">
                         <MessageContent className="group-[.is-user]:bg-primary group-[.is-user]:text-primary-foreground group-[.is-user]:rounded-2xl group-[.is-user]:rounded-br-md whitespace-pre-wrap text-[15px] leading-relaxed">
-                          {text}
+                          {rawText}
                         </MessageContent>
                       </Message>
                     );
                   }
+
+                  // Parse out the Socratic metadata header from the first line.
+                  // During streaming, the header may not have arrived yet — in
+                  // that case `meta` is null and `body` is the original text.
+                  const { meta, body } = parseSocratic(rawText);
 
                   return (
                     <Message key={m.id} from="assistant" className="max-w-full">
@@ -407,15 +412,22 @@ export function LearnChat({ threadId, onBack }: Props) {
                           <div className="text-xs font-semibold text-muted-foreground mb-0.5">
                             Asikon AI
                           </div>
+                          {meta && meta.step && meta.step !== "direct" && (
+                            <SocraticRail
+                              step={meta.step}
+                              hintLevel={meta.hint_level}
+                              topicHint={meta.topic_hint}
+                            />
+                          )}
                           <MessageContent className="text-[15px] leading-relaxed">
-                            <MessageResponse>{text || "…"}</MessageResponse>
+                            <MessageResponse>{body || "…"}</MessageResponse>
                             {isStreaming && (
                               <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-foreground animate-pulse" />
                             )}
                           </MessageContent>
-                          {text && !isStreaming && (
+                          {body && !isStreaming && (
                             <AssistantActions
-                              text={text}
+                              text={body}
                               onRegenerate={
                                 isLast && !isBusy ? () => regenerate() : undefined
                               }
