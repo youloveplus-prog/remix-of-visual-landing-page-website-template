@@ -94,14 +94,14 @@ describe("ProductCard → /product/:slug navigation", () => {
     });
     renderCard(product);
     const link = screen.getByRole("link", { name: /view web dev bootcamp/i });
-    expect(link).getAttribute("href")).toBe("/product/web-dev-bootcamp");
+    expect(link.getAttribute("href")).toBe("/product/web-dev-bootcamp");
   });
 
   it("falls back to `product-<id>` when no slug is set", () => {
     const product = makeProduct({ id: "42", name: "Atomic Habits" });
     renderCard(product);
     const link = screen.getByRole("link", { name: /view atomic habits/i });
-    expect(link).getAttribute("href")).toBe("/product/product-42");
+    expect(link.getAttribute("href")).toBe("/product/product-42");
   });
 
   it("preserves id-shaped slugs verbatim — even when they are obviously invalid", () => {
@@ -115,7 +115,7 @@ describe("ProductCard → /product/:slug navigation", () => {
     });
     renderCard(product);
     const link = screen.getByRole("link", { name: /view broken slug product/i });
-    expect(link).getAttribute("href")).toBe("/product/this-slug-does-not-exist");
+    expect(link.getAttribute("href")).toBe("/product/this-slug-does-not-exist");
   });
 
   it("clicking the card navigates to the slug-scoped detail route", () => {
@@ -128,8 +128,8 @@ describe("ProductCard → /product/:slug navigation", () => {
     renderCard(product);
     const link = screen.getByRole("link", { name: /view deep learning/i });
     fireEvent.click(link);
-    expect(screen.getByTestId("echoed-slug")).toHaveTextContent("deep-learning");
-    expect(screen.getByTestId("echoed-path")).toHaveTextContent("/product/deep-learning");
+    expect(screen.getByTestId("echoed-slug").textContent).toBe("deep-learning");
+    expect(screen.getByTestId("echoed-path").textContent).toBe("/product/deep-learning");
   });
 
   it("wishlist button does NOT navigate (preventDefault + stopPropagation)", () => {
