@@ -86,26 +86,36 @@ function NotFoundSuggestions() {
   const { data: featured } = useProducts({ featured: true, limit: 4, excludeKinds: ["course", "service"] });
   if (!featured || featured.length === 0) return null;
   return (
-    <div className="pt-6 text-left">
-      <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center">
+    <section aria-labelledby="not-found-suggestions-title" className="pt-6 text-left">
+      <h2
+        id="not-found-suggestions-title"
+        className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center"
+      >
         You might like
-      </p>
-      <div className="grid grid-cols-2 gap-3">
+      </h2>
+      <ul role="list" className="grid grid-cols-2 gap-3">
         {featured.slice(0, 4).map((p: any) => (
-          <Link
-            key={p.id}
-            to={`/product/${p.slug}`}
-            className="rounded-2xl border border-border/60 bg-card p-3 hover:border-border transition-colors active:opacity-70"
-          >
-            <div className="aspect-square rounded-xl bg-muted overflow-hidden mb-2">
-              <img src={p.image_url || "/placeholder.svg"} alt="" className="w-full h-full object-cover" />
-            </div>
-            <p className="text-[12.5px] font-medium leading-tight line-clamp-2">{p.name}</p>
-            <Price amount={p.price} className="text-[13px] font-semibold mt-1 block" />
-          </Link>
+          <li key={p.id}>
+            <Link
+              to={`/product/${p.slug}`}
+              aria-label={`View ${p.name}`}
+              className="block rounded-2xl border border-border/60 bg-card p-3 hover:border-border transition-colors active:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <div className="aspect-square rounded-xl bg-muted overflow-hidden mb-2">
+                <img
+                  src={p.image_url || "/placeholder.svg"}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-[12.5px] font-medium leading-tight line-clamp-2">{p.name}</p>
+              <Price amount={p.price} className="text-[13px] font-semibold mt-1 block" />
+            </Link>
+          </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </section>
   );
 }
 
@@ -182,22 +192,38 @@ const ProductDetail = () => {
           suppressCanonical
         />
         <MobilePage maxWidth="reading">
-          <div className="py-16 text-center space-y-5">
-            <div className="mx-auto h-14 w-14 rounded-2xl bg-muted grid place-items-center">
+          <section
+            role="alert"
+            aria-live="assertive"
+            aria-labelledby="product-not-found-title"
+            aria-describedby="product-not-found-desc"
+            data-testid="product-not-found"
+            className="py-16 text-center space-y-5"
+          >
+            <div
+              aria-hidden="true"
+              className="mx-auto h-14 w-14 rounded-2xl bg-muted grid place-items-center"
+            >
               <Package className="h-6 w-6 text-muted-foreground" />
             </div>
             <div className="space-y-1.5">
-              <h1 className="font-display text-2xl font-semibold">Product not found</h1>
-              <p className="text-sm text-muted-foreground max-w-sm mx-auto">
+              <h1 id="product-not-found-title" className="font-display text-2xl font-semibold">
+                Product not found
+              </h1>
+              <p id="product-not-found-desc" className="text-sm text-muted-foreground max-w-sm mx-auto">
                 This item may have been removed or the link is out of date. Try browsing our shop or featured picks.
               </p>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <Link to="/shop"><Button variant="outline" className="rounded-full">Back to shop</Button></Link>
-              <Link to="/shop?featured=1"><Button className="rounded-full">Browse featured</Button></Link>
-            </div>
+            <nav aria-label="Recovery actions" className="flex items-center justify-center gap-2">
+              <Link to="/shop" aria-label="Back to shop">
+                <Button variant="outline" className="rounded-full">Back to shop</Button>
+              </Link>
+              <Link to="/shop?featured=1" aria-label="Browse featured products">
+                <Button className="rounded-full">Browse featured</Button>
+              </Link>
+            </nav>
             <NotFoundSuggestions />
-          </div>
+          </section>
         </MobilePage>
       </AppLayout>
     );
