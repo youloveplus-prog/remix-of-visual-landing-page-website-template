@@ -3,6 +3,8 @@ import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useMentors, type Mentor } from "@/hooks/useMentors";
 import { MentorWaitlistSheet } from "@/components/mentorship/MentorWaitlistSheet";
+import { VerifiedTutorBadge } from "@/components/mentorship/VerifiedTutorBadge";
+import { useMentorVerificationsMap } from "@/hooks/useTrust";
 import { MobileScroller } from "@/components/ui/mobile-scroller";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +14,7 @@ import { Star, GraduationCap, Languages, Sparkles, ShieldCheck, MessageSquare } 
 
 const Mentors = () => {
   const { data: mentors, isLoading } = useMentors();
+  const { data: verifications } = useMentorVerificationsMap();
   const [openSheet, setOpenSheet] = useState(false);
   const [selected, setSelected] = useState<Mentor | null>(null);
 
@@ -73,8 +76,11 @@ const Mentors = () => {
                     <div className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-foreground font-semibold text-lg shrink-0">
                       {m.name.charAt(0)}
                     </div>
-                    <div className="min-w-0">
-                      <p className="font-medium text-[14px] truncate">{m.name}</p>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <p className="font-medium text-[14px] truncate">{m.name}</p>
+                        <VerifiedTutorBadge verification={verifications?.[m.id]} compact />
+                      </div>
                       <p className="text-[11.5px] text-muted-foreground flex items-center gap-1 tabular-nums">
                         <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                         {m.rating.toFixed(1)} · {m.experience_years}+ yrs
