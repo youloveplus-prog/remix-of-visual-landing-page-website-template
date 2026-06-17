@@ -27,6 +27,28 @@ interface ProductReviewsProps {
 }
 
 type RatingFilter = "all" | 5 | 4 | 3 | 2 | 1;
+type SortBy = "top" | "newest";
+
+// Parse a relative ("2 days ago") or ISO timestamp into a sortable number.
+// Newer => larger. Unknown formats return 0 so they sink to the bottom of
+// "Newest" without throwing.
+function reviewRecency(createdAt: string): number {
+  const iso = Date.parse(createdAt);
+  if (!Number.isNaN(iso)) return iso;
+  const m = createdAt.match(/(\d+)\s*(minute|hour|day|week|month|year)s?\s*ago/i);
+  if (!m) return 0;
+  const n = Number(m[1]);
+  const unit = m[2].toLowerCase();
+  const ms: Record<string, number> = {
+    minute: 60_000,
+    hour: 3_600_000,
+    day: 86_400_000,
+    week: 7 * 86_400_000,
+    month: 30 * 86_400_000,
+    year: 365 * 86_400_000,
+  };
+  return Date.now() - n * (ms[unit] ?? 0);
+}
 
 export function ProductReviews({
   reviews,
@@ -38,6 +60,7 @@ export function ProductReviews({
   const [ratingFilter, setRatingFilter] = useState<RatingFilter>("all");
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const [withPhotos, setWithPhotos] = useState(false);
+  const [sortBy, setSortBy] = useState<SortBy>("top");
 
   const verifiedCount = useMemo(
     () => reviews.filter((r) => r.isVerifiedPurchase).length,
@@ -45,13 +68,26 @@ export function ProductReviews({
   );
 
   const filtered = useMemo(() => {
-    return reviews.filter((r) => {
+    const list = reviews.filter((r) => {
       if (ratingFilter !== "all" && r.rating !== ratingFilter) return false;
       if (verifiedOnly && !r.isVerifiedPurchase) return false;
       if (withPhotos && (!r.images || r.images.length === 0)) return false;
       return true;
     });
-  }, [reviews, ratingFilter, verifiedOnly, withPhotos]);
+    const sorted = [...list];
+    if (sortBy === "top") {
+      sorted.sort(
+        (a, b) =>
+          b.helpfulCount - a.helpfulCount ||
+          reviewRecency(b.createdAt) - reviewRecency(a.createdAt),
+      );
+    } else {
+      sorted.sort(
+        (a, b) => reviewRecency(b.createdAt) - reviewRecency(a.createdAt),
+      );
+    }
+    return sorted;
+  }, [reviews, ratingFilter, verifiedOnly, withPhotos, sortBy]);
 
   const chip = (active: boolean) =>
     cn(
