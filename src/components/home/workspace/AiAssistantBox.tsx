@@ -93,7 +93,7 @@ export function AiAssistantBox() {
               <button
                 type="submit"
                 aria-label="Send"
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity bg-[#0d0d0d] dark:bg-[#f5f3ee] text-[#f5f3ee] dark:text-[#111110]"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity bg-white dark:bg-[#f5f3ee] text-primary dark:text-[#111110]"
               >
                 <ArrowRight className="w-4 h-4" strokeWidth={2} />
               </button>
