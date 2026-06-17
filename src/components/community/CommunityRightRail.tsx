@@ -43,6 +43,7 @@ export function CommunityRightRail() {
   // Replace these with real queries when wired to the backend.
   // Hardcoded data is treated as "already loaded".
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [creators, setCreators] = useState<Creator[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [live, setLive] = useState<LiveSession | null>(null);
@@ -57,6 +58,17 @@ export function CommunityRightRail() {
     }, 200);
     return () => window.clearTimeout(t);
   }, []);
+
+  function handleRetry() {
+    setError(false);
+    setLoading(true);
+    window.setTimeout(() => {
+      setCreators(CREATORS);
+      setTags(TAGS);
+      setLive(LIVE);
+      setLoading(false);
+    }, 400);
+  }
 
   return (
     <aside
