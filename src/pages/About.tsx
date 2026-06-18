@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useEmblaCarousel from "embla-carousel-react";
@@ -615,7 +616,7 @@ const About = () => {
       <SEO
         title="About ASIKON — AI-powered learning for Bangladesh"
         description="ASIKON is an AI-powered learning platform built to make education simple, smart, and accessible for every Bangladeshi student."
-        url="https://style-verse-suite.lovable.app/about"
+        url={`${SITE_URL}/about`}
       />
 
       <CinematicHero />

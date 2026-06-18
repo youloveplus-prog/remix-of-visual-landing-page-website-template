@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { LegalShell } from "@/components/legal/LegalShell";
 import { LegalSection } from "@/components/legal/LegalSection";
 
@@ -16,7 +17,7 @@ const Refund = () => (
     title="Refund & Return Policy."
     updated="May 2026"
     intro="Shop confidently. If something isn't right, we'll make it right."
-    canonical="https://style-verse-suite.lovable.app/refund"
+    canonical={`${SITE_URL}/refund`}
     metaTitle="Refund & Return Policy — ASIKON"
     metaDescription="ASIKON's return, refund, and replacement policy for products purchased through our shop."
     toc={toc}

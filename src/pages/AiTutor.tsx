@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
@@ -77,7 +78,7 @@ export default function Learn() {
   if (loading) {
     return (
       <StandaloneShell>
-        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url="https://style-verse-suite.lovable.app/learn" />
+        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url={`${SITE_URL}/learn`} />
         <TopBar onBack={handleBack} />
         <LearnSkeleton />
       </StandaloneShell>
@@ -87,7 +88,7 @@ export default function Learn() {
   if (!user) {
     return (
       <StandaloneShell>
-        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url="https://style-verse-suite.lovable.app/learn" />
+        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url={`${SITE_URL}/learn`} />
         <TopBar onBack={handleBack} />
         <div className="relative flex-1 min-h-0 overflow-y-auto">
           {/* Ambient brand glow */}
@@ -148,14 +149,14 @@ export default function Learn() {
       <SEO
         title="Asikon AI"
         description="Chat with Asikon AI, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds."
-        url="https://style-verse-suite.lovable.app/learn"
+        url={`${SITE_URL}/learn`}
       >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Course",
           name: "Asikon AI",
           description: "24/7 AI study buddy for SSC, HSC, and beyond. Get instant answers, MCQs, and revision plans.",
-          provider: { "@type": "Organization", name: "Asikon", sameAs: "https://style-verse-suite.lovable.app/" },
+          provider: { "@type": "Organization", name: "Asikon", sameAs: `${SITE_URL}/` },
         })}</script>
       </SEO>
       <div className="flex flex-1 min-h-0">

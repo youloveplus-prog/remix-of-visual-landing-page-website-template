@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { useState } from "react";
 import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -33,7 +34,7 @@ const Community = () => {
       <SEO
         title="Community — Asikon Learners"
         description="Follow learners, share posts, watch videos and read trusted reviews on the Asikon community."
-        url="https://style-verse-suite.lovable.app/community"
+        url={`${SITE_URL}/community`}
       />
       <MobilePage
         sticky={

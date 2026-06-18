@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -14,7 +15,7 @@ export default function Revision() {
       <SEO
         title="Revision — Asikon"
         description="Daily spaced-repetition revision to lock in what you've learned."
-        url="https://style-verse-suite.lovable.app/revision"
+        url={`${SITE_URL}/revision`}
       />
       <MobilePage>
         <header className="flex items-center gap-2 mb-4">

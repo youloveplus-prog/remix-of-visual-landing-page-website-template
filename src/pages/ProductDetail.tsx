@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { useState, useRef, useEffect } from "react";
 import { Navigate, useParams, Link } from "react-router-dom";
 import { resolveContentRoute } from "@/lib/contentRouting";
@@ -280,7 +281,7 @@ const ProductDetail = () => {
   const cta = getProductCta({ name, categoryName: (product as any).category ?? undefined });
   const CtaIcon = PRODUCT_CTA_ICON[cta.icon] ?? ShoppingCart;
 
-  const canonical = `https://style-verse-suite.lovable.app/product/${slug}`;
+  const canonical = `${SITE_URL}/product/${slug}`;
   const productDesc = (product.description || `Buy ${name} on Asikon.`).slice(0, 155);
 
   return (

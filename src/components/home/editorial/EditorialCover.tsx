@@ -78,9 +78,9 @@ export function EditorialCover() {
               className="mt-7 sm:mt-8 w-full flex flex-col sm:flex-row gap-2.5 sm:gap-3 items-stretch sm:items-center justify-center lg:justify-start"
             >
               <Button asChild variant="premium" size="xl" className="w-full sm:w-auto sm:min-w-[12rem]">
-                <Link to="/shop">
-                  Browse courses
-                  <ArrowUpRight className="h-4 w-4" />
+                <Link to="/learn">
+                  <Sparkles className="h-4 w-4" />
+                  Try the AI tutor free
                 </Link>
               </Button>
               <Button
@@ -89,11 +89,43 @@ export function EditorialCover() {
                 size="xl"
                 className="w-full sm:w-auto sm:min-w-[12rem]"
               >
-                <Link to="/mentors">
-                  Find a mentor
+                <Link to="/shop">
+                  Browse courses
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
+            </Reveal>
+
+            {/* Mobile-only floating tile row (matches the desktop hero story) */}
+            <Reveal
+              delay={EDITORIAL_DELAY.ctaAfterHeadline + 80}
+              className="mt-5 grid grid-cols-2 gap-2.5 w-full lg:hidden"
+            >
+              <div className="rounded-2xl border border-border/70 bg-card/95 backdrop-blur-md shadow-md shadow-primary/5 p-3 flex items-center gap-2.5 text-left">
+                <div className="h-9 w-9 rounded-xl bg-primary/15 grid place-items-center text-primary shrink-0">
+                  <Wand2 className="h-4 w-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[12px] font-semibold leading-tight flex items-center gap-1.5">
+                    Live AI tutor
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  </p>
+                  <p className="text-[10.5px] text-muted-foreground mt-0.5 truncate">
+                    Bangla &amp; English · 24/7
+                  </p>
+                </div>
+              </div>
+              <div className="rounded-2xl border border-border/70 bg-card/95 backdrop-blur-md shadow-md shadow-primary/5 p-3 flex items-center gap-2.5 text-left">
+                <div className="h-9 w-9 rounded-xl bg-amber-500/15 grid place-items-center text-amber-600 shrink-0">
+                  <GraduationCap className="h-4 w-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[12px] font-semibold leading-tight">1-on-1 mentor</p>
+                  <p className="text-[10.5px] text-muted-foreground mt-0.5 truncate">
+                    Personal teacher · waitlist
+                  </p>
+                </div>
+              </div>
             </Reveal>
 
             {/* Social proof row */}
@@ -101,21 +133,19 @@ export function EditorialCover() {
               delay={EDITORIAL_DELAY.ctaAfterHeadline + 120}
               className="mt-6 lg:mt-7 flex items-center gap-4 text-sm text-muted-foreground"
             >
-              <div className="flex -space-x-2">
+              <div className="flex -space-x-2" aria-hidden>
                 {[
-                  "https://i.pravatar.cc/64?img=12",
-                  "https://i.pravatar.cc/64?img=32",
-                  "https://i.pravatar.cc/64?img=47",
-                  "https://i.pravatar.cc/64?img=68",
-                ].map((src, i) => (
-                  <img
+                  "from-primary/70 to-primary/30",
+                  "from-amber-400/80 to-amber-200/40",
+                  "from-emerald-400/80 to-emerald-200/40",
+                  "from-rose-400/80 to-rose-200/40",
+                ].map((grad, i) => (
+                  <span
                     key={i}
-                    src={src}
-                    alt=""
-                    width={28}
-                    height={28}
-                    loading="lazy"
-                    className="h-7 w-7 rounded-full ring-2 ring-background object-cover"
+                    className={cn(
+                      "h-7 w-7 rounded-full ring-2 ring-background bg-gradient-to-br",
+                      grad,
+                    )}
                   />
                 ))}
               </div>
@@ -126,8 +156,8 @@ export function EditorialCover() {
                   ))}
                 </div>
                 <span className="text-[12.5px]">
-                  <span className="font-semibold text-foreground">12,400+</span> learners ·{" "}
-                  <span className="font-semibold text-foreground">4.9</span> avg
+                  Loved by{" "}
+                  <span className="font-semibold text-foreground">thousands</span> of learners
                 </span>
               </div>
             </Reveal>
