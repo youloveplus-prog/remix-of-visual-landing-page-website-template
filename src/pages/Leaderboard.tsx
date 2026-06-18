@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { Reveal } from "@/components/transitions/Reveal";
@@ -57,7 +58,7 @@ const Leaderboard = () => {
       <SEO
         title="Leaderboard — top learners on ASIKON"
         description="See the learners with the most XP and longest streaks on ASIKON. Climb the ranks one daily mission at a time."
-        url="https://style-verse-suite.lovable.app/leaderboard"
+        url=`${SITE_URL}/leaderboard`
       />
 
       <Reveal as="section" className="pt-16 pb-10 sm:pt-24 sm:pb-14 lg:pt-32">

@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { Reveal } from "@/components/transitions/Reveal";
@@ -69,7 +70,7 @@ const Help = () => {
       <SEO
         title="Help & FAQ — ASIKON support"
         description="Answers to common questions about orders, learning, community, mentorship, coins, and trust at ASIKON."
-        url="https://style-verse-suite.lovable.app/help"
+        url=`${SITE_URL}/help`
       />
 
       <Reveal as="section" className="pt-20 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-20">

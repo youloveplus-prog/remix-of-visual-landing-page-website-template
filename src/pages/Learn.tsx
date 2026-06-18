@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { Link } from "react-router-dom";
 import { Sparkles, BookOpen, Clock, ArrowRight, Bot, Flame, Trophy, ChevronRight } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -32,7 +33,7 @@ export default function Learn() {
       <SEO
         title="Learn — Asikon"
         description="Your personal learning hub. Daily missions, guided tracks, and a 24/7 AI tutor."
-        url="https://style-verse-suite.lovable.app/learn"
+        url=`${SITE_URL}/learn`
       />
       <MobilePage maxWidth="wide" spacing="space-y-6">
         {/* Header */}

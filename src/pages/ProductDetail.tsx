@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/config/site";
 import { useState, useRef, useEffect } from "react";
 import { Navigate, useParams, Link } from "react-router-dom";
 import { resolveContentRoute } from "@/lib/contentRouting";
