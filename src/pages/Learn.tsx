@@ -33,7 +33,7 @@ export default function Learn() {
       <SEO
         title="Learn — Asikon"
         description="Your personal learning hub. Daily missions, guided tracks, and a 24/7 AI tutor."
-        url=`${SITE_URL}/learn`
+        url={`${SITE_URL}/learn`}
       />
       <MobilePage maxWidth="wide" spacing="space-y-6">
         {/* Header */}

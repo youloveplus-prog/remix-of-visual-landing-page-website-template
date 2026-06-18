@@ -34,7 +34,7 @@ const Community = () => {
       <SEO
         title="Community — Asikon Learners"
         description="Follow learners, share posts, watch videos and read trusted reviews on the Asikon community."
-        url=`${SITE_URL}/community`
+        url={`${SITE_URL}/community`}
       />
       <MobilePage
         sticky={

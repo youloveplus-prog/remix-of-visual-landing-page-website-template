@@ -29,7 +29,7 @@ const Mentors = () => {
       <SEO
         title="1-on-1 Mentorship for Kids"
         description="Book personal Bangla & English tutors for your child on Asikon. Hand-picked mentors, waitlist now open."
-        url=`${SITE_URL}/mentors`
+        url={`${SITE_URL}/mentors`}
       />
       <div className="container-editorial space-y-10 pb-32 pt-2 lg:pt-4">
         {/* Hero */}

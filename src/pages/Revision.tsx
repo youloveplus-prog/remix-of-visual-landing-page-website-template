@@ -15,7 +15,7 @@ export default function Revision() {
       <SEO
         title="Revision — Asikon"
         description="Daily spaced-repetition revision to lock in what you've learned."
-        url=`${SITE_URL}/revision`
+        url={`${SITE_URL}/revision`}
       />
       <MobilePage>
         <header className="flex items-center gap-2 mb-4">

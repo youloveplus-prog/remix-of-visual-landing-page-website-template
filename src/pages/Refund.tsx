@@ -17,7 +17,7 @@ const Refund = () => (
     title="Refund & Return Policy."
     updated="May 2026"
     intro="Shop confidently. If something isn't right, we'll make it right."
-    canonical=`${SITE_URL}/refund`
+    canonical={`${SITE_URL}/refund`}
     metaTitle="Refund & Return Policy — ASIKON"
     metaDescription="ASIKON's return, refund, and replacement policy for products purchased through our shop."
     toc={toc}

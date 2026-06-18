@@ -21,7 +21,7 @@ const Terms = () => (
     title="Terms of Service."
     updated="May 2026"
     intro="The simple rules for using ASIKON — written in plain language."
-    canonical=`${SITE_URL}/terms`
+    canonical={`${SITE_URL}/terms`}
     metaTitle="Terms of Service — ASIKON"
     metaDescription="The terms governing your use of ASIKON's learning, shop, community, and mentorship services."
     toc={toc}

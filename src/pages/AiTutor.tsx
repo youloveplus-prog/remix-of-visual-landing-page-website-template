@@ -78,7 +78,7 @@ export default function Learn() {
   if (loading) {
     return (
       <StandaloneShell>
-        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url=`${SITE_URL}/learn` />
+        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url={`${SITE_URL}/learn`} />
         <TopBar onBack={handleBack} />
         <LearnSkeleton />
       </StandaloneShell>
@@ -88,7 +88,7 @@ export default function Learn() {
   if (!user) {
     return (
       <StandaloneShell>
-        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url=`${SITE_URL}/learn` />
+        <SEO title="Asikon AI" description="Chat 24/7 with Asikon AI, your personal AI tutor for SSC, HSC, and beyond." url={`${SITE_URL}/learn`} />
         <TopBar onBack={handleBack} />
         <div className="relative flex-1 min-h-0 overflow-y-auto">
           {/* Ambient brand glow */}
@@ -149,7 +149,7 @@ export default function Learn() {
       <SEO
         title="Asikon AI"
         description="Chat with Asikon AI, your 24/7 AI study buddy on Asikon. Get answers, MCQs, and revision plans in seconds."
-        url=`${SITE_URL}/learn`
+        url={`${SITE_URL}/learn`}
       >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",

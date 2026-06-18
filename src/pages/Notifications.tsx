@@ -36,7 +36,7 @@ const Notifications = () => {
       <SEO
         title="Notifications — ASIKON"
         description="Stay up to date with announcements, drops, and learning milestones from ASIKON."
-        url=`${SITE_URL}/notifications`
+        url={`${SITE_URL}/notifications`}
       />
 
       <MobilePage maxWidth="reading" spacing="space-y-8">
