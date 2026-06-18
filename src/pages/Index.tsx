@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { lazy, Suspense, useMemo } from "react";
+import { lazy, Suspense, useMemo, ReactNode } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { FirstRunTour } from "@/components/onboarding/FirstRunTour";
@@ -13,6 +13,8 @@ import { useHomeSections, HomeSection } from "@/hooks/useHomeSections";
 import { useAuth } from "@/hooks/useAuth";
 import { AiTutorFab } from "@/components/home/AiTutorFab";
 import { PartnerMarquee } from "@/components/home/PartnerMarquee";
+import { LazyMount } from "@/components/home/LazyMount";
+import { SITE_URL } from "@/config/site";
 
 // Editorial spreads
 import { EditorialCover } from "@/components/home/editorial/EditorialCover";
@@ -52,6 +54,13 @@ const MentorshipHomeSection = lazy(() =>
 );
 
 const Fallback = () => <Skeleton className="h-32 w-full rounded-2xl" />;
+
+/** Lazy-mount helper: gates Suspense behind an IntersectionObserver. */
+const Deferred = ({ children, minHeight = "8rem" }: { children: ReactNode; minHeight?: string }) => (
+  <LazyMount fallback={<Fallback />} minHeight={minHeight}>
+    <Suspense fallback={<Fallback />}>{children}</Suspense>
+  </LazyMount>
+);
 
 const transformProduct = (p: any) => ({
   id: p.id,
@@ -127,7 +136,7 @@ const Index = () => {
       <SEO
         title="Asikon — AI-Powered Learning Platform"
         description="Master AI, Python, and modern skills with expert-led courses, a 24/7 AI tutor, and a community of learners."
-        url="https://style-verse-suite.lovable.app/"
+        url={`${SITE_URL}/`}
       >
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
@@ -175,27 +184,27 @@ const Index = () => {
               <div className="space-y-14 sm:space-y-16 lg:space-y-24">
                 <Department
                   number="05.1"
-                  name="Library"
-                  dek="Courses, books, and curated collections."
+                  name="Workshop"
+                  dek="Your 24/7 AI tutor, quick access, and what's next for you."
                 >
-                  <div className="space-y-10">
-                    <Suspense fallback={<Fallback />}><MobileCoursesTop /></Suspense>
-                    {adminLibrarySections.map(renderAdminSection)}
-                    <Suspense fallback={<Fallback />}><GalleryCarousel /></Suspense>
+                  <div className="space-y-8">
+                    <Deferred><AiAssistantBox /></Deferred>
+                    <Deferred><QuickAccessGrid /></Deferred>
+                    {user && (
+                      <Deferred><RecommendedForYou /></Deferred>
+                    )}
                   </div>
                 </Department>
 
                 <Department
                   number="05.2"
-                  name="Workshop"
-                  dek="Quick access, AI help, and what's next for you."
+                  name="Library"
+                  dek="Courses, books, and curated collections."
                 >
-                  <div className="space-y-8">
-                    <Suspense fallback={<Fallback />}><QuickAccessGrid /></Suspense>
-                    <Suspense fallback={<Fallback />}><AiAssistantBox /></Suspense>
-                    {user && (
-                      <Suspense fallback={<Fallback />}><RecommendedForYou /></Suspense>
-                    )}
+                  <div className="space-y-10">
+                    <Deferred><MobileCoursesTop /></Deferred>
+                    {adminLibrarySections.map(renderAdminSection)}
+                    <Deferred><GalleryCarousel /></Deferred>
                   </div>
                 </Department>
 
@@ -209,7 +218,7 @@ const Index = () => {
                       title="From the community"
                       viewAllHref="/community"
                     />
-                    <Suspense fallback={<Fallback />}><MasterpieceShowcase /></Suspense>
+                    <Deferred><MasterpieceShowcase /></Deferred>
                   </div>
                 </Department>
 
@@ -219,8 +228,8 @@ const Index = () => {
                   dek="Personal teachers for children — waitlist only."
                 >
                   <div className="space-y-10">
-                    <Suspense fallback={<Fallback />}><MentorshipHomeSection /></Suspense>
-                    <Suspense fallback={<Fallback />}><ComingSoonTrio /></Suspense>
+                    <Deferred><MentorshipHomeSection /></Deferred>
+                    <Deferred><ComingSoonTrio /></Deferred>
                   </div>
                 </Department>
               </div>
