@@ -1,18 +1,25 @@
 import { useEffect, useState, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { ShieldCheck, Zap, BadgeCheck, RefreshCcw, ArrowLeft, ArrowRight } from "lucide-react";
+import { ShieldCheck, Zap, BadgeCheck, RefreshCcw, ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import student from "@/assets/trust-student-1.jpg";
 import certificate from "@/assets/trust-certificate.jpg";
 import mentor from "@/assets/trust-mentor.jpg";
 import workspace from "@/assets/trust-workspace.jpg";
+import aiTutor from "@/assets/trust-ai-tutor.jpg";
 
 const slides = [
   {
+    image: aiTutor,
+    title: "Your AI tutor, 24/7",
+    body: "Bangla & English. Socratic guidance — never just the answer.",
+    icon: Sparkles,
+  },
+  {
     image: student,
-    title: "12,400+ learners today",
+    title: "Thousands of learners",
     body: "Calm, focused, on their own schedule.",
     icon: BadgeCheck,
   },
