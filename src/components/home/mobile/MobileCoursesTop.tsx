@@ -6,9 +6,9 @@ import coursePython from "@/assets/course-python.jpg";
 import promptLibrary from "@/assets/prompt-library.jpg";
 
 const fallbackCourses = [
-  { id: "f1", name: "Advanced UX Design Course for Senior Designers", image_url: courseAiMl, rating: 4.8, review_count: 87, slug: "advanced-ux" },
-  { id: "f2", name: "Basic UX Design Course – The Beginner Designer", image_url: coursePython, rating: 4.7, review_count: 55, slug: "basic-ux" },
-  { id: "f3", name: "Prompt Engineering Masterclass", image_url: promptLibrary, rating: 4.9, review_count: 132, slug: "prompts" },
+  { id: "f1", name: "Advanced UX Design Course for Senior Designers", image_url: courseAiMl, slug: "advanced-ux" },
+  { id: "f2", name: "Basic UX Design Course – The Beginner Designer", image_url: coursePython, slug: "basic-ux" },
+  { id: "f3", name: "Prompt Engineering Masterclass", image_url: promptLibrary, slug: "prompts" },
 ];
 
 export const MobileCoursesTop = () => {
