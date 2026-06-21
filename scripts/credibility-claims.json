@@ -1,0 +1,55 @@
+{
+  "$comment": "Registry of credibility claims rendered on the homepage. Each entry maps a claim id to (a) the source files where the copy lives, (b) the literal phrase as it must appear in source, and (c) a Supabase-backed assertion that must be true for the claim to ship. Run `npm run verify:credibility` (also runs automatically before `npm run build`) to validate.",
+  "claims": [
+    {
+      "id": "trust-strip-instant-access",
+      "files": ["src/components/home/editorial/TrustCarousel.tsx"],
+      "phrase": "Instant access",
+      "assertion": { "type": "always" }
+    },
+    {
+      "id": "trust-strip-secure-checkout",
+      "files": ["src/components/home/editorial/TrustCarousel.tsx"],
+      "phrase": "Secure checkout",
+      "assertion": { "type": "always" }
+    },
+    {
+      "id": "trust-strip-verified-buyers",
+      "files": ["src/components/home/editorial/TrustCarousel.tsx"],
+      "phrase": "Verified buyers",
+      "assertion": { "type": "always" }
+    },
+    {
+      "id": "trust-strip-money-back",
+      "files": ["src/components/home/editorial/TrustCarousel.tsx"],
+      "phrase": "7-day money-back",
+      "assertion": { "type": "always" }
+    }
+  ],
+  "banned": [
+    {
+      "id": "vague-volume",
+      "pattern": "\\b(thousands|millions|hundreds of thousands)\\s+of\\s+(learners|students|users|customers|parents)\\b",
+      "reason": "Volume claim not backed by Supabase data. Add an entry in `claims` with a count assertion before using."
+    },
+    {
+      "id": "numeric-volume",
+      "pattern": "\\b(\\d{2,}[Kk]\\+?|\\d{3,}\\+)\\s*(learners|students|users|customers|parents|reviews)\\b",
+      "reason": "Numeric volume claim not backed by Supabase data. Register the claim with a count assertion or remove it."
+    },
+    {
+      "id": "hardcoded-rating",
+      "pattern": "rating:\\s*[0-9]\\.[0-9]",
+      "reason": "Hard-coded product rating in source. Ratings must come from the products / product_reviews table."
+    },
+    {
+      "id": "hardcoded-review-count",
+      "pattern": "review_count:\\s*[0-9]+",
+      "reason": "Hard-coded review count in source. Review counts must come from the product_reviews table."
+    }
+  ],
+  "scanGlobs": [
+    "src/pages/Index.tsx",
+    "src/components/home/**/*.{ts,tsx}"
+  ]
+}
