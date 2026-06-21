@@ -108,7 +108,7 @@ export function EditorialCover() {
                 <div className="min-w-0">
                   <p className="text-[12px] font-semibold leading-tight flex items-center gap-1.5">
                     Live AI tutor
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
                   </p>
                   <p className="text-[10.5px] text-muted-foreground mt-0.5 truncate">
                     Bangla &amp; English · 24/7
@@ -136,9 +136,9 @@ export function EditorialCover() {
               <div className="flex -space-x-2" aria-hidden>
                 {[
                   "from-primary/70 to-primary/30",
-                  "from-amber-400/80 to-amber-200/40",
-                  "from-emerald-400/80 to-emerald-200/40",
-                  "from-rose-400/80 to-rose-200/40",
+                  "from-primary/80 to-primary/40",
+                  "from-accent/80 to-accent/40",
+                  "from-secondary/80 to-secondary/40",
                 ].map((grad, i) => (
                   <span
                     key={i}
@@ -208,7 +208,7 @@ export function EditorialCover() {
                       Bangla &amp; English · 24/7
                     </p>
                   </div>
-                  <span className="ml-1 h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="ml-1 h-2 w-2 rounded-full bg-primary animate-pulse" />
                 </motion.div>
 
                 {/* Floating tile — Mentor */}

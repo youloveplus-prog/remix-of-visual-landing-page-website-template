@@ -19,11 +19,11 @@ type Row = {
 
 const medalClass = (i: number) =>
   i === 0
-    ? "bg-amber-500/15 text-amber-500 border-amber-500/30"
+    ? "bg-primary/10 text-primary border-amber-500/30"
     : i === 1
     ? "bg-zinc-400/15 text-zinc-300 border-zinc-400/30"
     : i === 2
-    ? "bg-orange-500/15 text-orange-400 border-orange-500/30"
+    ? "bg-muted text-muted-foreground border-orange-500/30"
     : "bg-secondary text-foreground/70 border-border";
 
 const Leaderboard = () => {

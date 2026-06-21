@@ -64,7 +64,7 @@ export function EduvoraHero({ variant = "marketing" }: EduvoraHeroProps) {
                   {[0, 1, 2, 3].map((i) => (
                     <div
                       key={i}
-                      className="h-6 w-6 sm:h-7 sm:w-7 rounded-full ring-2 ring-primary bg-gradient-to-br from-amber-200 to-rose-300"
+                      className="h-6 w-6 sm:h-7 sm:w-7 rounded-full ring-2 ring-primary bg-gradient-to-br from-primary/30 to-primary/10"
                       style={{ filter: `hue-rotate(${i * 40}deg)` }}
                     />
                   ))}

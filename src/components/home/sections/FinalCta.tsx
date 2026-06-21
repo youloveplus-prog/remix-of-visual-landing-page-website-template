@@ -50,7 +50,7 @@ export function FinalCta({
           </div>
 
           <div className="mt-4 sm:mt-5">
-            <Link to="/learn" className="font-grotesk text-[12px] font-semibold text-[#0e0e10] underline-offset-4 hover:underline sm:text-[14px]">
+            <Link to="/learn" className="font-grotesk text-[12px] font-semibold text-foreground underline-offset-4 hover:underline sm:text-[14px]">
               Try AI tutor →
             </Link>
           </div>

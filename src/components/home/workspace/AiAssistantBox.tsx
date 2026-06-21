@@ -34,7 +34,7 @@ export function AiAssistantBox() {
 
   return (
     <section className="section-x">
-      <div className="relative w-full mx-auto rounded-2xl lg:rounded-[1.75rem] p-4 sm:p-6 lg:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.02)] max-w-md sm:max-w-lg md:max-w-none bg-primary dark:bg-[#111110] border border-white/20 dark:border-[#2a2a28]">
+      <div className="relative w-full mx-auto rounded-2xl lg:rounded-[1.75rem] p-4 sm:p-6 lg:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.02)] max-w-md sm:max-w-lg md:max-w-none bg-primary dark:bg-background border border-white/20 dark:border-border">
         <div className="grid gap-4 sm:gap-5 md:gap-7 md:grid-cols-[auto_1fr] md:items-center">
           {/* Identity + Greeting */}
           <div className="flex items-center gap-3 md:flex-col md:items-start md:gap-2 md:pr-6 md:border-r md:border-white/20 dark:md:border-[#2a2a28]">
@@ -44,7 +44,7 @@ export function AiAssistantBox() {
               className="w-[clamp(3rem,calc(6vw_+_0.5rem),4rem)] h-[clamp(3rem,calc(6vw_+_0.5rem),4rem)] rounded-xl object-contain shrink-0"
             />
             <div className="min-w-0">
-              <h2 className="font-display text-xl sm:text-2xl md:text-3xl tracking-tight leading-none text-white dark:text-[#f5f3ee] whitespace-nowrap">
+              <h2 className="font-display text-xl sm:text-2xl md:text-3xl tracking-tight leading-none text-white dark:text-foreground whitespace-nowrap">
                 {"Asikon AI".split("").map((ch, i) => (
                   <span
                     key={i}
@@ -55,7 +55,7 @@ export function AiAssistantBox() {
                   </span>
                 ))}
               </h2>
-              <p className="font-sans text-[11px] sm:text-xs mt-1 text-white/80 dark:text-[#c8c4bc]">
+              <p className="font-sans text-[11px] sm:text-xs mt-1 text-white/80 dark:text-muted-foreground">
                 Assalamu Alaikum! How can I help today?
               </p>
             </div>
@@ -79,12 +79,12 @@ export function AiAssistantBox() {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Ask anything in Bangla or English..."
-                className="font-sans w-full rounded-xl py-3 sm:py-3.5 px-4 sm:px-5 pr-12 text-sm outline-none transition-all bg-white dark:bg-[#1a1a18] text-foreground dark:text-[#c8c4bc] border border-white/30 dark:border-[#2a2a28] placeholder:text-foreground/40 dark:placeholder:text-[#c8c4bc]/40 focus:ring-1 focus:ring-white dark:focus:ring-[#f5f3ee]"
+                className="font-sans w-full rounded-xl py-3 sm:py-3.5 px-4 sm:px-5 pr-12 text-sm outline-none transition-all bg-white dark:bg-background text-foreground dark:text-muted-foreground border border-white/30 dark:border-border placeholder:text-foreground/40 dark:placeholder:text-[#c8c4bc]/40 focus:ring-1 focus:ring-white dark:focus:ring-[#f5f3ee]"
               />
               <button
                 type="submit"
                 aria-label="Send"
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity bg-white dark:bg-[#f5f3ee] text-primary dark:text-[#111110]"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity bg-white dark:bg-[#f5f3ee] text-primary dark:text-foreground"
               >
                 <ArrowRight className="w-4 h-4" strokeWidth={2} />
               </button>
@@ -100,7 +100,7 @@ export function AiAssistantBox() {
                     key={`${c.label}-${i}`}
                     type="button"
                     onClick={() => go(c.prompt)}
-                    className="font-sans flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors text-center bg-white/15 dark:bg-[#1a1a18] text-white dark:text-[#c8c4bc] border border-white/25 dark:border-[#2a2a28] hover:border-white/50 dark:hover:border-[#f5f3ee]"
+                    className="font-sans flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors text-center bg-white/15 dark:bg-background text-white dark:text-muted-foreground border border-white/25 dark:border-border hover:border-white/50 dark:hover:border-[#f5f3ee]"
                   >
                     {c.label}
                   </button>

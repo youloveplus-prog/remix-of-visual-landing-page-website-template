@@ -80,7 +80,7 @@ export default function AdminMentors() {
                     <div className="flex items-center gap-2">
                       <p className="font-semibold text-sm truncate">{m.name}</p>
                       {isVerified && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 dark:text-emerald-300">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-primary">
                           <ShieldCheck className="h-3 w-3" /> Verified
                         </span>
                       )}

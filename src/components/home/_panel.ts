@@ -8,15 +8,15 @@ export const TONES: Record<
   { card: string; title: string; sub: string; chip: string }
 > = {
   dark: {
-    card: "bg-[#111114] text-white",
+    card: "bg-background text-white",
     title: "text-white",
     sub: "text-white/70",
     chip: "bg-white text-black",
   },
   gray: {
-    card: "bg-[#ececec] text-[#111]",
-    title: "text-[#0e0e10]",
-    sub: "text-[#5b5b62]",
+    card: "bg-card text-foreground",
+    title: "text-foreground",
+    sub: "text-muted-foreground",
     chip: "bg-white text-black",
   },
   primary: {
