@@ -1,28 +1,30 @@
 ## Goal
-Turn the mobile bottom navigation bar into a solid brand-blue surface with white icons and labels.
+Revert the mobile bottom nav background to follow the theme (black in dark mode, default light surface in light mode). Only the **icons and labels** should be brand blue.
 
-## Changes
+## Changes — `src/components/layout/BottomNav.tsx`
 
-**1. `src/components/layout/BottomNav.tsx`**
-- Replace the `liquid-nav` glass class on the `<nav>` with a solid brand-blue surface: `bg-primary`, no top border (or `border-primary-foreground/10`).
-- Add a subtle top sheen + soft shadow above the bar for depth.
-- Icons + labels:
-  - Inactive → `text-primary-foreground/70`
-  - Active → `text-primary-foreground` (white) with an active "pill" highlight behind the icon (`bg-primary-foreground/15 rounded-full`) so the active tab stays distinguishable on a solid color.
-- Badge: keep red-free; switch to `bg-primary-foreground text-primary` so it pops on blue.
-- Filled icon variants use `stroke="hsl(var(--background))"` for inner cutouts (home line, shop magnifier dot, learn bookmark). On a blue bar this still works in dark mode (bg = black) but reads poorly in light mode (bg = cream). Swap those inner strokes to `hsl(var(--primary))` so the cutout matches the bar color in both themes.
+**Background (revert to theme):**
+- Remove `bg-primary`, the blue shadow, and the white sheen line.
+- Restore `liquid-nav border-t border-border/40` so the bar uses the theme surface (pure black in dark mode, glass cream in light mode).
 
-**2. No global token changes**
-- `--primary` stays brand blue; only the bottom-nav surface is hardcoded to `bg-primary`.
-- `liquid-nav` (used by headers, sheets, drawers) is left alone so other surfaces keep the glass look.
+**Icons & labels (stay brand blue):**
+- Active icon: `text-primary` (brand blue).
+- Inactive icon: `text-primary/55` (faded blue).
+- Active label: `text-primary font-semibold`.
+- Inactive label: `text-primary/60`.
+- Remove the white "active pill" highlight added previously (the blue bg is gone, so the contrast pill is unnecessary).
+
+**Filled icon inner cutouts:**
+- Switch the inner stroke/fill back to `hsl(var(--background))` so the cutout matches the bar background again (was set to `primary` when the bar was blue).
+
+**Badge & dot:**
+- Cart badge: back to `bg-primary text-primary-foreground ring-2 ring-background`.
+- Unread dot: back to `bg-primary ring-2 ring-background`.
 
 ## Out of scope
-- Desktop sidebar / headers (still glass).
-- Light/dark theme tokens.
-- Admin bottom nav (separate component).
+- Global tokens, headers, sidebar, admin nav.
 
 ## Acceptance
-- Mobile bar is a clean, solid `#3b4fe0` strip.
-- Active tab clearly readable via white icon + soft white pill.
-- Inactive tabs ~70% white, still legible.
-- Cart badge visible on blue.
+- Dark mode: bottom nav is pure black; icons + labels are brand blue.
+- Light mode: bottom nav uses the existing glass surface; icons + labels are brand blue.
+- Active vs inactive still readable via opacity (100% vs ~55–60%).
