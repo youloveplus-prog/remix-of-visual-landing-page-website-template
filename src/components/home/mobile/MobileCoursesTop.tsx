@@ -18,7 +18,7 @@ export const MobileCoursesTop = () => {
   return (
     <section className="md:hidden section-x">
       <div className="flex flex-col items-center text-center gap-1 mb-4">
-        <h2 className="font-display font-bold leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] text-brand-gradient">Popular Courses</h2>
+        <h2 className="font-display font-bold leading-[1.02] sm:leading-[0.95] tracking-[-0.03em] sm:tracking-[-0.035em] text-[22px] sm:text-[34px] text-brand-gradient">Popular Courses</h2>
         <Link to="/shop?type=courses" className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground">See all</Link>
       </div>
 

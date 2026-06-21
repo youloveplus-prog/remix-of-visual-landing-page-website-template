@@ -84,7 +84,7 @@ export function HomeSection({
                 </p>
               )}
               {title && (
-                <h3 className="font-display font-bold leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] lg:text-[40px] text-brand-gradient">
+                <h3 className="font-display font-bold leading-[1.02] sm:leading-[0.95] tracking-[-0.03em] sm:tracking-[-0.035em] text-[22px] sm:text-[34px] lg:text-[40px] text-brand-gradient">
                   {title}
                 </h3>
               )}
