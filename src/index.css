@@ -126,23 +126,23 @@
     --popover-foreground: 0 0% 98%;
     --primary: 234 80% 62%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 6%;
+    --secondary: 0 0% 0%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 5%;
+    --muted: 0 0% 0%;
     --muted-foreground: 0 0% 68%;
-    --accent: 234 40% 22%;             /* dark indigo surface (was teal) */
+    --accent: 0 0% 0%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 18%;
-    --input: 0 0% 8%;
+    --border: 0 0% 14%;
+    --input: 0 0% 0%;
 
     --ring: 234 80% 62%;
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 234 80% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 234 40% 18%;     /* dark indigo sidebar hover (was teal) */
+    --sidebar-accent: 0 0% 0%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 14%;
     --sidebar-ring: 234 80% 62%;
@@ -154,14 +154,14 @@
 
     /* Shared panel surface tokens — dark = pure black for global consistency */
     --panel: #000000;
-    --panel-soft: hsl(0 0% 4%);
+    --panel-soft: #000000;
     --panel-foreground: hsl(0 0% 98%);
     --panel-muted: hsl(0 0% 68%);
     --panel-border: rgba(255, 255, 255, 0.10);
 
-    /* Glass tokens — dark (toned down) */
-    --glass-bg: 0 0% 6%;
-    --glass-border: 0 0% 18%;
+    /* Glass tokens — dark (pure black) */
+    --glass-bg: 0 0% 0%;
+    --glass-border: 0 0% 14%;
     --glass-highlight: 0 0% 100%;
 
     /* Brand gradient stops — dark theme overrides */
