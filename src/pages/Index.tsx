@@ -153,8 +153,8 @@ const Index = () => {
         <MobilePage
           maxWidth="full"
           padded={false}
-          spacing="space-y-12 sm:space-y-20 lg:space-y-32"
-          className="pt-0 lg:pt-0 pb-16 sm:pb-20"
+          spacing="space-y-6 sm:space-y-20 lg:space-y-32"
+          className="pt-0 lg:pt-0 pb-10 sm:pb-20"
         >
           {/* Spread 1 — Cover */}
           <div id="cover" className="!mb-0">
@@ -162,7 +162,7 @@ const Index = () => {
           </div>
 
           {/* Quiet partner marquee — pulled tight under the hero */}
-          <div className="!mt-6 sm:!mt-10 lg:!mt-12">
+          <div className="!mt-3 sm:!mt-10 lg:!mt-12">
             <PartnerMarquee />
           </div>
 
@@ -181,7 +181,7 @@ const Index = () => {
           {/* Spread 5 — Departments */}
           <div id="departments">
             <Spread label="Departments">
-              <div className="space-y-14 sm:space-y-16 lg:space-y-24">
+              <div className="space-y-8 sm:space-y-16 lg:space-y-24">
                 <Department
                   number="05.1"
                   name="Workshop"
