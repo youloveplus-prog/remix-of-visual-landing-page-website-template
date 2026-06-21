@@ -1,30 +1,19 @@
-## Goal
-Revert the mobile bottom nav background to follow the theme (black in dark mode, default light surface in light mode). Only the **icons and labels** should be brand blue.
+## Issue
 
-## Changes — `src/components/layout/BottomNav.tsx`
+The Explore tab's "outline" icon (compass) in `src/components/layout/BottomNav.tsx` is actually drawn with `fill="currentColor"` on both paths, so it renders as a solid filled shape even when the tab is inactive — visually identical to the active/fill state. Every other tab (Home, Shop, Learn, Profile) uses true stroked outlines for the inactive state.
 
-**Background (revert to theme):**
-- Remove `bg-primary`, the blue shadow, and the white sheen line.
-- Restore `liquid-nav border-t border-border/40` so the bar uses the theme surface (pure black in dark mode, glass cream in light mode).
+## Fix
 
-**Icons & labels (stay brand blue):**
-- Active icon: `text-primary` (brand blue).
-- Inactive icon: `text-primary/55` (faded blue).
-- Active label: `text-primary font-semibold`.
-- Inactive label: `text-primary/60`.
-- Remove the white "active pill" highlight added previously (the blue bg is gone, so the contrast pill is unnecessary).
+Replace the `ExploreOutline` SVG (lines 9–20) with a stroke-based compass icon matching the visual weight of the other outline icons:
 
-**Filled icon inner cutouts:**
-- Switch the inner stroke/fill back to `hsl(var(--background))` so the cutout matches the bar background again (was set to `primary` when the bar was blue).
+- Outer circle drawn as `stroke="currentColor"` with `strokeWidth={1.5}` and `fill="none"` (using 24×24 viewBox to match siblings).
+- Compass needle drawn as a stroked diamond/polygon with `strokeLinejoin="round"` and `fill="none"`.
+- Remove the center dot fill so nothing inside the icon is filled when inactive.
 
-**Badge & dot:**
-- Cart badge: back to `bg-primary text-primary-foreground ring-2 ring-background`.
-- Unread dot: back to `bg-primary ring-2 ring-background`.
+Keep `ExploreFill` (active state) unchanged — it should remain a solid filled compass.
 
-## Out of scope
-- Global tokens, headers, sidebar, admin nav.
+No changes to colors, layout, labels, badges, or any other tab. Active-state behavior (switches to `ExploreFill` when `/shop` is selected) stays the same.
 
-## Acceptance
-- Dark mode: bottom nav is pure black; icons + labels are brand blue.
-- Light mode: bottom nav uses the existing glass surface; icons + labels are brand blue.
-- Active vs inactive still readable via opacity (100% vs ~55–60%).
+## Verification
+
+After the change, rerun `tests/visual/bottom-nav-blue.spec.py` to confirm color tokens are unaffected, and visually confirm on `/profile` (current route) that the Explore icon now appears as a hollow outline while Profile remains filled.

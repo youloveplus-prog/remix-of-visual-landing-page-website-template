@@ -7,17 +7,25 @@ import { useCart } from "@/hooks/useCart";
 
 /* ---------- Explore (compass) ---------- */
 const ExploreOutline: IconComponent = (props) => (
-  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path
-      d="M24 6C14.059 6 6 14.059 6 24s8.059 18 18 18 18-8.059 18-18S33.941 6 24 6Zm0-4C10.745 2 0 12.745 0 26s10.745 24 24 24 24-10.745 24-24S37.255 2 24 2Z"
-      fill="currentColor"
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <circle
+      cx="12"
+      cy="12"
+      r="9.25"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      fill="none"
     />
     <path
-      d="M33.3 13.3 20 20l-6.7 13.3a1.1 1.1 0 0 0 1.4 1.4L28 28l6.7-13.3a1.1 1.1 0 0 0-1.4-1.4ZM24 26a2 2 0 1 1 2-2 2 2 0 0 1-2 2Z"
-      fill="currentColor"
+      d="M16.5 7.5 13.5 13.5 7.5 16.5 10.5 10.5 16.5 7.5Z"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinejoin="round"
+      fill="none"
     />
   </svg>
 );
+
 const ExploreFill: IconComponent = (props) => (
   <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
