@@ -100,9 +100,9 @@ describe("deep-link content-type guards", () => {
 
     it("the router actually registers all three guarded routes", () => {
       const src = read("src/App.tsx");
-      expect(src).toMatch(/path="\/courses\/:slug"\s+element=\{<CourseDetail\s*\/>\}/);
-      expect(src).toMatch(/path="\/content\/:slug"\s+element=\{<ContentDetail\s*\/>\}/);
-      expect(src).toMatch(/path="\/product\/:slug"\s+element=\{<ProductDetail\s*\/>\}/);
+      expect(src).toMatch(/path="\/courses\/:slug"\s+element=\{(?:<ErrorBoundary>)?<CourseDetail\s*\/>/);
+      expect(src).toMatch(/path="\/content\/:slug"\s+element=\{(?:<ErrorBoundary>)?<ContentDetail\s*\/>/);
+      expect(src).toMatch(/path="\/product\/:slug"\s+element=\{(?:<ErrorBoundary>)?<ProductDetail\s*\/>/);
     });
   });
 });
