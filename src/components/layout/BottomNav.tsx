@@ -259,7 +259,7 @@ function NavItem({
           className={cn(
             "h-[24px] w-[24px]",
             "transition-colors duration-200",
-            active ? "text-primary" : "text-muted-foreground"
+            active ? "text-primary" : "text-primary/55"
           )}
         />
 
