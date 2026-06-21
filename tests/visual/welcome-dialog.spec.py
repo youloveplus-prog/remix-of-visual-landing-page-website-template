@@ -19,8 +19,8 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 
 BASE = os.environ.get("PREVIEW_URL", "http://localhost:8080")
-OUT = Path(__file__).parent / "__screenshots__" / "welcome-dialog"
-OUT.mkdir(parents=True, exist_ok=True)
+SCREENSHOTS = Path(__file__).parent / "__screenshots__" / "welcome-dialog"
+SCREENSHOTS.mkdir(parents=True, exist_ok=True)
 
 VIEWPORTS = [
     ("desktop", {"width": 1280, "height": 900}),
@@ -47,11 +47,8 @@ async def assert_centered(box, viewport, label):
     )
 
 
-async def run_for_viewport(playwright, label, viewport):
-    browser = await playwright.chromium.launch(headless=True)
-    context = await browser.new_context(viewport=viewport)
+async def check_viewport(context, label, viewport):
     page = await context.new_page()
-
     errors = []
     page.on("pageerror", lambda e: errors.append(str(e)))
 
@@ -59,28 +56,27 @@ async def run_for_viewport(playwright, label, viewport):
     await page.goto(BASE, wait_until="domcontentloaded")
     await page.evaluate("() => { try { localStorage.clear(); } catch {} }")
     await page.goto(BASE, wait_until="domcontentloaded")
+    print(f"[{label}] opened start page:", page.url)
 
     dialog = page.get_by_role("dialog")
     await dialog.wait_for(state="visible", timeout=5000)
-
-    # Heading from STEPS[0]
     await page.get_by_text("Welcome to ASIKON").wait_for(timeout=3000)
 
     box = await dialog.bounding_box()
     assert box is not None, f"[{label}] dialog has no bounding box"
     await assert_centered(box, viewport, label)
-
-    await page.screenshot(path=str(OUT / f"{label}_open.png"))
+    await page.screenshot(path=str(SCREENSHOTS / f"{label}_1_open.png"))
+    print(f"[{label}] dialog open and centered")
 
     # Interactivity: Next advances, then Skip dismisses.
-    next_btn = page.get_by_role("button", name="Next")
-    await next_btn.click()
+    await page.get_by_role("button", name="Next").click()
     await page.get_by_text("Learn 24/7 with AI").wait_for(timeout=3000)
+    await page.screenshot(path=str(SCREENSHOTS / f"{label}_2_next.png"))
 
-    skip_btn = page.get_by_role("button", name="Skip welcome tour")
-    await skip_btn.click()
+    await page.get_by_role("button", name="Skip welcome tour").click()
     await dialog.wait_for(state="hidden", timeout=3000)
-    await page.screenshot(path=str(OUT / f"{label}_dismissed.png"))
+    await page.screenshot(path=str(SCREENSHOTS / f"{label}_3_dismissed.png"))
+    print(f"[{label}] dialog dismissed")
 
     # Flag persisted -> no re-open on reload.
     await page.reload(wait_until="domcontentloaded")
@@ -90,16 +86,24 @@ async def run_for_viewport(playwright, label, viewport):
     )
 
     assert not errors, f"[{label}] page errors: {errors}"
-    await browser.close()
-    print(f"  OK [{label}]")
+    await page.close()
+    print(f"[{label}] OK")
 
 
 async def main():
-    async with async_playwright() as pw:
-        for label, vp in VIEWPORTS:
-            print(f"==> {label} {vp}")
-            await run_for_viewport(pw, label, vp)
-    print("welcome-dialog: PASS")
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless=True)
+        try:
+            for label, vp in VIEWPORTS:
+                print(f"==> {label} {vp}")
+                context = await browser.new_context(viewport=vp)
+                try:
+                    await check_viewport(context, label, vp)
+                finally:
+                    await context.close()
+        finally:
+            await browser.close()
+        print("welcome-dialog: PASS")
 
 
 if __name__ == "__main__":
