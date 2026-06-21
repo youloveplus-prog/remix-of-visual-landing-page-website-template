@@ -267,7 +267,9 @@ function NavItem({
           className={cn(
             "h-[24px] w-[24px]",
             "transition-colors duration-200",
-            "text-primary"
+            active
+              ? "text-[hsl(233_72%_55%)]"
+              : "text-primary dark:text-white"
           )}
         />
 
@@ -291,12 +293,15 @@ function NavItem({
 
       <span
         className={cn(
-          "pointer-events-none relative z-10 text-[10px] leading-none text-primary",
-          active ? "font-semibold" : "font-medium"
+          "pointer-events-none relative z-10 text-[10px] leading-none",
+          active
+            ? "font-semibold text-[hsl(233_72%_55%)]"
+            : "font-medium text-primary dark:text-white"
         )}
       >
         {item.label}
       </span>
+
     </NavLink>
   );
 }
