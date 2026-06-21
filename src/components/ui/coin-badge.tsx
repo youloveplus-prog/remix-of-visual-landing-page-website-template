@@ -12,7 +12,7 @@ export function CoinBadge({ amount, className, showIcon = true }: CoinBadgeProps
     <div
       className={cn(
         "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full",
-        "bg-gradient-to-r from-amber-500/20 to-yellow-500/20",
+        "bg-gradient-to-r from-[hsl(var(--chip-butter)/0.3)] to-[hsl(var(--chip-butter)/0.1)]",
         "border border-amber-500/30",
         className
       )}

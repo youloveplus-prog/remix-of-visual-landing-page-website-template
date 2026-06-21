@@ -410,13 +410,13 @@ const Auth = () => {
 
       <div className="relative grid md:grid-cols-2 min-h-dvh">
         {/* ============== Video brand pane (desktop only) ============== */}
-        <aside className="hidden md:flex relative flex-col justify-between p-8 lg:p-12 xl:p-16 overflow-hidden border-r border-border bg-[#0a0a1a] text-white">
+        <aside className="hidden md:flex relative flex-col justify-between p-8 lg:p-12 xl:p-16 overflow-hidden border-r border-border bg-background dark:bg-black text-white">
           {/* Skeleton / poster / video stack */}
           <div className="absolute inset-0">
             {/* Lightweight skeleton while media loads */}
             <div
               className={cn(
-                "absolute inset-0 bg-[#0a0a1a] animate-pulse transition-opacity duration-700",
+                "absolute inset-0 bg-background dark:bg-black animate-pulse transition-opacity duration-700",
                 mediaReady ? "opacity-0 pointer-events-none" : "opacity-100"
               )}
             />
@@ -458,7 +458,7 @@ const Auth = () => {
 
           <div className="relative z-10 space-y-8 max-w-md">
             <div className="inline-flex items-center gap-2 text-[11.5px] text-white/70 rounded-full border border-white/15 bg-white/5 backdrop-blur px-3 py-1.5">
-              <Flame className="h-3.5 w-3.5 text-[#a5b4fc]" />
+              <Flame className="h-3.5 w-3.5 text-primary/70" />
               Trusted by 12,400+ learners
             </div>
             <h1 className="font-display text-4xl xl:text-5xl font-semibold leading-[1.05] tracking-tight">
@@ -479,7 +479,7 @@ const Auth = () => {
                 { icon: ShieldCheck, title: "Lifetime access", sub: "Yours forever" },
               ].map((f) => (
                 <li key={f.title} className="flex items-start gap-3">
-                  <f.icon className="h-4 w-4 mt-1 text-[#a5b4fc] shrink-0" />
+                  <f.icon className="h-4 w-4 mt-1 text-primary/70 shrink-0" />
                   <div>
                     <p className="text-[13.5px] font-medium leading-tight text-white">{f.title}</p>
                     <p className="text-[12px] text-white/60 mt-0.5">{f.sub}</p>
@@ -522,7 +522,7 @@ const Auth = () => {
         >
           {/* Aurora background accents */}
           <div className="pointer-events-none absolute -top-32 -right-24 h-80 w-80 rounded-full bg-primary/15 blur-[110px]" />
-          <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#a78bfa]/10 blur-[110px]" />
+          <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-primary/10 blur-[110px]" />
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.025]"
             style={{
@@ -809,7 +809,7 @@ const Auth = () => {
               <div className="mt-auto pt-8 md:pt-12 space-y-5">
                 <div className="flex flex-col items-center gap-3">
                   <div className="flex -space-x-2">
-                    {["from-primary to-[#a78bfa]", "from-amber-300 to-rose-400", "from-emerald-400 to-teal-500"].map((g, i) => (
+                    {["from-primary to-[#a78bfa]", "from-primary/80 to-primary/40", "from-accent to-primary"].map((g, i) => (
                       <div
                         key={i}
                         className={cn(
