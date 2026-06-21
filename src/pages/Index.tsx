@@ -153,8 +153,8 @@ const Index = () => {
         <MobilePage
           maxWidth="full"
           padded={false}
-          spacing="space-y-12 sm:space-y-20 lg:space-y-32"
-          className="pt-0 lg:pt-0 pb-16 sm:pb-20"
+          spacing="space-y-6 sm:space-y-20 lg:space-y-32"
+          className="pt-0 lg:pt-0 pb-10 sm:pb-20"
         >
           {/* Spread 1 — Cover */}
           <div id="cover" className="!mb-0">
