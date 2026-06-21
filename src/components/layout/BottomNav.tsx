@@ -294,7 +294,7 @@ function NavItem({
 
       <span
         className={cn(
-          "pointer-events-none relative z-10 text-[10px] leading-none",
+          "pointer-events-none relative z-10 text-[10px] leading-none transition-colors duration-200",
           active
             ? "font-semibold text-[hsl(233_72%_55%)]"
             : "font-medium text-primary dark:text-white"
@@ -302,6 +302,7 @@ function NavItem({
       >
         {item.label}
       </span>
+
 
     </NavLink>
   );
