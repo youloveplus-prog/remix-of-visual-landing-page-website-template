@@ -162,7 +162,7 @@ const Index = () => {
           </div>
 
           {/* Quiet partner marquee — pulled tight under the hero */}
-          <div className="!mt-6 sm:!mt-10 lg:!mt-12">
+          <div className="!mt-3 sm:!mt-10 lg:!mt-12">
             <PartnerMarquee />
           </div>
 
