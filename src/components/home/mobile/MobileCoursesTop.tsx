@@ -37,11 +37,15 @@ export const MobileCoursesTop = () => {
             </div>
             <div className="p-3 space-y-1.5">
               <p className="text-sm font-semibold leading-tight line-clamp-2">{c.name}</p>
-              <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
-                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                <span className="font-medium text-foreground">{c.rating ?? 4.8}</span>
-                <span>({c.review_count ?? 80} Reviews)</span>
-              </div>
+              {typeof c.rating === "number" && c.rating > 0 ? (
+                <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                  <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                  <span className="font-medium text-foreground">{c.rating.toFixed(1)}</span>
+                  {typeof c.review_count === "number" && c.review_count > 0 && (
+                    <span>({c.review_count} {c.review_count === 1 ? "Review" : "Reviews"})</span>
+                  )}
+                </div>
+              ) : null}
               <div className="flex items-center justify-between pt-1.5">
                 <span className="text-xs font-semibold text-primary">Visit Course</span>
                 <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center">

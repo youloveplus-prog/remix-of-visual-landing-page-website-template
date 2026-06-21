@@ -19,8 +19,8 @@ const slides = [
   },
   {
     image: student,
-    title: "Thousands of learners",
-    body: "Calm, focused, on their own schedule.",
+    title: "Made for focused learners",
+    body: "Calm, distraction-free study — on your own schedule.",
     icon: BadgeCheck,
   },
   {

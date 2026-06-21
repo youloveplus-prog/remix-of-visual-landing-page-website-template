@@ -150,14 +150,12 @@ export function EditorialCover() {
                 ))}
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="flex items-center gap-0.5 text-amber-500">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                  ))}
-                </div>
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Star className="h-3 w-3 fill-current" />
+                </span>
                 <span className="text-[12.5px]">
-                  Loved by{" "}
-                  <span className="font-semibold text-foreground">thousands</span> of learners
+                  Built with our{" "}
+                  <span className="font-semibold text-foreground">early learners</span> in Bangladesh
                 </span>
               </div>
             </Reveal>
