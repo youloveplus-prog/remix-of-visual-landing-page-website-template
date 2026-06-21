@@ -38,12 +38,12 @@ export function MobileSection({
         <div className={cn("flex items-end justify-between gap-3 mb-3", flush && "px-4 lg:px-0")}>
           <div className="min-w-0">
             {title && (
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              <p className="text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-[0.16em] sm:tracking-[0.14em] text-muted-foreground leading-[1.35]">
                 {title}
               </p>
             )}
             {subtitle && (
-              <p className="text-[13px] text-foreground/85 leading-snug mt-0.5 line-clamp-1">
+              <p className="text-[12.5px] sm:text-[13px] text-foreground/85 leading-[1.5] mt-1 line-clamp-2 sm:line-clamp-1 max-w-[42ch]">
                 {subtitle}
               </p>
             )}
