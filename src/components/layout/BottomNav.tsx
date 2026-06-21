@@ -259,7 +259,7 @@ function NavItem({
           className={cn(
             "h-[24px] w-[24px]",
             "transition-colors duration-200",
-            active ? "text-primary" : "text-muted-foreground"
+            active ? "text-primary" : "text-primary/55"
           )}
         />
 
@@ -284,7 +284,7 @@ function NavItem({
       <span
         className={cn(
           "pointer-events-none relative z-10 text-[10px] leading-none",
-          active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
+          active ? "font-semibold text-primary" : "font-medium text-primary/60"
         )}
       >
         {item.label}
