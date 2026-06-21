@@ -88,7 +88,7 @@ describe("Auth page — supabase.auth integration", () => {
     renderAuth();
 
     // Switch to register view
-    fireEvent.click(screen.getByRole("button", { name: /create an account/i }));
+    fireEvent.click(screen.getByRole("tab", { name: /create an account/i }));
 
     fireEvent.change(document.getElementById("register-username")!, {
       target: { value: "alice" },
@@ -123,7 +123,7 @@ describe("Auth page — supabase.auth integration", () => {
     auth.verifyOtp.mockResolvedValue({ data: { session: null }, error: null });
     renderAuth();
 
-    fireEvent.click(screen.getByRole("button", { name: /create an account/i }));
+    fireEvent.click(screen.getByRole("tab", { name: /create an account/i }));
     fireEvent.change(document.getElementById("register-username")!, {
       target: { value: "alice" },
     });
