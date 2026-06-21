@@ -181,7 +181,7 @@ const Index = () => {
           {/* Spread 5 — Departments */}
           <div id="departments">
             <Spread label="Departments">
-              <div className="space-y-14 sm:space-y-16 lg:space-y-24">
+              <div className="space-y-8 sm:space-y-16 lg:space-y-24">
                 <Department
                   number="05.1"
                   name="Workshop"
