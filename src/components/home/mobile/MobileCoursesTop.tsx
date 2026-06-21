@@ -6,9 +6,9 @@ import coursePython from "@/assets/course-python.jpg";
 import promptLibrary from "@/assets/prompt-library.jpg";
 
 const fallbackCourses = [
-  { id: "f1", name: "Advanced UX Design Course for Senior Designers", image_url: courseAiMl, rating: 4.8, review_count: 87, slug: "advanced-ux" },
-  { id: "f2", name: "Basic UX Design Course – The Beginner Designer", image_url: coursePython, rating: 4.7, review_count: 55, slug: "basic-ux" },
-  { id: "f3", name: "Prompt Engineering Masterclass", image_url: promptLibrary, rating: 4.9, review_count: 132, slug: "prompts" },
+  { id: "f1", name: "Advanced UX Design Course for Senior Designers", image_url: courseAiMl, slug: "advanced-ux" },
+  { id: "f2", name: "Basic UX Design Course – The Beginner Designer", image_url: coursePython, slug: "basic-ux" },
+  { id: "f3", name: "Prompt Engineering Masterclass", image_url: promptLibrary, slug: "prompts" },
 ];
 
 export const MobileCoursesTop = () => {
@@ -37,11 +37,15 @@ export const MobileCoursesTop = () => {
             </div>
             <div className="p-3 space-y-1.5">
               <p className="text-sm font-semibold leading-tight line-clamp-2">{c.name}</p>
-              <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
-                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                <span className="font-medium text-foreground">{c.rating ?? 4.8}</span>
-                <span>({c.review_count ?? 80} Reviews)</span>
-              </div>
+              {typeof c.rating === "number" && c.rating > 0 ? (
+                <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                  <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                  <span className="font-medium text-foreground">{c.rating.toFixed(1)}</span>
+                  {typeof c.review_count === "number" && c.review_count > 0 && (
+                    <span>({c.review_count} {c.review_count === 1 ? "Review" : "Reviews"})</span>
+                  )}
+                </div>
+              ) : null}
               <div className="flex items-center justify-between pt-1.5">
                 <span className="text-xs font-semibold text-primary">Visit Course</span>
                 <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center">
