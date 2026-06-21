@@ -253,20 +253,13 @@ function NavItem({
       className="relative flex h-full w-full flex-col items-center justify-center gap-1 select-none touch-manipulation outline-none active:scale-95 transition-transform"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
-      <span className="relative inline-flex z-10 items-center justify-center">
-        <span
-          aria-hidden
-          className={cn(
-            "absolute inset-[-6px] rounded-full transition-all duration-200",
-            active ? "bg-primary-foreground/18 scale-100" : "scale-75 opacity-0"
-          )}
-        />
+      <span className="relative inline-flex z-10">
         <Icon
           aria-hidden
           className={cn(
-            "relative h-[24px] w-[24px]",
+            "h-[24px] w-[24px]",
             "transition-colors duration-200",
-            active ? "text-primary-foreground" : "text-primary-foreground/70"
+            active ? "text-primary" : "text-primary/55"
           )}
         />
 
@@ -274,7 +267,7 @@ function NavItem({
         {showBadge && (
           <span
             aria-label={`${item.badge} items`}
-            className="absolute -top-1.5 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-primary-foreground text-primary text-[10px] font-bold flex items-center justify-center shadow-[0_2px_6px_hsl(0_0%_0%/0.25)] ring-2 ring-primary"
+            className="absolute -top-1.5 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center shadow-[0_2px_6px_hsl(var(--primary)/0.45)] ring-2 ring-background"
           >
             {item.badge! > 9 ? "9+" : item.badge}
           </span>
@@ -283,7 +276,7 @@ function NavItem({
         {showDot && (
           <span
             aria-label="Unread"
-            className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-primary-foreground ring-2 ring-primary"
+            className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-primary ring-2 ring-background shadow-[0_0_6px_hsl(var(--primary)/0.7)]"
           />
         )}
       </span>
@@ -291,7 +284,7 @@ function NavItem({
       <span
         className={cn(
           "pointer-events-none relative z-10 text-[10px] leading-none",
-          active ? "font-semibold text-primary-foreground" : "font-medium text-primary-foreground/70"
+          active ? "font-semibold text-primary" : "font-medium text-primary/60"
         )}
       >
         {item.label}
