@@ -268,10 +268,11 @@ function NavItem({
             "h-[24px] w-[24px]",
             "transition-colors duration-200",
             active
-              ? "text-[hsl(233_72%_55%)]"
-              : "text-primary dark:text-white"
+              ? "text-[hsl(233_72%_55%)] hover:text-[hsl(233_72%_55%)] focus-visible:text-[hsl(233_72%_55%)]"
+              : "text-primary hover:text-primary focus-visible:text-primary dark:text-white dark:hover:text-white dark:focus-visible:text-white"
           )}
         />
+
 
 
         {showBadge && (
@@ -293,7 +294,7 @@ function NavItem({
 
       <span
         className={cn(
-          "pointer-events-none relative z-10 text-[10px] leading-none",
+          "pointer-events-none relative z-10 text-[10px] leading-none transition-colors duration-200",
           active
             ? "font-semibold text-[hsl(233_72%_55%)]"
             : "font-medium text-primary dark:text-white"
@@ -301,6 +302,7 @@ function NavItem({
       >
         {item.label}
       </span>
+
 
     </NavLink>
   );
