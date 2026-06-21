@@ -80,19 +80,19 @@ const QUICK_PROMPTS = [
     icon: BookOpen,
     label: "I'm stuck on an SSC Math problem",
     prompt: "I'm stuck on an SSC Math problem. Can you help me figure it out step by step? I'll share what I've tried.",
-    tint: "from-blue-500/15 to-blue-500/0 text-blue-600 dark:text-blue-400 ring-blue-500/20",
+    tint: "from-primary/15 to-primary/0 text-primary ring-primary/20",
   },
   {
     icon: ListChecks,
     label: "Quiz me on photosynthesis",
     prompt: "Give me 5 MCQs on photosynthesis with answers and short explanations.",
-    tint: "from-emerald-500/15 to-emerald-500/0 text-emerald-600 dark:text-emerald-400 ring-emerald-500/20",
+    tint: "from-primary/10 to-emerald-500/0 text-primary dark:text-emerald-400 ring-emerald-500/20",
   },
   {
     icon: Brain,
     label: "Walk me through Newton's 2nd law",
     prompt: "I'm trying to understand Newton's second law. Can we go through it together? Ask me what I already know first.",
-    tint: "from-violet-500/15 to-violet-500/0 text-violet-600 dark:text-violet-400 ring-violet-500/20",
+    tint: "from-primary/10 to-primary/0 text-primary ring-primary/20",
   },
   {
     icon: SparklesIcon,
@@ -329,7 +329,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             />
             <span
               aria-hidden
-              className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background"
+              className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-background"
             />
           </div>
           <div className="min-w-0">
@@ -337,7 +337,7 @@ export function LearnChat({ threadId, onBack }: Props) {
               {threadTitle}
             </div>
             <div className="text-[11px] text-muted-foreground leading-tight flex items-center gap-1">
-              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Online</span>
+              <span className="text-primary dark:text-emerald-400 font-medium">Online</span>
               <span>· Asikon AI tutor</span>
             </div>
           </div>

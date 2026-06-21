@@ -113,7 +113,7 @@ function Field({
       <p
         className={cn(
           "text-[10.5px] font-semibold uppercase tracking-[0.14em] inline-flex items-center gap-1",
-          tone === "positive" ? "text-emerald-600 dark:text-emerald-300" : "text-muted-foreground",
+          tone === "positive" ? "text-primary" : "text-muted-foreground",
         )}
       >
         {icon}

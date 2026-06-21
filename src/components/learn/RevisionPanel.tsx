@@ -103,7 +103,7 @@ export function RevisionPanel({ compact = false }: Props) {
           OK
         </Button>
         <Button
-          className="bg-emerald-600 hover:bg-emerald-600/90 text-white"
+          className="bg-primary hover:bg-primary/90 text-white"
           onClick={() => handleGrade(5)}
           disabled={grade.isPending}
         >

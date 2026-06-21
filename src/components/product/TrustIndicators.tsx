@@ -4,7 +4,7 @@ export function TrustIndicators() {
   const indicators = [
     { icon: Zap, label: "Instant Access", color: "text-success" },
     { icon: Lock, label: "Secure Checkout", color: "text-primary" },
-    { icon: RefreshCw, label: "7-Day Money-Back", color: "text-amber-500" },
+    { icon: RefreshCw, label: "7-Day Money-Back", color: "text-primary" },
     { icon: ShieldCheck, label: "Verified Quality", color: "text-success" },
   ];
 

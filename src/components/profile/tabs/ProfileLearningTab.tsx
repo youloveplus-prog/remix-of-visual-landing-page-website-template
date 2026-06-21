@@ -49,9 +49,9 @@ export function ProfileLearningTab({ stats, isOwnProfile }: ProfileLearningTabPr
 
   const tiles = [
     { label: "XP", value: stats.xp, icon: Sparkles, color: "text-primary" },
-    { label: "Streak", value: `${stats.streak}d`, icon: Flame, color: "text-amber-400" },
-    { label: "Lessons", value: stats.lessonsCompleted, icon: GraduationCap, color: "text-emerald-400" },
-    { label: "Best Streak", value: `${stats.longestStreak}d`, icon: Trophy, color: "text-amber-400" },
+    { label: "Streak", value: `${stats.streak}d`, icon: Flame, color: "text-primary" },
+    { label: "Lessons", value: stats.lessonsCompleted, icon: GraduationCap, color: "text-primary" },
+    { label: "Best Streak", value: `${stats.longestStreak}d`, icon: Trophy, color: "text-primary" },
   ];
 
   return (

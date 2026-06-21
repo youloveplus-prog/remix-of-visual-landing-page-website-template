@@ -19,17 +19,17 @@ export function ProfileTrustCard({ trustScore, coins, level, onViewDetails }: Pr
 
   const getTrustColor = (score: number) => {
     if (score >= 90) return "text-emerald-400";
-    if (score >= 70) return "text-amber-400";
-    return "text-orange-400";
+    if (score >= 70) return "text-primary";
+    return "text-muted-foreground";
   };
 
   const getLevelColor = (lvl: string) => {
     switch (lvl.toLowerCase()) {
-      case "diamond": return "text-cyan-400";
+      case "diamond": return "text-primary";
       case "platinum": return "text-slate-300";
-      case "gold": return "text-amber-400";
+      case "gold": return "text-primary";
       case "silver": return "text-slate-400";
-      default: return "text-orange-600";
+      default: return "text-muted-foreground";
     }
   };
 

@@ -51,7 +51,7 @@ export function DesktopHeroBento() {
         {/* Drop a Link — yellow */}
         <Link
           to="/learn"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-amber-200 text-amber-950 hover:scale-[1.01] transition-transform"
+          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-[hsl(var(--chip-butter))] text-foreground hover:scale-[1.01] transition-transform"
         >
           <div className="flex items-center gap-3">
             <IconChip><Link2 className="h-4 w-4" /></IconChip>
@@ -69,7 +69,7 @@ export function DesktopHeroBento() {
         {/* Create Avatar — mint, tall, spans 2 rows */}
         <Link
           to="/learn"
-          className="relative overflow-hidden rounded-3xl p-6 row-span-2 bg-emerald-200 text-emerald-950 flex flex-col hover:scale-[1.005] transition-transform"
+          className="relative overflow-hidden rounded-3xl p-6 row-span-2 bg-[hsl(var(--chip-mint))] text-foreground flex flex-col hover:scale-[1.005] transition-transform"
         >
           <div className="flex items-center gap-3 relative z-10">
             <IconChip><Gem className="h-4 w-4" /></IconChip>
@@ -82,11 +82,11 @@ export function DesktopHeroBento() {
             alt=""
             className="absolute inset-x-0 bottom-0 w-full h-[80%] object-cover object-top opacity-90 mix-blend-luminosity"
           />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-emerald-200 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[hsl(var(--chip-mint))] to-transparent" />
           <div className="mt-auto relative z-10 flex items-center justify-between">
             <div className="flex -space-x-2">
               {[tutorImg, courseImg, promptImg].map((src, i) => (
-                <div key={i} className="w-9 h-9 rounded-full border-2 border-emerald-200 overflow-hidden surface-panel">
+                <div key={i} className="w-9 h-9 rounded-full border-2 border-[hsl(var(--chip-mint))] overflow-hidden surface-panel">
                   <img src={src} alt="" className="w-full h-full object-cover" />
                 </div>
               ))}
@@ -100,7 +100,7 @@ export function DesktopHeroBento() {
         {/* Use a Preset — lavender */}
         <Link
           to="/prompts"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-violet-200 text-violet-950 hover:scale-[1.01] transition-transform"
+          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-[hsl(var(--chip-lavender))] text-foreground hover:scale-[1.01] transition-transform"
         >
           <div className="flex items-center gap-3">
             <IconChip><Sparkles className="h-4 w-4" /></IconChip>
@@ -124,7 +124,7 @@ export function DesktopHeroBento() {
         {/* Use Template — sky */}
         <Link
           to="/shop?type=courses"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-sky-200 text-sky-950 hover:scale-[1.01] transition-transform"
+          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-primary/10 text-foreground hover:scale-[1.01] transition-transform"
         >
           <div className="flex items-center gap-3">
             <IconChip><BookOpen className="h-4 w-4" /></IconChip>
@@ -146,7 +146,7 @@ export function DesktopHeroBento() {
         {/* Connect Account — yellow */}
         <Link
           to="/profile"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-amber-200 text-amber-950 hover:scale-[1.01] transition-transform"
+          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-[hsl(var(--chip-butter))] text-foreground hover:scale-[1.01] transition-transform"
         >
           <div className="flex items-center gap-3">
             <IconChip><GraduationCap className="h-4 w-4" /></IconChip>

@@ -17,7 +17,7 @@ export function TrustBadge({ type, className, size = "sm" }: TrustBadgeProps) {
     verified: {
       icon: CheckCircle,
       label: "Verified",
-      colors: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+      colors: "bg-primary/10 text-primary border-primary/30",
     },
     trusted: {
       icon: Shield,

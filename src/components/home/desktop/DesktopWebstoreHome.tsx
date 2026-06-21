@@ -5,7 +5,7 @@ import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { ImageHeroSlider } from "@/components/home/mobile/ImageHeroSlider";
 
 const categories = [
-  { id: "all", label: "All topics", href: "/shop", dotClass: "bg-indigo-400", active: true },
+  { id: "all", label: "All topics", href: "/shop", dotClass: "bg-primary", active: true },
   { id: "courses", label: "Courses", href: "/shop?type=courses" },
   { id: "books", label: "Books", href: "/shop?type=ebooks" },
   { id: "prompts", label: "Prompts", href: "/prompts" },
@@ -21,8 +21,8 @@ const cardTints = [
   "from-accent/20 to-secondary/40",
   "from-primary/20 to-accent/30",
 ];
-const badgeTints = ["bg-indigo-500", "bg-purple-500", "bg-cyan-500", "bg-fuchsia-500"];
-const rankTints = ["bg-indigo-600", "bg-purple-600", "bg-teal-600"];
+const badgeTints = ["bg-primary", "bg-primary/80", "bg-accent", "bg-secondary"];
+const rankTints = ["bg-primary", "bg-primary/80", "bg-accent"];
 
 function CardImage({ image, index, initial }: { image?: string | null; index: number; initial: string }) {
   return (

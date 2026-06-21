@@ -3,7 +3,7 @@ import { GraduationCap, Sparkles } from "lucide-react";
 
 export function HeroBanner() {
   return (
-    <div className="relative h-[160px] sm:h-64 overflow-hidden rounded-none sm:rounded-2xl sm:mx-4 bg-gradient-to-br from-indigo-600 via-purple-600 to-fuchsia-600">
+    <div className="relative h-[160px] sm:h-64 overflow-hidden rounded-none sm:rounded-2xl sm:mx-4 bg-gradient-to-br from-primary via-primary/80 to-primary/60">
       <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_70%_20%,white,transparent_50%)]" />
       <GraduationCap className="absolute right-6 top-6 h-24 w-24 text-white/20" />
       <Sparkles className="absolute right-20 bottom-8 h-10 w-10 text-white/40" />
