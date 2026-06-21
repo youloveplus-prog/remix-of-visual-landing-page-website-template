@@ -580,6 +580,7 @@ const Auth = () => {
                       key={v}
                       role="tab"
                       aria-selected={activeView === v}
+                      aria-label={v === "register" ? "Create an account" : "Sign in"}
                       type="button"
                       onClick={() => {
                         setActiveView(v);
