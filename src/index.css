@@ -558,10 +558,18 @@
   /* Nav-specific glass — header & bottom nav */
   .liquid-nav {
     isolation: isolate;
-    background: hsl(var(--background) / 0.78);
+    background:
+      linear-gradient(180deg, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.04)),
+      hsl(var(--background) / 0.85);
     backdrop-filter: blur(22px) saturate(160%);
     -webkit-backdrop-filter: blur(22px) saturate(160%);
-    box-shadow: 0 1px 0 hsl(var(--border));
+    box-shadow: 0 1px 0 hsl(var(--primary) / 0.18);
+  }
+  .dark .liquid-nav {
+    background:
+      linear-gradient(180deg, hsl(var(--primary) / 0.14), hsl(var(--primary) / 0.06)),
+      #000000;
+    box-shadow: 0 1px 0 hsl(var(--primary) / 0.28);
   }
   .liquid-nav::after {
     content: "";
