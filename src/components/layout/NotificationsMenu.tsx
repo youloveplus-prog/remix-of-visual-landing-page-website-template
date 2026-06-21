@@ -33,16 +33,16 @@ const iconMap = {
 };
 
 const bgColorMap = {
-  like: 'bg-pink-500/10',
-  comment: 'bg-blue-500/10',
-  order: 'bg-green-500/10',
+  like: 'bg-primary/10',
+  comment: 'bg-primary/10',
+  order: 'bg-primary/10',
   live: 'bg-primary/10',
 };
 
 const iconColorMap = {
-  like: 'text-pink-500',
-  comment: 'text-blue-500',
-  order: 'text-green-500',
+  like: 'text-primary',
+  comment: 'text-primary',
+  order: 'text-primary',
   live: 'text-primary',
 };
 
