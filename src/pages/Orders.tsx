@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 const statusConfig = {
   pending: { label: "Pending", icon: Clock, dot: "bg-amber-500" },
   processing: { label: "Processing", icon: Package, dot: "bg-blue-500" },
-  shipped: { label: "Shipped", icon: Truck, dot: "bg-violet-500" },
+  shipped: { label: "Shipped", icon: Truck, dot: "bg-primary" },
   delivered: { label: "Delivered", icon: CheckCircle, dot: "bg-emerald-500" },
   cancelled: { label: "Cancelled", icon: XCircle, dot: "bg-rose-500" },
 } as const;
