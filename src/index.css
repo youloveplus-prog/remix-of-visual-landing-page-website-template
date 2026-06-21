@@ -32,28 +32,28 @@
     --secondary-foreground: 234 37% 11%;
     --muted: 39 50% 92%;               /* warm muted */
     --muted-foreground: 232 13% 40%;
-    --accent: 252 65% 95%;             /* lavender chip surface #ece6ff */
+    --accent: 233 72% 95%;             /* blue-tinted chip surface */
     --accent-foreground: 233 72% 45%;
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 39 30% 88%;
-    --input: 39 30% 92%;
+    --border: 233 30% 88%;
+    --input: 233 30% 92%;
     --ring: 233 72% 55%;
     --radius: 1.25rem;                 /* 20px — more rounded for bento */
-    --sidebar-background: 39 67% 96%;  /* warm cream sidebar */
+    --sidebar-background: 233 50% 97%; /* soft blue sidebar */
     --sidebar-foreground: 234 37% 11%;
     --sidebar-primary: 233 72% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 252 65% 95%;
+    --sidebar-accent: 233 72% 95%;
     --sidebar-accent-foreground: 233 72% 45%;
-    --sidebar-border: 39 30% 88%;
+    --sidebar-border: 233 30% 88%;
     --sidebar-ring: 233 72% 55%;
     --chart-1: 233 72% 55%;
-    --chart-2: 198 41% 60%;            /* sky-blue support */
-    --chart-3: 38 92% 70%;             /* butter */
-    --chart-4: 252 65% 80%;             /* lavender */
-    --chart-5: 152 40% 75%;             /* mint */
-    --gold: 38 92% 60%;
+    --chart-2: 220 80% 60%;
+    --chart-3: 226 76% 70%;
+    --chart-4: 240 70% 65%;
+    --chart-5: 210 80% 55%;
+    --gold: 233 72% 55%;
     --success: 152 50% 42%;
     --font-sans: 'Schibsted Grotesk', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
     --font-display: 'Clash Display', ui-sans-serif, system-ui, sans-serif;
@@ -61,11 +61,11 @@
     --font-dot: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
     --font-dot-matrix: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
 
-    /* Warm chip surfaces (named tokens) */
-    --chip-butter: 38 92% 86%;         /* #fde2b8 */
-    --chip-lavender: 252 65% 95%;      /* #ece6ff */
-    --chip-mint: 152 47% 89%;          /* #d8f0e4 */
-    --chip-cream: 39 67% 96%;          /* #fff8ec */
+    /* Chip surfaces — unified to brand blue family */
+    --chip-butter: 233 72% 92%;
+    --chip-lavender: 233 72% 95%;
+    --chip-mint: 220 80% 92%;
+    --chip-cream: 233 50% 97%;
 
     /* Shared panel surface tokens — used by .surface-panel utilities so
        every page/section flips to pure black in dark mode automatically. */
