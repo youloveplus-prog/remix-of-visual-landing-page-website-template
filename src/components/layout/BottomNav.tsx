@@ -163,7 +163,7 @@ const LearnFill: IconComponent = (props) => (
     />
     <path
       d="M8 3V13L10.5 11L13 13V3"
-      stroke="hsl(var(--background))"
+      stroke="hsl(var(--primary))"
       strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
