@@ -50,7 +50,7 @@ describe("ErrorBoundary route smoke tests", () => {
         </Routes>
       </MemoryRouter>,
     );
-    expect(screen.getByText("route-content-ok")).toBeInTheDocument();
+    expect(screen.getByText("route-content-ok")).toBeTruthy();
   });
 
   it("ErrorBoundary catches a render-time crash and shows the fallback UI", () => {
@@ -73,9 +73,9 @@ describe("ErrorBoundary route smoke tests", () => {
         </Routes>
       </MemoryRouter>,
     );
-    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /reload/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /go home/i })).toBeInTheDocument();
+    expect(screen.getByText(/something went wrong/i)).toBeTruthy();
+    expect(screen.getByRole("button", { name: /reload/i })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /go home/i })).toBeTruthy();
     spy.mockRestore();
   });
 });
