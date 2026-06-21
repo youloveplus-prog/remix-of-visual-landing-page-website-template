@@ -199,7 +199,9 @@ export function BottomNav() {
       aria-label="Primary"
       className={cn(
         "fixed inset-x-0 bottom-0 z-50 supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
-        "liquid-nav border-t border-border/40"
+        "bg-primary border-t border-primary-foreground/10",
+        "shadow-[0_-6px_24px_-8px_hsl(var(--primary)/0.45)]",
+        "before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-primary-foreground/15 before:pointer-events-none"
       )}
     >
       <ul className="flex h-[64px] items-stretch px-1">
