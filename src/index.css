@@ -1167,14 +1167,20 @@
   .editorial-dek {
     font-family: var(--font-sans);
     font-weight: 400;
-    font-size: 0.9375rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.62;
+    letter-spacing: 0.005em;
+    max-width: 60ch;
     color: hsl(var(--muted-foreground));
     text-wrap: pretty;
   }
-  @media (min-width: 1024px) {
-    .editorial-dek { font-size: 1rem; line-height: 1.55; }
+  @media (min-width: 640px) {
+    .editorial-dek { font-size: 0.9375rem; line-height: 1.6; }
   }
+  @media (min-width: 1024px) {
+    .editorial-dek { font-size: 1rem; line-height: 1.55; letter-spacing: 0; }
+  }
+
   .editorial-pullquote {
     font-family: var(--font-sans);
     font-style: italic;
