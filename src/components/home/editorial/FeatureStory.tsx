@@ -69,10 +69,10 @@ export function FeatureStory() {
             {/* Text side */}
             <Reveal delay={120}>
               <div className="px-4 sm:px-8 lg:pl-6 lg:pr-10 py-5 sm:py-8 lg:py-10 flex flex-col">
-                <h2 className="editorial-headline mb-3 sm:mb-4 text-[clamp(1.4rem,4.2vw,2.75rem)] leading-[1.05]">
+                <h2 className="editorial-headline mb-2.5 sm:mb-4 text-[clamp(1.35rem,4.2vw,2.75rem)] leading-[1.12] sm:leading-[1.05]">
                   {lead?.name ?? "The course we'd start with today."}
                 </h2>
-                <p className="editorial-dek mb-4 sm:mb-6 max-w-[44ch] text-muted-foreground text-sm sm:text-base">
+                <p className="editorial-dek mb-4 sm:mb-6 max-w-[44ch] text-muted-foreground text-[13.5px] sm:text-base leading-[1.55] sm:leading-relaxed">
                   A calm, hand-picked starting point — paired with a 24/7 AI tutor.
                 </p>
 
