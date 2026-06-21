@@ -53,7 +53,7 @@ const HomeFill: IconComponent = (props) => (
     />
     <path
       d="M15 18H9"
-      stroke="hsl(var(--background))"
+      stroke="hsl(var(--primary))"
       strokeWidth={1.75}
       strokeLinecap="round"
     />
@@ -86,7 +86,7 @@ const ShopFill: IconComponent = (props) => (
       fillRule="evenodd"
       clipRule="evenodd"
       d="M11.5067 7.01392C9.02527 7.01392 7.01367 9.02551 7.01367 11.5069C7.01367 13.9884 9.02527 16 11.5067 16C12.3853 16 13.205 15.7478 13.8973 15.3119L15.1658 16.5803C15.5563 16.9709 16.1895 16.9709 16.58 16.5803C16.9705 16.1898 16.9705 15.5566 16.58 15.1661L15.3116 13.8977C15.7475 13.2053 15.9997 12.3856 15.9997 11.5069C15.9997 9.02551 13.9881 7.01392 11.5067 7.01392ZM9.01367 11.5069C9.01367 10.1301 10.1298 9.01392 11.5067 9.01392C12.8836 9.01392 13.9997 10.1301 13.9997 11.5069C13.9997 12.8838 12.8836 14 11.5067 14C10.1298 14 9.01367 12.8838 9.01367 11.5069Z"
-      fill="hsl(var(--background))"
+      fill="hsl(var(--primary))"
     />
   </svg>
 );
@@ -163,7 +163,7 @@ const LearnFill: IconComponent = (props) => (
     />
     <path
       d="M8 3V13L10.5 11L13 13V3"
-      stroke="hsl(var(--background))"
+      stroke="hsl(var(--primary))"
       strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -199,7 +199,9 @@ export function BottomNav() {
       aria-label="Primary"
       className={cn(
         "fixed inset-x-0 bottom-0 z-50 supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
-        "liquid-nav border-t border-border/40"
+        "bg-primary border-t border-primary-foreground/10",
+        "shadow-[0_-6px_24px_-8px_hsl(var(--primary)/0.45)]",
+        "before:content-[''] before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-primary-foreground/15 before:pointer-events-none"
       )}
     >
       <ul className="flex h-[64px] items-stretch px-1">
@@ -253,13 +255,20 @@ function NavItem({
       className="relative flex h-full w-full flex-col items-center justify-center gap-1 select-none touch-manipulation outline-none active:scale-95 transition-transform"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
-      <span className="relative inline-flex z-10">
+      <span className="relative inline-flex z-10 items-center justify-center">
+        <span
+          aria-hidden
+          className={cn(
+            "absolute inset-[-6px] rounded-full transition-all duration-200",
+            active ? "bg-primary-foreground/18 scale-100" : "scale-75 opacity-0"
+          )}
+        />
         <Icon
           aria-hidden
           className={cn(
-            "h-[24px] w-[24px]",
+            "relative h-[24px] w-[24px]",
             "transition-colors duration-200",
-            active ? "text-primary" : "text-primary/55"
+            active ? "text-primary-foreground" : "text-primary-foreground/70"
           )}
         />
 
@@ -267,7 +276,7 @@ function NavItem({
         {showBadge && (
           <span
             aria-label={`${item.badge} items`}
-            className="absolute -top-1.5 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center shadow-[0_2px_6px_hsl(var(--primary)/0.45)] ring-2 ring-background"
+            className="absolute -top-1.5 -right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-primary-foreground text-primary text-[10px] font-bold flex items-center justify-center shadow-[0_2px_6px_hsl(0_0%_0%/0.25)] ring-2 ring-primary"
           >
             {item.badge! > 9 ? "9+" : item.badge}
           </span>
@@ -276,7 +285,7 @@ function NavItem({
         {showDot && (
           <span
             aria-label="Unread"
-            className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-primary ring-2 ring-background shadow-[0_0_6px_hsl(var(--primary)/0.7)]"
+            className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-primary-foreground ring-2 ring-primary"
           />
         )}
       </span>
@@ -284,7 +293,7 @@ function NavItem({
       <span
         className={cn(
           "pointer-events-none relative z-10 text-[10px] leading-none",
-          active ? "font-semibold text-primary" : "font-medium text-primary/60"
+          active ? "font-semibold text-primary-foreground" : "font-medium text-primary-foreground/70"
         )}
       >
         {item.label}
