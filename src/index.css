@@ -1118,14 +1118,14 @@
 /* === Editorial home spreads === */
 @layer components {
   .editorial-eyebrow {
-    font-family: 'Departure Mono', ui-monospace, monospace;
+    font-family: var(--font-dot);
     font-size: 0.625rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: hsl(var(--muted-foreground) / 0.8);
   }
   .editorial-pagenum {
-    font-family: 'Departure Mono', ui-monospace, monospace;
+    font-family: var(--font-dot);
     font-size: 0.625rem;
     letter-spacing: 0.16em;
     color: hsl(var(--muted-foreground) / 0.6);
