@@ -53,7 +53,7 @@ const HomeFill: IconComponent = (props) => (
     />
     <path
       d="M15 18H9"
-      stroke="hsl(var(--background))"
+      stroke="hsl(var(--primary))"
       strokeWidth={1.75}
       strokeLinecap="round"
     />
