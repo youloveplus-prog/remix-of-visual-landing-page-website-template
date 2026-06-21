@@ -1,11 +1,19 @@
-// Display/body fonts (Satoshi, Sentient, Edensor, Departure Mono) are loaded
-// from Fontshare via <link> in index.html. Only the Bengali stack and a
-// monospaced fallback remain here, loaded conditionally below.
+// Typography: Noto — a typeface for the world.
+// Noto Serif Display (headlines) + Noto Sans (body) + Noto Sans Mono (labels).
+import "@fontsource/noto-serif-display/400.css";
+import "@fontsource/noto-serif-display/500.css";
+import "@fontsource/noto-serif-display/600.css";
+import "@fontsource/noto-serif-display/700.css";
+import "@fontsource/noto-serif-display/400-italic.css";
+import "@fontsource/noto-sans/300.css";
+import "@fontsource/noto-sans/400.css";
+import "@fontsource/noto-sans/500.css";
+import "@fontsource/noto-sans/600.css";
+import "@fontsource/noto-sans/700.css";
+import "@fontsource/noto-sans/400-italic.css";
+import "@fontsource/noto-sans-mono/400.css";
+import "@fontsource/noto-sans-mono/500.css";
 import "@fontsource/jetbrains-mono/400.css";
-import "@fontsource/dm-serif-display/400.css";
-import "@fontsource/fira-sans/300.css";
-import "@fontsource/fira-sans/400.css";
-import "@fontsource/fira-sans/500.css";
 
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
