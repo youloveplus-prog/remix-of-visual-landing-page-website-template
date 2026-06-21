@@ -53,7 +53,7 @@ const HomeFill: IconComponent = (props) => (
     />
     <path
       d="M15 18H9"
-      stroke="hsl(var(--primary))"
+      stroke="hsl(var(--background))"
       strokeWidth={1.75}
       strokeLinecap="round"
     />
@@ -86,7 +86,7 @@ const ShopFill: IconComponent = (props) => (
       fillRule="evenodd"
       clipRule="evenodd"
       d="M11.5067 7.01392C9.02527 7.01392 7.01367 9.02551 7.01367 11.5069C7.01367 13.9884 9.02527 16 11.5067 16C12.3853 16 13.205 15.7478 13.8973 15.3119L15.1658 16.5803C15.5563 16.9709 16.1895 16.9709 16.58 16.5803C16.9705 16.1898 16.9705 15.5566 16.58 15.1661L15.3116 13.8977C15.7475 13.2053 15.9997 12.3856 15.9997 11.5069C15.9997 9.02551 13.9881 7.01392 11.5067 7.01392ZM9.01367 11.5069C9.01367 10.1301 10.1298 9.01392 11.5067 9.01392C12.8836 9.01392 13.9997 10.1301 13.9997 11.5069C13.9997 12.8838 12.8836 14 11.5067 14C10.1298 14 9.01367 12.8838 9.01367 11.5069Z"
-      fill="hsl(var(--primary))"
+      fill="hsl(var(--background))"
     />
   </svg>
 );
@@ -163,7 +163,7 @@ const LearnFill: IconComponent = (props) => (
     />
     <path
       d="M8 3V13L10.5 11L13 13V3"
-      stroke="hsl(var(--primary))"
+      stroke="hsl(var(--background))"
       strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
