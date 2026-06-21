@@ -283,8 +283,8 @@ function NavItem({
 
       <span
         className={cn(
-          "pointer-events-none relative z-10 text-[10px] leading-none",
-          active ? "font-semibold text-primary" : "font-medium text-primary/60"
+          "pointer-events-none relative z-10 text-[10px] leading-none text-primary",
+          active ? "font-semibold" : "font-medium"
         )}
       >
         {item.label}
