@@ -32,9 +32,9 @@ const pillActions: Tile[] = [
     icon: GraduationCap,
     label: "Courses",
     href: "/shop?type=courses",
-    from: "from-violet-500/15",
-    to: "to-violet-500/5",
-    iconColor: "text-violet-500",
+    from: "from-primary/15",
+    to: "to-primary/5",
+    iconColor: "text-primary",
   },
   {
     icon: Sparkles,
