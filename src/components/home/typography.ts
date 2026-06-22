@@ -3,38 +3,88 @@
  *
  * Single source of truth so the hero slider's voice — display font,
  * extrabold weight, uppercase, tight tracking, balanced wrap — stays
- * consistent across every section, card, and stat on the home page.
+ * consistent across every section, card, stat, and CTA on the home page.
+ *
+ * Each token is a Tailwind class string that already encodes the full
+ * mobile → tablet → desktop responsive scale, so consumers never need
+ * to specify breakpoints. Adjust scale here and the whole home page
+ * follows.
+ *
+ *   Breakpoint reference (Tailwind defaults):
+ *     base  →   <640px   (mobile)
+ *     sm:   →  ≥640px    (tablet)
+ *     lg:   →  ≥1024px   (desktop)
  *
  * Usage:
  *   import { homeType } from "@/components/home/typography";
  *   <h2 className={homeType.sectionTitle}>...</h2>
  */
 
-const base =
+/** Shared shape that defines the hero voice. Never used directly. */
+const HERO_VOICE =
   "font-display font-extrabold uppercase tracking-tight text-balance leading-[1.08]";
 
-export const homeType = {
-  /** Hero slide title — the canonical reference style. */
-  heroTitle: `${base} text-[24px] sm:text-[28px] text-white`,
+/** Card title voice — slightly lighter, looser line-height for two-line wraps. */
+const CARD_VOICE =
+  "font-display font-bold uppercase tracking-tight leading-[1.1]";
 
-  /** Top-of-section h2 used across every home section. */
-  sectionTitle: `${base} text-[24px] sm:text-[30px] lg:text-[36px]`,
+/**
+ * Responsive size scale helper.
+ * size(base, tablet?, desktop?) → "text-[X] sm:text-[Y] lg:text-[Z]"
+ */
+const size = (base: string, tablet?: string, desktop?: string) =>
+  [
+    `text-[${base}]`,
+    tablet ? `sm:text-[${tablet}]` : "",
+    desktop ? `lg:text-[${desktop}]` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+export const homeType = {
+  /* ────────────────────────────  Headings  ──────────────────────────── */
+
+  /** Hero slide title — the canonical reference style. */
+  heroTitle: `${HERO_VOICE} ${size("24px", "28px", "32px")} text-white`,
+
+  /** Standard section h2 used across every home section. */
+  sectionTitle: `${HERO_VOICE} ${size("24px", "30px", "36px")}`,
 
   /** Oversized hero-band h2 (Superagent / Explore Topics scale). */
-  bandTitle: `${base} text-[40px] sm:text-[56px] lg:text-[72px]`,
+  bandTitle: `${HERO_VOICE} ${size("40px", "56px", "72px")}`,
 
-  /** Card / tile title inside a section. */
-  cardTitle: `font-display font-bold uppercase tracking-tight leading-[1.1] text-[15px] sm:text-[17px]`,
+  /** Card / tile title inside a section grid. */
+  cardTitle: `${CARD_VOICE} ${size("15px", "17px", "18px")}`,
+
+  /** Tiny tile title (compact rails, dense grids). */
+  tileTitle: `${CARD_VOICE} ${size("13px", "14px", "15px")}`,
+
+  /* ────────────────────────────  Supporting  ───────────────────────── */
 
   /** Eyebrow caption above a title — desaturated, hairline tracked. */
-  eyebrow:
-    "font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60",
+  eyebrow: `font-display font-semibold uppercase tracking-[0.18em] text-white/60 ${size(
+    "11px",
+    "12px",
+  )}`,
 
-  /** Hook / supporting body line under a title. Mobile-first. */
-  hook: "text-[13.5px] sm:text-[15px] leading-relaxed text-white/65",
+  /** Hook / supporting body line under a title. */
+  hook: `leading-relaxed text-white/65 ${size("13.5px", "15px", "16px")}`,
+
+  /** Muted helper line — smaller than hook (timestamps, tags). */
+  meta: `text-white/55 ${size("12px", "13px")}`,
+
+  /* ───────────────────────────────  Stats  ─────────────────────────── */
 
   /** Numeric stat value (LiveStatsBar etc). */
-  stat: `${base} text-2xl sm:text-3xl text-white`,
+  stat: `${HERO_VOICE} ${size("24px", "30px", "36px")} text-white`,
+
+  /** Label under a stat. */
+  statLabel: `${homeType_unused_placeholder()}`,
 } as const;
+
+// (The IIFE below keeps the const object monomorphic for tree-shaking.)
+function homeType_unused_placeholder() {
+  return `font-display uppercase tracking-[0.18em] text-white/55 ${size("11px", "12px")}`;
+}
 
 export type HomeTypeToken = keyof typeof homeType;
