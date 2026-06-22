@@ -69,11 +69,14 @@ export default function LessonDetail() {
         type="article"
       />
       <MobilePage maxWidth="reading" spacing="space-y-7" className="pb-sticky-cta lg:pb-6">
-        {trackRow && (
-          <Link to={`/track/${trackRow.slug}`} className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60 transition-opacity">
-            <ArrowLeft className="h-3.5 w-3.5" /> {trackRow.name}
-          </Link>
-        )}
+        <Breadcrumbs
+          eyebrow="Lesson"
+          items={[
+            { label: "Learn", to: "/learn" },
+            ...(trackRow ? [{ label: trackRow.name, to: `/track/${trackRow.slug}` }] : []),
+            { label: lesson.title },
+          ]}
+        />
 
         <PageHero
           title={lesson.title}
