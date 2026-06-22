@@ -61,7 +61,7 @@ export function MobileAppDownload() {
               <p className="mb-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-[hsl(var(--hf-accent))]">
                 Mobile app · iOS & Android
               </p>
-              <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight leading-tight text-white">
+              <h2 className="hf-title font-display">
                 Take ASIKON with you. Learn, shop and chat on the go.
               </h2>
               <p className="mt-2 max-w-xl text-sm sm:text-[15px] text-white/60">

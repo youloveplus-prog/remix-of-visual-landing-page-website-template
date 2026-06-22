@@ -55,7 +55,7 @@ export function ProductShowcase({
                 {eyebrow}
               </p>
             )}
-            <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight leading-tight text-white">
+            <h2 className="hf-title font-display">
               {title}
             </h2>
             {description && (
