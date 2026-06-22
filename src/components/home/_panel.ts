@@ -36,7 +36,8 @@ export const chipClass =
   "inline-flex w-fit items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[10px] font-medium text-black sm:px-2.5 sm:py-1 sm:text-[11px] dark:bg-white/10 dark:text-foreground";
 
 export const headlineClass =
-  "font-grotesk text-[22px] font-black leading-[1.05] tracking-[-0.03em] text-panel-fg sm:text-[40px]";
+  "font-display text-[24px] leading-[1.08] font-extrabold uppercase tracking-tight text-balance text-panel-fg sm:text-[34px] lg:text-[40px]";
+
 
 export const subheadClass =
   "mt-2 text-[12px] text-panel-muted sm:mt-3 sm:text-[15px]";
