@@ -139,24 +139,39 @@ const queryClient = new QueryClient({
  */
 function useIdlePrefetch() {
   useEffect(() => {
+    const w = window as any;
     const idle = (cb: () => void) => {
-      const w = window as any;
       if (typeof w.requestIdleCallback === "function") {
-        w.requestIdleCallback(cb, { timeout: 2500 });
+        w.requestIdleCallback(cb, { timeout: 3000 });
       } else {
-        setTimeout(cb, 1500);
+        setTimeout(cb, 2000);
       }
     };
-    idle(() => {
-      // Warm the most likely next-nav targets so taps feel instant.
-      ShopMod();
-      CommunityMod();
-      LearnMod();
-      ProfileMod();
-      ProductDetailMod();
-      AuthMod();
-      CartMod();
-    });
+
+    // Warm next-nav targets one at a time across idle slots so we don't
+    // saturate the network or main thread on slow devices.
+    const queue: Array<() => Promise<unknown>> = [
+      ShopMod,
+      ProductDetailMod,
+      CommunityMod,
+      LearnMod,
+      ProfileMod,
+      AuthMod,
+      CartMod,
+    ];
+    let cancelled = false;
+    const pump = () => {
+      if (cancelled) return;
+      const next = queue.shift();
+      if (!next) return;
+      idle(() => {
+        next().finally(() => pump());
+      });
+    };
+    pump();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 }
 
