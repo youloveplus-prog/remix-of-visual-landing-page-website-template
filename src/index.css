@@ -55,11 +55,11 @@
     --chart-5: 210 80% 55%;
     --gold: 233 72% 55%;
     --success: 152 50% 42%;
-    --font-sans: 'Noto Sans', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Noto Serif Display', ui-serif, Georgia, 'Times New Roman', serif;
-    --font-serif: 'Noto Serif Display', ui-serif, Georgia, 'Times New Roman', serif;
-    --font-dot: 'Noto Sans Mono', 'JetBrains Mono', ui-monospace, monospace;
-    --font-dot-matrix: 'Noto Sans Mono', 'JetBrains Mono', ui-monospace, monospace;
+    --font-sans: 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+    --font-dot: 'Satoshi', 'JetBrains Mono', ui-monospace, monospace;
+    --font-dot-matrix: 'Satoshi', 'JetBrains Mono', ui-monospace, monospace;
 
     /* Chip surfaces — unified to brand blue family */
     --chip-butter: 233 72% 92%;

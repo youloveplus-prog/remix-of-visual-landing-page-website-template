@@ -129,7 +129,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          'Noto Sans',
+          'Satoshi',
           'Hind Siliguri',
           'Noto Sans Bengali',
           'ui-sans-serif',
@@ -140,21 +140,19 @@ export default {
           'sans-serif'
         ],
         display: [
-          'Noto Serif Display',
-          'ui-serif',
-          'Georgia',
-          'Times New Roman',
-          'serif'
+          'Satoshi',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif'
         ],
         serif: [
-          'Noto Serif Display',
-          'ui-serif',
-          'Georgia',
-          'Times New Roman',
-          'serif'
+          'Satoshi',
+          'ui-sans-serif',
+          'system-ui',
+          'sans-serif'
         ],
         grotesk: [
-          'Noto Sans',
+          'Satoshi',
           'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
@@ -167,19 +165,19 @@ export default {
           'sans-serif'
         ],
         dot: [
-          'Noto Sans Mono',
+          'Satoshi',
           'JetBrains Mono',
           'ui-monospace',
           'monospace'
         ],
         'dot-matrix': [
-          'Noto Sans Mono',
+          'Satoshi',
           'JetBrains Mono',
           'ui-monospace',
           'monospace'
         ],
         mono: [
-          'Noto Sans Mono',
+          'Satoshi',
           'JetBrains Mono',
           'ui-monospace',
           'SFMono-Regular',
