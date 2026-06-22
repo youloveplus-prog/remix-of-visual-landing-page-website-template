@@ -34,7 +34,7 @@ export function MobileAppDownload() {
       className="hf-section hf-section-depth relative w-full bg-black"
     >
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div className="hf-card-depth relative overflow-hidden border border-white/10 bg-neutral-950">
+        <div className="hf-card-depth-elevated relative overflow-hidden border border-white/10 bg-neutral-950">
           {/* Indigo wash */}
           <div
             aria-hidden

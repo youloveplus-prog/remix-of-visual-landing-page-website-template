@@ -88,7 +88,7 @@ export function ProductShowcase({
                 <Link
                   key={p.id}
                   to={`/product/${p.slug ?? p.id}`}
-                  className="group relative shrink-0 snap-start basis-[78%] sm:basis-[42%] lg:basis-[28%] xl:basis-[23%]"
+                  className="hf-card-hover group relative shrink-0 snap-start basis-[78%] sm:basis-[42%] lg:basis-[28%] xl:basis-[23%]"
                   aria-label={p.name}
                 >
                   <CardMedia
@@ -181,7 +181,7 @@ function CardMedia({
           preload="metadata"
           onLoadedData={() => setLoaded(true)}
           onCanPlay={() => setLoaded(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04] ${
+          className={`hf-card-media absolute inset-0 h-full w-full object-cover ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -193,7 +193,7 @@ function CardMedia({
           decoding="async"
           onLoad={() => setLoaded(true)}
           onError={() => setLoaded(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06] ${
+          className={`hf-card-media absolute inset-0 h-full w-full object-cover ${
             loaded ? "opacity-100" : "opacity-0"
           }`}
           draggable={false}
