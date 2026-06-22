@@ -19,6 +19,7 @@ import { useMentors, type Mentor } from "@/hooks/useMentors";
 import { useMentorVerificationsMap } from "@/hooks/useTrust";
 import { VerifiedTutorBadge } from "@/components/mentorship/VerifiedTutorBadge";
 import { MentorWaitlistSheet } from "@/components/mentorship/MentorWaitlistSheet";
+import { MentorBookingPanel } from "@/components/mentorship/MentorBookingPanel";
 import { SITE_URL } from "@/config/site";
 
 const FAQ = [
@@ -121,6 +122,8 @@ export default function MentorDetail() {
             <li className="flex items-center gap-2"><BookOpen className="h-4 w-4 text-foreground/60" /> Weekly 45-min 1-on-1 sessions</li>
           </ul>
         </DetailSection>
+
+        <MentorBookingPanel mentor={mentor} />
 
         <DetailSection title="FAQ">
           <Accordion type="single" collapsible className="w-full">
