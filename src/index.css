@@ -1286,3 +1286,25 @@
     display: none;
   }
 }
+
+/* === Higgsfield-style home scope ===
+   Pure-black canvas + neon-lime accent, isolated from the global warm theme.
+   Applied only to the home page via the .home-higgsfield wrapper. */
+.home-higgsfield {
+  --hf-accent: 73 87% 63%; /* #c6f24e neon lime */
+  background: #0a0a0a;
+  color: #fff;
+}
+.home-higgsfield ::selection {
+  background: hsl(var(--hf-accent));
+  color: #000;
+}
+
+@keyframes hf-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.3333%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-higgsfield .hf-promo > div { animation: none !important; }
+}
+
