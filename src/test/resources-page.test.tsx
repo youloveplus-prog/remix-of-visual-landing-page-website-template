@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import Resources from "@/pages/Resources";
 import ResourceDetail from "@/pages/ResourceDetail";
 import { RESOURCES } from "@/data/resources";
@@ -12,12 +13,14 @@ function renderAt(path: string) {
   return render(
     <QueryClientProvider client={qc}>
       <HelmetProvider>
-        <MemoryRouter initialEntries={[path]}>
-          <Routes>
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/resources/:slug" element={<ResourceDetail />} />
-          </Routes>
-        </MemoryRouter>
+        <TooltipProvider>
+          <MemoryRouter initialEntries={[path]}>
+            <Routes>
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/resources/:slug" element={<ResourceDetail />} />
+            </Routes>
+          </MemoryRouter>
+        </TooltipProvider>
       </HelmetProvider>
     </QueryClientProvider>,
   );
