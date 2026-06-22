@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
+    imagetools(),
     sitemapPlugin(),
     mode === "development" && componentTagger(),
   ].filter(Boolean),
