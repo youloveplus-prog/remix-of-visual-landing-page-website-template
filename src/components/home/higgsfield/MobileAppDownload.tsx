@@ -61,7 +61,7 @@ export function MobileAppDownload() {
               <p className="hf-eyebrow">
                 Mobile app · iOS & Android
               </p>
-              <h2 className="hf-title font-display">
+              <h2 className="hf-title font-display text-white">
                 Take ASIKON with you. Learn, shop and chat on the go.
               </h2>
               <p className="mt-2 max-w-xl text-sm sm:text-[15px] text-white/60">

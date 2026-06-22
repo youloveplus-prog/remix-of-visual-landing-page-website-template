@@ -16,7 +16,7 @@ export function AiTutorTeaser() {
           <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[hsl(var(--hf-accent))]">
             <Sparkles className="h-3.5 w-3.5" /> AI Tutor
           </span>
-          <h2 className="mt-3 hf-title font-display">
+          <h2 className="mt-3 hf-title font-display text-white">
             A patient teacher who never sleeps.
           </h2>
           <p className="mt-3 max-w-md text-[14px] text-white/55">

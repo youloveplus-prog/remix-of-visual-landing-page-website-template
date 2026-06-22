@@ -32,7 +32,7 @@ export function CategoryShelf() {
             <p className="hf-eyebrow">
               Explore
             </p>
-            <h2 className="hf-title font-display">
+            <h2 className="hf-title font-display text-white">
               Shop by category
             </h2>
             <p className="mt-2 max-w-xl text-sm sm:text-[15px] text-white/55">

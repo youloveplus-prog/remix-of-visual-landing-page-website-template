@@ -21,7 +21,7 @@ export function TrendingRail({
   return (
     <section className="hf-section">
       <div className="mb-3 flex items-end justify-between px-4 sm:px-6 lg:px-8">
-        <h2 className="hf-title font-display">
+        <h2 className="hf-title font-display text-white">
           {title}
         </h2>
         {viewAllHref && (
