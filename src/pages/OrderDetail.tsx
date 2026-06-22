@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
 import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard, ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
@@ -27,7 +27,7 @@ const OrderDetail = () => {
   const { data: order, isLoading } = useOrder(id || "");
 
   if (authLoading) return <AppLayout><MobilePage maxWidth="standard"><Skeleton className="h-8 w-40" /></MobilePage></AppLayout>;
-  if (!user) { navigate("/auth"); return null; }
+  if (!user) return <Navigate to="/auth" replace />;
 
   if (isLoading) {
     return (

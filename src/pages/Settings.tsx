@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { User, Bell, Lock, Moon, LogOut, ChevronRight, Camera, Shield, Eye, Palette, Coins } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
@@ -68,7 +68,7 @@ const Settings = () => {
       </AppLayout>
     );
   }
-  if (!user) { navigate("/auth"); return null; }
+  if (!user) return <Navigate to="/auth" replace />;
 
   return (
     <AppLayout>
