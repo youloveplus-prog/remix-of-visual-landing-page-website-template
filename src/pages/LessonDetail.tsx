@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Clock, Target } from "lucide-react";
+import { CheckCircle2, Clock, Target, Sparkles, Users, MessageCircle, GraduationCap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -10,6 +10,10 @@ import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StickyActionBar } from "@/components/ui/sticky-action-bar";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
+import { RelatedRail } from "@/components/connect/RelatedRail";
+import { useRecommendations } from "@/hooks/useRecommendations";
 import { useLesson, useLessonCompletions } from "@/hooks/useTracks";
 import { useCompleteLesson } from "@/hooks/useTodayMission";
 import { useAuth } from "@/hooks/useAuth";
