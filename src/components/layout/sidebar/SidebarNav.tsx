@@ -36,6 +36,7 @@ function ShortcutTile({
   label,
   tint,
   badge,
+  isActive,
   onClose,
 }: {
   to: string;
@@ -43,18 +44,32 @@ function ShortcutTile({
   label: string;
   tint: string; // tailwind bg + text classes for the icon chip
   badge?: number;
+  isActive?: boolean;
   onClose?: () => void;
 }) {
   return (
     <Link
       to={to}
       onClick={onClose}
-      className="group relative flex items-center gap-2.5 h-[60px] px-2.5 rounded-[16px] bg-card border border-black/5 hover:border-primary/20 hover:bg-foreground/[0.02] active:scale-[0.98] transition-all shadow-sm"
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "group relative flex items-center gap-2.5 h-[60px] pl-3 pr-2.5 rounded-[16px] border active:scale-[0.98] transition-all shadow-sm overflow-hidden",
+        isActive
+          ? "bg-primary/10 border-primary/30 ring-1 ring-primary/20"
+          : "bg-card border-black/5 hover:border-primary/20 hover:bg-foreground/[0.02]",
+      )}
     >
+      {/* Facebook-style left highlight bar */}
+      {isActive && (
+        <span
+          aria-hidden
+          className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-primary"
+        />
+      )}
       <span
         className={cn(
-          "relative flex items-center justify-center w-10 h-10 rounded-[12px] flex-shrink-0",
-          tint,
+          "relative flex items-center justify-center w-10 h-10 rounded-[12px] flex-shrink-0 transition-colors",
+          isActive ? "bg-primary text-primary-foreground" : tint,
         )}
       >
         {icon}
@@ -64,7 +79,12 @@ function ShortcutTile({
           </span>
         )}
       </span>
-      <span className="text-[12.5px] font-semibold text-foreground leading-tight truncate">
+      <span
+        className={cn(
+          "text-[12.5px] leading-tight truncate transition-colors",
+          isActive ? "font-bold text-primary" : "font-semibold text-foreground",
+        )}
+      >
         {label}
       </span>
     </Link>
@@ -89,13 +109,20 @@ function ListRow({
     <Link
       to={to}
       onClick={onClose}
+      aria-current={isActive ? "page" : undefined}
       className={cn(
-        "flex items-center gap-3 h-11 px-3 rounded-[12px] transition-colors active:scale-[0.99]",
+        "relative flex items-center gap-3 h-11 pl-4 pr-3 rounded-[12px] transition-colors active:scale-[0.99]",
         isActive
           ? "bg-primary/10 text-primary"
           : "text-foreground/75 hover:bg-foreground/[0.04] hover:text-foreground",
       )}
     >
+      {isActive && (
+        <span
+          aria-hidden
+          className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-primary"
+        />
+      )}
       <span className={cn("flex-shrink-0", isActive ? "text-primary" : "text-foreground/55")}>
         {icon}
       </span>
@@ -191,6 +218,7 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
             label={s.label}
             tint={s.tint}
             badge={s.badge}
+            isActive={isActive(s.to)}
             onClose={onClose}
           />
         ))}
