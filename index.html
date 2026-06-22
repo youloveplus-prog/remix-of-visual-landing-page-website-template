@@ -7,17 +7,12 @@
     <script>
       (function () {
         try {
-          var ls = window.localStorage;
-          var stored = ls && ls.getItem('theme');
-          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var theme = stored === 'dark' || stored === 'light'
-            ? stored
-            : (stored === 'system' || !stored ? (systemDark ? 'dark' : 'light') : 'light');
           var root = document.documentElement;
-          root.classList.remove('light', 'dark');
-          root.classList.add(theme);
-          root.style.colorScheme = theme;
+          root.classList.remove('light');
+          root.classList.add('dark');
+          root.style.colorScheme = 'dark';
         } catch (e) {}
+
       })();
     </script>
     <meta name="theme-color" content="#faf6ef" media="(prefers-color-scheme: light)" />
