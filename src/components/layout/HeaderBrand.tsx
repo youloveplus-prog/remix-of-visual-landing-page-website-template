@@ -22,24 +22,17 @@ export function HeaderBrand({ compact = false, iconOnly = false, className }: He
     >
       <span
         className={cn(
-          "relative grid place-items-center rounded-xl transition-all duration-300",
-          "ring-1 ring-border/60 bg-card/70 backdrop-blur-xl",
-          "group-hover:ring-primary/40 group-hover:shadow-[var(--shadow-glow)]",
+          "relative grid place-items-center transition-all duration-300",
           compact ? "h-9 w-9" : "h-10 w-10"
         )}
       >
         <img
           src={logo}
           alt=""
-          className={cn("transition-all duration-300", compact ? "w-5 h-5" : "w-6 h-6")}
-        />
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{
-            background:
-              "radial-gradient(60% 60% at 50% 0%, hsl(var(--primary) / 0.18), transparent 70%)",
-          }}
+          className={cn(
+            "transition-all duration-300 object-contain drop-shadow-[0_2px_6px_hsl(var(--primary)/0.25)]",
+            compact ? "w-7 h-7" : "w-8 h-8"
+          )}
         />
       </span>
       {!iconOnly && (
