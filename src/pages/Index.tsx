@@ -11,6 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { HiggsfieldHero } from "@/components/home/higgsfield/HiggsfieldHero";
 import { NeonPromoTicker } from "@/components/home/higgsfield/NeonPromoTicker";
+import { PromoToolsBlock } from "@/components/home/higgsfield/PromoToolsBlock";
+import { SuperagentBand } from "@/components/home/higgsfield/SuperagentBand";
 import { ToolsBentoGrid } from "@/components/home/higgsfield/ToolsBentoGrid";
 import { LiveStatsBar } from "@/components/home/higgsfield/LiveStatsBar";
 import { TrendingRail, type TrendingItem } from "@/components/home/higgsfield/TrendingRail";
@@ -84,6 +86,8 @@ const Index = () => {
       <div className="home-higgsfield min-h-screen pb-10">
         <HiggsfieldHero />
         <NeonPromoTicker />
+        <PromoToolsBlock />
+        <SuperagentBand />
         <ToolsBentoGrid />
         <LiveStatsBar />
         <TrendingRail title="Trending now" items={trending} viewAllHref="/shop?filter=trending" />
