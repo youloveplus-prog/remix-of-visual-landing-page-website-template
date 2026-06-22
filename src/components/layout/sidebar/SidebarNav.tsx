@@ -37,20 +37,18 @@ function NavItem({ icon, label, href, isActive, onClick }: NavItemProps) {
       to={href}
       onClick={onClick}
       className={cn(
-        "relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all active:scale-[0.98]",
+        "flex items-center gap-3 h-12 px-3 rounded-[14px] transition-colors active:scale-[0.99]",
         isActive
-          ? "bg-primary/10 text-primary font-medium"
-          : "text-foreground/85 hover:bg-secondary/70 hover:text-foreground"
+          ? "bg-primary/10 text-primary"
+          : "text-foreground/70 hover:bg-foreground/[0.04] hover:text-foreground"
       )}
     >
-      {isActive && (
-        <span
-          aria-hidden
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-primary"
-        />
-      )}
-      <span className={cn("flex-shrink-0", isActive && "text-primary")}>{icon}</span>
-      <span className="font-medium text-sm">{label}</span>
+      <span className={cn("flex-shrink-0", isActive ? "text-primary" : "text-foreground/60")}>
+        {icon}
+      </span>
+      <span className={cn("text-sm truncate", isActive ? "font-semibold" : "font-medium")}>
+        {label}
+      </span>
     </Link>
   );
 }
@@ -91,9 +89,10 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
   ];
 
   return (
-    <nav className="flex-1 overflow-y-auto py-2 px-2">
-      {/* AI Tutor */}
-      <div className="mb-4">
+    <nav className="flex-1 overflow-y-auto pt-2 pb-2 px-4 space-y-1">
+      <div className="px-3 mb-1">
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Learn & Explore</span>
+      </div>
         <NavItem
           icon={<Sparkles className="w-5 h-5 text-primary" />}
           label="AI Tutor"
@@ -115,79 +114,54 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
           isActive={location.pathname === "/about"}
           onClick={onClose}
         />
-      </div>
 
-      {/* Community Section */}
-      <div className="mb-4">
-        <div className="px-3 py-2">
-          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            Community
-          </h4>
-        </div>
-        <div className="space-y-0.5">
-          {communityItems.map((item) => (
-            <NavItem
-              key={item.href}
-              icon={item.icon}
-              label={item.label}
-              href={item.href}
-              isActive={location.pathname + location.search === item.href}
-              onClick={onClose}
-            />
-          ))}
-        </div>
+      <div className="pt-4 pb-1 px-3">
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Community</span>
       </div>
+      {communityItems.map((item) => (
+        <NavItem
+          key={item.href}
+          icon={item.icon}
+          label={item.label}
+          href={item.href}
+          isActive={location.pathname + location.search === item.href}
+          onClick={onClose}
+        />
+      ))}
 
-      {/* Library Section */}
-      <div className="mb-4">
-        <div className="px-3 py-2">
-          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-            <Library className="w-4 h-4" />
-            Library
-          </h4>
-        </div>
-        <div className="space-y-0.5">
-          {shopItems.map((item) => (
-            <NavItem
-              key={item.href}
-              icon={item.icon}
-              label={item.label}
-              href={item.href}
-              isActive={location.pathname + location.search === item.href}
-              onClick={onClose}
-            />
-          ))}
-        </div>
+      <div className="pt-4 pb-1 px-3">
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Library</span>
       </div>
+      {shopItems.map((item) => (
+        <NavItem
+          key={item.href}
+          icon={item.icon}
+          label={item.label}
+          href={item.href}
+          isActive={location.pathname + location.search === item.href}
+          onClick={onClose}
+        />
+      ))}
 
       {/* Categories (Expandable) */}
       <Collapsible open={categoriesOpen} onOpenChange={setCategoriesOpen}>
-        <CollapsibleTrigger className="w-full">
-          <div className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors">
-            <span className="flex items-center gap-2">
-              <Brain className="w-4 h-4" />
-              Categories
-            </span>
-            <ChevronDown className={cn(
-              "w-4 h-4 transition-transform",
-              categoriesOpen && "rotate-180"
-            )} />
+        <CollapsibleTrigger className="w-full mt-4">
+          <div className="flex items-center justify-between px-3 py-2 hover:text-foreground transition-colors">
+            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Categories</span>
+            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", categoriesOpen && "rotate-180")} />
           </div>
         </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="space-y-0.5 mt-1">
-            {categories.map((item) => (
-              <NavItem
-                key={item.href}
-                icon={item.icon}
-                label={item.label}
-                href={item.href}
-                isActive={location.pathname + location.search === item.href}
-                onClick={onClose}
-              />
-            ))}
-          </div>
+        <CollapsibleContent className="space-y-1 mt-1">
+          {categories.map((item) => (
+            <NavItem
+              key={item.href}
+              icon={item.icon}
+              label={item.label}
+              href={item.href}
+              isActive={location.pathname + location.search === item.href}
+              onClick={onClose}
+            />
+          ))}
         </CollapsibleContent>
       </Collapsible>
     </nav>

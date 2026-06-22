@@ -8,9 +8,6 @@ import {
   Mail,
   FileText,
   ShieldCheck,
-  Activity,
-  LifeBuoy,
-  Scale,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -33,31 +30,26 @@ function NavItem({
       to={href}
       onClick={onClick}
       className={cn(
-        "relative flex items-center gap-3 px-3 py-2 rounded-xl transition-all active:scale-[0.98]",
+        "flex items-center gap-3 h-12 px-3 rounded-[14px] transition-colors active:scale-[0.99]",
         isActive
           ? "bg-primary/10 text-primary"
-          : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
+          : "text-foreground/70 hover:bg-foreground/[0.04] hover:text-foreground"
       )}
     >
-      {isActive && (
-        <span
-          aria-hidden
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-1 rounded-r-full bg-primary"
-        />
-      )}
-      {icon}
-      <span className="font-medium text-sm">{label}</span>
+      <span className={cn("flex-shrink-0", isActive ? "text-primary" : "text-foreground/60")}>
+        {icon}
+      </span>
+      <span className={cn("text-sm truncate", isActive ? "font-semibold" : "font-medium")}>{label}</span>
     </Link>
   );
 }
 
-function GroupHeader({ icon, label }: { icon: React.ReactNode; label: string }) {
+function GroupHeader({ label }: { icon?: React.ReactNode; label: string }) {
   return (
-    <div className="px-3 pt-3 pb-1.5">
-      <h4 className="text-[10px] font-semibold text-muted-foreground/80 uppercase tracking-[0.12em] flex items-center gap-2">
-        {icon}
+    <div className="px-3 pt-4 pb-1">
+      <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
         {label}
-      </h4>
+      </span>
     </div>
   );
 }
@@ -88,7 +80,7 @@ export function SidebarSecondary({ onClose }: SidebarSecondaryProps) {
   ];
 
   const renderGroup = (items: Item[]) => (
-    <div className="space-y-0.5 px-2">
+    <div className="space-y-1 px-4">
       {items.map((item) => (
         <NavItem
           key={item.href}
@@ -101,12 +93,12 @@ export function SidebarSecondary({ onClose }: SidebarSecondaryProps) {
   );
 
   return (
-    <div className="py-2 border-t border-border/60 mt-2">
-      <GroupHeader icon={<Activity className="w-3.5 h-3.5" />} label="Activity" />
+    <div className="pt-2 pb-4 mt-2 border-t border-black/5">
+      <GroupHeader label="Activity" />
       {renderGroup(activity)}
-      <GroupHeader icon={<LifeBuoy className="w-3.5 h-3.5" />} label="Support" />
+      <GroupHeader label="Support" />
       {renderGroup(support)}
-      <GroupHeader icon={<Scale className="w-3.5 h-3.5" />} label="Legal" />
+      <GroupHeader label="Legal" />
       {renderGroup(legal)}
     </div>
   );

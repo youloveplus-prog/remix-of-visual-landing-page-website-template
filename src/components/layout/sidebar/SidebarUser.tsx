@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Package, Settings } from "lucide-react";
+import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Package, Settings, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
@@ -89,59 +89,52 @@ export function SidebarUser({ onClose }: SidebarUserProps) {
   const wishlistCount = wishlist?.length ?? 0;
 
   return (
-    <div className="relative p-3 pb-3 border-b border-border/60">
-      <div className="rounded-3xl border border-border/60 bg-gradient-to-br from-background/90 via-background/70 to-primary/5 p-3 shadow-sm">
-        <Link to="/profile" onClick={onClose} className="flex items-center gap-3 active:opacity-80">
-          <div className="relative">
-            <Avatar className="w-12 h-12 ring-2 ring-primary/40 ring-offset-2 ring-offset-background">
+    <div className="relative px-5 pt-6 pb-4">
+      <Link
+        to="/profile"
+        onClick={onClose}
+        className="block rounded-[20px] bg-card p-4 shadow-sm border border-black/5 active:scale-[0.99] transition-transform"
+      >
+        <div className="flex items-center gap-4">
+          <div className="relative flex-shrink-0">
+            <Avatar className="w-12 h-12 ring-2 ring-background shadow-sm">
               <AvatarImage src={avatarUrl} alt={displayName} />
-              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+              <AvatarFallback className="bg-primary text-primary-foreground font-bold text-lg">
                 {displayName.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-background" />
+            <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-card" />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-              <h3 className="font-semibold text-foreground truncate text-sm">{displayName}</h3>
+            <h3 className="font-display font-bold text-[17px] leading-tight text-foreground truncate flex items-center gap-1.5">
+              <span className="truncate">{displayName}</span>
               <ShieldCheck className="w-3.5 h-3.5 text-primary flex-shrink-0" />
-            </div>
-            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
-            <span className="inline-flex items-center mt-1 px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium">
-              Verified Buyer
-            </span>
+            </h3>
+            <p className="text-xs text-muted-foreground truncate mt-0.5">{user?.email}</p>
           </div>
-        </Link>
-
-        {/* Quick action chips */}
-        <div className="grid grid-cols-4 gap-1.5 mt-3">
-          <QuickAction
-            to="/cart"
-            icon={<ShoppingBag className="w-4 h-4" />}
-            label="Cart"
-            count={cartCount}
-            onClose={onClose}
-          />
-          <QuickAction
-            to="/wishlist"
-            icon={<Heart className="w-4 h-4" />}
-            label="Saved"
-            count={wishlistCount}
-            onClose={onClose}
-          />
-          <QuickAction
-            to="/orders"
-            icon={<Package className="w-4 h-4" />}
-            label="Orders"
-            onClose={onClose}
-          />
-          <QuickAction
-            to="/settings"
-            icon={<Settings className="w-4 h-4" />}
-            label="Settings"
-            onClose={onClose}
-          />
         </div>
+      </Link>
+
+      {/* Coin pill */}
+      <div className="mt-3 flex">
+        <Link
+          to="/leaderboard"
+          onClick={onClose}
+          className="inline-flex items-center gap-2 rounded-full bg-primary/5 border border-primary/10 px-3 py-1.5 hover:bg-primary/10 transition-colors"
+        >
+          <span className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+            <Sparkles className="w-3 h-3 text-primary-foreground" />
+          </span>
+          <span className="text-xs font-semibold text-primary tabular-nums">1,240 Coins</span>
+        </Link>
+      </div>
+
+      {/* Quick actions */}
+      <div className="grid grid-cols-4 gap-1.5 mt-3">
+        <QuickAction to="/cart" icon={<ShoppingBag className="w-4 h-4" />} label="Cart" count={cartCount} onClose={onClose} />
+        <QuickAction to="/wishlist" icon={<Heart className="w-4 h-4" />} label="Saved" count={wishlistCount} onClose={onClose} />
+        <QuickAction to="/orders" icon={<Package className="w-4 h-4" />} label="Orders" onClose={onClose} />
+        <QuickAction to="/settings" icon={<Settings className="w-4 h-4" />} label="Settings" onClose={onClose} />
       </div>
     </div>
   );
