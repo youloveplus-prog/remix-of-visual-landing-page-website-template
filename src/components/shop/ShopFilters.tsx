@@ -135,8 +135,52 @@ export function ShopFilters({
   onOnSaleChange,
   featuredOnly = false,
   onFeaturedChange,
+  popularSearches,
 }: ShopFiltersProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Recent + popular search suggestions
+  const [recents, setRecents] = useState<string[]>(() => loadRecents());
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchWrapRef = useRef<HTMLDivElement>(null);
+  const popular = popularSearches?.length ? popularSearches : DEFAULT_POPULAR;
+  const showSuggestions = isSearchFocused && searchQuery.trim().length === 0;
+
+  // Close suggestions on outside click / Escape
+  useEffect(() => {
+    if (!isSearchFocused) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!searchWrapRef.current?.contains(e.target as Node)) setIsSearchFocused(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setIsSearchFocused(false); };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [isSearchFocused]);
+
+  const commitRecent = (term: string) => {
+    const t = term.trim();
+    if (t.length < 2) return;
+    setRecents((prev) => {
+      const next = [t, ...prev.filter((x) => x.toLowerCase() !== t.toLowerCase())].slice(0, RECENTS_MAX);
+      saveRecents(next);
+      return next;
+    });
+  };
+
+  const handleChipPick = (term: string) => {
+    onSearchChange(term);
+    commitRecent(term);
+    setIsSearchFocused(false);
+  };
+
+  const handleClearRecents = () => {
+    setRecents([]);
+    saveRecents([]);
+  };
 
   // Local draft state — only commit on Apply
   const [localPriceRange, setLocalPriceRange] = useState(priceRange);
