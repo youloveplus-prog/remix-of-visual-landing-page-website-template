@@ -218,6 +218,7 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
             label={s.label}
             tint={s.tint}
             badge={s.badge}
+            isActive={isActive(s.to)}
             onClose={onClose}
           />
         ))}
