@@ -49,7 +49,7 @@ function ShortcutTile({
     <Link
       to={to}
       onClick={onClose}
-      className="group relative flex items-center gap-3 h-[60px] px-3 rounded-[16px] bg-card border border-black/5 hover:border-primary/20 hover:bg-foreground/[0.02] active:scale-[0.98] transition-all shadow-sm"
+      className="group relative flex items-center gap-2.5 h-[60px] px-2.5 rounded-[16px] bg-card border border-black/5 hover:border-primary/20 hover:bg-foreground/[0.02] active:scale-[0.98] transition-all shadow-sm"
     >
       <span
         className={cn(
