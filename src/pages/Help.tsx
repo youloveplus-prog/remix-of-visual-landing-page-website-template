@@ -92,7 +92,7 @@ const Help = () => {
                 <div className="size-10 rounded-xl bg-primary/10 grid place-items-center text-primary">
                   <Icon className="size-5" aria-hidden />
                 </div>
-                <h2 className="font-display text-2xl font-semibold">{title}</h2>
+                <h2 className="hf-title font-display">{title}</h2>
               </div>
               <Accordion type="single" collapsible className="w-full">
                 {items.map((it, i) => (
