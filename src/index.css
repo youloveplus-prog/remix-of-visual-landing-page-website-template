@@ -39,7 +39,7 @@
     --border: 233 30% 88%;
     --input: 233 30% 92%;
     --ring: 233 72% 55%;
-    --radius: 1.25rem;                 /* 20px — more rounded for bento */
+    --radius: 0.625rem;                /* 10px — tighter, less bubbly */
     --sidebar-background: 233 50% 97%; /* soft blue sidebar */
     --sidebar-foreground: 234 37% 11%;
     --sidebar-primary: 233 72% 55%;
