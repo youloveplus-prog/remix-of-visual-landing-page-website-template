@@ -80,19 +80,19 @@
     --glass-border: 39 30% 86%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops (HSL components — composable in Tailwind via from-brand-from / via-brand-via / to-brand-to) */
-    --brand-from: 233 72% 55%;
-    --brand-via: 226 76% 58%;
-    --brand-to: 220 80% 60%;
-    --brand-soft-from: 233 72% 55%;
-    --brand-soft-to: 252 65% 80%;
+    /* Brand gradient stops — Navy → Electric Blue → Violet → Lavender */
+    --brand-from: 236 100% 12%;   /* #00033D deep navy */
+    --brand-via: 228 100% 50%;    /* #0033FF electric blue */
+    --brand-to: 252 100% 75%;     /* #977DFF violet */
+    --brand-soft-from: 228 100% 50%;
+    --brand-soft-to: 252 100% 75%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.10) 0%, hsl(var(--brand-soft-to) / 0.10) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(39 55% 95%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-via)) 55%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.12) 0%, hsl(var(--brand-soft-to) / 0.14) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(225 50% 96%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.6) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-from) / 0.10) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(38 92% 70% / 0.18) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.16) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.18) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 30%, hsl(var(--border)) 70%, transparent);
 
     /* Warm shadow system (soft, downward, low opacity) */
