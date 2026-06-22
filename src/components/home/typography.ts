@@ -58,7 +58,7 @@ export const homeType = {
 
   /** Eyebrow caption above a title — desaturated, hairline tracked. */
   eyebrow:
-    "font-display font-semibold uppercase tracking-[0.18em] text-white/60 text-[11px] sm:text-[12px]",
+    "block w-full text-center sm:w-auto sm:text-left font-display font-semibold uppercase tracking-[0.18em] text-white/60 text-[11px] sm:text-[12px]",
 
   /** Hook / supporting body line under a title. */
   hook:
