@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { SidebarUser } from "./sidebar/SidebarUser";
 import { SidebarNav } from "./sidebar/SidebarNav";
-import { SidebarSecondary } from "./sidebar/SidebarSecondary";
+
 import { SidebarFooter } from "./sidebar/SidebarFooter";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { haptic } from "@/lib/haptics";
