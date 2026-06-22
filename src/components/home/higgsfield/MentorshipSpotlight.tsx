@@ -14,7 +14,7 @@ export function MentorshipSpotlight() {
   return (
     <section className="px-4 sm:px-6 lg:px-8 pt-10">
       <div className="mb-3 flex items-end justify-between">
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-white">
           1-on-1 mentors for your child
         </h2>
         <Link

@@ -36,7 +36,7 @@ export function TestimonialsMarquee() {
   return (
     <section className="pt-10">
       <div className="mb-3 flex items-end justify-between px-4 sm:px-6 lg:px-8">
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-white">
           Learners love it
         </h2>
         <span className="text-[11px] uppercase tracking-[0.18em] text-white/40">
