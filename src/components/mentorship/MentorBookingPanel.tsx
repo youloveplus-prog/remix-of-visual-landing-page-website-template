@@ -107,29 +107,68 @@ export function MentorBookingPanel({ mentor }: Props) {
     }
   }, [slots, slotValue, form]);
 
+  const { user } = useAuth();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmed, setConfirmed] = useState<BookingValues | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const onContinue = form.handleSubmit(() => setConfirmOpen(true));
+  const onContinue = form.handleSubmit(() => {
+    setSubmitError(null);
+    setConfirmOpen(true);
+  });
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     const values = form.getValues();
-    setConfirmed(values);
-    toast({
-      title: "Session request sent",
-      description: `${mentor.name} will confirm your ${format(selectedDay, "EEE d MMM")} · ${values.slot} session shortly.`,
-    });
+    if (!user) {
+      setSubmitError("Please sign in to book a session.");
+      return;
+    }
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const { error } = await (supabase as any).from("mentor_bookings").insert({
+        user_id: user.id,
+        mentor_id: mentor.id,
+        mentor_name: mentor.name,
+        subject: mentor.subjects[0] ?? null,
+        session_date: values.date,
+        session_slot: values.slot,
+        notes: values.notes?.trim() || null,
+        status: "requested",
+      });
+      if (error) throw error;
+      setConfirmed(values);
+      toast({
+        title: "Session request sent",
+        description: `${mentor.name} will confirm your ${format(selectedDay, "EEE d MMM")} · ${values.slot} session shortly.`,
+      });
+    } catch (err: any) {
+      const message = err?.message ?? "Something went wrong. Please try again.";
+      setSubmitError(message);
+      toast({
+        title: "Couldn't send request",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleClose = (open: boolean) => {
+    if (submitting) return;
     setConfirmOpen(open);
-    if (!open && confirmed) {
-      setConfirmed(null);
-      form.reset({
-        date: format(days[0], "yyyy-MM-dd"),
-        slot: "",
-        notes: "",
-      });
+    if (!open) {
+      setSubmitError(null);
+      if (confirmed) {
+        setConfirmed(null);
+        form.reset({
+          date: format(days[0], "yyyy-MM-dd"),
+          slot: "",
+          notes: "",
+        });
+      }
     }
   };
 
