@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { HiggsfieldHero } from "@/components/home/higgsfield/HiggsfieldHero";
 import { HeroFeatureSlider } from "@/components/home/higgsfield/HeroFeatureSlider";
+import { ProductShowcase } from "@/components/home/higgsfield/ProductShowcase";
 import { NeonPromoTicker } from "@/components/home/higgsfield/NeonPromoTicker";
 import { PromoToolsBlock } from "@/components/home/higgsfield/PromoToolsBlock";
 import { SuperagentBand } from "@/components/home/higgsfield/SuperagentBand";
@@ -97,6 +98,30 @@ const Index = () => {
         <CategoryShelf />
         <TracksSection />
         <AiTutorTeaser />
+        <ProductShowcase
+          eyebrow="Project-based"
+          title="Courses to ship real things"
+          description="Hands-on tracks with code, quizzes, and an AI tutor by your side."
+          kinds={["course"]}
+          viewAllHref="/shop?type=courses"
+          featuredVideo="https://cdn.pixabay.com/video/2023/10/08/184145-873592957_large.mp4"
+        />
+        <ProductShowcase
+          eyebrow="Done-for-you"
+          title="Digital services on demand"
+          description="1-on-1 mentorship, code reviews, career sprints — booked instantly."
+          kinds={["service"]}
+          viewAllHref="/shop?type=services"
+          accent="text-lime-300"
+        />
+        <ProductShowcase
+          eyebrow="Instant download"
+          title="Digital products & toolkits"
+          description="E-books, prompt packs and starter kits — delivered to your inbox in seconds."
+          kinds={["ebook", "bundle"]}
+          viewAllHref="/shop?type=digital"
+          accent="text-amber-300"
+        />
         <TrendingRail title="New arrivals" items={fresh} viewAllHref="/shop?filter=new" />
         <Deferred><MentorshipSpotlight /></Deferred>
         <Deferred><ResourcesRow /></Deferred>
