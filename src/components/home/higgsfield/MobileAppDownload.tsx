@@ -58,7 +58,7 @@ export function MobileAppDownload() {
           <div className="relative grid gap-8 p-6 sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:gap-12 lg:p-14">
             {/* Copy */}
             <div className="min-w-0">
-              <p className="mb-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-[hsl(var(--hf-accent))]">
+              <p className="hf-eyebrow">
                 Mobile app · iOS & Android
               </p>
               <h2 className="hf-title font-display">

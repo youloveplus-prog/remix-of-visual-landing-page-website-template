@@ -29,7 +29,7 @@ export function CategoryShelf() {
       <header className="hf-section-header mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="mb-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-[hsl(var(--hf-accent))]">
+            <p className="hf-eyebrow">
               Explore
             </p>
             <h2 className="hf-title font-display">

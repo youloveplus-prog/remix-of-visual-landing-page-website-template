@@ -49,9 +49,7 @@ export function ProductShowcase({
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
             {eyebrow && (
-              <p
-                className={`mb-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] ${accent}`}
-              >
+              <p className={`hf-eyebrow ${accent}`}>
                 {eyebrow}
               </p>
             )}
