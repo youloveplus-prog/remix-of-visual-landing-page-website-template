@@ -216,7 +216,7 @@ export function useLiveActivity(max = 20) {
   // Realtime: refresh feed when any source table changes.
   useEffect(() => {
     const channel = supabase
-      .channel("live-activity")
+      .channel(`live-activity-${Math.random().toString(36).slice(2)}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, () => {
         qc.invalidateQueries({ queryKey: ["live-activity"] });
       })
