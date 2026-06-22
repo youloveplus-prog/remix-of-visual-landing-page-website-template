@@ -375,6 +375,59 @@
     background: linear-gradient(180deg, hsl(225, 15%, 8%) 0%, hsl(225, 18%, 4%) 100%);
   }
 
+  /* === Higgsfield depth — layered card elevation for dark sections. ===
+     Adds a top specular highlight, a bottom inner darken (grounding shadow),
+     and a double-stacked drop shadow for tangible depth without breaking the
+     flat-edged aesthetic. Pair with existing `border border-white/10`. */
+  .hf-card-depth {
+    box-shadow:
+      0 1px 0 0 hsl(0 0% 100% / 0.06) inset,
+      0 -24px 40px -24px hsl(0 0% 0% / 0.65) inset,
+      0 1px 2px hsl(0 0% 0% / 0.4),
+      0 12px 24px -10px hsl(0 0% 0% / 0.55),
+      0 28px 56px -24px hsl(0 0% 0% / 0.6);
+    transition: box-shadow 400ms ease, transform 400ms ease;
+  }
+  .hf-card-depth:hover {
+    box-shadow:
+      0 1px 0 0 hsl(0 0% 100% / 0.1) inset,
+      0 -28px 48px -24px hsl(0 0% 0% / 0.7) inset,
+      0 2px 4px hsl(0 0% 0% / 0.45),
+      0 18px 36px -12px hsl(0 0% 0% / 0.6),
+      0 40px 72px -28px hsl(233 72% 25% / 0.55);
+  }
+
+  /* === Higgsfield section depth — subtle radial vignette + top edge seam ===
+     Gives dark sections a sense of stage lighting and separation between
+     sibling sections without adding hard borders. */
+  .hf-section-depth {
+    position: relative;
+    isolation: isolate;
+  }
+  .hf-section-depth::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 60% at 50% 0%, hsl(233 72% 18% / 0.18) 0%, transparent 55%),
+      radial-gradient(80% 50% at 50% 100%, hsl(0 0% 0% / 0.5) 0%, transparent 60%);
+  }
+  .hf-section-depth::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.08), transparent);
+  }
+  .hf-section-depth > * {
+    position: relative;
+    z-index: 2;
+  }
+
   /* === Calm glass v4 — Apple-like, lower blur, lower opacity. === */
   .glass {
     position: relative;
