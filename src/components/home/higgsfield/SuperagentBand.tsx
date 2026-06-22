@@ -88,7 +88,7 @@ export function SuperagentBand() {
               ))}
             </div>
 
-            <h2 className="font-display text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
+            <h2 className="font-display text-5xl font-extrabold uppercase tracking-tight text-white sm:text-6xl lg:text-7xl">
               SUPER<span className="text-[hsl(var(--hf-accent))]">TUTOR</span>
             </h2>
             <p className="mt-3 max-w-md text-sm text-white/70 sm:text-base">

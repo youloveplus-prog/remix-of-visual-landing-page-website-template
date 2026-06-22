@@ -78,7 +78,7 @@ export function PromoToolsBlock() {
             </span>
           </div>
           <div>
-            <div className="font-display text-[34px] font-extrabold leading-[0.95] tracking-tight text-white">
+            <div className="font-display text-[34px] font-extrabold uppercase leading-[1.08] tracking-tight text-white">
               27-DAY
               <br />
               <span className="text-white/90">UNLIMITED</span>
