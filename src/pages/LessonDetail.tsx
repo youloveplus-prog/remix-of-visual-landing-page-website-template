@@ -159,3 +159,17 @@ export default function LessonDetail() {
     </AppLayout>
   );
 }
+
+function LessonRelatedRail({ topic }: { topic: string }) {
+  const { items, isLoading } = useRecommendations({ kind: "lesson", topicId: topic });
+  return (
+    <RelatedRail
+      title="Continue your journey"
+      eyebrow="Related"
+      items={items}
+      isLoading={isLoading}
+      emptyHint="More lessons coming soon."
+      viewAllHref="/learn"
+    />
+  );
+}
