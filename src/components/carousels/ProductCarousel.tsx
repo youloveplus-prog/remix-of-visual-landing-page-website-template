@@ -48,7 +48,7 @@ export function ProductCarousel({ products, title, viewAllHref, className }: Pro
             <div className="min-w-0 flex-1">
               {title && <SectionHeader title={title} viewAllHref={viewAllHref} />}
             </div>
-            <div className="hidden md:flex items-center gap-1.5 mb-1 shrink-0">
+            <div className="hidden md:flex items-center gap-2 mb-1 shrink-0">
               <CarouselArrow direction="prev" disabled={!canPrev} onClick={scrollPrev} />
               <CarouselArrow direction="next" disabled={!canNext} onClick={scrollNext} />
             </div>
@@ -101,11 +101,11 @@ function CarouselArrow({
       disabled={disabled}
       aria-label={direction === "prev" ? "Previous" : "Next"}
       className={cn(
-        "h-9 w-9 grid place-items-center rounded-full",
-        "bg-card/70 backdrop-blur-xl border border-border/60",
-        "text-foreground hover:bg-primary/10 hover:text-primary hover:border-primary/40",
-        "transition-all duration-200 active:scale-95",
-        "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-card/70 disabled:hover:text-foreground"
+        "h-10 w-10 lg:h-11 lg:w-11 grid place-items-center rounded-full",
+        "bg-card/40 backdrop-blur-xl border border-border/60",
+        "text-foreground hover:bg-foreground hover:text-background hover:border-foreground",
+        "transition-all duration-300 active:scale-95",
+        "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-card/40 disabled:hover:text-foreground disabled:hover:border-border/60"
       )}
     >
       <Icon className="h-4 w-4" />
