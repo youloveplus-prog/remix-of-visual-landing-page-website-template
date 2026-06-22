@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 type Slide = {
   eyebrow?: string;
@@ -52,13 +53,34 @@ const SLIDES: Slide[] = [
   },
 ];
 
-export function HeroFeatureSlider() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "center",
-    loop: true,
-    containScroll: false,
-    skipSnaps: false,
-  });
+export function HeroFeatureSlider({
+  autoplay = true,
+  intervalMs = 5000,
+  pauseOnHover = true,
+}: {
+  autoplay?: boolean;
+  /** Time between slides in milliseconds. */
+  intervalMs?: number;
+  pauseOnHover?: boolean;
+} = {}) {
+  const autoplayRef = useRef(
+    Autoplay({
+      delay: intervalMs,
+      stopOnInteraction: false,
+      stopOnMouseEnter: pauseOnHover,
+      stopOnFocusIn: true,
+    }),
+  );
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      align: "center",
+      loop: true,
+      containScroll: false,
+      skipSnaps: false,
+    },
+    autoplay ? [autoplayRef.current] : [],
+  );
   const [selected, setSelected] = useState(0);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
