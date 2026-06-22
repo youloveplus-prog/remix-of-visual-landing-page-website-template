@@ -82,8 +82,8 @@ const Index = () => {
       />
 
       <div className="home-higgsfield min-h-screen pb-10">
+        <HiggsfieldHero />
         <NeonPromoTicker />
-        <FeaturedMediaRow />
         <ToolsBentoGrid />
         <LiveStatsBar />
         <TrendingRail title="Trending now" items={trending} viewAllHref="/shop?filter=trending" />
