@@ -49,7 +49,11 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
     <header
       ref={ref}
       data-app-header
-      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+      style={{
+        paddingTop: "env(safe-area-inset-top, 0px)",
+        paddingLeft: "env(safe-area-inset-left, 0px)",
+        paddingRight: "env(safe-area-inset-right, 0px)",
+      }}
       className={cn(
         "fixed top-0 inset-x-0 z-40",
         "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ease-out",
@@ -60,10 +64,12 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
     >
       <div
         className={cn(
-          "relative flex items-center px-2.5",
-          "h-14 transition-[height] duration-200",
+          "relative mx-auto flex items-center",
+          "h-14 w-full max-w-screen-md",
+          "px-2 sm:px-3 md:px-4",
         )}
       >
+
         {/* Left */}
         <div className="flex items-center shrink-0">
           {inner ? (
