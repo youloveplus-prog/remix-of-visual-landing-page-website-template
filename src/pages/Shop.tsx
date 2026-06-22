@@ -110,7 +110,7 @@ const Shop = () => {
   // /courses and services live on /services (both backed by `content_items`),
   // so we explicitly exclude those kinds here so the same `products` table
   // can store everything without leaking across pages.
-  const { data: products, isLoading: productsLoading } = useProducts({
+  const { data: products, isLoading: productsLoading, isError: productsError, refetch: refetchProducts } = useProducts({
     limit: 50,
     categoryId: activeCategoryId,
     search: searchQuery || undefined,
