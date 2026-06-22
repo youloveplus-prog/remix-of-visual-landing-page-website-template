@@ -63,6 +63,7 @@ jobs:
           python tests/visual/product-card-price.spec.py
           python tests/visual/homepage-layout.spec.py
           python tests/visual/home-header-alignment.spec.py
+          python tests/visual/home-a11y.spec.py
 
       - name: Check baselines exist
         id: baselines
