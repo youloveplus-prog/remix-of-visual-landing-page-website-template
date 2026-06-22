@@ -69,6 +69,18 @@ export function HomeTopHeader({ cartCount = 0 }: HomeTopHeaderProps) {
           </div>
         </div>
       </div>
+
+      {/* Row 2 — mega menu */}
+      <div
+        className={cn(
+          "relative z-[1] py-0.5 overflow-visible liquid-nav",
+          "border-b border-border/40 dark:border-white/5"
+        )}
+      >
+        <div className="container-editorial flex items-center justify-center">
+          <MegaMenu />
+        </div>
+      </div>
     </header>
   );
 }
