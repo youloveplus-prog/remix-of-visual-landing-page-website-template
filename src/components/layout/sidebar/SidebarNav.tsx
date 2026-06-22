@@ -89,9 +89,10 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
   ];
 
   return (
-    <nav className="flex-1 overflow-y-auto py-2 px-2">
-      {/* AI Tutor */}
-      <div className="mb-4">
+    <nav className="flex-1 overflow-y-auto pt-2 pb-2 px-4 space-y-1">
+      <div className="px-3 mb-1">
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Learn & Explore</span>
+      </div>
         <NavItem
           icon={<Sparkles className="w-5 h-5 text-primary" />}
           label="AI Tutor"
