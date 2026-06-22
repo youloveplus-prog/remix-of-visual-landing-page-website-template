@@ -197,15 +197,12 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             {/* Wishlist — top-right */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsWishlisted(!isWishlisted);
-              }}
+              onClick={handleWishlistToggle}
+              disabled={wishlistBusy}
               aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
               aria-pressed={isWishlisted}
               className={cn(
-                "no-min-tap absolute top-2 right-2 md:top-2.5 md:right-2.5 h-9 w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md shadow-sm motion-reduce:transition-none",
+                "no-min-tap absolute top-2 right-2 md:top-2.5 md:right-2.5 h-9 w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md shadow-sm motion-reduce:transition-none disabled:opacity-60",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card",
                 isWishlisted
                   ? "bg-primary/15 ring-1 ring-primary/40"
