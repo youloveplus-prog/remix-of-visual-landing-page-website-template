@@ -234,7 +234,7 @@ export function HeroFeatureSlider({
         </div>
 
         {/* Mobile dot indicators — overlaid on the hero media, below the brand pill */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-2 z-10 flex items-center justify-center gap-2 sm:hidden">
+        <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-10 flex items-center justify-center gap-3 sm:hidden">
           {SLIDES.map((_, idx) => (
             <button
               key={idx}
