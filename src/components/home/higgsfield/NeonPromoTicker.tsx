@@ -13,7 +13,7 @@ export function NeonPromoTicker() {
   return (
     <Link
       to="/shop?filter=deals"
-      className="hf-promo group relative flex h-9 w-full items-center overflow-hidden border-b border-white/10 bg-[hsl(var(--hf-accent))] text-black"
+      className="hf-promo group relative flex h-9 w-full items-center overflow-hidden border-b border-white/10 bg-[hsl(var(--hf-accent))] text-white"
       aria-label="View today's offers"
     >
       <div className="flex min-w-max animate-[hf-marquee_28s_linear_infinite] items-center gap-10 px-6 text-[11px] font-semibold uppercase tracking-[0.18em]">

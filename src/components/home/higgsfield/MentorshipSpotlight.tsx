@@ -41,7 +41,7 @@ export function MentorshipSpotlight() {
                 {(m.subjects ?? []).slice(0, 3).join(" · ")}
               </div>
               <div className="mt-1 inline-flex items-center gap-2">
-                <span className="rounded-sm bg-[hsl(var(--hf-accent))] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-black">
+                <span className="rounded-sm bg-[hsl(var(--hf-accent))] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-white">
                   Waitlist
                 </span>
                 {m.experience_years != null && (

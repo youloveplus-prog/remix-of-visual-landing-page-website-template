@@ -27,7 +27,7 @@ export function GameTeaser() {
           </p>
           <Link
             to="/game"
-            className="mt-5 inline-flex h-10 items-center rounded-md bg-[hsl(var(--hf-accent))] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-black hover:opacity-90"
+            className="mt-5 inline-flex h-10 items-center rounded-md bg-[hsl(var(--hf-accent))] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white hover:opacity-90"
           >
             Play now
           </Link>

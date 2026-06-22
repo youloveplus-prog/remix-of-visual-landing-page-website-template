@@ -21,7 +21,7 @@ export function HomeCtaPanel() {
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
               to="/auth"
-              className="inline-flex h-11 items-center rounded-md bg-[hsl(var(--hf-accent))] px-6 text-[13px] font-semibold uppercase tracking-[0.14em] text-black hover:opacity-90"
+              className="inline-flex h-11 items-center rounded-md bg-[hsl(var(--hf-accent))] px-6 text-[13px] font-semibold uppercase tracking-[0.14em] text-white hover:opacity-90"
             >
               Create free account
             </Link>

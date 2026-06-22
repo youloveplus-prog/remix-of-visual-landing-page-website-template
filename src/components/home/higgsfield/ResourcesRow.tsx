@@ -31,7 +31,7 @@ export function ResourcesRow() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-end p-5">
-            <span className="self-start rounded-sm bg-[hsl(var(--hf-accent))] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-black">
+            <span className="self-start rounded-sm bg-[hsl(var(--hf-accent))] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
               Featured
             </span>
             <h3 className="mt-3 font-display text-2xl font-semibold leading-tight text-white sm:text-3xl">
