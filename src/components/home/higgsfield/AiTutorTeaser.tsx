@@ -25,7 +25,7 @@ export function AiTutorTeaser() {
           <div className="mt-6 flex flex-wrap gap-2">
             <Link
               to="/learn"
-              className="inline-flex h-10 items-center gap-1.5 rounded-md bg-[hsl(var(--hf-accent))] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-black hover:opacity-90"
+              className="inline-flex h-10 items-center gap-1.5 rounded-md bg-[hsl(var(--hf-accent))] px-5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white hover:opacity-90"
             >
               Ask now <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>

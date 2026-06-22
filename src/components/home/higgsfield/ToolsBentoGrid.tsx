@@ -33,7 +33,7 @@ const TOOLS: Tool[] = [
 ];
 
 const PILL_STYLES: Record<NonNullable<Tool["pill"]>, string> = {
-  NEW: "bg-[hsl(var(--hf-accent))] text-black",
+  NEW: "bg-[hsl(var(--hf-accent))] text-white",
   HOT: "bg-red-500 text-white",
   FREE: "bg-white text-black",
 };
