@@ -117,6 +117,18 @@ export default function LessonDetail() {
           </p>
         ) : null}
 
+        <CrossLinkChips
+          eyebrow="Keep going"
+          links={[
+            { label: "Ask AI Tutor", to: `/ai-tutor?topic=${encodeURIComponent(lesson.title)}`, icon: Sparkles },
+            { label: "Find a mentor", to: "/mentors", icon: Users },
+            { label: "Discuss in community", to: "/community", icon: MessageCircle },
+            { label: "Browse courses", to: "/courses", icon: GraduationCap },
+          ]}
+        />
+
+        <LessonRelatedRail topic={lesson.title} />
+
         {/* Desktop inline action */}
         <div className="hidden lg:flex items-center gap-3 pt-2">
           {isDone ? (
