@@ -10,6 +10,7 @@ import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { HiggsfieldHero } from "@/components/home/higgsfield/HiggsfieldHero";
+import { HeroFeatureSlider } from "@/components/home/higgsfield/HeroFeatureSlider";
 import { NeonPromoTicker } from "@/components/home/higgsfield/NeonPromoTicker";
 import { PromoToolsBlock } from "@/components/home/higgsfield/PromoToolsBlock";
 import { SuperagentBand } from "@/components/home/higgsfield/SuperagentBand";
@@ -86,6 +87,7 @@ const Index = () => {
 
       <div className="home-higgsfield min-h-screen pb-10">
         <HiggsfieldHero />
+        <HeroFeatureSlider />
         <NeonPromoTicker />
         <PromoToolsBlock />
         <SuperagentBand />
