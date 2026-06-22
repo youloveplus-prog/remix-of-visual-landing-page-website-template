@@ -121,6 +121,8 @@ const CourseDetail = lazy(() => import("./pages/CourseDetail"));
 const ServicesList = lazy(() => import("./pages/ServicesList"));
 const ContentDetail = lazy(() => import("./pages/ContentDetail"));
 const Library = lazy(() => import("./pages/Library"));
+const Resources = lazy(() => import("./pages/Resources"));
+const ResourceDetail = lazy(() => import("./pages/ResourceDetail"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -235,6 +237,8 @@ function AnimatedRoutes() {
           <Route path="/services" element={<ErrorBoundary><ServicesList /></ErrorBoundary>} />
           <Route path="/content/:slug" element={<ErrorBoundary><ContentDetail /></ErrorBoundary>} />
           <Route path="/library" element={<ErrorBoundary><Library /></ErrorBoundary>} />
+          <Route path="/resources" element={<ErrorBoundary><Resources /></ErrorBoundary>} />
+          <Route path="/resources/:slug" element={<ErrorBoundary><ResourceDetail /></ErrorBoundary>} />
           
           
           <Route path="/track/:slug" element={<ErrorBoundary><TrackDetail /></ErrorBoundary>} />

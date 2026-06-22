@@ -16,6 +16,7 @@ import {
   Bot,
   Laptop,
   Brain,
+  Compass,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -92,6 +93,13 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
           label="AI Tutor"
           href="/learn"
           isActive={location.pathname.startsWith("/learn")}
+          onClick={onClose}
+        />
+        <NavItem
+          icon={<Compass className="w-5 h-5" />}
+          label="Resources"
+          href="/resources"
+          isActive={location.pathname.startsWith("/resources")}
           onClick={onClose}
         />
         <NavItem
