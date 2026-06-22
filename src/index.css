@@ -26,19 +26,21 @@
     --card-foreground: 234 37% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 234 37% 11%;
-    --primary: 228 100% 50%;           /* #0033FF electric blue */
+    --primary: 233 72% 55%;            /* #3b4fe0 calm indigo — eases on eyes */
     --primary-foreground: 0 0% 100%;
     --secondary: 39 67% 96%;           /* #fff8ec warm panel */
     --secondary-foreground: 234 37% 11%;
     --muted: 39 50% 92%;               /* warm muted */
-    --muted-foreground: 232 13% 40%;
+    --muted-foreground: 232 13% 38%;   /* slight bump for readability on softer cards */
     --accent: 252 100% 95%;            /* lavender chip surface */
-    --accent-foreground: 228 100% 45%;
+    --accent-foreground: 233 72% 50%;
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 228 40% 88%;
+    --border: 228 30% 86%;
+    --border-soft: 228 24% 90%;        /* hairline — quieter than --border */
+    --card-sheen: 0 0% 100%;           /* top inner highlight on cards (light) */
     --input: 228 40% 92%;
-    --ring: 228 100% 50%;
+    --ring: 233 72% 55%;
     --radius: 0.625rem;
     --sidebar-background: 228 60% 97%;
     --sidebar-foreground: 236 100% 12%;
