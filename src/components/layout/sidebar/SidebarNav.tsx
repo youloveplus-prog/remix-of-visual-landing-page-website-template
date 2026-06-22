@@ -145,31 +145,23 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
 
       {/* Categories (Expandable) */}
       <Collapsible open={categoriesOpen} onOpenChange={setCategoriesOpen}>
-        <CollapsibleTrigger className="w-full">
-          <div className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors">
-            <span className="flex items-center gap-2">
-              <Brain className="w-4 h-4" />
-              Categories
-            </span>
-            <ChevronDown className={cn(
-              "w-4 h-4 transition-transform",
-              categoriesOpen && "rotate-180"
-            )} />
+        <CollapsibleTrigger className="w-full mt-4">
+          <div className="flex items-center justify-between px-3 py-2 hover:text-foreground transition-colors">
+            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Categories</span>
+            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", categoriesOpen && "rotate-180")} />
           </div>
         </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div className="space-y-0.5 mt-1">
-            {categories.map((item) => (
-              <NavItem
-                key={item.href}
-                icon={item.icon}
-                label={item.label}
-                href={item.href}
-                isActive={location.pathname + location.search === item.href}
-                onClick={onClose}
-              />
-            ))}
-          </div>
+        <CollapsibleContent className="space-y-1 mt-1">
+          {categories.map((item) => (
+            <NavItem
+              key={item.href}
+              icon={item.icon}
+              label={item.label}
+              href={item.href}
+              isActive={location.pathname + location.search === item.href}
+              onClick={onClose}
+            />
+          ))}
         </CollapsibleContent>
       </Collapsible>
     </nav>
