@@ -5,6 +5,7 @@ import {
   timeAgoLabel,
 } from "@/lib/live-activity";
 import { HomeAnnouncementBanner } from "./HomeAnnouncementBanner";
+import { homeType } from "@/components/home/typography";
 
 /**
  * Home-page section that shows a live, auto-rotating stream of recent
