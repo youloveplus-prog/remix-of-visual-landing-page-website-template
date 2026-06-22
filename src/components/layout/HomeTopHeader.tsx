@@ -9,6 +9,7 @@ import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { HeaderBrand } from "./HeaderBrand";
+import { MegaMenu } from "./MegaMenu";
 
 interface HomeTopHeaderProps {
   cartCount?: number;
