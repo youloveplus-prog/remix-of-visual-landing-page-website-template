@@ -114,51 +114,34 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
           isActive={location.pathname === "/about"}
           onClick={onClose}
         />
-      </div>
 
-      {/* Community Section */}
-      <div className="mb-4">
-        <div className="px-3 py-2">
-          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-            <Users className="w-4 h-4" />
-            Community
-          </h4>
-        </div>
-        <div className="space-y-0.5">
-          {communityItems.map((item) => (
-            <NavItem
-              key={item.href}
-              icon={item.icon}
-              label={item.label}
-              href={item.href}
-              isActive={location.pathname + location.search === item.href}
-              onClick={onClose}
-            />
-          ))}
-        </div>
+      <div className="pt-4 pb-1 px-3">
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Community</span>
       </div>
+      {communityItems.map((item) => (
+        <NavItem
+          key={item.href}
+          icon={item.icon}
+          label={item.label}
+          href={item.href}
+          isActive={location.pathname + location.search === item.href}
+          onClick={onClose}
+        />
+      ))}
 
-      {/* Library Section */}
-      <div className="mb-4">
-        <div className="px-3 py-2">
-          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-            <Library className="w-4 h-4" />
-            Library
-          </h4>
-        </div>
-        <div className="space-y-0.5">
-          {shopItems.map((item) => (
-            <NavItem
-              key={item.href}
-              icon={item.icon}
-              label={item.label}
-              href={item.href}
-              isActive={location.pathname + location.search === item.href}
-              onClick={onClose}
-            />
-          ))}
-        </div>
+      <div className="pt-4 pb-1 px-3">
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Library</span>
       </div>
+      {shopItems.map((item) => (
+        <NavItem
+          key={item.href}
+          icon={item.icon}
+          label={item.label}
+          href={item.href}
+          isActive={location.pathname + location.search === item.href}
+          onClick={onClose}
+        />
+      ))}
 
       {/* Categories (Expandable) */}
       <Collapsible open={categoriesOpen} onOpenChange={setCategoriesOpen}>
