@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import { Package, ChevronRight, Clock, CheckCircle, Truck, XCircle, ShoppingBag } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
@@ -36,7 +36,7 @@ const Orders = () => {
   if (authLoading) {
     return <AppLayout><MobilePage maxWidth="standard"><Skeleton className="h-8 w-40" /></MobilePage></AppLayout>;
   }
-  if (!user) { navigate("/auth"); return null; }
+  if (!user) return <Navigate to="/auth" replace />;
 
   return (
     <AppLayout>
