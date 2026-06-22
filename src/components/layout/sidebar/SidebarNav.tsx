@@ -109,13 +109,20 @@ function ListRow({
     <Link
       to={to}
       onClick={onClose}
+      aria-current={isActive ? "page" : undefined}
       className={cn(
-        "flex items-center gap-3 h-11 px-3 rounded-[12px] transition-colors active:scale-[0.99]",
+        "relative flex items-center gap-3 h-11 pl-4 pr-3 rounded-[12px] transition-colors active:scale-[0.99]",
         isActive
           ? "bg-primary/10 text-primary"
           : "text-foreground/75 hover:bg-foreground/[0.04] hover:text-foreground",
       )}
     >
+      {isActive && (
+        <span
+          aria-hidden
+          className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-primary"
+        />
+      )}
       <span className={cn("flex-shrink-0", isActive ? "text-primary" : "text-foreground/55")}>
         {icon}
       </span>
