@@ -1,50 +1,72 @@
 import { useRef } from "react";
-import { ChevronLeft, Menu, Search, ShoppingBag } from "lucide-react";
+import { ChevronLeft, Menu } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { isInnerRoute, getRouteTitle, getActiveTab } from "@/lib/nav-map";
+import { useAuth } from "@/hooks/useAuth";
+import { UserMenu } from "@/components/layout/UserMenu";
 import logo from "@/assets/logo.png";
 
 interface MobileHeaderProps {
   onMenuClick: () => void;
+  // Kept for API compatibility; unused on the new home-tab layout.
   onSearchClick?: () => void;
   cartCount?: number;
 }
 
-const TAB_TITLES: Record<string, string> = {
-  home: "Asikon",
-  explore: "Explore",
-  ai: "AI Tutor",
-  community: "Community",
-  profile: "Profile",
-};
-
-export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: MobileHeaderProps) {
+export function MobileHeader({ onMenuClick }: MobileHeaderProps) {
   const ref = useRef<HTMLElement>(null);
   useMeasuredHeaderHeight(ref);
 
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const scrolled = useScrollTop(8);
+  const { user, loading } = useAuth();
 
   const inner = isInnerRoute(pathname);
   const activeTab = getActiveTab(pathname);
-  const tabTitle = (activeTab && TAB_TITLES[activeTab]) ?? "Asikon";
+  const isHomeTab = !inner && activeTab === "home";
   const innerTitle = getRouteTitle(pathname);
 
-  // Unified icon button — circular tap target, soft hover surface,
-  // proper 44px tap area, no aggressive opacity flicker.
-  const iconBtnCls = cn(
-    "relative inline-flex items-center justify-center shrink-0",
-    "w-11 h-11 rounded-full text-foreground/80",
-    "transition-[background-color,color,transform] duration-150 ease-out",
-    "hover:bg-foreground/[0.06] hover:text-foreground",
-    "active:scale-[0.94] active:bg-foreground/[0.09]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-0",
-  );
+  // === Inner-route header (back + title) — unchanged behaviour ===
+  if (inner) {
+    return (
+      <header
+        ref={ref}
+        data-app-header
+        style={{
+          paddingTop: "env(safe-area-inset-top, 0px)",
+          paddingLeft: "env(safe-area-inset-left, 0px)",
+          paddingRight: "env(safe-area-inset-right, 0px)",
+        }}
+        className={cn(
+          "fixed top-0 inset-x-0 z-40 transition-[background-color,border-color,box-shadow] duration-300 ease-out",
+          scrolled
+            ? "bg-background/85 backdrop-blur-xl border-b border-border/60"
+            : "bg-background/95 backdrop-blur-md border-b border-transparent",
+        )}
+      >
+        <div className="relative mx-auto flex h-14 w-full max-w-screen-md items-center px-2">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            aria-label="Go back"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-foreground/80 transition hover:bg-foreground/[0.06] active:scale-[0.94]"
+          >
+            <ChevronLeft className="h-[22px] w-[22px]" strokeWidth={2.25} />
+          </button>
+          <h1 className="flex-1 truncate px-2 text-center text-[16px] font-semibold tracking-[-0.01em] text-foreground">
+            {innerTitle}
+          </h1>
+          <div className="w-11" aria-hidden />
+        </div>
+      </header>
+    );
+  }
 
+  // === Home-tab Higgsfield header: solid black, brand left, auth pills right ===
   return (
     <header
       ref={ref}
@@ -54,103 +76,68 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
         paddingLeft: "env(safe-area-inset-left, 0px)",
         paddingRight: "env(safe-area-inset-right, 0px)",
       }}
-      className={cn(
-        "fixed top-0 inset-x-0 z-40",
-        "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ease-out",
-        scrolled
-          ? "bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/65 border-b border-border/60 shadow-[0_1px_0_0_hsl(var(--border)/0.4),0_8px_24px_-16px_hsl(0_0%_0%/0.18)]"
-          : "bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/75 border-b border-transparent",
-      )}
+      className="fixed top-0 inset-x-0 z-40 bg-black text-white"
     >
-      <div
-        className={cn(
-          "relative mx-auto flex items-center",
-          "h-14 w-full max-w-screen-md",
-          "px-2 sm:px-3 md:px-4",
-        )}
-      >
+      <div className="relative mx-auto flex h-14 w-full max-w-screen-md items-center justify-between px-3 sm:px-4">
+        {/* Left: brand cluster (40px tile + wordmark) */}
+        <Link
+          to="/"
+          aria-label="Asikon home"
+          className="inline-flex items-center gap-2.5"
+        >
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-[12px] bg-white shadow-[0_2px_6px_-2px_rgba(0,0,0,0.4)]">
+            <img src={logo} alt="" className="h-7 w-7 object-contain" />
+          </span>
+          <span className="font-display text-[18px] font-bold leading-none tracking-[-0.015em] text-white">
+            Asikon
+          </span>
+        </Link>
 
-        {/* Left */}
-        <div className="flex items-center shrink-0">
-          {inner ? (
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              aria-label="Go back"
-              style={{ WebkitTapHighlightColor: "transparent" }}
-              className={iconBtnCls}
-            >
-              <ChevronLeft className="h-[22px] w-[22px]" strokeWidth={2.25} />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={onMenuClick}
-              aria-label="Open menu"
-              style={{ WebkitTapHighlightColor: "transparent" }}
-              className={iconBtnCls}
-            >
-              <Menu className="h-[22px] w-[22px]" strokeWidth={2} />
-            </button>
-          )}
-        </div>
-
-        {/* Center */}
-        <div className="flex-1 flex items-center justify-center min-w-0 px-2">
-          {inner ? (
-            <h1 className="text-[16px] font-semibold tracking-[-0.01em] text-foreground truncate max-w-full">
-              {innerTitle}
-            </h1>
-          ) : (
-            <Link
-              to="/"
-              aria-label="Asikon home"
-              className="inline-flex items-center gap-2 group"
-            >
-              <span className="relative inline-flex items-center justify-center h-7 w-7 rounded-lg bg-primary/10 ring-1 ring-primary/15 overflow-hidden">
-                <img src={logo} alt="" className="h-5 w-5 object-contain" />
-              </span>
-              <span className="font-display font-semibold text-[17px] leading-none tracking-[-0.02em] text-foreground">
-                {tabTitle}
-              </span>
-            </Link>
-          )}
-        </div>
-
-        {/* Right */}
-        <div className="flex items-center gap-0.5 shrink-0">
-          {onSearchClick && (
-            <button
-              type="button"
-              onClick={onSearchClick}
-              aria-label="Search"
-              style={{ WebkitTapHighlightColor: "transparent" }}
-              className={iconBtnCls}
-            >
-              <Search className="h-[21px] w-[21px]" strokeWidth={2} />
-            </button>
-          )}
-          <Link
-            to="/cart"
-            aria-label={cartCount > 0 ? `Cart, ${cartCount} item${cartCount === 1 ? "" : "s"}` : "Cart"}
-            style={{ WebkitTapHighlightColor: "transparent" }}
-            className={iconBtnCls}
+        {/* Hamburger sits between brand and pills only on very small screens
+            when needed; kept hidden by default to mirror Higgsfield exactly.
+            Sidebar still reachable via the bottom nav. */}
+        {isHomeTab && (
+          <button
+            type="button"
+            onClick={onMenuClick}
+            aria-label="Open menu"
+            className="sr-only"
           >
-            <ShoppingBag className="h-[21px] w-[21px]" strokeWidth={2} />
-            {cartCount > 0 && (
-              <span
+            <Menu className="h-5 w-5" />
+          </button>
+        )}
+
+        {/* Right: auth pills (signed-out) or user menu (signed-in) */}
+        <div className="flex items-center gap-2">
+          {loading ? (
+            <span className="h-10 w-24 rounded-full bg-white/10 animate-pulse" />
+          ) : user ? (
+            <UserMenu />
+          ) : (
+            <>
+              <Link
+                to="/auth"
                 className={cn(
-                  "absolute top-1 right-1 min-w-[17px] h-[17px] px-[5px]",
-                  "rounded-full bg-primary text-primary-foreground",
-                  "text-[10px] font-bold leading-none tabular-nums",
-                  "flex items-center justify-center",
-                  "ring-2 ring-background shadow-sm",
+                  "inline-flex h-10 items-center justify-center rounded-full px-5",
+                  "bg-white text-black text-[14px] font-semibold tracking-tight",
+                  "shadow-sm active:scale-[0.97] transition-transform",
                 )}
               >
-                {cartCount > 9 ? "9+" : cartCount}
-              </span>
-            )}
-          </Link>
+                Log in
+              </Link>
+              <Link
+                to="/auth?mode=signup"
+                className={cn(
+                  "inline-flex h-10 items-center justify-center rounded-full px-5",
+                  "bg-primary text-primary-foreground text-[14px] font-semibold tracking-tight",
+                  "shadow-[0_8px_20px_-8px_hsl(var(--primary)/0.6)]",
+                  "active:scale-[0.97] transition-transform",
+                )}
+              >
+                Get started
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
