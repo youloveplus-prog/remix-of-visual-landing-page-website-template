@@ -565,6 +565,54 @@ export type Database = {
         }
         Relationships: []
       }
+      home_announcements: {
+        Row: {
+          body: string | null
+          created_at: string
+          created_by: string | null
+          ends_at: string | null
+          id: string
+          is_active: boolean
+          is_pinned: boolean
+          level: string
+          link: string | null
+          show_as_toast: boolean
+          starts_at: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          is_pinned?: boolean
+          level?: string
+          link?: string | null
+          show_as_toast?: boolean
+          starts_at?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          is_pinned?: boolean
+          level?: string
+          link?: string | null
+          show_as_toast?: boolean
+          starts_at?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       learner_mastery: {
         Row: {
           attempts: number
@@ -761,6 +809,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      live_activity_settings: {
+        Row: {
+          enrolments_enabled: boolean
+          feed_window_hours: number
+          id: string
+          milestones_enabled: boolean
+          purchases_enabled: boolean
+          reviews_enabled: boolean
+          toast_enabled: boolean
+          toast_interval_seconds: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          enrolments_enabled?: boolean
+          feed_window_hours?: number
+          id?: string
+          milestones_enabled?: boolean
+          purchases_enabled?: boolean
+          reviews_enabled?: boolean
+          toast_enabled?: boolean
+          toast_interval_seconds?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          enrolments_enabled?: boolean
+          feed_window_hours?: number
+          id?: string
+          milestones_enabled?: boolean
+          purchases_enabled?: boolean
+          reviews_enabled?: boolean
+          toast_enabled?: boolean
+          toast_interval_seconds?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
       }
       live_sessions: {
         Row: {

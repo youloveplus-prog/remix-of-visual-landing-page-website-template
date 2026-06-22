@@ -58,6 +58,7 @@ const AdminLegalAnalyticsMod = () => import("./pages/admin/AdminLegalAnalytics")
 const AdminNotificationsMod = () => import("./pages/admin/AdminNotifications");
 const AdminRewardsMod = () => import("./pages/admin/AdminRewards");
 const AdminAuditLogMod = () => import("./pages/admin/AdminAuditLog");
+const AdminLiveActivityMod = () => import("./pages/admin/AdminLiveActivity");
 
 const TrackDetailMod = () => import("./pages/TrackDetail");
 const LessonDetailMod = () => import("./pages/LessonDetail");
@@ -105,6 +106,7 @@ const AdminLegalAnalytics = lazy(AdminLegalAnalyticsMod);
 const AdminNotifications = lazy(AdminNotificationsMod);
 const AdminRewards = lazy(AdminRewardsMod);
 const AdminAuditLog = lazy(AdminAuditLogMod);
+const AdminLiveActivity = lazy(AdminLiveActivityMod);
 const TrackDetail = lazy(TrackDetailMod);
 const LessonDetail = lazy(LessonDetailMod);
 const Contact = lazy(() => import("./pages/Contact"));
@@ -264,6 +266,7 @@ function AnimatedRoutes() {
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="rewards" element={<AdminRewards />} />
             <Route path="audit-log" element={<AdminAuditLog />} />
+            <Route path="live-activity" element={<AdminLiveActivity />} />
             <Route path="digital" element={<AdminDigital />} />
             <Route path="courses" element={<AdminCourses />} />
             <Route path="services" element={<AdminServices />} />

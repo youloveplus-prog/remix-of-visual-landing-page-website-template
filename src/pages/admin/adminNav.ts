@@ -17,6 +17,7 @@ import {
   ScrollText,
   Download,
   Briefcase,
+  Megaphone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -57,6 +58,7 @@ export const adminNavItems: AdminNavItem[] = [
   // Admin
   { title: "Users", url: "/asikonasik/users", icon: Users, section: "Admin", badgeKey: "users" },
   { title: "Notifications", url: "/asikonasik/notifications", icon: Bell, section: "Admin", badgeKey: "notifications" },
+  { title: "Live Activity", url: "/asikonasik/live-activity", icon: Megaphone, section: "Admin" },
   { title: "Home Sections", url: "/asikonasik/home-sections", icon: LayoutGrid, section: "Admin" },
   { title: "Banners", url: "/asikonasik/banners", icon: ImageIcon, section: "Admin" },
   { title: "Audit Log", url: "/asikonasik/audit-log", icon: ScrollText, section: "Admin" },
