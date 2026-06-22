@@ -7,13 +7,16 @@
  *
  * Each token is a Tailwind class string that already encodes the full
  * mobile → tablet → desktop responsive scale, so consumers never need
- * to specify breakpoints. Adjust scale here and the whole home page
- * follows.
+ * to specify breakpoints themselves. Adjust scale here and the whole
+ * home page follows.
  *
  *   Breakpoint reference (Tailwind defaults):
  *     base  →   <640px   (mobile)
  *     sm:   →  ≥640px    (tablet)
  *     lg:   →  ≥1024px   (desktop)
+ *
+ * NOTE: Tailwind's JIT only sees literal class strings, so every class
+ * here is written out in full — never built with template literals.
  *
  * Usage:
  *   import { homeType } from "@/components/home/typography";
@@ -28,63 +31,52 @@ const HERO_VOICE =
 const CARD_VOICE =
   "font-display font-bold uppercase tracking-tight leading-[1.1]";
 
-/**
- * Responsive size scale helper.
- * size(base, tablet?, desktop?) → "text-[X] sm:text-[Y] lg:text-[Z]"
- */
-const size = (base: string, tablet?: string, desktop?: string) =>
-  [
-    `text-[${base}]`,
-    tablet ? `sm:text-[${tablet}]` : "",
-    desktop ? `lg:text-[${desktop}]` : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
 export const homeType = {
   /* ────────────────────────────  Headings  ──────────────────────────── */
 
   /** Hero slide title — the canonical reference style. */
-  heroTitle: `${HERO_VOICE} ${size("24px", "28px", "32px")} text-white`,
+  heroTitle:
+    `${HERO_VOICE} text-[24px] sm:text-[28px] lg:text-[32px] text-white`,
 
   /** Standard section h2 used across every home section. */
-  sectionTitle: `${HERO_VOICE} ${size("24px", "30px", "36px")}`,
+  sectionTitle:
+    `${HERO_VOICE} text-[24px] sm:text-[30px] lg:text-[36px]`,
 
   /** Oversized hero-band h2 (Superagent / Explore Topics scale). */
-  bandTitle: `${HERO_VOICE} ${size("40px", "56px", "72px")}`,
+  bandTitle:
+    `${HERO_VOICE} text-[40px] sm:text-[56px] lg:text-[72px]`,
 
   /** Card / tile title inside a section grid. */
-  cardTitle: `${CARD_VOICE} ${size("15px", "17px", "18px")}`,
+  cardTitle:
+    `${CARD_VOICE} text-[15px] sm:text-[17px] lg:text-[18px]`,
 
   /** Tiny tile title (compact rails, dense grids). */
-  tileTitle: `${CARD_VOICE} ${size("13px", "14px", "15px")}`,
+  tileTitle:
+    `${CARD_VOICE} text-[13px] sm:text-[14px] lg:text-[15px]`,
 
-  /* ────────────────────────────  Supporting  ───────────────────────── */
+  /* ───────────────────────────  Supporting  ─────────────────────────── */
 
   /** Eyebrow caption above a title — desaturated, hairline tracked. */
-  eyebrow: `font-display font-semibold uppercase tracking-[0.18em] text-white/60 ${size(
-    "11px",
-    "12px",
-  )}`,
+  eyebrow:
+    "font-display font-semibold uppercase tracking-[0.18em] text-white/60 text-[11px] sm:text-[12px]",
 
   /** Hook / supporting body line under a title. */
-  hook: `leading-relaxed text-white/65 ${size("13.5px", "15px", "16px")}`,
+  hook:
+    "leading-relaxed text-white/65 text-[13.5px] sm:text-[15px] lg:text-[16px]",
 
   /** Muted helper line — smaller than hook (timestamps, tags). */
-  meta: `text-white/55 ${size("12px", "13px")}`,
+  meta:
+    "text-white/55 text-[12px] sm:text-[13px]",
 
-  /* ───────────────────────────────  Stats  ─────────────────────────── */
+  /* ─────────────────────────────  Stats  ────────────────────────────── */
 
   /** Numeric stat value (LiveStatsBar etc). */
-  stat: `${HERO_VOICE} ${size("24px", "30px", "36px")} text-white`,
+  stat:
+    `${HERO_VOICE} text-[24px] sm:text-[30px] lg:text-[36px] text-white`,
 
   /** Label under a stat. */
-  statLabel: `${homeType_unused_placeholder()}`,
+  statLabel:
+    "font-display uppercase tracking-[0.18em] text-white/55 text-[11px] sm:text-[12px]",
 } as const;
-
-// (The IIFE below keeps the const object monomorphic for tree-shaking.)
-function homeType_unused_placeholder() {
-  return `font-display uppercase tracking-[0.18em] text-white/55 ${size("11px", "12px")}`;
-}
 
 export type HomeTypeToken = keyof typeof homeType;
