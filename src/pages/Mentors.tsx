@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Star, GraduationCap, Languages, Sparkles, ShieldCheck, MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Mentors = () => {
   const { data: mentors, isLoading } = useMentors();
@@ -104,9 +105,14 @@ const Mentors = () => {
                     <GraduationCap className="h-3 w-3" />
                     Ages {m.for_age_min}–{m.for_age_max}
                   </div>
-                  <Button size="sm" variant="outline" className="mt-4" onClick={() => open(m)}>
-                    Reserve a slot
-                  </Button>
+                  <div className="mt-4 flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1" onClick={() => open(m)}>
+                      Reserve a slot
+                    </Button>
+                    <Link to={`/mentors/${m.slug}`} className="inline-flex items-center justify-center rounded-md border border-border bg-card/60 px-3 text-[12px] font-medium hover:bg-card transition-colors">
+                      View
+                    </Link>
+                  </div>
                 </article>
               ))}
             </MobileScroller>
