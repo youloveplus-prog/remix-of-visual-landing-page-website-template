@@ -172,29 +172,34 @@
     --glass-border: 0 0% 14%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops — Navy → Electric Blue → Violet (dark) */
-    --brand-from: 236 100% 18%;
-    --brand-via: 228 100% 55%;
-    --brand-to: 252 100% 75%;
-    --brand-soft-from: 228 100% 55%;
-    --brand-soft-to: 252 100% 75%;
+    /* Brand gradient stops — calm indigo on black (less retina burn) */
+    --brand-from: 236 60% 24%;
+    --brand-via: 233 78% 60%;
+    --brand-to: 252 70% 76%;
+    --brand-soft-from: 233 78% 60%;
+    --brand-soft-to: 252 70% 76%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-via)) 55%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.18) 0%, hsl(var(--brand-soft-to) / 0.14) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(233 70% 46%) 38%, hsl(var(--brand-via)) 70%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.14) 0%, hsl(var(--brand-soft-to) / 0.12) 100%);
     --gradient-surface: linear-gradient(180deg, hsl(236 100% 6%) 0%, hsl(0 0% 0%) 100%);
-    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.22) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.16) 0%, transparent 60%);
+    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.05) 0%, hsl(0 0% 100% / 0) 55%);
+    --gradient-card-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.06) 0%, hsl(0 0% 100% / 0) 40%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.18) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.14) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
-    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
-    --shadow-sm: 0 2px 4px hsl(0 0% 0% / 0.4);
-    --shadow-md: 0 6px 16px -4px hsl(0 0% 0% / 0.5);
-    --shadow-lg: 0 16px 36px -12px hsl(0 0% 0% / 0.6);
-    --shadow-xl: 0 28px 56px -20px hsl(0 0% 0% / 0.7);
-    --shadow-2xl: 0 40px 72px -28px hsl(0 0% 0% / 0.75);
-    --shadow-glow: 0 0 0 1px hsl(234 80% 62% / 0.3), 0 12px 32px -8px hsl(234 80% 62% / 0.4);
-    --shadow-elevated: 0 20px 48px -16px hsl(0 0% 0% / 0.65);
+    /* Two-layer shadow on pure black — slight primary tint for lit-from-screen feel */
+    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.4);
+    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.45), 0 2px 6px -2px hsl(0 0% 0% / 0.4);
+    --shadow-md: 0 2px 4px hsl(0 0% 0% / 0.5), 0 10px 24px -10px hsl(0 0% 0% / 0.55);
+    --shadow-lg: 0 4px 8px hsl(0 0% 0% / 0.55), 0 22px 48px -18px hsl(0 0% 0% / 0.65);
+    --shadow-xl: 0 6px 12px hsl(0 0% 0% / 0.6), 0 32px 64px -24px hsl(0 0% 0% / 0.7);
+    --shadow-2xl: 0 8px 16px hsl(0 0% 0% / 0.65), 0 40px 72px -28px hsl(0 0% 0% / 0.75);
+    --shadow-glow: 0 0 0 1px hsl(233 80% 64% / 0.28), 0 14px 32px -10px hsl(233 80% 64% / 0.38);
+    --shadow-elevated: 0 2px 6px hsl(0 0% 0% / 0.5), 0 20px 48px -16px hsl(0 0% 0% / 0.65);
+    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.45), 0 10px 28px -12px hsl(0 0% 0% / 0.55), 0 0 0 1px hsl(233 80% 64% / 0.04);
+    --shadow-card-hover: 0 2px 4px hsl(0 0% 0% / 0.5), 0 20px 44px -16px hsl(0 0% 0% / 0.7), 0 0 0 1px hsl(233 80% 64% / 0.08);
+    --shadow-card-pressed: 0 1px 2px hsl(0 0% 0% / 0.5), 0 4px 10px -4px hsl(0 0% 0% / 0.5);
 
     /* === Gemini-style premium gradient (dark) ===
        Used only to mark *premium* surfaces — badges, premium card borders,
