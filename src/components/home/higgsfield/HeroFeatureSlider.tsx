@@ -187,16 +187,18 @@ export function HeroFeatureSlider({
         </button>
       </div>
 
-      {/* Progress dots */}
-      <div className="mt-4 sm:mt-6 flex items-center justify-center gap-1.5">
+      {/* Progress indicator — slim modern segments */}
+      <div className="mt-3 sm:mt-5 flex items-center justify-center gap-1">
         {SLIDES.map((_, i) => (
           <button
             key={i}
             type="button"
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => emblaApi?.scrollTo(i)}
-            className={`h-1 transition-all ${
-              selected === i ? "w-6 bg-white" : "w-1.5 bg-white/30 hover:bg-white/60"
+            className={`h-[3px] rounded-full transition-all duration-300 ease-out ${
+              selected === i
+                ? "w-5 sm:w-6 bg-white"
+                : "w-[3px] bg-white/35 hover:bg-white/60"
             }`}
           />
         ))}
