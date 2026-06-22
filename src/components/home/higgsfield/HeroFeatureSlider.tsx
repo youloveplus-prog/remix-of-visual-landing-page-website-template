@@ -78,6 +78,15 @@ export function HeroFeatureSlider({
       loop: true,
       containScroll: false,
       skipSnaps: false,
+      // Require a deliberate horizontal drag before claiming the gesture.
+      // Combined with `touch-action: pan-y` on the wrapper, near-vertical
+      // gestures stay with the page scroller and never trigger a slide.
+      dragThreshold: 18,
+      // Only listen to primary pointer (ignores multi-touch / pinch).
+      watchDrag: (api, evt) => {
+        if (evt instanceof PointerEvent && !evt.isPrimary) return false;
+        return true;
+      },
     },
     autoplay ? [autoplayRef.current] : [],
   );
