@@ -60,6 +60,11 @@ export function ProfileStats({
   onXpClick,
   onLevelClick,
 }: ProfileStatsProps) {
+  const postsAnim = useCountUp(posts);
+  const followersAnim = useCountUp(followers);
+  const followingAnim = useCountUp(following);
+  const xpAnim = useCountUp(xp);
+
   if (isLoading) {
     return (
       <div className="px-4 pt-4 space-y-3" aria-busy="true" aria-label="Loading profile statistics">
@@ -91,10 +96,7 @@ export function ProfileStats({
     );
   }
 
-  const postsAnim = useCountUp(posts);
-  const followersAnim = useCountUp(followers);
-  const followingAnim = useCountUp(following);
-  const xpAnim = useCountUp(xp);
+
 
 
   const stats = [
