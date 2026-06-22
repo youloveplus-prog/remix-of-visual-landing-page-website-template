@@ -4,17 +4,20 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
+type SlideMedia =
+  | { kind: "image"; src: string; poster?: never }
+  | { kind: "video"; src: string; poster?: string };
+
 type Slide = {
   eyebrow?: string;
-  /** Short brand/product chip shown on top of the hero image (e.g. "Asikon AI Tutor"). */
+  /** Short brand/product chip shown on top of the hero media. */
   brand: string;
   title: string;
   /** One-line meaningful hook. Keep short — mobile. */
   hook: string;
   cta: string;
-  image: string;
+  media: SlideMedia;
   to: string;
-  accent?: string;
 };
 
 const SLIDES: Slide[] = [
@@ -24,8 +27,12 @@ const SLIDES: Slide[] = [
     title: "Your 24/7 AI teacher",
     hook: "Learn anything, anytime — voice-powered.",
     cta: "Try the tutor",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=80",
+    media: {
+      kind: "video",
+      src: "https://cdn.pixabay.com/video/2023/10/08/184145-873592957_large.mp4",
+      poster:
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=80",
+    },
     to: "/learn",
   },
   {
@@ -33,8 +40,10 @@ const SLIDES: Slide[] = [
     title: "Lessons from one prompt",
     hook: "Type a topic. Get a full course in seconds.",
     cta: "Generate a lesson",
-    image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+    media: {
+      kind: "image",
+      src: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+    },
     to: "/prompts",
   },
   {
@@ -42,8 +51,10 @@ const SLIDES: Slide[] = [
     title: "Learn inside your tools",
     hook: "Notion, VS Code, Chrome — AI lessons everywhere.",
     cta: "Get the plugin",
-    image:
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80",
+    media: {
+      kind: "image",
+      src: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1400&q=80",
+    },
     to: "/resources",
   },
   {
@@ -51,21 +62,71 @@ const SLIDES: Slide[] = [
     title: "1-on-1 with real experts",
     hook: "Personal mentorship, matched to your goals.",
     cta: "Find a mentor",
-    image:
-      "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=80",
+    media: {
+      kind: "video",
+      src: "https://cdn.pixabay.com/video/2022/12/19/144064-781136941_large.mp4",
+      poster:
+        "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=1400&q=80",
+    },
     to: "/mentors",
-    accent: "text-lime-300",
   },
   {
     brand: "Project Tracks",
     title: "Build real things",
     hook: "Ship projects while you learn — not just study.",
     cta: "Browse tracks",
-    image:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1400&q=80",
+    media: {
+      kind: "image",
+      src: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1400&q=80",
+    },
     to: "/shop?type=courses",
   },
 ];
+
+/** Renders either an image or an autoplaying muted/inline video that pauses when off-screen. */
+function HeroMedia({ media, eager }: { media: SlideMedia; eager: boolean }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Pause off-screen videos to save battery / data.
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.play().catch(() => {});
+        else el.pause();
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  if (media.kind === "video") {
+    return (
+      <video
+        ref={videoRef}
+        src={media.src}
+        poster={media.poster}
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload={eager ? "auto" : "metadata"}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+    );
+  }
+  return (
+    <img
+      src={media.src}
+      alt=""
+      loading={eager ? "eager" : "lazy"}
+      className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
+      draggable={false}
+    />
+  );
+}
 
 export function HeroFeatureSlider({
   autoplay = true,
@@ -123,9 +184,8 @@ export function HeroFeatureSlider({
           className="overflow-hidden touch-pan-y overscroll-x-contain"
         >
           {/*
-            Mobile: full-bleed (basis-100%, no horizontal padding) so the active
-            slide owns the full screen width — Higgsfield style.
-            sm+: revert to the peek-card carousel.
+            Mobile: full-bleed 16:9 (basis-100%, no horizontal padding).
+            sm+: peek-card carousel.
           */}
           <div className="flex touch-pan-y sm:px-6 sm:-mx-2">
             {SLIDES.map((s, i) => {
@@ -140,38 +200,32 @@ export function HeroFeatureSlider({
                       isActive ? "opacity-100 scale-100" : "opacity-60 sm:scale-[0.96]"
                     }`}
                   >
-                    {/* === Hero image (full-bleed on mobile) === */}
+                    {/* === Hero media (full-bleed 16:9 on mobile) === */}
                     <Link
                       to={s.to}
                       aria-label={s.title}
-                      className="group relative block aspect-[4/5] sm:aspect-[16/9] overflow-hidden bg-neutral-900 sm:border sm:border-white/10"
+                      className="group relative block aspect-[16/9] overflow-hidden bg-neutral-900 sm:border sm:border-white/10"
                     >
-                      <img
-                        src={s.image}
-                        alt=""
-                        loading={i === 0 ? "eager" : "lazy"}
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
-                        draggable={false}
-                      />
-                      {/* Cinematic vertical fade so the brand chip + dark panel below blend in */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/85" />
+                      <HeroMedia media={s.media} eager={i === 0} />
+                      {/* Brand-tinted cinematic gradient — top fade for chip, bottom fade for brand pill */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-[hsl(var(--brand-from)/0.85)]" />
 
                       {/* Eyebrow (top-left) */}
                       {s.eyebrow && (
-                        <span className="absolute left-3 top-3 sm:left-4 sm:top-4 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur ring-1 ring-white/15">
-                          <span className="h-1.5 w-1.5 rounded-full bg-lime-300" />
+                        <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur ring-1 ring-white/15">
+                          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                           {s.eyebrow}
                         </span>
                       )}
 
-                      {/* Brand pill — centered, sits over the image (Higgsfield style) */}
-                      <span className="absolute left-1/2 bottom-6 sm:bottom-8 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-black/65 px-3.5 py-1.5 text-[13px] font-medium text-white backdrop-blur-md ring-1 ring-white/15 whitespace-nowrap">
-                        <Sparkles className="h-3.5 w-3.5 text-lime-300" />
+                      {/* Brand pill — centered along the bottom of the media */}
+                      <span className="absolute left-1/2 bottom-3 sm:bottom-4 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-black/65 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-white backdrop-blur-md ring-1 ring-white/15 whitespace-nowrap">
+                        <Sparkles className="h-3.5 w-3.5 text-primary" />
                         {s.brand}
                       </span>
                     </Link>
 
-                    {/* === Dot indicator strip (between image and panel, mobile-first) === */}
+                    {/* === Mobile dot indicator + hook panel === */}
                     <div className="flex items-center justify-center gap-1.5 py-3 bg-black sm:hidden">
                       {SLIDES.map((_, idx) => (
                         <button
@@ -180,40 +234,31 @@ export function HeroFeatureSlider({
                           aria-label={`Go to slide ${idx + 1}`}
                           onClick={() => emblaApi?.scrollTo(idx)}
                           className={`h-1.5 rounded-full transition-all duration-300 ease-out ${
-                            selected === idx ? "w-5 bg-white" : "w-1.5 bg-white/35"
+                            selected === idx ? "w-5 bg-primary" : "w-1.5 bg-white/30"
                           }`}
                         />
                       ))}
                     </div>
 
-                    {/* === Centered hook panel (mobile) / caption row (sm+) === */}
-                    <div className="bg-black px-6 pb-8 pt-2 text-center sm:hidden">
-                      <h2
-                        className={`font-display text-[28px] leading-[1.05] font-extrabold uppercase tracking-tight text-balance ${
-                          s.accent ?? "text-white"
-                        }`}
-                      >
+                    <div className="bg-black px-6 pb-7 pt-1 text-center sm:hidden">
+                      <h2 className="font-display text-[24px] leading-[1.08] font-extrabold uppercase tracking-tight text-balance text-white">
                         {s.title}
                       </h2>
-                      <p className="mx-auto mt-3 max-w-[28ch] text-[14px] leading-relaxed text-white/65">
+                      <p className="mx-auto mt-2.5 max-w-[30ch] text-[13.5px] leading-relaxed text-white/65">
                         {s.hook}
                       </p>
                       <Link
                         to={s.to}
-                        className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-lime-300 px-6 py-3.5 text-[15px] font-semibold text-black shadow-[0_10px_30px_-8px_rgba(190,242,100,0.55)] active:scale-[0.98] transition-transform"
+                        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-[15px] font-semibold text-primary-foreground shadow-[0_12px_32px_-10px_hsl(var(--primary)/0.65)] active:scale-[0.98] transition-transform"
                       >
                         {s.cta}
                         <ArrowUpRight className="h-4 w-4" />
                       </Link>
                     </div>
 
-                    {/* sm+ caption (keeps original desktop look) */}
+                    {/* sm+ caption */}
                     <Link to={s.to} className="hidden sm:block mt-4 px-2 group">
-                      <h3
-                        className={`font-display text-[17px] font-bold tracking-[0.04em] uppercase leading-tight transition-colors line-clamp-1 ${
-                          s.accent ?? "text-white"
-                        } group-hover:text-[hsl(var(--hf-accent))]`}
-                      >
+                      <h3 className="font-display text-[17px] font-bold tracking-[0.04em] uppercase leading-tight text-white transition-colors line-clamp-1 group-hover:text-primary">
                         {s.title}
                       </h3>
                       <p className="mt-1.5 text-sm text-white/55 line-clamp-1">{s.hook}</p>
@@ -244,7 +289,7 @@ export function HeroFeatureSlider({
         </button>
       </div>
 
-      {/* Desktop dot strip (mobile has its own inside each slide) */}
+      {/* Desktop dot strip */}
       <div className="hidden sm:flex mt-4 items-center justify-center gap-[3px]">
         {SLIDES.map((_, i) => (
           <button
@@ -253,7 +298,7 @@ export function HeroFeatureSlider({
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => emblaApi?.scrollTo(i)}
             className={`h-[2px] rounded-full transition-all duration-300 ease-out ${
-              selected === i ? "w-4 bg-white" : "w-[2px] bg-white/40 hover:bg-white/70"
+              selected === i ? "w-4 bg-primary" : "w-[2px] bg-white/40 hover:bg-white/70"
             }`}
           />
         ))}
