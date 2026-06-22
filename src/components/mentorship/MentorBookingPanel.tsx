@@ -3,7 +3,7 @@ import { addDays, format, isSameDay } from "date-fns";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CalendarDays, Clock, CheckCircle2, ShieldCheck } from "lucide-react";
+import { CalendarDays, Clock, CheckCircle2, ShieldCheck, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +26,8 @@ import {
 import { DetailSection } from "@/components/ui/detail-section";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import type { Mentor } from "@/hooks/useMentors";
 
 const DAYS_AHEAD = 7;
@@ -105,29 +107,68 @@ export function MentorBookingPanel({ mentor }: Props) {
     }
   }, [slots, slotValue, form]);
 
+  const { user } = useAuth();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmed, setConfirmed] = useState<BookingValues | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const onContinue = form.handleSubmit(() => setConfirmOpen(true));
+  const onContinue = form.handleSubmit(() => {
+    setSubmitError(null);
+    setConfirmOpen(true);
+  });
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     const values = form.getValues();
-    setConfirmed(values);
-    toast({
-      title: "Session request sent",
-      description: `${mentor.name} will confirm your ${format(selectedDay, "EEE d MMM")} · ${values.slot} session shortly.`,
-    });
+    if (!user) {
+      setSubmitError("Please sign in to book a session.");
+      return;
+    }
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const { error } = await (supabase as any).from("mentor_bookings").insert({
+        user_id: user.id,
+        mentor_id: mentor.id,
+        mentor_name: mentor.name,
+        subject: mentor.subjects[0] ?? null,
+        session_date: values.date,
+        session_slot: values.slot,
+        notes: values.notes?.trim() || null,
+        status: "requested",
+      });
+      if (error) throw error;
+      setConfirmed(values);
+      toast({
+        title: "Session request sent",
+        description: `${mentor.name} will confirm your ${format(selectedDay, "EEE d MMM")} · ${values.slot} session shortly.`,
+      });
+    } catch (err: any) {
+      const message = err?.message ?? "Something went wrong. Please try again.";
+      setSubmitError(message);
+      toast({
+        title: "Couldn't send request",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleClose = (open: boolean) => {
+    if (submitting) return;
     setConfirmOpen(open);
-    if (!open && confirmed) {
-      setConfirmed(null);
-      form.reset({
-        date: format(days[0], "yyyy-MM-dd"),
-        slot: "",
-        notes: "",
-      });
+    if (!open) {
+      setSubmitError(null);
+      if (confirmed) {
+        setConfirmed(null);
+        form.reset({
+          date: format(days[0], "yyyy-MM-dd"),
+          slot: "",
+          notes: "",
+        });
+      }
     }
   };
 
@@ -317,11 +358,33 @@ export function MentorBookingPanel({ mentor }: Props) {
                 </div>
               </div>
 
+              {submitError && (
+                <div className="flex items-start gap-2 rounded-xl border border-destructive/40 bg-destructive/5 p-3 text-[12.5px] text-destructive">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{submitError}</span>
+                </div>
+              )}
+
               <DialogFooter className="gap-2 sm:gap-2">
-                <Button variant="outline" onClick={() => setConfirmOpen(false)}>
+                <Button
+                  variant="outline"
+                  onClick={() => setConfirmOpen(false)}
+                  disabled={submitting}
+                >
                   Back
                 </Button>
-                <Button onClick={handleConfirm}>Confirm booking</Button>
+                <Button onClick={handleConfirm} disabled={submitting}>
+                  {submitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending…
+                    </>
+                  ) : submitError ? (
+                    "Try again"
+                  ) : (
+                    "Confirm booking"
+                  )}
+                </Button>
               </DialogFooter>
             </>
           ) : (

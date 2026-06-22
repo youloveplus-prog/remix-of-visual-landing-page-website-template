@@ -243,6 +243,48 @@ export type Database = {
           },
         ]
       }
+      mentor_bookings: {
+        Row: {
+          created_at: string
+          id: string
+          mentor_id: string
+          mentor_name: string
+          notes: string | null
+          session_date: string
+          session_slot: string
+          status: string
+          subject: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mentor_id: string
+          mentor_name: string
+          notes?: string | null
+          session_date: string
+          session_slot: string
+          status?: string
+          subject?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mentor_id?: string
+          mentor_name?: string
+          notes?: string | null
+          session_date?: string
+          session_slot?: string
+          status?: string
+          subject?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       mentor_session_notes: {
         Row: {
           created_at: string
