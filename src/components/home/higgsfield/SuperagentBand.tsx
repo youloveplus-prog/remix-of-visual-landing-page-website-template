@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Bot, Sparkles, MessageSquare, Mic, Code2, BookOpen } from "lucide-react";
+import { homeType } from "@/components/home/typography";
 
 export function SuperagentBand() {
   return (
