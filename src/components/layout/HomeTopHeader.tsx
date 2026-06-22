@@ -118,7 +118,7 @@ export function HomeTopHeader({ cartCount = 0 }: HomeTopHeaderProps) {
                     className={cn(
                       "inline-flex items-center rounded-full px-3 py-1.5",
                       "text-[13px] font-medium text-foreground/75",
-                      "hover:text-foreground hover:bg-secondary/70 transition-colors",
+                      "hover:text-primary transition-colors",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     )}
                   >
