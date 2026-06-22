@@ -51,7 +51,7 @@ export function CategoryShelf() {
       </header>
 
       {/* Mobile: scroll-snap row · Desktop: responsive grid */}
-      <div className="mt-6 sm:mt-8">
+      <div className="hf-section-header">
         {/* Mobile */}
         <div
           className="hf-snap-row flex gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:hidden"

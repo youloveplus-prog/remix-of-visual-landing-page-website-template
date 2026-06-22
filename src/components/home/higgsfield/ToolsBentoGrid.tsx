@@ -41,7 +41,7 @@ const PILL_STYLES: Record<NonNullable<Tool["pill"]>, string> = {
 export function ToolsBentoGrid() {
   return (
     <section className="hf-section px-4 sm:px-6 lg:px-8">
-      <div className="mb-4 flex items-end justify-between">
+      <div className="hf-section-header flex items-end justify-between">
         <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-white">
           Everything you need
         </h2>

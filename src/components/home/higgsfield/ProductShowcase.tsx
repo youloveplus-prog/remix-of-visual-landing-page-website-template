@@ -76,7 +76,7 @@ export function ProductShowcase({
 
       {/* Horizontal scroll row */}
       <div
-        className="hf-snap-row mt-6 sm:mt-8 flex gap-3 sm:gap-4 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="hf-snap-row hf-section-header flex gap-3 sm:gap-4 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
         {isLoading
           ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
