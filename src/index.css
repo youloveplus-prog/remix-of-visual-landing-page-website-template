@@ -601,6 +601,33 @@
     .hf-title { font-size: 2.25rem; }   /* 36px */
   }
 
+  /* === Mobile-only: center all home section titles & eyebrows.
+     Applies on screens below the `sm` (640px) breakpoint. Title text
+     centers, the eyebrow's leading hairline is hidden so the label
+     sits visually centered, and any header that stacks the title next
+     to a "View all" link is collapsed into a centered column so the
+     title doesn't get shoved off-axis. */
+  @media (max-width: 639px) {
+    .home-higgsfield .hf-title {
+      text-align: center;
+      display: block;
+      width: 100%;
+    }
+    .home-higgsfield .hf-eyebrow {
+      justify-content: center;
+      width: 100%;
+    }
+    .home-higgsfield .hf-eyebrow::before {
+      display: none;
+    }
+    .home-higgsfield [class*="justify-between"]:has(.hf-title) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+  }
+
 
   /* === Higgsfield eyebrow — uppercase label with a leading hairline.
      The ::before rule is the polish: a 24px brand-tinted line that anchors
