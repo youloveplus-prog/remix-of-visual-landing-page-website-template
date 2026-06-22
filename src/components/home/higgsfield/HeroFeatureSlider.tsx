@@ -247,13 +247,6 @@ export function HeroFeatureSlider({
                       <p className="mx-auto mt-2.5 max-w-[30ch] text-[13.5px] leading-relaxed text-white/65">
                         {s.hook}
                       </p>
-                      <Link
-                        to={s.to}
-                        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-[15px] font-semibold text-primary-foreground shadow-[0_12px_32px_-10px_hsl(var(--primary)/0.65)] active:scale-[0.98] transition-transform"
-                      >
-                        {s.cta}
-                        <ArrowUpRight className="h-4 w-4" />
-                      </Link>
                     </div>
 
                     {/* sm+ caption */}
