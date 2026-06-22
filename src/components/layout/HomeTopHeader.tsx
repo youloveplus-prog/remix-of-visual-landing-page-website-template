@@ -18,7 +18,7 @@ type NavItem = { label: string; to: string; badge?: Badge };
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Shop", to: "/shop", badge: "hot" },
+  { label: "Explore", to: "/shop", badge: "hot" },
   { label: "Courses", to: "/shop?type=courses", badge: "new" },
   { label: "Prompts", to: "/prompts" },
   { label: "AI Tutor", to: "/learn", badge: "new" },
