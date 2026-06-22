@@ -120,7 +120,7 @@ function CategoryCard({
 
   if (loading || !category) {
     return (
-      <div className={`relative aspect-square border border-white/10 bg-neutral-900 ${className}`}>
+      <div className={`relative aspect-[5/3] sm:aspect-[4/3] border border-white/10 bg-neutral-900 ${className}`}>
         <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-white/[0.06]" />
       </div>
     );
@@ -130,7 +130,7 @@ function CategoryCard({
     <Link
       to={`/shop?category=${category.slug}`}
       aria-label={category.name}
-      className={`group relative aspect-square overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30 ${className}`}
+      className={`group relative aspect-[5/3] sm:aspect-[4/3] overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30 ${className}`}
     >
       {/* Gradient wash */}
       <div
