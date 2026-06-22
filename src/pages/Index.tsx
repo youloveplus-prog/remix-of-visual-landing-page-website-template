@@ -4,6 +4,8 @@ import { FirstRunTour } from "@/components/onboarding/FirstRunTour";
 import { useAuth } from "@/hooks/useAuth";
 import { AiTutorFab } from "@/components/home/AiTutorFab";
 import { LazyMount } from "@/components/home/LazyMount";
+import { LiveActivityToaster } from "@/components/home/LiveActivityToaster";
+import { LiveActivityFeed } from "@/components/home/higgsfield/LiveActivityFeed";
 import { SITE_URL } from "@/config/site";
 import { lazy, Suspense, useMemo, type ReactNode } from "react";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
@@ -95,6 +97,7 @@ const Index = () => {
         <SuperagentBand />
         <ToolsBentoGrid />
         <LiveStatsBar />
+        <LiveActivityFeed />
         <TrendingRail title="Trending now" items={trending} viewAllHref="/shop?filter=trending" />
         <CategoryShelf />
         <TracksSection />
@@ -137,6 +140,7 @@ const Index = () => {
         <HomeCtaPanel />
       </div>
 
+      <LiveActivityToaster />
       {user && <AiTutorFab />}
     </AppLayout>
   );
