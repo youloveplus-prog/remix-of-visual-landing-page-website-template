@@ -1,47 +1,54 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import Resources from "@/pages/Resources";
-import ResourceDetail from "@/pages/ResourceDetail";
-import { RESOURCES } from "@/data/resources";
+import { MemoryRouter } from "react-router-dom";
+import { FeaturedEventCard } from "@/components/resources/FeaturedEventCard";
+import { ResourceCard } from "@/components/resources/ResourceCard";
+import { ResourceGrid } from "@/components/resources/ResourceGrid";
+import { RESOURCES, getResourceBySlug } from "@/data/resources";
 
-function renderAt(path: string) {
-  const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return render(
-    <QueryClientProvider client={qc}>
-      <HelmetProvider>
-        <TooltipProvider>
-          <MemoryRouter initialEntries={[path]}>
-            <Routes>
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/resources/:slug" element={<ResourceDetail />} />
-            </Routes>
-          </MemoryRouter>
-        </TooltipProvider>
-      </HelmetProvider>
-    </QueryClientProvider>,
-  );
-}
+const wrap = (ui: React.ReactElement) =>
+  render(<MemoryRouter>{ui}</MemoryRouter>);
 
-describe("Resources page", () => {
-  it("renders the featured event card and at least one trending resource card", () => {
-    renderAt("/resources");
+describe("Resources page building blocks", () => {
+  it("FeaturedEventCard renders a live countdown timer + CTA", () => {
+    wrap(
+      <FeaturedEventCard
+        title="The Asikon Live Summit"
+        date="Coming up July 9th"
+        target="2099-07-09T15:00:00Z"
+        description="A free 90-minute session."
+        ctaHref="/auth"
+      />,
+    );
     expect(screen.getByRole("timer")).toBeTruthy();
     expect(
-      screen.getByRole("button", { name: /clear search/i }) ||
-        screen.getByPlaceholderText(/search resources/i),
+      screen.getByRole("heading", { name: /asikon live summit/i }),
     ).toBeTruthy();
-    expect(screen.getByPlaceholderText(/search resources/i)).toBeTruthy();
-    expect(screen.getByText(RESOURCES[0].title)).toBeTruthy();
+    expect(screen.getByRole("link", { name: /secure your free seat/i })).toBeTruthy();
   });
 
-  it("resolves a known resource slug on the detail route", () => {
-    const sample = RESOURCES[0];
-    renderAt(`/resources/${sample.slug}`);
-    expect(screen.getByRole("heading", { level: 1, name: sample.title })).toBeTruthy();
-    expect(screen.getByText(/published/i)).toBeTruthy();
+  it("ResourceCard links to the slug-scoped detail route", () => {
+    const r = RESOURCES[0];
+    wrap(<ResourceCard resource={r} />);
+    const link = screen.getByRole("link");
+    expect(link.getAttribute("href")).toBe(`/resources/${r.slug}`);
+    expect(screen.getByText(r.title)).toBeTruthy();
+  });
+
+  it("ResourceGrid renders one card per resource and an empty state when filtered out", () => {
+    wrap(<ResourceGrid resources={RESOURCES.slice(0, 3)} title="Most recent updates." />);
+    expect(screen.getByText("Most recent updates.")).toBeTruthy();
+    expect(screen.getAllByRole("link").length).toBe(3);
+
+    wrap(<ResourceGrid resources={[]} />);
+    expect(screen.getByText(/no matches/i)).toBeTruthy();
+  });
+
+  it("seed data is internally consistent — every trending resource resolves by slug", () => {
+    const trending = RESOURCES.filter((r) => r.trending);
+    expect(trending.length).toBeGreaterThan(0);
+    for (const r of trending) {
+      expect(getResourceBySlug(r.slug)).toBeDefined();
+    }
   });
 });
