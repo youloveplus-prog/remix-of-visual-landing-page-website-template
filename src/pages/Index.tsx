@@ -9,8 +9,8 @@ import { lazy, Suspense, useMemo, type ReactNode } from "react";
 import { useProducts, useFeaturedProducts } from "@/hooks/useProducts";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import { HiggsfieldHero } from "@/components/home/higgsfield/HiggsfieldHero";
 import { NeonPromoTicker } from "@/components/home/higgsfield/NeonPromoTicker";
-import { FeaturedMediaRow } from "@/components/home/higgsfield/FeaturedMediaRow";
 import { ToolsBentoGrid } from "@/components/home/higgsfield/ToolsBentoGrid";
 import { LiveStatsBar } from "@/components/home/higgsfield/LiveStatsBar";
 import { TrendingRail, type TrendingItem } from "@/components/home/higgsfield/TrendingRail";
@@ -82,8 +82,8 @@ const Index = () => {
       />
 
       <div className="home-higgsfield min-h-screen pb-10">
+        <HiggsfieldHero />
         <NeonPromoTicker />
-        <FeaturedMediaRow />
         <ToolsBentoGrid />
         <LiveStatsBar />
         <TrendingRail title="Trending now" items={trending} viewAllHref="/shop?filter=trending" />
