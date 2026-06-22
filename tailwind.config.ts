@@ -218,34 +218,33 @@ export default {
         transition: "box-shadow 400ms ease, transform 400ms ease",
       };
       addUtilities({
-        /* === Card depth variants — pair with `border border-white/10`. === */
+        /* === Card depth variants — theme-aware. ===
+           Drives from `--shadow-*` tokens defined in index.css, so the same
+           class adapts to light (cream) and dark (black) surfaces. The
+           foreground-tinted inset highlight + grounding shadow are subtle in
+           light mode and richer in dark mode automatically. */
         ".hf-card-depth-subtle": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(0 0% 100% / 0.04) inset",
-            "0 -14px 24px -16px hsl(0 0% 0% / 0.45) inset",
-            "0 1px 2px hsl(0 0% 0% / 0.25)",
-            "0 6px 14px -8px hsl(0 0% 0% / 0.35)",
+            "0 1px 0 0 hsl(var(--foreground) / 0.04) inset",
+            "var(--shadow-xs)",
+            "var(--shadow-sm)",
           ].join(", "),
         },
         ".hf-card-depth": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(0 0% 100% / 0.06) inset",
-            "0 -24px 40px -24px hsl(0 0% 0% / 0.65) inset",
-            "0 1px 2px hsl(0 0% 0% / 0.4)",
-            "0 12px 24px -10px hsl(0 0% 0% / 0.55)",
-            "0 28px 56px -24px hsl(0 0% 0% / 0.6)",
+            "0 1px 0 0 hsl(var(--foreground) / 0.05) inset",
+            "var(--shadow-sm)",
+            "var(--shadow-md)",
           ].join(", "),
         },
         ".hf-card-depth-elevated": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(0 0% 100% / 0.1) inset",
-            "0 -32px 56px -28px hsl(0 0% 0% / 0.75) inset",
-            "0 2px 4px hsl(0 0% 0% / 0.5)",
-            "0 20px 40px -14px hsl(0 0% 0% / 0.65)",
-            "0 48px 96px -32px hsl(233 72% 18% / 0.6)",
+            "0 1px 0 0 hsl(var(--foreground) / 0.06) inset",
+            "var(--shadow-md)",
+            "var(--shadow-xl)",
           ].join(", "),
         },
         ".hf-card-depth-none": {
