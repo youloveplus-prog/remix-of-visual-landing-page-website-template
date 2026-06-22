@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Heart, X, ShoppingCart } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
@@ -12,7 +12,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Price } from "@/lib/currency";
 
 const Wishlist = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
   const { user, loading: authLoading } = useAuth();
   const { data: wishlistItems, isLoading } = useWishlist();
@@ -37,7 +36,7 @@ const Wishlist = () => {
   };
 
   if (authLoading) return <AppLayout><MobilePage maxWidth="standard"><Skeleton className="h-8 w-40" /></MobilePage></AppLayout>;
-  if (!user) { navigate("/auth"); return null; }
+  if (!user) return <Navigate to="/auth" replace />;
 
   const count = wishlistItems?.length || 0;
 
