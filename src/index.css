@@ -187,6 +187,51 @@
     --shadow-2xl: 0 40px 72px -28px hsl(0 0% 0% / 0.75);
     --shadow-glow: 0 0 0 1px hsl(234 80% 62% / 0.3), 0 12px 32px -8px hsl(234 80% 62% / 0.4);
     --shadow-elevated: 0 20px 48px -16px hsl(0 0% 0% / 0.65);
+
+    /* === Gemini-style premium gradient (dark) ===
+       Used only to mark *premium* surfaces — badges, premium card borders,
+       featured pills. Keeps the rare/signature feel of Google Gemini's
+       blue → indigo → violet → magenta → peach sweep. */
+    --gradient-premium: linear-gradient(
+      125deg,
+      hsl(217 95% 60%) 0%,
+      hsl(234 88% 62%) 28%,
+      hsl(268 80% 62%) 55%,
+      hsl(322 78% 60%) 78%,
+      hsl(28 95% 64%) 100%
+    );
+    --gradient-premium-soft: linear-gradient(
+      125deg,
+      hsl(217 95% 60% / 0.18) 0%,
+      hsl(268 80% 62% / 0.18) 50%,
+      hsl(28 95% 64% / 0.18) 100%
+    );
+    --shadow-premium:
+      0 0 0 1px hsl(268 80% 62% / 0.35),
+      0 18px 50px -18px hsl(234 88% 62% / 0.55),
+      0 28px 64px -32px hsl(322 78% 60% / 0.45);
+  }
+
+  :root {
+    /* Premium gradient — light theme variant */
+    --gradient-premium: linear-gradient(
+      125deg,
+      hsl(217 95% 55%) 0%,
+      hsl(233 80% 58%) 30%,
+      hsl(268 72% 58%) 58%,
+      hsl(322 70% 58%) 80%,
+      hsl(28 90% 60%) 100%
+    );
+    --gradient-premium-soft: linear-gradient(
+      125deg,
+      hsl(217 95% 55% / 0.12) 0%,
+      hsl(268 72% 58% / 0.12) 50%,
+      hsl(28 90% 60% / 0.12) 100%
+    );
+    --shadow-premium:
+      0 0 0 1px hsl(268 72% 58% / 0.25),
+      0 14px 36px -16px hsl(233 80% 58% / 0.35),
+      0 22px 48px -24px hsl(322 70% 58% / 0.30);
   }
 
   @media (min-width: 1024px) {
@@ -342,6 +387,41 @@
   .bg-brand-aurora { background-image: var(--gradient-aurora); }
   .bg-brand-surface { background-image: var(--gradient-surface); }
   .bg-brand-sheen { background-image: var(--gradient-sheen); }
+
+  /* === Premium (Gemini) gradient utilities ===
+     60% black canvas · 30% brand-blue accents · 10% white text — the
+     gemini sweep is reserved for *premium* badges, borders and CTAs so it
+     keeps its signature feel. */
+  .bg-premium-gradient { background-image: var(--gradient-premium); background-size: 200% 200%; }
+  .bg-premium-gradient-soft { background-image: var(--gradient-premium-soft); }
+  .text-premium-gradient {
+    background-image: var(--gradient-premium);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .shadow-premium { box-shadow: var(--shadow-premium); }
+  .border-premium-gradient {
+    position: relative;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+  }
+  .border-premium-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    margin: -1px;
+    border-radius: inherit;
+    background-image: var(--gradient-premium);
+    background-size: 200% 200%;
+    animation: premium-shimmer 8s ease-in-out infinite;
+  }
+  @keyframes premium-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
 
   /* Gradient text — theme-aware brand gradient */
   .text-brand-gradient {
