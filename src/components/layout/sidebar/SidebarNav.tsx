@@ -146,7 +146,7 @@ export function SidebarNav({ onClose }: SidebarNavProps) {
     { to: "/mentors", icon: <GraduationCap className="w-5 h-5" />, label: "Mentors", tint: "bg-amber-500/15 text-amber-600 dark:text-amber-300" },
     { to: "/orders", icon: <Package className="w-5 h-5" />, label: "Orders", tint: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300" },
     { to: "/wishlist", icon: <Heart className="w-5 h-5" />, label: "Wishlist", tint: "bg-rose-500/15 text-rose-600 dark:text-rose-300", badge: wishlistCount },
-    { to: "/notifications", icon: <Bell className="w-5 h-5" />, label: "Notifications", tint: "bg-sky-500/15 text-sky-600 dark:text-sky-300" },
+    { to: "/notifications", icon: <Bell className="w-5 h-5" />, label: "Alerts", tint: "bg-sky-500/15 text-sky-600 dark:text-sky-300" },
     { to: "/leaderboard", icon: <Trophy className="w-5 h-5" />, label: "Leaderboard", tint: "bg-yellow-500/15 text-yellow-600 dark:text-yellow-300" },
   ];
 
