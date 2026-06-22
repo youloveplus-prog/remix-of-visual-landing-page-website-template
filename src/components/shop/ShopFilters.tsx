@@ -220,22 +220,88 @@ export function ShopFilters({
     <div className="space-y-3">
       {/* Search + Sort + Filter Row */}
       <div className="flex items-center gap-2">
-        <div className="relative flex-1 min-w-0">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div ref={searchWrapRef} className="relative flex-1 min-w-0">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
           <Input
             type="text"
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => commitRecent(searchQuery)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                commitRecent(searchQuery);
+                setIsSearchFocused(false);
+                (e.currentTarget as HTMLInputElement).blur();
+              }
+            }}
+            role="combobox"
+            aria-expanded={showSuggestions}
+            aria-controls="shop-search-suggestions"
+            aria-autocomplete="list"
             className="pl-9 pr-8 h-9 bg-secondary/50 border-border/50 focus:border-primary/50"
           />
           {searchQuery && (
             <button
+              type="button"
               onClick={() => onSearchChange("")}
+              aria-label="Clear search"
               className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full"
             >
               <X className="h-3.5 w-3.5 text-muted-foreground" />
             </button>
+          )}
+
+          {showSuggestions && (
+            <div
+              id="shop-search-suggestions"
+              role="listbox"
+              className="absolute left-0 right-0 top-[calc(100%+6px)] z-40 rounded-2xl border border-border/60 bg-popover/95 backdrop-blur shadow-lg p-3 space-y-3 max-h-[60vh] overflow-y-auto"
+              // Prevent the input's blur from firing before the chip click resolves
+              onMouseDown={(e) => e.preventDefault()}
+            >
+              {recents.length > 0 && (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between px-1">
+                    <span className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                      <Clock className="h-3 w-3" /> Recent
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleClearRecents}
+                      className="text-[11px] text-muted-foreground hover:text-foreground"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {recents.map((term) => (
+                      <SuggestionChip
+                        key={`recent-${term}`}
+                        label={term}
+                        onClick={() => handleChipPick(term)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-1.5 px-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <TrendingUp className="h-3 w-3" /> Popular
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {popular.map((term) => (
+                    <SuggestionChip
+                      key={`popular-${term}`}
+                      label={term}
+                      onClick={() => handleChipPick(term)}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
