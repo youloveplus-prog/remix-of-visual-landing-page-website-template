@@ -49,33 +49,13 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
-        className="w-[88vw] max-w-[340px] p-0 border-r border-border/40 h-[100dvh] overflow-hidden overscroll-contain bg-gradient-to-b from-[hsl(var(--sidebar-background,var(--background)))] via-background to-background backdrop-blur-2xl shadow-[28px_0_80px_-28px_hsl(var(--primary)/0.25)]"
+        className="w-[88vw] max-w-[340px] p-0 border-r border-black/5 h-[100dvh] overflow-hidden overscroll-contain bg-background shadow-[12px_0_40px_-12px_hsl(0_0%_0%/0.12)] ring-1 ring-black/5 data-[state=open]:duration-[260ms] data-[state=closed]:duration-200 data-[state=open]:ease-[cubic-bezier(0.32,0.72,0,1)]"
       >
         <SheetHeader className="sr-only">
           <SheetTitle>Navigation Menu</SheetTitle>
         </SheetHeader>
 
-        {/* Decorative accent glow */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-90"
-          style={{
-            background:
-              "radial-gradient(720px 280px at -10% -10%, hsl(var(--primary) / 0.16), transparent 60%), radial-gradient(420px 220px at 110% 110%, hsl(var(--accent) / 0.10), transparent 65%)",
-          }}
-        />
-        {/* Right edge hairline */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent"
-        />
-        {/* Swipe affordance */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 h-12 w-[3px] rounded-full bg-foreground/15"
-        />
-
-        <div className="relative flex flex-col h-full">
+        <div className="relative flex flex-col h-full font-sans">
           <SidebarUser onClose={handleClose} />
 
           <ScrollArea className="flex-1 overscroll-contain [&>[data-radix-scroll-area-viewport]]:overscroll-contain [&>[data-radix-scroll-area-viewport]]:touch-pan-y">
