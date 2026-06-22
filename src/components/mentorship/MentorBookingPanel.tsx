@@ -3,7 +3,7 @@ import { addDays, format, isSameDay } from "date-fns";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CalendarDays, Clock, CheckCircle2, ShieldCheck } from "lucide-react";
+import { CalendarDays, Clock, CheckCircle2, ShieldCheck, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +26,8 @@ import {
 import { DetailSection } from "@/components/ui/detail-section";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import type { Mentor } from "@/hooks/useMentors";
 
 const DAYS_AHEAD = 7;
