@@ -3,34 +3,51 @@ import useEmblaCarousel from "embla-carousel-react";
 import { Reveal } from "@/components/transitions/Reveal";
 import { cn } from "@/lib/utils";
 
-import aiImg from "@/assets/categories/ai.jpg";
-import devImg from "@/assets/categories/dev.jpg";
-import designImg from "@/assets/categories/design.jpg";
-import financeImg from "@/assets/categories/finance.jpg";
-import businessImg from "@/assets/categories/business.jpg";
-import appsImg from "@/assets/categories/apps.jpg";
-import gamesImg from "@/assets/categories/games.jpg";
-import booksImg from "@/assets/categories/books.jpg";
-import promptsImg from "@/assets/categories/prompts.jpg";
-import mentorsImg from "@/assets/categories/mentors.jpg";
-import communityImg from "@/assets/categories/community.jpg";
-import tracksImg from "@/assets/categories/tracks.jpg";
+// Responsive variants: 1x=64, 2x=128, 3x=192 (tiles render at 52px CSS).
+// vite-imagetools generates webp + jpg variants at build time.
+const SRCSET_Q = "?w=64;128;192&format=webp&as=srcset" as const;
+const FALLBACK_Q = "?w=128&format=jpg" as const;
 
-type Cat = { image: string; label: string; href: string };
+import aiSet from "@/assets/categories/ai.jpg?w=64;128;192&format=webp&as=srcset";
+import aiSrc from "@/assets/categories/ai.jpg?w=128&format=jpg";
+import devSet from "@/assets/categories/dev.jpg?w=64;128;192&format=webp&as=srcset";
+import devSrc from "@/assets/categories/dev.jpg?w=128&format=jpg";
+import designSet from "@/assets/categories/design.jpg?w=64;128;192&format=webp&as=srcset";
+import designSrc from "@/assets/categories/design.jpg?w=128&format=jpg";
+import financeSet from "@/assets/categories/finance.jpg?w=64;128;192&format=webp&as=srcset";
+import financeSrc from "@/assets/categories/finance.jpg?w=128&format=jpg";
+import businessSet from "@/assets/categories/business.jpg?w=64;128;192&format=webp&as=srcset";
+import businessSrc from "@/assets/categories/business.jpg?w=128&format=jpg";
+import appsSet from "@/assets/categories/apps.jpg?w=64;128;192&format=webp&as=srcset";
+import appsSrc from "@/assets/categories/apps.jpg?w=128&format=jpg";
+import gamesSet from "@/assets/categories/games.jpg?w=64;128;192&format=webp&as=srcset";
+import gamesSrc from "@/assets/categories/games.jpg?w=128&format=jpg";
+import booksSet from "@/assets/categories/books.jpg?w=64;128;192&format=webp&as=srcset";
+import booksSrc from "@/assets/categories/books.jpg?w=128&format=jpg";
+import promptsSet from "@/assets/categories/prompts.jpg?w=64;128;192&format=webp&as=srcset";
+import promptsSrc from "@/assets/categories/prompts.jpg?w=128&format=jpg";
+import mentorsSet from "@/assets/categories/mentors.jpg?w=64;128;192&format=webp&as=srcset";
+import mentorsSrc from "@/assets/categories/mentors.jpg?w=128&format=jpg";
+import communitySet from "@/assets/categories/community.jpg?w=64;128;192&format=webp&as=srcset";
+import communitySrc from "@/assets/categories/community.jpg?w=128&format=jpg";
+import tracksSet from "@/assets/categories/tracks.jpg?w=64;128;192&format=webp&as=srcset";
+import tracksSrc from "@/assets/categories/tracks.jpg?w=128&format=jpg";
+
+type Cat = { src: string; srcSet: string; label: string; href: string };
 
 const CATS: Cat[] = [
-  { image: aiImg,        label: "AI & ML",     href: "/shop?category=ai" },
-  { image: devImg,       label: "Development", href: "/shop?category=dev" },
-  { image: designImg,    label: "Design",      href: "/shop?category=design" },
-  { image: financeImg,   label: "Finance",     href: "/shop?category=finance" },
-  { image: businessImg,  label: "Business",    href: "/shop?category=business" },
-  { image: appsImg,      label: "Apps",        href: "/shop?category=apps" },
-  { image: gamesImg,     label: "Games",       href: "/shop?category=games" },
-  { image: booksImg,     label: "Books",       href: "/shop?type=ebooks" },
-  { image: promptsImg,   label: "Prompts",     href: "/prompts" },
-  { image: mentorsImg,   label: "Mentors",     href: "/mentors" },
-  { image: communityImg, label: "Community",   href: "/community" },
-  { image: tracksImg,    label: "Tracks",      href: "/shop?type=courses" },
+  { src: aiSrc,        srcSet: aiSet,        label: "AI & ML",     href: "/shop?category=ai" },
+  { src: devSrc,       srcSet: devSet,       label: "Development", href: "/shop?category=dev" },
+  { src: designSrc,    srcSet: designSet,    label: "Design",      href: "/shop?category=design" },
+  { src: financeSrc,   srcSet: financeSet,   label: "Finance",     href: "/shop?category=finance" },
+  { src: businessSrc,  srcSet: businessSet,  label: "Business",    href: "/shop?category=business" },
+  { src: appsSrc,      srcSet: appsSet,      label: "Apps",        href: "/shop?category=apps" },
+  { src: gamesSrc,     srcSet: gamesSet,     label: "Games",       href: "/shop?category=games" },
+  { src: booksSrc,     srcSet: booksSet,     label: "Books",       href: "/shop?type=ebooks" },
+  { src: promptsSrc,   srcSet: promptsSet,   label: "Prompts",     href: "/prompts" },
+  { src: mentorsSrc,   srcSet: mentorsSet,   label: "Mentors",     href: "/mentors" },
+  { src: communitySrc, srcSet: communitySet, label: "Community",   href: "/community" },
+  { src: tracksSrc,    srcSet: tracksSet,    label: "Tracks",      href: "/shop?type=courses" },
 ];
 
 export function CategoriesScroll() {
@@ -65,7 +82,7 @@ export function CategoriesScroll() {
   );
 }
 
-function CatTile({ image, label, href }: Cat) {
+function CatTile({ src, srcSet, label, href }: Cat) {
   return (
     <Link
       to={href}
@@ -80,7 +97,9 @@ function CatTile({ image, label, href }: Cat) {
         )}
       >
         <img
-          src={image}
+          src={src}
+          srcSet={srcSet}
+          sizes="52px"
           alt={label}
           loading="lazy"
           decoding="async"
