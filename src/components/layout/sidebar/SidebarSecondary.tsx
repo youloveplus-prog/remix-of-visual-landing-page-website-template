@@ -83,7 +83,7 @@ export function SidebarSecondary({ onClose }: SidebarSecondaryProps) {
   ];
 
   const renderGroup = (items: Item[]) => (
-    <div className="space-y-0.5 px-2">
+    <div className="space-y-1 px-4">
       {items.map((item) => (
         <NavItem
           key={item.href}
@@ -96,12 +96,12 @@ export function SidebarSecondary({ onClose }: SidebarSecondaryProps) {
   );
 
   return (
-    <div className="py-2 border-t border-border/60 mt-2">
-      <GroupHeader icon={<Activity className="w-3.5 h-3.5" />} label="Activity" />
+    <div className="pt-2 pb-4 mt-2 border-t border-black/5">
+      <GroupHeader label="Activity" />
       {renderGroup(activity)}
-      <GroupHeader icon={<LifeBuoy className="w-3.5 h-3.5" />} label="Support" />
+      <GroupHeader label="Support" />
       {renderGroup(support)}
-      <GroupHeader icon={<Scale className="w-3.5 h-3.5" />} label="Legal" />
+      <GroupHeader label="Legal" />
       {renderGroup(legal)}
     </div>
   );
