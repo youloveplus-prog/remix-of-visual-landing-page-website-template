@@ -14,9 +14,15 @@ type Props = {
   featuredVideo?: string;
   /** Tailwind text color class for the eyebrow accent. */
   accent?: string;
-  /** Card aspect ratio for the media frame (e.g. "3/4", "4/5", "16/9"). */
-  aspect?: string;
 };
+
+/**
+ * Unified responsive frame for every media card on the home page.
+ * Mobile = 4/5 (taller, hero-friendly), desktop = 3/4 (gallery).
+ * Keep this in one place so courses, services, and products always match.
+ */
+const MEDIA_FRAME_CLASS =
+  "relative w-full overflow-hidden border border-white/10 bg-neutral-900 aspect-[4/5] sm:aspect-[3/4]";
 
 const SKELETON_COUNT = 4;
 
@@ -28,7 +34,6 @@ export function ProductShowcase({
   viewAllHref,
   featuredVideo,
   accent = "text-[hsl(var(--hf-accent))]",
-  aspect = "3/4",
 }: Props) {
   const { data: products = [], isLoading } = useProducts({ kinds, limit: 8 });
 
@@ -76,7 +81,7 @@ export function ProductShowcase({
       >
         {isLoading
           ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-              <SkeletonCard key={`sk-${i}`} aspect={aspect} />
+              <SkeletonCard key={`sk-${i}`} />
             ))
           : products.map((p, i) => {
               const video =
@@ -93,7 +98,6 @@ export function ProductShowcase({
                     image={p.image_url}
                     video={video}
                     eager={i < 2}
-                    aspect={aspect}
                   />
 
                   {/* Caption block */}
@@ -152,20 +156,15 @@ function CardMedia({
   image,
   video,
   eager,
-  aspect,
 }: {
   image?: string;
   video?: string;
   eager?: boolean;
-  aspect: string;
 }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div
-      className="relative w-full overflow-hidden border border-white/10 bg-neutral-900"
-      style={{ aspectRatio: aspect }}
-    >
+    <div className={MEDIA_FRAME_CLASS}>
       {/* Shimmer skeleton — covers until media loads */}
       <div
         aria-hidden
@@ -214,13 +213,10 @@ function CardMedia({
   );
 }
 
-function SkeletonCard({ aspect }: { aspect: string }) {
+function SkeletonCard() {
   return (
     <div className="shrink-0 snap-start basis-[78%] sm:basis-[42%] lg:basis-[28%] xl:basis-[23%]">
-      <div
-        className="relative w-full overflow-hidden border border-white/10 bg-neutral-900"
-        style={{ aspectRatio: aspect }}
-      >
+      <div className={MEDIA_FRAME_CLASS}>
         <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-white/[0.06]" />
       </div>
       <div className="mt-3 space-y-2">
