@@ -1,60 +1,32 @@
-# Soften & Deepen Card Surfaces (Global)
+# Higgsfield-style Mobile Header
 
-Goal: make every card across the app feel physical and calm — softer hairline borders, gentle layered shadows for depth, and richer-but-quieter gradients. No structural or behavioral changes; pure visual token + component-class refinement.
+Match the reference exactly on the mobile home/landing experience: dark bar, brand mark + wordmark on the left, two pill buttons on the right (white "Log in" + brand-filled "Get started"). Auth-aware so signed-in users see their menu/profile pill instead.
 
-## Why
-Current cards use a flat 1px `border-border` and a single `shadow-sm`, which reads digital and "stuck on" the page. Some gradients (especially the indigo/blue accents and the warm cream chips) are saturated enough to be tiring on long reads.
+## Visual spec (from reference)
+- Bar: pure black background, ~56px tall, no border, sits flush above the hero.
+- Left: rounded-square white tile (40px) with brand glyph + bold "Asikon" wordmark beside it. Tap → home.
+- Right (signed-out): two pills, 44px tall, fully rounded.
+  - "Log in" — solid white pill, near-black text. Tap → `/auth`.
+  - "Get started" — solid `primary` (indigo) pill, white text. Tap → `/auth?mode=signup`.
+- Right (signed-in): single avatar/menu pill (existing user menu), no auth buttons.
+- Inner routes keep the existing back-button + page-title header (unchanged).
 
-## Design rules
-- **Borders**: replace harsh 1px lines with a hairline (0.5px on dpr≥2) at lower opacity, plus a subtle inner top highlight for a "lit edge" effect.
-- **Depth**: two-layer shadow — a tight contact shadow + a wider ambient shadow — instead of one flat shadow. Tuned per theme.
-- **Gradients**: lower stop saturation, add a 3rd subtle mid-stop, and use diagonal 135° consistently. Add a faint top sheen overlay for tactile feel.
-- **Eye comfort**: drop pure white / pure black surfaces in cards by 2–4% toward the warm cream / near-black tokens; raise muted-foreground contrast slightly so text stays readable on the new softer surface.
+## Implementation
+Edit only `src/components/layout/MobileHeader.tsx`:
 
-## Scope of files
-
-### Tokens (single source of truth)
-- `src/index.css` — update card-related CSS variables for both `:root` and `.dark`:
-  - `--card`, `--card-foreground` (very minor warmth shift)
-  - `--border` → lower alpha variant `--border-soft`
-  - Add `--shadow-card`, `--shadow-card-hover`, `--shadow-card-pressed` (two-layer)
-  - Add `--gradient-card-sheen` (top inner highlight)
-  - Retune existing brand gradients: `--gradient-primary`, `--gradient-warm-*`, chip surfaces (butter/lavender/mint) — reduce saturation ~10%, add mid-stop.
-- `tailwind.config.ts` — expose `shadow-card`, `shadow-card-hover`, `border-soft`, and new gradient utilities.
-
-### Base card primitive
-- `src/components/ui/card.tsx` — swap default classes to use `border-border-soft`, `shadow-card`, `bg-gradient-card-sheen` overlay (via `before:` pseudo), `rounded-[20px]` to match bento spec.
-
-### Recurring card surfaces (audit + align to new tokens, no layout change)
-- `src/components/shop/ProductCard.tsx`
-- `src/components/shop/CourseVideoCard.tsx`
-- `src/components/carousels/*` (Hero, Product, Category, Story, Resource)
-- `src/components/resources/ResourceCard.tsx`, `FeaturedEventCard.tsx`
-- `src/components/home/*` tiles
-- `src/components/course-detail/CourseVideoCard.tsx`, `CourseProgressCard.tsx`
-- `src/components/mentorship/MentorBookingPanel.tsx`, `MentorshipHomeSection.tsx`
-- `src/components/community/*` post & review cards
-- `src/components/profile/*` stat / order tiles
-- `src/features/mission/TodayMissionCard.tsx`, `features/progress/*`
-- `src/components/admin/GlassPanel.tsx` (admin glass cards — retune ring + shadow)
-
-For each: replace ad-hoc `border`, `shadow-sm`, `bg-white`/`bg-card` combos with the new tokens. Remove hardcoded color/shadow utilities.
-
-## Technical details
-- Hairline border technique: `border border-border-soft` + `[box-shadow:inset_0_1px_0_hsl(var(--card-sheen)/0.6),var(--shadow-card)]`.
-- Two-layer shadow example (light):
-  - `0 1px 2px hsl(var(--foreground)/0.04), 0 8px 24px -8px hsl(var(--foreground)/0.08)`
-- Two-layer shadow (dark): swap to `hsl(0 0% 0% / 0.5)` + colored ambient `hsl(var(--primary)/0.08)` for the lit-from-screen feel.
-- Hover: lift to `shadow-card-hover` + `-translate-y-0.5` (keep existing motion preferences via `useMotion`).
-- Gradient retune: keep brand `#3b4fe0` but mix toward `#5a6ce8` at 50% stop and `#3242b5` at 100% for richer depth without raising chroma.
-
-## Verification
-- Run dev server, take Playwright screenshots of Home, Shop, Course Detail, Community, Profile in both light & dark at 390×844 and 1280×900.
-- Visual diff against current using `scripts/visual-regression-theme.py`.
-- Confirm all 181 tests still pass.
-- Check existing `scripts/audit-light-bg.js` to ensure no new hardcoded whites.
+1. Add a `transparent` mode that activates on home-tab / landing routes:
+   - Black bar always (not theme background), no blur, no border.
+   - Skip the search + cart icons on home-tab; they live elsewhere on the page.
+2. Replace center logo block with a left-aligned brand cluster:
+   - 40×40 white rounded-[12px] tile, brand logo inside, +  `font-display font-bold text-[18px] text-white` wordmark.
+3. Add right-side auth cluster:
+   - Read `user` from `useAuth`.
+   - If `!user`: render `Log in` (white pill, `text-black`) + `Get started` (`bg-primary text-primary-foreground`) — both `h-10 px-5 rounded-full text-[14px] font-semibold`, gap-2.
+   - If `user`: render the existing `UserMenu` (avatar pill) so signed-in flow stays intact.
+4. Keep the existing back-button + title for `isInnerRoute(pathname)` — only the home-tab variant changes.
+5. Preserve safe-area padding, measured-height hook, and 44px tap targets.
 
 ## Out of scope
-- No copy, layout, or interaction changes.
-- No new components, no new pages.
-- No changes to bottom nav, header, sidebar chrome (cards only).
+- No desktop header change.
+- No new routes or auth logic — pills just link to the existing `/auth` page.
+- No change to icons used on inner pages.
