@@ -101,14 +101,14 @@ export function ProfileActivityFeed({ userId }: { userId?: string }) {
   if (!userId) return null;
 
   return (
-    <section className="rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md overflow-hidden">
+    <section className="hf-card-depth-subtle rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between px-4 py-3 text-left"
         aria-expanded={open}
       >
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground inline-flex items-center gap-1.5">
-          <Sparkles className="h-3.5 w-3.5 text-primary" />
+        <p className="hf-eyebrow !mb-0 !text-muted-foreground">
+          <Sparkles className="h-3 w-3 !text-primary" />
           Recent Activity
         </p>
         <ChevronDown

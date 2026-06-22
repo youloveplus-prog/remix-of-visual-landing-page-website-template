@@ -32,6 +32,10 @@ export function ProfileBadges({ badges, learnerSessions = 0, learnerQuizzes = 0 
   return (
     <TooltipProvider delayDuration={150}>
       <div className="px-4 sm:px-6 pb-4">
+        <p className="hf-eyebrow !text-muted-foreground">
+          <Award className="h-3 w-3" />
+          Badges
+        </p>
         <div className="flex flex-wrap gap-2">
           {hasLearner && (
             <div
