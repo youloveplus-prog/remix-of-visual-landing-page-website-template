@@ -448,7 +448,7 @@
     line-height: 1.15;
     font-weight: 500;
     letter-spacing: -0.012em;
-    color: hsl(0 0% 100%);
+    color: inherit;                /* let parent text color flow (foreground/white) */
     text-wrap: balance;
   }
   @media (min-width: 640px) {
