@@ -228,28 +228,31 @@ export default {
            class adapts to light (cream) and dark (black) surfaces. The
            foreground-tinted inset highlight + grounding shadow are subtle in
            light mode and richer in dark mode automatically. */
+        /* === Card depth variants — theme-aware, real-world tactile feel ===
+           Stack: inner top sheen + hairline ring + two-layer shadow.
+           Drives from `--shadow-card*` and `--card-sheen` tokens. */
         ".hf-card-depth-subtle": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(var(--foreground) / 0.04) inset",
+            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.45)",
+            "0 0 0 1px hsl(var(--border-soft) / 0.6)",
             "var(--shadow-xs)",
-            "var(--shadow-sm)",
           ].join(", "),
         },
         ".hf-card-depth": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(var(--foreground) / 0.05) inset",
-            "var(--shadow-sm)",
-            "var(--shadow-md)",
+            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.55)",
+            "0 0 0 1px hsl(var(--border-soft) / 0.7)",
+            "var(--shadow-card)",
           ].join(", "),
         },
         ".hf-card-depth-elevated": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(var(--foreground) / 0.06) inset",
-            "var(--shadow-md)",
-            "var(--shadow-xl)",
+            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.65)",
+            "0 0 0 1px hsl(var(--border-soft) / 0.8)",
+            "var(--shadow-card-hover)",
           ].join(", "),
         },
         ".hf-card-depth-none": {
