@@ -14,6 +14,7 @@ import { NeonPromoTicker } from "@/components/home/higgsfield/NeonPromoTicker";
 import { PromoToolsBlock } from "@/components/home/higgsfield/PromoToolsBlock";
 import { SuperagentBand } from "@/components/home/higgsfield/SuperagentBand";
 import { ToolsBentoGrid } from "@/components/home/higgsfield/ToolsBentoGrid";
+import { ExploreTopicsCloud } from "@/components/home/higgsfield/ExploreTopicsCloud";
 import { LiveStatsBar } from "@/components/home/higgsfield/LiveStatsBar";
 import { TrendingRail, type TrendingItem } from "@/components/home/higgsfield/TrendingRail";
 import { CategoryShelf } from "@/components/home/higgsfield/CategoryShelf";
@@ -103,6 +104,7 @@ const Index = () => {
         <TrustStrip />
         <Deferred><PartnerLogos /></Deferred>
         <Deferred><FaqAccordion /></Deferred>
+        <ExploreTopicsCloud />
         <HomeCtaPanel />
       </div>
 
