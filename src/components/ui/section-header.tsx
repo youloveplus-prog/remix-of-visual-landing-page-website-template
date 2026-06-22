@@ -24,14 +24,18 @@ export function SectionHeader({
   eyebrow,
 }: SectionHeaderProps) {
   return (
-    <div className={cn("flex items-end justify-between gap-3 mb-4", className)}>
-      <div className="min-w-0">
+    <div className={cn("flex items-end justify-between gap-3 mb-5 lg:mb-7", className)}>
+      <div className="min-w-0 space-y-1.5 lg:space-y-2">
+        <p className="hidden lg:flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.28em] text-muted-foreground/70">
+          <span className="h-px w-6 bg-border" />
+          {eyebrow ?? "Explore"}
+        </p>
         {eyebrow && (
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70 mb-1.5">
+          <p className="lg:hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">
             {eyebrow}
           </p>
         )}
-        <h2 className="font-display font-bold text-foreground leading-[0.95] tracking-[-0.035em] text-[26px] sm:text-[34px] lg:text-[40px]">
+        <h2 className="font-display font-extrabold text-foreground leading-[0.92] tracking-[-0.04em] text-[26px] sm:text-[34px] lg:text-[44px] xl:text-[52px] lg:uppercase">
           {title}
         </h2>
         {subtitle && (
@@ -43,7 +47,7 @@ export function SectionHeader({
       {viewAllHref && (
         <Link
           to={viewAllHref}
-          className="group/va shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors focus-ring rounded-md px-1 -mx-1 mb-1"
+          className="group/va shrink-0 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.22em] text-muted-foreground hover:text-foreground transition-colors focus-ring rounded-full lg:rounded-full lg:border lg:border-border/60 lg:px-4 lg:py-2 lg:hover:border-foreground/40 mb-1"
         >
           <span>{viewAllLabel}</span>
           <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover/va:translate-x-0.5" />
