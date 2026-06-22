@@ -586,16 +586,21 @@
      Pair with `font-display`. Provides the single source of truth for
      section h2s. */
   .hf-title {
-    font-size: 1.25rem;            /* 20px */
-    line-height: 1.15;
-    font-weight: 500;
-    letter-spacing: -0.012em;
-    color: inherit;                /* let parent text color flow (foreground/white) */
+    font-size: 1.5rem;             /* 24px — matches hero slider */
+    line-height: 1.08;
+    font-weight: 800;              /* extrabold */
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: inherit;
     text-wrap: balance;
   }
   @media (min-width: 640px) {
-    .hf-title { font-size: 1.5rem; }  /* 24px */
+    .hf-title { font-size: 1.875rem; }  /* 30px */
   }
+  @media (min-width: 1024px) {
+    .hf-title { font-size: 2.25rem; }   /* 36px */
+  }
+
 
   /* === Higgsfield eyebrow — uppercase label with a leading hairline.
      The ::before rule is the polish: a 24px brand-tinted line that anchors
