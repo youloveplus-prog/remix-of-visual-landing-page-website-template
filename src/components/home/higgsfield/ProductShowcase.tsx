@@ -156,20 +156,15 @@ function CardMedia({
   image,
   video,
   eager,
-  aspect,
 }: {
   image?: string;
   video?: string;
   eager?: boolean;
-  aspect: string;
 }) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div
-      className="relative w-full overflow-hidden border border-white/10 bg-neutral-900"
-      style={{ aspectRatio: aspect }}
-    >
+    <div className={MEDIA_FRAME_CLASS}>
       {/* Shimmer skeleton — covers until media loads */}
       <div
         aria-hidden
@@ -218,13 +213,10 @@ function CardMedia({
   );
 }
 
-function SkeletonCard({ aspect }: { aspect: string }) {
+function SkeletonCard() {
   return (
     <div className="shrink-0 snap-start basis-[78%] sm:basis-[42%] lg:basis-[28%] xl:basis-[23%]">
-      <div
-        className="relative w-full overflow-hidden border border-white/10 bg-neutral-900"
-        style={{ aspectRatio: aspect }}
-      >
+      <div className={MEDIA_FRAME_CLASS}>
         <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-white/[0.06]" />
       </div>
       <div className="mt-3 space-y-2">
