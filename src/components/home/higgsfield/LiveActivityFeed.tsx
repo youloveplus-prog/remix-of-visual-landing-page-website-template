@@ -28,9 +28,10 @@ export function LiveActivityFeed() {
               </span>
               Live on Asikon
             </div>
-            <h2 className="mt-1 font-display text-xl font-semibold text-white sm:text-2xl">
+            <h2 className={`mt-1 ${homeType.sectionTitle} text-white`}>
               Happening right now
             </h2>
+
           </div>
           <span className="text-[11px] text-white/40">auto-updating</span>
         </div>
