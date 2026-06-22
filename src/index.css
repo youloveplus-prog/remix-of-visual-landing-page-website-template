@@ -26,19 +26,21 @@
     --card-foreground: 234 37% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 234 37% 11%;
-    --primary: 228 100% 50%;           /* #0033FF electric blue */
+    --primary: 233 72% 55%;            /* #3b4fe0 calm indigo — eases on eyes */
     --primary-foreground: 0 0% 100%;
     --secondary: 39 67% 96%;           /* #fff8ec warm panel */
     --secondary-foreground: 234 37% 11%;
     --muted: 39 50% 92%;               /* warm muted */
-    --muted-foreground: 232 13% 40%;
+    --muted-foreground: 232 13% 38%;   /* slight bump for readability on softer cards */
     --accent: 252 100% 95%;            /* lavender chip surface */
-    --accent-foreground: 228 100% 45%;
+    --accent-foreground: 233 72% 50%;
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 228 40% 88%;
+    --border: 228 30% 86%;
+    --border-soft: 228 24% 90%;        /* hairline — quieter than --border */
+    --card-sheen: 0 0% 100%;           /* top inner highlight on cards (light) */
     --input: 228 40% 92%;
-    --ring: 228 100% 50%;
+    --ring: 233 72% 55%;
     --radius: 0.625rem;
     --sidebar-background: 228 60% 97%;
     --sidebar-foreground: 236 100% 12%;
@@ -80,30 +82,34 @@
     --glass-border: 39 30% 86%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops — Navy → Electric Blue → Violet → Lavender */
-    --brand-from: 236 100% 12%;   /* #00033D deep navy */
-    --brand-via: 228 100% 50%;    /* #0033FF electric blue */
-    --brand-to: 252 100% 75%;     /* #977DFF violet */
-    --brand-soft-from: 228 100% 50%;
-    --brand-soft-to: 252 100% 75%;
+    /* Brand gradient stops — calmer indigo sweep (less eye strain) */
+    --brand-from: 236 60% 22%;    /* deep navy, desaturated */
+    --brand-via: 233 72% 55%;     /* #3b4fe0 brand indigo */
+    --brand-to: 252 70% 72%;      /* soft violet */
+    --brand-soft-from: 233 72% 55%;
+    --brand-soft-to: 252 70% 72%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-via)) 55%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.12) 0%, hsl(var(--brand-soft-to) / 0.14) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(233 68% 42%) 38%, hsl(var(--brand-via)) 70%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.10) 0%, hsl(var(--brand-soft-to) / 0.12) 100%);
     --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(225 50% 96%) 100%);
-    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.6) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.16) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.18) 0%, transparent 60%);
+    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.7) 0%, hsl(0 0% 100% / 0) 55%);
+    --gradient-card-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.55) 0%, hsl(0 0% 100% / 0) 38%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.12) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.14) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 30%, hsl(var(--border)) 70%, transparent);
 
-    /* Warm shadow system (soft, downward, low opacity) */
+    /* Warm shadow system — two-layer (contact + ambient) for real depth */
     --shadow-xs: 0 1px 2px hsl(234 37% 11% / 0.04);
-    --shadow-sm: 0 1px 3px hsl(234 37% 11% / 0.05);
-    --shadow-md: 0 6px 18px -6px hsl(234 37% 11% / 0.08);
-    --shadow-lg: 0 18px 40px -18px hsl(234 37% 11% / 0.12);
-    --shadow-xl: 0 28px 60px -24px hsl(234 37% 11% / 0.16);
-    --shadow-2xl: 0 30px 60px -30px hsl(234 37% 11% / 0.18);
-    --shadow-glow: 0 0 0 1px hsl(233 72% 55% / 0.18), 0 10px 28px -10px hsl(233 72% 55% / 0.24);
-    --shadow-elevated: 0 14px 36px -18px hsl(234 37% 11% / 0.14);
+    --shadow-sm: 0 1px 2px hsl(234 37% 11% / 0.04), 0 2px 6px -2px hsl(234 37% 11% / 0.06);
+    --shadow-md: 0 2px 4px hsl(234 37% 11% / 0.05), 0 10px 24px -10px hsl(234 37% 11% / 0.10);
+    --shadow-lg: 0 4px 8px hsl(234 37% 11% / 0.06), 0 22px 48px -18px hsl(234 37% 11% / 0.14);
+    --shadow-xl: 0 6px 12px hsl(234 37% 11% / 0.07), 0 32px 64px -24px hsl(234 37% 11% / 0.18);
+    --shadow-2xl: 0 8px 16px hsl(234 37% 11% / 0.08), 0 40px 72px -28px hsl(234 37% 11% / 0.22);
+    --shadow-glow: 0 0 0 1px hsl(233 72% 55% / 0.16), 0 12px 32px -12px hsl(233 72% 55% / 0.22);
+    --shadow-elevated: 0 2px 6px hsl(234 37% 11% / 0.05), 0 18px 40px -16px hsl(234 37% 11% / 0.14);
+    --shadow-card: 0 1px 2px hsl(234 37% 11% / 0.04), 0 8px 24px -10px hsl(234 37% 11% / 0.08);
+    --shadow-card-hover: 0 2px 4px hsl(234 37% 11% / 0.05), 0 18px 40px -14px hsl(234 37% 11% / 0.14);
+    --shadow-card-pressed: 0 1px 2px hsl(234 37% 11% / 0.06), 0 4px 10px -4px hsl(234 37% 11% / 0.08);
 
     --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
     --duration-fast: 160ms;
@@ -124,20 +130,22 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 0%;
     --popover-foreground: 0 0% 98%;
-    --primary: 228 100% 60%;
+    --primary: 233 80% 64%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 0%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 0%;
-    --muted-foreground: 0 0% 68%;
+    --muted-foreground: 0 0% 70%;
     --accent: 0 0% 0%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 14%;
+    --border: 0 0% 13%;
+    --border-soft: 0 0% 18%;            /* hairline on black */
+    --card-sheen: 0 0% 100%;            /* used at low alpha on dark */
     --input: 0 0% 0%;
 
-    --ring: 228 100% 60%;
+    --ring: 233 80% 64%;
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 228 100% 60%;
@@ -164,29 +172,34 @@
     --glass-border: 0 0% 14%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops — Navy → Electric Blue → Violet (dark) */
-    --brand-from: 236 100% 18%;
-    --brand-via: 228 100% 55%;
-    --brand-to: 252 100% 75%;
-    --brand-soft-from: 228 100% 55%;
-    --brand-soft-to: 252 100% 75%;
+    /* Brand gradient stops — calm indigo on black (less retina burn) */
+    --brand-from: 236 60% 24%;
+    --brand-via: 233 78% 60%;
+    --brand-to: 252 70% 76%;
+    --brand-soft-from: 233 78% 60%;
+    --brand-soft-to: 252 70% 76%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-via)) 55%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.18) 0%, hsl(var(--brand-soft-to) / 0.14) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(233 70% 46%) 38%, hsl(var(--brand-via)) 70%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.14) 0%, hsl(var(--brand-soft-to) / 0.12) 100%);
     --gradient-surface: linear-gradient(180deg, hsl(236 100% 6%) 0%, hsl(0 0% 0%) 100%);
-    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.22) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.16) 0%, transparent 60%);
+    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.05) 0%, hsl(0 0% 100% / 0) 55%);
+    --gradient-card-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.06) 0%, hsl(0 0% 100% / 0) 40%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.18) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.14) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
-    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
-    --shadow-sm: 0 2px 4px hsl(0 0% 0% / 0.4);
-    --shadow-md: 0 6px 16px -4px hsl(0 0% 0% / 0.5);
-    --shadow-lg: 0 16px 36px -12px hsl(0 0% 0% / 0.6);
-    --shadow-xl: 0 28px 56px -20px hsl(0 0% 0% / 0.7);
-    --shadow-2xl: 0 40px 72px -28px hsl(0 0% 0% / 0.75);
-    --shadow-glow: 0 0 0 1px hsl(234 80% 62% / 0.3), 0 12px 32px -8px hsl(234 80% 62% / 0.4);
-    --shadow-elevated: 0 20px 48px -16px hsl(0 0% 0% / 0.65);
+    /* Two-layer shadow on pure black — slight primary tint for lit-from-screen feel */
+    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.4);
+    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.45), 0 2px 6px -2px hsl(0 0% 0% / 0.4);
+    --shadow-md: 0 2px 4px hsl(0 0% 0% / 0.5), 0 10px 24px -10px hsl(0 0% 0% / 0.55);
+    --shadow-lg: 0 4px 8px hsl(0 0% 0% / 0.55), 0 22px 48px -18px hsl(0 0% 0% / 0.65);
+    --shadow-xl: 0 6px 12px hsl(0 0% 0% / 0.6), 0 32px 64px -24px hsl(0 0% 0% / 0.7);
+    --shadow-2xl: 0 8px 16px hsl(0 0% 0% / 0.65), 0 40px 72px -28px hsl(0 0% 0% / 0.75);
+    --shadow-glow: 0 0 0 1px hsl(233 80% 64% / 0.28), 0 14px 32px -10px hsl(233 80% 64% / 0.38);
+    --shadow-elevated: 0 2px 6px hsl(0 0% 0% / 0.5), 0 20px 48px -16px hsl(0 0% 0% / 0.65);
+    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.45), 0 10px 28px -12px hsl(0 0% 0% / 0.55), 0 0 0 1px hsl(233 80% 64% / 0.04);
+    --shadow-card-hover: 0 2px 4px hsl(0 0% 0% / 0.5), 0 20px 44px -16px hsl(0 0% 0% / 0.7), 0 0 0 1px hsl(233 80% 64% / 0.08);
+    --shadow-card-pressed: 0 1px 2px hsl(0 0% 0% / 0.5), 0 4px 10px -4px hsl(0 0% 0% / 0.5);
 
     /* === Gemini-style premium gradient (dark) ===
        Used only to mark *premium* surfaces — badges, premium card borders,

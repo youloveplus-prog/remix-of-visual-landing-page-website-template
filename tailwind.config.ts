@@ -16,6 +16,7 @@ export default {
     extend: {
       colors: {
         border: 'hsl(var(--border))',
+        'border-soft': 'hsl(var(--border-soft))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
@@ -126,7 +127,10 @@ export default {
         md: 'var(--shadow-md)',
         lg: 'var(--shadow-lg)',
         xl: 'var(--shadow-xl)',
-        '2xl': 'var(--shadow-2xl)'
+        '2xl': 'var(--shadow-2xl)',
+        card: 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+        'card-pressed': 'var(--shadow-card-pressed)'
       },
       fontFamily: {
         sans: [
@@ -207,7 +211,8 @@ export default {
         'brand-aurora': 'var(--gradient-aurora)',
         'brand-surface': 'var(--gradient-surface)',
         'brand-sheen': 'var(--gradient-sheen)',
-        'brand-hairline': 'var(--gradient-hairline)'
+        'brand-hairline': 'var(--gradient-hairline)',
+        'card-sheen': 'var(--gradient-card-sheen)'
       }
     }
   },
@@ -223,28 +228,31 @@ export default {
            class adapts to light (cream) and dark (black) surfaces. The
            foreground-tinted inset highlight + grounding shadow are subtle in
            light mode and richer in dark mode automatically. */
+        /* === Card depth variants — theme-aware, real-world tactile feel ===
+           Stack: inner top sheen + hairline ring + two-layer shadow.
+           Drives from `--shadow-card*` and `--card-sheen` tokens. */
         ".hf-card-depth-subtle": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(var(--foreground) / 0.04) inset",
+            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.45)",
+            "0 0 0 1px hsl(var(--border-soft) / 0.6)",
             "var(--shadow-xs)",
-            "var(--shadow-sm)",
           ].join(", "),
         },
         ".hf-card-depth": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(var(--foreground) / 0.05) inset",
-            "var(--shadow-sm)",
-            "var(--shadow-md)",
+            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.55)",
+            "0 0 0 1px hsl(var(--border-soft) / 0.7)",
+            "var(--shadow-card)",
           ].join(", "),
         },
         ".hf-card-depth-elevated": {
           ...card,
           boxShadow: [
-            "0 1px 0 0 hsl(var(--foreground) / 0.06) inset",
-            "var(--shadow-md)",
-            "var(--shadow-xl)",
+            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.65)",
+            "0 0 0 1px hsl(var(--border-soft) / 0.8)",
+            "var(--shadow-card-hover)",
           ].join(", "),
         },
         ".hf-card-depth-none": {

@@ -1,89 +1,60 @@
-## Goal
+# Soften & Deepen Card Surfaces (Global)
 
-Replace the mock "Happening right now" feed with real activity pulled from the database, and give admins a control panel to (a) choose which event types are broadcast and (b) push pinned announcements that appear on every user's home screen.
+Goal: make every card across the app feel physical and calm — softer hairline borders, gentle layered shadows for depth, and richer-but-quieter gradients. No structural or behavioral changes; pure visual token + component-class refinement.
 
-## What gets built
+## Why
+Current cards use a flat 1px `border-border` and a single `shadow-sm`, which reads digital and "stuck on" the page. Some gradients (especially the indigo/blue accents and the warm cream chips) are saturated enough to be tiring on long reads.
 
-### 1. Real live activity feed (Home)
+## Design rules
+- **Borders**: replace harsh 1px lines with a hairline (0.5px on dpr≥2) at lower opacity, plus a subtle inner top highlight for a "lit edge" effect.
+- **Depth**: two-layer shadow — a tight contact shadow + a wider ambient shadow — instead of one flat shadow. Tuned per theme.
+- **Gradients**: lower stop saturation, add a 3rd subtle mid-stop, and use diagonal 135° consistently. Add a faint top sheen overlay for tactile feel.
+- **Eye comfort**: drop pure white / pure black surfaces in cards by 2–4% toward the warm cream / near-black tokens; raise muted-foreground contrast slightly so text stays readable on the new softer surface.
 
-Aggregate the latest events from existing tables — no schema changes for the feed itself:
+## Scope of files
 
-- **Purchases** — `orders` (paid) + `order_items` joined to `products` for the item name
-- **Reviews** — `product_reviews` joined to `products`
-- **Enrolments** — `content_purchases` joined to `content_items` (or `lesson_completions` as a fallback for "milestones")
-- **Display name / location** — `profiles.display_name` (first name only, last initial for privacy: "Ayesha R.")
+### Tokens (single source of truth)
+- `src/index.css` — update card-related CSS variables for both `:root` and `.dark`:
+  - `--card`, `--card-foreground` (very minor warmth shift)
+  - `--border` → lower alpha variant `--border-soft`
+  - Add `--shadow-card`, `--shadow-card-hover`, `--shadow-card-pressed` (two-layer)
+  - Add `--gradient-card-sheen` (top inner highlight)
+  - Retune existing brand gradients: `--gradient-primary`, `--gradient-warm-*`, chip surfaces (butter/lavender/mint) — reduce saturation ~10%, add mid-stop.
+- `tailwind.config.ts` — expose `shadow-card`, `shadow-card-hover`, `border-soft`, and new gradient utilities.
 
-A single `useLiveActivity()` hook (React Query, 30s refresh + Realtime subscription) merges all three sources, sorts by recency, and exposes the last ~20 events. `LiveActivityFeed` and `LiveActivityToaster` consume the same hook; mock generator is removed.
+### Base card primitive
+- `src/components/ui/card.tsx` — swap default classes to use `border-border-soft`, `shadow-card`, `bg-gradient-card-sheen` overlay (via `before:` pseudo), `rounded-[20px]` to match bento spec.
 
-Privacy: never show full name, email, or precise location — only first name + last initial, plus the public product/lesson title.
+### Recurring card surfaces (audit + align to new tokens, no layout change)
+- `src/components/shop/ProductCard.tsx`
+- `src/components/shop/CourseVideoCard.tsx`
+- `src/components/carousels/*` (Hero, Product, Category, Story, Resource)
+- `src/components/resources/ResourceCard.tsx`, `FeaturedEventCard.tsx`
+- `src/components/home/*` tiles
+- `src/components/course-detail/CourseVideoCard.tsx`, `CourseProgressCard.tsx`
+- `src/components/mentorship/MentorBookingPanel.tsx`, `MentorshipHomeSection.tsx`
+- `src/components/community/*` post & review cards
+- `src/components/profile/*` stat / order tiles
+- `src/features/mission/TodayMissionCard.tsx`, `features/progress/*`
+- `src/components/admin/GlassPanel.tsx` (admin glass cards — retune ring + shadow)
 
-### 2. Admin-controlled notification settings
+For each: replace ad-hoc `border`, `shadow-sm`, `bg-white`/`bg-card` combos with the new tokens. Remove hardcoded color/shadow utilities.
 
-New table `live_activity_settings` (singleton row, admin-only writes, public read):
+## Technical details
+- Hairline border technique: `border border-border-soft` + `[box-shadow:inset_0_1px_0_hsl(var(--card-sheen)/0.6),var(--shadow-card)]`.
+- Two-layer shadow example (light):
+  - `0 1px 2px hsl(var(--foreground)/0.04), 0 8px 24px -8px hsl(var(--foreground)/0.08)`
+- Two-layer shadow (dark): swap to `hsl(0 0% 0% / 0.5)` + colored ambient `hsl(var(--primary)/0.08)` for the lit-from-screen feel.
+- Hover: lift to `shadow-card-hover` + `-translate-y-0.5` (keep existing motion preferences via `useMotion`).
+- Gradient retune: keep brand `#3b4fe0` but mix toward `#5a6ce8` at 50% stop and `#3242b5` at 100% for richer depth without raising chroma.
 
-- `purchases_enabled`, `reviews_enabled`, `enrolments_enabled`, `milestones_enabled` (bool)
-- `toast_enabled` (bool) — controls whether the periodic sonner toast fires at all
-- `toast_interval_seconds` (int, default 18)
-- `feed_window_hours` (int, default 24) — only show events newer than this
+## Verification
+- Run dev server, take Playwright screenshots of Home, Shop, Course Detail, Community, Profile in both light & dark at 390×844 and 1280×900.
+- Visual diff against current using `scripts/visual-regression-theme.py`.
+- Confirm all 181 tests still pass.
+- Check existing `scripts/audit-light-bg.js` to ensure no new hardcoded whites.
 
-`useLiveActivity` honors these toggles client-side; `useLiveActivityToaster` reads `toast_enabled` and `toast_interval_seconds`.
-
-### 3. Admin-pushed home announcements (force-push)
-
-New table `home_announcements`:
-
-- `title`, `body`, `level` (info/success/warning/promo), `link` (optional CTA url)
-- `is_active`, `is_pinned` (bool) — pinned ones render as a sticky banner at the top of the feed section
-- `show_as_toast` (bool) — also fires a one-time toast on first view per session
-- `starts_at`, `ends_at` (timestamps, both optional)
-- `created_by`, `created_at`, `updated_at`
-
-A new `useHomeAnnouncements()` hook subscribes via Realtime, returns currently-active rows, and:
-
-- Renders pinned ones as a dismissible banner above the live feed
-- Fires a toast for `show_as_toast` rows the user hasn't seen yet (tracked in `sessionStorage` by id)
-
-### 4. Admin UI
-
-New page **`/asikonasik/live-activity`** (`AdminLiveActivity.tsx`), added to the Admin nav under "Admin" section with a Megaphone icon:
-
-- **Settings card** — toggles + interval slider, saves to `live_activity_settings`
-- **Announcements card** — list + create/edit/delete dialog with the fields above; "Force push now" button sets `is_active=true`, `is_pinned=true`, `show_as_toast=true`, `starts_at=now()`
-- Live preview pane on the right showing how it will appear on the home screen
-
-All writes audited via the existing `useAuditLog` hook.
-
-## Database changes
-
-```text
-live_activity_settings  (singleton, id = 'global')
-home_announcements      (full CRUD, admin-only writes)
-+ Realtime on home_announcements
-+ Standard GRANTs + RLS:
-   - settings: public SELECT, admin write
-   - announcements: public SELECT where is_active, admin full
-```
-
-## Files
-
-New
-- `supabase` migration — two tables + RLS + realtime
-- `src/hooks/useLiveActivity.ts`
-- `src/hooks/useLiveActivitySettings.ts`
-- `src/hooks/useHomeAnnouncements.ts`
-- `src/pages/admin/AdminLiveActivity.tsx`
-- `src/components/home/higgsfield/HomeAnnouncementBanner.tsx`
-
-Edited
-- `src/lib/live-activity.ts` — keep formatting helpers, drop mock generator
-- `src/components/home/higgsfield/LiveActivityFeed.tsx` — consume real hook + banner
-- `src/components/home/LiveActivityToaster.tsx` — honor settings + announcement toasts
-- `src/pages/Index.tsx` — render banner above feed
-- `src/pages/admin/adminNav.ts` + admin routes — add Live Activity entry
-- `src/App.tsx` (or admin router) — register the new admin route
-
-## Out of scope (ask later if you want)
-
-- Per-user notification preferences (this plan is app-wide)
-- Push notifications / email — this is in-app only
-- Geo-IP lookup for real city names (kept as profile-only, no IP tracking)
+## Out of scope
+- No copy, layout, or interaction changes.
+- No new components, no new pages.
+- No changes to bottom nav, header, sidebar chrome (cards only).
