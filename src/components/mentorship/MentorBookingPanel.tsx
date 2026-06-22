@@ -1,8 +1,20 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { addDays, format, isSameDay } from "date-fns";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { CalendarDays, Clock, CheckCircle2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Dialog,
   DialogContent,
@@ -18,44 +30,104 @@ import type { Mentor } from "@/hooks/useMentors";
 
 const DAYS_AHEAD = 7;
 const BASE_SLOTS = ["09:00", "11:00", "14:00", "16:30", "18:00", "20:00"];
+const SLOT_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 function slotsForDay(date: Date, mentorId: string): string[] {
-  // Deterministic pseudo-availability so the UI feels alive without backend state.
   const seed = (date.getDate() + mentorId.charCodeAt(0)) % BASE_SLOTS.length;
   return BASE_SLOTS.filter((_, i) => (i + seed) % 3 !== 0);
 }
+
+const today0 = () => {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+};
+
+const bookingSchema = z.object({
+  date: z
+    .string()
+    .regex(DATE_RE, { message: "Please pick a valid date" })
+    .refine(
+      (v) => {
+        const d = new Date(`${v}T00:00:00`);
+        const max = addDays(today0(), DAYS_AHEAD - 1);
+        return d >= today0() && d <= max;
+      },
+      { message: "Date must be within the next 7 days" },
+    ),
+  slot: z
+    .string()
+    .regex(SLOT_RE, { message: "Please choose a time slot" }),
+  notes: z
+    .string()
+    .trim()
+    .max(500, { message: "Notes must be under 500 characters" })
+    .optional()
+    .or(z.literal("")),
+});
+
+type BookingValues = z.infer<typeof bookingSchema>;
 
 interface Props {
   mentor: Mentor;
 }
 
 export function MentorBookingPanel({ mentor }: Props) {
-  const today = useMemo(() => new Date(), []);
+  const today = useMemo(today0, []);
   const days = useMemo(
     () => Array.from({ length: DAYS_AHEAD }, (_, i) => addDays(today, i)),
     [today],
   );
 
-  const [selectedDay, setSelectedDay] = useState<Date>(days[0]);
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
+  const form = useForm<BookingValues>({
+    resolver: zodResolver(bookingSchema),
+    mode: "onChange",
+    defaultValues: {
+      date: format(days[0], "yyyy-MM-dd"),
+      slot: "",
+      notes: "",
+    },
+  });
 
-  const slots = slotsForDay(selectedDay, mentor.id);
+  const dateValue = form.watch("date");
+  const slotValue = form.watch("slot");
+  const selectedDay = useMemo(() => new Date(`${dateValue}T00:00:00`), [dateValue]);
+  const slots = useMemo(
+    () => slotsForDay(selectedDay, mentor.id),
+    [selectedDay, mentor.id],
+  );
+
+  // Clear slot if it disappears after switching day
+  useEffect(() => {
+    if (slotValue && !slots.includes(slotValue)) {
+      form.setValue("slot", "", { shouldValidate: false });
+    }
+  }, [slots, slotValue, form]);
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmed, setConfirmed] = useState<BookingValues | null>(null);
+
+  const onContinue = form.handleSubmit(() => setConfirmOpen(true));
 
   const handleConfirm = () => {
-    setConfirmed(true);
+    const values = form.getValues();
+    setConfirmed(values);
     toast({
       title: "Session request sent",
-      description: `${mentor.name} will confirm your ${format(selectedDay, "EEE d MMM")} · ${selectedSlot} session shortly.`,
+      description: `${mentor.name} will confirm your ${format(selectedDay, "EEE d MMM")} · ${values.slot} session shortly.`,
     });
   };
 
   const handleClose = (open: boolean) => {
     setConfirmOpen(open);
     if (!open && confirmed) {
-      setConfirmed(false);
-      setSelectedSlot(null);
+      setConfirmed(null);
+      form.reset({
+        date: format(days[0], "yyyy-MM-dd"),
+        slot: "",
+        notes: "",
+      });
     }
   };
 
@@ -64,94 +136,150 @@ export function MentorBookingPanel({ mentor }: Props) {
       <p className="text-[13px] text-muted-foreground -mt-1">
         Pick a day and time. We'll hold the slot for 15 minutes while you confirm.
       </p>
-      <div className="space-y-5">
-        {/* Day strip */}
-        <div>
-          <div className="mb-2 flex items-center gap-2 text-[12px] text-muted-foreground">
-            <CalendarDays className="h-3.5 w-3.5" />
-            <span>Next 7 days</span>
-          </div>
-          <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 snap-x">
-            {days.map((d) => {
-              const active = isSameDay(d, selectedDay);
-              return (
-                <button
-                  key={d.toISOString()}
-                  type="button"
-                  onClick={() => {
-                    setSelectedDay(d);
-                    setSelectedSlot(null);
-                  }}
-                  className={cn(
-                    "snap-start min-w-[64px] rounded-2xl border px-3 py-2 text-center transition",
-                    active
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-border bg-card hover:border-primary/40",
-                  )}
-                  aria-pressed={active}
-                >
-                  <div className="text-[10.5px] uppercase tracking-wide opacity-80">
-                    {format(d, "EEE")}
-                  </div>
-                  <div className="text-[16px] font-semibold tabular-nums leading-tight">
-                    {format(d, "d")}
-                  </div>
-                  <div className="text-[10px] opacity-80">{format(d, "MMM")}</div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* Slots */}
-        <div>
-          <div className="mb-2 flex items-center gap-2 text-[12px] text-muted-foreground">
-            <Clock className="h-3.5 w-3.5" />
-            <span>Available times · {format(selectedDay, "EEE d MMM")}</span>
-          </div>
-          {slots.length === 0 ? (
-            <p className="text-[13px] text-muted-foreground">
-              No times available — try another day.
-            </p>
-          ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-              {slots.map((s) => {
-                const active = s === selectedSlot;
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => setSelectedSlot(s)}
-                    className={cn(
-                      "rounded-xl border px-2 py-2 text-[13px] font-medium tabular-nums transition",
-                      active
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-border bg-card hover:border-primary/40",
-                    )}
-                    aria-pressed={active}
+      <Form {...form}>
+        <form onSubmit={onContinue} className="space-y-5" noValidate>
+          {/* Day strip */}
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2 text-[12px] font-normal text-muted-foreground">
+                  <CalendarDays className="h-3.5 w-3.5" />
+                  Next 7 days
+                </FormLabel>
+                <FormControl>
+                  <div
+                    role="radiogroup"
+                    aria-label="Booking date"
+                    className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 snap-x"
                   >
-                    {s}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
+                    {days.map((d) => {
+                      const value = format(d, "yyyy-MM-dd");
+                      const active = isSameDay(d, selectedDay);
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          role="radio"
+                          aria-checked={active}
+                          onClick={() => {
+                            field.onChange(value);
+                            form.setValue("slot", "", { shouldValidate: false });
+                          }}
+                          className={cn(
+                            "snap-start min-w-[64px] rounded-2xl border px-3 py-2 text-center transition",
+                            active
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-border bg-card hover:border-primary/40",
+                          )}
+                        >
+                          <div className="text-[10.5px] uppercase tracking-wide opacity-80">
+                            {format(d, "EEE")}
+                          </div>
+                          <div className="text-[16px] font-semibold tabular-nums leading-tight">
+                            {format(d, "d")}
+                          </div>
+                          <div className="text-[10px] opacity-80">{format(d, "MMM")}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <div className="flex items-center justify-between gap-3 pt-1">
-          <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
-            <ShieldCheck className="h-3.5 w-3.5" />
-            <span>Free to reserve · no payment yet</span>
+          {/* Slots */}
+          <FormField
+            control={form.control}
+            name="slot"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2 text-[12px] font-normal text-muted-foreground">
+                  <Clock className="h-3.5 w-3.5" />
+                  Available times · {format(selectedDay, "EEE d MMM")}
+                </FormLabel>
+                <FormControl>
+                  {slots.length === 0 ? (
+                    <p className="text-[13px] text-muted-foreground">
+                      No times available — try another day.
+                    </p>
+                  ) : (
+                    <div
+                      role="radiogroup"
+                      aria-label="Time slot"
+                      className="grid grid-cols-3 sm:grid-cols-4 gap-2"
+                    >
+                      {slots.map((s) => {
+                        const active = s === field.value;
+                        return (
+                          <button
+                            key={s}
+                            type="button"
+                            role="radio"
+                            aria-checked={active}
+                            onClick={() => field.onChange(s)}
+                            className={cn(
+                              "rounded-xl border px-2 py-2 text-[13px] font-medium tabular-nums transition",
+                              active
+                                ? "border-primary bg-primary text-primary-foreground"
+                                : "border-border bg-card hover:border-primary/40",
+                            )}
+                          >
+                            {s}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Notes */}
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-[12px] font-normal text-muted-foreground">
+                  Notes for the mentor (optional)
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    rows={3}
+                    maxLength={500}
+                    placeholder="Goals, current level, anything they should know…"
+                    className="resize-none"
+                  />
+                </FormControl>
+                <div className="flex justify-between gap-2">
+                  <FormMessage />
+                  <span className="ml-auto text-[11px] tabular-nums text-muted-foreground">
+                    {(field.value ?? "").length}/500
+                  </span>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          <div className="flex items-center justify-between gap-3 pt-1">
+            <div className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Free to reserve · no payment yet</span>
+            </div>
+            <Button type="submit" size="sm" disabled={!form.formState.isValid}>
+              Continue
+            </Button>
           </div>
-          <Button
-            size="sm"
-            disabled={!selectedSlot}
-            onClick={() => setConfirmOpen(true)}
-          >
-            Continue
-          </Button>
-        </div>
-      </div>
+        </form>
+      </Form>
 
       <Dialog open={confirmOpen} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-md">
@@ -171,8 +299,16 @@ export function MentorBookingPanel({ mentor }: Props) {
                   value={mentor.subjects[0] ?? "General mentorship"}
                 />
                 <Row label="Date" value={format(selectedDay, "EEEE, d MMM yyyy")} />
-                <Row label="Time" value={`${selectedSlot} · 45 min`} />
+                <Row label="Time" value={`${slotValue} · 45 min`} />
                 <Row label="Format" value="Online 1-on-1" />
+                {form.getValues("notes")?.trim() && (
+                  <div className="border-t pt-3">
+                    <div className="text-muted-foreground mb-1">Notes</div>
+                    <p className="text-foreground whitespace-pre-wrap break-words">
+                      {form.getValues("notes")}
+                    </p>
+                  </div>
+                )}
                 <div className="flex items-center justify-between border-t pt-3">
                   <span className="text-muted-foreground">Price</span>
                   <Badge variant="secondary" className="font-normal">
@@ -198,7 +334,7 @@ export function MentorBookingPanel({ mentor }: Props) {
                 <DialogDescription className="text-center">
                   {mentor.name} will confirm your{" "}
                   <span className="text-foreground font-medium">
-                    {format(selectedDay, "EEE d MMM")} · {selectedSlot}
+                    {format(new Date(`${confirmed.date}T00:00:00`), "EEE d MMM")} · {confirmed.slot}
                   </span>{" "}
                   session shortly. You'll get a notification when it's accepted.
                 </DialogDescription>
