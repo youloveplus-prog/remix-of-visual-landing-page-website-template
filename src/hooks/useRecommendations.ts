@@ -43,12 +43,12 @@ export function useRecommendations(ctx: RecommendationContext): UseRecommendatio
       });
     });
 
-    (mentors ?? []).slice(0, 3).forEach((m: any) => {
+    (mentors ?? []).slice(0, 3).forEach((m) => {
       out.push({
-        id: m.id ?? m.user_id ?? m.slug ?? String(out.length),
+        id: m.id,
         kind: "mentor",
-        title: m.display_name ?? m.name ?? "Verified mentor",
-        subtitle: m.subject ?? m.headline ?? "1-on-1 mentorship",
+        title: m.name,
+        subtitle: m.subjects?.[0] ?? "1-on-1 mentorship",
         image: m.avatar_url ?? undefined,
         to: "/mentors",
       });
