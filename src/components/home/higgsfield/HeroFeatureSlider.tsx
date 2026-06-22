@@ -220,7 +220,7 @@ export function HeroFeatureSlider({
                       )}
 
                       {/* Brand pill — centered along the bottom of the media */}
-                      <span className="absolute left-1/2 bottom-3 sm:bottom-4 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-black/65 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-white backdrop-blur-md ring-1 ring-white/15 whitespace-nowrap">
+                      <span className="absolute left-1/2 bottom-10 sm:bottom-12 -translate-x-1/2 inline-flex items-center gap-2 rounded-full bg-black/65 px-3.5 py-1.5 text-[12px] sm:text-[13px] font-medium text-white backdrop-blur-md ring-1 ring-white/15 whitespace-nowrap">
                         <Sparkles className="h-3.5 w-3.5 text-primary" />
                         {s.brand}
                       </span>
