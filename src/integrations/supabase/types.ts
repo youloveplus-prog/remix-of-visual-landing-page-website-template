@@ -250,6 +250,7 @@ export type Database = {
           id: string
           lesson_id: string
           user_id: string
+          xp_awarded: number
         }
         Insert: {
           completed_at?: string
@@ -257,6 +258,7 @@ export type Database = {
           id?: string
           lesson_id: string
           user_id: string
+          xp_awarded?: number
         }
         Update: {
           completed_at?: string
@@ -264,6 +266,7 @@ export type Database = {
           id?: string
           lesson_id?: string
           user_id?: string
+          xp_awarded?: number
         }
         Relationships: [
           {

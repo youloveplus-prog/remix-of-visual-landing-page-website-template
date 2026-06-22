@@ -102,38 +102,44 @@ export default function TrackDetail() {
         </DetailSection>
 
         <DetailSection title="Curriculum">
-          <ol className="divide-y divide-border/40 -mx-1">
-            {lessons.map((l, i) => {
-              const isDone = done?.has(l.id);
-              const isLocked = !user && !l.is_preview;
-              return (
-                <li key={l.id}>
-                  <Link
-                    to={isLocked ? "/auth" : `/lesson/${l.id}`}
-                    className="flex items-center gap-3 py-3.5 px-1 active:opacity-60 transition-opacity"
-                  >
-                    <span className="grid place-items-center h-9 w-9 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">
-                      {i + 1}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-[14px] truncate">{l.title}</p>
-                      <p className="text-[12px] text-muted-foreground inline-flex items-center gap-1 mt-0.5">
-                        <Clock className="h-3 w-3" /> {l.duration_min} min
-                        {l.is_preview && <span className="ml-1 text-primary">· Free preview</span>}
-                      </p>
-                    </div>
-                    {isDone ? (
-                      <CheckCircle2 className="h-5 w-5 text-success shrink-0" />
-                    ) : isLocked ? (
-                      <Lock className="h-4 w-4 text-muted-foreground shrink-0" />
-                    ) : (
-                      <Play className="h-4 w-4 text-foreground/60 shrink-0" />
-                    )}
-                  </Link>
-                </li>
-              );
-            })}
-          </ol>
+          {lessons.length === 0 ? (
+            <p className="py-6 text-center text-[13px] text-muted-foreground">
+              Lessons for this track are being prepared. Check back soon.
+            </p>
+          ) : (
+            <ol className="divide-y divide-border/40 -mx-1">
+              {lessons.map((l, i) => {
+                const isDone = done?.has(l.id);
+                const isLocked = !user && !l.is_preview;
+                return (
+                  <li key={l.id}>
+                    <Link
+                      to={isLocked ? "/auth" : `/lesson/${l.id}`}
+                      className="flex items-center gap-3 py-3.5 px-1 active:opacity-60 transition-opacity"
+                    >
+                      <span className="grid place-items-center h-9 w-9 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">
+                        {i + 1}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="font-medium text-[14px] truncate">{l.title}</p>
+                        <p className="text-[12px] text-muted-foreground inline-flex items-center gap-1 mt-0.5">
+                          <Clock className="h-3 w-3" /> {l.duration_min} min
+                          {l.is_preview && <span className="ml-1 text-primary">· Free preview</span>}
+                        </p>
+                      </div>
+                      {isDone ? (
+                        <CheckCircle2 className="h-5 w-5 text-success shrink-0" />
+                      ) : isLocked ? (
+                        <Lock className="h-4 w-4 text-muted-foreground shrink-0" />
+                      ) : (
+                        <Play className="h-4 w-4 text-foreground/60 shrink-0" />
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ol>
+          )}
         </DetailSection>
 
         <DetailSection title="What you'll earn">
