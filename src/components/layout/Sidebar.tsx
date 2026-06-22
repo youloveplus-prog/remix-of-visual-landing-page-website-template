@@ -60,7 +60,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
 
           <ScrollArea className="flex-1 overscroll-contain [&>[data-radix-scroll-area-viewport]]:overscroll-contain [&>[data-radix-scroll-area-viewport]]:touch-pan-y">
             <SidebarNav onClose={handleClose} />
-            <SidebarSecondary onClose={handleClose} />
+            
           </ScrollArea>
 
           <SidebarFooter onClose={handleClose} />
