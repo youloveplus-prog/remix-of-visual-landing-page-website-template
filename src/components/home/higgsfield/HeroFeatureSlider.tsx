@@ -114,7 +114,7 @@ export function HeroFeatureSlider({
                   aria-label={s.title}
                 >
                   <div
-                    className={`relative aspect-[16/9] overflow-hidden rounded-[22px] sm:rounded-[28px] border border-white/10 bg-neutral-900 transition-all duration-500 ${
+                    className={`relative aspect-[16/9] overflow-hidden border border-white/10 bg-neutral-900 transition-all duration-500 ${
                       selected === i
                         ? "opacity-100 scale-100"
                         : "opacity-55 scale-[0.97]"
@@ -128,7 +128,7 @@ export function HeroFeatureSlider({
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-black/55 via-black/10 to-transparent" />
                     {s.eyebrow && (
-                      <span className="absolute left-4 top-4 inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
+                      <span className="absolute left-4 top-4 inline-flex items-center gap-1 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
                         <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--hf-accent))]" />
                         {s.eyebrow}
                       </span>
@@ -159,7 +159,7 @@ export function HeroFeatureSlider({
           type="button"
           onClick={scrollPrev}
           aria-label="Previous"
-          className="absolute left-2 sm:left-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 grid h-10 w-10 sm:h-11 sm:w-11 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
+          className="absolute left-2 sm:left-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 grid h-10 w-10 sm:h-11 sm:w-11 place-items-center bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -167,7 +167,7 @@ export function HeroFeatureSlider({
           type="button"
           onClick={scrollNext}
           aria-label="Next"
-          className="absolute right-2 sm:right-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 grid h-10 w-10 sm:h-11 sm:w-11 place-items-center rounded-full bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
+          className="absolute right-2 sm:right-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 grid h-10 w-10 sm:h-11 sm:w-11 place-items-center bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
         >
           <ArrowRight className="h-5 w-5" />
         </button>
@@ -181,7 +181,7 @@ export function HeroFeatureSlider({
             type="button"
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => emblaApi?.scrollTo(i)}
-            className={`h-1 rounded-full transition-all ${
+            className={`h-1 transition-all ${
               selected === i ? "w-6 bg-white" : "w-1.5 bg-white/30 hover:bg-white/60"
             }`}
           />
