@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Bot, Sparkles, MessageSquare, Mic, Code2, BookOpen } from "lucide-react";
+import { homeType } from "@/components/home/typography";
 
 export function SuperagentBand() {
   return (
@@ -88,13 +89,14 @@ export function SuperagentBand() {
               ))}
             </div>
 
-            <h2 className="font-display text-5xl font-extrabold uppercase tracking-tight text-white sm:text-6xl lg:text-7xl">
+            <h2 className={homeType.bandTitle + " text-white"}>
               SUPER<span className="text-[hsl(var(--hf-accent))]">TUTOR</span>
             </h2>
-            <p className="mt-3 max-w-md text-sm text-white/70 sm:text-base">
+            <p className={`mt-3 max-w-md ${homeType.hook}`}>
               One AI companion for every subject — courses, prompts, mentors and your own
               learning journey, in one place.
             </p>
+
             <Link
               to="/learn"
               className="mt-7 inline-flex h-11 items-center rounded-full bg-white px-6 text-sm font-semibold text-black transition hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-10px_hsl(var(--hf-accent))]"

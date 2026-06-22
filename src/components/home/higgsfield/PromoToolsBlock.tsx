@@ -9,6 +9,7 @@ import {
   BookOpen,
   Gamepad2,
 } from "lucide-react";
+import { homeType } from "@/components/home/typography";
 
 type Tile = {
   icon: typeof Sparkles;
@@ -78,16 +79,17 @@ export function PromoToolsBlock() {
             </span>
           </div>
           <div>
-            <div className="font-display text-[34px] font-extrabold uppercase leading-[1.08] tracking-tight text-white">
+            <div className={homeType.bandTitle + " text-white"}>
               27-DAY
               <br />
               <span className="text-white/90">UNLIMITED</span>
               <br />
               <span className="italic text-white">SKILL-UP</span>
             </div>
-            <p className="mt-3 max-w-[22ch] text-xs text-white/70">
+            <p className={`mt-3 max-w-[22ch] ${homeType.hook}`}>
               Unlock every course, prompt library and the AI Tutor for one flat fee.
             </p>
+
             <div className="mt-5 inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-black transition group-hover:-translate-y-0.5">
               Get 27-day Unlimited Offer
             </div>
@@ -114,14 +116,15 @@ export function PromoToolsBlock() {
               </div>
               <div>
                 {t.kicker && (
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                  <div className={homeType.eyebrow}>
                     {t.kicker}
                   </div>
                 )}
-                <div className="mt-1 font-display text-base font-semibold text-white">
+                <div className={`mt-1 ${homeType.cardTitle} text-white`}>
                   {t.title}
                 </div>
-                <div className="text-xs text-white/55">{t.desc}</div>
+                <div className={homeType.meta}>{t.desc}</div>
+
               </div>
             </Link>
           ))}

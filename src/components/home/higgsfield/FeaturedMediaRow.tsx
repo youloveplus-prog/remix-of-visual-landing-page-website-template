@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import { homeType } from "@/components/home/typography";
 
 type Tile = {
   title: string;
@@ -66,9 +67,10 @@ export function FeaturedMediaRow() {
                 {t.kicker}
               </span>
               <div>
-                <h3 className="font-display text-xl font-semibold leading-tight text-white sm:text-2xl">
+                <h3 className={`${homeType.sectionTitle} text-white`}>
                   {t.title}
                 </h3>
+
                 <div className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[hsl(var(--hf-accent))]">
                   {t.cta ?? "Open"} <ArrowUpRight className="h-3.5 w-3.5" />
                 </div>

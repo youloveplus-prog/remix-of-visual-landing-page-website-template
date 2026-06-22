@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+import { homeType } from "@/components/home/typography";
 
 const testimonials = [
   {
@@ -73,7 +74,7 @@ export function TestimonialsColumns({ title = "Loved by learners across Banglade
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center justify-center max-w-2xl mx-auto text-center"
         >
-          <h2 className="font-display font-extrabold uppercase text-3xl sm:text-4xl lg:text-5xl leading-[1.08] tracking-tight mt-5">
+          <h2 className={`mt-5 ${homeType.bandTitle}`}>
             {title}
           </h2>
           <p className="text-center mt-4 text-muted-foreground">
