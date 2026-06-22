@@ -25,9 +25,14 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     <div
       ref={ref}
       className={cn(
-        "liquid-glass relative overflow-hidden rounded-2xl text-card-foreground transition-[box-shadow,border-color,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        // Real-life card: hairline border, two-layer shadow, top inner sheen
+        "liquid-glass relative overflow-hidden rounded-2xl bg-card text-card-foreground",
+        "border border-border-soft shadow-card",
+        "transition-[box-shadow,border-color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-card-sheen before:opacity-90 before:content-['']",
+        "hover:shadow-card-hover hover:border-border",
         variant === "premium" &&
-          "border-premium-gradient bg-premium-gradient-soft shadow-premium",
+          "border-premium-gradient bg-premium-gradient-soft shadow-premium before:opacity-0",
         className,
       )}
       {...props}
