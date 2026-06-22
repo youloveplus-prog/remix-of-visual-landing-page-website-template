@@ -1,12 +1,16 @@
 import { useMemo } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { SEO } from "@/components/SEO";
 import { SITE_URL } from "@/config/site";
-import { ChevronRight } from "lucide-react";
+import { Sparkles, Users, MessageCircle, ShoppingBag } from "lucide-react";
 import { RESOURCES, getResourceBySlug } from "@/data/resources";
 import { ResourceCarousel } from "@/components/resources/ResourceCarousel";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
+import { RelatedRail } from "@/components/connect/RelatedRail";
+import { useRecommendations } from "@/hooks/useRecommendations";
 
 function formatDate(iso: string) {
   try {
@@ -46,16 +50,14 @@ export default function ResourceDetail() {
         image={resource.cover}
       />
       <MobilePage maxWidth="reading" spacing="space-y-8">
-        <nav
-          aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-xs text-muted-foreground"
-        >
-          <Link to="/" className="hover:text-foreground">Home</Link>
-          <ChevronRight className="w-3 h-3" />
-          <Link to="/resources" className="hover:text-foreground">Resources</Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-foreground truncate">{resource.title}</span>
-        </nav>
+        <Breadcrumbs
+          eyebrow="Resource"
+          items={[
+            { label: "Home", to: "/" },
+            { label: "Resources", to: "/resources" },
+            { label: resource.title },
+          ]}
+        />
 
         <header className="space-y-4">
           <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
@@ -98,6 +100,16 @@ export default function ResourceDetail() {
             Open resource
           </a>
         )}
+
+        <CrossLinkChips
+          eyebrow="Keep exploring"
+          links={[
+            { label: "Ask AI Tutor about this", to: `/ai-tutor?topic=${encodeURIComponent(resource.title)}`, icon: Sparkles },
+            { label: "Find a course", to: "/courses", icon: ShoppingBag },
+            { label: "Book a mentor", to: "/mentors", icon: Users },
+            { label: "Discuss in Community", to: "/community", icon: MessageCircle },
+          ]}
+        />
       </MobilePage>
 
       {related.length > 0 && (
@@ -105,6 +117,24 @@ export default function ResourceDetail() {
           <ResourceCarousel title="Related resources." resources={related} />
         </MobilePage>
       )}
+
+      <MobilePage maxWidth="wide" spacing="space-y-6" className="!pt-2">
+        <RelatedRailFromHook title="Continue your journey" />
+      </MobilePage>
     </AppLayout>
+  );
+}
+
+function RelatedRailFromHook({ title }: { title: string }) {
+  const { items, isLoading } = useRecommendations({ kind: "resource" });
+  return (
+    <RelatedRail
+      eyebrow="You may also like"
+      title={title}
+      items={items}
+      isLoading={isLoading}
+      viewAllHref="/shop"
+      viewAllLabel="Browse the shop"
+    />
   );
 }
