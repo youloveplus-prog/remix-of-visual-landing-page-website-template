@@ -40,11 +40,11 @@ export const homeType = {
 
   /** Standard section h2 used across every home section. */
   sectionTitle:
-    `${HERO_VOICE} text-[24px] sm:text-[30px] lg:text-[36px]`,
+    `${HERO_VOICE} text-[24px] sm:text-[30px] lg:text-[36px] text-center sm:text-left`,
 
   /** Oversized hero-band h2 (Superagent / Explore Topics scale). */
   bandTitle:
-    `${HERO_VOICE} text-[40px] sm:text-[56px] lg:text-[72px]`,
+    `${HERO_VOICE} text-[40px] sm:text-[56px] lg:text-[72px] text-center sm:text-left`,
 
   /** Card / tile title inside a section grid. */
   cardTitle:
@@ -58,7 +58,7 @@ export const homeType = {
 
   /** Eyebrow caption above a title — desaturated, hairline tracked. */
   eyebrow:
-    "font-display font-semibold uppercase tracking-[0.18em] text-white/60 text-[11px] sm:text-[12px]",
+    "block w-full text-center sm:w-auto sm:text-left font-display font-semibold uppercase tracking-[0.18em] text-white/60 text-[11px] sm:text-[12px]",
 
   /** Hook / supporting body line under a title. */
   hook:
