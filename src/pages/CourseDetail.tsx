@@ -1,13 +1,16 @@
 import { Navigate, useParams } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, Sparkles, Users, MessageCircle, BookmarkPlus } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { useContentItem } from "@/hooks/useContent";
-import { CourseBreadcrumb } from "@/components/course-detail/CourseBreadcrumb";
 import { CourseVideoCard } from "@/components/course-detail/CourseVideoCard";
 import { CourseMetaRow } from "@/components/course-detail/CourseMetaRow";
 import { CourseDescription } from "@/components/course-detail/CourseDescription";
 import { CourseProgressCard } from "@/components/course-detail/CourseProgressCard";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
+import { RelatedRail } from "@/components/connect/RelatedRail";
+import { useRecommendations } from "@/hooks/useRecommendations";
 import { buildCourseDetail } from "@/data/courseDetails";
 import { resolveContentRoute } from "@/lib/contentRouting";
 import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
@@ -31,14 +34,18 @@ export default function CourseDetail() {
     duration: item?.duration_min ? `${Math.max(1, Math.round(item.duration_min / 60))} hrs` : undefined,
   });
 
+  const { items: related, isLoading: relatedLoading } = useRecommendations({ kind: "course", slug });
+  const topicQuery = encodeURIComponent(detail.title);
+
   return (
     <AppLayout>
       <SEO title={`${detail.title} — ASIKON Courses`} description={detail.description[0]} />
       <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-5">
         <div className="flex items-center justify-between gap-4">
-          <CourseBreadcrumb
+          <Breadcrumbs
+            eyebrow="Course"
             items={[
-              { label: "Our Courses", to: "/learn" },
+              { label: "Learn", to: "/learn" },
               { label: "All Courses", to: "/courses" },
               { label: detail.title },
             ]}
@@ -63,6 +70,17 @@ export default function CourseDetail() {
               lessons={detail.lessons}
             />
             <CourseDescription title={detail.title} paragraphs={detail.description} />
+
+            <CrossLinkChips
+              eyebrow="Keep going"
+              links={[
+                { label: "Ask AI Tutor about this", to: `/ai-tutor?topic=${topicQuery}`, icon: Sparkles },
+                { label: "Book a mentor", to: "/mentors", icon: Users },
+                { label: "Discuss in Community", to: "/community", icon: MessageCircle },
+                { label: "Save to Library", to: "/library", icon: BookmarkPlus },
+              ]}
+            />
+
             {isLoading && (
               <p className="text-xs text-muted-foreground">Loading latest course data…</p>
             )}
@@ -74,6 +92,15 @@ export default function CourseDetail() {
             items={detail.progress.items}
           />
         </div>
+
+        <RelatedRail
+          eyebrow="You may also like"
+          title="Continue your journey"
+          items={related}
+          isLoading={relatedLoading}
+          viewAllHref="/courses"
+          viewAllLabel="Browse all courses"
+        />
       </div>
     </AppLayout>
   );
