@@ -207,10 +207,11 @@ export function BottomNav() {
       aria-label="Primary"
       className={cn(
         "fixed inset-x-0 bottom-0 z-50 supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
-        "liquid-nav border-t border-border/40"
+        "liquid-nav border-t border-border/40",
+        "before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-gradient-to-t before:from-background/80 before:to-transparent before:pointer-events-none"
       )}
     >
-      <ul className="flex h-[64px] items-stretch px-1">
+      <ul className="flex h-[62px] items-stretch px-2 gap-0.5">
         {tabs.map((item) => (
           <li key={item.path} className="flex-1 min-w-0">
             <NavItem item={item} active={activeTab === item.id} isHome={item.path === "/"} />
@@ -258,22 +259,39 @@ function NavItem({
       aria-label={item.label}
       aria-current={active ? "page" : undefined}
       onClick={handleClick}
-      className="relative flex h-full w-full flex-col items-center justify-center gap-1 select-none touch-manipulation outline-none active:scale-95 transition-transform"
+      className="group relative flex h-full w-full flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
+      {/* Active pill background */}
+      <span
+        aria-hidden
+        className={cn(
+          "absolute top-1.5 left-1/2 -translate-x-1/2 h-8 w-12 rounded-full transition-all duration-300 ease-out",
+          active
+            ? "bg-primary/12 scale-100 opacity-100"
+            : "scale-75 opacity-0 group-active:opacity-100 group-active:bg-primary/8"
+        )}
+      />
+
+      {/* Top active indicator bar */}
+      <span
+        aria-hidden
+        className={cn(
+          "absolute top-0 left-1/2 -translate-x-1/2 h-[3px] rounded-b-full bg-primary transition-all duration-300 ease-out",
+          active ? "w-8 opacity-100" : "w-0 opacity-0"
+        )}
+      />
+
       <span className="relative inline-flex z-10">
         <Icon
           aria-hidden
           className={cn(
-            "h-[24px] w-[24px]",
-            "transition-colors duration-200",
+            "h-[22px] w-[22px] transition-all duration-300 ease-out motion-safe:group-active:scale-90",
             active
-              ? "text-[hsl(233_72%_55%)] hover:text-[hsl(233_72%_55%)] focus-visible:text-[hsl(233_72%_55%)]"
-              : "text-primary hover:text-primary focus-visible:text-primary dark:text-white dark:hover:text-white dark:focus-visible:text-white"
+              ? "text-primary scale-110"
+              : "text-muted-foreground group-hover:text-foreground"
           )}
         />
-
-
 
         {showBadge && (
           <span
@@ -294,16 +312,14 @@ function NavItem({
 
       <span
         className={cn(
-          "pointer-events-none relative z-10 text-[10px] leading-none transition-colors duration-200",
+          "pointer-events-none relative z-10 text-[10px] leading-none tracking-tight transition-all duration-300",
           active
-            ? "font-semibold text-[hsl(233_72%_55%)]"
-            : "font-medium text-primary dark:text-white"
+            ? "font-semibold text-primary opacity-100"
+            : "font-medium text-muted-foreground opacity-80 group-hover:opacity-100"
         )}
       >
         {item.label}
       </span>
-
-
     </NavLink>
   );
 }
