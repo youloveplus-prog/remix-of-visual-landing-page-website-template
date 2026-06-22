@@ -241,20 +241,6 @@ export function HeroFeatureSlider({
                       ))}
                     </div>
 
-                    <div className="bg-black px-6 pb-7 pt-1 text-center sm:hidden">
-                      <h2 className={homeType.heroTitle}>{s.title}</h2>
-                      <p className={`mx-auto mt-2.5 max-w-[30ch] ${homeType.hook}`}>
-                        {s.hook}
-                      </p>
-                    </div>
-
-                    {/* sm+ caption */}
-                    <Link to={s.to} className="hidden sm:block mt-4 px-2 group">
-                      <h3 className={`${homeType.cardTitle} text-white transition-colors line-clamp-1 group-hover:text-primary`}>
-                        {s.title}
-                      </h3>
-                      <p className={`mt-1.5 ${homeType.hook} line-clamp-1`}>{s.hook}</p>
-                    </Link>
 
                   </article>
                 </div>
