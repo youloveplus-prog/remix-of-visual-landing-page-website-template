@@ -54,14 +54,15 @@ function ShortcutCard({
       to={to}
       onClick={onClose}
       aria-current={isActive ? "page" : undefined}
-      className="flex flex-col items-center gap-1.5 w-[80px] flex-shrink-0 active:scale-[0.97] transition-transform"
+      className="relative flex flex-col items-center gap-1.5 w-[80px] flex-shrink-0 active:scale-[0.97] transition-transform"
     >
       <span
         className={cn(
           "relative w-[72px] h-[72px] rounded-[18px] flex items-center justify-center shadow-sm overflow-hidden transition-all",
+          tint,
           isActive
-            ? "bg-primary text-primary-foreground ring-2 ring-primary/40"
-            : `${tint} ring-1 ring-black/5`,
+            ? "ring-2 ring-primary ring-offset-2 ring-offset-background shadow-md scale-[1.02]"
+            : "ring-1 ring-black/5",
         )}
       >
         {icon}
@@ -70,15 +71,29 @@ function ShortcutCard({
             {badge > 9 ? "9+" : badge}
           </span>
         )}
+        {isActive && (
+          <span
+            aria-hidden
+            className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-primary ring-2 ring-background flex items-center justify-center"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground" />
+          </span>
+        )}
       </span>
       <span
         className={cn(
-          "text-[12px] leading-tight text-center truncate w-full px-0.5",
+          "text-[12px] leading-tight text-center truncate w-full px-0.5 transition-colors",
           isActive ? "font-bold text-primary" : "font-semibold text-foreground/85",
         )}
       >
         {label}
       </span>
+      {isActive && (
+        <span
+          aria-hidden
+          className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-primary"
+        />
+      )}
     </Link>
   );
 }
