@@ -41,7 +41,7 @@ function CinematicHero() {
         width={1080}
         height={1920}
         className="absolute inset-0 w-full h-full object-cover object-[60%_center] lg:object-[70%_center]"
-        fetchPriority="high"
+        {...({ fetchpriority: "high" } as any)}
       />
       {/* layered cinematic gradient + brand wash */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/20" />
