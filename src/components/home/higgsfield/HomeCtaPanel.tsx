@@ -58,23 +58,23 @@ const COLLABORATORS = [
 
 export function HomeCtaPanel() {
   return (
-    <section className="hf-section px-4 sm:px-6 lg:px-8">
-      <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[20px] border border-white/10 bg-[#0a0a0a] px-6 pb-8 pt-10 sm:px-10 sm:pb-12 sm:pt-14">
+    <section className="hf-section px-3 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[24px] border border-white/10 bg-[#0a0a0a] px-4 pb-6 pt-8 sm:px-10 sm:pb-12 sm:pt-14">
         {/* Soft indigo top glow */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 -top-32 mx-auto h-64 w-[80%] rounded-full bg-primary/15 blur-3xl"
+          className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-56 w-[85%] rounded-full bg-primary/15 blur-3xl"
         />
 
         <div className="relative flex flex-col items-center text-center">
           {/* Gradient pill eyebrow */}
-          <span className="inline-flex items-center rounded-full bg-gradient-to-r from-primary via-primary/80 to-[hsl(190_85%_55%)] px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white shadow-[0_6px_24px_-8px_hsl(var(--primary)/0.7)]">
+          <span className="inline-flex items-center rounded-full bg-gradient-to-r from-primary via-primary/80 to-[hsl(190_85%_55%)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-[0_6px_24px_-8px_hsl(var(--primary)/0.7)] sm:px-4 sm:py-1.5 sm:text-[11px] sm:tracking-[0.18em]">
             Unlimited Asikon AI Access
           </span>
 
           {/* Big silver headline */}
           <h2
-            className={`mt-6 ${homeType.bandTitle}`}
+            className={`mt-4 sm:mt-6 ${homeType.bandTitle}`}
             style={{
               backgroundImage:
                 "linear-gradient(180deg, #f4f4f5 0%, #a1a1aa 100%)",
@@ -86,46 +86,46 @@ export function HomeCtaPanel() {
             Master AI and ship real projects in weeks
           </h2>
 
-          <p className={`mt-5 max-w-md ${homeType.hook}`}>
+          <p className={`mt-3 max-w-md sm:mt-5 ${homeType.hook}`}>
             The best courses, a 24/7 AI tutor, and a community of builders — all powered by top-tier tools to level up your craft.
           </p>
 
           {/* Single primary CTA */}
           <Link
             to="/auth"
-            className="group mt-8 inline-flex h-14 w-full max-w-md items-center justify-center gap-3 rounded-2xl bg-primary px-8 text-[15px] font-bold text-primary-foreground shadow-[0_18px_44px_-14px_hsl(var(--primary)/0.7)] transition-transform active:scale-[0.98] hover:-translate-y-0.5"
+            className="group mt-6 inline-flex h-12 w-full max-w-md items-center justify-center gap-2 rounded-2xl bg-primary px-6 text-[14px] font-bold text-primary-foreground shadow-[0_18px_44px_-14px_hsl(var(--primary)/0.7)] transition-transform active:scale-[0.98] hover:-translate-y-0.5 sm:mt-8 sm:h-14 sm:gap-3 sm:px-8 sm:text-[15px]"
           >
             Try it yourself
-            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 sm:h-5 sm:w-5" />
           </Link>
 
           <Link
             to="/shop?type=courses"
-            className="mt-4 text-[13px] font-semibold uppercase tracking-[0.16em] text-white/55 transition-colors hover:text-white"
+            className="mt-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white/55 transition-colors hover:text-white sm:mt-4 sm:text-[13px] sm:tracking-[0.16em]"
           >
             Browse courses →
           </Link>
         </div>
 
         {/* Partner tagline */}
-        <p className="relative mt-14 text-center text-[15px] leading-relaxed text-white/45 sm:mt-16">
+        <p className="relative mt-10 text-center text-[13px] leading-relaxed text-white/45 sm:mt-16 sm:text-[15px]">
           Partnering with global industry leaders
           <br className="sm:hidden" /> to power your creativity
         </p>
 
         {/* Partner logo cards — horizontal scroll */}
-        <div className="relative mt-6 -mx-6 sm:-mx-10">
+        <div className="relative mt-5 -mx-4 sm:mt-6 sm:-mx-10">
+          <style>{`.partner-scroll::-webkit-scrollbar{display:none}`}</style>
           <div
-            className="flex gap-3 overflow-x-auto px-6 pb-2 sm:px-10 [scrollbar-width:none]"
+            className="partner-scroll flex gap-2.5 overflow-x-auto px-4 pb-2 sm:gap-3 sm:px-10"
             style={{ scrollbarWidth: "none" }}
           >
-            <style>{`.partner-scroll::-webkit-scrollbar{display:none}`}</style>
             {COLLABORATORS.map((c) => (
               <div
                 key={c.name}
                 title={c.name}
                 aria-label={c.name}
-                className="partner-scroll flex h-20 w-40 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-white/70 transition-all duration-300 hover:border-white/25 hover:bg-white/[0.06] hover:text-white"
+                className="flex h-14 w-28 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-white/70 transition-all duration-300 hover:border-white/25 hover:bg-white/[0.06] hover:text-white sm:h-20 sm:w-40"
               >
                 {c.svg}
               </div>
@@ -136,3 +136,4 @@ export function HomeCtaPanel() {
     </section>
   );
 }
+
