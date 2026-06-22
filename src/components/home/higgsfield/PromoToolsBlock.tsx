@@ -116,14 +116,15 @@ export function PromoToolsBlock() {
               </div>
               <div>
                 {t.kicker && (
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+                  <div className={homeType.eyebrow}>
                     {t.kicker}
                   </div>
                 )}
-                <div className="mt-1 font-display text-base font-semibold text-white">
+                <div className={`mt-1 ${homeType.cardTitle} text-white`}>
                   {t.title}
                 </div>
-                <div className="text-xs text-white/55">{t.desc}</div>
+                <div className={homeType.meta}>{t.desc}</div>
+
               </div>
             </Link>
           ))}
