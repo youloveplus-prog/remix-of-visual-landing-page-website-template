@@ -9,6 +9,7 @@ import {
   BookOpen,
   Gamepad2,
 } from "lucide-react";
+import { homeType } from "@/components/home/typography";
 
 type Tile = {
   icon: typeof Sparkles;
