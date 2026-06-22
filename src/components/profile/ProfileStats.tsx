@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { cn, formatCount } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProfileStatsProps {
   posts: number;
@@ -7,12 +8,14 @@ interface ProfileStatsProps {
   following: number;
   xp: number;
   level: number;
+  isLoading?: boolean;
   onPostsClick?: () => void;
   onFollowersClick?: () => void;
   onFollowingClick?: () => void;
   onXpClick?: () => void;
   onLevelClick?: () => void;
 }
+
 
 /** Animated count-up that respects prefers-reduced-motion. */
 function useCountUp(target: number, duration = 600) {
@@ -50,6 +53,7 @@ export function ProfileStats({
   following,
   xp,
   level,
+  isLoading,
   onPostsClick,
   onFollowersClick,
   onFollowingClick,
@@ -60,6 +64,40 @@ export function ProfileStats({
   const followersAnim = useCountUp(followers);
   const followingAnim = useCountUp(following);
   const xpAnim = useCountUp(xp);
+
+  if (isLoading) {
+    return (
+      <div className="px-4 pt-4 space-y-3" aria-busy="true" aria-label="Loading profile statistics">
+        <div className="grid grid-cols-3 rounded-2xl border border-border liquid-glass overflow-hidden shadow-sm">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className={cn(
+                "flex flex-col items-center justify-center py-3.5 min-h-[64px] gap-1.5",
+                i !== 0 && "border-l border-border",
+              )}
+            >
+              <Skeleton className="h-4 w-10" />
+              <Skeleton className="h-2.5 w-14 rounded-full" />
+            </div>
+          ))}
+        </div>
+        <div className="w-full rounded-2xl border border-border liquid-glass p-3.5 shadow-sm">
+          <div className="flex items-baseline justify-between gap-3">
+            <div className="flex items-baseline gap-2">
+              <Skeleton className="h-3.5 w-10" />
+              <Skeleton className="h-3 w-20" />
+            </div>
+            <Skeleton className="h-3 w-16" />
+          </div>
+          <Skeleton className="mt-2 h-1.5 w-full rounded-full" />
+        </div>
+      </div>
+    );
+  }
+
+
+
 
   const stats = [
     { key: "Posts", value: formatCount(postsAnim), onClick: onPostsClick, label: `${posts} posts` },

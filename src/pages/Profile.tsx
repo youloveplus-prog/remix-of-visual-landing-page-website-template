@@ -74,7 +74,8 @@ const Profile = () => {
   const isOwnProfile = !userId || userId === user?.id;
 
   const { data: profile, isLoading: profileLoading } = useProfile(targetUserId);
-  const { data: counts } = useProfileCounts(targetUserId);
+  const { data: counts, isLoading: countsLoading } = useProfileCounts(targetUserId);
+
   const { data: followers } = useFollowers(targetUserId || "");
   const { data: following } = useFollowing(targetUserId || "");
   const { data: userPosts } = usePosts({ userId: targetUserId, limit: 50 });
@@ -341,12 +342,14 @@ const Profile = () => {
           following={counts?.following ?? following?.length ?? 0}
           xp={xp}
           level={level}
+          isLoading={countsLoading && !counts}
           onPostsClick={() => setActiveTab("posts")}
           onFollowersClick={() => setStatSheet("followers")}
           onFollowingClick={() => setStatSheet("following")}
           onXpClick={() => setActiveTab("learning")}
           onLevelClick={() => setActiveTab("learning")}
         />
+
 
         <ProfileActions
           isOwnProfile={isOwnProfile}
