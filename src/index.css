@@ -1291,7 +1291,9 @@
    Pure-black canvas + neon-lime accent, isolated from the global warm theme.
    Applied only to the home page via the .home-higgsfield wrapper. */
 .home-higgsfield {
-  --hf-accent: 73 87% 63%; /* #c6f24e neon lime */
+  --hf-accent: 233 72% 55%; /* #3b4fe0 brand indigo */
+  --hf-accent-foreground: 0 0% 100%;
+
   background: #0a0a0a;
   color: #fff;
 }
