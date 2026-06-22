@@ -620,7 +620,9 @@
     .home-higgsfield .hf-eyebrow::before {
       display: none;
     }
-    .home-higgsfield [class*="justify-between"]:has(.hf-title) {
+    .home-higgsfield [class*="justify-between"]:has(.hf-title),
+    .home-higgsfield [class*="justify-between"]:has(> div > h2),
+    .home-higgsfield [class*="justify-between"]:has(> div > h3) {
       flex-direction: column;
       align-items: center;
       text-align: center;
