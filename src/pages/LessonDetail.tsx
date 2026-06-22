@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, Clock, Target } from "lucide-react";
+import { CheckCircle2, Clock, Target, Sparkles, Users, MessageCircle, GraduationCap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -10,6 +10,10 @@ import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StickyActionBar } from "@/components/ui/sticky-action-bar";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
+import { RelatedRail } from "@/components/connect/RelatedRail";
+import { useRecommendations } from "@/hooks/useRecommendations";
 import { useLesson, useLessonCompletions } from "@/hooks/useTracks";
 import { useCompleteLesson } from "@/hooks/useTodayMission";
 import { useAuth } from "@/hooks/useAuth";
@@ -65,11 +69,14 @@ export default function LessonDetail() {
         type="article"
       />
       <MobilePage maxWidth="reading" spacing="space-y-7" className="pb-sticky-cta lg:pb-6">
-        {trackRow && (
-          <Link to={`/track/${trackRow.slug}`} className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60 transition-opacity">
-            <ArrowLeft className="h-3.5 w-3.5" /> {trackRow.name}
-          </Link>
-        )}
+        <Breadcrumbs
+          eyebrow="Lesson"
+          items={[
+            { label: "Learn", to: "/learn" },
+            ...(trackRow ? [{ label: trackRow.name, to: `/track/${trackRow.slug}` }] : []),
+            { label: lesson.title },
+          ]}
+        />
 
         <PageHero
           title={lesson.title}
@@ -110,6 +117,18 @@ export default function LessonDetail() {
           </p>
         ) : null}
 
+        <CrossLinkChips
+          eyebrow="Keep going"
+          links={[
+            { label: "Ask AI Tutor", to: `/ai-tutor?topic=${encodeURIComponent(lesson.title)}`, icon: Sparkles },
+            { label: "Find a mentor", to: "/mentors", icon: Users },
+            { label: "Discuss in community", to: "/community", icon: MessageCircle },
+            { label: "Browse courses", to: "/courses", icon: GraduationCap },
+          ]}
+        />
+
+        <LessonRelatedRail topic={lesson.title} />
+
         {/* Desktop inline action */}
         <div className="hidden lg:flex items-center gap-3 pt-2">
           {isDone ? (
@@ -138,5 +157,19 @@ export default function LessonDetail() {
         )}
       </StickyActionBar>
     </AppLayout>
+  );
+}
+
+function LessonRelatedRail({ topic }: { topic: string }) {
+  const { items, isLoading } = useRecommendations({ kind: "lesson", topicId: topic });
+  return (
+    <RelatedRail
+      title="Continue your journey"
+      eyebrow="Related"
+      items={items}
+      isLoading={isLoading}
+      emptyHint="More lessons coming soon."
+      viewAllHref="/learn"
+    />
   );
 }
