@@ -36,14 +36,14 @@ export function HeaderBrand({ compact = false, iconOnly = false, className }: He
         />
       </span>
       {!iconOnly && (
-        <h1
+        <span
           className={cn(
             "font-display font-bold text-gradient leading-none tracking-tight transition-all duration-300 hidden sm:block",
             compact ? "text-lg" : "text-xl"
           )}
         >
           Asikon
-        </h1>
+        </span>
       )}
     </Link>
   );
