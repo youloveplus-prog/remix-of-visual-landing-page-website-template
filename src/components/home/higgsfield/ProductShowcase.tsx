@@ -22,7 +22,7 @@ type Props = {
  * Keep this in one place so courses, services, and products always match.
  */
 const MEDIA_FRAME_CLASS =
-  "relative w-full overflow-hidden border border-white/10 bg-neutral-900 aspect-[4/5] sm:aspect-[3/4]";
+  "hf-card-depth relative w-full overflow-hidden border border-white/10 bg-neutral-900 aspect-[4/5] sm:aspect-[3/4]";
 
 const SKELETON_COUNT = 4;
 
@@ -42,7 +42,7 @@ export function ProductShowcase({
   return (
     <section
       aria-label={title}
-      className="relative w-full bg-black py-12 sm:py-16"
+      className="hf-section-depth relative w-full bg-black py-12 sm:py-16"
     >
       {/* Header */}
       <header className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
