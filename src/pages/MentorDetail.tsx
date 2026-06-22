@@ -123,6 +123,8 @@ export default function MentorDetail() {
           </ul>
         </DetailSection>
 
+        <MentorBookingPanel mentor={mentor} />
+
         <DetailSection title="FAQ">
           <Accordion type="single" collapsible className="w-full">
             {FAQ.map((item, i) => (
