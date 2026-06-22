@@ -104,6 +104,7 @@ const Index = () => {
         <TrustStrip />
         <Deferred><PartnerLogos /></Deferred>
         <Deferred><FaqAccordion /></Deferred>
+        <ExploreTopicsCloud />
         <HomeCtaPanel />
       </div>
 
