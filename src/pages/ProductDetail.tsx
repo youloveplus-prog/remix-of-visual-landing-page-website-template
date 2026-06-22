@@ -759,6 +759,17 @@ const ProductDetail = () => {
           <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
         </DetailSection>
 
+        <CrossLinkChips
+          eyebrow="Keep going"
+          links={[
+            { label: "Ask AI Tutor about this", to: `/ai-tutor?topic=${encodeURIComponent(name)}`, icon: Sparkles },
+            { label: "Book a mentor", to: "/mentors", icon: Users },
+            ...(isCourse
+              ? [{ label: "Join the Community", to: "/community", icon: ShoppingCart as LucideIcon }]
+              : [{ label: "Explore courses", to: "/courses", icon: GraduationCap as LucideIcon }]),
+          ]}
+        />
+
         {relatedProducts && relatedProducts.length > 0 && (
           <DetailSection title={isCourse ? "Continue learning" : "You may also like"}>
             <ProductCarousel
@@ -776,7 +787,10 @@ const ProductDetail = () => {
             />
           </DetailSection>
         )}
+
+        <ProductRelatedRail name={name} isCourse={isCourse} slug={slug || ""} />
       </MobilePage>
+
 
       {/* Mobile sticky CTA */}
       <StickyActionBar>
