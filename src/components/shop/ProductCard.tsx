@@ -16,7 +16,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState, forwardRef, memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,8 @@ import { ProductQuickView } from "./ProductQuickView";
 import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
 import { logProductClick } from "@/lib/productAnalytics";
 import { useProductImpression } from "@/hooks/useProductImpression";
+import { useAuth } from "@/hooks/useAuth";
+import { useAddToWishlist, useRemoveFromWishlist, useWishlist } from "@/hooks/useWishlist";
 
 const ICON_BY_NAME: Record<ProductCtaIcon, LucideIcon> = {
   "graduation-cap": GraduationCap,
