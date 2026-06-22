@@ -231,6 +231,11 @@ export function useLiveActivity(max = 20) {
       })
       .subscribe();
     return () => {
+      try {
+        channel.unsubscribe();
+      } catch {
+        /* noop */
+      }
       supabase.removeChannel(channel);
     };
   }, [qc]);
