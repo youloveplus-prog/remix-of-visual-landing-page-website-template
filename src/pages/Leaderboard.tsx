@@ -75,7 +75,23 @@ const Leaderboard = () => {
         <div className="container-editorial max-w-3xl">
           <ol className="space-y-3">
             {isLoading &&
-              [...Array(8)].map((_, i) => <Skeleton key={i} className="h-20 rounded-2xl" />)}
+              [...Array(8)].map((_, i) => (
+                <li key={i}>
+                  <div className="rounded-2xl border border-border bg-card p-4 sm:p-5 flex items-center gap-4">
+                    <Skeleton className="size-11 rounded-xl shrink-0" />
+                    <Skeleton className="size-10 rounded-full shrink-0" />
+                    <div className="flex-1 min-w-0 space-y-2">
+                      <Skeleton className="h-3.5 w-1/2" />
+                      <Skeleton className="h-3 w-2/5" />
+                    </div>
+                    <div className="text-right space-y-1.5">
+                      <Skeleton className="h-5 w-14 ml-auto" />
+                      <Skeleton className="h-2.5 w-6 ml-auto" />
+                    </div>
+                  </div>
+                </li>
+              ))}
+
 
             {!isLoading && (!data || data.length === 0) && (
               <div className="rounded-2xl border border-border bg-card p-12 text-center">
