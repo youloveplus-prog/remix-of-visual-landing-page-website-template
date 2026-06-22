@@ -24,6 +24,10 @@ const PRODUCT_CTA_ICON: Record<ProductCtaIcon, LucideIcon> = {
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
+import { RelatedRail } from "@/components/connect/RelatedRail";
+import { useRecommendations } from "@/hooks/useRecommendations";
 
 import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
@@ -311,9 +315,16 @@ const ProductDetail = () => {
         })}</script>
       </SEO>
       <MobilePage maxWidth="wide" spacing="space-y-10" className="pb-sticky-cta lg:pb-10">
-        <Link to="/shop" className="hidden lg:inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
-          <ArrowLeft className="h-3.5 w-3.5" /> Shop
-        </Link>
+        <div className="hidden lg:block">
+          <Breadcrumbs
+            eyebrow={isCourse ? "Course" : "Shop"}
+            items={[
+              { label: "Shop", to: "/shop" },
+              ...(isCourse ? [{ label: "Courses", to: "/courses" }] : []),
+              { label: name },
+            ]}
+          />
+        </div>
 
         {/* Mobile hero (reference style) */}
         <div className="lg:hidden space-y-4">
