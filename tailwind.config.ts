@@ -127,7 +127,10 @@ export default {
         md: 'var(--shadow-md)',
         lg: 'var(--shadow-lg)',
         xl: 'var(--shadow-xl)',
-        '2xl': 'var(--shadow-2xl)'
+        '2xl': 'var(--shadow-2xl)',
+        card: 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+        'card-pressed': 'var(--shadow-card-pressed)'
       },
       fontFamily: {
         sans: [
