@@ -56,5 +56,7 @@ export function getRouteTitle(pathname: string): string {
   if (pathname.startsWith("/mentors")) return "Mentorship";
   if (pathname === "/create") return "Create";
   if (pathname === "/prompts") return "Prompts";
+  if (pathname === "/resources") return "Resources";
+  if (pathname.startsWith("/resources/")) return "Resource";
   return "Asikon";
 }

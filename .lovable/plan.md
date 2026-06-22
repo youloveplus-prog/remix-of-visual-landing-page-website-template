@@ -1,85 +1,120 @@
-# UI/UX Audit & Redesign Plan — ASIKON
+## Goal
 
-Benchmarks: **Coursera / Brilliant / MasterClass** (learning), **Apple / Aesop / Linear** (premium editorial commerce), **Instagram / Threads / Discord** (social). Audited at **390px** and **1440px** across Home, Shop, Community, Learn, Mentors, About, Auth, Cart, Profile.
+Add a `/resources` page to Asikon that mirrors the structure of the AI Surfer resources page (featured event hero → search + tag filter → "Trending" rail → "Most Recent" grid → detail page) while staying inside our warm cream + indigo Noto identity. No red, no purple-on-black.
 
----
+## Page anatomy
 
-## Part 1 — Audit findings (by severity)
+```text
++--------------------------------------------------------------+
+| AppLayout (existing sidebar + header)                        |
+|                                                              |
+|  [ FEATURED EVENT CARD ]                                     |
+|   • "Free live event" eyebrow                                |
+|   • Title + date + 4-cell live countdown (Days/Hrs/Mins/Sec) |
+|   • Body copy + primary CTA "Secure your free seat"          |
+|   • Soft indigo glow on cream surface, rounded-bento 24px    |
+|                                                              |
+|  [ SEARCH BAR ] icon + "Search resources…"                   |
+|                                                              |
+|  [ TAG CHIPS ]   AI Tools · Free Tools · Tutorial · …        |
+|   (horizontal wrap, multi-select, sticky on scroll)          |
+|                                                              |
+|  ── Trending tools. ──────────────────────────────────────── |
+|  [ horizontal carousel of cards w/ "TRENDING" pill ]         |
+|                                                              |
+|  ── Most recent updates. ─────────────────────────────────── |
+|  [ responsive grid 1 / 2 / 3 / 4 cols, infinite-loop scroll ]|
++--------------------------------------------------------------+
+```
 
-### CRITICAL — breaks first-impression / global standards
+Card = 4:5 cover image · category pill top-left · title (Noto Serif Display, 600) overlaid on a soft cream-to-shadow gradient · tiny meta line (Noto Sans Mono caps). Hover lifts the card 4px + grows the cover image 3%.
 
-1. **Home hero has a giant empty void (mobile + desktop).** Headline "Learning, re-imagined." sits at top, then ~600px of nothing before the partner marquee. Premium sites (Apple, Linear) never leave hero unanchored — they pair the headline with an immediate visual proof (product render, motion, supporting metric). Right now the page feels broken-loaded.
-2. **Product card thumbnails are solid dark-brown placeholders across Shop, Bundles, and Featured.** Every card on `/shop` shows the same brown square. No commerce site at any tier ships without product imagery — this single issue makes the shop feel non-functional. Either real images aren't loading, or the fallback is a flat color instead of a styled placeholder with the product name/category glyph.
-3. **Community feed shows only skeleton loaders** at the visible viewport on both mobile and desktop — the page reads as "loading forever." Skeletons should resolve in <800ms or fall back to a curated empty state with seed posts. The right-rail "Live now" + "Trending tags" on desktop is good; the empty center column undermines it.
-4. **Hero typography on desktop is washed out.** "re-imagined." renders in pale lavender on cream, failing AA contrast and visually disappearing. The mobile version uses saturated blue and works — desktop diverged.
-5. **Headline tracking is too tight / letters touching.** "Your AI tutor, 24/7", "The course we'd start with today.", "Bundles & collections" — Clash Display with negative tracking is collapsing spaces between words on mobile. This reads as a bug, not a style choice.
+Detail route `/resources/:slug` reuses `MobilePage`: hero image, title, byline, category chips, long-form content (markdown), "Related resources" rail at the bottom.
 
-### HIGH — clearly behind global standard
+## Design commitments (no AI-Surfer red/black)
 
-6. **Bottom nav active dot indicator is a tiny blue underline on a chip-less bar.** Instagram/Threads use a filled glyph swap; Linear/Arc use a pill background. Current state is hard to read at a glance.
-7. **Header logo lockup is unbalanced.** A small triangle glyph + "Asikon" wordmark in two different weights/colors looks like a placeholder. Either commit to a single mark (wordmark only) or design a proper lockup with consistent baseline.
-8. **Filter chips on Shop overflow off-screen on mobile** with no scroll affordance (no fade, no arrow). User can't tell "Student Kits, Prompt Library, AI Tutor, Gadgets" exists.
-9. **Profile cover gradient is a generic purple→indigo blur** — clashes with the cream brand theme and looks AI-default. Brand uses indigo `#3b4fe0` + warm cream; cover should follow.
-10. **Profile has two competing tab rows** stacked (Posts/Media/Reviews/… then POSTS/FOLLOWERS/FOLLOWING). Pick one IA — Instagram-style segment OR sub-tabs, not both.
-11. **Cart empty state is a full-page blank with one button** — wastes the whole viewport. Coursera/Amazon use empty cart to merchandise (recently viewed, recommended bundles).
-12. **Desktop sidebar is visually heavy** — 240px of dim cream with all-caps section labels ("MENU", "LIBRARY", "ACCOUNT") feels like a 2014 admin panel. Modern learning platforms (Brilliant, Khan) use a slim icon rail that expands on hover, or top-nav only.
-13. **Trust strip (Instant access / Secure checkout / Verified buyers / 7-day money-back)** is rendered as 4 equal pill cards on mobile = visual noise. Premium pattern: single thin horizontal strip with icons and dividers, or a single rotating line.
-14. **Mobile "Featured this week" / "Bundles & collections" headlines are oversized + saturated blue,** competing with hero. Section headers should be quieter than the hero (smaller scale, neutral color, eyebrow above).
+- Surface: warm cream `#faf6ef` background, `#fff8ec` cards, indigo `#3b4fe0` accent.
+- Featured event card uses an indigo radial glow + subtle "confetti" SVG sparkles, not red.
+- Countdown digits are Noto Serif Display 700 on white tiles, label is Noto Sans Mono 11px caps.
+- Category pills follow existing chip surfaces (butter / lavender / mint) rotated per tag.
+- Dark theme: pure black bg with indigo glow — same component, different tokens.
 
-### MEDIUM
+## Data model
 
-15. Hero eyebrow chip "BUILT IN BANGLA & ENGLISH" uses Departure Mono inside a pill — mono in a pill reads as code badge, not editorial eyebrow.
-16. Card price treatment: `৳3,538 ৳9,638` with strikethrough is fine, but the `-63%` badge is solid blue on a dark image — move to a refined chip or surface as savings copy ("Save ৳6,100").
-17. Heart/wishlist icon is on a flat cream circle that disappears on dark cards — needs a glass/elevated treatment.
-18. CTA button styling is inconsistent: "Get", "Read", "Get access", "Read now" with arrow icons + brackets `↗ Get ↗` is visually cluttered. Pick one CTA pattern.
-19. "11 learning resources found" count line is dropped between filter chips and section header — orphan text, no hierarchy.
-20. Learn page "Pick your track" shows 5 empty cream rectangles (skeleton or empty?). If skeleton, fix load; if empty state, design copy + illustration.
-21. Quick Actions grid on Learn (Prompt library / Revision / Courses / AI tutor) is a 2x2 of identical cards — opportunity for a bento with varied tile sizes/icons.
-22. Footer is not visible on any audited page — confirm whether the app intentionally has no footer (mobile-app-style) or footer is missing.
-23. Mobile section vertical rhythm is tight after recent edits, but headline → body spacing on hero is still too loose (subhead floats 300px above next section).
-24. Search bar on desktop header is full-width with placeholder "Search courses, products, mentors, services…" — too many entities listed; modern pattern is "Search ASIKON" with autosuggest by type.
+Single seed file `src/data/resources.ts` for the first ship — keeps it static, fast, and easy to edit. Shape:
 
-### LOW / polish
+```ts
+type Resource = {
+  slug: string;
+  title: string;
+  cover: string;          // image URL or imported asset
+  category: string;       // e.g. "AI Tools"
+  tags: string[];         // for chip filter
+  trending: boolean;
+  publishedAt: string;    // ISO — drives "most recent"
+  excerpt: string;
+  body: string;           // markdown for the detail page
+  ctaUrl?: string;        // external link if applicable
+};
+```
 
-25. Notification bell badge "2" uses a saturated red on a cream header — clashes with brand indigo.
-26. Story rail (My Feed) borders are pure blue at 2px — Instagram uses a gradient ring with subtle width.
-27. Profile completion bar uses square checkboxes inside chips — pick one container (chip OR checkbox row).
-28. Level/XP card "Lv.1  0 XP total  100 to Lv. 2" is a flat bar — gamified products animate the fill and add a tier emblem.
+The page reads from this array; later we can swap to a Supabase `resources` table behind the same hook without touching components.
 
----
+## Routing & nav
 
-## Part 2 — Redesign directions for weakest sections
+- New route `/resources` → `src/pages/Resources.tsx`
+- New route `/resources/:slug` → `src/pages/ResourceDetail.tsx`
+- Both lazy-loaded in `src/App.tsx`
+- Add a "Resources" entry to the sidebar / bottom-nav map
+- SEO: `<SEO>` with title "Resources — Asikon", description, OG image = featured event cover
+- Sitemap: extend `scripts/generate-sitemap.ts` to emit `/resources` and each `/resources/:slug`
 
-After you approve this audit, I will generate **3 rendered design directions** (locked to the brand palette + Clash Display / Schibsted Grotesk / Departure Mono) for each of these three highest-leverage areas, presented as clickable prototypes:
+## Components to add
 
-1. **Home hero + trust strip** — kill the void; bind headline to a hero artifact + refined trust line.
-2. **Shop product card + grid** — solve the missing-image problem with a styled fallback system, refine price/badge/CTA hierarchy, fix chip overflow.
-3. **Community feed shell (mobile + desktop)** — story rail, post card, right-rail composition; replace skeleton-forever with a confident first paint.
+```text
+src/components/resources/
+  FeaturedEventCard.tsx     // hero with countdown + CTA
+  CountdownClock.tsx        // 4-cell live countdown, reduced-motion safe
+  ResourceSearchBar.tsx     // icon input, debounced
+  ResourceTagBar.tsx        // multi-select chip filter (sticky)
+  ResourceCard.tsx          // cover + pill + title + meta
+  ResourceCarousel.tsx      // embla rail for "Trending"
+  ResourceGrid.tsx          // responsive grid + infinite-loop hook
+```
 
-You pick one direction per area, I implement it pixel-for-pixel against the chosen prototype.
+Reuses: `embla-carousel-react`, existing `useInfiniteScroll`, `Skeleton`, `MobilePage`, `AppLayout`, chip surface utilities.
 
----
+## Filtering behavior
 
-## Part 3 — Implementation order (after directions approved)
+- Search: case-insensitive match across `title` + `excerpt` + `tags`.
+- Tags: multi-select OR within the chip bar; combined with search via AND.
+- Trending rail is unfiltered (curated). Grid below respects search + tags.
+- Empty state: friendly Noto Serif Display headline + "Clear filters" link.
 
-1. Brand foundation pass: header lockup, bottom nav active state, trust strip, button/CTA system, badge system. (~touches 6–8 shared components)
-2. Home hero rebuild from chosen direction.
-3. Shop card + grid + filter chips + image fallback.
-4. Community feed shell + empty/loading states.
-5. Profile cover + tab consolidation + completion card refresh.
-6. Cart empty state with merchandising.
-7. Desktop sidebar slim/expand pattern.
-8. Learn page bento + Quick Actions variation.
-9. Typography micro-pass (tracking on Clash Display, eyebrow chip restyle).
+## Detail page
 
----
+- Breadcrumb: Home › Resources › Title
+- Hero cover (4:5 on mobile, 21:9 on desktop)
+- Title + category chip + published date
+- Markdown body rendered with the existing `react-markdown` chunk
+- "Related resources" = same-category, exclude self, limit 6, horizontal rail
 
 ## Technical notes
 
-- All color/spacing/radius changes go through tokens in `src/index.css` and `tailwind.config.ts` — no hardcoded utilities.
-- Existing memory rules respected: indigo `#3b4fe0`, cream `#faf6ef`, Clash Display headings, Schibsted Grotesk body, rounded bento (radius 20px).
-- Product image fallback will be a deterministic gradient + glyph component (no external generation per card) to keep bundle size flat.
-- Skeleton-to-content threshold for Community feed needs investigation — may be a query issue, not just visual.
-- No backend/business-logic changes in Parts 2 & 3 unless we discover the Community/Shop empty data is a data-fetch bug; if so I'll surface separately.
+- Countdown uses one `setInterval(1000)` with `requestAnimationFrame` guard; pauses when `document.hidden`; respects `prefers-reduced-motion` by hiding the ticking pulse but still updating the digits.
+- All components are presentational; data is loaded via a single `useResources()` hook returning the static array (easy to swap for a query later).
+- No backend, no auth changes, no new dependencies.
+- Tests: add a smoke test that `/resources` renders the featured card + at least one resource card, and that `/resources/:slug` resolves a known seed slug.
 
-After you approve, I'll start by generating the 3 design directions for the Home hero so you can pick one.
+## Out of scope (call out so we don't drift)
+
+- No CMS / admin editor for resources yet
+- No comments, likes, or saves on resource detail
+- No purchase flow — these are free reads
+- No email capture form on the featured card (CTA links out)
+
+## Open questions (answer before build)
+
+1. Featured event content: should it point to an existing Asikon course/landing, or do you want a placeholder "Asikon Live" event with editable date?
+2. Sidebar placement: between "Learn" and "Community", or under "About"?
+3. Initial seed: ship with 12 example resources I draft (AI tools, prompts, tutorials matching Asikon's voice), or do you have a list?
