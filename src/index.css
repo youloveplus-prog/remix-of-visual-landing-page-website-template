@@ -130,20 +130,22 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 0%;
     --popover-foreground: 0 0% 98%;
-    --primary: 228 100% 60%;
+    --primary: 233 80% 64%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 0%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 0%;
-    --muted-foreground: 0 0% 68%;
+    --muted-foreground: 0 0% 70%;
     --accent: 0 0% 0%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 14%;
+    --border: 0 0% 13%;
+    --border-soft: 0 0% 18%;            /* hairline on black */
+    --card-sheen: 0 0% 100%;            /* used at low alpha on dark */
     --input: 0 0% 0%;
 
-    --ring: 228 100% 60%;
+    --ring: 233 80% 64%;
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 228 100% 60%;
