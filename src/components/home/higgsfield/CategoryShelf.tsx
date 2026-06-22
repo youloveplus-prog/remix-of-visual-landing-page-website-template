@@ -23,7 +23,7 @@ export function CategoryShelf() {
   return (
     <section
       aria-label="Shop by category"
-      className="relative w-full bg-black py-12 sm:py-16"
+      className="hf-section-depth relative w-full bg-black py-12 sm:py-16"
     >
       {/* Header */}
       <header className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
@@ -124,7 +124,7 @@ function CategoryCard({
 
   if (loading || !category) {
     return (
-      <div className={`relative aspect-[5/3] sm:aspect-[4/3] border border-white/10 bg-neutral-900 ${className}`}>
+      <div className={`hf-card-depth relative aspect-[5/3] sm:aspect-[4/3] border border-white/10 bg-neutral-900 ${className}`}>
         <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-white/[0.06]" />
       </div>
     );
@@ -134,7 +134,7 @@ function CategoryCard({
     <Link
       to={`/shop?category=${category.slug}`}
       aria-label={category.name}
-      className={`group relative aspect-[5/3] sm:aspect-[4/3] overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30 ${className}`}
+      className={`hf-card-depth group relative aspect-[5/3] sm:aspect-[4/3] overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30 ${className}`}
     >
       {/* Gradient wash */}
       <div
