@@ -1,21 +1,16 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Sparkles } from "lucide-react";
+import { ShieldCheck, User, Loader2, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useCart } from "@/hooks/useCart";
-import { useWishlist } from "@/hooks/useWishlist";
 
 interface SidebarUserProps {
   onClose?: () => void;
 }
 
-
-
 export function SidebarUser({ onClose }: SidebarUserProps) {
   const { user, isLoggedIn, loading } = useAuth();
-  const { data: cart } = useCart();
-  const { data: wishlist } = useWishlist();
+
 
   if (loading) {
     return (
