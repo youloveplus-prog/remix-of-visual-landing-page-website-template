@@ -4,19 +4,10 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { ShieldCheck, ShieldOff } from "lucide-react";
-import {
-  useMentorVerificationsMap,
-  useUpsertMentorVerification,
-} from "@/hooks/useTrust";
 
 export default function AdminMentors() {
   const qc = useQueryClient();
   const { toast } = useToast();
-
-  const { data: verifications } = useMentorVerificationsMap();
-  const upsertVerification = useUpsertMentorVerification();
 
   const { data: mentors, isLoading } = useQuery({
     queryKey: ["admin-mentors"],
@@ -68,58 +59,24 @@ export default function AdminMentors() {
           <div className="space-y-2">{[1, 2, 3].map((i) => <Skeleton key={i} className="h-16 w-full" />)}</div>
         ) : (
           <div className="rounded-xl border border-border/60 divide-y divide-border/60">
-            {(mentors ?? []).map((m: any) => {
-              const v = verifications?.[m.id];
-              const isVerified = v?.status === "verified";
-              return (
-                <div key={m.id} className="flex flex-wrap items-center gap-3 p-3">
-                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-primary-foreground font-bold">
-                    {m.name.charAt(0)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="font-semibold text-sm truncate">{m.name}</p>
-                      {isVerified && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-primary">
-                          <ShieldCheck className="h-3 w-3" /> Verified
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {m.subjects?.join(", ")} · {m.languages?.join("/")}
-                    </p>
-                  </div>
-                  <Badge variant="outline" className="text-[10px]">৳{m.hourly_rate}/hr</Badge>
-                  <Button
-                    size="sm"
-                    variant={isVerified ? "outline" : "default"}
-                    onClick={() =>
-                      upsertVerification.mutate({
-                        mentor_id: m.id,
-                        status: isVerified ? "pending" : "verified",
-                        id_check: !isVerified,
-                        qualification_check: !isVerified,
-                        background_check: !isVerified,
-                      })
-                    }
-                  >
-                    {isVerified ? (
-                      <>
-                        <ShieldOff className="h-3.5 w-3.5 mr-1" /> Revoke
-                      </>
-                    ) : (
-                      <>
-                        <ShieldCheck className="h-3.5 w-3.5 mr-1" /> Verify
-                      </>
-                    )}
-                  </Button>
-                  <Switch
-                    checked={m.is_active}
-                    onCheckedChange={(v) => toggle.mutate({ id: m.id, is_active: v })}
-                  />
+            {(mentors ?? []).map((m: any) => (
+              <div key={m.id} className="flex items-center gap-3 p-3">
+                <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-primary-foreground font-bold">
+                  {m.name.charAt(0)}
                 </div>
-              );
-            })}
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-sm">{m.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {m.subjects?.join(", ")} · {m.languages?.join("/")}
+                  </p>
+                </div>
+                <Badge variant="outline" className="text-[10px]">৳{m.hourly_rate}/hr</Badge>
+                <Switch
+                  checked={m.is_active}
+                  onCheckedChange={(v) => toggle.mutate({ id: m.id, is_active: v })}
+                />
+              </div>
+            ))}
           </div>
         )}
       </section>

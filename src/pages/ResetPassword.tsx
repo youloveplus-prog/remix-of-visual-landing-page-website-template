@@ -6,7 +6,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { z } from "zod";
-import { SEO } from "@/components/SEO";
 
 const schema = z
   .object({
@@ -20,44 +19,6 @@ const schema = z
     message: "Passwords do not match",
     path: ["confirm"],
   });
-
-function mapResetError(raw: string): { title: string; description: string } {
-  const m = raw.toLowerCase();
-  if (m.includes("jwt expired") || m.includes("token has expired")) {
-    return {
-      title: "Reset link expired",
-      description: "This password-reset link has expired. Please request a new one from the sign-in page.",
-    };
-  }
-  if (m.includes("invalid jwt") || m.includes("token is invalid")) {
-    return {
-      title: "Invalid reset link",
-      description: "This reset link is invalid or malformed. Please request a fresh one.",
-    };
-  }
-  if (m.includes("user not found") || m.includes("user doesn't exist")) {
-    return {
-      title: "Account not found",
-      description: "We couldn't find an account linked to this reset request. Please double-check your email and try again.",
-    };
-  }
-  if (m.includes("new password should be different")) {
-    return {
-      title: "Choose a different password",
-      description: "Your new password must be different from your current one.",
-    };
-  }
-  if (m.includes("rate limit")) {
-    return {
-      title: "Too many attempts",
-      description: "Please wait a moment before trying again.",
-    };
-  }
-  return {
-    title: "Couldn't update password",
-    description: raw || "The reset link may have expired. Please request a new one.",
-  };
-}
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -114,10 +75,9 @@ const ResetPassword = () => {
       });
       setTimeout(() => navigate("/", { replace: true }), 1600);
     } catch (err: any) {
-      const msg = mapResetError(err.message ?? "");
       toast({
-        title: msg.title,
-        description: msg.description,
+        title: "Couldn't update password",
+        description: err.message || "The reset link may have expired. Please request a new one.",
         variant: "destructive",
       });
     } finally {
@@ -127,11 +87,6 @@ const ResetPassword = () => {
 
   return (
     <main className="relative min-h-dvh w-full bg-background flex items-center justify-center overflow-hidden px-5 py-10">
-      <SEO
-        title="Reset Password"
-        description="Choose a new password for your Asikon account."
-        noIndex
-      />
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 -left-40 w-[480px] h-[480px] rounded-full blur-[140px] bg-primary/20"
@@ -162,7 +117,7 @@ const ResetPassword = () => {
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
         ) : !validSession ? (
-          <div className="rounded-2xl border border-border liquid-glass p-6 text-center space-y-4">
+          <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-4">
             <p className="text-sm text-muted-foreground">
               This reset link is invalid or has expired. Please request a new one.
             </p>
@@ -174,7 +129,7 @@ const ResetPassword = () => {
             </Button>
           </div>
         ) : done ? (
-          <div className="rounded-2xl border border-border liquid-glass p-8 text-center space-y-4 animate-fade-in">
+          <div className="rounded-2xl border border-border bg-card p-8 text-center space-y-4 animate-fade-in">
             <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto">
               <CheckCircle2 className="h-7 w-7 text-emerald-500" />
             </div>

@@ -27,7 +27,7 @@ export function ProfileShopTab({ products }: ProfileShopTabProps) {
       {purchasedProducts.length > 0 && (
         <section>
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-            <ShoppingBag className="h-4 w-4 text-primary" />
+            <ShoppingBag className="h-4 w-4 text-blue-400" />
             Products Bought ({purchasedProducts.length})
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -71,8 +71,8 @@ function ProductCard({
   type: "purchased" | "reviewed" 
 }) {
   const badgeConfig = {
-    purchased: { label: "Purchased", color: "bg-primary/10 text-primary" },
-    reviewed: { label: "Reviewed", color: "bg-primary/10 text-primary" },
+    purchased: { label: "Purchased", color: "bg-blue-500/20 text-blue-400" },
+    reviewed: { label: "Reviewed", color: "bg-amber-500/20 text-amber-400" },
   };
 
   const badge = badgeConfig[type];

@@ -186,7 +186,7 @@ export function ProfileHeader({
       {/* Centered avatar + identity */}
       <div className="flex flex-col items-center px-4 -mt-12 sm:-mt-16 text-center">
         <div className="relative group" onClick={onAvatarClick}>
-          <Avatar className="h-24 w-24 sm:h-32 sm:w-32 border-4 border-background cursor-pointer ring-2 ring-border shadow-xl transition-transform group-hover:scale-[1.02]">
+          <Avatar className="h-24 w-24 sm:h-32 sm:w-32 border-4 border-background cursor-pointer ring-1 ring-border">
             <AvatarImage src={user.avatar} alt={user.name} className="object-cover" />
             <AvatarFallback className="text-2xl">{user.name[0]}</AvatarFallback>
           </Avatar>
@@ -231,16 +231,13 @@ export function ProfileHeader({
           )}
         </div>
 
-        <span className="hf-eyebrow mt-4">
-          {isOwnProfile ? "Your Profile" : "Member"}
-        </span>
-        <div className="mt-1.5 flex items-center gap-1.5 min-w-0">
-          <h1 className="hf-title font-display truncate">{user.name}</h1>
+        <div className="mt-3 flex items-center gap-1.5 min-w-0">
+          <h1 className="font-display text-[22px] sm:text-[26px] font-semibold tracking-tight truncate">{user.name}</h1>
           {user.isVerified && (
             <BadgeCheck className="h-5 w-5 text-foreground/70 shrink-0" aria-label="Verified" />
           )}
         </div>
-        <p className="mt-1 text-[13px] text-muted-foreground">@{user.username}</p>
+        <p className="text-[13px] text-muted-foreground">@{user.username}</p>
 
         {/* Trust chip */}
         {user.trustScore > 0 && (
@@ -250,19 +247,9 @@ export function ProfileHeader({
                 <button
                   type="button"
                   aria-label={`Trust score ${user.trustScore} out of 100, ${trustLevel} tier`}
-                  className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full gradient-primary-soft border border-primary/20 text-[11px] font-medium text-foreground focus-ring tap"
+                  className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary border border-border text-[11px] font-medium text-foreground/80 focus-ring tap"
                 >
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "h-1.5 w-1.5 rounded-full",
-                      trustLevel === "Gold" && "bg-gold",
-                      trustLevel === "Silver" && "bg-muted-foreground",
-                      trustLevel === "Bronze" && "bg-orange-500",
-                      trustLevel === "New" && "bg-primary",
-                    )}
-                  />
-                  <ShieldCheck className="h-3 w-3 text-primary" />
+                  <ShieldCheck className="h-3 w-3" />
                   <span className="tabular-nums">
                     {trustLevel} · {user.trustScore}
                   </span>
@@ -313,7 +300,7 @@ export function ProfileHeader({
                 className="inline-flex items-center gap-1 text-foreground hover:underline truncate max-w-[12rem] focus-ring rounded"
               >
                 <LinkIcon className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                <span className="truncate">{user.website.replace(/^https?:\/\/(www\.)?/i, "")}</span>
+                <span className="truncate">{user.website.replace(/^https?:\/\//, "")}</span>
               </a>
             )}
             {user.joinedAt && (

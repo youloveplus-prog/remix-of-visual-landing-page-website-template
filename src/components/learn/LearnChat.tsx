@@ -48,9 +48,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ThreadList } from "@/components/learn/ThreadList";
-import { SocraticRail } from "@/components/learn/SocraticRail";
-import { VoiceInput } from "@/components/learn/VoiceInput";
-import { parseSocratic } from "@/lib/socraticParse";
 import tutorAvatar from "@/assets/asikon-tutor-avatar.webp";
 
 // AI Elements
@@ -78,21 +75,21 @@ import { Shimmer } from "@/components/ai-elements/shimmer";
 const QUICK_PROMPTS = [
   {
     icon: BookOpen,
-    label: "I'm stuck on an SSC Math problem",
-    prompt: "I'm stuck on an SSC Math problem. Can you help me figure it out step by step? I'll share what I've tried.",
-    tint: "from-primary/15 to-primary/0 text-primary ring-primary/20",
+    label: "Help me with SSC Math",
+    prompt: "I'm struggling with SSC math. Can you walk me through where to start?",
+    tint: "from-blue-500/15 to-blue-500/0 text-blue-600 dark:text-blue-400 ring-blue-500/20",
   },
   {
     icon: ListChecks,
     label: "Quiz me on photosynthesis",
     prompt: "Give me 5 MCQs on photosynthesis with answers and short explanations.",
-    tint: "from-primary/10 to-emerald-500/0 text-primary dark:text-emerald-400 ring-emerald-500/20",
+    tint: "from-emerald-500/15 to-emerald-500/0 text-emerald-600 dark:text-emerald-400 ring-emerald-500/20",
   },
   {
     icon: Brain,
-    label: "Walk me through Newton's 2nd law",
-    prompt: "I'm trying to understand Newton's second law. Can we go through it together? Ask me what I already know first.",
-    tint: "from-primary/10 to-primary/0 text-primary ring-primary/20",
+    label: "Explain Newton's 2nd law",
+    prompt: "Explain Newton's second law to me like I'm 12, with one real example.",
+    tint: "from-violet-500/15 to-violet-500/0 text-violet-600 dark:text-violet-400 ring-violet-500/20",
   },
   {
     icon: SparklesIcon,
@@ -103,7 +100,7 @@ const QUICK_PROMPTS = [
 ];
 
 const CAPABILITIES = [
-  { icon: Brain, label: "Guide you through it" },
+  { icon: Brain, label: "Explain any concept" },
   { icon: ListChecks, label: "Practice with MCQs" },
   { icon: GraduationCap, label: "Plan your revision" },
 ];
@@ -134,22 +131,6 @@ export function LearnChat({ threadId, onBack }: Props) {
   const awardedRef = useRef(false);
   const [input, setInput] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
-
-  // Deep-link: /ai-tutor?topic=ssc.physics.motion prefills a starter prompt
-  // so the Socratic tutor opens with a focused diagnostic on that topic.
-  const prefillRef = useRef(false);
-  useEffect(() => {
-    if (prefillRef.current) return;
-    if (!threadId) return;
-    if (initialMessages && initialMessages.length > 0) return;
-    const params = new URLSearchParams(window.location.search);
-    const topic = params.get("topic");
-    if (topic) {
-      const pretty = topic.split(".").pop()?.replace(/-/g, " ") ?? topic;
-      setInput(`Tutor me on ${pretty} (topic: ${topic}). Start with a quick diagnostic.`);
-      prefillRef.current = true;
-    }
-  }, [threadId, initialMessages]);
 
   const activeThread = threads.find((t) => t.id === threadId);
   const threadTitle = activeThread?.title ?? "New chat";
@@ -282,7 +263,7 @@ export function LearnChat({ threadId, onBack }: Props) {
   return (
     <div className="flex flex-col h-full bg-background">
       {/* Header */}
-      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border liquid-nav">
+      <header className="shrink-0 relative flex items-center gap-2 px-3 lg:px-6 h-14 border-b border-border bg-background/85 backdrop-blur-xl">
         {onBack && (
           <Button
             variant="ghost"
@@ -329,7 +310,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             />
             <span
               aria-hidden
-              className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-background"
+              className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-background"
             />
           </div>
           <div className="min-w-0">
@@ -337,7 +318,7 @@ export function LearnChat({ threadId, onBack }: Props) {
               {threadTitle}
             </div>
             <div className="text-[11px] text-muted-foreground leading-tight flex items-center gap-1">
-              <span className="text-primary dark:text-emerald-400 font-medium">Online</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Online</span>
               <span>· Asikon AI tutor</span>
             </div>
           </div>
@@ -394,7 +375,7 @@ export function LearnChat({ threadId, onBack }: Props) {
             ) : (
               <>
                 {messages.map((m, idx) => {
-                  const rawText = (m.parts ?? [])
+                  const text = (m.parts ?? [])
                     .map((p: any) => (p.type === "text" ? p.text : ""))
                     .join("");
                   const isLast = idx === messages.length - 1;
@@ -405,16 +386,11 @@ export function LearnChat({ threadId, onBack }: Props) {
                     return (
                       <Message key={m.id} from="user">
                         <MessageContent className="group-[.is-user]:bg-primary group-[.is-user]:text-primary-foreground group-[.is-user]:rounded-2xl group-[.is-user]:rounded-br-md whitespace-pre-wrap text-[15px] leading-relaxed">
-                          {rawText}
+                          {text}
                         </MessageContent>
                       </Message>
                     );
                   }
-
-                  // Parse out the Socratic metadata header from the first line.
-                  // During streaming, the header may not have arrived yet — in
-                  // that case `meta` is null and `body` is the original text.
-                  const { meta, body } = parseSocratic(rawText);
 
                   return (
                     <Message key={m.id} from="assistant" className="max-w-full">
@@ -428,22 +404,15 @@ export function LearnChat({ threadId, onBack }: Props) {
                           <div className="text-xs font-semibold text-muted-foreground mb-0.5">
                             Asikon AI
                           </div>
-                          {meta && meta.step && meta.step !== "direct" && (
-                            <SocraticRail
-                              step={meta.step}
-                              hintLevel={meta.hint_level}
-                              topicHint={meta.topic_hint}
-                            />
-                          )}
                           <MessageContent className="text-[15px] leading-relaxed">
-                            <MessageResponse>{body || "…"}</MessageResponse>
+                            <MessageResponse>{text || "…"}</MessageResponse>
                             {isStreaming && (
                               <span className="inline-block w-[2px] h-4 align-middle ml-0.5 bg-foreground animate-pulse" />
                             )}
                           </MessageContent>
-                          {body && !isStreaming && (
+                          {text && !isStreaming && (
                             <AssistantActions
-                              text={body}
+                              text={text}
                               onRegenerate={
                                 isLast && !isBusy ? () => regenerate() : undefined
                               }
@@ -474,7 +443,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
       {/* Composer */}
       <div
-        className="shrink-0 border-t border-border liquid-nav px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
+        className="shrink-0 border-t border-border bg-background/95 backdrop-blur-xl px-3 sm:px-6 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
       >
         <div className="mx-auto w-full max-w-3xl space-y-2">
           {!isEmpty && (
@@ -483,7 +452,7 @@ export function LearnChat({ threadId, onBack }: Props) {
                 <button
                   key={chip}
                   onClick={() => setInput((v) => (v ? `${v} ${chip}` : chip))}
-                  className="shrink-0 px-3 py-1 rounded-full border border-border liquid-glass hover:bg-secondary text-[12px] font-medium whitespace-nowrap transition-colors"
+                  className="shrink-0 px-3 py-1 rounded-full border border-border bg-card hover:bg-secondary text-[12px] font-medium whitespace-nowrap transition-colors"
                 >
                   {chip}
                 </button>
@@ -493,7 +462,7 @@ export function LearnChat({ threadId, onBack }: Props) {
 
           <PromptInput
             onSubmit={handlePromptSubmit}
-            className="rounded-2xl border border-border liquid-glass shadow-sm focus-within:border-primary/50 focus-within:shadow-lg focus-within:ring-4 focus-within:ring-primary/10 transition-all"
+            className="rounded-2xl border border-border bg-card shadow-sm focus-within:border-primary/50 focus-within:shadow-lg focus-within:ring-4 focus-within:ring-primary/10 transition-all"
           >
             <PromptInputTextarea
               value={input}
@@ -513,13 +482,16 @@ export function LearnChat({ threadId, onBack }: Props) {
                 >
                   <span className="text-base leading-none">📎</span>
                 </PromptInputButton>
-                <VoiceInput
-                  disabled={isBusy}
-                  onTranscript={(t) =>
-                    setInput((v) => (v ? `${v} ${t}`.trim() : t))
+                <PromptInputButton
+                  type="button"
+                  onClick={() =>
+                    toast("Voice questions are on the way — text works great for now.")
                   }
-                />
-
+                  aria-label="Voice (coming soon)"
+                  title="Voice (coming soon)"
+                >
+                  <span className="text-base leading-none">🎤</span>
+                </PromptInputButton>
               </PromptInputTools>
               <div className="flex items-center gap-2">
                 {input.length > 500 && (
@@ -594,8 +566,8 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           Hi, I'm Asikon AI
         </h1>
         <p className="text-muted-foreground text-[15px] max-w-md leading-relaxed">
-          Show me what you've tried — I'll guide you, not just hand over the answer.
-          Bangla or English, your call. Tap the mic if you'd rather speak.
+          Stuck on a chapter? Ask me anything — SSC, HSC, Math, Physics, English.
+          I'll explain in English or Bangla, whichever helps.
         </p>
       </div>
 
@@ -609,7 +581,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
             <button
               key={q.label}
               onClick={() => onPick(q.prompt)}
-              className="group relative overflow-hidden flex items-center gap-3 text-left p-3.5 rounded-2xl liquid-glass border border-border hover:border-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
+              className="group relative overflow-hidden flex items-center gap-3 text-left p-3.5 rounded-2xl bg-card border border-border hover:border-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
             >
               <span
                 aria-hidden
@@ -644,7 +616,7 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           return (
             <div
               key={c.label}
-              className="flex flex-col items-center gap-1.5 p-3 rounded-xl liquid-glass border border-border"
+              className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-card border border-border"
             >
               <Icon className="w-4 h-4 text-foreground" />
               <span className="text-[11px] font-medium text-center leading-tight text-muted-foreground">

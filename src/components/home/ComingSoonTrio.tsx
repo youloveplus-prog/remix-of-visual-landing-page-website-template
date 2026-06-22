@@ -33,10 +33,10 @@ const ITEMS: Item[] = [
     tone: "gray",
   },
   {
-    chip: "Rewards",
-    title: "Learning Rewards",
-    subtitle: "Earn coins and XP for every lesson you complete",
-    href: "/game",
+    chip: "Revision",
+    title: "Structured Growth",
+    subtitle: "Revision plans and structured roadmap milestones",
+    href: "/revision",
     art: teachArt,
     tone: "lime",
   },
@@ -47,15 +47,15 @@ const TONES: Record<
   { card: string; title: string; sub: string; chip: string }
 > = {
   dark: {
-    card: "bg-background text-white",
+    card: "bg-[#111114] text-white",
     title: "text-white",
     sub: "text-white/70",
     chip: "bg-white text-black",
   },
   gray: {
-    card: "bg-card text-foreground",
-    title: "text-foreground",
-    sub: "text-muted-foreground",
+    card: "bg-[#ececec] text-[#111]",
+    title: "text-[#0e0e10]",
+    sub: "text-[#5b5b62]",
     chip: "bg-white text-black",
   },
   lime: {
@@ -80,16 +80,16 @@ const Sparkle = ({ className = "" }: { className?: string }) => (
 export default function ComingSoonTrio() {
   return (
     <section className="section-x">
-      <div className="surface-panel relative overflow-hidden rounded-[22px] px-4 pb-5 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-12">
+      <div className="relative overflow-hidden rounded-[22px] border border-black/5 bg-[#f6f5f0] px-4 pb-5 pt-6 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.25)] sm:rounded-[32px] sm:px-8 sm:pb-10 sm:pt-12">
         {/* Decorative floaters */}
         <div className="pointer-events-none absolute inset-0 select-none" aria-hidden>
-          <div className="absolute left-[5%] top-[6%] h-4 w-4 rotate-[18deg] rounded-[4px] bg-background shadow-md sm:left-[8%] sm:top-[8%] sm:h-7 sm:w-7" />
+          <div className="absolute left-[5%] top-[6%] h-4 w-4 rotate-[18deg] rounded-[4px] bg-[#1a1a1a] shadow-md sm:left-[8%] sm:top-[8%] sm:h-7 sm:w-7" />
           <div className="absolute left-[4%] top-[28%] text-primary sm:left-[10%] sm:top-[34%]">
             <svg width="28" height="28" viewBox="0 0 64 64" fill="currentColor" className="sm:h-12 sm:w-12">
               <path d="M32 6c5 0 9 4 9 9 0 2-.6 3.8-1.6 5.3C45 19.5 50 24 50 30c0 5-4 9-9 9-2 0-3.8-.6-5.3-1.6.6 4.6 4.6 8.6 9.3 9.6L32 60 19 47c4.7-1 8.7-5 9.3-9.6C26.8 38.4 25 39 23 39c-5 0-9-4-9-9 0-6 5-10.5 10.6-9.7C23.6 18.8 23 17 23 15c0-5 4-9 9-9z" />
             </svg>
           </div>
-          <div className="absolute right-[4%] top-[22%] text-primary/70 sm:right-[8%] sm:top-[30%]">
+          <div className="absolute right-[4%] top-[22%] text-[#bcd6f5] sm:right-[8%] sm:top-[30%]">
             <svg width="30" height="26" viewBox="0 0 24 21" fill="currentColor" className="sm:h-10 sm:w-12">
               <path d="M12 21s-7-4.5-9.5-9C.8 8.3 2.5 4 6.5 4c2 0 3.5 1 5.5 3 2-2 3.5-3 5.5-3 4 0 5.7 4.3 4 8-2.5 4.5-9.5 9-9.5 9z" />
             </svg>
@@ -104,29 +104,29 @@ export default function ComingSoonTrio() {
         {/* Hero */}
         <div className="relative mx-auto max-w-2xl text-center">
           <h1
-            className="font-grotesk text-[28px] font-extrabold leading-[1.05] tracking-[-0.035em] text-panel-fg sm:text-[60px]"
+            className="font-grotesk text-[28px] font-extrabold leading-[1.05] tracking-[-0.035em] text-[#0e0e10] sm:text-[60px]"
           >
             NO-1 Free-To-Learn
             <br />
             <span className="relative inline-block">
               Platform of 2026
               {/* tilted sticker */}
-              <span className="absolute -right-1 top-[42%] rotate-[-8deg] rounded-[5px] border border-black/10 surface-panel px-1 py-0.5 text-center text-[7px] font-semibold leading-tight text-foreground shadow-sm sm:-right-4 sm:rounded-[6px] sm:px-1.5 sm:text-[10px]">
+              <span className="absolute -right-1 top-[42%] rotate-[-8deg] rounded-[5px] border border-black/10 bg-white px-1 py-0.5 text-center text-[7px] font-semibold leading-tight text-[#0e0e10] shadow-sm sm:-right-4 sm:rounded-[6px] sm:px-1.5 sm:text-[10px]">
                 free
               </span>
             </span>
           </h1>
 
-          <p className="mt-2.5 text-[12.5px] font-medium tracking-tight text-panel-muted sm:mt-4 sm:text-[16px]">
+          <p className="mt-2.5 text-[12.5px] font-medium tracking-tight text-[#5b5b62] sm:mt-4 sm:text-[16px]">
             Learn without payment today!
           </p>
 
           {/* Stacked layered CTA pill */}
           <div className="relative mt-5 inline-flex items-center justify-center sm:mt-7">
             {/* stack shadows */}
-            <span className="absolute inset-x-2 -bottom-2 h-full rounded-full border border-black/10 surface-panel" />
-            <span className="absolute inset-x-1 -bottom-1 h-full rounded-full border border-black/10 surface-panel" />
-            <div className="relative rounded-full border border-black/10 surface-panel p-0.5 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.25)] sm:p-1">
+            <span className="absolute inset-x-2 -bottom-2 h-full rounded-full border border-black/10 bg-white" />
+            <span className="absolute inset-x-1 -bottom-1 h-full rounded-full border border-black/10 bg-white" />
+            <div className="relative rounded-full border border-black/10 bg-white p-0.5 shadow-[0_8px_24px_-10px_rgba(0,0,0,0.25)] sm:p-1">
               <Link
                 to="/courses"
                 className="relative inline-flex items-center gap-1.5 rounded-full bg-[#2541ff] px-4 py-2 text-[13px] font-extrabold tracking-tight text-white shadow-[inset_0_-2px_0_rgba(0,0,0,0.18)] transition-transform hover:scale-[1.03] hover:bg-[#1d36e0] sm:px-7 sm:py-3 sm:text-[16px]"
@@ -137,10 +137,10 @@ export default function ComingSoonTrio() {
               </Link>
             </div>
             {/* emoji bubble + zzz */}
-            <div className="absolute -right-7 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 surface-panel text-xs shadow-sm sm:-right-12 sm:h-10 sm:w-10 sm:text-base">
+            <div className="absolute -right-7 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-black/10 bg-white text-xs shadow-sm sm:-right-12 sm:h-10 sm:w-10 sm:text-base">
               🥱
             </div>
-            <span className="absolute -right-0.5 -top-2.5 text-[8px] font-bold text-muted-foreground sm:-right-1 sm:-top-4 sm:text-xs">
+            <span className="absolute -right-0.5 -top-2.5 text-[8px] font-bold text-[#9aa0b4] sm:-right-1 sm:-top-4 sm:text-xs">
               z<span className="text-[7px] sm:text-[10px]">z</span>
             </span>
           </div>

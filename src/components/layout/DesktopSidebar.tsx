@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from "@/assets/logo.png";
 import {
   Home,
   Library,
@@ -20,7 +21,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { sidebarWidthClass } from "./layout-constants";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -135,13 +135,13 @@ export function DesktopSidebar({
     { icon: Home, label: "Home", href: "/" },
     { icon: Library, label: "Library", href: "/shop" },
     { icon: Users, label: "Community", href: "/community" },
-    { icon: Gamepad2, label: "Game & Rewards", href: "/game" },
+    { icon: Sparkles, label: "AI Tutor", href: "/learn" },
   ];
 
   const shopNavItems = [
     { icon: GraduationCap, label: "Courses", href: "/shop?type=courses" },
-    { icon: BookOpen, label: "Books", href: "/shop?type=ebooks" },
-    { icon: Package, label: "Student Kits", href: "/shop?type=bundles" },
+    { icon: BookOpen, label: "Books", href: "/shop?type=books" },
+    { icon: Package, label: "Student Kits", href: "/shop?type=kits" },
     { icon: Wand2, label: "Prompt Library", href: "/prompts" },
     { icon: Sparkles, label: "New Arrivals", href: "/shop?filter=new" },
   ];
@@ -159,9 +159,10 @@ export function DesktopSidebar({
     { icon: HelpCircle, label: "Help & Support", href: "/help" },
   ];
 
-  // Expand/collapse is controlled only by the chevron toggle — no hover expansion
-  const expanded = !isCollapsed;
-  const iconOnly = isCollapsed;
+  // Hover-to-expand when collapsed (visual only — main content padding stays at w-16)
+  const [isHoverExpanded, setIsHoverExpanded] = useState(false);
+  const expanded = !isCollapsed || isHoverExpanded;
+  const iconOnly = isCollapsed && !isHoverExpanded;
 
   // Collapsible group state, persisted per-group
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
@@ -229,43 +230,63 @@ export function DesktopSidebar({
 
   return (
     <aside
+      onMouseEnter={() => isCollapsed && setIsHoverExpanded(true)}
+      onMouseLeave={() => setIsHoverExpanded(false)}
       className={cn(
-        "fixed left-0 top-0 h-dvh z-40 hidden lg:flex flex-col border-r border-border/60 liquid-nav transition-[width] duration-300 ease-out will-change-[width] overflow-hidden",
-        sidebarWidthClass(!expanded),
+        "fixed left-0 top-0 bottom-0 z-30 hidden lg:flex flex-col border-r border-border/40 liquid-nav transition-[width,box-shadow] duration-300 ease-out will-change-[width]",
+        expanded ? "w-60" : "w-16",
+        isCollapsed && isHoverExpanded && "shadow-2xl shadow-black/40",
         className
       )}
     >
-      {/* Brand + Collapse Toggle — sits flush with header */}
-      <div
-        className={cn(
-          "flex items-center shrink-0 border-b border-border/60 px-3",
-          expanded ? "justify-between" : "justify-center"
-        )}
-        style={{ height: "var(--app-header-h)" }}
-      >
-        {expanded && (
-          <Link
-            to="/"
-            className="font-display text-base font-semibold tracking-tight text-gradient truncate"
-          >
-            ASIKON
-          </Link>
-        )}
-        <Button
-          variant="ghost"
-          size="icon"
-          aria-label={isCollapsed ? "Expand sidebar (Ctrl/Cmd+B)" : "Collapse sidebar (Ctrl/Cmd+B)"}
-          title={isCollapsed ? "Expand (Ctrl/Cmd+B)" : "Collapse (Ctrl/Cmd+B)"}
-          className="h-7 w-7 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/60"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          {isCollapsed ? (
-            <ChevronRight className="h-4 w-4" />
-          ) : (
-            <ChevronLeft className="h-4 w-4" />
+      {/* Brand logo area */}
+      <div className={cn(
+        "h-[72px] flex items-center px-4 border-b border-border/40 bg-background/40",
+        expanded ? "justify-start gap-2.5" : "justify-center"
+      )}>
+        <Link to="/" className="group flex items-center gap-2.5">
+          <span className={cn(
+            "relative grid place-items-center rounded-xl transition-all duration-300",
+            "ring-1 ring-border/60 bg-card/70 backdrop-blur-xl h-10 w-10 shrink-0"
+          )}>
+            <img
+              src={logo}
+              alt="Asikon logo"
+              className="w-6 h-6 object-contain"
+            />
+            <span
+              aria-hidden
+              className="absolute -inset-px rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ background: "var(--gradient-primary-soft)" }}
+            />
+          </span>
+          {expanded && (
+            <div className="leading-none animate-fade-in">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
+                ​
+              </p>
+              <h1 className="font-display font-bold text-gradient text-xl">
+                Asikon
+              </h1>
+            </div>
           )}
-        </Button>
+        </Link>
       </div>
+      {/* Collapse Toggle */}
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label={isCollapsed ? "Expand sidebar (Ctrl/Cmd+B)" : "Collapse sidebar (Ctrl/Cmd+B)"}
+        title={isCollapsed ? "Expand (Ctrl/Cmd+B)" : "Collapse (Ctrl/Cmd+B)"}
+        className="absolute -right-3 top-4 z-50 h-6 w-6 rounded-full border border-border bg-background shadow-sm hover:bg-secondary"
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+        {isCollapsed ? (
+          <ChevronRight className="h-3 w-3" />
+        ) : (
+          <ChevronLeft className="h-3 w-3" />
+        )}
+      </Button>
 
       <ScrollArea className="flex-1 py-4 [&>[data-radix-scroll-area-viewport]]:overscroll-contain">
         <div className="space-y-5 px-3">
@@ -278,7 +299,7 @@ export function DesktopSidebar({
               )}
           </div>
 
-          <Separator className="opacity-60" />
+          <Separator className="mx-3 opacity-60" />
 
           <div className="space-y-0.5">
             {expanded && <GroupHeader id="library" label="Library" />}
@@ -288,7 +309,7 @@ export function DesktopSidebar({
               )}
           </div>
 
-          <Separator className="opacity-60" />
+          <Separator className="mx-3 opacity-60" />
 
           <div className="space-y-0.5">
             {expanded && <GroupHeader id="account" label="Account" />}
@@ -300,8 +321,9 @@ export function DesktopSidebar({
         </div>
       </ScrollArea>
 
+
       {/* Bottom Navigation */}
-      <div className="border-t border-border/60 p-3 space-y-0.5">
+      <div className="border-t border-border/60 p-3 space-y-0.5 bg-background/40">
         {bottomNavItems.map((item) =>
           renderItem(item, location.pathname === item.href)
         )}

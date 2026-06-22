@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useHomeBanners } from "@/hooks/useHomeBanners";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 const FALLBACK_OFFERS = [
   {

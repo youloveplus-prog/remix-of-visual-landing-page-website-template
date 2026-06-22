@@ -7,7 +7,7 @@ interface MobileLayoutProps {
 export function MobileLayout({ children }: MobileLayoutProps) {
   return (
     <div className="min-h-dvh bg-background">
-      <main style={{ paddingBottom: "var(--bottom-nav-h)" }}>{children}</main>
+      <main className="pb-20">{children}</main>
       <BottomNav />
     </div>
   );

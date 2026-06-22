@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["vitest/globals"],
     "target": "ES2022",
     "useDefineForClassFields": true,
     "lib": [

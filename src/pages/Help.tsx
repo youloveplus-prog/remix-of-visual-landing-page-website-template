@@ -1,4 +1,3 @@
-import { SITE_URL } from "@/config/site";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { Reveal } from "@/components/transitions/Reveal";
@@ -70,7 +69,7 @@ const Help = () => {
       <SEO
         title="Help & FAQ — ASIKON support"
         description="Answers to common questions about orders, learning, community, mentorship, coins, and trust at ASIKON."
-        url={`${SITE_URL}/help`}
+        url="https://asikonpro.lovable.app/help"
       />
 
       <Reveal as="section" className="pt-20 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-20">
@@ -92,7 +91,7 @@ const Help = () => {
                 <div className="size-10 rounded-xl bg-primary/10 grid place-items-center text-primary">
                   <Icon className="size-5" aria-hidden />
                 </div>
-                <h2 className="hf-title font-display">{title}</h2>
+                <h2 className="font-display text-2xl font-semibold">{title}</h2>
               </div>
               <Accordion type="single" collapsible className="w-full">
                 {items.map((it, i) => (

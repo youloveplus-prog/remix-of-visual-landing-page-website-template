@@ -1,53 +1,27 @@
 import { Link } from "react-router-dom";
 import useEmblaCarousel from "embla-carousel-react";
+import {
+  Brain, Code2, Palette, Wallet, Briefcase, Smartphone, Gamepad2, BookOpen,
+  Wand2, GraduationCap, MessagesSquare, Compass,
+} from "lucide-react";
 import { Reveal } from "@/components/transitions/Reveal";
 import { cn } from "@/lib/utils";
 
-// Responsive variants: 1x=64, 2x=128, 3x=192 (tiles render at 52px CSS).
-// vite-imagetools generates webp + jpg variants at build time.
-const SRCSET_Q = "?w=64;128;192&format=webp&as=srcset" as const;
-const FALLBACK_Q = "?w=128&format=jpg" as const;
-
-import aiSet from "@/assets/categories/ai.jpg?w=64;128;192&format=webp&as=srcset";
-import aiSrc from "@/assets/categories/ai.jpg?w=128&format=jpg";
-import devSet from "@/assets/categories/dev.jpg?w=64;128;192&format=webp&as=srcset";
-import devSrc from "@/assets/categories/dev.jpg?w=128&format=jpg";
-import designSet from "@/assets/categories/design.jpg?w=64;128;192&format=webp&as=srcset";
-import designSrc from "@/assets/categories/design.jpg?w=128&format=jpg";
-import financeSet from "@/assets/categories/finance.jpg?w=64;128;192&format=webp&as=srcset";
-import financeSrc from "@/assets/categories/finance.jpg?w=128&format=jpg";
-import businessSet from "@/assets/categories/business.jpg?w=64;128;192&format=webp&as=srcset";
-import businessSrc from "@/assets/categories/business.jpg?w=128&format=jpg";
-import appsSet from "@/assets/categories/apps.jpg?w=64;128;192&format=webp&as=srcset";
-import appsSrc from "@/assets/categories/apps.jpg?w=128&format=jpg";
-import gamesSet from "@/assets/categories/games.jpg?w=64;128;192&format=webp&as=srcset";
-import gamesSrc from "@/assets/categories/games.jpg?w=128&format=jpg";
-import booksSet from "@/assets/categories/books.jpg?w=64;128;192&format=webp&as=srcset";
-import booksSrc from "@/assets/categories/books.jpg?w=128&format=jpg";
-import promptsSet from "@/assets/categories/prompts.jpg?w=64;128;192&format=webp&as=srcset";
-import promptsSrc from "@/assets/categories/prompts.jpg?w=128&format=jpg";
-import mentorsSet from "@/assets/categories/mentors.jpg?w=64;128;192&format=webp&as=srcset";
-import mentorsSrc from "@/assets/categories/mentors.jpg?w=128&format=jpg";
-import communitySet from "@/assets/categories/community.jpg?w=64;128;192&format=webp&as=srcset";
-import communitySrc from "@/assets/categories/community.jpg?w=128&format=jpg";
-import tracksSet from "@/assets/categories/tracks.jpg?w=64;128;192&format=webp&as=srcset";
-import tracksSrc from "@/assets/categories/tracks.jpg?w=128&format=jpg";
-
-type Cat = { src: string; srcSet: string; label: string; href: string };
+type Cat = { icon: any; label: string; href: string };
 
 const CATS: Cat[] = [
-  { src: aiSrc,        srcSet: aiSet,        label: "AI & ML",     href: "/shop?category=ai" },
-  { src: devSrc,       srcSet: devSet,       label: "Development", href: "/shop?category=dev" },
-  { src: designSrc,    srcSet: designSet,    label: "Design",      href: "/shop?category=design" },
-  { src: financeSrc,   srcSet: financeSet,   label: "Finance",     href: "/shop?category=finance" },
-  { src: businessSrc,  srcSet: businessSet,  label: "Business",    href: "/shop?category=business" },
-  { src: appsSrc,      srcSet: appsSet,      label: "Apps",        href: "/shop?category=apps" },
-  { src: gamesSrc,     srcSet: gamesSet,     label: "Games",       href: "/shop?category=games" },
-  { src: booksSrc,     srcSet: booksSet,     label: "Books",       href: "/shop?type=ebooks" },
-  { src: promptsSrc,   srcSet: promptsSet,   label: "Prompts",     href: "/prompts" },
-  { src: mentorsSrc,   srcSet: mentorsSet,   label: "Mentors",     href: "/mentors" },
-  { src: communitySrc, srcSet: communitySet, label: "Community",   href: "/community" },
-  { src: tracksSrc,    srcSet: tracksSet,    label: "Tracks",      href: "/shop?type=courses" },
+  { icon: Brain,          label: "AI & ML",     href: "/shop?category=ai" },
+  { icon: Code2,          label: "Development", href: "/shop?category=dev" },
+  { icon: Palette,        label: "Design",      href: "/shop?category=design" },
+  { icon: Wallet,         label: "Finance",     href: "/shop?category=finance" },
+  { icon: Briefcase,      label: "Business",    href: "/shop?category=business" },
+  { icon: Smartphone,     label: "Apps",        href: "/shop?category=apps" },
+  { icon: Gamepad2,       label: "Games",       href: "/shop?category=games" },
+  { icon: BookOpen,       label: "Books",       href: "/shop?type=books" },
+  { icon: Wand2,          label: "Prompts",     href: "/prompts" },
+  { icon: GraduationCap,  label: "Mentors",     href: "/mentors" },
+  { icon: MessagesSquare, label: "Community",   href: "/community" },
+  { icon: Compass,        label: "Tracks",      href: "/shop?type=courses" },
 ];
 
 export function CategoriesScroll() {
@@ -63,7 +37,7 @@ export function CategoriesScroll() {
         <Link to="/shop" className="text-xs text-primary font-medium">See all</Link>
       </div>
 
-      {/* Mobile: 2-row scroll, image chips */}
+      {/* Mobile: 2-row scroll, brand-gradient chips */}
       <div className="md:hidden -mx-3 px-3 overflow-hidden" ref={emblaRef}>
         <div className="flex gap-2.5">
           {pairs.map((pair, i) => (
@@ -82,7 +56,7 @@ export function CategoriesScroll() {
   );
 }
 
-function CatTile({ src, srcSet, label, href }: Cat) {
+function CatTile({ icon: Icon, label, href }: Cat) {
   return (
     <Link
       to={href}
@@ -91,30 +65,22 @@ function CatTile({ src, srcSet, label, href }: Cat) {
       <div
         className={cn(
           "relative w-[52px] h-[52px] rounded-[16px] overflow-hidden",
-          "border border-white/10",
-          "shadow-[0_8px_24px_-12px_hsl(var(--primary)/0.45),inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]",
-          "transition-all duration-300 group-hover:shadow-[0_12px_28px_-12px_hsl(var(--primary)/0.6)]",
+          "bg-white/[0.04] backdrop-blur-xl border border-white/10",
+          "flex items-center justify-center",
+          "shadow-[0_8px_24px_-12px_hsl(var(--primary)/0.55),inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]",
+          "group-hover:bg-white/[0.08] transition-all duration-300",
         )}
       >
-        <img
-          src={src}
-          srcSet={srcSet}
-          sizes="52px"
-          alt={label}
-          loading="lazy"
-          decoding="async"
-          width={52}
-          height={52}
-          className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-70"
+          style={{ background: "radial-gradient(120% 80% at 30% 20%, hsl(var(--primary) / 0.28) 0%, transparent 60%)" }}
         />
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-x-2 top-1 h-1/3 rounded-full bg-gradient-to-b from-white/35 to-transparent blur-[2px]"
+          className="pointer-events-none absolute inset-x-2 top-1 h-1/3 rounded-full bg-gradient-to-b from-white/25 to-transparent blur-[2px]"
         />
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[16px]"
-        />
+        <Icon className="relative h-[20px] w-[20px] text-primary drop-shadow-[0_1px_3px_hsl(var(--primary)/0.55)]" strokeWidth={2} />
       </div>
       <span className="text-[11px] font-medium leading-tight text-center truncate w-full text-foreground/85">
         {label}

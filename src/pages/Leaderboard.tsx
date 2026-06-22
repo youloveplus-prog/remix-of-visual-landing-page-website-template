@@ -1,4 +1,3 @@
-import { SITE_URL } from "@/config/site";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { Reveal } from "@/components/transitions/Reveal";
@@ -19,11 +18,11 @@ type Row = {
 
 const medalClass = (i: number) =>
   i === 0
-    ? "bg-primary/10 text-primary border-amber-500/30"
+    ? "bg-amber-500/15 text-amber-500 border-amber-500/30"
     : i === 1
     ? "bg-zinc-400/15 text-zinc-300 border-zinc-400/30"
     : i === 2
-    ? "bg-muted text-muted-foreground border-orange-500/30"
+    ? "bg-orange-500/15 text-orange-400 border-orange-500/30"
     : "bg-secondary text-foreground/70 border-border";
 
 const Leaderboard = () => {
@@ -58,7 +57,7 @@ const Leaderboard = () => {
       <SEO
         title="Leaderboard — top learners on ASIKON"
         description="See the learners with the most XP and longest streaks on ASIKON. Climb the ranks one daily mission at a time."
-        url={`${SITE_URL}/leaderboard`}
+        url="https://asikonpro.lovable.app/leaderboard"
       />
 
       <Reveal as="section" className="pt-16 pb-10 sm:pt-24 sm:pb-14 lg:pt-32">
@@ -75,23 +74,7 @@ const Leaderboard = () => {
         <div className="container-editorial max-w-3xl">
           <ol className="space-y-3">
             {isLoading &&
-              [...Array(8)].map((_, i) => (
-                <li key={i}>
-                  <div className="rounded-2xl border border-border bg-card p-4 sm:p-5 flex items-center gap-4">
-                    <Skeleton className="size-11 rounded-xl shrink-0" />
-                    <Skeleton className="size-10 rounded-full shrink-0" />
-                    <div className="flex-1 min-w-0 space-y-2">
-                      <Skeleton className="h-3.5 w-1/2" />
-                      <Skeleton className="h-3 w-2/5" />
-                    </div>
-                    <div className="text-right space-y-1.5">
-                      <Skeleton className="h-5 w-14 ml-auto" />
-                      <Skeleton className="h-2.5 w-6 ml-auto" />
-                    </div>
-                  </div>
-                </li>
-              ))}
-
+              [...Array(8)].map((_, i) => <Skeleton key={i} className="h-20 rounded-2xl" />)}
 
             {!isLoading && (!data || data.length === 0) && (
               <div className="rounded-2xl border border-border bg-card p-12 text-center">

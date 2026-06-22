@@ -28,26 +28,17 @@ interface ProfileFeedTabProps {
     avatar: string;
     isVerified: boolean;
   };
-  isOwnProfile?: boolean;
 }
 
-export function ProfileFeedTab({ posts, user, isOwnProfile }: ProfileFeedTabProps) {
+export function ProfileFeedTab({ posts, user }: ProfileFeedTabProps) {
   const navigate = useNavigate();
   if (posts.length === 0) {
     return (
       <EmptyState
         icon={<Newspaper className="h-10 w-10" />}
         title="No posts yet"
-        hint={
-          isOwnProfile
-            ? "Share your first post — it'll show up here."
-            : "When this profile shares posts, they'll show up here."
-        }
-        action={
-          <Button onClick={() => navigate(isOwnProfile ? "/create" : "/community")}>
-            {isOwnProfile ? "Create a post" : "Explore community"}
-          </Button>
-        }
+        hint="When this profile shares posts, they'll show up here."
+        action={<Button onClick={() => navigate("/community")}>Share your first post</Button>}
       />
     );
   }
@@ -102,13 +93,9 @@ function FeedPostCard({ post, user }: { post: FeedPost; user: ProfileFeedTabProp
         <p className="px-4 pb-3 text-sm whitespace-pre-wrap">{post.content}</p>
       )}
 
-      {(post.images?.[0] || post.videoUrl) && (
+      {post.images && post.images[0] && (
         <div className="relative">
-          {post.images?.[0] ? (
-            <img src={post.images[0]} alt="" className="w-full max-h-[520px] object-cover" />
-          ) : (
-            <video src={post.videoUrl!} controls className="w-full max-h-[520px] bg-black" />
-          )}
+          <img src={post.images[0]} alt="" className="w-full max-h-[520px] object-cover" />
           {post.productSlug && (
             <Link
               to={`/product/${post.productSlug}`}
@@ -119,6 +106,10 @@ function FeedPostCard({ post, user }: { post: FeedPost; user: ProfileFeedTabProp
             </Link>
           )}
         </div>
+      )}
+
+      {post.videoUrl && !post.images?.[0] && (
+        <video src={post.videoUrl} controls className="w-full max-h-[520px] bg-black" />
       )}
 
       <div className="flex items-center gap-4 px-3.5 py-3 border-t border-border/40">

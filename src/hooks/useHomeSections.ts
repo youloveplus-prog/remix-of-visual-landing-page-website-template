@@ -28,31 +28,23 @@ const FALLBACK: Pick<HomeSection, "key" | "enabled" | "display_order">[] = [
   { key: "faq", enabled: false, display_order: 240 },
 ];
 
-const FALLBACK_SECTIONS: HomeSection[] = FALLBACK.map((f) => ({
-  id: f.key,
-  title_override: null,
-  subtitle_override: null,
-  ...f,
-}));
-
 export function useHomeSections() {
   return useQuery({
     queryKey: ["home-sections"],
-    // Sections rarely change; keep them cached across the whole session so we
-    // don't re-issue the request (and re-hit a 404 when the table is absent)
-    // on every Home mount.
-    staleTime: Infinity,
-    gcTime: Infinity,
-    retry: false,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
+    staleTime: 60_000,
     queryFn: async (): Promise<HomeSection[]> => {
       const { data, error } = await (supabase as any)
         .from("home_sections")
         .select("id, key, enabled, display_order, title_override, subtitle_override")
         .order("display_order", { ascending: true });
-      if (error || !data?.length) return FALLBACK_SECTIONS;
+      if (error || !data?.length) {
+        return FALLBACK.map((f) => ({
+          id: f.key,
+          title_override: null,
+          subtitle_override: null,
+          ...f,
+        }));
+      }
       return data as HomeSection[];
     },
   });

@@ -4,37 +4,51 @@ import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
-import { haptic } from "@/lib/haptics";
+import asikonMark from "@/assets/icons/asikon-mark.svg";
+import exploreOutline from "@/assets/icons/explore-outline.svg";
+import exploreSolid from "@/assets/icons/explore-solid.svg";
 
-/* ---------- Explore (compass) ---------- */
-const ExploreOutline: IconComponent = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <circle
-      cx="12"
-      cy="12"
-      r="9.25"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      fill="none"
-    />
-    <path
-      d="M16.5 7.5 13.5 13.5 7.5 16.5 10.5 10.5 16.5 7.5Z"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinejoin="round"
-      fill="none"
-    />
-  </svg>
+const AsikonIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
+  <img
+    src={asikonMark}
+    alt=""
+    aria-hidden
+    className={className as string}
+    style={{ objectFit: "contain" }}
+  />
 );
 
-const ExploreFill: IconComponent = (props) => (
-  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path
-      d="M24 2C10.745 2 0 12.745 0 26s10.745 24 24 24 24-10.745 24-24S37.255 2 24 2Zm10.7 12.7L28 28 14.7 34.7a1.1 1.1 0 0 1-1.4-1.4L20 20l13.3-6.7a1.1 1.1 0 0 1 1.4 1.4Z"
-      fill="currentColor"
-    />
-    <path d="M24 22a2 2 0 1 0 2 2 2 2 0 0 0-2-2Z" fill="currentColor" />
-  </svg>
+const ExploreOutlineIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
+  <span
+    aria-hidden
+    className={cn("inline-block bg-current", className as string)}
+    style={{
+      WebkitMaskImage: `url(${exploreOutline})`,
+      maskImage: `url(${exploreOutline})`,
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+    }}
+  />
+);
+const ExploreFillIcon: React.FC<React.SVGProps<SVGSVGElement> & { strokeWidth?: number }> = ({ className }) => (
+  <span
+    aria-hidden
+    className={cn("inline-block bg-current", className as string)}
+    style={{
+      WebkitMaskImage: `url(${exploreSolid})`,
+      maskImage: `url(${exploreSolid})`,
+      WebkitMaskRepeat: "no-repeat",
+      maskRepeat: "no-repeat",
+      WebkitMaskPosition: "center",
+      maskPosition: "center",
+      WebkitMaskSize: "contain",
+      maskSize: "contain",
+    }}
+  />
 );
 
 type IconComponent =
@@ -62,7 +76,7 @@ const HomeFill: IconComponent = (props) => (
     />
     <path
       d="M15 18H9"
-      stroke="currentColor"
+      stroke="hsl(var(--background))"
       strokeWidth={1.75}
       strokeLinecap="round"
     />
@@ -95,7 +109,7 @@ const ShopFill: IconComponent = (props) => (
       fillRule="evenodd"
       clipRule="evenodd"
       d="M11.5067 7.01392C9.02527 7.01392 7.01367 9.02551 7.01367 11.5069C7.01367 13.9884 9.02527 16 11.5067 16C12.3853 16 13.205 15.7478 13.8973 15.3119L15.1658 16.5803C15.5563 16.9709 16.1895 16.9709 16.58 16.5803C16.9705 16.1898 16.9705 15.5566 16.58 15.1661L15.3116 13.8977C15.7475 13.2053 15.9997 12.3856 15.9997 11.5069C15.9997 9.02551 13.9881 7.01392 11.5067 7.01392ZM9.01367 11.5069C9.01367 10.1301 10.1298 9.01392 11.5067 9.01392C12.8836 9.01392 13.9997 10.1301 13.9997 11.5069C13.9997 12.8838 12.8836 14 11.5067 14C10.1298 14 9.01367 12.8838 9.01367 11.5069Z"
-      fill="currentColor"
+      fill="hsl(var(--background))"
     />
   </svg>
 );
@@ -144,43 +158,6 @@ const ProfileFill: IconComponent = (props) => (
   </svg>
 );
 
-/* ---------- Learn (book) ---------- */
-const LearnOutline: IconComponent = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path
-      d="M4 4.5C4 3.67157 4.67157 3 5.5 3H18.5C19.3284 3 20 3.67157 20 4.5V19.5C20 20.3284 19.3284 21 18.5 21H5.5C4.67157 21 4 20.3284 4 19.5V4.5Z"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinejoin="round"
-    />
-    <path
-      d="M8 3V13L10.5 11L13 13V3"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-const LearnFill: IconComponent = (props) => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path
-      d="M4 4.5C4 3.67157 4.67157 3 5.5 3H18.5C19.3284 3 20 3.67157 20 4.5V19.5C20 20.3284 19.3284 21 18.5 21H5.5C4.67157 21 4 20.3284 4 19.5V4.5Z"
-      fill="currentColor"
-      stroke="currentColor"
-      strokeWidth={1.5}
-    />
-    <path
-      d="M8 3V13L10.5 11L13 13V3"
-      stroke="currentColor"
-      strokeWidth={1.75}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
-  </svg>
-);
-
 interface Tab {
   id: Exclude<TabId, null>;
   iconOutline: IconComponent;
@@ -197,8 +174,8 @@ export function BottomNav() {
 
   const tabs: (Tab & { badge?: number; dot?: boolean })[] = [
     { id: "home", iconOutline: HomeOutline, iconFill: HomeFill, label: "Home", path: "/" },
-    { id: "explore", iconOutline: ExploreOutline, iconFill: ExploreFill, label: "Explore", path: "/shop", badge: cartCount },
-    { id: "learn", iconOutline: LearnOutline, iconFill: LearnFill, label: "Learn", path: "/learn" },
+    { id: "explore", iconOutline: ExploreOutlineIcon, iconFill: ExploreFillIcon, label: "Explore", path: "/shop", badge: cartCount },
+    { id: "ai", iconOutline: AsikonIcon, iconFill: AsikonIcon, label: "AI", path: "/learn" },
     { id: "community", iconOutline: CommunityOutline, iconFill: CommunityFill, label: "Community", path: "/community", dot: false },
     { id: "profile", iconOutline: ProfileOutline, iconFill: ProfileFill, label: "Profile", path: "/profile" },
   ];
@@ -207,15 +184,14 @@ export function BottomNav() {
     <nav
       aria-label="Primary"
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
-        "liquid-nav border-t border-border/40",
-        "before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-gradient-to-t before:from-background/80 before:to-transparent before:pointer-events-none"
+        "fixed inset-x-0 bottom-0 z-50 h-[var(--bottom-nav-h)] overflow-hidden supports-[padding:max(0px)]:pb-[env(safe-area-inset-bottom)]",
+        "liquid-nav border-t border-border/40"
       )}
     >
-      <ul className="flex h-[62px] items-stretch px-2 gap-0.5">
+      <ul className="flex h-[72px] items-stretch px-1.5">
         {tabs.map((item) => (
           <li key={item.path} className="flex-1 min-w-0">
-            <NavItem item={item} active={activeTab === item.id} isHome={item.path === "/"} />
+            <NavItem item={item} active={activeTab === item.id} />
           </li>
         ))}
       </ul>
@@ -223,11 +199,9 @@ export function BottomNav() {
   );
 }
 
-
 function NavItem({
   item,
   active,
-  isHome,
 }: {
   item: {
     iconOutline: IconComponent;
@@ -238,7 +212,6 @@ function NavItem({
     dot?: boolean;
   };
   active: boolean;
-  isHome?: boolean;
 }) {
   const Icon = active ? item.iconFill : item.iconOutline;
   const { pathname } = useLocation();
@@ -246,11 +219,8 @@ function NavItem({
   const handleClick = (e: React.MouseEvent) => {
     if (active && pathname === item.path) {
       e.preventDefault();
-      haptic("selection");
       window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
     }
-    haptic("light");
   };
 
   const showBadge = typeof item.badge === "number" && item.badge > 0;
@@ -259,43 +229,47 @@ function NavItem({
   return (
     <NavLink
       to={item.path}
-      end={isHome}
       aria-label={item.label}
       aria-current={active ? "page" : undefined}
       onClick={handleClick}
-      className="group relative flex h-full w-full flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none"
+      className="relative flex h-full w-full flex-col items-center justify-center gap-0.5 select-none touch-manipulation outline-none"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
-      {/* Active pill background */}
-      <span
-        aria-hidden
-        className={cn(
-          "absolute top-1.5 left-1/2 -translate-x-1/2 h-8 w-12 rounded-full transition-all duration-300 ease-out",
-          active
-            ? "bg-primary/12 scale-100 opacity-100"
-            : "scale-75 opacity-0 group-active:opacity-100 group-active:bg-primary/8"
-        )}
-      />
-
-      {/* Top active indicator bar */}
-      <span
-        aria-hidden
-        className={cn(
-          "absolute top-0 left-1/2 -translate-x-1/2 h-[3px] rounded-b-full bg-primary transition-all duration-300 ease-out",
-          active ? "w-8 opacity-100" : "w-0 opacity-0"
-        )}
-      />
-
       <span className="relative inline-flex z-10">
-        <Icon
-          aria-hidden
-          className={cn(
-            "h-[22px] w-[22px] transition-all duration-300 ease-out motion-safe:group-active:scale-90",
-            active
-              ? "text-primary scale-110"
-              : "text-muted-foreground group-hover:text-foreground"
-          )}
-        />
+        {item.iconFill === AsikonIcon ? (
+          <span
+            aria-hidden
+            className={cn(
+              "grid place-items-center rounded-2xl transition-all duration-300",
+              active
+                ? "h-12 w-12 -mt-4 bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-[0_10px_24px_-6px_hsl(var(--primary)/0.7),inset_0_1px_0_hsl(0_0%_100%/0.25)] ring-2 ring-background scale-105"
+                : "h-11 w-11 -mt-2 bg-secondary/60 border border-border text-foreground/70"
+            )}
+          >
+            <img
+              src={asikonMark}
+              alt=""
+              aria-hidden
+              className={cn("h-[22px] w-[22px] transition-all duration-200", active ? "opacity-100" : "opacity-70")}
+              style={
+                active
+                  ? { filter: "brightness(0) invert(1)" }
+                  : undefined
+              }
+            />
+          </span>
+        ) : (
+          <Icon
+            aria-hidden
+            className={cn(
+              "h-[24px] w-[24px]",
+              "transition-all duration-200",
+              active
+                ? "text-primary"
+                : "text-muted-foreground/60"
+            )}
+          />
+        )}
 
         {showBadge && (
           <span
@@ -314,16 +288,17 @@ function NavItem({
         )}
       </span>
 
-      <span
-        className={cn(
-          "pointer-events-none relative z-10 text-[10px] leading-none tracking-tight transition-all duration-300",
-          active
-            ? "font-semibold text-primary opacity-100"
-            : "font-medium text-muted-foreground opacity-80 group-hover:opacity-100"
-        )}
-      >
-        {item.label}
-      </span>
+      {!(item.iconFill === AsikonIcon && active) && (
+        <span
+          className={cn(
+            "pointer-events-none relative z-10 text-[10px] leading-none",
+            active ? "font-semibold text-primary" : "font-medium text-muted-foreground"
+          )}
+        >
+          {item.label}
+        </span>
+      )}
     </NavLink>
   );
 }
+

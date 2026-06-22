@@ -1,12 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  CommunityEmpty,
-  CommunityError,
-  ShortTileSkeleton,
-  SkeletonGrid,
-} from "@/components/community/CommunityState";
 
 export function ShortsTab() {
   const { data, isLoading, isError, refetch } = useQuery({
@@ -25,33 +21,39 @@ export function ShortsTab() {
 
   if (isLoading) {
     return (
-      <SkeletonGrid count={6} cols="grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-        <ShortTileSkeleton />
-      </SkeletonGrid>
+      <div className="px-4 pb-4 grid grid-cols-2 gap-3">
+        {[1, 2, 3, 4].map((i) => (
+          <Skeleton key={i} className="aspect-[9/16] rounded-2xl" />
+        ))}
+      </div>
     );
   }
 
   if (isError) {
-    return <CommunityError message="Could not load shorts." onRetry={() => refetch()} />;
+    return (
+      <div className="px-4 py-12 text-center space-y-3">
+        <p className="text-sm text-muted-foreground">Could not load shorts. Try again.</p>
+        <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
+      </div>
+    );
   }
 
   if (!data || data.length === 0) {
     return (
-      <CommunityEmpty
-        icon={Sparkles}
-        title="Shorts coming soon"
-        description="Bite-sized clips from the community will appear here."
-      />
+      <div className="px-4 py-16 text-center space-y-3">
+        <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
+          <Sparkles className="h-6 w-6 text-muted-foreground" />
+        </div>
+        <h3 className="font-display font-semibold text-base">Shorts coming soon</h3>
+        <p className="text-sm text-muted-foreground">Check back later for bite-sized clips.</p>
+      </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 pb-4">
+    <div className="px-4 pb-4 grid grid-cols-2 gap-3">
       {data.map((s: any) => (
-        <article
-          key={s.id}
-          className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border"
-        >
+        <article key={s.id} className="relative aspect-[9/16] rounded-2xl overflow-hidden bg-card border border-border">
           {s.video_url ? (
             <video src={s.video_url} className="w-full h-full object-cover" muted playsInline />
           ) : (

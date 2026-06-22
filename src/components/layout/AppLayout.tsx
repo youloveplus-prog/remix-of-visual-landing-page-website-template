@@ -7,15 +7,11 @@ import { SlimDesktopHeader } from "./SlimDesktopHeader";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { Sidebar } from "./Sidebar";
 import { SiteFooter } from "./SiteFooter";
-import { HeaderMenuOpenProvider } from "@/hooks/use-header-visibility";
-
 
 import { MobileSearchOverlay } from "@/components/search/MobileSearchOverlay";
 import { SkipLink } from "@/components/ui/skip-link";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/hooks/useCart";
-import { sidebarPaddingClassLg } from "./layout-constants";
-
 
 
 // Context to share sidebar state
@@ -101,30 +97,25 @@ export function AppLayout({
 
   const { pathname } = useLocation();
   const isHome = pathname === "/";
-  const showDesktopSidebar = showSidebar && !isHome;
+  const showDesktopSidebar = showSidebar;
 
   return (
     <SidebarContext.Provider value={{ isCollapsed, setIsCollapsed }}>
       <div className="min-h-dvh bg-background">
         <SkipLink />
         {/* Header */}
-        <HeaderMenuOpenProvider>
-          {isMobile ? (
-            <MobileHeader
-              onMenuClick={() => setSidebarOpen(true)}
-              onSearchClick={() => setSearchOpen(true)}
-              cartCount={cartCount}
-            />
-          ) : isHome ? (
-          <HomeTopHeader cartCount={cartCount} />
-          ) : (
-            <SlimDesktopHeader
-              cartCount={cartCount}
-              isSidebarCollapsed={isCollapsed}
-            />
-          )}
-        </HeaderMenuOpenProvider>
-
+        {isMobile ? (
+          <MobileHeader
+            onMenuClick={() => setSidebarOpen(true)}
+            onSearchClick={() => setSearchOpen(true)}
+            cartCount={cartCount}
+          />
+        ) : (
+          <SlimDesktopHeader
+            cartCount={cartCount}
+            isSidebarCollapsed={isCollapsed}
+          />
+        )}
 
         {/* Mobile Sidebar (Sheet) */}
         <Sidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
@@ -147,7 +138,7 @@ export function AppLayout({
             fillViewport ? "h-[100dvh] overflow-hidden" : "min-h-dvh",
             "transition-all duration-300",
             !fillViewport && isMobile && showBottomNav && "pb-28",
-            !isMobile && showDesktopSidebar && sidebarPaddingClassLg(isCollapsed),
+            !isMobile && showDesktopSidebar && (isCollapsed ? "lg:pl-16" : "lg:pl-60"),
             className
           )}
           style={{

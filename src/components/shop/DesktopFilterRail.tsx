@@ -26,9 +26,9 @@ interface DesktopFilterRailProps {
 const TYPE_OPTIONS: { id: ProductType; label: string; icon: typeof LayoutGrid }[] = [
   { id: "all", label: "All", icon: LayoutGrid },
   { id: "courses", label: "Courses", icon: GraduationCap },
-  { id: "ebooks", label: "eBooks", icon: BookOpen },
-  { id: "services", label: "Services", icon: Wand2 },
-  { id: "bundles", label: "Bundles", icon: Backpack },
+  { id: "books", label: "Books", icon: BookOpen },
+  { id: "kits", label: "Kits", icon: Backpack },
+  { id: "prompts", label: "Prompts", icon: Wand2 },
 ];
 
 const RATING_OPTIONS = [

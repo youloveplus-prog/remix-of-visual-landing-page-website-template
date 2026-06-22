@@ -4,15 +4,9 @@ import { mockStories } from "@/lib/mock-data";
 
 /**
  * Horizontal stories rail shown at the top of My Feed.
- *
- * Stories are not yet backed by a real data source. In dev we render
- * mock stories so designers can iterate on the UI; in production we
- * render an empty rail with only the "Add Story" affordance until a
- * real `stories` table + hook exist.
+ * Pure presentational — no state, no effects.
  */
 export function FeedStoriesRail() {
-  const stories = import.meta.env.DEV ? mockStories.slice(1) : [];
-
   return (
     <div className="px-4 pt-3">
       <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-1">
@@ -28,7 +22,7 @@ export function FeedStoriesRail() {
             Add Story
           </span>
         </button>
-        {stories.map((story, index) => (
+        {mockStories.slice(1).map((story, index) => (
           <StoryCircle key={story.id} story={story} isFirst={index === 0} />
         ))}
       </div>

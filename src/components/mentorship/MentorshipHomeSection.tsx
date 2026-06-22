@@ -119,10 +119,10 @@ export function MentorshipHomeSection() {
                   {/* Eyebrow + level chip */}
                   <div className="flex items-center gap-2 mb-3">
                     <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 backdrop-blur-md text-primary-foreground text-[10px] font-semibold uppercase tracking-[0.18em] px-2.5 py-1 border border-white/25">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.7)]" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 shadow-[0_0_8px_hsl(142_71%_55%/0.9)]" />
                       {s.eyebrow}
                     </span>
-                    <span className="hidden sm:inline-flex items-center rounded-md surface-panel text-primary text-[10px] font-bold tracking-wider px-1.5 py-0.5 shadow">
+                    <span className="hidden sm:inline-flex items-center rounded-md bg-white text-primary text-[10px] font-bold tracking-wider px-1.5 py-0.5 shadow">
                       {s.badge}
                     </span>
                   </div>

@@ -1,33 +1,13 @@
-import { SITE_URL } from "@/config/site";
-import { useState, useRef, useEffect } from "react";
-import { Navigate, useParams, Link } from "react-router-dom";
-import { resolveContentRoute } from "@/lib/contentRouting";
-import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import {
   Heart, Share2, ShoppingCart, Star, ChevronLeft, ChevronRight, Zap, ShieldCheck,
   Play, CheckCircle2, Award, Users, Globe, Infinity as InfinityIcon, ArrowLeft,
-  RotateCcw, Sparkles, GraduationCap, BookOpen, Download, Package, Cpu,
-  type LucideIcon,
+  RotateCcw, Sparkles,
 } from "lucide-react";
-import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
-
-const PRODUCT_CTA_ICON: Record<ProductCtaIcon, LucideIcon> = {
-  "graduation-cap": GraduationCap,
-  "book-open": BookOpen,
-  download: Download,
-  sparkles: Sparkles,
-  package: Package,
-  cpu: Cpu,
-  users: Users,
-  "arrow-up-right": ShoppingCart,
-};
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
-import { RelatedRail } from "@/components/connect/RelatedRail";
-import { useRecommendations } from "@/hooks/useRecommendations";
 
 import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
@@ -35,9 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StickyActionBar } from "@/components/ui/sticky-action-bar";
 import { ProductCarousel } from "@/components/carousels";
-import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ, ProductStickyNav, ProductCurriculum } from "@/components/product";
+import { SizeSelector, ColorSelector, QuantitySelector, ProductReviews, ProductFAQ } from "@/components/product";
 import { useProduct, useProducts } from "@/hooks/useProducts";
-import { useProductViewsToday } from "@/hooks/useProductViewsToday";
 import { useAddToCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -88,84 +67,20 @@ const courseLearnings = [
   "Lifetime access with future updates included",
 ];
 
-function NotFoundSuggestions() {
-  const { data: featured } = useProducts({ featured: true, limit: 4, excludeKinds: ["course", "service"] });
-  if (!featured || featured.length === 0) return null;
-  return (
-    <section aria-labelledby="not-found-suggestions-title" className="pt-6 text-left">
-      <h2
-        id="not-found-suggestions-title"
-        className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground mb-3 text-center"
-      >
-        You might like
-      </h2>
-      <ul role="list" className="grid grid-cols-2 gap-3">
-        {featured.slice(0, 4).map((p: any) => (
-          <li key={p.id}>
-            <Link
-              to={`/product/${p.slug}`}
-              aria-label={`View ${p.name}`}
-              className="block rounded-2xl border border-border/60 bg-card p-3 hover:border-border transition-colors active:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <div className="aspect-square rounded-xl bg-muted overflow-hidden mb-2">
-                <img
-                  src={p.image_url || "/placeholder.svg"}
-                  alt=""
-                  aria-hidden="true"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <p className="text-[12.5px] font-medium leading-tight line-clamp-2">{p.name}</p>
-              <Price amount={p.price} className="text-[13px] font-semibold mt-1 block" />
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
-
 const ProductDetail = () => {
   const { slug } = useParams();
   const { user } = useAuth();
   const { toast } = useToast();
   const { data: product, isLoading } = useProduct(slug || "");
-  const { data: relatedProducts } = useProducts({
-    limit: 8,
-    excludeKinds: ["course", "service"],
-  });
-  const notFoundHeadingRef = useRef<HTMLHeadingElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (product === null && notFoundHeadingRef.current) {
-      notFoundHeadingRef.current.focus();
-    }
-  }, [product]);
-
-  // Guard: /product/:slug is for storefront SKUs only. Course/service slugs
-  // that somehow land here are forwarded to their canonical detail route.
-  const productRedirect = resolveContentRoute(
-    "product",
-    (product as any)?.kind,
-    slug || "",
-  );
-  useKindMismatchTelemetry("product", productRedirect, (product as any)?.kind, slug || "");
-  if (productRedirect) return <Navigate to={productRedirect} replace />;
+  const { data: relatedProducts } = useProducts({ limit: 8 });
   const addToCart = useAddToCart();
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>("black");
   const [quantity, setQuantity] = useState(1);
-  const [zoomOrigin, setZoomOrigin] = useState<{ x: number; y: number } | null>(null);
-  const { data: viewsToday = 0 } = useProductViewsToday(product?.id);
 
-  const rawImages: (string | null | undefined)[] = (product as any)?.images?.length
-    ? (product as any).images
-    : [product?.image_url];
-  const filtered = rawImages.filter((src): src is string => !!src);
-  const images: string[] = filtered.length > 0 ? filtered : ["/placeholder.svg"];
+  const images = product?.images?.length ? product.images : [product?.image_url];
 
   const handleAddToCart = () => {
     if (!user) {
@@ -173,7 +88,7 @@ const ProductDetail = () => {
       return;
     }
     if (!product) return;
-    if (!isDigitalOnly && !selectedSize) {
+    if (!isCourse && !isBook && !selectedSize) {
       toast({ title: "Select a size", description: "Please select a size first.", variant: "destructive" });
       return;
     }
@@ -186,33 +101,11 @@ const ProductDetail = () => {
   if (isLoading) {
     return (
       <AppLayout>
-        <MobilePage maxWidth="wide" spacing="space-y-8">
-          {/* Skeleton mirrors the new two-pane layout so the page doesn't reflow. */}
-          <Skeleton className="hidden lg:block h-4 w-16 rounded-full" />
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
-            <div className="space-y-3">
-              <Skeleton className="aspect-square w-full rounded-2xl lg:rounded-[1.75rem]" />
-              <div className="hidden lg:flex gap-2.5">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <Skeleton key={i} className="h-20 w-20 rounded-2xl" />
-                ))}
-              </div>
-            </div>
-            <div className="space-y-5">
-              <Skeleton className="h-3 w-16" />
-              <Skeleton className="h-10 lg:h-12 w-4/5" />
-              <Skeleton className="h-4 w-1/3" />
-              <Skeleton className="h-9 w-1/2" />
-              <Skeleton className="h-20 w-full rounded-2xl" />
-              <div className="flex gap-3">
-                <Skeleton className="h-12 flex-1 rounded-full" />
-                <Skeleton className="h-12 w-12 rounded-full" />
-              </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <Skeleton key={i} className="h-14 rounded-xl" />
-                ))}
-              </div>
+        <MobilePage maxWidth="wide">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Skeleton className="aspect-square rounded-2xl" />
+            <div className="space-y-4">
+              <Skeleton className="h-8 w-3/4" /><Skeleton className="h-6 w-1/4" /><Skeleton className="h-24 w-full" />
             </div>
           </div>
         </MobilePage>
@@ -223,50 +116,11 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <AppLayout>
-        <SEO
-          title="Product not found"
-          description="We couldn't find the product you were looking for."
-          noIndex
-          suppressCanonical
-        />
         <MobilePage maxWidth="reading">
-          <section
-            role="alert"
-            aria-live="assertive"
-            aria-labelledby="product-not-found-title"
-            aria-describedby="product-not-found-desc"
-            data-testid="product-not-found"
-            className="py-16 text-center space-y-5"
-          >
-            <div
-              aria-hidden="true"
-              className="mx-auto h-14 w-14 rounded-2xl bg-muted grid place-items-center"
-            >
-              <Package className="h-6 w-6 text-muted-foreground" />
-            </div>
-            <div className="space-y-1.5">
-              <h1
-                ref={notFoundHeadingRef}
-                id="product-not-found-title"
-                tabIndex={-1}
-                className="font-display text-2xl font-semibold outline-none"
-              >
-                Product not found
-              </h1>
-              <p id="product-not-found-desc" className="text-sm text-muted-foreground max-w-sm mx-auto">
-                This item may have been removed or the link is out of date. Try browsing our shop or featured picks.
-              </p>
-            </div>
-            <nav aria-label="Recovery actions" className="flex items-center justify-center gap-2">
-              <Link to="/shop" aria-label="Back to shop">
-                <Button variant="outline" className="rounded-full">Back to shop</Button>
-              </Link>
-              <Link to="/shop?featured=1" aria-label="Browse featured products">
-                <Button className="rounded-full">Browse featured</Button>
-              </Link>
-            </nav>
-            <NotFoundSuggestions />
-          </section>
+          <div className="py-20 text-center">
+            <h1 className="font-display text-xl font-semibold mb-2">Product not found</h1>
+            <Link to="/shop"><Button>Back to shop</Button></Link>
+          </div>
         </MobilePage>
       </AppLayout>
     );
@@ -277,15 +131,10 @@ const ProductDetail = () => {
     : 0;
 
   const name = product.name || "";
-  const kind = (product as any).kind as string | undefined;
-  const isCourse = kind === "course" || /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
-  const isBook = kind === "ebook" || /book|hardcover|edition/i.test(name);
-  // Digital-only kinds never need size/color selectors.
-  const isDigitalOnly = isCourse || isBook || kind === "service" || kind === "bundle";
-  const cta = getProductCta({ name, categoryName: (product as any).category ?? undefined });
-  const CtaIcon = PRODUCT_CTA_ICON[cta.icon] ?? ShoppingCart;
+  const isCourse = /course|masterclass|bootcamp|specialization|class|prep/i.test(name);
+  const isBook = /book|hardcover|edition/i.test(name);
 
-  const canonical = `${SITE_URL}/product/${slug}`;
+  const canonical = `https://asikonpro.lovable.app/product/${slug}`;
   const productDesc = (product.description || `Buy ${name} on Asikon.`).slice(0, 155);
 
   return (
@@ -315,16 +164,9 @@ const ProductDetail = () => {
         })}</script>
       </SEO>
       <MobilePage maxWidth="wide" spacing="space-y-10" className="pb-sticky-cta lg:pb-10">
-        <div className="hidden lg:block">
-          <Breadcrumbs
-            eyebrow={isCourse ? "Course" : "Shop"}
-            items={[
-              { label: "Shop", to: "/shop" },
-              ...(isCourse ? [{ label: "Courses", to: "/courses" }] : []),
-              { label: name },
-            ]}
-          />
-        </div>
+        <Link to="/shop" className="hidden lg:inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
+          <ArrowLeft className="h-3.5 w-3.5" /> Shop
+        </Link>
 
         {/* Mobile hero (reference style) */}
         <div className="lg:hidden space-y-4">
@@ -426,8 +268,8 @@ const ProductDetail = () => {
                 disabled={addToCart.isPending}
                 className="rounded-full h-12 px-5 bg-foreground text-background hover:bg-foreground/90"
               >
-                <CtaIcon className="h-4 w-4 mr-2" />
-                {cta.primaryLabel}
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {isCourse ? "Enroll" : "Add to cart"}
               </Button>
             </div>
 
@@ -438,13 +280,13 @@ const ProductDetail = () => {
           </div>
 
           {product.description && (
-            <div className="rounded-2xl border border-border/60 liquid-glass p-4">
+            <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
               <h3 className="font-semibold text-[15px] mb-2">Description</h3>
               <p className="text-[13.5px] text-foreground/80 leading-relaxed whitespace-pre-wrap">{product.description}</p>
             </div>
           )}
 
-          <div className="rounded-2xl border border-border/60 liquid-glass p-4">
+          <div className="rounded-2xl border border-border/60 bg-card/60 p-4">
             <h3 className="font-semibold text-[15px] mb-3">Product Details</h3>
             <div className="grid grid-cols-2 gap-2.5">
               {[
@@ -468,38 +310,13 @@ const ProductDetail = () => {
         </div>
 
         {/* Desktop main */}
-        <div ref={heroRef} className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-primary/5 via-background to-background dark:from-primary/10 border border-border/40">
+        <div className="hidden lg:block rounded-[2rem] p-8 xl:p-10 bg-gradient-to-br from-amber-50/60 via-background to-background dark:from-amber-950/15 border border-border/40">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-6 lg:gap-12">
           {/* Gallery */}
           <div className="space-y-3 lg:sticky lg:top-[calc(var(--app-header-h)+1.5rem)] lg:self-start">
-            <div
-              className="group relative aspect-square rounded-2xl lg:rounded-[1.75rem] overflow-hidden bg-muted ring-1 ring-border/40 lg:shadow-xl lg:shadow-amber-900/5"
-              onMouseMove={(e) => {
-                const r = e.currentTarget.getBoundingClientRect();
-                setZoomOrigin({
-                  x: ((e.clientX - r.left) / r.width) * 100,
-                  y: ((e.clientY - r.top) / r.height) * 100,
-                });
-              }}
-              onMouseLeave={() => setZoomOrigin(null)}
-            >
+            <div className="relative aspect-square rounded-2xl lg:rounded-[1.75rem] overflow-hidden bg-muted ring-1 ring-border/40 lg:shadow-xl lg:shadow-amber-900/5">
               <div className="hidden lg:block absolute top-3 left-1/2 -translate-x-1/2 h-1 w-16 rounded-full bg-foreground/20 z-10" />
-              <img
-                src={images[selectedImage] || "/placeholder.svg"}
-                alt={product.name}
-                className="w-full h-full object-cover transition-transform duration-200 ease-out motion-reduce:transform-none lg:group-hover:scale-[1.6]"
-                style={
-                  zoomOrigin
-                    ? { transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%` }
-                    : undefined
-                }
-                draggable={false}
-              />
-              {zoomOrigin && (
-                <span className="hidden lg:flex pointer-events-none absolute bottom-3 right-3 items-center gap-1 rounded-full bg-background/85 backdrop-blur px-2.5 py-1 text-[10.5px] font-medium text-foreground/70 shadow-sm">
-                  Hover to zoom
-                </span>
-              )}
+              <img src={images[selectedImage] || "/placeholder.svg"} alt={product.name} className="w-full h-full object-cover" />
               {images.length > 1 && (
                 <>
                   <button
@@ -601,7 +418,7 @@ const ProductDetail = () => {
                   </div>
                 ))}
               </div>
-            ) : isDigitalOnly ? null : (
+            ) : isBook ? null : (
               <div className="space-y-5">
                 <ColorSelector colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
                 <SizeSelector sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
@@ -614,7 +431,7 @@ const ProductDetail = () => {
             </div>
 
             <div className="hidden lg:flex items-center gap-3 pt-1">
-              <div className="flex items-center gap-2 rounded-full border border-border liquid-glass px-2 py-1.5">
+              <div className="flex items-center gap-2 rounded-full border border-border bg-card px-2 py-1.5">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="h-8 w-8 rounded-full grid place-items-center hover:bg-muted transition-colors"
@@ -628,48 +445,14 @@ const ProductDetail = () => {
                 >+</button>
               </div>
               <Button className="flex-1 rounded-full" size="lg" onClick={handleAddToCart} disabled={addToCart.isPending}>
-                <CtaIcon className="h-4 w-4 mr-2" />
-                {addToCart.isPending ? "Adding..." : cta.primaryLabel}
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {addToCart.isPending ? "Adding..." : isCourse ? "Enroll now" : "Add to cart"}
               </Button>
               <Button variant="outline" size="lg" className="rounded-full h-12 w-12 p-0" aria-label="Save"><Heart className="h-4 w-4" /></Button>
             </div>
 
-            {/* Inline trust strip — visible right under the CTA so it lands at decision time. */}
-            <div className="hidden lg:flex items-center flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5">
-                <Zap className="h-3.5 w-3.5 text-primary" />
-                Instant access
-              </span>
-              <span aria-hidden className="text-border">•</span>
-              <span className="inline-flex items-center gap-1.5">
-                <RotateCcw className="h-3.5 w-3.5 text-primary" />
-                7-day money back
-              </span>
-              <span aria-hidden className="text-border">•</span>
-              <span className="inline-flex items-center gap-1.5">
-                <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-                Secure checkout
-              </span>
-            </div>
-
-            {viewsToday > 3 && (
-              <p
-                aria-live="polite"
-                className="hidden lg:flex items-center gap-1.5 text-[12px] text-foreground/70"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                </span>
-                <span className="tabular-nums font-medium text-foreground">
-                  {viewsToday.toLocaleString()}
-                </span>
-                <span>people viewed this today</span>
-              </p>
-            )}
-
             {product.description && (
-              <div className="rounded-2xl border border-border/60 liquid-glass p-4 lg:p-5">
+              <div className="rounded-2xl border border-border/60 bg-card/60 p-4 lg:p-5">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-[15px]">Description</h3>
                   <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />
@@ -678,7 +461,7 @@ const ProductDetail = () => {
               </div>
             )}
 
-            <div className="rounded-2xl border border-border/60 liquid-glass p-4 lg:p-5">
+            <div className="rounded-2xl border border-border/60 bg-card/60 p-4 lg:p-5">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold text-[15px]">Product Details</h3>
                 <ChevronRight className="h-4 w-4 text-muted-foreground rotate-90" />
@@ -709,7 +492,7 @@ const ProductDetail = () => {
         {/* Course-specific */}
         {isCourse && (
           <>
-            <DetailSection id="overview" title="What you will learn">
+            <DetailSection title="What you will learn">
               <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
                 {courseLearnings.map((item) => (
                   <div key={item} className="flex items-start gap-2.5 text-[13.5px]">
@@ -721,14 +504,24 @@ const ProductDetail = () => {
             </DetailSection>
 
             <DetailSection
-              id="curriculum"
               title="Curriculum"
               action={<span className="text-[12px] text-muted-foreground">{courseCurriculum.reduce((s, m) => s + m.lessons, 0)} lessons · ~14h</span>}
             >
-              <ProductCurriculum modules={courseCurriculum} />
+              <ol className="divide-y divide-border/40">
+                {courseCurriculum.map((m, i) => (
+                  <li key={m.module} className="flex items-center gap-3 py-3">
+                    <span className="grid place-items-center h-8 w-8 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">{i + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[14px] font-medium truncate">{m.module}</p>
+                      <p className="text-[12px] text-muted-foreground">{m.lessons} lessons · {m.duration}</p>
+                    </div>
+                    <Play className="h-4 w-4 text-foreground/50" />
+                  </li>
+                ))}
+              </ol>
             </DetailSection>
 
-            <DetailSection id="instructor" title="Your instructor">
+            <DetailSection title="Your instructor">
               <div className="flex items-center gap-4">
                 <img
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&q=80"
@@ -744,9 +537,9 @@ const ProductDetail = () => {
           </>
         )}
 
-        <DetailSection id="reviews" title="Reviews">
+        <DetailSection title="Reviews">
           <ProductReviews
-            productId={product.id}
+            reviews={mockReviews}
             averageRating={product.rating || 4.5}
             totalReviews={product.review_count || 36}
             ratingDistribution={[
@@ -755,20 +548,9 @@ const ProductDetail = () => {
           />
         </DetailSection>
 
-        <DetailSection id="faq" title="FAQ">
+        <DetailSection title="FAQ">
           <ProductFAQ faqs={isCourse ? courseFaqs : productFaqs} />
         </DetailSection>
-
-        <CrossLinkChips
-          eyebrow="Keep going"
-          links={[
-            { label: "Ask AI Tutor about this", to: `/ai-tutor?topic=${encodeURIComponent(name)}`, icon: Sparkles },
-            { label: "Book a mentor", to: "/mentors", icon: Users },
-            ...(isCourse
-              ? [{ label: "Join the Community", to: "/community", icon: ShoppingCart as LucideIcon }]
-              : [{ label: "Explore courses", to: "/courses", icon: GraduationCap as LucideIcon }]),
-          ]}
-        />
 
         {relatedProducts && relatedProducts.length > 0 && (
           <DetailSection title={isCourse ? "Continue learning" : "You may also like"}>
@@ -787,10 +569,7 @@ const ProductDetail = () => {
             />
           </DetailSection>
         )}
-
-        <ProductRelatedRail name={name} isCourse={isCourse} slug={slug || ""} />
       </MobilePage>
-
 
       {/* Mobile sticky CTA */}
       <StickyActionBar>
@@ -802,51 +581,12 @@ const ProductDetail = () => {
             )}
           </div>
           <Button size="lg" className="px-6" onClick={handleAddToCart} disabled={addToCart.isPending}>
-            <CtaIcon className="h-4 w-4 mr-2" />{cta.primaryShortLabel}
+            <ShoppingCart className="h-4 w-4 mr-2" />{isCourse ? "Enroll" : "Add to cart"}
           </Button>
         </div>
       </StickyActionBar>
-
-      {/* Desktop sticky sub-nav — appears after the hero scrolls out of view. */}
-      <ProductStickyNav
-        title={product.name}
-        price={product.price}
-        originalPrice={product.original_price}
-        ctaLabel={cta.primaryLabel}
-        ctaShortLabel={cta.primaryShortLabel}
-        onCta={handleAddToCart}
-        ctaDisabled={addToCart.isPending}
-        revealAfterRef={heroRef}
-        links={[
-          ...(isCourse
-            ? [
-                { id: "overview", label: "Overview" },
-                { id: "curriculum", label: "Curriculum" },
-                { id: "instructor", label: "Instructor" },
-              ]
-            : []),
-          { id: "reviews", label: "Reviews" },
-          { id: "faq", label: "FAQ" },
-        ]}
-      />
     </AppLayout>
   );
 };
-
-function ProductRelatedRail({ name, isCourse, slug }: { name: string; isCourse: boolean; slug: string }) {
-  const { items, isLoading } = useRecommendations(
-    isCourse ? { kind: "course", slug } : { kind: "product", slug },
-  );
-  return (
-    <RelatedRail
-      eyebrow="Cross-discover"
-      title="Mentors & learning for this"
-      items={items.filter((i) => i.kind === "mentor" || (isCourse ? i.kind === "course" : i.kind === "product"))}
-      isLoading={isLoading}
-      viewAllHref="/mentors"
-      viewAllLabel="See mentors"
-    />
-  );
-}
 
 export default ProductDetail;

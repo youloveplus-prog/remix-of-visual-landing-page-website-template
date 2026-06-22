@@ -7,10 +7,7 @@ export type AnalyticsEvent =
   | "content_viewed"
   | "mentor_waitlist_joined"
   | "ai_tutor_message"
-  | "content_purchased"
-  | "legal_toc_click"
-  | "legal_scroll_depth"
-  | "legal_section_viewed";
+  | "content_purchased";
 
 /**
  * Fire-and-forget event logging. Writes to `user_activity_log` via RLS

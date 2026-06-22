@@ -2,16 +2,12 @@ import { Star, Quote } from "lucide-react";
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { adaptPost, hydrateWithProfiles, type PostRow, formatTime } from "@/lib/community-adapters";
 import { cn } from "@/lib/utils";
-import {
-  CommunityEmpty,
-  CommunityError,
-  ReviewCardSkeleton,
-  SkeletonList,
-} from "@/components/community/CommunityState";
 
 const filters = [
   { label: "All", value: 0 },
@@ -53,7 +49,7 @@ export function ReviewsTab() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 overflow-x-auto hide-scrollbar">
+      <div className="flex gap-2 px-4 overflow-x-auto hide-scrollbar">
         {filters.map((filter) => (
           <button
             key={filter.value}
@@ -72,25 +68,36 @@ export function ReviewsTab() {
       </div>
 
       {isLoading ? (
-        <SkeletonList count={3}>
-          <ReviewCardSkeleton />
-        </SkeletonList>
+        <div className="px-4 space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-card border border-border rounded-2xl p-4 space-y-3">
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <Skeleton className="h-3 w-1/3" />
+              </div>
+              <Skeleton className="h-3 w-1/4" />
+              <Skeleton className="h-4 w-5/6" />
+            </div>
+          ))}
+        </div>
       ) : isError ? (
-        <CommunityError
-          message="Could not load reviews."
-          onRetry={() => refetch()}
-        />
+        <div className="px-4 py-12 text-center space-y-3">
+          <p className="text-sm text-muted-foreground">Could not load reviews. Try again.</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>Retry</Button>
+        </div>
       ) : filtered.length === 0 ? (
-        <CommunityEmpty
-          icon={Star}
-          title="No reviews yet"
-          description="Be the first to share your experience with the community."
-          action={{ label: "Write a review", onClick: () => navigate("/community/create") }}
-        />
+        <div className="px-4 py-16 text-center space-y-3">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center">
+            <Star className="h-6 w-6 text-muted-foreground" />
+          </div>
+          <h3 className="font-display font-semibold text-base">No reviews yet</h3>
+          <p className="text-sm text-muted-foreground">Be the first to share your experience.</p>
+          <Button onClick={() => navigate("/community/create")}>Write a review</Button>
+        </div>
       ) : (
-        <div className="space-y-4 sm:space-y-5">
+        <div className="px-4 space-y-3">
           {filtered.map(({ raw, post }) => (
-            <article key={raw.id} className="rounded-2xl border border-border bg-card p-4 space-y-3">
+            <article key={raw.id} className="bg-card border border-border rounded-2xl p-4 space-y-3">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
                   <AvatarImage src={post.user.avatar} alt={post.user.name} />

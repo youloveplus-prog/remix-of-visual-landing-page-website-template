@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { CheckCircle2, Clock, Lock, Play, ArrowLeft, Users, Star, BookOpen, Award } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { DetailSection } from "@/components/ui/detail-section";
@@ -62,11 +61,6 @@ export default function TrackDetail() {
 
   return (
     <AppLayout>
-      <SEO
-        title={track?.name ? `${track.name} — Learning Track` : "Learning Track"}
-        description={track?.description ?? "Follow a curated learning track on Asikon."}
-        type="article"
-      />
       <MobilePage maxWidth="reading" spacing="space-y-8" className="pb-sticky-cta lg:pb-6">
         <Link to="/" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60 transition-opacity">
           <ArrowLeft className="h-3.5 w-3.5" /> Back
@@ -102,44 +96,38 @@ export default function TrackDetail() {
         </DetailSection>
 
         <DetailSection title="Curriculum">
-          {lessons.length === 0 ? (
-            <p className="py-6 text-center text-[13px] text-muted-foreground">
-              Lessons for this track are being prepared. Check back soon.
-            </p>
-          ) : (
-            <ol className="divide-y divide-border/40 -mx-1">
-              {lessons.map((l, i) => {
-                const isDone = done?.has(l.id);
-                const isLocked = !user && !l.is_preview;
-                return (
-                  <li key={l.id}>
-                    <Link
-                      to={isLocked ? "/auth" : `/lesson/${l.id}`}
-                      className="flex items-center gap-3 py-3.5 px-1 active:opacity-60 transition-opacity"
-                    >
-                      <span className="grid place-items-center h-9 w-9 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">
-                        {i + 1}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="font-medium text-[14px] truncate">{l.title}</p>
-                        <p className="text-[12px] text-muted-foreground inline-flex items-center gap-1 mt-0.5">
-                          <Clock className="h-3 w-3" /> {l.duration_min} min
-                          {l.is_preview && <span className="ml-1 text-primary">· Free preview</span>}
-                        </p>
-                      </div>
-                      {isDone ? (
-                        <CheckCircle2 className="h-5 w-5 text-success shrink-0" />
-                      ) : isLocked ? (
-                        <Lock className="h-4 w-4 text-muted-foreground shrink-0" />
-                      ) : (
-                        <Play className="h-4 w-4 text-foreground/60 shrink-0" />
-                      )}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ol>
-          )}
+          <ol className="divide-y divide-border/40 -mx-1">
+            {lessons.map((l, i) => {
+              const isDone = done?.has(l.id);
+              const isLocked = !user && !l.is_preview;
+              return (
+                <li key={l.id}>
+                  <Link
+                    to={isLocked ? "/auth" : `/lesson/${l.id}`}
+                    className="flex items-center gap-3 py-3.5 px-1 active:opacity-60 transition-opacity"
+                  >
+                    <span className="grid place-items-center h-9 w-9 rounded-full bg-muted/60 text-[12px] font-semibold tabular-nums shrink-0">
+                      {i + 1}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-[14px] truncate">{l.title}</p>
+                      <p className="text-[12px] text-muted-foreground inline-flex items-center gap-1 mt-0.5">
+                        <Clock className="h-3 w-3" /> {l.duration_min} min
+                        {l.is_preview && <span className="ml-1 text-primary">· Free preview</span>}
+                      </p>
+                    </div>
+                    {isDone ? (
+                      <CheckCircle2 className="h-5 w-5 text-success shrink-0" />
+                    ) : isLocked ? (
+                      <Lock className="h-4 w-4 text-muted-foreground shrink-0" />
+                    ) : (
+                      <Play className="h-4 w-4 text-foreground/60 shrink-0" />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
         </DetailSection>
 
         <DetailSection title="What you'll earn">

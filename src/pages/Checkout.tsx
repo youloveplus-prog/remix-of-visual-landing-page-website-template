@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreditCard, Wallet, Check } from "lucide-react";
-import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
@@ -81,11 +80,6 @@ const Checkout = () => {
 
   return (
     <AppLayout showBottomNav={false}>
-      <SEO
-        title="Checkout"
-        description="Securely complete your Asikon purchase with card or bKash."
-        noIndex
-      />
       <MobilePage maxWidth="standard" spacing="space-y-8" className="pb-sticky-cta lg:pb-6">
         <PageHero eyebrow="Final step" title="Checkout" subtitle="All products are digital — instant access after payment." />
 

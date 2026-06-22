@@ -22,17 +22,17 @@ export function Faq({ title = "Common questions" }: { title?: string }) {
           {FAQS.map((f) => (
             <div
               key={f.q}
-              className="surface-panel-soft rounded-[16px] p-3 transition-colors hover:border-primary/40 sm:rounded-[20px] sm:p-4"
+              className="rounded-[16px] border border-black/10 bg-white p-3 transition-colors hover:border-primary/40 sm:rounded-[20px] sm:p-4"
             >
               <div className="flex items-start gap-2.5">
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground sm:h-9 sm:w-9">
                   <HelpCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-grotesk text-[13px] font-bold leading-tight tracking-tight text-panel-fg sm:text-[15px]">
+                  <p className="font-grotesk text-[13px] font-bold leading-tight tracking-tight text-[#0e0e10] sm:text-[15px]">
                     {f.q}
                   </p>
-                  <p className="mt-1 text-[11px] leading-relaxed text-panel-muted sm:text-[13px]">
+                  <p className="mt-1 text-[11px] leading-relaxed text-[#5b5b62] sm:text-[13px]">
                     {f.a}
                   </p>
                 </div>

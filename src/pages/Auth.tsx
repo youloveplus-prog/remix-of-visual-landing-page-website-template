@@ -23,7 +23,6 @@ import { cn } from "@/lib/utils";
 import { z } from "zod";
 import asikonLogo from "@/assets/logo.png";
 import { SEO } from "@/components/SEO";
-import { OtpVerification } from "@/components/auth/OtpVerification";
 
 // ---- Validation -----------------------------------------------------------
 const loginSchema = z.object({
@@ -54,7 +53,7 @@ const forgotSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
 
-type AuthView = "login" | "register" | "forgot-password" | "otp";
+type AuthView = "login" | "register" | "forgot-password";
 
 // ---- Floating-label themed input -----------------------------------------
 interface FloatingFieldProps {
@@ -102,12 +101,12 @@ function FloatingField({
           aria-describedby={error ? `${id}-err` : hint ? `${id}-hint` : undefined}
           placeholder=" "
           className={cn(
-            "peer w-full rounded-xl bg-secondary/60 border border-transparent px-4 pt-5 pb-2 text-[15px] text-foreground",
-            "outline-none transition-all duration-200",
-            "focus:bg-card focus:border-primary focus:ring-4 focus:ring-primary/10",
+            "peer w-full rounded-xl bg-card border px-4 pt-5 pb-2 text-[15px] text-foreground",
+            "outline-none transition-colors duration-150",
+            "focus:border-foreground/40",
             error
-              ? "border-destructive/60 focus:border-destructive focus:ring-destructive/10"
-              : "",
+              ? "border-destructive/60 focus:border-destructive"
+              : "border-border",
             trailing && "pr-12",
           )}
         />
@@ -167,7 +166,6 @@ const Auth = () => {
   const { user, loading: authLoading } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [mediaReady, setMediaReady] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<"google" | "github" | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [activeView, setActiveView] = useState<AuthView>("login");
@@ -185,22 +183,12 @@ const Auth = () => {
   const [forgotEmail, setForgotEmail] = useState("");
   const [resetEmailSent, setResetEmailSent] = useState(false);
 
-  // OTP verification (after signup)
-  const [otpEmail, setOtpEmail] = useState("");
-  const [otpError, setOtpError] = useState<string | null>(null);
-  const [otpLoading, setOtpLoading] = useState(false);
-
   // Smart redirect after login (preserve ?redirect=/path)
   const redirectTo = params.get("redirect") || "/";
 
   useEffect(() => {
     if (!authLoading && user) navigate(redirectTo, { replace: true });
   }, [user, authLoading, navigate, redirectTo]);
-
-  useEffect(() => {
-    const t = setTimeout(() => setMediaReady(true), 3500);
-    return () => clearTimeout(t);
-  }, []);
 
   const clearErrors = () => setErrors({});
   const collect = (r: z.SafeParseReturnType<any, any>) => {
@@ -275,15 +263,12 @@ const Auth = () => {
         throw error;
       }
       if (data.user && !data.session) {
-        // Email confirmation required — switch to OTP verification screen
-        setOtpEmail(registerEmail);
-        setLoginEmail(registerEmail);
-        setOtpError(null);
-        setActiveView("otp");
         toast({
-          title: "Check your inbox",
-          description: "We sent a 6-digit code to verify your email.",
+          title: "Account created",
+          description: "Check your inbox to verify your email and unlock your learning hub.",
         });
+        setActiveView("login");
+        setLoginEmail(registerEmail);
       } else if (data.session) {
         toast({ title: "Welcome to Asikon!", description: "Your account is ready." });
         navigate(redirectTo, { replace: true });
@@ -298,55 +283,6 @@ const Auth = () => {
       setLoading(false);
     }
   };
-
-  const handleVerifyOtp = async (code: string) => {
-    setOtpLoading(true);
-    setOtpError(null);
-    try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email: otpEmail,
-        token: code,
-        type: "signup",
-      });
-      if (error) {
-        const msg = error.message?.toLowerCase() ?? "";
-        if (msg.includes("expired"))
-          throw new Error("This code has expired. Please request a new one.");
-        if (msg.includes("invalid") || msg.includes("token"))
-          throw new Error("That code isn't right. Double-check and try again.");
-        throw error;
-      }
-      if (data.session) {
-        toast({ title: "Email verified", description: "Welcome to Asikon!" });
-        navigate(redirectTo, { replace: true });
-      } else {
-        // Verified but no session — fall back to login
-        setActiveView("login");
-        toast({ title: "Email verified", description: "You can sign in now." });
-      }
-    } catch (err: any) {
-      setOtpError(err.message || "Verification failed. Please try again.");
-    } finally {
-      setOtpLoading(false);
-    }
-  };
-
-  const handleResendOtp = async () => {
-    setOtpError(null);
-    try {
-      const { error } = await supabase.auth.resend({
-        type: "signup",
-        email: otpEmail,
-        options: { emailRedirectTo: `${window.location.origin}/` },
-      });
-      if (error) throw error;
-    } catch (err: any) {
-      setOtpError(err.message || "Couldn't resend the code. Please try again shortly.");
-      throw err;
-    }
-  };
-
-
 
   const handleForgot = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -408,69 +344,39 @@ const Auth = () => {
         description="Sign in or create your Asikon account to access AI tutoring, courses, and the learner community."
       />
 
-      <div className="relative grid md:grid-cols-2 min-h-dvh">
-        {/* ============== Video brand pane (desktop only) ============== */}
-        <aside className="hidden md:flex relative flex-col justify-between p-8 lg:p-12 xl:p-16 overflow-hidden border-r border-border bg-background dark:bg-black text-white">
-          {/* Skeleton / poster / video stack */}
-          <div className="absolute inset-0">
-            {/* Lightweight skeleton while media loads */}
-            <div
-              className={cn(
-                "absolute inset-0 bg-background dark:bg-black animate-pulse transition-opacity duration-700",
-                mediaReady ? "opacity-0 pointer-events-none" : "opacity-100"
-              )}
-            />
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="https://images.pexels.com/videos/3129957/free-video-3129957.jpg?auto=compress&cs=tinysrgb&w=1280"
-              onLoadedData={() => setMediaReady(true)}
-              onError={() => setMediaReady(true)}
-              className={cn(
-                "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
-                mediaReady ? "opacity-70" : "opacity-0"
-              )}
-            >
-              <source
-                src="https://videos.pexels.com/video-files/3129957/3129957-uhd_2560_1440_30fps.mp4"
-                type="video/mp4"
-              />
-            </video>
-          </div>
-          {/* Gradient overlay for legibility */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a]/90 via-[#141432]/70 to-[#1e1e5a]/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a1a] via-transparent to-transparent" />
-
-          {/* Content above video */}
-          <div className="relative z-10 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur border border-white/15 flex items-center justify-center p-1.5">
+      <div className="relative grid lg:grid-cols-2 min-h-dvh">
+        {/* ============== Brand pane (desktop only) ============== */}
+        <aside className="hidden lg:flex relative flex-col justify-between p-12 xl:p-16 bg-secondary/40 border-r border-border">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-card border border-border flex items-center justify-center p-1.5">
               <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
             </div>
             <div>
               <p className="font-display text-[15px] font-semibold tracking-tight">Asikon</p>
-              <p className="text-[10.5px] uppercase tracking-[0.2em] text-white/60">
+              <p className="text-[10.5px] uppercase tracking-[0.2em] text-muted-foreground">
                 Learn AI · Build Skills
               </p>
             </div>
           </div>
 
-          <div className="relative z-10 space-y-8 max-w-md">
-            <div className="inline-flex items-center gap-2 text-[11.5px] text-white/70 rounded-full border border-white/15 bg-white/5 backdrop-blur px-3 py-1.5">
-              <Flame className="h-3.5 w-3.5 text-primary/70" />
-              Trusted by 12,400+ learners
+          <div className="space-y-10 max-w-md">
+            <div className="space-y-5">
+              <div className="inline-flex items-center gap-2 text-[11.5px] text-muted-foreground">
+                <Flame className="h-3.5 w-3.5 text-foreground/60" />
+                Trusted by 12,400+ learners
+              </div>
+              <h1 className="font-display text-4xl xl:text-5xl font-semibold leading-[1.05] tracking-tight">
+                Your AI learning
+                <br />
+                journey starts here.
+              </h1>
+              <p className="text-[15px] text-muted-foreground leading-relaxed">
+                Master ML, Python, and modern AI tools with expert-led courses,
+                a 24/7 AI tutor, and a community building real projects.
+              </p>
             </div>
-            <h1 className="font-display text-4xl xl:text-5xl font-semibold leading-[1.05] tracking-tight">
-              Your AI learning
-              <br />
-              journey starts here.
-            </h1>
-            <p className="text-[15px] text-white/75 leading-relaxed">
-              Master ML, Python, and modern AI tools with expert-led courses,
-              a 24/7 AI tutor, and a community building real projects.
-            </p>
 
+            {/* Feature list — flat, editorial */}
             <ul className="grid grid-cols-2 gap-x-6 gap-y-4">
               {[
                 { icon: GraduationCap, title: "Expert courses", sub: "200+ lessons" },
@@ -479,34 +385,34 @@ const Auth = () => {
                 { icon: ShieldCheck, title: "Lifetime access", sub: "Yours forever" },
               ].map((f) => (
                 <li key={f.title} className="flex items-start gap-3">
-                  <f.icon className="h-4 w-4 mt-1 text-primary/70 shrink-0" />
+                  <f.icon className="h-4 w-4 mt-1 text-foreground/60 shrink-0" />
                   <div>
-                    <p className="text-[13.5px] font-medium leading-tight text-white">{f.title}</p>
-                    <p className="text-[12px] text-white/60 mt-0.5">{f.sub}</p>
+                    <p className="text-[13.5px] font-medium leading-tight">{f.title}</p>
+                    <p className="text-[12px] text-muted-foreground mt-0.5">{f.sub}</p>
                   </div>
                 </li>
               ))}
             </ul>
 
-            {/* Floating testimonial card */}
-            <figure className="rounded-2xl border border-white/15 bg-white/[0.06] backdrop-blur-md p-5 shadow-2xl shadow-black/40">
-              <blockquote className="text-[14px] text-white/90 leading-relaxed">
+            {/* Testimonial — quiet card */}
+            <figure className="rounded-2xl border border-border bg-card p-5">
+              <blockquote className="text-[14px] text-foreground/90 leading-relaxed">
                 "The AI tutor answered my doubts at 2 a.m. before exams. Asikon
                 doesn't just teach — it learns with you."
               </blockquote>
               <figcaption className="flex items-center gap-3 mt-4">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4f46e5] to-[#a78bfa] grid place-items-center text-xs font-semibold text-white shadow-lg shadow-indigo-500/30">
+                <div className="w-8 h-8 rounded-full bg-secondary grid place-items-center text-xs font-medium text-foreground/70">
                   S
                 </div>
                 <div>
-                  <p className="text-[12.5px] font-medium text-white">Sadia R.</p>
-                  <p className="text-[11px] text-white/60">ML Engineer · Class of 2025</p>
+                  <p className="text-[12.5px] font-medium">Sadia R.</p>
+                  <p className="text-[11px] text-muted-foreground">ML Engineer · Class of 2025</p>
                 </div>
               </figcaption>
             </figure>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between text-[11.5px] text-white/60">
+          <div className="flex items-center justify-between text-[11.5px] text-muted-foreground">
             <p>© {new Date().getFullYear()} Asikon Technologies</p>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5" />
@@ -517,46 +423,19 @@ const Auth = () => {
 
         {/* ============== Form pane ============== */}
         <section
-          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] md:py-10 lg:py-14 min-h-dvh md:items-center md:justify-center overflow-hidden"
+          className="relative flex flex-col px-5 sm:px-8 pt-[max(2rem,env(safe-area-inset-top))] lg:py-14 min-h-dvh lg:items-center lg:justify-center"
           style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
         >
-          {/* Aurora background accents */}
-          <div className="pointer-events-none absolute -top-32 -right-24 h-80 w-80 rounded-full bg-primary/15 blur-[110px]" />
-          <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-primary/10 blur-[110px]" />
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.025]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
-              backgroundSize: "22px 22px",
-            }}
-          />
-
-          <div className="relative w-full max-w-[420px] mx-auto flex-1 flex flex-col md:block">
-            {/* Mobile brand — bento tile + tagline */}
-            <div className="md:hidden flex flex-col items-center text-center gap-3 mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center p-2.5 shadow-xl shadow-primary/25">
-                <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain brightness-0 invert" />
+          <div className="w-full max-w-[420px] mx-auto flex-1 flex flex-col lg:block">
+            {/* Mobile brand */}
+            <div className="lg:hidden flex items-center justify-center gap-2.5 mb-8">
+              <div className="w-9 h-9 rounded-xl bg-card border border-border flex items-center justify-center p-1.5">
+                <img src={asikonLogo} alt="Asikon" className="w-full h-full object-contain" />
               </div>
-              <div>
-                <h1 className="font-display text-[22px] font-semibold tracking-tight leading-none">Asikon</h1>
-                <p className="text-[12.5px] text-muted-foreground mt-1.5">The future of structured learning.</p>
-              </div>
+              <span className="font-display text-[17px] font-semibold tracking-tight">Asikon</span>
             </div>
 
-            {activeView === "otp" ? (
-              <OtpVerification
-                email={otpEmail}
-                loading={otpLoading}
-                error={otpError}
-                onVerify={handleVerifyOtp}
-                onResend={handleResendOtp}
-                onBack={() => {
-                  setActiveView("register");
-                  setOtpError(null);
-                }}
-              />
-            ) : activeView === "forgot-password" ? (
+            {activeView === "forgot-password" ? (
               <ForgotPasswordView
                 email={forgotEmail}
                 setEmail={setForgotEmail}
@@ -573,46 +452,19 @@ const Auth = () => {
               />
             ) : (
               <>
-                {/* Segmented Sign in / Sign up */}
-                <div role="tablist" aria-label="Authentication" className="flex p-1 bg-secondary/70 rounded-2xl mb-6 animate-fade-in">
-                  {(["login", "register"] as const).map((v) => (
-                    <button
-                      key={v}
-                      role="tab"
-                      aria-selected={activeView === v}
-                      aria-label={v === "register" ? "Create an account" : "Sign in"}
-                      type="button"
-                      onClick={() => {
-                        setActiveView(v);
-                        clearErrors();
-                      }}
-                      className={cn(
-                        "flex-1 py-2.5 text-[13px] font-semibold rounded-xl transition-all duration-200",
-                        activeView === v
-                          ? "bg-card text-primary shadow-sm"
-                          : "text-muted-foreground hover:text-foreground",
-                      )}
-                    >
-                      {v === "login" ? "Sign in" : "Sign up"}
-                    </button>
-                  ))}
-                </div>
-
                 {/* Heading */}
-                <div className="mb-6 animate-fade-in">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-primary mb-3">
-                    <Sparkles className="h-3 w-3" />
-                    {activeView === "login" ? "Pick up where you left off" : "100 coins on signup"}
-                  </span>
-                  <h2 className="font-display text-[24px] lg:text-[30px] font-semibold tracking-tight leading-[1.1]">
+                <div className="mb-7">
+                  <h2 className="font-display text-[26px] lg:text-[32px] font-semibold tracking-tight leading-[1.1]">
                     {activeView === "login" ? "Welcome back." : "Create your account."}
                   </h2>
-                  <p className="text-muted-foreground text-[13.5px] mt-1.5">
+                  <p className="text-muted-foreground text-[14px] mt-2">
                     {activeView === "login"
                       ? "Continue your learning journey with Asikon."
                       : "Build skills with real projects, in minutes."}
                   </p>
                 </div>
+
+                {/* No tab switcher — single CTA at the bottom controls account creation */}
 
                 {/* OAuth */}
                 <div className="grid grid-cols-2 gap-3 mb-5">
@@ -630,7 +482,7 @@ const Auth = () => {
 
                 <div className="flex items-center gap-3 my-5">
                   <div className="flex-1 h-px bg-border" />
-                  <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-medium">
+                  <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground font-medium">
                     or with email
                   </span>
                   <div className="flex-1 h-px bg-border" />
@@ -805,78 +657,26 @@ const Auth = () => {
               </>
             )}
 
-            {/* Bottom-aligned trust strip */}
-            {activeView !== "forgot-password" && activeView !== "otp" && (
-              <div className="mt-auto pt-8 md:pt-12 space-y-5">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="flex -space-x-2">
-                    {["from-primary to-[#a78bfa]", "from-primary/80 to-primary/40", "from-accent to-primary"].map((g, i) => (
-                      <div
-                        key={i}
-                        className={cn(
-                          "w-7 h-7 rounded-full border-2 border-background bg-gradient-to-br grid place-items-center text-[10px] font-semibold text-white",
-                          g,
-                        )}
-                      >
-                        {["S", "A", "M"][i]}
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-[11.5px] text-center leading-relaxed text-muted-foreground max-w-[260px]">
-                    Trusted by <span className="text-foreground font-bold">12,400+</span> learners building real AI skills.
-                  </p>
-                </div>
+            {/* Bottom-aligned switch & trust strip */}
+            {activeView !== "forgot-password" && (
+              <div className="mt-auto pt-10 lg:pt-12 space-y-5">
+                <p className="text-center text-[13px] text-muted-foreground">
+                  {activeView === "login" ? "New to Asikon?" : "Already a member?"}{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveView(activeView === "login" ? "register" : "login");
+                      clearErrors();
+                    }}
+                    className="font-medium text-foreground underline-offset-4 hover:underline"
+                  >
+                    {activeView === "login" ? "Create an account" : "Sign in"}
+                  </button>
+                </p>
 
                 <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Secured with bank-grade encryption
-                </div>
-
-                {/* Mobile-only value panel (mirrors desktop aside) */}
-                <div className="md:hidden pt-2 space-y-4">
-                  <div className="flex items-center justify-center">
-                    <div className="inline-flex items-center gap-2 text-[11.5px] text-muted-foreground rounded-full border border-border bg-card px-3 py-1.5">
-                      <Flame className="h-3.5 w-3.5 text-primary" />
-                      Pick up where you left off
-                    </div>
-                  </div>
-
-                  <ul className="grid grid-cols-2 gap-x-4 gap-y-4 rounded-2xl border border-border bg-card/60 backdrop-blur p-4">
-                    {[
-                      { icon: GraduationCap, title: "Expert courses", sub: "200+ lessons" },
-                      { icon: Sparkles, title: "AI tutor", sub: "Bangla + English" },
-                      { icon: BookOpen, title: "Prompt library", sub: "1,000+ prompts" },
-                      { icon: ShieldCheck, title: "Lifetime access", sub: "Yours forever" },
-                    ].map((f) => (
-                      <li key={f.title} className="flex items-start gap-2.5">
-                        <f.icon className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-                        <div>
-                          <p className="text-[12.5px] font-medium leading-tight text-foreground">
-                            {f.title}
-                          </p>
-                          <p className="text-[11px] text-muted-foreground mt-0.5">{f.sub}</p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <figure className="rounded-2xl border border-border bg-card/60 backdrop-blur p-4">
-                    <blockquote className="text-[13px] text-foreground/90 leading-relaxed">
-                      "The AI tutor answered my doubts at 2 a.m. before exams.
-                      Asikon doesn't just teach — it learns with you."
-                    </blockquote>
-                    <figcaption className="flex items-center gap-2.5 mt-3">
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-[#a78bfa] grid place-items-center text-[11px] font-semibold text-white">
-                        S
-                      </div>
-                      <div>
-                        <p className="text-[12px] font-medium text-foreground">Sadia R.</p>
-                        <p className="text-[10.5px] text-muted-foreground">
-                          ML Engineer · Class of 2025
-                        </p>
-                      </div>
-                    </figcaption>
-                  </figure>
                 </div>
               </div>
             )}
@@ -896,12 +696,7 @@ function PrimaryCta({
   children: React.ReactNode;
 }) {
   return (
-    <Button
-      type="submit"
-      size="lg"
-      disabled={loading}
-      className="w-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200 hover:-translate-y-0.5"
-    >
+    <Button type="submit" size="lg" disabled={loading} className="w-full">
       {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
       {children}
     </Button>
@@ -923,11 +718,10 @@ function OAuthButton({
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "group relative h-11 rounded-xl border border-border bg-card/80 backdrop-blur",
-        "hover:bg-secondary/60 hover:border-foreground/20 hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/5",
+        "h-11 rounded-xl border border-border bg-card hover:bg-secondary/60",
         "flex items-center justify-center gap-2 text-sm font-medium text-foreground",
-        "transition-all duration-200 active:translate-y-0 active:scale-[0.99]",
-        "disabled:opacity-60 disabled:hover:translate-y-0",
+        "transition-colors duration-150 active:scale-[0.99]",
+        "disabled:opacity-60",
       )}
     >
       {loading ? (

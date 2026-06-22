@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useHomeBanners } from "@/hooks/useHomeBanners";
 import { cn } from "@/lib/utils";
-import { buildSrcSet, transformedSrc } from "@/lib/imageSrcset";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 const FALLBACK_BANNERS = [
   {
@@ -40,7 +39,7 @@ const FALLBACK_BANNERS = [
   },
 ];
 
-export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } = {}) {
+export function ImageHeroSlider() {
   const { data: banners, isLoading } = useHomeBanners("hero");
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center" },
@@ -58,31 +57,10 @@ export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } =
     };
   }, [emblaApi]);
 
-  // Warm the browser cache for the next slide so transitions feel instant.
-  useEffect(() => {
-    const list = banners && banners.length > 0 ? banners : FALLBACK_BANNERS;
-    if (list.length < 2) return;
-    const nextIdx = (selected + 1) % list.length;
-    const next = list[nextIdx];
-    if (!next?.image_url) return;
-    const img = new Image();
-    img.decoding = "async";
-    img.src = transformedSrc(next.image_url, 1280);
-    const srcset = buildSrcSet(next.image_url);
-    if (srcset) (img as any).srcset = srcset;
-  }, [selected, banners]);
-
   if (isLoading) {
     return (
-      <div className={fullWidth ? "" : "section-x"}>
-        <Skeleton
-          className={cn(
-            "w-full rounded-3xl",
-            fullWidth
-              ? "aspect-[16/9] md:aspect-[21/9] xl:aspect-[24/9] 2xl:aspect-[32/10] max-h-[640px]"
-              : "aspect-[21/10]"
-          )}
-        />
+      <div className="section-x">
+        <Skeleton className="w-full aspect-[21/10] rounded-3xl" />
       </div>
     );
   }
@@ -99,45 +77,29 @@ export function ImageHeroSlider({ fullWidth = false }: { fullWidth?: boolean } =
   if (items.length === 0) return null;
 
   return (
-    <section className={fullWidth ? "" : "section-x"}>
+    <section className="section-x">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex gap-3">
           {items.map((b, idx) => {
             const isFirst = idx === 0;
             const Inner = (
-              <div
-                className={cn(
-                  "group relative w-full overflow-hidden bg-card border border-border",
-                  fullWidth
-                    ? "rounded-none md:rounded-3xl aspect-[16/9] md:aspect-[21/9] xl:aspect-[24/9] 2xl:aspect-[32/10] max-h-[640px]"
-                    : "rounded-3xl aspect-[16/9]"
-                )}
-              >
+              <div className="group relative w-full aspect-[16/9] rounded-3xl overflow-hidden bg-card border border-border">
                 <img
-                  src={transformedSrc(b.image_url, 1280)}
-                  srcSet={buildSrcSet(b.image_url)}
-                  sizes={
-                    fullWidth
-                      ? "(min-width: 1536px) 100vw, (min-width: 1024px) 100vw, 100vw"
-                      : "(min-width: 768px) 55vw, (min-width: 640px) 70vw, 100vw"
-                  }
+                  src={b.image_url}
                   alt={b.alt_text ?? b.title ?? "Promotional banner"}
                   loading={isFirst ? "eager" : "lazy"}
                   decoding={isFirst ? "sync" : "async"}
                   {...({ fetchpriority: isFirst ? "high" : "low" } as any)}
-                  width={1920}
-                  height={720}
-                  className="absolute inset-0 w-full h-full object-cover object-center"
+                  width={1200}
+                  height={675}
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
             );
             return (
               <div
                 key={b.id}
-                className={cn(
-                  "shrink-0 grow-0 basis-full pressable",
-                  !fullWidth && "sm:basis-[70%] md:basis-[55%]"
-                )}
+                className="shrink-0 grow-0 basis-full sm:basis-[70%] md:basis-[55%] pressable"
               >
                 {b.link_url ? (
                   <Link to={b.link_url} className="block focus-ring rounded-3xl">

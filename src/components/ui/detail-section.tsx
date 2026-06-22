@@ -8,19 +8,15 @@ interface DetailSectionProps {
   className?: string;
   /** Add hairline top divider (use to separate stacked sections). */
   divided?: boolean;
-  /** Anchor id, used by jump links / sticky nav. */
-  id?: string;
 }
 
 /**
  * Flat content section with optional hairline divider and consistent vertical rhythm.
  * Native-app minimal — no cards, no nested glass.
  */
-export function DetailSection({ title, action, children, className, divided = true, id }: DetailSectionProps) {
+export function DetailSection({ title, action, children, className, divided = true }: DetailSectionProps) {
   return (
     <section
-      id={id}
-      style={id ? { scrollMarginTop: "calc(var(--app-header-h, 0px) + 88px)" } : undefined}
       className={cn(
         "space-y-4",
         divided && "pt-6 border-t border-border/40 first:pt-0 first:border-t-0",

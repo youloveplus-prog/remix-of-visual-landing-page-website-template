@@ -1,25 +1,16 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import coverAtomicHabits from "@/assets/cover-atomic-habits.jpg";
-import coverDeepWork from "@/assets/cover-deep-work.jpg";
-import coverSapiens from "@/assets/cover-sapiens.jpg";
-import coverPragmatic from "@/assets/cover-pragmatic.jpg";
-import coverCleanCode from "@/assets/cover-clean-code.jpg";
-import coverThinkingFastSlow from "@/assets/cover-thinking-fast-slow.jpg";
-import coverLeanStartup from "@/assets/cover-lean-startup.jpg";
-import coverHooked from "@/assets/cover-hooked.jpg";
-import coverShowYourWork from "@/assets/cover-show-your-work.jpg";
 
 const BOOKS = [
-  { title: "Atomic Habits", cover: coverAtomicHabits },
-  { title: "Deep Work", cover: coverDeepWork },
-  { title: "Sapiens", cover: coverSapiens },
-  { title: "The Pragmatic Programmer", cover: coverPragmatic },
-  { title: "Clean Code", cover: coverCleanCode },
-  { title: "Thinking, Fast and Slow", cover: coverThinkingFastSlow },
-  { title: "The Lean Startup", cover: coverLeanStartup },
-  { title: "Hooked", cover: coverHooked },
-  { title: "Show Your Work", cover: coverShowYourWork },
+  { title: "Atomic Habits", cover: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg" },
+  { title: "Deep Work", cover: "https://covers.openlibrary.org/b/isbn/9781455586691-L.jpg" },
+  { title: "Sapiens", cover: "https://covers.openlibrary.org/b/isbn/9780062316097-L.jpg" },
+  { title: "The Pragmatic Programmer", cover: "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg" },
+  { title: "Clean Code", cover: "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg" },
+  { title: "Thinking, Fast and Slow", cover: "https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg" },
+  { title: "The Lean Startup", cover: "https://covers.openlibrary.org/b/isbn/9780307887894-L.jpg" },
+  { title: "Hooked", cover: "https://covers.openlibrary.org/b/isbn/9781591847786-L.jpg" },
+  { title: "Show Your Work", cover: "https://covers.openlibrary.org/b/isbn/9780761178972-L.jpg" },
 ];
 
 // 7 fan slots; center index = 3 (front)
@@ -61,7 +52,7 @@ export function MasterpieceShowcase() {
   const frontBook = visible[frontIdx].book;
 
   return (
-    <section className="section-x"><div className="relative overflow-hidden py-10 lg:py-20 rounded-3xl my-4 lg:my-8 bg-gradient-to-br from-[hsl(var(--primary)/0.08)] via-background to-[hsl(var(--primary)/0.15)]">
+    <section className="relative overflow-hidden py-10 lg:py-20 rounded-3xl mx-2 lg:mx-6 my-4 lg:my-8 bg-gradient-to-br from-[hsl(var(--primary)/0.08)] via-background to-[hsl(var(--primary)/0.15)]">
       <div aria-hidden className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-primary/20 blur-3xl pointer-events-none" />
       <div aria-hidden className="absolute -bottom-40 right-0 w-[500px] h-[500px] rounded-full bg-primary/15 blur-3xl pointer-events-none" />
 
@@ -154,7 +145,6 @@ export function MasterpieceShowcase() {
           {/* Removed access/guarantee/tutor chips */}
         </div>
       </div>
-    </div></section>
-
+    </section>
   );
 }

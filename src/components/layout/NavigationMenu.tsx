@@ -12,15 +12,15 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "Library", href: "/shop" },
   { label: "Community", href: "/community" },
-  { label: "Game", href: "/game" },
+  { label: "AI Tutor", href: "/learn" },
   { label: "Trending", href: "/shop?filter=trending" },
   { label: "New Arrivals", href: "/shop?filter=new" },
 ];
 
 const categories = [
   { label: "Courses", href: "/shop?type=courses", icon: "🎓" },
-  { label: "Books", href: "/shop?type=ebooks", icon: "📚" },
-  { label: "Student Kits", href: "/shop?type=bundles", icon: "🎒" },
+  { label: "Books", href: "/shop?type=books", icon: "📚" },
+  { label: "Student Kits", href: "/shop?type=kits", icon: "🎒" },
   { label: "Prompt Library", href: "/shop?type=prompts", icon: "🪄" },
   { label: "AI Tutor", href: "/shop?category=ai-tutor", icon: "🤖" },
   { label: "Gadgets", href: "/shop?category=gadgets", icon: "💻" },

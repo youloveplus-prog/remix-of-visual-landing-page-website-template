@@ -20,25 +20,7 @@ export function LeaderboardSheet({ open, onOpenChange }: Props) {
         </SheetHeader>
         <div className="mt-4 space-y-2">
           {isLoading ? (
-            Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 bg-secondary/40 border border-border/40"
-                aria-hidden
-              >
-                <Skeleton className="h-4 w-5" />
-                <Skeleton className="h-9 w-9 rounded-full" />
-                <div className="flex-1 min-w-0 space-y-1.5">
-                  <Skeleton className="h-3.5 w-1/2" />
-                  <Skeleton className="h-2.5 w-1/4" />
-                </div>
-                <div className="text-right space-y-1">
-                  <Skeleton className="h-3.5 w-10 ml-auto" />
-                  <Skeleton className="h-2 w-6 ml-auto" />
-                </div>
-              </div>
-            ))
-
+            Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-14 w-full rounded-xl" />)
           ) : data.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-8">No learners yet. Be the first!</p>
           ) : (

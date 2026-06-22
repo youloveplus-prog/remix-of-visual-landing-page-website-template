@@ -1,5 +1,3 @@
-export type ProductKind = "course" | "ebook" | "service" | "bundle";
-
 export interface Product {
   id: string;
   name: string;
@@ -12,14 +10,7 @@ export interface Product {
   isAuthentic?: boolean;
   isTrending?: boolean;
   isNew?: boolean;
-  /** Drives the card CTA label and badge ("Enroll" / "Buy" / "Book"). */
-  kind?: ProductKind;
-  /** Creator's verified status — shows a small shield next to the brand. */
-  instructorVerified?: boolean;
-  /** Number of learners enrolled — shown on course cards. */
-  enrollmentCount?: number;
 }
-
 
 export interface User {
   id: string;

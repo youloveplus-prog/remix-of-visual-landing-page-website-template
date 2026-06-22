@@ -1,1 +1,0 @@
-DROP POLICY IF EXISTS "Anyone signed in can bump engagement counts" ON public.community_posts;

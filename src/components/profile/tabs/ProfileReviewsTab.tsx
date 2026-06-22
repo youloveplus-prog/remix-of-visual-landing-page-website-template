@@ -32,7 +32,7 @@ export function ProfileReviewsTab({ reviews }: { reviews: ReviewItem[] }) {
 
   return (
     <div className="space-y-3 pt-3">
-      <div className="mx-1 rounded-2xl border border-border/60 liquid-glass p-4 grid grid-cols-2 gap-2">
+      <div className="mx-1 rounded-2xl border border-border/60 bg-card/40 p-4 grid grid-cols-2 gap-2">
         <div className="text-center">
           <p className="text-2xl font-bold">{total}</p>
           <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Reviews</p>
@@ -45,7 +45,7 @@ export function ProfileReviewsTab({ reviews }: { reviews: ReviewItem[] }) {
 
       <div className="space-y-3">
         {reviews.map((r) => (
-          <article key={r.id} className="rounded-2xl border border-border/60 liquid-glass p-4">
+          <article key={r.id} className="rounded-2xl border border-border/60 bg-card/60 p-4">
             {r.productSlug && (
               <Link
                 to={`/product/${r.productSlug}`}

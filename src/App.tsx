@@ -11,7 +11,6 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { installFetchTimer, logRoute } from "@/lib/perf";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { RouteSEO } from "./components/RouteSEO";
 
 
 installFetchTimer();
@@ -32,9 +31,7 @@ const WishlistMod = () => import("./pages/Wishlist");
 const SettingsMod = () => import("./pages/Settings");
 const CreateContentMod = () => import("./pages/CreateContent");
 const MentorsMod = () => import("./pages/Mentors");
-const MentorDetailMod = () => import("./pages/MentorDetail");
 const LearnMod = () => import("./pages/Learn");
-const AiTutorMod = () => import("./pages/AiTutor");
 const NotFoundMod = () => import("./pages/NotFound");
 const ResetPasswordMod = () => import("./pages/ResetPassword");
 const AboutMod = () => import("./pages/About");
@@ -54,11 +51,9 @@ const AdminBannersMod = () => import("./pages/admin/AdminBanners");
 const AdminTracksMod = () => import("./pages/admin/AdminTracks");
 const AdminLessonsMod = () => import("./pages/admin/AdminLessons");
 const AdminAnalyticsMod = () => import("./pages/admin/AdminAnalytics");
-const AdminLegalAnalyticsMod = () => import("./pages/admin/AdminLegalAnalytics");
 const AdminNotificationsMod = () => import("./pages/admin/AdminNotifications");
 const AdminRewardsMod = () => import("./pages/admin/AdminRewards");
 const AdminAuditLogMod = () => import("./pages/admin/AdminAuditLog");
-const AdminLiveActivityMod = () => import("./pages/admin/AdminLiveActivity");
 
 const TrackDetailMod = () => import("./pages/TrackDetail");
 const LessonDetailMod = () => import("./pages/LessonDetail");
@@ -80,9 +75,7 @@ const Wishlist = lazy(WishlistMod);
 const Settings = lazy(SettingsMod);
 const CreateContent = lazy(CreateContentMod);
 const Mentors = lazy(MentorsMod);
-const MentorDetail = lazy(MentorDetailMod);
 const Learn = lazy(LearnMod);
-const AiTutor = lazy(AiTutorMod);
 const Revision = lazy(() => import("./pages/Revision"));
 const NotFound = lazy(NotFoundMod);
 const About = lazy(AboutMod);
@@ -102,11 +95,9 @@ const AdminBanners = lazy(AdminBannersMod);
 const AdminTracks = lazy(AdminTracksMod);
 const AdminLessons = lazy(AdminLessonsMod);
 const AdminAnalytics = lazy(AdminAnalyticsMod);
-const AdminLegalAnalytics = lazy(AdminLegalAnalyticsMod);
 const AdminNotifications = lazy(AdminNotificationsMod);
 const AdminRewards = lazy(AdminRewardsMod);
 const AdminAuditLog = lazy(AdminAuditLogMod);
-const AdminLiveActivity = lazy(AdminLiveActivityMod);
 const TrackDetail = lazy(TrackDetailMod);
 const LessonDetail = lazy(LessonDetailMod);
 const Contact = lazy(() => import("./pages/Contact"));
@@ -121,12 +112,9 @@ const AdminCourses = lazy(() => import("./pages/admin/AdminCourses"));
 const AdminServices = lazy(() => import("./pages/admin/AdminServices"));
 const DigitalList = lazy(() => import("./pages/DigitalList"));
 const CoursesList = lazy(() => import("./pages/CoursesList"));
-const CourseDetail = lazy(() => import("./pages/CourseDetail"));
 const ServicesList = lazy(() => import("./pages/ServicesList"));
 const ContentDetail = lazy(() => import("./pages/ContentDetail"));
 const Library = lazy(() => import("./pages/Library"));
-const Resources = lazy(() => import("./pages/Resources"));
-const ResourceDetail = lazy(() => import("./pages/ResourceDetail"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -145,39 +133,24 @@ const queryClient = new QueryClient({
  */
 function useIdlePrefetch() {
   useEffect(() => {
-    const w = window as any;
     const idle = (cb: () => void) => {
+      const w = window as any;
       if (typeof w.requestIdleCallback === "function") {
-        w.requestIdleCallback(cb, { timeout: 3000 });
+        w.requestIdleCallback(cb, { timeout: 2500 });
       } else {
-        setTimeout(cb, 2000);
+        setTimeout(cb, 1500);
       }
     };
-
-    // Warm next-nav targets one at a time across idle slots so we don't
-    // saturate the network or main thread on slow devices.
-    const queue: Array<() => Promise<unknown>> = [
-      ShopMod,
-      ProductDetailMod,
-      CommunityMod,
-      LearnMod,
-      ProfileMod,
-      AuthMod,
-      CartMod,
-    ];
-    let cancelled = false;
-    const pump = () => {
-      if (cancelled) return;
-      const next = queue.shift();
-      if (!next) return;
-      idle(() => {
-        next().finally(() => pump());
-      });
-    };
-    pump();
-    return () => {
-      cancelled = true;
-    };
+    idle(() => {
+      // Warm the most likely next-nav targets so taps feel instant.
+      ShopMod();
+      CommunityMod();
+      LearnMod();
+      ProfileMod();
+      ProductDetailMod();
+      AuthMod();
+      CartMod();
+    });
   }, []);
 }
 
@@ -187,8 +160,6 @@ function PersistentMobileShell() {
   if (!isMobile) return null;
   // Admin panel has its own bottom nav — never show the user nav on /asikonasik routes
   if (pathname === "/asikonasik" || pathname.startsWith("/asikonasik/")) return null;
-  // Auth pages should not show the bottom nav
-  if (pathname === "/auth" || pathname === "/reset-password") return null;
   return <BottomNav />;
 }
 
@@ -199,55 +170,50 @@ function AnimatedRoutes() {
 
   return (
     <PageTransition key={location.pathname}>
-      <RouteSEO />
       <Suspense fallback={null}>
         <Routes location={location}>
-          <Route path="/" element={<ErrorBoundary><Index /></ErrorBoundary>} />
+          <Route path="/" element={<Index />} />
           <Route path="/index" element={<Navigate to="/" replace />} />
           <Route path="/shop" element={<ErrorBoundary><Shop /></ErrorBoundary>} />
           <Route path="/community" element={<ErrorBoundary><Community /></ErrorBoundary>} />
-          <Route path="/game" element={<ErrorBoundary><Game /></ErrorBoundary>} />
-          <Route path="/profile" element={<ErrorBoundary><Profile /></ErrorBoundary>} />
-          <Route path="/profile/:userId" element={<ErrorBoundary><Profile /></ErrorBoundary>} />
-          <Route path="/cart" element={<ErrorBoundary><Cart /></ErrorBoundary>} />
-          <Route path="/auth" element={<ErrorBoundary><Auth /></ErrorBoundary>} />
-          <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
-          <Route path="/product/:slug" element={<ErrorBoundary><ProductDetail /></ErrorBoundary>} />
-          <Route path="/checkout" element={<ErrorBoundary><Checkout /></ErrorBoundary>} />
-          <Route path="/orders" element={<ErrorBoundary><Orders /></ErrorBoundary>} />
-          <Route path="/orders/:id" element={<ErrorBoundary><OrderDetail /></ErrorBoundary>} />
-          <Route path="/wishlist" element={<ErrorBoundary><Wishlist /></ErrorBoundary>} />
-          <Route path="/settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
-          <Route path="/create" element={<ErrorBoundary><CreateContent /></ErrorBoundary>} />
-          <Route path="/mentors" element={<ErrorBoundary><Mentors /></ErrorBoundary>} />
-          <Route path="/mentors/:slug" element={<ErrorBoundary><MentorDetail /></ErrorBoundary>} />
+          <Route path="/game" element={<Game />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/product/:slug" element={<ProductDetail />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrderDetail />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/create" element={<CreateContent />} />
+          <Route path="/mentors" element={<Mentors />} />
           <Route path="/learn" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
-          <Route path="/ai-tutor" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
-          <Route path="/ai-tutor/:threadId" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
+          <Route path="/ai-tutor" element={<Navigate to="/learn" replace />} />
           <Route path="/revision" element={<ErrorBoundary><Revision /></ErrorBoundary>} />
-          <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
-          <Route path="/prompts" element={<ErrorBoundary><Prompts /></ErrorBoundary>} />
-          <Route path="/welcome" element={<ErrorBoundary><Welcome /></ErrorBoundary>} />
-          <Route path="/contact" element={<ErrorBoundary><Contact /></ErrorBoundary>} />
-          <Route path="/help" element={<ErrorBoundary><Help /></ErrorBoundary>} />
+          <Route path="/learn/:threadId" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
+          <Route path="/about" element={<About />} />
+          <Route path="/prompts" element={<Prompts />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/help" element={<Help />} />
           <Route path="/faq" element={<Navigate to="/help" replace />} />
-          <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
-          <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
-          <Route path="/refund" element={<ErrorBoundary><Refund /></ErrorBoundary>} />
-          <Route path="/notifications" element={<ErrorBoundary><Notifications /></ErrorBoundary>} />
-          <Route path="/leaderboard" element={<ErrorBoundary><Leaderboard /></ErrorBoundary>} />
-          <Route path="/digital" element={<ErrorBoundary><DigitalList /></ErrorBoundary>} />
-          <Route path="/courses" element={<ErrorBoundary><CoursesList /></ErrorBoundary>} />
-          <Route path="/courses/:slug" element={<ErrorBoundary><CourseDetail /></ErrorBoundary>} />
-          <Route path="/services" element={<ErrorBoundary><ServicesList /></ErrorBoundary>} />
-          <Route path="/content/:slug" element={<ErrorBoundary><ContentDetail /></ErrorBoundary>} />
-          <Route path="/library" element={<ErrorBoundary><Library /></ErrorBoundary>} />
-          <Route path="/resources" element={<ErrorBoundary><Resources /></ErrorBoundary>} />
-          <Route path="/resources/:slug" element={<ErrorBoundary><ResourceDetail /></ErrorBoundary>} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/refund" element={<Refund />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/digital" element={<DigitalList />} />
+          <Route path="/courses" element={<CoursesList />} />
+          <Route path="/services" element={<ServicesList />} />
+          <Route path="/content/:slug" element={<ContentDetail />} />
+          <Route path="/library" element={<Library />} />
           
           
-          <Route path="/track/:slug" element={<ErrorBoundary><TrackDetail /></ErrorBoundary>} />
-          <Route path="/lesson/:id" element={<ErrorBoundary><LessonDetail /></ErrorBoundary>} />
+          <Route path="/track/:slug" element={<TrackDetail />} />
+          <Route path="/lesson/:id" element={<LessonDetail />} />
           <Route path="/asikonasik" element={<AdminLayout />}>
             <Route index element={<AdminOverview />} />
             <Route path="users" element={<AdminUsers />} />
@@ -262,11 +228,9 @@ function AnimatedRoutes() {
             <Route path="tracks" element={<AdminTracks />} />
             <Route path="lessons" element={<AdminLessons />} />
             <Route path="analytics" element={<AdminAnalytics />} />
-            <Route path="analytics/legal" element={<AdminLegalAnalytics />} />
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="rewards" element={<AdminRewards />} />
             <Route path="audit-log" element={<AdminAuditLog />} />
-            <Route path="live-activity" element={<AdminLiveActivity />} />
             <Route path="digital" element={<AdminDigital />} />
             <Route path="courses" element={<AdminCourses />} />
             <Route path="services" element={<AdminServices />} />
@@ -281,7 +245,7 @@ function AnimatedRoutes() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" enableSystem={false}>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <CurrencyProvider>
         <TooltipProvider>
           <Toaster />

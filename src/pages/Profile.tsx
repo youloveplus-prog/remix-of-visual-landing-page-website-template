@@ -29,18 +29,6 @@ import {
   type ProfileTabType,
 } from "@/components/profile";
 import { MessagingDrawer } from "@/components/messaging";
-import { ReportDialog } from "@/components/profile/ReportDialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useReportUser, useBlockUser } from "@/hooks/useUserModeration";
 import {
   useProfile,
   useUpdateProfile,
@@ -74,8 +62,7 @@ const Profile = () => {
   const isOwnProfile = !userId || userId === user?.id;
 
   const { data: profile, isLoading: profileLoading } = useProfile(targetUserId);
-  const { data: counts, isLoading: countsLoading } = useProfileCounts(targetUserId);
-
+  const { data: counts } = useProfileCounts(targetUserId);
   const { data: followers } = useFollowers(targetUserId || "");
   const { data: following } = useFollowing(targetUserId || "");
   const { data: userPosts } = usePosts({ userId: targetUserId, limit: 50 });
@@ -97,26 +84,12 @@ const Profile = () => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [statSheet, setStatSheet] = useState<StatSheet>(null);
   const [showEdit, setShowEdit] = useState(false);
-  const [showReport, setShowReport] = useState(false);
-  const [showBlockConfirm, setShowBlockConfirm] = useState(false);
-
-  const reportUser = useReportUser();
-  const blockUser = useBlockUser();
 
   const isFollowing = followers?.some((f) => f.follower_id === user?.id) || false;
 
-  // Reset to a public tab if viewing someone else's profile
-  useEffect(() => {
-    const PRIVATE = ["library", "orders", "wishlist"] as const;
-    if (!isOwnProfile && (PRIVATE as readonly string[]).includes(activeTab)) {
-      setActiveTab("posts");
-    }
-  }, [isOwnProfile, activeTab]);
-
   const handleFollow = async () => {
-    if (!targetUserId) return;
-    if (!user) {
-      navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
+    if (!targetUserId || !user) {
+      toast({ title: "Please login", description: "Sign in to follow users.", variant: "destructive" });
       return;
     }
     try {
@@ -128,9 +101,8 @@ const Profile = () => {
   };
 
   const handleMessage = async () => {
-    if (!targetUserId) return;
-    if (!user) {
-      navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
+    if (!targetUserId || !user) {
+      toast({ title: "Please login", description: "Sign in to send messages.", variant: "destructive" });
       return;
     }
     try {
@@ -262,7 +234,6 @@ const Profile = () => {
               avatar: displayProfile.avatar,
               isVerified: displayProfile.isVerified,
             }}
-            isOwnProfile={isOwnProfile}
           />
         );
       case "media":
@@ -342,14 +313,12 @@ const Profile = () => {
           following={counts?.following ?? following?.length ?? 0}
           xp={xp}
           level={level}
-          isLoading={countsLoading && !counts}
           onPostsClick={() => setActiveTab("posts")}
           onFollowersClick={() => setStatSheet("followers")}
           onFollowingClick={() => setStatSheet("following")}
           onXpClick={() => setActiveTab("learning")}
           onLevelClick={() => setActiveTab("learning")}
         />
-
 
         <ProfileActions
           isOwnProfile={isOwnProfile}
@@ -359,20 +328,8 @@ const Profile = () => {
           onMessage={handleMessage}
           onShare={handleShare}
           onEditProfile={() => setShowEdit(true)}
-          onReport={() => {
-            if (!user) {
-              navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
-              return;
-            }
-            setShowReport(true);
-          }}
-          onBlock={() => {
-            if (!user) {
-              navigate(`/auth?redirect=${encodeURIComponent(`/profile/${targetUserId}`)}`);
-              return;
-            }
-            setShowBlockConfirm(true);
-          }}
+          onReport={() => toast({ title: "Report submitted" })}
+          onBlock={() => toast({ title: "User blocked" })}
         />
 
         {isOwnProfile && (
@@ -488,41 +445,6 @@ const Profile = () => {
               setShowEdit(false);
             }}
           />
-        )}
-
-        {!isOwnProfile && targetUserId && (
-          <>
-            <ReportDialog
-              open={showReport}
-              onOpenChange={setShowReport}
-              userName={displayProfile.name}
-              isSubmitting={reportUser.isPending}
-              onSubmit={async ({ reason, details }) => {
-                await reportUser.mutateAsync({ reportedUserId: targetUserId, reason, details });
-              }}
-            />
-            <AlertDialog open={showBlockConfirm} onOpenChange={setShowBlockConfirm}>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="font-display">Block {displayProfile.name}?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    They won't be able to see your activity and you'll be unfollowed from each other. You can undo this from Settings.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                    onClick={async () => {
-                      await blockUser.mutateAsync(targetUserId);
-                    }}
-                  >
-                    Block
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </>
         )}
       </MobilePage>
     </AppLayout>

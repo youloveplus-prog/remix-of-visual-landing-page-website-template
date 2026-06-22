@@ -1,22 +1,17 @@
-import { SITE_URL } from "@/config/site";
 import { useState } from "react";
 import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useMentors, type Mentor } from "@/hooks/useMentors";
 import { MentorWaitlistSheet } from "@/components/mentorship/MentorWaitlistSheet";
-import { VerifiedTutorBadge } from "@/components/mentorship/VerifiedTutorBadge";
-import { useMentorVerificationsMap } from "@/hooks/useTrust";
 import { MobileScroller } from "@/components/ui/mobile-scroller";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Star, GraduationCap, Languages, Sparkles, ShieldCheck, MessageSquare } from "lucide-react";
-import { Link } from "react-router-dom";
 
 const Mentors = () => {
   const { data: mentors, isLoading } = useMentors();
-  const { data: verifications } = useMentorVerificationsMap();
   const [openSheet, setOpenSheet] = useState(false);
   const [selected, setSelected] = useState<Mentor | null>(null);
 
@@ -30,12 +25,12 @@ const Mentors = () => {
       <SEO
         title="1-on-1 Mentorship for Kids"
         description="Book personal Bangla & English tutors for your child on Asikon. Hand-picked mentors, waitlist now open."
-        url={`${SITE_URL}/mentors`}
+        url="https://asikonpro.lovable.app/mentors"
       />
       <div className="container-editorial space-y-10 pb-32 pt-2 lg:pt-4">
         {/* Hero */}
         <section className="section-x">
-          <div className="relative overflow-hidden rounded-2xl border border-border liquid-glass p-6 lg:p-10 text-center">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 lg:p-10 text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary border border-border text-foreground/70 text-[10.5px] font-medium uppercase tracking-[0.16em] px-2.5 py-1 mb-3">
               New · Coming soon
             </span>
@@ -72,17 +67,14 @@ const Mentors = () => {
               {(mentors ?? []).map((m) => (
                 <article
                   key={m.id}
-                  className="h-full rounded-2xl border border-border liquid-glass p-4 flex flex-col transition-colors hover:bg-secondary/40"
+                  className="h-full rounded-2xl border border-border bg-card p-4 flex flex-col transition-colors hover:bg-secondary/40"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-secondary border border-border flex items-center justify-center text-foreground font-semibold text-lg shrink-0">
                       {m.name.charAt(0)}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-1.5">
-                        <p className="font-medium text-[14px] truncate">{m.name}</p>
-                        <VerifiedTutorBadge verification={verifications?.[m.id]} compact />
-                      </div>
+                    <div className="min-w-0">
+                      <p className="font-medium text-[14px] truncate">{m.name}</p>
                       <p className="text-[11.5px] text-muted-foreground flex items-center gap-1 tabular-nums">
                         <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
                         {m.rating.toFixed(1)} · {m.experience_years}+ yrs
@@ -105,14 +97,9 @@ const Mentors = () => {
                     <GraduationCap className="h-3 w-3" />
                     Ages {m.for_age_min}–{m.for_age_max}
                   </div>
-                  <div className="mt-4 flex gap-2">
-                    <Button size="sm" variant="outline" className="flex-1" onClick={() => open(m)}>
-                      Reserve a slot
-                    </Button>
-                    <Link to={`/mentors/${m.slug}`} className="inline-flex items-center justify-center rounded-md border border-border bg-card/60 px-3 text-[12px] font-medium hover:bg-card transition-colors">
-                      View
-                    </Link>
-                  </div>
+                  <Button size="sm" variant="outline" className="mt-4" onClick={() => open(m)}>
+                    Reserve a slot
+                  </Button>
                 </article>
               ))}
             </MobileScroller>
@@ -130,7 +117,7 @@ const Mentors = () => {
             ].map((s) => {
               const Icon = s.icon;
               return (
-                <div key={s.title} className="rounded-2xl liquid-glass border border-border p-4">
+                <div key={s.title} className="rounded-2xl bg-card border border-border p-4">
                   <div className="w-9 h-9 rounded-lg bg-secondary border border-border flex items-center justify-center mb-3">
                     <Icon className="h-4 w-4 text-foreground/70" />
                   </div>

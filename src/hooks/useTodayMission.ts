@@ -44,9 +44,6 @@ export function useCompleteLesson() {
       qc.invalidateQueries({ queryKey: ["today_mission", user?.id] });
       qc.invalidateQueries({ queryKey: ["milestones", user?.id] });
     },
-    onError: (err: any) => {
-      toast.error(err?.message ?? "Could not save completion. Please try again.");
-    },
   });
 }
 

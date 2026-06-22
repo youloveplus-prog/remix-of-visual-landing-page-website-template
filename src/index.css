@@ -17,99 +17,69 @@
 
 @layer base {
   :root {
-    /* === Light theme (Warm cream + indigo blue — "Warm bento" direction) ===
-       bg #faf6ef cream, card #ffffff, ink #0f1224, muted ink #5b5e72,
-       primary #3b4fe0 indigo, warm chips: butter #fde2b8, lavender #ece6ff, mint #d8f0e4. */
-    --background: 39 55% 95%;          /* #faf6ef */
-    --foreground: 234 37% 11%;         /* #0f1224 */
+    /* === Light theme (Apple-calm, default) ===
+       Spec: bg #F7F8FC, card #FFFFFF, text #0F172A, muted #64748B,
+       primary #2836D9 (indigo), accent #00C896 (mint). */
+    --background: 220 33% 98%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 234 37% 11%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 234 37% 11%;
-    --primary: 233 72% 55%;            /* #3b4fe0 calm indigo — eases on eyes */
+    --popover-foreground: 222 47% 11%;
+    --primary: 234 70% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 39 67% 96%;           /* #fff8ec warm panel */
-    --secondary-foreground: 234 37% 11%;
-    --muted: 39 50% 92%;               /* warm muted */
-    --muted-foreground: 232 13% 38%;   /* slight bump for readability on softer cards */
-    --accent: 252 100% 95%;            /* lavender chip surface */
-    --accent-foreground: 233 72% 50%;
+    --secondary: 220 20% 96%;
+    --secondary-foreground: 222 47% 14%;
+    --muted: 220 20% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 162 100% 39%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 228 30% 86%;
-    --border-soft: 228 24% 90%;        /* hairline — quieter than --border */
-    --card-sheen: 0 0% 100%;           /* top inner highlight on cards (light) */
-    --input: 228 40% 92%;
-    --ring: 233 72% 55%;
-    --radius: 0.625rem;
-    --sidebar-background: 228 60% 97%;
-    --sidebar-foreground: 236 100% 12%;
-    --sidebar-primary: 228 100% 50%;
+    --border: 220 16% 90%;
+    --input: 220 16% 92%;
+    --ring: 234 70% 50%;
+    --radius: 0.75rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 234 70% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 252 100% 95%;
-    --sidebar-accent-foreground: 228 100% 45%;
-    --sidebar-border: 228 40% 88%;
-    --sidebar-ring: 228 100% 50%;
-    --chart-1: 236 100% 12%;
-    --chart-2: 228 100% 50%;
-    --chart-3: 252 100% 75%;
-    --chart-4: 225 50% 92%;
-    --chart-5: 220 80% 60%;
-    --gold: 228 100% 50%;
-    --success: 152 50% 42%;
-    --font-sans: 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
-    --font-display: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
-    --font-serif: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
-    --font-dot: 'Satoshi', 'JetBrains Mono', ui-monospace, monospace;
-    --font-dot-matrix: 'Satoshi', 'JetBrains Mono', ui-monospace, monospace;
+    --sidebar-accent: 162 100% 39%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 16% 90%;
+    --sidebar-ring: 234 70% 50%;
+    --chart-1: 234 70% 50%;
+    --chart-2: 162 100% 39%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 220 90% 55%;
+    --chart-5: 270 60% 55%;
+    --gold: 38 92% 50%;
+    --success: 162 70% 38%;
+    --font-sans: 'Inter', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Space Grotesk', 'Hind Siliguri', ui-sans-serif, system-ui, sans-serif;
 
-    /* Chip surfaces — brand blue/violet family */
-    --chip-butter: 252 100% 92%;
-    --chip-lavender: 252 100% 88%;
-    --chip-mint: 228 100% 92%;
-    --chip-cream: 225 50% 96%;
-
-    /* Shared panel surface tokens — used by .surface-panel utilities so
-       every page/section flips to pure black in dark mode automatically. */
-    --panel: #f6f5f0;
-    --panel-soft: #ffffff;
-    --panel-foreground: #0e0e10;
-    --panel-muted: #5b5b62;
-    --panel-border: rgba(0, 0, 0, 0.06);
-
-    /* Glass tokens — light (warm) */
+    /* Glass tokens — light (toned down) */
     --glass-bg: 0 0% 100%;
-    --glass-border: 39 30% 86%;
+    --glass-border: 220 16% 88%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops — calmer indigo sweep (less eye strain) */
-    --brand-from: 236 60% 22%;    /* deep navy, desaturated */
-    --brand-via: 233 72% 55%;     /* #3b4fe0 brand indigo */
-    --brand-to: 252 70% 72%;      /* soft violet */
-    --brand-soft-from: 233 72% 55%;
-    --brand-soft-to: 252 70% 72%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(233 68% 42%) 38%, hsl(var(--brand-via)) 70%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.10) 0%, hsl(var(--brand-soft-to) / 0.12) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(225 50% 96%) 100%);
-    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.7) 0%, hsl(0 0% 100% / 0) 55%);
-    --gradient-card-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.55) 0%, hsl(0 0% 100% / 0) 38%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.12) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.14) 0%, transparent 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(234 70% 50%) 0%, hsl(220 80% 56%) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(234 70% 50% / 0.08) 0%, hsl(162 100% 39% / 0.05) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 33% 98%) 100%);
+    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.5) 0%, hsl(0 0% 100% / 0) 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(234 70% 50% / 0.06) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(162 100% 39% / 0.05) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 30%, hsl(var(--border)) 70%, transparent);
 
-    /* Warm shadow system — two-layer (contact + ambient) for real depth */
-    --shadow-xs: 0 1px 2px hsl(234 37% 11% / 0.04);
-    --shadow-sm: 0 1px 2px hsl(234 37% 11% / 0.04), 0 2px 6px -2px hsl(234 37% 11% / 0.06);
-    --shadow-md: 0 2px 4px hsl(234 37% 11% / 0.05), 0 10px 24px -10px hsl(234 37% 11% / 0.10);
-    --shadow-lg: 0 4px 8px hsl(234 37% 11% / 0.06), 0 22px 48px -18px hsl(234 37% 11% / 0.14);
-    --shadow-xl: 0 6px 12px hsl(234 37% 11% / 0.07), 0 32px 64px -24px hsl(234 37% 11% / 0.18);
-    --shadow-2xl: 0 8px 16px hsl(234 37% 11% / 0.08), 0 40px 72px -28px hsl(234 37% 11% / 0.22);
-    --shadow-glow: 0 0 0 1px hsl(233 72% 55% / 0.16), 0 12px 32px -12px hsl(233 72% 55% / 0.22);
-    --shadow-elevated: 0 2px 6px hsl(234 37% 11% / 0.05), 0 18px 40px -16px hsl(234 37% 11% / 0.14);
-    --shadow-card: 0 1px 2px hsl(234 37% 11% / 0.04), 0 8px 24px -10px hsl(234 37% 11% / 0.08);
-    --shadow-card-hover: 0 2px 4px hsl(234 37% 11% / 0.05), 0 18px 40px -14px hsl(234 37% 11% / 0.14);
-    --shadow-card-pressed: 0 1px 2px hsl(234 37% 11% / 0.06), 0 4px 10px -4px hsl(234 37% 11% / 0.08);
+    /* Calm 3-tier shadow system (Apple-style: large blur, low opacity, downward) */
+    --shadow-xs: 0 1px 2px hsl(222 47% 11% / 0.04);
+    --shadow-sm: 0 1px 3px hsl(222 47% 11% / 0.05);
+    --shadow-md: 0 4px 14px -4px hsl(222 47% 11% / 0.06);
+    --shadow-lg: 0 12px 32px -12px hsl(222 47% 11% / 0.10);
+    --shadow-xl: 0 24px 56px -20px hsl(222 47% 11% / 0.14);
+    --shadow-2xl: 0 36px 72px -28px hsl(222 47% 11% / 0.18);
+    --shadow-glow: 0 0 0 1px hsl(234 70% 50% / 0.18), 0 8px 24px -8px hsl(234 70% 50% / 0.22);
+    --shadow-elevated: 0 12px 32px -16px hsl(222 47% 11% / 0.12);
 
     --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
     --duration-fast: 160ms;
@@ -117,134 +87,66 @@
     --duration-slow: 320ms;
 
     --app-header-h: calc(52px + env(safe-area-inset-top, 0px));
-    --mobile-bottomnav-h: 64px;
-    --bottom-nav-h: calc(64px + env(safe-area-inset-bottom, 0px));
-
+    --mobile-bottomnav-h: 72px;
+    --bottom-nav-h: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
   .dark {
-    /* === Dark theme (pure black) === */
-    --background: 0 0% 0%;
+    /* === Dark theme (calm, premium alt) === */
+    --background: 222 47% 5%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 0%;
+    --card: 222 40% 8%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 0%;
+    --popover: 222 40% 9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 233 80% 64%;
+    --primary: 234 80% 62%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 0%;
+    --secondary: 222 30% 13%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 0%;
-    --muted-foreground: 0 0% 70%;
-    --accent: 0 0% 0%;
-    --accent-foreground: 0 0% 98%;
+    --muted: 222 25% 14%;
+    --muted-foreground: 220 12% 65%;
+    --accent: 162 90% 45%;
+    --accent-foreground: 222 47% 8%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 13%;
-    --border-soft: 0 0% 18%;            /* hairline on black */
-    --card-sheen: 0 0% 100%;            /* used at low alpha on dark */
-    --input: 0 0% 0%;
-
-    --ring: 233 80% 64%;
-    --sidebar-background: 0 0% 0%;
+    --border: 222 25% 16%;
+    --input: 222 25% 12%;
+    --ring: 234 80% 62%;
+    --sidebar-background: 222 47% 5%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 228 100% 60%;
+    --sidebar-primary: 234 80% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 0%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 0 0% 14%;
-    --sidebar-ring: 228 100% 60%;
-    --chart-1: 228 100% 60%;
-    --chart-2: 252 100% 75%;
-    --chart-3: 236 100% 30%;
-    --chart-4: 225 50% 92%;
+    --sidebar-accent: 162 90% 45%;
+    --sidebar-accent-foreground: 222 47% 8%;
+    --sidebar-border: 222 25% 16%;
+    --sidebar-ring: 234 80% 62%;
+    --chart-1: 234 80% 62%;
+    --chart-2: 162 90% 45%;
+    --chart-3: 45 95% 55%;
+    --chart-4: 220 90% 65%;
     --chart-5: 270 70% 65%;
 
-    /* Shared panel surface tokens — dark = pure black for global consistency */
-    --panel: #000000;
-    --panel-soft: #000000;
-    --panel-foreground: hsl(0 0% 98%);
-    --panel-muted: hsl(0 0% 68%);
-    --panel-border: rgba(255, 255, 255, 0.10);
-
-    /* Glass tokens — dark (pure black) */
-    --glass-bg: 0 0% 0%;
-    --glass-border: 0 0% 14%;
+    /* Glass tokens — dark (toned down) */
+    --glass-bg: 222 40% 9%;
+    --glass-border: 222 20% 22%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops — calm indigo on black (less retina burn) */
-    --brand-from: 236 60% 24%;
-    --brand-via: 233 78% 60%;
-    --brand-to: 252 70% 76%;
-    --brand-soft-from: 233 78% 60%;
-    --brand-soft-to: 252 70% 76%;
-
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(233 70% 46%) 38%, hsl(var(--brand-via)) 70%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.14) 0%, hsl(var(--brand-soft-to) / 0.12) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(236 100% 6%) 0%, hsl(0 0% 0%) 100%);
-    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.05) 0%, hsl(0 0% 100% / 0) 55%);
-    --gradient-card-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.06) 0%, hsl(0 0% 100% / 0) 40%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.18) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.14) 0%, transparent 60%);
+    --gradient-primary: linear-gradient(135deg, hsl(234 80% 62%) 0%, hsl(220 85% 65%) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(234 80% 62% / 0.14) 0%, hsl(162 90% 45% / 0.08) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(222 40% 9%) 0%, hsl(222 47% 5%) 100%);
+    --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(234 80% 62% / 0.14) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(162 90% 45% / 0.10) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
-    /* Two-layer shadow on pure black — slight primary tint for lit-from-screen feel */
-    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.4);
-    --shadow-sm: 0 1px 2px hsl(0 0% 0% / 0.45), 0 2px 6px -2px hsl(0 0% 0% / 0.4);
-    --shadow-md: 0 2px 4px hsl(0 0% 0% / 0.5), 0 10px 24px -10px hsl(0 0% 0% / 0.55);
-    --shadow-lg: 0 4px 8px hsl(0 0% 0% / 0.55), 0 22px 48px -18px hsl(0 0% 0% / 0.65);
-    --shadow-xl: 0 6px 12px hsl(0 0% 0% / 0.6), 0 32px 64px -24px hsl(0 0% 0% / 0.7);
-    --shadow-2xl: 0 8px 16px hsl(0 0% 0% / 0.65), 0 40px 72px -28px hsl(0 0% 0% / 0.75);
-    --shadow-glow: 0 0 0 1px hsl(233 80% 64% / 0.28), 0 14px 32px -10px hsl(233 80% 64% / 0.38);
-    --shadow-elevated: 0 2px 6px hsl(0 0% 0% / 0.5), 0 20px 48px -16px hsl(0 0% 0% / 0.65);
-    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.45), 0 10px 28px -12px hsl(0 0% 0% / 0.55), 0 0 0 1px hsl(233 80% 64% / 0.04);
-    --shadow-card-hover: 0 2px 4px hsl(0 0% 0% / 0.5), 0 20px 44px -16px hsl(0 0% 0% / 0.7), 0 0 0 1px hsl(233 80% 64% / 0.08);
-    --shadow-card-pressed: 0 1px 2px hsl(0 0% 0% / 0.5), 0 4px 10px -4px hsl(0 0% 0% / 0.5);
-
-    /* === Gemini-style premium gradient (dark) ===
-       Used only to mark *premium* surfaces — badges, premium card borders,
-       featured pills. Keeps the rare/signature feel of Google Gemini's
-       blue → indigo → violet → magenta → peach sweep. */
-    --gradient-premium: linear-gradient(
-      125deg,
-      hsl(217 95% 60%) 0%,
-      hsl(234 88% 62%) 28%,
-      hsl(268 80% 62%) 55%,
-      hsl(322 78% 60%) 78%,
-      hsl(28 95% 64%) 100%
-    );
-    --gradient-premium-soft: linear-gradient(
-      125deg,
-      hsl(217 95% 60% / 0.18) 0%,
-      hsl(268 80% 62% / 0.18) 50%,
-      hsl(28 95% 64% / 0.18) 100%
-    );
-    --shadow-premium:
-      0 0 0 1px hsl(268 80% 62% / 0.35),
-      0 18px 50px -18px hsl(234 88% 62% / 0.55),
-      0 28px 64px -32px hsl(322 78% 60% / 0.45);
-  }
-
-  :root {
-    /* Premium gradient — light theme variant */
-    --gradient-premium: linear-gradient(
-      125deg,
-      hsl(217 95% 55%) 0%,
-      hsl(233 80% 58%) 30%,
-      hsl(268 72% 58%) 58%,
-      hsl(322 70% 58%) 80%,
-      hsl(28 90% 60%) 100%
-    );
-    --gradient-premium-soft: linear-gradient(
-      125deg,
-      hsl(217 95% 55% / 0.12) 0%,
-      hsl(268 72% 58% / 0.12) 50%,
-      hsl(28 90% 60% / 0.12) 100%
-    );
-    --shadow-premium:
-      0 0 0 1px hsl(268 72% 58% / 0.25),
-      0 14px 36px -16px hsl(233 80% 58% / 0.35),
-      0 22px 48px -24px hsl(322 70% 58% / 0.30);
+    --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
+    --shadow-sm: 0 2px 4px hsl(0 0% 0% / 0.4);
+    --shadow-md: 0 6px 16px -4px hsl(0 0% 0% / 0.5);
+    --shadow-lg: 0 16px 36px -12px hsl(0 0% 0% / 0.6);
+    --shadow-xl: 0 28px 56px -20px hsl(0 0% 0% / 0.7);
+    --shadow-2xl: 0 40px 72px -28px hsl(0 0% 0% / 0.75);
+    --shadow-glow: 0 0 0 1px hsl(234 80% 62% / 0.3), 0 12px 32px -8px hsl(234 80% 62% / 0.4);
+    --shadow-elevated: 0 20px 48px -16px hsl(0 0% 0% / 0.65);
   }
 
   @media (min-width: 1024px) {
@@ -280,19 +182,6 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Dark mode: pure glossy black background */
-  html.dark,
-  html.dark body {
-    background-color: #000000;
-  }
-  html.dark body {
-    background-image:
-      radial-gradient(120% 60% at 50% -10%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 60%),
-      radial-gradient(80% 50% at 50% 110%, rgba(255, 255, 255, 0.025) 0%, rgba(255, 255, 255, 0) 60%);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
   }
 
   /* Bangla content uses the Bangla-first stack automatically */
@@ -354,43 +243,12 @@
   /* Selection: brand-tinted */
   ::selection { background: hsl(var(--primary) / 0.22); color: hsl(var(--foreground)); }
 
-  /* Comfortable tap targets on touch devices — Apple HIG 44pt minimum.
-     `touch-action: manipulation` removes the 300ms double-tap delay on
-     interactive controls (page content still pinch-zooms normally). */
+  /* Comfortable tap targets on touch devices */
   @media (hover: none) and (pointer: coarse) {
     button:not(.no-min-tap),
     a[role="button"],
-    [role="button"],
-    input[type="button"],
-    input[type="submit"] {
-      min-height: 44px;
-    }
-    button, a, [role="button"], summary, label,
-    select, input[type="checkbox"], input[type="radio"] {
-      touch-action: manipulation;
-    }
-  }
-
-  /* Smooth, momentum-aware horizontal scrollers across the app */
-  .scroll-snap-x,
-  [data-scroll-x],
-  .overflow-x-auto,
-  .overflow-x-scroll {
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-  }
-  .scroll-snap-x::-webkit-scrollbar,
-  [data-scroll-x]::-webkit-scrollbar,
-  .overflow-x-auto::-webkit-scrollbar,
-  .overflow-x-scroll::-webkit-scrollbar { display: none; }
-
-  /* Prevent iOS auto-zoom on input focus (font must be ≥16px on phones) */
-  @media (max-width: 640px) {
-    input:not([type="checkbox"]):not([type="radio"]),
-    select,
-    textarea {
-      font-size: max(16px, 1rem);
+    [role="button"] {
+      min-height: 40px;
     }
   }
 
@@ -418,97 +276,12 @@
 }
 
 @layer utilities {
-  .gradient-primary,
-  .bg-brand-gradient {
-    background-image: var(--gradient-primary);
+  .gradient-primary {
+    background: var(--gradient-primary);
   }
 
-  .gradient-primary-soft,
-  .bg-brand-gradient-soft {
-    background-image: var(--gradient-primary-soft);
-  }
-
-  .bg-brand-aurora { background-image: var(--gradient-aurora); }
-  .bg-brand-surface { background-image: var(--gradient-surface); }
-  .bg-brand-sheen { background-image: var(--gradient-sheen); }
-
-  /* === Premium (Gemini) gradient utilities ===
-     60% black canvas · 30% brand-blue accents · 10% white text — the
-     gemini sweep is reserved for *premium* badges, borders and CTAs so it
-     keeps its signature feel. */
-  .bg-premium-gradient { background-image: var(--gradient-premium); background-size: 200% 200%; }
-  .bg-premium-gradient-soft { background-image: var(--gradient-premium-soft); }
-  .text-premium-gradient {
-    background-image: var(--gradient-premium);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .shadow-premium { box-shadow: var(--shadow-premium); }
-
-  /* === 60/30/10 canvas ===
-     60% background (theme bg) · 30% brand-blue wash · 10% white hairline.
-     Drop on any <section> / page wrapper to inherit the global rhythm. */
-  .surface-60-30-10 {
-    position: relative;
-    background-color: hsl(var(--background));
-    background-image:
-      radial-gradient(60% 50% at 12% 0%, hsl(var(--brand-from) / 0.18) 0%, transparent 60%),
-      radial-gradient(50% 45% at 100% 10%, hsl(var(--brand-to) / 0.14) 0%, transparent 65%),
-      linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, transparent 30%);
-  }
-  .surface-60-30-10::after {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 1px;
-    background: var(--gradient-hairline);
-    pointer-events: none;
-  }
-  .border-premium-gradient {
-    position: relative;
-    background-clip: padding-box;
-    border: 1px solid transparent;
-  }
-  .border-premium-gradient::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    margin: -1px;
-    border-radius: inherit;
-    background-image: var(--gradient-premium);
-    background-size: 200% 200%;
-    animation: premium-shimmer 8s ease-in-out infinite;
-  }
-  @keyframes premium-shimmer {
-    0%, 100% { background-position: 0% 50%; }
-    50%      { background-position: 100% 50%; }
-  }
-
-  /* Gradient text — theme-aware brand gradient */
-  .text-brand-gradient {
-    background-image: var(--gradient-primary);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  /* Gradient border helper — use on a positioned element */
-  .border-brand-gradient {
-    position: relative;
-    background-clip: padding-box;
-    border: 1px solid transparent;
-  }
-  .border-brand-gradient::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    margin: -1px;
-    border-radius: inherit;
-    background-image: var(--gradient-primary);
+  .gradient-primary-soft {
+    background: var(--gradient-primary-soft);
   }
 
   .gradient-card {
@@ -518,164 +291,6 @@
   .gradient-dark {
     background: linear-gradient(180deg, hsl(225, 15%, 8%) 0%, hsl(225, 18%, 4%) 100%);
   }
-
-  /* === Higgsfield depth — variants live in tailwind.config (plugin).
-     Each `.hf-card-depth*` variant sets its own box-shadow stack so it can
-     be used with responsive prefixes like `sm:hf-card-depth-elevated`.
-     Hover lift is shared and reads through CSS vars set by the section
-     context (lets a section opt into a warmer hover glow). */
-  [class*="hf-card-depth"]:hover {
-    box-shadow:
-      0 1px 0 0 hsl(var(--foreground) / 0.06) inset,
-      var(--shadow-md),
-      var(--shadow-lg);
-  }
-  .hf-card-depth-none:hover {
-    box-shadow: none;
-  }
-
-  /* === Higgsfield section depth — variants live in tailwind.config (plugin).
-     Each variant sets --hf-section-top / --hf-section-bottom / --hf-section-seam;
-     the shared ::before/::after consume them so responsive prefixes work
-     (e.g. `hf-section-depth-subtle sm:hf-section-depth-elevated`). */
-  [class*="hf-section-depth"]::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(120% 60% at 50% 0%, var(--hf-section-top, transparent) 0%, transparent 55%),
-      radial-gradient(80% 50% at 50% 100%, var(--hf-section-bottom, transparent) 0%, transparent 60%);
-  }
-  [class*="hf-section-depth"]::after {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 1px;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(90deg, transparent, var(--hf-section-seam, transparent), transparent);
-  }
-  [class*="hf-section-depth"] > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* === Higgsfield section rhythm — one source of truth for vertical spacing.
-     `.hf-section` standardizes the outer top/bottom padding of every home rail
-     so successive sections stack with the same cadence. `.hf-section-header`
-     standardizes the gap between the title block and its content (rail, grid,
-     accordion, etc). Within the header, keep eyebrow→h2 = `mb-2` and
-     h2→description = `mt-2`. */
-  .hf-section {
-    padding-top: 2.5rem;     /* 40px */
-    padding-bottom: 2.5rem;
-  }
-  @media (min-width: 640px) {
-    .hf-section { padding-top: 3.5rem; padding-bottom: 3.5rem; } /* 56px */
-  }
-  .hf-section-header {
-    margin-bottom: 1.25rem;  /* 20px */
-  }
-  @media (min-width: 640px) {
-    .hf-section-header { margin-bottom: 1.5rem; } /* 24px */
-  }
-
-  /* === Higgsfield section title — minimal, balanced, brand-tracked. ===
-     Pair with `font-display`. Provides the single source of truth for
-     section h2s. */
-  .hf-title {
-    font-size: 1.5rem;             /* 24px — matches hero slider */
-    line-height: 1.08;
-    font-weight: 800;              /* extrabold */
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    color: inherit;
-    text-wrap: balance;
-  }
-  @media (min-width: 640px) {
-    .hf-title { font-size: 1.875rem; }  /* 30px */
-  }
-  @media (min-width: 1024px) {
-    .hf-title { font-size: 2.25rem; }   /* 36px */
-  }
-
-  /* === Mobile-only: center all home section titles & eyebrows.
-     Applies on screens below the `sm` (640px) breakpoint. Title text
-     centers, the eyebrow's leading hairline is hidden so the label
-     sits visually centered, and any header that stacks the title next
-     to a "View all" link is collapsed into a centered column so the
-     title doesn't get shoved off-axis. */
-  @media (max-width: 639px) {
-    .home-higgsfield .hf-title {
-      text-align: center;
-      display: block;
-      width: 100%;
-    }
-    .home-higgsfield .hf-eyebrow {
-      justify-content: center;
-      width: 100%;
-    }
-    .home-higgsfield .hf-eyebrow::before {
-      display: none;
-    }
-    .home-higgsfield [class*="justify-between"]:has(.hf-title),
-    .home-higgsfield [class*="justify-between"]:has(> div > h2),
-    .home-higgsfield [class*="justify-between"]:has(> div > h3) {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 0.75rem;
-    }
-  }
-
-
-  /* === Higgsfield eyebrow — uppercase label with a leading hairline.
-     The ::before rule is the polish: a 24px brand-tinted line that anchors
-     the eyebrow to a visual baseline without adding a wrapper element. */
-  .hf-eyebrow {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    margin-bottom: 0.5rem;          /* mb-2 equivalent */
-    font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
-    font-size: 0.625rem;            /* 10px */
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: hsl(var(--hf-accent));
-  }
-  @media (min-width: 640px) {
-    .hf-eyebrow { font-size: 0.6875rem; } /* 11px */
-  }
-  .hf-eyebrow::before {
-    content: "";
-    display: inline-block;
-    width: 1.5rem;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--hf-accent) / 0.9));
-  }
-
-  /* === Higgsfield card hover — shared lift + media zoom + border lift.
-     Apply on the card link/wrapper. Any descendant marked `.hf-card-media`
-     scales subtly on hover, and the wrapper itself lifts 2px. Pairs with
-     `.hf-card-depth*` for the elevated shadow on hover. */
-  .hf-card-hover {
-    transition: transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1);
-    will-change: transform;
-  }
-  .hf-card-hover:hover {
-    transform: translateY(-2px);
-  }
-  .hf-card-hover .hf-card-media {
-    transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  .hf-card-hover:hover .hf-card-media {
-    transform: scale(1.04);
-  }
-
 
   /* === Calm glass v4 — Apple-like, lower blur, lower opacity. === */
   .glass {
@@ -860,18 +475,10 @@
   /* Nav-specific glass — header & bottom nav */
   .liquid-nav {
     isolation: isolate;
-    background:
-      linear-gradient(180deg, hsl(var(--primary) / 0.08), hsl(var(--primary) / 0.04)),
-      hsl(var(--background) / 0.85);
+    background: hsl(var(--background) / 0.78);
     backdrop-filter: blur(22px) saturate(160%);
     -webkit-backdrop-filter: blur(22px) saturate(160%);
-    box-shadow: 0 1px 0 hsl(var(--primary) / 0.18);
-  }
-  .dark .liquid-nav {
-    background:
-      linear-gradient(180deg, hsl(var(--primary) / 0.14), hsl(var(--primary) / 0.06)),
-      #000000;
-    box-shadow: 0 1px 0 hsl(var(--primary) / 0.28);
+    box-shadow: 0 1px 0 hsl(var(--border));
   }
   .liquid-nav::after {
     content: "";
@@ -979,17 +586,15 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  /* One-frame, non-blocking page enter — native-app feel: opacity + 4px slide.
-     Uses margin-top instead of transform so position:fixed descendants
-     (desktop sidebar, bottom nav) are NOT contained by the wrapper. */
-  .page-enter { opacity: 0.001; margin-top: 6px; }
+  /* One-frame, non-blocking page enter — native-app feel: opacity + 4px slide */
+  .page-enter { opacity: 0.001; transform: translate3d(0, 6px, 0); }
   .page-enter-active {
     opacity: 1;
-    margin-top: 0;
+    transform: translate3d(0, 0, 0);
     transition:
       opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
-      margin-top 260ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, margin-top;
+      transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
   }
 
   /* iOS-style tap feedback — applies to anything you mark .tap */
@@ -1028,23 +633,14 @@
     .animate-fade-in { animation: none !important; opacity: 1 !important; }
   }
 
-  /* Consistent focus ring across the app — readable on cream AND on pure black.
-     Uses ring-offset that matches the nearest surface (background/popover/card)
-     so the ring reads as a halo, not a doubled outline. */
+  /* Consistent focus ring across the app */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:focus-visible:ring-offset-black;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
-  .focus-ring-popover {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover;
-  }
-  .focus-ring-card {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card;
-  }
-
 
   /* Consistent horizontal padding for page sections — tighter on mobile (16px)
      for a native-app feel, desktop relies on parent container so cards align flush. */
-  .section-x { @apply px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto; }
+  .section-x { @apply px-2 sm:px-4 lg:px-0; }
 
   /* Site-wide eyebrow label */
   .eyebrow { @apply text-[10px] uppercase tracking-[0.16em] font-semibold text-muted-foreground; }
@@ -1167,7 +763,7 @@
 
   /* === Responsive grid presets === */
   .grid-products {
-    @apply grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6;
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6;
   }
   .grid-cards {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6;
@@ -1210,45 +806,27 @@
 }
 
 /* === Home bento theme ===
-   Bento tile + glow utilities, theme-aware. Light mode now mirrors the
-   About page: warm cream base + soft indigo gradient wash and a primary
-   glow blob behind the hero. Dark mode keeps the Midnight Indigo palette. */
-.home-midnight {
-  position: relative;
-  isolation: isolate;
-}
-.home-midnight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--gradient-primary-soft);
-  opacity: 0.55;
-  mask-image: linear-gradient(180deg, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.6) 55%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.6) 55%, transparent 100%);
-}
-.home-midnight::after {
-  content: "";
-  position: absolute;
-  top: -10rem;
-  left: -10rem;
-  width: 36rem;
-  height: 36rem;
-  z-index: -1;
-  pointer-events: none;
-  border-radius: 9999px;
-  filter: blur(120px);
-  opacity: 0.22;
-  background: var(--gradient-primary);
-}
-
-/* In dark mode, inherit global tokens (pure black) instead of overriding
-   --card / --popover / --background — overrides produced rgb(20,20,51)
-   card surfaces flagged by the visual-regression scanner. */
-.dark .home-midnight::before,
-.dark .home-midnight::after {
-  display: none;
+   Bento tile + glow utilities, theme-aware. Midnight Indigo palette is
+   applied only in dark mode; light mode inherits the default light theme. */
+.dark .home-midnight {
+  --background: 240 43% 7%;        /* #0a0a1a */
+  --foreground: 0 0% 98%;
+  --card: 240 43% 14%;             /* #141432 */
+  --card-foreground: 0 0% 98%;
+  --popover: 240 43% 14%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 244 76% 59%;          /* #4f46e5 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 51% 24%;        /* #1e1e5a */
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 30% 18%;
+  --muted-foreground: 220 14% 70%;
+  --accent: 244 76% 59%;
+  --accent-foreground: 0 0% 100%;
+  --input: 240 30% 18%;
+  --ring: 244 76% 59%;
+  background-color: hsl(240 43% 7%);
+  color: hsl(0 0% 98%);
 }
 
 .midnight-tile {
@@ -1322,16 +900,6 @@
   50%      { transform: translateY(-4px); }
 }
 
-/* Partner marquee */
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee { animation: marquee 32s linear infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee { animation: none !important; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .midnight-shine::before,
   .midnight-glow::before,
@@ -1341,64 +909,14 @@
 
 
 @layer components {
-  .prose-legal {
-    @apply text-foreground/85;
-    font-size: 1.025rem;
-    line-height: 1.75;
-  }
-  .prose-legal h2 {
-    @apply font-display text-xl sm:text-[1.35rem] font-semibold mt-0 mb-5 tracking-tight text-foreground;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-  }
-  .prose-legal h3 {
-    @apply font-display text-base sm:text-lg font-semibold mt-6 mb-3 tracking-tight text-foreground;
-    line-height: 1.35;
-    letter-spacing: -0.015em;
-  }
-  .prose-legal p {
-    @apply text-foreground/80;
-    margin-bottom: 1.15em;
-  }
-  .prose-legal p:last-child { margin-bottom: 0; }
-  .prose-legal ul, .prose-legal ol {
-    @apply pl-5 my-4;
-  }
+  .prose-legal { @apply text-foreground/90 leading-relaxed; }
+  .prose-legal h2 { @apply font-display text-2xl sm:text-3xl font-semibold mt-10 mb-4 first:mt-0; }
+  .prose-legal p, .prose-legal li { @apply text-muted-foreground; }
+  .prose-legal ul, .prose-legal ol { @apply space-y-2 my-4 pl-5; }
   .prose-legal ul { @apply list-disc; }
   .prose-legal ol { @apply list-decimal; }
-  .prose-legal li {
-    @apply text-foreground/80;
-    margin-bottom: 0.6em;
-    padding-left: 0.25em;
-  }
-  .prose-legal li:last-child { margin-bottom: 0; }
-  .prose-legal a {
-    @apply text-primary font-medium underline underline-offset-4 hover:opacity-80 transition-opacity;
-  }
-  .prose-legal strong {
-    @apply text-foreground font-semibold;
-  }
-  .prose-legal em {
-    @apply text-foreground/90 not-italic;
-    font-weight: 500;
-  }
-
-  /* === Shared panel surfaces ===
-     Use these instead of hardcoded bg-[#f6f5f0] / bg-white so every page
-     consistently flips to pure black in dark mode via CSS tokens. */
-  .surface-panel {
-    background-color: var(--panel);
-    color: var(--panel-foreground);
-    border: 1px solid var(--panel-border);
-  }
-  .surface-panel-soft {
-    background-color: var(--panel-soft);
-    color: var(--panel-foreground);
-    border: 1px solid var(--panel-border);
-  }
-  .text-panel-fg { color: var(--panel-foreground); }
-  .text-panel-muted { color: var(--panel-muted); }
-  .border-panel { border-color: var(--panel-border); }
+  .prose-legal a { @apply text-primary underline underline-offset-4 hover:opacity-80; }
+  .prose-legal strong { @apply text-foreground; }
 }
 
 /* Hide all scrollbars on mobile (visual only — scrolling still works) */
@@ -1416,242 +934,3 @@
   }
 }
 
-
-/* === Editorial home spreads === */
-@layer components {
-  .editorial-eyebrow {
-    font-family: var(--font-dot);
-    font-size: 0.625rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: hsl(var(--muted-foreground) / 0.8);
-  }
-  .editorial-pagenum {
-    font-family: var(--font-dot);
-    font-size: 0.625rem;
-    letter-spacing: 0.16em;
-    color: hsl(var(--muted-foreground) / 0.6);
-  }
-  .editorial-rule {
-    height: 1px;
-    width: 100%;
-    background-color: hsl(var(--foreground) / 0.08);
-  }
-  .editorial-display {
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.035em;
-    line-height: 0.98;
-    font-size: clamp(2.25rem, 10vw, 5.5rem);
-    color: hsl(var(--foreground));
-    text-wrap: balance;
-  }
-  .editorial-headline {
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.1;
-    font-size: clamp(1.625rem, 5.5vw, 2.75rem);
-    color: hsl(var(--foreground));
-    text-wrap: balance;
-  }
-  .editorial-subhead {
-    font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.25;
-    font-size: 1.125rem;
-    color: hsl(var(--foreground));
-  }
-  @media (min-width: 1024px) {
-    .editorial-subhead { font-size: 1.25rem; }
-  }
-  .editorial-dek {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    font-size: 0.9rem;
-    line-height: 1.62;
-    letter-spacing: 0.005em;
-    max-width: 60ch;
-    color: hsl(var(--muted-foreground));
-    text-wrap: pretty;
-  }
-  @media (min-width: 640px) {
-    .editorial-dek { font-size: 0.9375rem; line-height: 1.6; }
-  }
-  @media (min-width: 1024px) {
-    .editorial-dek { font-size: 1rem; line-height: 1.55; letter-spacing: 0; }
-  }
-
-  .editorial-pullquote {
-    font-family: var(--font-sans);
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(1.0625rem, 3.6vw, 1.5rem);
-    line-height: 1.4;
-    color: hsl(var(--foreground) / 0.82);
-    text-wrap: balance;
-  }
-
-  /* Dot-matrix variant: Tiny5 pixel font with a soft scan-flicker animation.
-     Apply alongside .editorial-pullquote (or anywhere) to switch to dot-matrix. */
-  .dot-matrix-type {
-    font-family: var(--font-dot-matrix);
-    font-style: normal;
-    font-weight: 400;
-    letter-spacing: 0.04em;
-    line-height: 1.35;
-    /* Tiny5 reads small at body size — bump it a touch */
-    font-size: clamp(1.25rem, 4.2vw, 1.75rem);
-    color: hsl(var(--primary));
-    text-shadow:
-      0 0 1px hsl(var(--primary) / 0.4),
-      0 0 12px hsl(var(--primary) / 0.18);
-    animation: dot-matrix-flicker 4.2s ease-in-out infinite;
-  }
-  .dot-matrix-type.no-animation {
-    animation: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .dot-matrix-type { animation: none; }
-  }
-}
-
-@keyframes dot-matrix-flicker {
-  0%, 100%   { opacity: 1; }
-  47%        { opacity: 1; }
-  48%        { opacity: 0.72; }
-  49%        { opacity: 1; }
-  72%        { opacity: 1; }
-  73%        { opacity: 0.85; }
-  74%        { opacity: 1; }
-}
-
-
-
-/* === Editorial spread entrance animations === */
-@layer components {
-  .editorial-rule-draw {
-    transform-origin: left center;
-    transform: scaleX(0);
-    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .editorial-rule-draw.is-in {
-    transform: scaleX(1);
-  }
-  .editorial-label-rise {
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 600ms ease-out 120ms, transform 600ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
-  }
-  .editorial-label-rise.is-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .editorial-pagenum-rise {
-    opacity: 0;
-    transition: opacity 700ms ease-out 300ms;
-  }
-  .editorial-pagenum-rise.is-in {
-    opacity: 1;
-  }
-  /* Cover-only: word-by-word rise. Each child <span> gets its own delay. */
-  .editorial-word-rise > span {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(0.6em);
-    transition: opacity 700ms ease-out, transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .editorial-word-rise.is-in > span {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .editorial-rule-draw,
-    .editorial-label-rise,
-    .editorial-pagenum-rise,
-    .editorial-word-rise > span {
-      transform: none !important;
-      opacity: 1 !important;
-      transition: none !important;
-    }
-  }
-}
-
-@layer utilities {
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-/* === Higgsfield-style home scope ===
-   Pure-black canvas + neon-lime accent, isolated from the global warm theme.
-   Applied only to the home page via the .home-higgsfield wrapper. */
-.home-higgsfield {
-  --hf-accent: 233 72% 55%; /* #3b4fe0 brand indigo */
-  --hf-accent-foreground: 0 0% 100%;
-
-  background: #0a0a0a;
-  color: #fff;
-}
-.home-higgsfield ::selection {
-  background: hsl(var(--hf-accent));
-  color: #000;
-}
-
-@keyframes hf-marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-33.3333%); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .home-higgsfield .hf-promo > div { animation: none !important; }
-}
-
-.hf-marquee-mask {
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
-          mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
-}
-
-
-
-/* ─────────────── iOS-tuned scroll-snap rows ───────────────
-   Used by ProductShowcase, CategoryShelf, and any horizontal
-   carousel that needs reliable snap behaviour on touch devices.
-   - `scroll-snap-stop: always` makes momentum stop on each card
-     (no flick-past on iOS Safari).
-   - `-webkit-overflow-scrolling: touch` re-enables native momentum
-     in older iOS WebKits where it's been opted out.
-   - `touch-action: pan-x pinch-zoom` claims horizontal so vertical
-     page scroll stays smooth; pinch-zoom remains available.
-   - `overscroll-behavior-x: contain` blocks horizontal rubber-band
-     from triggering iOS back-swipe / page navigation.
-   - `scroll-snap-type: x mandatory` is repeated here (instead of
-     Tailwind's `snap-x snap-mandatory`) so the row works even if
-     a parent strips the utility class. */
-.hf-snap-row {
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x pinch-zoom;
-  overscroll-behavior-x: contain;
-  scroll-padding-inline: 1rem;
-}
-.hf-snap-row > * {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-@supports (-webkit-touch-callout: none) {
-  /* Slightly relax mandatory snap on iOS so very fast flicks don't
-     feel "sticky" — the browser will still snap, just not yank
-     mid-momentum. */
-  .hf-snap-row {
-    scroll-snap-type: x proximity;
-  }
-  .hf-snap-row > * {
-    scroll-snap-stop: normal;
-  }
-}

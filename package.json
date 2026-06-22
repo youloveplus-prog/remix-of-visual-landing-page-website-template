@@ -5,25 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/verify-credibility.mjs",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "verify:credibility": "node scripts/verify-credibility.mjs"
+    "build:mobile": "vite build && npx cap copy"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "^2.0.47",
     "@ai-sdk/react": "^3.0.179",
-    "@fontsource/dm-serif-display": "^5.2.8",
-    "@fontsource/fira-sans": "^5.2.7",
     "@fontsource/hind-siliguri": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
-    "@fontsource/noto-sans": "^5.2.10",
     "@fontsource/noto-sans-bengali": "^5.2.11",
-    "@fontsource/noto-sans-mono": "^5.2.10",
-    "@fontsource/noto-serif-display": "^5.2.9",
     "@fontsource/space-grotesk": "^5.2.10",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.11",
@@ -57,7 +51,7 @@
     "@streamdown/code": "^1.1.1",
     "@streamdown/math": "^1.0.2",
     "@streamdown/mermaid": "^1.0.2",
-    "@supabase/supabase-js": "^2.108.2",
+    "@supabase/supabase-js": "^2.105.4",
     "@tanstack/react-query": "^5.83.0",
     "ai": "^6.0.191",
     "class-variance-authority": "^0.7.1",
@@ -92,8 +86,6 @@
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@tailwindcss/typography": "^0.5.16",
-    "@testing-library/jest-dom": "6.6.0",
-    "@testing-library/react": "16.0.0",
     "@types/node": "^22.16.5",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
@@ -103,15 +95,11 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
-    "jsdom": "20.0.3",
     "lovable-tagger": "^1.1.13",
     "postcss": "^8.5.6",
-    "sharp": "^0.35.2",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
-    "vite": "^5.4.19",
-    "vite-imagetools": "^10.0.1",
-    "vitest": "3.2.4"
+    "vite": "^5.4.19"
   }
 }

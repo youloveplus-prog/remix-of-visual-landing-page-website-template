@@ -1,4 +1,3 @@
-import { SITE_URL } from "@/config/site";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
@@ -36,7 +35,7 @@ const Notifications = () => {
       <SEO
         title="Notifications — ASIKON"
         description="Stay up to date with announcements, drops, and learning milestones from ASIKON."
-        url={`${SITE_URL}/notifications`}
+        url="https://asikonpro.lovable.app/notifications"
       />
 
       <MobilePage maxWidth="reading" spacing="space-y-8">
@@ -46,7 +45,7 @@ const Notifications = () => {
           subtitle="Announcements from the team and important updates about your account."
         />
 
-        <div className="divide-y divide-border border-y border-border liquid-glass sm:rounded-2xl sm:border sm:divide-border">
+        <div className="divide-y divide-border border-y border-border bg-card sm:rounded-2xl sm:border sm:divide-border">
           {isLoading && (
             <div className="p-4 space-y-3">
               {[...Array(4)].map((_, i) => (

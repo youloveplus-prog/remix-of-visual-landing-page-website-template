@@ -1,6 +1,5 @@
 import { Heart, MessageCircle, Share2, MoreHorizontal, ShoppingBag, Bookmark, BadgeCheck } from "lucide-react";
-import { memo, useMemo, useState, type MouseEvent } from "react";
-import { Link } from "react-router-dom";
+import { memo, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Post } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,30 +7,16 @@ import { SmartImage } from "@/components/ui/smart-image";
 
 interface PostCardProps {
   post: Post;
-  /** When provided, the whole card becomes a link. Inner actions stay interactive. */
-  href?: string;
 }
 
-function PostCardImpl({ post, href }: PostCardProps) {
+function PostCardImpl({ post }: PostCardProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked || false);
   const [likes, setLikes] = useState(post.likes);
   const [saved, setSaved] = useState(false);
 
-  const stop = (e: MouseEvent) => {
-    e.stopPropagation();
-  };
-
-  const handleLike = (e: MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
+  const handleLike = () => {
     setIsLiked(!isLiked);
     setLikes(isLiked ? likes - 1 : likes + 1);
-  };
-
-  const handleSave = (e: MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setSaved((s) => !s);
   };
 
   // Normalize to a single images array; supports legacy `image` field
@@ -41,17 +26,15 @@ function PostCardImpl({ post, href }: PostCardProps) {
     return [];
   }, [post.images, post.image]);
 
-  const articleClass = cn(
-    "group/post mx-auto w-full max-w-[640px]",
-    "-mx-4 sm:mx-auto",
-    "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
-    "transition-shadow duration-200",
-    "sm:hover:shadow-[var(--shadow-md)]",
-    href && "focus-within:ring-2 focus-within:ring-ring",
-  );
-
-  const body = (
-    <>
+  return (
+    <article
+      className={cn(
+        "group/post mx-auto w-full max-w-[640px]",
+        "bg-card border-y border-border sm:border sm:rounded-2xl overflow-hidden",
+        "transition-shadow duration-200",
+        "sm:hover:shadow-[var(--shadow-md)]"
+      )}
+    >
       {/* Header */}
       <header className="flex items-center justify-between p-4">
         <div className="flex items-center gap-3 min-w-0">
@@ -76,7 +59,6 @@ function PostCardImpl({ post, href }: PostCardProps) {
           </div>
         </div>
         <button
-          onClick={stop}
           aria-label="More options"
           className="p-2 -mr-2 hover:bg-secondary/60 rounded-full transition-colors"
         >
@@ -87,7 +69,7 @@ function PostCardImpl({ post, href }: PostCardProps) {
       {/* Caption (above images, Facebook-style) */}
       {post.content && (
         <div className="px-4 pb-3">
-          <p className="text-[14px] leading-[1.55] text-foreground/90 whitespace-pre-wrap line-clamp-2 sm:line-clamp-3">
+          <p className="text-[14px] leading-[1.55] text-foreground/90 whitespace-pre-wrap">
             {post.content}
           </p>
         </div>
@@ -114,15 +96,19 @@ function PostCardImpl({ post, href }: PostCardProps) {
               {likes.toLocaleString()}
             </span>
           </ActionButton>
-          <ActionButton ariaLabel="Comment" onClick={stop}>
+          <ActionButton ariaLabel="Comment">
             <MessageCircle className="h-[18px] w-[18px]" />
             <span className="text-[12.5px] font-medium tabular-nums">{post.comments}</span>
           </ActionButton>
-          <ActionButton ariaLabel="Share" onClick={stop}>
+          <ActionButton ariaLabel="Share">
             <Share2 className="h-[18px] w-[18px]" />
           </ActionButton>
         </div>
-        <ActionButton onClick={handleSave} active={saved} ariaLabel="Save">
+        <ActionButton
+          onClick={() => setSaved((s) => !s)}
+          active={saved}
+          ariaLabel="Save"
+        >
           <Bookmark
             className={cn(
               "h-[18px] w-[18px] transition-all",
@@ -134,22 +120,8 @@ function PostCardImpl({ post, href }: PostCardProps) {
 
       {/* Spacer for clean rhythm */}
       <div className="pb-3" />
-    </>
+    </article>
   );
-
-  if (href) {
-    return (
-      <Link
-        to={href}
-        aria-label={`Open post by ${post.user.name}`}
-        className="block focus:outline-none"
-      >
-        <article className={articleClass}>{body}</article>
-      </Link>
-    );
-  }
-
-  return <article className={articleClass}>{body}</article>;
 }
 
 /**
@@ -175,7 +147,7 @@ function ImageCollage({ images, hasShopTag }: { images: string[]; hasShopTag: bo
         <SmartImage
           src={images[0]}
           alt="Post image"
-          className="w-full aspect-[4/3] sm:aspect-[16/11] object-cover"
+          className="w-full aspect-[4/5] sm:aspect-[16/11] object-cover"
         />
         {shopTag}
       </div>
@@ -256,7 +228,7 @@ function ActionButton({
   ariaLabel,
 }: {
   children: React.ReactNode;
-  onClick?: (e: MouseEvent) => void;
+  onClick?: () => void;
   active?: boolean;
   ariaLabel: string;
 }) {

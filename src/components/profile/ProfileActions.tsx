@@ -49,7 +49,7 @@ export function ProfileActions({
         <div className="flex items-center gap-2">
           <Button
             onClick={onEditProfile}
-            className="flex-1 tap gradient-primary text-primary-foreground glow-primary hover:opacity-95 border-0"
+            className="flex-1 tap"
             aria-label="Edit profile"
           >
             <Pencil className="h-4 w-4 mr-2" />
@@ -89,11 +89,7 @@ export function ProfileActions({
           aria-pressed={isFollowing}
           aria-label={isFollowing ? "Unfollow" : "Follow"}
           variant={isFollowing ? "outline" : "default"}
-          className={
-            isFollowing
-              ? "flex-[2] tap"
-              : "flex-[2] tap gradient-primary text-primary-foreground glow-primary hover:opacity-95 border-0"
-          }
+          className="flex-[2] tap"
         >
           {isFollowLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" />

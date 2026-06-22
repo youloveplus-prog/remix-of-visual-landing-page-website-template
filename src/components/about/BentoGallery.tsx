@@ -132,7 +132,7 @@ function TileCard({ t }: { t: Tile }) {
         loading="lazy"
         width={1280}
         height={960}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.04]"
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-1400 ease-out group-hover:scale-[1.04]"
       />
       {/* tone-aware gradient overlay */}
       <div
@@ -316,7 +316,7 @@ export function EndlessShowcase() {
                 loading="lazy"
                 width={1280}
                 height={960}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1400 group-hover:scale-105"
               />
               <div
                 className={cn(

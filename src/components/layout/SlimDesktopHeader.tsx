@@ -3,14 +3,15 @@ import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useHeaderHidden } from "@/hooks/use-header-visibility";
+import { useScrollDirection } from "@/hooks/use-scroll-direction";
 import { useMeasuredHeaderHeight } from "@/hooks/use-measured-header-height";
 import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
-import { HeaderBrand } from "./HeaderBrand";
-import { sidebarLeftOffsetClass } from "./layout-constants";
-
+import { Breadcrumbs } from "./Breadcrumbs";
+import { CurrencyToggle } from "@/components/ui/currency-toggle";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { MegaMenu } from "./MegaMenu";
 
 interface SlimDesktopHeaderProps {
   cartCount?: number;
@@ -18,16 +19,14 @@ interface SlimDesktopHeaderProps {
 }
 
 /**
- * Compact single-row header for non-home pages. Sits to the right of the sidebar,
- * which already provides primary navigation.
+ * Compact one-row header for non-home pages. Sits to the right of the sidebar.
+ * No mega menu, no logo (logo lives in the sidebar).
  */
 export function SlimDesktopHeader({
   cartCount = 0,
   isSidebarCollapsed = false,
 }: SlimDesktopHeaderProps) {
-  const { hidden, scrollY } = useHeaderHidden();
-  const isScrolled = scrollY > 8;
-
+  const { isScrolled } = useScrollDirection();
   const ref = useRef<HTMLElement>(null);
   useMeasuredHeaderHeight(ref);
 
@@ -36,43 +35,63 @@ export function SlimDesktopHeader({
       ref={ref}
       data-app-header
       className={cn(
-        "fixed top-0 right-0 left-0 z-40 isolate overflow-visible",
-        "transition-[left,transform] duration-300 ease-out will-change-transform",
-        sidebarLeftOffsetClass(isSidebarCollapsed, "lg"),
-        hidden && "-translate-y-full"
+        "fixed top-0 right-0 z-40 transition-all duration-300",
+        isSidebarCollapsed ? "left-16" : "left-60"
       )}
     >
       <div
         className={cn(
-          "relative z-[2] overflow-visible py-2 liquid-nav",
-          "transition-[box-shadow] duration-300 ease-out",
-          "border-b border-border/50 dark:border-white/10",
-          isScrolled && "shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
+          "hairline-bottom transition-all duration-300",
+          "bg-background/55 backdrop-blur-2xl supports-[backdrop-filter]:bg-background/55",
+          isScrolled ? "py-1.5" : "py-2.5"
         )}
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, hsl(var(--glass-highlight) / 0.04), transparent 60%)",
+        }}
       >
-        <div className="flex items-center gap-2.5 px-4 lg:px-6">
-          <HeaderBrand compact={isScrolled} />
-          <SmartSearch className="flex-1 max-w-xl mx-auto" />
-          <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-4 px-4 lg:px-6">
+          <Breadcrumbs />
+          <SmartSearch className="flex-1 max-w-lg ml-auto" />
+          <div className="flex items-center gap-1.5">
+            <CurrencyToggle />
             <Link to="/cart">
               <Button
                 variant="ghost"
                 size="icon"
                 className="relative h-9 w-9 rounded-xl hover:bg-secondary/60"
                 title="Cart"
-                aria-label={`Cart${cartCount > 0 ? ` (${cartCount})` : ""}`}
               >
-                <ShoppingCart className="w-5 h-5" />
+                <ShoppingCart className="w-4.5 h-4.5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-background">
+                  <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center shadow-[var(--shadow-glow)] min-w-[18px] h-[18px]">
                     {cartCount > 9 ? "9+" : cartCount}
                   </span>
                 )}
               </Button>
             </Link>
             <NotificationsMenu />
+            <ThemeToggle />
             <UserMenu />
           </div>
+        </div>
+      </div>
+
+      {/* Mega Menu band */}
+      <div
+        className={cn(
+          "hairline-bottom transition-all duration-300 relative",
+          "bg-background/40 backdrop-blur-xl",
+          "shadow-[inset_0_1px_0_hsl(var(--glass-highlight)/0.06)]",
+          isScrolled ? "h-0 opacity-0 py-0 overflow-hidden" : "py-1 opacity-100"
+        )}
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, hsl(var(--primary) / 0.06), transparent 70%), radial-gradient(60% 80% at 50% 0%, hsl(var(--primary) / 0.08), transparent 70%)",
+        }}
+      >
+        <div className="flex items-center px-4 lg:px-6">
+          <MegaMenu />
         </div>
       </div>
     </header>

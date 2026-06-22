@@ -1,8 +1,7 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useContentItem, useMyPurchases, getSignedAssetUrl } from "@/hooks/useContent";
-import { useEnrollInCourse, useEnrollments } from "@/hooks/useEnrollments";
 import { useAuth } from "@/hooks/useAuth";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -12,8 +11,6 @@ import { SEO } from "@/components/SEO";
 import { Lock, Play, FileText, Download } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
-import { resolveContentRoute } from "@/lib/contentRouting";
-import { useKindMismatchTelemetry } from "@/lib/useKindMismatchTelemetry";
 
 export default function ContentDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -21,17 +18,8 @@ export default function ContentDetail() {
   const { user } = useAuth();
   const { data: item, isLoading } = useContentItem(slug ?? "");
   const { data: purchases = [] } = useMyPurchases();
-  const { data: enrollments = [] } = useEnrollments();
-  const enrollMutation = useEnrollInCourse();
-
-  // Guard: /content/:slug serves digital downloads & services only. A course
-  // slug opened here should canonically live at /courses/:slug.
-  const redirectTo = resolveContentRoute("content", item?.kind, slug ?? "");
-  useKindMismatchTelemetry("content", redirectTo, item?.kind, slug ?? "");
-  if (redirectTo) return <Navigate to={redirectTo} replace />;
 
   const owned = !!item && (item.is_free || purchases.some((p: any) => p.item_id === item.id));
-  const enrolled = !!item && enrollments.some((e) => e.item_id === item.id);
 
   const { data: assets = [] } = useQuery({
     queryKey: ["content_assets_public", item?.id],
@@ -71,16 +59,8 @@ export default function ContentDetail() {
         user_id: user.id,
         item_id: item.id,
       });
-      if (error && !error.message.includes("duplicate")) {
-        toast.error(error.message);
-        return;
-      }
-      if (item.kind === "course") {
-        try { await enrollMutation.mutateAsync(item.id); } catch {}
-        toast.success("Enrolled! Start learning.");
-      } else {
-        toast.success("Unlocked! Find it in your Library.");
-      }
+      if (error && !error.message.includes("duplicate")) toast.error(error.message);
+      else toast.success("Unlocked! Find it in your Library.");
       return;
     }
     // Paid — go to cart/checkout flow with a content marker
@@ -128,13 +108,7 @@ export default function ContentDetail() {
               )}
             </div>
             <Button onClick={getOrPurchase} variant="premium" size="lg" disabled={owned}>
-              {enrolled && item.kind === "course"
-                ? "Continue learning"
-                : owned
-                ? "Owned — Open in Library"
-                : item.is_free
-                ? item.kind === "course" ? "Enroll for free" : "Get free access"
-                : item.kind === "course" ? "Enroll now" : "Purchase"}
+              {owned ? "Owned — Open in Library" : item.is_free ? "Get free access" : "Purchase"}
             </Button>
           </div>
         </Reveal>
@@ -147,7 +121,7 @@ export default function ContentDetail() {
 
         {assets.length > 0 && (
           <Reveal className="space-y-3">
-            <h2 className="hf-title font-display">Files</h2>
+            <h2 className="font-display text-xl font-semibold">Files</h2>
             <ul className="space-y-2">
               {assets.map((a: any) => (
                 <li
@@ -169,7 +143,7 @@ export default function ContentDetail() {
 
         {item.kind === "course" && modules.length > 0 && (
           <Reveal className="space-y-3">
-            <h2 className="hf-title font-display">Curriculum</h2>
+            <h2 className="font-display text-xl font-semibold">Curriculum</h2>
             {modules.map((m: any) => (
               <div key={m.id} className="glass rounded-2xl p-4 space-y-2">
                 <div className="font-semibold">{m.title}</div>

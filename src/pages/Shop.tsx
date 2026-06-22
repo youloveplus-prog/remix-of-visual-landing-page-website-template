@@ -1,6 +1,5 @@
-import { SITE_URL } from "@/config/site";
 import { useState, useMemo, useEffect } from "react";
-import { Link, useSearchParams, useLocation } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CategoryCarousel } from "@/components/carousels";
@@ -8,8 +7,6 @@ import { ShopFilters } from "@/components/shop/ShopFilters";
 import { DesktopFilterRail } from "@/components/shop/DesktopFilterRail";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { CourseVideoCard } from "@/components/shop/CourseVideoCard";
-import { ProductCarousel } from "@/components/carousels";
-import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/transitions/Reveal";
 import { useProducts, SortOption } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useCategories";
@@ -17,32 +14,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const MAX_PRICE = 500;
 
-type ProductType = "all" | "courses" | "ebooks" | "services" | "bundles";
-
-const KIND_MAP: Record<Exclude<ProductType, "all">, "course" | "ebook" | "service" | "bundle"> = {
-  courses: "course",
-  ebooks: "ebook",
-  services: "service",
-  bundles: "bundle",
-};
+type ProductType = "all" | "courses" | "books" | "kits" | "prompts";
 
 function detectProductType(name: string): ProductType {
   const n = name.toLowerCase();
-  if (/\bbundle|kit|pack|collection|set\b/.test(n)) return "bundles";
-  if (/\bmentorship|coaching|consultation|service|1[:-]1|one[- ]on[- ]one\b/.test(n)) return "services";
-  if (/\bbook|ebook|hardcover|paperback|pdf|guide|novel\b/.test(n)) return "ebooks";
-  if (/\bcourse|masterclass|bootcamp|training|class|tutorial|workshop\b/.test(n)) return "courses";
+  if (/\bprompt|prompts\b/.test(n)) return "prompts";
+  if (/\bbook|hardcover|paperback|ebook|novel\b/.test(n)) return "books";
+  if (/\bkit|bundle|stationery|notebook|essentials\b/.test(n)) return "kits";
+  if (/\bcourse|masterclass|bootcamp|training|class|tutorial\b/.test(n)) return "courses";
   return "courses";
-}
-
-function detectKind(name: string): "course" | "ebook" | "service" | "bundle" {
-  const t = detectProductType(name);
-  return t === "all" ? "course" : KIND_MAP[t];
 }
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
   const [activeCategory, setActiveCategory] = useState(searchParams.get("category") ?? "All");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
@@ -56,7 +40,7 @@ const Shop = () => {
   useEffect(() => {
     setSearchQuery(searchParams.get("q") ?? "");
     const type = searchParams.get("type") as ProductType | null;
-    if (type && ["all", "courses", "ebooks", "services", "bundles"].includes(type)) {
+    if (type && ["all", "courses", "books", "kits", "prompts"].includes(type)) {
       setProductType(type);
     }
     const cat = searchParams.get("category");
@@ -105,38 +89,15 @@ const Shop = () => {
     return category?.id;
   }, [activeCategory, categories]);
 
-  // Fetch products with all filters.
-  // The Shop is the storefront for *shoppable goods only* — courses live on
-  // /courses and services live on /services (both backed by `content_items`),
-  // so we explicitly exclude those kinds here so the same `products` table
-  // can store everything without leaking across pages.
-  const { data: products, isLoading: productsLoading, isError: productsError, refetch: refetchProducts } = useProducts({
+  // Fetch products with all filters
+  const { data: products, isLoading: productsLoading } = useProducts({
     limit: 50,
     categoryId: activeCategoryId,
     search: searchQuery || undefined,
     minPrice: priceRange[0] > 0 ? priceRange[0] : undefined,
     maxPrice: priceRange[1] < MAX_PRICE ? priceRange[1] : undefined,
     sortBy,
-    excludeKinds: ["course", "service"],
   });
-
-  // Scroll to product grid when arriving from hero CTA (retry once products load)
-  useEffect(() => {
-    if (location.hash !== "#products") return;
-    const tryScroll = () => {
-      const el = document.getElementById("products");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        // Clear hash so refresh doesn't re-scroll
-        window.history.replaceState(null, "", location.pathname + location.search);
-      }
-    };
-    // Immediate attempt + delayed retry after DOM settles
-    tryScroll();
-    const t1 = setTimeout(tryScroll, 120);
-    const t2 = setTimeout(tryScroll, 400);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [location, productsLoading]);
 
   // Apply remaining filters client-side
   const filteredProducts = useMemo(() => {
@@ -149,40 +110,6 @@ const Shop = () => {
       return true;
     });
   }, [products, productType, minRating, onSaleOnly, featuredOnly]);
-
-  // Section feeds — surfaced as top carousels when the user hasn't narrowed the view.
-  const transformForCarousel = (p: any) => ({
-    id: p.id,
-    name: p.name,
-    brand: "Asikon Academy",
-    price: p.price,
-    originalPrice: p.original_price || undefined,
-    image: p.image_url || "/placeholder.svg",
-    rating: p.rating || 0,
-    reviews: p.review_count || 0,
-    isNew: false,
-    isTrending: p.is_featured || false,
-    slug: p.slug,
-    kind: (p.kind as "course" | "ebook" | "service" | "bundle") ?? detectKind(p.name),
-  });
-
-  const featuredItems = useMemo(
-    () => (products ?? []).filter((p: any) => p.is_featured).slice(0, 10).map(transformForCarousel),
-    [products],
-  );
-  const bundleItems = useMemo(
-    () => (products ?? []).filter((p: any) => detectProductType(p.name) === "bundles").slice(0, 10).map(transformForCarousel),
-    [products],
-  );
-
-  const showSpotlights =
-    !searchQuery.trim() &&
-    productType === "all" &&
-    minRating === 0 &&
-    !onSaleOnly &&
-    !featuredOnly &&
-    priceRange[0] === 0 &&
-    priceRange[1] === MAX_PRICE;
 
   // Filter category pills by current query so categories matching the search bubble up
   const q = searchQuery.trim().toLowerCase();
@@ -235,7 +162,7 @@ const Shop = () => {
       <SEO
         title="Explore — Courses, Books & Kits"
         description="Browse curated courses, books, study kits, and prompt libraries — every item vetted by ASIKON mentors."
-        url={`${SITE_URL}/shop`}
+        url="https://asikonpro.lovable.app/shop"
       />
       <div className="container-editorial pb-8 lg:pb-16">
 
@@ -320,26 +247,11 @@ const Shop = () => {
               )}
             </div>
 
-            {/* Marketplace spotlights — only when the user is browsing the unfiltered catalog */}
-            {showSpotlights && !productsLoading && featuredItems.length > 0 && (
-              <ProductCarousel
-                products={featuredItems}
-                title="Featured this week"
-                viewAllHref="/shop?filter=trending"
-              />
-            )}
-            {showSpotlights && !productsLoading && bundleItems.length > 0 && (
-              <ProductCarousel
-                products={bundleItems}
-                title="Bundles & collections"
-                viewAllHref="/shop?type=bundles"
-              />
-            )}
 
             {/* Products Grid */}
-            <div id="products">
+            <div>
               {productsLoading ? (
-                <div className={activeCategory === "Courses" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6" : "grid-products"}>
+                <div className="grid-products">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                     <div key={i} className="space-y-3">
                       <Skeleton className="aspect-[4/5] rounded-2xl" />
@@ -349,24 +261,8 @@ const Shop = () => {
                     </div>
                   ))}
                 </div>
-              ) : productsError ? (
-                <div
-                  role="alert"
-                  className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-destructive/40 bg-destructive/5"
-                >
-                  <p className="font-display text-lg font-semibold mb-1">Couldn't load products</p>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Something went wrong reaching the catalog. Check your connection and try again.
-                  </p>
-                  <button
-                    onClick={() => refetchProducts()}
-                    className="rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90"
-                  >
-                    Retry
-                  </button>
-                </div>
               ) : filteredProducts && filteredProducts.length > 0 ? (
-                <div className={activeCategory === "Courses" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6" : "grid-products"}>
+                <div className="grid-products">
                   {filteredProducts.map((product, idx) => (
                     <Reveal
                       key={product.id}
@@ -406,9 +302,6 @@ const Shop = () => {
                               reviews: product.review_count || 0,
                               isNew: false,
                               isTrending: product.is_featured || false,
-                              kind: ((product as any).kind as "course" | "ebook" | "service" | "bundle") ?? detectKind(product.name),
-                              enrollmentCount: (product as any).enrollment_count ?? undefined,
-                              instructorVerified: (product as any).instructor_verified ?? undefined,
                             }}
                           />
                         )}
@@ -417,11 +310,7 @@ const Shop = () => {
                   ))}
                 </div>
               ) : (
-                <div
-                  role="status"
-                  aria-live="polite"
-                  className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border bg-card"
-                >
+                <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border bg-card">
                   <p className="text-muted-foreground mb-4">No products match your filters.</p>
                   {(searchQuery || activeFiltersCount > 0) && (
                     <button

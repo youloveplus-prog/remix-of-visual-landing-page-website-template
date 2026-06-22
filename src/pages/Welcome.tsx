@@ -1,4 +1,3 @@
-import { SITE_URL } from "@/config/site";
 import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 import {
@@ -18,11 +17,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/transitions/Reveal";
 import logo from "@/assets/logo.png";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
-import { EduvoraHero } from "@/components/home/EduvoraHero";
-import { PartnerMarquee } from "@/components/home/PartnerMarquee";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -126,11 +123,11 @@ export default function Welcome() {
       <SEO
         title="Asikon — Learn AI, the Bangladeshi Way"
         description="Asikon is an AI-powered learning platform for Bangladesh. Expert courses, a 24/7 Bangla AI tutor, curated books, and 1-on-1 mentorship."
-        url={`${SITE_URL}/welcome`}
+        url="https://asikonpro.lovable.app/welcome"
       />
 
       {/* Top Nav */}
-      <header className="sticky top-0 z-40 liquid-nav border-b border-border/60">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/60">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/welcome" className="flex items-center gap-2 focus-ring rounded-lg">
             <img src={logo} alt="Asikon" className="h-8 w-8 rounded-lg" />
@@ -161,12 +158,107 @@ export default function Welcome() {
       </header>
 
       {/* Hero */}
-      <div className="mx-auto max-w-7xl w-full">
-        <EduvoraHero variant="marketing" />
-      </div>
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(60% 50% at 50% 0%, hsl(var(--primary) / 0.18), transparent 70%), linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary) / 0.4) 100%)",
+          }}
+        />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-14 pb-20 lg:pt-20 lg:pb-28">
+          <Reveal className="text-center max-w-3xl mx-auto">
+            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+              <Sparkles className="h-3.5 w-3.5" /> New: Bangla AI tutor 2.0
+            </span>
+            <h1 className="mt-5 font-display font-bold tracking-tight text-4xl sm:text-5xl lg:text-6xl leading-[1.05]">
+              Learn AI the smart way.
+              <br />
+              <span className="bg-clip-text text-transparent gradient-primary">
+                Built for Bangladesh.
+              </span>
+            </h1>
+            <p className="mt-5 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+              Expert-led courses, a 24/7 AI tutor in Bangla & English, curated books, and 1-on-1
+              mentorship — all in one trusted platform.
+            </p>
+            <div className="mt-7 flex items-center justify-center gap-3">
+              <Link to="/auth">
+                <Button size="lg" className="rounded-full gradient-primary text-primary-foreground px-6">
+                  Get Started Free
+                </Button>
+              </Link>
+              <Link to="/about">
+                <Button size="lg" variant="outline" className="rounded-full px-6">
+                  Book a Demo
+                </Button>
+              </Link>
+            </div>
+          </Reveal>
+
+          {/* Hero visual + floating chips */}
+          <div className="relative mt-14 lg:mt-16">
+            {floatingChips.map((c) => (
+              <span
+                key={c.label}
+                className={`hidden md:inline-flex absolute ${c.className} items-center gap-1.5 rounded-full bg-background/80 backdrop-blur border border-border px-3 py-1 text-xs font-medium shadow-sm`}
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                {c.label}
+              </span>
+            ))}
+            <Reveal>
+              <div className="relative mx-auto max-w-5xl rounded-2xl border border-border/70 bg-card shadow-2xl overflow-hidden">
+                <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border/60 bg-secondary/40">
+                  <span className="h-2.5 w-2.5 rounded-full bg-destructive/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
+                  <span className="ml-3 text-xs text-muted-foreground font-mono">app.asikon.com</span>
+                </div>
+                <div className="grid grid-cols-4 gap-0 p-4 sm:p-6 bg-gradient-to-br from-secondary/30 to-background">
+                  {[
+                    { label: "To Do", tag: "AI Tracks", img: courseAiMl, title: "Intro to Machine Learning" },
+                    { label: "In Progress", tag: "Python", img: coursePython, title: "Python for Beginners" },
+                    { label: "In Review", tag: "Prompts", img: promptLibrary, title: "Prompt Engineering" },
+                    { label: "Completed", tag: "Mentor", img: courseAiMl, title: "1-on-1 Session Booked" },
+                  ].map((c, i) => (
+                    <div key={i} className="px-2 first:pl-0 last:pr-0">
+                      <p className="text-[11px] font-semibold text-muted-foreground mb-2 uppercase tracking-wide">{c.label}</p>
+                      <div className="rounded-lg border border-border bg-card overflow-hidden">
+                        <img src={c.img} alt="" className="aspect-video w-full object-cover" />
+                        <div className="p-2.5">
+                          <span className="inline-block text-[10px] font-semibold text-primary bg-primary/10 px-1.5 py-0.5 rounded">{c.tag}</span>
+                          <p className="mt-1.5 text-xs font-semibold leading-snug line-clamp-2">{c.title}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
 
       {/* Partner strip */}
-      <PartnerMarquee />
+      <section className="border-y border-border/60 bg-secondary/30">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-muted-foreground max-w-[220px] text-center md:text-left">
+            Endorsed by Bangladesh's leading educators and learners.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {partners.map((p) => (
+              <span
+                key={p}
+                className="rounded-full border border-border bg-background px-5 py-2 text-sm font-semibold text-muted-foreground"
+              >
+                {p}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Features */}
       <section id="features" className="py-20 lg:py-28">
@@ -187,7 +279,7 @@ export default function Welcome() {
               const Icon = f.icon;
               return (
                 <Reveal key={f.title} delay={i * 60}>
-                  <div className="group h-full rounded-2xl border border-border liquid-glass p-6 hover:border-primary/40 hover:shadow-[var(--shadow-glow)] transition-all">
+                  <div className="group h-full rounded-2xl border border-border bg-card p-6 hover:border-primary/40 hover:shadow-[var(--shadow-glow)] transition-all">
                     <div className="h-11 w-11 rounded-xl gradient-primary flex items-center justify-center shadow-md">
                       <Icon className="h-5 w-5 text-primary-foreground" />
                     </div>
@@ -215,7 +307,7 @@ export default function Welcome() {
           <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((s, i) => (
               <Reveal key={s.value} delay={i * 70}>
-                <div className="rounded-2xl border border-border liquid-glass p-6 h-full">
+                <div className="rounded-2xl border border-border bg-card p-6 h-full">
                   <div className="flex items-start justify-between">
                     <p className="font-display font-bold text-4xl lg:text-5xl tracking-tight">{s.value}</p>
                     <span className="h-7 w-7 rounded-full bg-primary/10 border border-primary/20 grid place-items-center">
@@ -244,14 +336,14 @@ export default function Welcome() {
 
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
             <Reveal>
-              <div className="rounded-2xl overflow-hidden border border-border shadow-xl liquid-glass">
+              <div className="rounded-2xl overflow-hidden border border-border shadow-xl bg-card">
                 <img src={courseAiMl} alt="Asikon dashboard preview" className="w-full aspect-[4/3] object-cover" />
               </div>
             </Reveal>
             <div className="space-y-4">
               {steps.map((s, i) => (
                 <Reveal key={s.n} delay={i * 80}>
-                  <div className="rounded-2xl border border-border liquid-glass p-5 flex gap-4 items-start hover:border-primary/40 transition-colors">
+                  <div className="rounded-2xl border border-border bg-card p-5 flex gap-4 items-start hover:border-primary/40 transition-colors">
                     <span className="h-10 w-10 shrink-0 rounded-full gradient-primary text-primary-foreground grid place-items-center text-sm font-bold">
                       {s.n}
                     </span>
@@ -282,7 +374,7 @@ export default function Welcome() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
             {stories.map((s, i) => (
               <Reveal key={s.name} delay={i * 80}>
-                <figure className="h-full rounded-2xl border border-border liquid-glass p-6 flex flex-col">
+                <figure className="h-full rounded-2xl border border-border bg-card p-6 flex flex-col">
                   <div className="flex items-center gap-0.5 text-primary">
                     {[0, 1, 2, 3, 4].map((k) => (
                       <Star key={k} className="h-4 w-4 fill-current" />

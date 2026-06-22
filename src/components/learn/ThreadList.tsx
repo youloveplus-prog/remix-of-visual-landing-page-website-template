@@ -54,13 +54,13 @@ export function ThreadList({ activeId }: Props) {
 
   const handleNew = async () => {
     const t = await create.mutateAsync();
-    navigate(`/ai-tutor/${t.id}`);
+    navigate(`/learn/${t.id}`);
   };
 
   const handleDelete = async (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     await del.mutateAsync(id);
-    if (id === activeId) navigate("/ai-tutor");
+    if (id === activeId) navigate("/learn");
   };
 
   return (
@@ -108,7 +108,7 @@ export function ThreadList({ activeId }: Props) {
                     {list.map((t) => (
                       <div
                         key={t.id}
-                        onClick={() => navigate(`/ai-tutor/${t.id}`)}
+                        onClick={() => navigate(`/learn/${t.id}`)}
                         className={cn(
                           "group flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-colors",
                           t.id === activeId

@@ -1,7 +1,6 @@
 import { Minus, Plus, Trash2, ShieldCheck, Truck, Tag, ShoppingBag } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { Button } from "@/components/ui/button";
@@ -67,11 +66,6 @@ const Cart = () => {
 
   return (
     <AppLayout showBottomNav={false}>
-      <SEO
-        title="Your Cart"
-        description="Review the items in your Asikon cart and check out securely."
-        noIndex
-      />
       <MobilePage maxWidth="standard" spacing="space-y-8" className="pb-sticky-cta lg:pb-6">
         <PageHero
           eyebrow="Your bag"

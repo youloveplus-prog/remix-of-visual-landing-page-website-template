@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import { motion, useInView, useAnimation } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 import aiTutor from "@/assets/ai-tutor.webp";
-import bookHardcover from "@/assets/book-hardcover.jpg";
-import studentKit from "@/assets/student-kit.jpg";
+import bookHardcover from "@/assets/book-hardcover.webp";
+import studentKit from "@/assets/student-kit.webp";
 
 type Slide = {
   id: string;
@@ -22,7 +22,7 @@ const SLIDES: Slide[] = [
   { id: "g2", image: aiTutor, title: "24/7 AI tutor", caption: "Ask anything, anytime", href: "/learn" },
   { id: "g3", image: promptLibrary, title: "Prompt library", caption: "1000+ curated prompts", href: "/prompts" },
   { id: "g4", image: coursePython, title: "Python from zero", caption: "Beginner-friendly path", href: "/shop?type=courses" },
-  { id: "g5", image: bookHardcover, title: "Learning library", caption: "Books & study guides", href: "/shop?type=ebooks" },
+  { id: "g5", image: bookHardcover, title: "Learning library", caption: "Books & study guides", href: "/shop?type=books" },
 ];
 
 // Final spread layout (5 cards) — center one slightly raised, outer ones tilted

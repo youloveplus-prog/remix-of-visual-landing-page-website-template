@@ -97,7 +97,7 @@ export function Reveal({
     <Tag
       ref={ref as any}
       className={cn(
-        "will-change-[opacity,transform] transition-[opacity,transform] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "will-change-[opacity,transform] transition-[opacity,transform] duration-420 ease-[cubic-bezier(0.22,1,0.36,1)]",
         shown ? baseShown : baseHidden,
         className,
       )}

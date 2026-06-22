@@ -1,32 +1,77 @@
-# Higgsfield-style Mobile Header
+## Goal
 
-Match the reference exactly on the mobile home/landing experience: dark bar, brand mark + wordmark on the left, two pill buttons on the right (white "Log in" + brand-filled "Get started"). Auth-aware so signed-in users see their menu/profile pill instead.
+Make `/asikonasik/users` scale to large datasets and turn each row into a real moderation surface.
 
-## Visual spec (from reference)
-- Bar: pure black background, ~56px tall, no border, sits flush above the hero.
-- Left: rounded-square white tile (40px) with brand glyph + bold "Asikon" wordmark beside it. Tap → home.
-- Right (signed-out): two pills, 44px tall, fully rounded.
-  - "Log in" — solid white pill, near-black text. Tap → `/auth`.
-  - "Get started" — solid `primary` (indigo) pill, white text. Tap → `/auth?mode=signup`.
-- Right (signed-in): single avatar/menu pill (existing user menu), no auth buttons.
-- Inner routes keep the existing back-button + page-title header (unchanged).
+## 1. Server-side pagination & filtering (`AdminUsers.tsx`)
 
-## Implementation
-Edit only `src/components/layout/MobileHeader.tsx`:
+Replace the single 1000-row `profiles` query with a paginated query keyed on all filter state:
 
-1. Add a `transparent` mode that activates on home-tab / landing routes:
-   - Black bar always (not theme background), no blur, no border.
-   - Skip the search + cart icons on home-tab; they live elsewhere on the page.
-2. Replace center logo block with a left-aligned brand cluster:
-   - 40×40 white rounded-[12px] tile, brand logo inside, +  `font-display font-bold text-[18px] text-white` wordmark.
-3. Add right-side auth cluster:
-   - Read `user` from `useAuth`.
-   - If `!user`: render `Log in` (white pill, `text-black`) + `Get started` (`bg-primary text-primary-foreground`) — both `h-10 px-5 rounded-full text-[14px] font-semibold`, gap-2.
-   - If `user`: render the existing `UserMenu` (avatar pill) so signed-in flow stays intact.
-4. Keep the existing back-button + title for `isInnerRoute(pathname)` — only the home-tab variant changes.
-5. Preserve safe-area padding, measured-height hook, and 44px tap targets.
+```ts
+queryKey: ["admin-users", { dq, roleFilter, useRange, range, banFilter, page, sort }]
+```
+
+Query construction:
+- Base: `supabase.from("profiles").select("...", { count: "exact" })`
+- Search (`dq`): `.or("username.ilike.%q%,full_name.ilike.%q%,id.ilike.%q%")`
+- Date range: `.gte("created_at", from).lt("created_at", toPlus1)`
+- Ban filter (new control: All / Active / Banned): `.eq("is_banned", true/false)`
+- Sort: `.order(sort.col, { ascending: sort.asc })` (default `created_at desc`)
+- Page window: `.range(page*PAGE_SIZE, page*PAGE_SIZE + PAGE_SIZE - 1)`
+
+Role filter (special — roles live in `user_roles`):
+- When `roleFilter !== "all"`, first run `select("user_id").eq("role", roleFilter)` (cached separately), then `.in("id", ids)` on the profiles query. When the role has zero users, short-circuit and render an empty page without hitting profiles.
+
+Auxiliary lookups (`learner_profiles`, `lesson_completions` counts, `user_roles`) are scoped to the current page only via `.in("user_id", pageIds)` — no more "fetch everything".
+
+Reset to page 0 on filter change with a `useEffect` that watches `[dq, roleFilter, useRange, range.from, range.to, banFilter, sort]`.
+
+## 2. Visible pagination controls
+
+Below the table:
+- `« First`  `‹ Prev`  `[1] [2] … [k-1] [k] [k+1] … [N]`  `Next ›`  `Last »`
+- Page numbers built from `totalCount / PAGE_SIZE`, windowed (current ±2, always show first/last, ellipsis in between).
+- Show `Showing X–Y of Z`.
+- All buttons are real `<Button>` and disabled appropriately. Page state survives navigation via the query key (no URL sync requested).
+
+CSV export switches to "export current page" (default) plus an explicit "Export all matches" that streams via repeated `.range()` calls in 1000-row chunks so it works on very large filtered sets.
+
+## 3. Row-level promote/demote/ban/unban with confirmation
+
+Add a per-row actions column using a `DropdownMenu` with items:
+- **Promote to moderator / admin** (super_admin only for admin)
+- **Demote from moderator / admin**
+- **Ban** / **Unban**
+- **Open details**
+
+Each destructive item opens an `AlertDialog` with a clear summary ("Promote @user to admin?") before dispatching the mutation. Mutations:
+- `promote(role)` → `user_roles.insert({ user_id, role })` then `audit({ action: "role.grant", target_type: "user", target_id, meta: { role } })`
+- `demote(role)` → `user_roles.delete().eq(user_id).eq(role)` + `audit("role.revoke")`
+- `setBan(boolean)` → `profiles.update({ is_banned })` + `audit("user.ban" | "user.unban")`
+
+After success: toast, invalidate `["admin-users"]` and `["admin-all-roles"]`. Super-admin role grants/revokes are blocked in UI (only super admin email can hold that). Bulk-ban bar gains a "Bulk unban" sibling and also logs to audit.
+
+## 4. UserDetailDrawer completion
+
+New 6-tab layout: **Profile · Game · Roles · Orders · Activity · Danger**.
+
+New **Roles tab**:
+- Current role badges (chips with × to revoke).
+- "Grant role" select (`moderator`, `admin`) + Grant button (super_admin only for `admin`).
+- **Role history** list: `admin_audit_log.select("*").eq("target_type","user").eq("target_id", userId).in("action", ["role.grant","role.revoke","user.ban","user.unban"]).order("created_at desc").limit(20)` rendered as a timeline with actor username (joined via a small `profiles` lookup on `actor_id`s).
+
+**Profile tab** gains a read-only header block: User ID (copy), email-domain hint (from auth not available client-side — skip), joined date, last seen, current roles summary, XP / coins / lessons / streak quick stats.
+
+**Activity tab** already shows recent lessons + posts; add an "Audit trail" sub-section that reuses the same `admin_audit_log` query (any action on this user) so admins see the full moderation history in one place.
+
+All role/ban mutations inside the drawer share the same `audit()` calls as the row actions to keep history complete.
+
+## Files
+
+- `src/pages/admin/AdminUsers.tsx` — rewrite query layer, add page-number bar, dropdown actions, ban-status filter, reset-on-filter effect.
+- `src/components/admin/UserDetailDrawer.tsx` — add Roles tab, role history, audit trail section, header stats block.
 
 ## Out of scope
-- No desktop header change.
-- No new routes or auth logic — pills just link to the existing `/auth` page.
-- No change to icons used on inner pages.
+
+- URL-syncing filters/page (can follow if you want it).
+- Hard-deleting `auth.users` (still requires a service-role edge function — current soft delete stays).
+- Realtime updates to the user list.

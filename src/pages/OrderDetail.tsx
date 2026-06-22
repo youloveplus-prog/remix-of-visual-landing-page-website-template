@@ -1,17 +1,12 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard, Sparkles, ShoppingBag, MessageCircle, LifeBuoy } from "lucide-react";
+import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard, ArrowLeft } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
-import { RelatedRail } from "@/components/connect/RelatedRail";
-import { useRecommendations } from "@/hooks/useRecommendations";
 import { useOrder } from "@/hooks/useOrders";
 import { useAuth } from "@/hooks/useAuth";
 import { Price } from "@/lib/currency";
@@ -64,20 +59,10 @@ const OrderDetail = () => {
 
   return (
     <AppLayout>
-      <SEO
-        title={id ? `Order #${String(id).slice(0, 8)}` : "Order details"}
-        description="Track the status, items, and delivery details of your Asikon order."
-        noIndex
-      />
       <MobilePage maxWidth="standard" spacing="space-y-8">
-        <Breadcrumbs
-          eyebrow="Order"
-          items={[
-            { label: "Orders", to: "/orders" },
-            { label: `#${order.id.slice(0, 8)}` },
-          ]}
-        />
-
+        <Link to="/orders" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
+          <ArrowLeft className="h-3.5 w-3.5" /> All orders
+        </Link>
 
         <PageHero
           eyebrow={`Order #${order.id.slice(0, 8)}`}
@@ -192,35 +177,9 @@ const OrderDetail = () => {
             <p className="font-mono text-sm bg-muted/60 px-3 py-2.5 rounded-lg">{order.tracking_number}</p>
           </DetailSection>
         )}
-
-        <CrossLinkChips
-          eyebrow="Keep exploring"
-          links={[
-            { label: "Ask AI Tutor", to: "/ai-tutor", icon: Sparkles },
-            { label: "Continue shopping", to: "/shop", icon: ShoppingBag },
-            { label: "Community", to: "/community", icon: MessageCircle },
-            { label: "Need help?", to: "/help", icon: LifeBuoy },
-          ]}
-        />
-
-        <OrderRelatedRail />
       </MobilePage>
     </AppLayout>
   );
 };
-
-function OrderRelatedRail() {
-  const { items, isLoading } = useRecommendations({ kind: "home" });
-  return (
-    <RelatedRail
-      title="You might also like"
-      eyebrow="Recommended"
-      items={items}
-      isLoading={isLoading}
-      emptyHint="Browse the shop for more."
-      viewAllHref="/shop"
-    />
-  );
-}
 
 export default OrderDetail;

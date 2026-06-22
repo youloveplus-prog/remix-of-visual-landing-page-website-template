@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
 import { cn, formatCount } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProfileStatsProps {
   posts: number;
@@ -8,7 +6,6 @@ interface ProfileStatsProps {
   following: number;
   xp: number;
   level: number;
-  isLoading?: boolean;
   onPostsClick?: () => void;
   onFollowersClick?: () => void;
   onFollowingClick?: () => void;
@@ -16,104 +13,48 @@ interface ProfileStatsProps {
   onLevelClick?: () => void;
 }
 
-
-/** Animated count-up that respects prefers-reduced-motion. */
-function useCountUp(target: number, duration = 600) {
-  const [value, setValue] = useState(target);
-  const startRef = useRef(target);
-  useEffect(() => {
-    const reduced =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || target === startRef.current) {
-      setValue(target);
-      startRef.current = target;
-      return;
-    }
-    const from = startRef.current;
-    const to = target;
-    const t0 = performance.now();
-    let raf = 0;
-    const step = (now: number) => {
-      const p = Math.min(1, (now - t0) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setValue(Math.round(from + (to - from) * eased));
-      if (p < 1) raf = requestAnimationFrame(step);
-      else startRef.current = to;
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration]);
-  return value;
-}
-
+/**
+ * Three-cell identity stat row (Posts · Followers · Following) plus
+ * a separate XP/level progress card. Mobile-first: large numerals,
+ * 44px+ tap targets, tabular-nums for stable number transitions.
+ */
 export function ProfileStats({
   posts,
   followers,
   following,
   xp,
   level,
-  isLoading,
   onPostsClick,
   onFollowersClick,
   onFollowingClick,
   onXpClick,
   onLevelClick,
 }: ProfileStatsProps) {
-  const postsAnim = useCountUp(posts);
-  const followersAnim = useCountUp(followers);
-  const followingAnim = useCountUp(following);
-  const xpAnim = useCountUp(xp);
-
-  if (isLoading) {
-    return (
-      <div className="px-4 pt-4 space-y-3" aria-busy="true" aria-label="Loading profile statistics">
-        <div className="grid grid-cols-3 rounded-2xl border border-border liquid-glass overflow-hidden shadow-sm">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "flex flex-col items-center justify-center py-3.5 min-h-[64px] gap-1.5",
-                i !== 0 && "border-l border-border",
-              )}
-            >
-              <Skeleton className="h-4 w-10" />
-              <Skeleton className="h-2.5 w-14 rounded-full" />
-            </div>
-          ))}
-        </div>
-        <div className="w-full rounded-2xl border border-border liquid-glass p-3.5 shadow-sm">
-          <div className="flex items-baseline justify-between gap-3">
-            <div className="flex items-baseline gap-2">
-              <Skeleton className="h-3.5 w-10" />
-              <Skeleton className="h-3 w-20" />
-            </div>
-            <Skeleton className="h-3 w-16" />
-          </div>
-          <Skeleton className="mt-2 h-1.5 w-full rounded-full" />
-        </div>
-      </div>
-    );
-  }
-
-
-
-
   const stats = [
-    { key: "Posts", value: formatCount(postsAnim), onClick: onPostsClick, label: `${posts} posts` },
-    { key: "Followers", value: formatCount(followersAnim), onClick: onFollowersClick, label: `${followers} followers` },
-    { key: "Following", value: formatCount(followingAnim), onClick: onFollowingClick, label: `${following} following` },
+    { key: "Posts", value: formatCount(posts), onClick: onPostsClick, label: `${posts} posts` },
+    {
+      key: "Followers",
+      value: formatCount(followers),
+      onClick: onFollowersClick,
+      label: `${followers} followers`,
+    },
+    {
+      key: "Following",
+      value: formatCount(following),
+      onClick: onFollowingClick,
+      label: `${following} following`,
+    },
   ];
 
+  // Progress within current level (every 100 XP = 1 level)
   const xpInLevel = xp % 100;
   const xpToNext = 100 - xpInLevel;
   const progress = Math.min(100, Math.max(0, xpInLevel));
-  const nearLevelUp = progress >= 80;
 
   return (
     <div className="px-4 pt-4 space-y-3">
       <div
-        className="grid grid-cols-3 rounded-2xl border border-border liquid-glass overflow-hidden shadow-sm"
+        className="grid grid-cols-3 rounded-xl border border-border bg-card overflow-hidden"
         role="group"
         aria-label="Profile statistics"
       >
@@ -123,15 +64,15 @@ export function ProfileStats({
             onClick={s.onClick}
             aria-label={s.label}
             className={cn(
-              "flex flex-col items-center justify-center py-3.5 min-h-[64px] text-center transition-colors focus-ring",
-              "hover:bg-secondary/60 active:bg-secondary",
+              "flex flex-col items-center justify-center py-3 min-h-[60px] text-center transition-colors focus-ring",
+              "hover:bg-secondary/60",
               i !== 0 && "border-l border-border",
             )}
           >
-            <span className="font-display text-[18px] font-semibold tabular-nums text-foreground leading-none">
+            <span className="text-[17px] font-semibold tabular-nums text-foreground leading-none">
               {s.value}
             </span>
-            <span className="mt-1.5 text-[10.5px] uppercase tracking-wider text-muted-foreground font-grotesk">
+            <span className="mt-1 text-[10.5px] uppercase tracking-wide text-muted-foreground">
               {s.key}
             </span>
           </button>
@@ -142,13 +83,13 @@ export function ProfileStats({
         type="button"
         onClick={onXpClick || onLevelClick}
         aria-label={`Level ${level}, ${xpInLevel} of 100 XP toward next level`}
-        className="w-full rounded-2xl border border-border liquid-glass p-3.5 text-left transition-colors hover:bg-secondary/60 focus-ring shadow-sm"
+        className="w-full rounded-xl border border-border bg-card p-3 text-left transition-colors hover:bg-secondary/60 focus-ring"
       >
         <div className="flex items-baseline justify-between gap-3">
           <div className="flex items-baseline gap-2 min-w-0">
-            <span className="font-display text-[14px] font-semibold tracking-tight">Lv. {level}</span>
+            <span className="text-[14px] font-semibold tracking-tight">Lv. {level}</span>
             <span className="text-[11.5px] text-muted-foreground tabular-nums truncate">
-              {formatCount(xpAnim)} XP total
+              {formatCount(xp)} XP total
             </span>
           </div>
           <span className="text-[11.5px] text-muted-foreground tabular-nums shrink-0">
@@ -156,17 +97,14 @@ export function ProfileStats({
           </span>
         </div>
         <div
-          className="mt-2 h-1.5 w-full rounded-full bg-muted overflow-hidden"
+          className="mt-2 h-1 w-full rounded-full bg-muted overflow-hidden"
           role="progressbar"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={progress}
         >
           <div
-            className={cn(
-              "h-full rounded-full gradient-primary transition-[width] duration-700 ease-out",
-              nearLevelUp && "glow-primary",
-            )}
+            className="h-full rounded-full bg-foreground transition-[width] duration-700 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>

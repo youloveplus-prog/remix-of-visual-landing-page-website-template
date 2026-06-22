@@ -25,8 +25,8 @@ export function HistorySheet({ open, onOpenChange }: Props) {
               try { dateLabel = format(new Date(h.completed_at), "MMM d"); } catch { /* noop */ }
               return (
                 <div key={h.id} className="flex items-center gap-3 rounded-xl bg-secondary/40 border border-border/40 px-3 py-2.5">
-                  <div className="h-9 w-9 rounded-lg bg-primary/10 grid place-items-center shrink-0">
-                    <CheckCircle2 className="h-4 w-4 text-primary" />
+                  <div className="h-9 w-9 rounded-lg bg-emerald-500/10 grid place-items-center shrink-0">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm truncate">{h.lesson_title}</p>

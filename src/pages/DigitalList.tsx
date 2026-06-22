@@ -64,7 +64,7 @@ export function ContentList({ kind }: { kind: ContentKind }) {
             {filtered.map((i) => (
               <Link
                 key={i.id}
-                to={kind === "course" ? `/courses/${i.slug}` : `/content/${i.slug}`}
+                to={`/content/${i.slug}`}
                 className="glass rounded-2xl overflow-hidden hover:scale-[1.01] transition-transform"
               >
                 {i.cover_url ? (

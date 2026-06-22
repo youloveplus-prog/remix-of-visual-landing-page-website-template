@@ -1,7 +1,4 @@
-import { useId, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useHeaderMenuOpen } from "@/hooks/use-header-visibility";
-
 import {
   GraduationCap,
   BookOpen,
@@ -27,9 +24,9 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import courseAiMl from "@/assets/course-ai-ml.jpg";
-import coursePython from "@/assets/course-python.jpg";
-import promptLibrary from "@/assets/prompt-library.jpg";
+import courseAiMl from "@/assets/course-ai-ml.webp";
+import coursePython from "@/assets/course-python.webp";
+import promptLibrary from "@/assets/prompt-library.webp";
 
 type Item = { icon: any; label: string; href: string; desc: string };
 type QuickLink = { label: string; href: string };
@@ -84,7 +81,7 @@ const PANELS: Panel[] = [
     icon: BookOpen,
     matchPaths: ["/shop", "/prompts"],
     items: [
-      { icon: BookOpen, label: "Books", href: "/shop?type=ebooks", desc: "Curated reading list" },
+      { icon: BookOpen, label: "Books", href: "/shop?type=books", desc: "Curated reading list" },
       { icon: Sparkles, label: "Prompts", href: "/prompts", desc: "1000+ AI prompt library" },
       { icon: Flame, label: "Trending", href: "/shop?filter=trending", desc: "What learners love" },
       { icon: Heart, label: "Deals", href: "/shop?filter=deals", desc: "Limited time offers" },
@@ -92,7 +89,7 @@ const PANELS: Panel[] = [
     quick: [
       { label: "New arrivals", href: "/shop?filter=new" },
       { label: "Bestsellers", href: "/shop?filter=trending" },
-      { label: "Student kits", href: "/shop?type=bundles" },
+      { label: "Student kits", href: "/shop?type=kits" },
       { label: "Gift cards", href: "/shop" },
     ],
     feature: {
@@ -109,18 +106,18 @@ const PANELS: Panel[] = [
   {
     label: "Community",
     icon: Users,
-    matchPaths: ["/community", "/game"],
+    matchPaths: ["/community"],
     items: [
       { icon: MessageSquare, label: "Feed", href: "/community", desc: "Latest from learners" },
       { icon: Video, label: "Live & shorts", href: "/community", desc: "Watch and learn" },
       { icon: Users, label: "Reviews", href: "/community", desc: "Verified buyer reviews" },
-      { icon: Trophy, label: "Game & rewards", href: "/game", desc: "Earn coins, climb ranks" },
+      { icon: Trophy, label: "Leaderboard", href: "/leaderboard", desc: "See top learners this week" },
     ],
     quick: [
       { label: "My feed", href: "/community" },
       { label: "Top reviewers", href: "/community" },
-      { label: "Leaderboard", href: "/game" },
-      { label: "How rewards work", href: "/game" },
+      { label: "Leaderboard", href: "/leaderboard" },
+      { label: "Revision Center", href: "/revision" },
     ],
     feature: {
       eyebrow: "Join free",
@@ -174,11 +171,11 @@ function PanelGrid({ panel }: { panel: Panel }) {
             {panel.items.map((it) => {
               const Icon = it.icon;
               return (
-                <li key={it.label}>
+                <li key={it.href}>
                   <NavigationMenuLink asChild>
                     <Link
                       to={it.href}
-                      className="group flex gap-3 rounded-xl p-2.5 hover:bg-secondary/60 focus-ring-popover transition-all hover:translate-x-0.5"
+                      className="group flex gap-3 rounded-xl p-2.5 hover:bg-secondary/60 focus-ring transition-all hover:translate-x-0.5"
                     >
                       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 border border-primary/20 text-primary group-hover:bg-primary/15 group-hover:shadow-[var(--shadow-glow)] transition-all">
                         <Icon className="h-4 w-4" />
@@ -210,7 +207,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
                 <NavigationMenuLink asChild>
                   <Link
                     to={q.href}
-                    className="group flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60 focus-ring-popover transition-colors"
+                    className="group flex items-center justify-between rounded-lg px-2.5 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60 focus-ring transition-colors"
                   >
                     <span className="truncate">{q.label}</span>
                     <ArrowRight className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
@@ -224,7 +221,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
         {/* Feature card */}
         <Link
           to={panel.feature.href}
-          className="group relative overflow-hidden rounded-xl border border-primary/20 flex flex-col focus-ring-popover shadow-md"
+          className="group relative overflow-hidden rounded-xl border border-primary/20 flex flex-col focus-ring shadow-md"
           style={{ background: "var(--gradient-primary-soft)" }}
         >
           <div className="relative h-24 overflow-hidden">
@@ -268,7 +265,7 @@ function PanelGrid({ panel }: { panel: Panel }) {
         <NavigationMenuLink asChild>
           <Link
             to={panel.viewAllHref}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:gap-1.5 transition-all focus-ring-popover rounded"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:gap-1.5 transition-all focus-ring rounded"
           >
             {panel.viewAllLabel}
             <ArrowRight className="h-3.5 w-3.5" />
@@ -281,22 +278,13 @@ function PanelGrid({ panel }: { panel: Panel }) {
 
 export function MegaMenu({ className }: { className?: string }) {
   const { pathname } = useLocation();
-  const { setOpen } = useHeaderMenuOpen();
-  const id = useId();
-  const [value, setValue] = useState("");
-
-  useEffect(() => {
-    setOpen(id, value !== "");
-    return () => setOpen(id, false);
-  }, [id, value, setOpen]);
 
   const isActive = (paths: string[]) =>
     paths.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
   return (
-    <NM value={value} onValueChange={setValue} className={cn("hidden md:flex", className)}>
-      <NavigationMenuList className="gap-0.5">
-
+    <NM className={cn("hidden lg:flex", className)}>
+      <NavigationMenuList className="gap-1">
         {PANELS.map((p) => {
           const Icon = p.icon;
           const active = isActive(p.matchPaths);
@@ -304,15 +292,24 @@ export function MegaMenu({ className }: { className?: string }) {
             <NavigationMenuItem key={p.label}>
               <NavigationMenuTrigger
                 className={cn(
-                  "group/trg relative bg-transparent rounded-full px-3 h-8 text-[13px] font-medium leading-none",
-                  "data-[state=open]:!bg-primary data-[state=open]:!text-primary-foreground data-[state=open]:shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.55)]",
-                  "hover:!bg-primary/10 hover:!text-primary focus:!bg-primary/10 focus:!text-primary",
-                  "transition-colors",
+                  "group/trg relative bg-transparent rounded-full px-3.5 h-9 text-sm font-medium",
+                  "data-[state=open]:bg-primary/10 data-[state=open]:text-primary",
+                  "hover:bg-secondary/60",
                   active && "text-primary"
                 )}
               >
-                <Icon className="h-3.5 w-3.5 mr-1 opacity-80" />
+                <Icon className="h-3.5 w-3.5 mr-1.5 opacity-80" />
                 {p.label}
+                {/* Animated underline */}
+                <span
+                  aria-hidden
+                  className={cn(
+                    "pointer-events-none absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full origin-center scale-x-0 transition-transform duration-300",
+                    "group-hover/trg:scale-x-100 group-data-[state=open]/trg:scale-x-100",
+                    active && "scale-x-100"
+                  )}
+                  style={{ background: "var(--gradient-primary)" }}
+                />
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <PanelGrid panel={p} />
@@ -325,84 +322,25 @@ export function MegaMenu({ className }: { className?: string }) {
             <Link
               to="/about"
               className={cn(
-                "inline-flex items-center gap-1 px-3 h-8 text-[13px] font-medium leading-none rounded-full transition-colors hover:bg-primary/10 hover:text-primary",
+                "group/lnk relative inline-flex items-center gap-1.5 px-3.5 h-9 text-sm font-medium rounded-full transition-colors hover:bg-secondary/60",
                 pathname === "/about" && "text-primary"
               )}
             >
               <Compass className="h-3.5 w-3.5 opacity-80" />
               About
+              <span
+                aria-hidden
+                className={cn(
+                  "pointer-events-none absolute left-3 right-3 -bottom-0.5 h-[2px] rounded-full origin-center scale-x-0 transition-transform duration-300",
+                  "group-hover/lnk:scale-x-100",
+                  pathname === "/about" && "scale-x-100"
+                )}
+                style={{ background: "var(--gradient-primary)" }}
+              />
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NM>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────
-// Compact fallback navigation for narrow desktop widths (<md)
-// ─────────────────────────────────────────────────────────────
-import { Menu as MenuIcon } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-export function BrowseMenu({ className }: { className?: string }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        className={cn(
-          "md:hidden inline-flex items-center gap-1.5 h-8 px-3 rounded-full text-[13px] font-medium",
-          "bg-secondary/60 hover:bg-secondary text-foreground transition-colors",
-          "ring-1 ring-border/60",
-          className
-        )}
-        aria-label="Browse navigation"
-      >
-        <MenuIcon className="h-4 w-4 opacity-80" />
-        Browse
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="start"
-        sideOffset={10}
-        className="w-64 rounded-2xl p-2 bg-popover/95 backdrop-blur-2xl"
-      >
-        {PANELS.map((p, idx) => {
-          const Icon = p.icon;
-          return (
-            <div key={p.label}>
-              {idx > 0 && <DropdownMenuSeparator className="my-1" />}
-              <DropdownMenuLabel className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-semibold">
-                <Icon className="h-3.5 w-3.5 opacity-80" />
-                {p.label}
-              </DropdownMenuLabel>
-              {p.items.slice(0, 4).map((it) => {
-                const ItIcon = it.icon;
-                return (
-                  <DropdownMenuItem key={it.href} asChild className="rounded-lg cursor-pointer">
-                    <Link to={it.href} className="flex items-center gap-2.5">
-                      <ItIcon className="h-4 w-4 opacity-70" />
-                      <span className="text-sm">{it.label}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                );
-              })}
-            </div>
-          );
-        })}
-        <DropdownMenuSeparator className="my-1" />
-        <DropdownMenuItem asChild className="rounded-lg cursor-pointer">
-          <Link to="/about" className="flex items-center gap-2.5">
-            <Compass className="h-4 w-4 opacity-70" />
-            <span className="text-sm">About</span>
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }

@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Package, ChevronRight, Clock, CheckCircle, Truck, XCircle, ShoppingBag } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { PageHero } from "@/components/ui/page-hero";
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,7 @@ import { cn } from "@/lib/utils";
 const statusConfig = {
   pending: { label: "Pending", icon: Clock, dot: "bg-amber-500" },
   processing: { label: "Processing", icon: Package, dot: "bg-blue-500" },
-  shipped: { label: "Shipped", icon: Truck, dot: "bg-primary" },
+  shipped: { label: "Shipped", icon: Truck, dot: "bg-violet-500" },
   delivered: { label: "Delivered", icon: CheckCircle, dot: "bg-emerald-500" },
   cancelled: { label: "Cancelled", icon: XCircle, dot: "bg-rose-500" },
 } as const;
@@ -41,11 +40,6 @@ const Orders = () => {
 
   return (
     <AppLayout>
-      <SEO
-        title="My Orders"
-        description="View and track all of your Asikon orders in one place."
-        noIndex
-      />
       <MobilePage maxWidth="standard" spacing="space-y-6">
         <PageHero eyebrow="History" title="Your orders" subtitle="Track and review past purchases." />
 

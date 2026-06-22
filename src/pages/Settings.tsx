@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Bell, Lock, Moon, LogOut, ChevronRight, Camera, Shield, Eye, Palette, Coins } from "lucide-react";
-import { SEO } from "@/components/SEO";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { CurrencyToggle } from "@/components/ui/currency-toggle";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -73,11 +72,6 @@ const Settings = () => {
 
   return (
     <AppLayout>
-      <SEO
-        title="Settings"
-        description="Manage your Asikon account, notifications, privacy, and appearance."
-        noIndex
-      />
       <div className="container mx-auto px-4 pt-4 pb-24 max-w-2xl space-y-8">
         <header className="space-y-1">
           <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Account</p>
@@ -266,7 +260,7 @@ function Section({
   icon: Icon, title, children,
 }: { icon: React.ElementType; title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-2xl border border-border liquid-glass p-5">
+    <section className="rounded-2xl border border-border bg-card p-5">
       <header className="flex items-center gap-2 mb-4">
         <Icon className="h-4 w-4 text-foreground/60" />
         <h2 className="font-medium text-[14px] tracking-tight">{title}</h2>

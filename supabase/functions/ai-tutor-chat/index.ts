@@ -124,79 +124,13 @@ Deno.serve(async (req) => {
       headers: corsHeaders,
       onFinish: async ({ messages: finalMessages }) => {
         const assistant = finalMessages[finalMessages.length - 1];
-        if (assistant?.role !== "assistant") return;
-
-        // Extract the [ASIKON step=... hint=... topic=... attempt=...] header
-        // the system prompt requires on the first line of every reply.
-        const text = (assistant.parts ?? [])
-          .map((p: any) => (p?.type === "text" ? p.text : ""))
-          .join("");
-        const headerRe = /^\s*\[ASIKON\s+([^\]]+)\]/;
-        const m = text.match(headerRe);
-
-        let socratic_step: string | null = null;
-        let hint_level: number | null = null;
-        let topic_hint: string | null = null;
-
-        if (m) {
-          const fields = m[1];
-          const pairs: Record<string, string> = {};
-          for (const pm of fields.matchAll(/(\w+)=([^\s\]]+)/g)) {
-            pairs[pm[1].toLowerCase()] = pm[2];
-          }
-          const rawStep = pairs.step?.toLowerCase();
-          if (["understand", "plan", "try", "check"].includes(rawStep)) {
-            socratic_step = rawStep;
-          }
-          if (pairs.hint && /^[0-5]$/.test(pairs.hint)) {
-            hint_level = parseInt(pairs.hint, 10);
-          }
-          if (pairs.topic) topic_hint = pairs.topic;
-        }
-
-        await supabase.from("ai_messages").insert({
-          thread_id: threadId,
-          user_id: user.id,
-          role: "assistant",
-          parts: assistant.parts ?? [],
-          socratic_step,
-          hint_level,
-          topic_hint,
-        });
-
-        // Update thread-level Socratic state so the rail persists across reloads.
-        const threadPatch: Record<string, unknown> = {};
-        if (socratic_step) threadPatch.active_step = socratic_step;
-        if (hint_level !== null) threadPatch.last_hint_level = hint_level;
-        if (Object.keys(threadPatch).length > 0) {
-          await supabase.from("ai_threads").update(threadPatch).eq("id", threadId);
-        }
-
-        // Mastery update: when the assistant tags a known curriculum topic,
-        // record an attempt against the learner's mastery for that topic.
-        // Outcome heuristic blends Socratic step with hint level:
-        //   check step + low hint  → strong positive signal
-        //   try step              → moderate signal
-        //   plan/understand       → weak signal (still keeps last_practiced_at fresh)
-        if (topic_hint) {
-          const { data: topic } = await supabase
-            .from("curriculum_topics")
-            .select("id")
-            .eq("slug", topic_hint)
-            .maybeSingle();
-          if (topic?.id) {
-            const h = hint_level ?? 0;
-            let outcome = 0.3;
-            if (socratic_step === "check") outcome = Math.max(0, 0.95 - h * 0.12);
-            else if (socratic_step === "try") outcome = Math.max(0, 0.6 - h * 0.08);
-            else if (socratic_step === "plan") outcome = 0.4;
-            else if (socratic_step === "understand") outcome = 0.25;
-            await supabase.rpc("record_mastery_attempt", {
-              _topic_id: topic.id,
-              _outcome: outcome,
-              _hint_level: h,
-            });
-          }
+        if (assistant?.role === "assistant") {
+          await supabase.from("ai_messages").insert({
+            thread_id: threadId,
+            user_id: user.id,
+            role: "assistant",
+            parts: assistant.parts ?? [],
+          });
         }
       },
     });

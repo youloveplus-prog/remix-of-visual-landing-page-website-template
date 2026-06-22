@@ -45,9 +45,9 @@ export function ProfileCompletionBar({ profile, learnerStats, postCount, onEdit 
   }
 
   return (
-    <div className="hf-card-depth-subtle mx-4 mt-4 rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md px-4 py-3 space-y-2.5">
+    <div className="mx-4 mt-4 rounded-2xl border border-border/60 bg-card/40 backdrop-blur-md px-4 py-3 space-y-2.5">
       <div className="flex items-center justify-between">
-        <p className="hf-eyebrow !mb-0 !text-muted-foreground">Profile · {percent}% complete</p>
+        <p className="text-sm font-medium">Profile {percent}% complete</p>
         <span className="text-[11px] text-muted-foreground tabular-nums">{completed}/5</span>
       </div>
       <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">

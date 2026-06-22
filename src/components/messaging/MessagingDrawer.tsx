@@ -32,7 +32,7 @@ export function MessagingDrawer({ open, onOpenChange, initialChatId }: Messaging
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full sm:max-w-md lg:max-w-2xl p-0 flex flex-col">
-        <SheetHeader className="p-4 border-b border-border liquid-nav">
+        <SheetHeader className="p-4 border-b border-border glass-strong">
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center gap-2">
               <MessageCircle className="h-5 w-5 text-primary" />

@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import plugin from "tailwindcss/plugin";
 
 export default {
   darkMode: ["class"],
@@ -16,7 +15,6 @@ export default {
     extend: {
       colors: {
         border: 'hsl(var(--border))',
-        'border-soft': 'hsl(var(--border-soft))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
@@ -49,14 +47,6 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
-        brand: {
-          DEFAULT: 'hsl(var(--brand-from))',
-          from: 'hsl(var(--brand-from))',
-          via: 'hsl(var(--brand-via))',
-          to: 'hsl(var(--brand-to))',
-          'soft-from': 'hsl(var(--brand-soft-from))',
-          'soft-to': 'hsl(var(--brand-soft-to))'
-        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
@@ -68,13 +58,12 @@ export default {
           ring: 'hsl(var(--sidebar-ring))'
         },
         gold: 'hsl(45, 95%, 55%)',
-        success: 'hsl(150, 65%, 45%)',
-        chip: {
-          butter: 'hsl(var(--chip-butter))',
-          lavender: 'hsl(var(--chip-lavender))',
-          mint: 'hsl(var(--chip-mint))',
-          cream: 'hsl(var(--chip-cream))',
-        }
+        success: 'hsl(150, 65%, 45%)'
+      },
+      transitionDuration: {
+        '420': '420ms',
+        '1400': '1400ms',
+        '6000': '6000ms',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -127,14 +116,11 @@ export default {
         md: 'var(--shadow-md)',
         lg: 'var(--shadow-lg)',
         xl: 'var(--shadow-xl)',
-        '2xl': 'var(--shadow-2xl)',
-        card: 'var(--shadow-card)',
-        'card-hover': 'var(--shadow-card-hover)',
-        'card-pressed': 'var(--shadow-card-pressed)'
+        '2xl': 'var(--shadow-2xl)'
       },
       fontFamily: {
         sans: [
-          'Satoshi',
+          'Inter',
           'Hind Siliguri',
           'Noto Sans Bengali',
           'ui-sans-serif',
@@ -142,22 +128,18 @@ export default {
           '-apple-system',
           'BlinkMacSystemFont',
           'Segoe UI',
+          'Roboto',
           'sans-serif'
         ],
         display: [
-          'Satoshi',
-          'ui-sans-serif',
-          'system-ui',
-          'sans-serif'
-        ],
-        serif: [
-          'Satoshi',
+          'Space Grotesk',
+          'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
           'sans-serif'
         ],
         grotesk: [
-          'Satoshi',
+          'Space Grotesk',
           'Hind Siliguri',
           'ui-sans-serif',
           'system-ui',
@@ -166,23 +148,11 @@ export default {
         bangla: [
           'Hind Siliguri',
           'Noto Sans Bengali',
+          'Inter',
           'ui-sans-serif',
           'sans-serif'
         ],
-        dot: [
-          'Satoshi',
-          'JetBrains Mono',
-          'ui-monospace',
-          'monospace'
-        ],
-        'dot-matrix': [
-          'Satoshi',
-          'JetBrains Mono',
-          'ui-monospace',
-          'monospace'
-        ],
         mono: [
-          'Satoshi',
           'JetBrains Mono',
           'ui-monospace',
           'SFMono-Regular',
@@ -191,102 +161,18 @@ export default {
         ]
       },
       fontSize: {
-        // Refined editorial scale tuned for Noto Serif Display headlines
-        // + Noto Sans body. Tighter tracking on large display sizes,
-        // slightly looser tracking on small body for readability.
-        'display-xl': ['4rem', { lineHeight: '1.02', letterSpacing: '-0.035em', fontWeight: '600' }],
-        'display': ['2.75rem', { lineHeight: '1.06', letterSpacing: '-0.03em', fontWeight: '600' }],
-        'h1': ['2.125rem', { lineHeight: '1.1', letterSpacing: '-0.025em', fontWeight: '600' }],
-        'h2': ['1.625rem', { lineHeight: '1.18', letterSpacing: '-0.02em', fontWeight: '600' }],
-        'h3': ['1.3125rem', { lineHeight: '1.28', letterSpacing: '-0.015em', fontWeight: '600' }],
-        'caption': ['0.8125rem', { lineHeight: '1.45', letterSpacing: '0.005em' }]
+        'display-xl': ['3.5rem', { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '700' }],
+        'display': ['2.5rem', { lineHeight: '1.08', letterSpacing: '-0.025em', fontWeight: '700' }],
+        'h1': ['2rem', { lineHeight: '1.12', letterSpacing: '-0.022em', fontWeight: '600' }],
+        'h2': ['1.5rem', { lineHeight: '1.2', letterSpacing: '-0.018em', fontWeight: '600' }],
+        'h3': ['1.25rem', { lineHeight: '1.3', letterSpacing: '-0.014em', fontWeight: '600' }],
+        'caption': ['0.8125rem', { lineHeight: '1.4', letterSpacing: '0' }]
       },
       maxWidth: {
         'container-apple': '1200px',
         'reading': '720px'
-      },
-      backgroundImage: {
-        'brand-gradient': 'var(--gradient-primary)',
-        'brand-gradient-soft': 'var(--gradient-primary-soft)',
-        'brand-aurora': 'var(--gradient-aurora)',
-        'brand-surface': 'var(--gradient-surface)',
-        'brand-sheen': 'var(--gradient-sheen)',
-        'brand-hairline': 'var(--gradient-hairline)',
-        'card-sheen': 'var(--gradient-card-sheen)'
       }
     }
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    plugin(({ addUtilities }) => {
-      const card = {
-        transition: "box-shadow 400ms ease, transform 400ms ease",
-      };
-      addUtilities({
-        /* === Card depth variants — theme-aware. ===
-           Drives from `--shadow-*` tokens defined in index.css, so the same
-           class adapts to light (cream) and dark (black) surfaces. The
-           foreground-tinted inset highlight + grounding shadow are subtle in
-           light mode and richer in dark mode automatically. */
-        /* === Card depth variants — theme-aware, real-world tactile feel ===
-           Stack: inner top sheen + hairline ring + two-layer shadow.
-           Drives from `--shadow-card*` and `--card-sheen` tokens. */
-        ".hf-card-depth-subtle": {
-          ...card,
-          boxShadow: [
-            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.45)",
-            "0 0 0 1px hsl(var(--border-soft) / 0.6)",
-            "var(--shadow-xs)",
-          ].join(", "),
-        },
-        ".hf-card-depth": {
-          ...card,
-          boxShadow: [
-            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.55)",
-            "0 0 0 1px hsl(var(--border-soft) / 0.7)",
-            "var(--shadow-card)",
-          ].join(", "),
-        },
-        ".hf-card-depth-elevated": {
-          ...card,
-          boxShadow: [
-            "inset 0 1px 0 0 hsl(var(--card-sheen) / 0.65)",
-            "0 0 0 1px hsl(var(--border-soft) / 0.8)",
-            "var(--shadow-card-hover)",
-          ].join(", "),
-        },
-        ".hf-card-depth-none": {
-          boxShadow: "none",
-        },
-
-        /* === Section depth variants — radial vignette + top seam. === */
-        ".hf-section-depth-subtle": {
-          position: "relative",
-          isolation: "isolate",
-          "--hf-section-top": "hsl(233 72% 18% / 0.08)",
-          "--hf-section-bottom": "hsl(0 0% 0% / 0.3)",
-          "--hf-section-seam": "hsl(0 0% 100% / 0.05)",
-        },
-        ".hf-section-depth": {
-          position: "relative",
-          isolation: "isolate",
-          "--hf-section-top": "hsl(233 72% 18% / 0.18)",
-          "--hf-section-bottom": "hsl(0 0% 0% / 0.5)",
-          "--hf-section-seam": "hsl(0 0% 100% / 0.08)",
-        },
-        ".hf-section-depth-elevated": {
-          position: "relative",
-          isolation: "isolate",
-          "--hf-section-top": "hsl(233 72% 22% / 0.32)",
-          "--hf-section-bottom": "hsl(0 0% 0% / 0.7)",
-          "--hf-section-seam": "hsl(0 0% 100% / 0.14)",
-        },
-        ".hf-section-depth-none": {
-          "--hf-section-top": "transparent",
-          "--hf-section-bottom": "transparent",
-          "--hf-section-seam": "transparent",
-        },
-      });
-    }),
-  ],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

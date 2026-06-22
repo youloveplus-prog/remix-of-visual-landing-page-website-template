@@ -1,4 +1,3 @@
-import { SITE_URL } from "@/config/site";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { Reveal } from "@/components/transitions/Reveal";
@@ -27,7 +26,7 @@ const Contact = () => {
       <SEO
         title="Contact ASIKON — we'd love to hear from you"
         description="Reach the ASIKON team for support, partnerships, press, or feedback. We reply within one business day."
-        url={`${SITE_URL}/contact`}
+        url="https://asikonpro.lovable.app/contact"
       />
 
       <Reveal as="section" className="pt-20 pb-12 sm:pt-28 sm:pb-16 lg:pt-36 lg:pb-24">

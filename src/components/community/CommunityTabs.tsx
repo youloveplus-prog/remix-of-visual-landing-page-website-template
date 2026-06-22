@@ -41,7 +41,7 @@ export function CommunityTabs({ activeTab, onTabChange }: CommunityTabsProps) {
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center gap-5 sm:gap-6 overflow-x-auto hide-scrollbar border-b border-border bg-background snap-x snap-mandatory"
+      className="relative flex items-center gap-5 px-4 overflow-x-auto hide-scrollbar border-b border-border bg-background snap-x snap-mandatory"
       role="tablist"
       aria-label="Community sections"
     >
