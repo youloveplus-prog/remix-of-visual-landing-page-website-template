@@ -60,10 +60,10 @@ export function MentorBookingPanel({ mentor }: Props) {
   };
 
   return (
-    <DetailSection
-      title="Book a session"
-      description="Pick a day and time. We'll hold the slot for 15 minutes while you confirm."
-    >
+    <DetailSection title="Book a session">
+      <p className="text-[13px] text-muted-foreground -mt-1">
+        Pick a day and time. We'll hold the slot for 15 minutes while you confirm.
+      </p>
       <div className="space-y-5">
         {/* Day strip */}
         <div>
