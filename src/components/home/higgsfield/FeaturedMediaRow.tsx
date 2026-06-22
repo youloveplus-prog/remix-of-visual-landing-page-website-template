@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import { homeType } from "@/components/home/typography";
 
 type Tile = {
   title: string;
