@@ -35,12 +35,12 @@ export function ProfileTrustCard({ trustScore, coins, level, onViewDetails }: Pr
 
   return (
     <div className="mx-4 sm:mx-6 mb-4">
-      <div className="p-4 rounded-xl bg-card border border-border">
+      <div className="hf-card-depth-subtle p-4 rounded-xl bg-card border border-border/60">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-[13px] font-medium tracking-tight flex items-center gap-2 text-foreground/80">
-            <TrendingUp className="h-3.5 w-3.5 text-foreground/60" />
+          <p className="hf-eyebrow !mb-0 !text-muted-foreground">
+            <TrendingUp className="h-3 w-3" />
             Trust & Rewards
-          </h3>
+          </p>
           <button
             onClick={onViewDetails}
             className="text-[12px] text-muted-foreground hover:text-foreground flex items-center gap-0.5"
@@ -51,7 +51,7 @@ export function ProfileTrustCard({ trustScore, coins, level, onViewDetails }: Pr
 
         <div className="grid grid-cols-3 gap-3">
           {/* Trust Score */}
-          <div className="flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border">
+          <div className="hf-card-hover hf-card-depth-subtle flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border/60">
             <Shield className="h-6 w-6 text-foreground/70" />
             <div className="text-center">
               <p className={cn("text-[17px] font-semibold tabular-nums", getTrustColor(trustScore))}>{trustScore}%</p>
@@ -60,7 +60,7 @@ export function ProfileTrustCard({ trustScore, coins, level, onViewDetails }: Pr
           </div>
 
           {/* Coins */}
-          <div className="flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border">
+          <div className="hf-card-hover hf-card-depth-subtle flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border/60">
             <Coins className="h-6 w-6 text-foreground/70" />
             <div className="text-center">
               <p className="text-[17px] font-semibold tabular-nums text-foreground">{coins.toLocaleString()}</p>
@@ -69,7 +69,7 @@ export function ProfileTrustCard({ trustScore, coins, level, onViewDetails }: Pr
           </div>
 
           {/* Level */}
-          <div className="flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border">
+          <div className="hf-card-hover hf-card-depth-subtle flex flex-col items-center gap-2 p-3 rounded-lg bg-secondary/40 border border-border/60">
             <Award className={cn("h-6 w-6", getLevelColor(level))} />
             <div className="text-center">
               <p className={cn("text-[17px] font-semibold", getLevelColor(level))}>{level}</p>
