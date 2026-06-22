@@ -46,7 +46,7 @@ export function ResourceCarousel({ resources, title, avatarSrc }: ResourceCarous
               className="w-9 h-9 rounded-full object-cover border border-border/70"
             />
           )}
-          <h2 className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+          <h2 className="hf-title font-display text-foreground">
             {title}
           </h2>
         </div>

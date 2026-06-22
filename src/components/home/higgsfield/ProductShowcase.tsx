@@ -53,7 +53,7 @@ export function ProductShowcase({
                 {eyebrow}
               </p>
             )}
-            <h2 className="hf-title font-display">
+            <h2 className="hf-title font-display text-white">
               {title}
             </h2>
             {description && (

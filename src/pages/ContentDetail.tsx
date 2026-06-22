@@ -147,7 +147,7 @@ export default function ContentDetail() {
 
         {assets.length > 0 && (
           <Reveal className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">Files</h2>
+            <h2 className="hf-title font-display">Files</h2>
             <ul className="space-y-2">
               {assets.map((a: any) => (
                 <li
@@ -169,7 +169,7 @@ export default function ContentDetail() {
 
         {item.kind === "course" && modules.length > 0 && (
           <Reveal className="space-y-3">
-            <h2 className="font-display text-xl font-semibold">Curriculum</h2>
+            <h2 className="hf-title font-display">Curriculum</h2>
             {modules.map((m: any) => (
               <div key={m.id} className="glass rounded-2xl p-4 space-y-2">
                 <div className="font-semibold">{m.title}</div>
