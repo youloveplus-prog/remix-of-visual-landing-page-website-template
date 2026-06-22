@@ -226,7 +226,7 @@ export function HeroFeatureSlider({
                       </span>
                     </Link>
 
-                    {/* === Mobile dot indicators — matches reference: equal circular dots, tight, sits just below media === */}
+                    {/* === Mobile dot indicators — equal circular dots, tight, sits just below media === */}
                     <div className="flex items-center justify-center gap-2 bg-black pt-2.5 pb-3 sm:hidden">
                       {SLIDES.map((_, idx) => (
                         <button
@@ -234,12 +234,14 @@ export function HeroFeatureSlider({
                           type="button"
                           aria-label={`Go to slide ${idx + 1}`}
                           onClick={() => emblaApi?.scrollTo(idx)}
-                          className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
+                          style={{ width: 6, height: 6, padding: 0, borderRadius: 9999 }}
+                          className={`shrink-0 border-0 transition-colors duration-300 ${
                             selected === idx ? "bg-white" : "bg-white/25"
                           }`}
                         />
                       ))}
                     </div>
+
 
 
 
