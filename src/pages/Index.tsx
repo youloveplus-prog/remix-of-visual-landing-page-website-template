@@ -86,8 +86,8 @@ const Index = () => {
       />
 
       <div className="home-higgsfield min-h-screen pb-10">
-        <HiggsfieldHero />
         <HeroFeatureSlider />
+        <HiggsfieldHero />
         <NeonPromoTicker />
         <PromoToolsBlock />
         <SuperagentBand />
