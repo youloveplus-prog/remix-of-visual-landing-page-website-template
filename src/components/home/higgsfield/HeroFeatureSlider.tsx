@@ -234,20 +234,35 @@ export function HeroFeatureSlider({
         </div>
 
         {/* Mobile dot indicators — overlaid on the hero media, below the brand pill */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-10 flex items-center justify-center gap-3 sm:hidden">
-          {SLIDES.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              aria-label={`Go to slide ${idx + 1}`}
-              onClick={() => emblaApi?.scrollTo(idx)}
-              style={{ width: 6, height: 6, minWidth: 6, minHeight: 6, maxWidth: 6, maxHeight: 6, padding: 0, borderRadius: "50%", aspectRatio: "1 / 1", display: "block", flex: "0 0 auto" }}
-              className={`pointer-events-auto shrink-0 border-0 transition-colors duration-300 ${
-                selected === idx ? "bg-white" : "bg-white/40"
-              }`}
-            />
-          ))}
+        <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-10 flex items-center justify-center gap-2 sm:hidden">
+          {SLIDES.map((_, idx) => {
+            const active = selected === idx;
+            return (
+              <button
+                key={idx}
+                type="button"
+                aria-label={`Go to slide ${idx + 1}`}
+                onClick={() => emblaApi?.scrollTo(idx)}
+                style={{
+                  width: 6,
+                  height: 6,
+                  padding: 0,
+                  borderRadius: "50%",
+                  aspectRatio: "1 / 1",
+                  display: "block",
+                  flex: "0 0 auto",
+                  transform: active ? "scale(1.6)" : "scale(1)",
+                  transition: "transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 280ms ease-out, box-shadow 280ms ease-out",
+                  boxShadow: active ? "0 0 8px rgba(255,255,255,0.55)" : "none",
+                }}
+                className={`pointer-events-auto shrink-0 border-0 ${
+                  active ? "bg-white" : "bg-white/45"
+                }`}
+              />
+            );
+          })}
         </div>
+
 
 
 
