@@ -547,3 +547,16 @@ function FilterChip({ label, onClear }: { label: string; onClear: () => void }) 
     </Badge>
   );
 }
+
+function SuggestionChip({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      role="option"
+      onClick={onClick}
+      className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground hover:border-primary/40 hover:bg-primary/5 transition-colors"
+    >
+      {label}
+    </button>
+  );
+}
