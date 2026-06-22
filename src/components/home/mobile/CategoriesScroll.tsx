@@ -83,6 +83,7 @@ function CatTile({ image, label, href }: Cat) {
           src={image}
           alt={label}
           loading="lazy"
+          decoding="async"
           width={52}
           height={52}
           className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
