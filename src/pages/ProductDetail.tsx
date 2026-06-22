@@ -833,4 +833,20 @@ const ProductDetail = () => {
   );
 };
 
+function ProductRelatedRail({ name, isCourse, slug }: { name: string; isCourse: boolean; slug: string }) {
+  const { items, isLoading } = useRecommendations(
+    isCourse ? { kind: "course", slug } : { kind: "product", slug },
+  );
+  return (
+    <RelatedRail
+      eyebrow="Cross-discover"
+      title="Mentors & learning for this"
+      items={items.filter((i) => i.kind === "mentor" || (isCourse ? i.kind === "course" : i.kind === "product"))}
+      isLoading={isLoading}
+      viewAllHref="/mentors"
+      viewAllLabel="See mentors"
+    />
+  );
+}
+
 export default ProductDetail;
