@@ -32,6 +32,7 @@ const WishlistMod = () => import("./pages/Wishlist");
 const SettingsMod = () => import("./pages/Settings");
 const CreateContentMod = () => import("./pages/CreateContent");
 const MentorsMod = () => import("./pages/Mentors");
+const MentorDetailMod = () => import("./pages/MentorDetail");
 const LearnMod = () => import("./pages/Learn");
 const AiTutorMod = () => import("./pages/AiTutor");
 const NotFoundMod = () => import("./pages/NotFound");
@@ -78,6 +79,7 @@ const Wishlist = lazy(WishlistMod);
 const Settings = lazy(SettingsMod);
 const CreateContent = lazy(CreateContentMod);
 const Mentors = lazy(MentorsMod);
+const MentorDetail = lazy(MentorDetailMod);
 const Learn = lazy(LearnMod);
 const AiTutor = lazy(AiTutorMod);
 const Revision = lazy(() => import("./pages/Revision"));
@@ -216,6 +218,7 @@ function AnimatedRoutes() {
           <Route path="/settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
           <Route path="/create" element={<ErrorBoundary><CreateContent /></ErrorBoundary>} />
           <Route path="/mentors" element={<ErrorBoundary><Mentors /></ErrorBoundary>} />
+          <Route path="/mentors/:slug" element={<ErrorBoundary><MentorDetail /></ErrorBoundary>} />
           <Route path="/learn" element={<ErrorBoundary><Learn /></ErrorBoundary>} />
           <Route path="/ai-tutor" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
           <Route path="/ai-tutor/:threadId" element={<ErrorBoundary><AiTutor /></ErrorBoundary>} />
