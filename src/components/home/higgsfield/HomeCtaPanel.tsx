@@ -12,7 +12,7 @@ export function HomeCtaPanel() {
           <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[hsl(var(--hf-accent))]">
             Start today
           </span>
-          <h2 className="mt-3 font-display text-2xl sm:text-3xl font-medium tracking-tight leading-tight text-white">
+          <h2 className="mt-3 font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight leading-[1.08] text-white">
             Learn AI the way the best builders do.
           </h2>
           <p className="mt-4 max-w-lg text-[15px] text-white/60">

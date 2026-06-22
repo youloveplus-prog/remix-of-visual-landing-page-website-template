@@ -11,7 +11,7 @@ export function LiveStatsBar() {
       <div className="grid grid-cols-2 divide-x divide-white/10 sm:grid-cols-4">
         {STATS.map((s) => (
           <div key={s.label} className="px-4 py-6 sm:px-6">
-            <div className="font-display text-2xl font-semibold text-white sm:text-3xl">
+            <div className="font-display text-2xl font-extrabold uppercase tracking-tight text-white sm:text-3xl">
               {s.value}
             </div>
             <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-white/40">
