@@ -55,6 +55,7 @@ export function CategoryShelf() {
         {/* Mobile */}
         <div
           className="flex gap-3 overflow-x-auto overscroll-x-contain px-4 pb-3 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:hidden"
+          style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
         >
           {(isLoading ? Array.from({ length: 6 }) : items).map((c: any, i) => (
             <CategoryCard
@@ -62,7 +63,11 @@ export function CategoryShelf() {
               category={c}
               index={i}
               loading={isLoading}
-              className="shrink-0 snap-start basis-[62%]"
+              // Wider basis (~82%) restores hero-presence now that cards are
+              // shorter (5/3). Still leaves ~18% peek so the swipe affordance
+              // is obvious. min-w ensures the card never collapses on very
+              // narrow screens (≤320px).
+              className="shrink-0 snap-start basis-[82%] min-w-[260px] max-w-[360px]"
             />
           ))}
         </div>
