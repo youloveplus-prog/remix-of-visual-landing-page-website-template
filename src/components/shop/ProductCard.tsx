@@ -16,7 +16,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState, forwardRef, memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Product } from "@/types";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,8 @@ import { ProductQuickView } from "./ProductQuickView";
 import { getProductCta, type ProductCtaIcon } from "@/lib/productCta";
 import { logProductClick } from "@/lib/productAnalytics";
 import { useProductImpression } from "@/hooks/useProductImpression";
+import { useAuth } from "@/hooks/useAuth";
+import { useAddToWishlist, useRemoveFromWishlist, useWishlist } from "@/hooks/useWishlist";
 
 const ICON_BY_NAME: Record<ProductCtaIcon, LucideIcon> = {
   "graduation-cap": GraduationCap,
@@ -55,8 +58,38 @@ const DEFAULT_BRAND = "Asikon Academy";
 
 export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
   ({ product, variant = "default" }, ref) => {
-    const [isWishlisted, setIsWishlisted] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user } = useAuth();
+    const { data: wishlist } = useWishlist();
+    const addToWishlist = useAddToWishlist();
+    const removeFromWishlist = useRemoveFromWishlist();
+    const wishlistEntry = wishlist?.find((w: any) => String(w.product_id) === String(product.id));
+    const isWishlisted = !!wishlistEntry;
+    const wishlistBusy = addToWishlist.isPending || removeFromWishlist.isPending;
     const [showQuickView, setShowQuickView] = useState(false);
+
+    const handleWishlistToggle = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (wishlistBusy) return;
+      if (!user) {
+        toast.info("Sign in to save items to your wishlist");
+        navigate(`/auth?redirect=${encodeURIComponent(location.pathname + location.search)}`);
+        return;
+      }
+      if (isWishlisted && wishlistEntry) {
+        removeFromWishlist.mutate(wishlistEntry.id, {
+          onSuccess: () => toast.success("Removed from wishlist"),
+          onError: (err: any) => toast.error(err?.message ?? "Couldn't update wishlist"),
+        });
+      } else {
+        addToWishlist.mutate(String(product.id), {
+          onSuccess: () => toast.success("Saved to wishlist"),
+          onError: (err: any) => toast.error(err?.message ?? "Couldn't save to wishlist"),
+        });
+      }
+    };
 
     const discount = product.originalPrice
       ? Math.round((1 - product.price / product.originalPrice) * 100)
@@ -164,15 +197,12 @@ export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
             {/* Wishlist — top-right */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsWishlisted(!isWishlisted);
-              }}
+              onClick={handleWishlistToggle}
+              disabled={wishlistBusy}
               aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
               aria-pressed={isWishlisted}
               className={cn(
-                "no-min-tap absolute top-2 right-2 md:top-2.5 md:right-2.5 h-9 w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md shadow-sm motion-reduce:transition-none",
+                "no-min-tap absolute top-2 right-2 md:top-2.5 md:right-2.5 h-9 w-9 grid place-items-center rounded-full transition-all duration-200 backdrop-blur-md shadow-sm motion-reduce:transition-none disabled:opacity-60",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card",
                 isWishlisted
                   ? "bg-primary/15 ring-1 ring-primary/40"
