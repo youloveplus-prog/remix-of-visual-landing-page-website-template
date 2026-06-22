@@ -241,7 +241,7 @@ export function HeroFeatureSlider({
               type="button"
               aria-label={`Go to slide ${idx + 1}`}
               onClick={() => emblaApi?.scrollTo(idx)}
-              style={{ width: 6, height: 6, padding: 0, borderRadius: 9999 }}
+              style={{ width: 6, height: 6, minWidth: 6, minHeight: 6, maxWidth: 6, maxHeight: 6, padding: 0, borderRadius: "50%", aspectRatio: "1 / 1", display: "block", flex: "0 0 auto" }}
               className={`pointer-events-auto shrink-0 border-0 transition-colors duration-300 ${
                 selected === idx ? "bg-white" : "bg-white/40"
               }`}
