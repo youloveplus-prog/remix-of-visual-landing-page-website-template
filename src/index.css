@@ -382,11 +382,9 @@
      context (lets a section opt into a warmer hover glow). */
   [class*="hf-card-depth"]:hover {
     box-shadow:
-      0 1px 0 0 hsl(0 0% 100% / 0.1) inset,
-      0 -28px 48px -24px hsl(0 0% 0% / 0.7) inset,
-      0 2px 4px hsl(0 0% 0% / 0.45),
-      0 18px 36px -12px hsl(0 0% 0% / 0.6),
-      0 40px 72px -28px hsl(233 72% 25% / 0.55);
+      0 1px 0 0 hsl(var(--foreground) / 0.06) inset,
+      var(--shadow-md),
+      var(--shadow-lg);
   }
   .hf-card-depth-none:hover {
     box-shadow: none;
