@@ -101,7 +101,10 @@ export function HeroFeatureSlider({
     >
       {/* Carousel */}
       <div className="relative">
-        <div ref={emblaRef} className="overflow-hidden">
+        <div
+          ref={emblaRef}
+          className="overflow-hidden touch-pan-y overscroll-x-contain"
+        >
           <div className="flex touch-pan-y -ml-3 sm:-ml-4">
             {SLIDES.map((s, i) => (
               <div
