@@ -5,7 +5,7 @@ import { SidebarNav } from "./sidebar/SidebarNav";
 import { SidebarSecondary } from "./sidebar/SidebarSecondary";
 import { SidebarFooter } from "./sidebar/SidebarFooter";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { haptics } from "@/lib/haptics";
+import { haptic } from "@/lib/haptics";
 
 interface SidebarProps {
   open: boolean;
