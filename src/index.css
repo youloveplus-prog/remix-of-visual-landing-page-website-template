@@ -1316,3 +1316,40 @@
 }
 
 
+
+/* ─────────────── iOS-tuned scroll-snap rows ───────────────
+   Used by ProductShowcase, CategoryShelf, and any horizontal
+   carousel that needs reliable snap behaviour on touch devices.
+   - `scroll-snap-stop: always` makes momentum stop on each card
+     (no flick-past on iOS Safari).
+   - `-webkit-overflow-scrolling: touch` re-enables native momentum
+     in older iOS WebKits where it's been opted out.
+   - `touch-action: pan-x pinch-zoom` claims horizontal so vertical
+     page scroll stays smooth; pinch-zoom remains available.
+   - `overscroll-behavior-x: contain` blocks horizontal rubber-band
+     from triggering iOS back-swipe / page navigation.
+   - `scroll-snap-type: x mandatory` is repeated here (instead of
+     Tailwind's `snap-x snap-mandatory`) so the row works even if
+     a parent strips the utility class. */
+.hf-snap-row {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pinch-zoom;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: 1rem;
+}
+.hf-snap-row > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+@supports (-webkit-touch-callout: none) {
+  /* Slightly relax mandatory snap on iOS so very fast flicks don't
+     feel "sticky" — the browser will still snap, just not yank
+     mid-momentum. */
+  .hf-snap-row {
+    scroll-snap-type: x proximity;
+  }
+  .hf-snap-row > * {
+    scroll-snap-stop: normal;
+  }
+}
