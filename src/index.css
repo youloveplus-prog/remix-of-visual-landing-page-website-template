@@ -1308,3 +1308,9 @@
   .home-higgsfield .hf-promo > div { animation: none !important; }
 }
 
+.hf-marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+
