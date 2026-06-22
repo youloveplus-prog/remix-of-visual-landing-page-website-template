@@ -34,10 +34,15 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
   const tabTitle = (activeTab && TAB_TITLES[activeTab]) ?? "Asikon";
   const innerTitle = getRouteTitle(pathname);
 
+  // Unified icon button — circular tap target, soft hover surface,
+  // proper 44px tap area, no aggressive opacity flicker.
   const iconBtnCls = cn(
-    "relative w-12 h-12 rounded-full bg-transparent border-0 shrink-0",
-    "flex items-center justify-center text-foreground/70 hover:text-foreground",
-    "active:opacity-50 transition-opacity duration-100",
+    "relative inline-flex items-center justify-center shrink-0",
+    "w-11 h-11 rounded-full text-foreground/80",
+    "transition-[background-color,color,transform] duration-150 ease-out",
+    "hover:bg-foreground/[0.06] hover:text-foreground",
+    "active:scale-[0.94] active:bg-foreground/[0.09]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-0",
   );
 
   return (
@@ -46,15 +51,21 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
       data-app-header
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       className={cn(
-        "fixed top-0 inset-x-0 z-40 liquid-nav transition-[box-shadow,border-color] duration-300 ease-out",
+        "fixed top-0 inset-x-0 z-40",
+        "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ease-out",
         scrolled
-          ? "border-b border-border/40 shadow-[0_2px_18px_-8px_hsl(0_0%_0%/0.18)]"
-          : "border-b border-transparent",
+          ? "bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/65 border-b border-border/60 shadow-[0_1px_0_0_hsl(var(--border)/0.4),0_8px_24px_-16px_hsl(0_0%_0%/0.18)]"
+          : "bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/75 border-b border-transparent",
       )}
     >
-      <div className="relative flex items-center h-[52px] px-3">
+      <div
+        className={cn(
+          "relative flex items-center px-2.5",
+          "h-14 transition-[height] duration-200",
+        )}
+      >
         {/* Left */}
-        <div className="absolute left-3 flex items-center">
+        <div className="flex items-center shrink-0">
           {inner ? (
             <button
               type="button"
@@ -63,7 +74,7 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
               style={{ WebkitTapHighlightColor: "transparent" }}
               className={iconBtnCls}
             >
-              <ChevronLeft className="h-6 w-6 text-foreground shrink-0" strokeWidth={2.2} />
+              <ChevronLeft className="h-[22px] w-[22px]" strokeWidth={2.25} />
             </button>
           ) : (
             <button
@@ -73,29 +84,35 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
               style={{ WebkitTapHighlightColor: "transparent" }}
               className={iconBtnCls}
             >
-              <Menu className="h-6 w-6" strokeWidth={2} />
+              <Menu className="h-[22px] w-[22px]" strokeWidth={2} />
             </button>
           )}
         </div>
 
         {/* Center */}
-        <div className="flex-1 flex items-center justify-center min-w-0 px-14 pointer-events-none">
+        <div className="flex-1 flex items-center justify-center min-w-0 px-2">
           {inner ? (
-            <span className="text-[16px] font-semibold tracking-tight text-foreground truncate">
+            <h1 className="text-[16px] font-semibold tracking-[-0.01em] text-foreground truncate max-w-full">
               {innerTitle}
-            </span>
+            </h1>
           ) : (
-            <div className="flex items-center gap-1.5">
-              <img src={logo} alt="" className="h-5 w-5 rounded-md object-contain" />
-              <span className="font-display font-semibold text-[16px] tracking-tight text-foreground">
+            <Link
+              to="/"
+              aria-label="Asikon home"
+              className="inline-flex items-center gap-2 group"
+            >
+              <span className="relative inline-flex items-center justify-center h-7 w-7 rounded-lg bg-primary/10 ring-1 ring-primary/15 overflow-hidden">
+                <img src={logo} alt="" className="h-5 w-5 object-contain" />
+              </span>
+              <span className="font-display font-semibold text-[17px] leading-none tracking-[-0.02em] text-foreground">
                 {tabTitle}
               </span>
-            </div>
+            </Link>
           )}
         </div>
 
         {/* Right */}
-        <div className="absolute right-3 flex items-center gap-0.5">
+        <div className="flex items-center gap-0.5 shrink-0">
           {onSearchClick && (
             <button
               type="button"
@@ -104,18 +121,26 @@ export function MobileHeader({ onMenuClick, onSearchClick, cartCount = 0 }: Mobi
               style={{ WebkitTapHighlightColor: "transparent" }}
               className={iconBtnCls}
             >
-              <Search className="h-[22px] w-[22px]" strokeWidth={2} />
+              <Search className="h-[21px] w-[21px]" strokeWidth={2} />
             </button>
           )}
           <Link
             to="/cart"
-            aria-label="Cart"
+            aria-label={cartCount > 0 ? `Cart, ${cartCount} item${cartCount === 1 ? "" : "s"}` : "Cart"}
             style={{ WebkitTapHighlightColor: "transparent" }}
             className={iconBtnCls}
           >
-            <ShoppingBag className="h-[22px] w-[22px]" strokeWidth={2} />
+            <ShoppingBag className="h-[21px] w-[21px]" strokeWidth={2} />
             {cartCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 min-w-[16px] h-[16px] px-1 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center">
+              <span
+                className={cn(
+                  "absolute top-1 right-1 min-w-[17px] h-[17px] px-[5px]",
+                  "rounded-full bg-primary text-primary-foreground",
+                  "text-[10px] font-bold leading-none tabular-nums",
+                  "flex items-center justify-center",
+                  "ring-2 ring-background shadow-sm",
+                )}
+              >
                 {cartCount > 9 ? "9+" : cartCount}
               </span>
             )}
