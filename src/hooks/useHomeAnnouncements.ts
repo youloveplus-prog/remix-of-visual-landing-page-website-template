@@ -39,7 +39,7 @@ export function useHomeAnnouncements() {
 
   useEffect(() => {
     const channel = supabase
-      .channel("home-announcements")
+      .channel(`home-announcements-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "home_announcements" },
@@ -47,6 +47,11 @@ export function useHomeAnnouncements() {
       )
       .subscribe();
     return () => {
+      try {
+        channel.unsubscribe();
+      } catch {
+        /* noop */
+      }
       supabase.removeChannel(channel);
     };
   }, [qc]);
