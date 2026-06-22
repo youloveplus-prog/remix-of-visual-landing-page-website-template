@@ -1,74 +1,62 @@
-import { Link, useLocation } from "react-router-dom";
-import { ChevronRight, Home } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 
-const LABEL_MAP: Record<string, string> = {
-  shop: "Library",
-  community: "Community",
-  game: "Game & Rewards",
-  profile: "Profile",
-  cart: "Cart",
-  checkout: "Checkout",
-  wishlist: "Wishlist",
-  orders: "Orders",
-  about: "About",
-  settings: "Settings",
-  help: "Help",
-  prompts: "Prompts",
-  mentorship: "Mentorship",
-};
+export interface Crumb {
+  label: string;
+  to?: string;
+}
 
 interface BreadcrumbsProps {
+  items: Crumb[];
+  /** Optional eyebrow rendered above the breadcrumb trail. */
+  eyebrow?: string;
   className?: string;
 }
 
 /**
- * Compact breadcrumb derived from the current route.
- * Renders nothing on the home page.
+ * Shared breadcrumb component. Emits JSON-LD for SEO and uses the
+ * `hf-eyebrow` token so styling stays consistent across pages.
  */
-export function Breadcrumbs({ className }: BreadcrumbsProps) {
-  const { pathname } = useLocation();
-  const parts = pathname.split("/").filter(Boolean);
-  if (parts.length === 0) return null;
+export function Breadcrumbs({ items, eyebrow, className }: BreadcrumbsProps) {
+  if (!items.length) return null;
 
-  const crumbs = parts.map((seg, i) => {
-    const href = "/" + parts.slice(0, i + 1).join("/");
-    const label =
-      LABEL_MAP[seg.toLowerCase()] ??
-      seg.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-    return { href, label, isLast: i === parts.length - 1 };
-  });
-
-
-
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      ...(c.to ? { item: typeof window !== "undefined" ? `${window.location.origin}${c.to}` : c.to } : {}),
+    })),
+  };
 
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className={cn(
-        "hidden md:flex items-center gap-1.5 text-[12px] text-muted-foreground",
-        className
-      )}
-    >
-      <Link
-        to="/"
-        className="flex items-center gap-1 hover:text-foreground transition-colors"
-      >
-        <Home className="h-3.5 w-3.5" />
-        <span>Home</span>
-      </Link>
-      {crumbs.map((c) => (
-        <span key={c.href} className="flex items-center gap-1.5">
-          <ChevronRight className="h-3 w-3 opacity-60" aria-hidden />
-          {c.isLast ? (
-            <span className="text-foreground font-medium">{c.label}</span>
-          ) : (
-            <Link to={c.href} className="hover:text-foreground transition-colors">
-              {c.label}
-            </Link>
-          )}
-        </span>
-      ))}
+    <nav aria-label="Breadcrumb" className={className}>
+      {eyebrow && <p className="hf-eyebrow mb-1">{eyebrow}</p>}
+      <ol className="flex items-center gap-1 text-xs text-muted-foreground flex-wrap">
+        {items.map((c, i) => {
+          const isLast = i === items.length - 1;
+          return (
+            <li key={`${c.label}-${i}`} className="flex items-center gap-1 min-w-0">
+              {c.to && !isLast ? (
+                <Link
+                  to={c.to}
+                  className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+                >
+                  {c.label}
+                </Link>
+              ) : (
+                <span className={isLast ? "text-foreground font-medium truncate max-w-[40vw]" : ""} aria-current={isLast ? "page" : undefined}>
+                  {c.label}
+                </span>
+              )}
+              {!isLast && <ChevronRight className="w-3 h-3 opacity-60 shrink-0" aria-hidden />}
+            </li>
+          );
+        })}
+      </ol>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </nav>
   );
 }
