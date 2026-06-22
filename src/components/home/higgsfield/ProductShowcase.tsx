@@ -14,9 +14,15 @@ type Props = {
   featuredVideo?: string;
   /** Tailwind text color class for the eyebrow accent. */
   accent?: string;
-  /** Card aspect ratio for the media frame (e.g. "3/4", "4/5", "16/9"). */
-  aspect?: string;
 };
+
+/**
+ * Unified responsive frame for every media card on the home page.
+ * Mobile = 4/5 (taller, hero-friendly), desktop = 3/4 (gallery).
+ * Keep this in one place so courses, services, and products always match.
+ */
+const MEDIA_FRAME_CLASS =
+  "relative w-full overflow-hidden border border-white/10 bg-neutral-900 aspect-[4/5] sm:aspect-[3/4]";
 
 const SKELETON_COUNT = 4;
 
@@ -28,7 +34,6 @@ export function ProductShowcase({
   viewAllHref,
   featuredVideo,
   accent = "text-[hsl(var(--hf-accent))]",
-  aspect = "3/4",
 }: Props) {
   const { data: products = [], isLoading } = useProducts({ kinds, limit: 8 });
 
