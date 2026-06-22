@@ -19,6 +19,7 @@ import { useMentors, type Mentor } from "@/hooks/useMentors";
 import { useMentorVerificationsMap } from "@/hooks/useTrust";
 import { VerifiedTutorBadge } from "@/components/mentorship/VerifiedTutorBadge";
 import { MentorWaitlistSheet } from "@/components/mentorship/MentorWaitlistSheet";
+import { MentorBookingPanel } from "@/components/mentorship/MentorBookingPanel";
 import { SITE_URL } from "@/config/site";
 
 const FAQ = [
