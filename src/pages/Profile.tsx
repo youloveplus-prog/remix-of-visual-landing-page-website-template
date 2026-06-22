@@ -74,7 +74,8 @@ const Profile = () => {
   const isOwnProfile = !userId || userId === user?.id;
 
   const { data: profile, isLoading: profileLoading } = useProfile(targetUserId);
-  const { data: counts } = useProfileCounts(targetUserId);
+  const { data: counts, isLoading: countsLoading } = useProfileCounts(targetUserId);
+
   const { data: followers } = useFollowers(targetUserId || "");
   const { data: following } = useFollowing(targetUserId || "");
   const { data: userPosts } = usePosts({ userId: targetUserId, limit: 50 });
