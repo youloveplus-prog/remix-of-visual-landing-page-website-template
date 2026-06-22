@@ -25,6 +25,7 @@ import { AiTutorTeaser } from "@/components/home/higgsfield/AiTutorTeaser";
 import { CommunityStrip } from "@/components/home/higgsfield/CommunityStrip";
 import { TrustStrip } from "@/components/home/higgsfield/TrustStrip";
 import { HomeCtaPanel } from "@/components/home/higgsfield/HomeCtaPanel";
+import { MobileAppDownload } from "@/components/home/higgsfield/MobileAppDownload";
 
 // Heavy / below-the-fold sections — lazy-mounted on scroll
 const MentorshipSpotlight = lazy(() =>
@@ -132,6 +133,7 @@ const Index = () => {
         <Deferred><PartnerLogos /></Deferred>
         <Deferred><FaqAccordion /></Deferred>
         <ExploreTopicsCloud />
+        <MobileAppDownload />
         <HomeCtaPanel />
       </div>
 
