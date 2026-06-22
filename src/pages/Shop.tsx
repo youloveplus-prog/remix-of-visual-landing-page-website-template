@@ -349,6 +349,22 @@ const Shop = () => {
                     </div>
                   ))}
                 </div>
+              ) : productsError ? (
+                <div
+                  role="alert"
+                  className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-destructive/40 bg-destructive/5"
+                >
+                  <p className="font-display text-lg font-semibold mb-1">Couldn't load products</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Something went wrong reaching the catalog. Check your connection and try again.
+                  </p>
+                  <button
+                    onClick={() => refetchProducts()}
+                    className="rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90"
+                  >
+                    Retry
+                  </button>
+                </div>
               ) : filteredProducts && filteredProducts.length > 0 ? (
                 <div className={activeCategory === "Courses" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-6" : "grid-products"}>
                   {filteredProducts.map((product, idx) => (
