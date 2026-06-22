@@ -402,6 +402,26 @@
     color: transparent;
   }
   .shadow-premium { box-shadow: var(--shadow-premium); }
+
+  /* === 60/30/10 canvas ===
+     60% background (theme bg) · 30% brand-blue wash · 10% white hairline.
+     Drop on any <section> / page wrapper to inherit the global rhythm. */
+  .surface-60-30-10 {
+    position: relative;
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(60% 50% at 12% 0%, hsl(var(--brand-from) / 0.18) 0%, transparent 60%),
+      radial-gradient(50% 45% at 100% 10%, hsl(var(--brand-to) / 0.14) 0%, transparent 65%),
+      linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, transparent 30%);
+  }
+  .surface-60-30-10::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: var(--gradient-hairline);
+    pointer-events: none;
+  }
   .border-premium-gradient {
     position: relative;
     background-clip: padding-box;

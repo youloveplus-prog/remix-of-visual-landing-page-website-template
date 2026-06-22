@@ -27,7 +27,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       className={cn(
         "liquid-glass relative overflow-hidden rounded-2xl text-card-foreground transition-[box-shadow,border-color,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
         variant === "premium" &&
-          "bg-brand-gradient-soft border border-primary/15 shadow-[0_10px_30px_-10px_hsl(var(--brand-from)/0.25)]",
+          "border-premium-gradient bg-premium-gradient-soft shadow-premium",
         className,
       )}
       {...props}
