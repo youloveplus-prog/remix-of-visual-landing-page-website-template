@@ -34,7 +34,7 @@ export function MobileAppDownload() {
       className="hf-section hf-section-depth relative w-full bg-black"
     >
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div className="hf-card-depth relative overflow-hidden border border-white/10 bg-neutral-950">
+        <div className="hf-card-depth-elevated relative overflow-hidden border border-white/10 bg-neutral-950">
           {/* Indigo wash */}
           <div
             aria-hidden
@@ -58,10 +58,10 @@ export function MobileAppDownload() {
           <div className="relative grid gap-8 p-6 sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:gap-12 lg:p-14">
             {/* Copy */}
             <div className="min-w-0">
-              <p className="mb-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-[hsl(var(--hf-accent))]">
+              <p className="hf-eyebrow">
                 Mobile app · iOS & Android
               </p>
-              <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight leading-tight text-white">
+              <h2 className="hf-title font-display">
                 Take ASIKON with you. Learn, shop and chat on the go.
               </h2>
               <p className="mt-2 max-w-xl text-sm sm:text-[15px] text-white/60">

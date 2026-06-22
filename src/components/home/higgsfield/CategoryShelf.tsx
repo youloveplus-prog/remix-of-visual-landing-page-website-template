@@ -29,10 +29,10 @@ export function CategoryShelf() {
       <header className="hf-section-header mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="mb-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-[hsl(var(--hf-accent))]">
+            <p className="hf-eyebrow">
               Explore
             </p>
-            <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight leading-tight text-white">
+            <h2 className="hf-title font-display">
               Shop by category
             </h2>
             <p className="mt-2 max-w-xl text-sm sm:text-[15px] text-white/55">
@@ -134,12 +134,12 @@ function CategoryCard({
     <Link
       to={`/shop?category=${category.slug}`}
       aria-label={category.name}
-      className={`hf-card-depth group relative aspect-[5/3] sm:aspect-[4/3] overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30 ${className}`}
+      className={`hf-card-depth hf-card-hover group relative aspect-[5/3] sm:aspect-[4/3] overflow-hidden border border-white/10 bg-neutral-950 transition-colors hover:border-white/30 ${className}`}
     >
       {/* Gradient wash */}
       <div
         aria-hidden
-        className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-90 transition-opacity duration-500 group-hover:opacity-100`}
+        className={`hf-card-media absolute inset-0 bg-gradient-to-br ${gradient} opacity-90 transition-opacity duration-500 group-hover:opacity-100`}
       />
       {/* Soft grain dots */}
       <div

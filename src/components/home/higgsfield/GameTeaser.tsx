@@ -19,7 +19,7 @@ export function GameTeaser() {
           <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[hsl(var(--hf-accent))]">
             <Coins className="h-3.5 w-3.5" /> Earn coins
           </span>
-          <h2 className="mt-3 font-display text-xl sm:text-2xl font-medium tracking-tight leading-tight text-white">
+          <h2 className="mt-3 hf-title font-display">
             Learn. Play. Earn up to 100 coins a day.
           </h2>
           <p className="mt-2 max-w-sm text-[13px] text-white/55">
