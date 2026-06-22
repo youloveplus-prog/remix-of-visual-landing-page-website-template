@@ -34,7 +34,7 @@ function Card({ name, quote, img }: { name: string; quote: string; img: number }
 export function TestimonialsMarquee() {
   const row = [...REVIEWS, ...REVIEWS];
   return (
-    <section className="pt-10">
+    <section className="hf-section">
       <div className="mb-3 flex items-end justify-between px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-white">
           Learners love it

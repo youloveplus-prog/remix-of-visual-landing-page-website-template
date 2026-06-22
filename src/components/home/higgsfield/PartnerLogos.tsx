@@ -11,7 +11,7 @@ const PARTNERS = [
 
 export function PartnerLogos() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-10">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="mb-3 text-center text-[10px] uppercase tracking-[0.22em] text-white/35">
         Tools our learners build with
       </div>

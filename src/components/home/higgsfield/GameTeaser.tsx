@@ -9,7 +9,7 @@ const LEADERS = [
 
 export function GameTeaser() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-10">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <div className="relative overflow-hidden rounded-[12px] border border-white/10 bg-gradient-to-br from-neutral-950 to-black p-8">
           <div

@@ -7,7 +7,7 @@ const AVATARS = Array.from({ length: 10 }).map(
 
 export function CommunityStrip() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-10">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <Link
         to="/community"
         className="group flex items-center justify-between gap-6 rounded-[10px] border border-white/10 bg-neutral-950 p-5 hover:border-[hsl(var(--hf-accent))]/50"

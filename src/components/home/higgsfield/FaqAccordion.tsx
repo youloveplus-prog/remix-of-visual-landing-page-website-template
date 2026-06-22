@@ -34,7 +34,7 @@ const FAQS = [
 
 export function FaqAccordion() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-10">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="mb-3 flex items-end justify-between">
         <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-white">
           Frequently asked

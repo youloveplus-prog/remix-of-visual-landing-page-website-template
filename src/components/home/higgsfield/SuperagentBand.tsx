@@ -3,7 +3,7 @@ import { Bot, Sparkles, MessageSquare, Mic, Code2, BookOpen } from "lucide-react
 
 export function SuperagentBand() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-12">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="relative mx-auto max-w-[1400px] overflow-hidden rounded-[24px] border border-white/10 bg-black">
         {/* Indigo radial glow background */}
         <div

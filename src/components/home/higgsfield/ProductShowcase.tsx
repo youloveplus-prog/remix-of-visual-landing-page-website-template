@@ -42,7 +42,7 @@ export function ProductShowcase({
   return (
     <section
       aria-label={title}
-      className="hf-section-depth relative w-full bg-black py-12 sm:py-16"
+      className="hf-section hf-section-depth relative w-full bg-black"
     >
       {/* Header */}
       <header className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">

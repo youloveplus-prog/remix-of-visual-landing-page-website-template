@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export function HomeCtaPanel() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-12 pb-16">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-[12px] border border-white/10 bg-gradient-to-br from-neutral-950 via-neutral-900 to-black p-10 sm:p-16">
         <div
           aria-hidden
