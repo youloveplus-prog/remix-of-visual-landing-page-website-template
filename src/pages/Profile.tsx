@@ -342,12 +342,14 @@ const Profile = () => {
           following={counts?.following ?? following?.length ?? 0}
           xp={xp}
           level={level}
+          isLoading={countsLoading && !counts}
           onPostsClick={() => setActiveTab("posts")}
           onFollowersClick={() => setStatSheet("followers")}
           onFollowingClick={() => setStatSheet("following")}
           onXpClick={() => setActiveTab("learning")}
           onLevelClick={() => setActiveTab("learning")}
         />
+
 
         <ProfileActions
           isOwnProfile={isOwnProfile}
