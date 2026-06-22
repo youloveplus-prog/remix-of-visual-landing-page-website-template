@@ -211,7 +211,8 @@ export default {
         'brand-aurora': 'var(--gradient-aurora)',
         'brand-surface': 'var(--gradient-surface)',
         'brand-sheen': 'var(--gradient-sheen)',
-        'brand-hairline': 'var(--gradient-hairline)'
+        'brand-hairline': 'var(--gradient-hairline)',
+        'card-sheen': 'var(--gradient-card-sheen)'
       }
     }
   },
