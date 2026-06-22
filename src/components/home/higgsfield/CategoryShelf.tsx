@@ -26,7 +26,7 @@ export function CategoryShelf() {
       className="hf-section hf-section-depth relative w-full bg-black"
     >
       {/* Header */}
-      <header className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+      <header className="hf-section-header mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="mb-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-[hsl(var(--hf-accent))]">
@@ -51,7 +51,7 @@ export function CategoryShelf() {
       </header>
 
       {/* Mobile: scroll-snap row · Desktop: responsive grid */}
-      <div className="hf-section-header">
+      <div>
         {/* Mobile */}
         <div
           className="hf-snap-row flex gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:hidden"
