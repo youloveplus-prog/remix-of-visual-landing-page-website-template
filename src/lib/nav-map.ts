@@ -11,13 +11,13 @@ export interface TabDef {
 }
 
 export const TABS: TabDef[] = [
-  { id: "home", label: "Home", path: "/", matches: [] },
+  { id: "home", label: "Home", path: "/", matches: ["/track", "/lesson"] },
   { id: "explore", label: "Explore", path: "/shop", matches: ["/shop", "/product", "/cart", "/checkout", "/orders", "/wishlist"] },
-  { id: "game", label: "Earn", path: "/game", matches: ["/game", "/track", "/lesson"] },
   { id: "ai", label: "AI", path: "/learn", matches: ["/learn", "/prompts"] },
   { id: "community", label: "Community", path: "/community", matches: ["/community"] },
   { id: "profile", label: "Profile", path: "/profile", matches: ["/profile", "/settings", "/about", "/mentors"] },
 ];
+
 
 export function getActiveTab(pathname: string): TabId {
   if (pathname === "/") return "home";
@@ -32,7 +32,7 @@ export function getActiveTab(pathname: string): TabId {
 
 export function isInnerRoute(pathname: string): boolean {
   if (pathname === "/") return false;
-  const tabRoots = ["/learn", "/shop", "/profile", "/community", "/game"];
+  const tabRoots = ["/learn", "/shop", "/profile", "/community"];
   if (tabRoots.includes(pathname)) return false;
   return true;
 }
@@ -52,7 +52,6 @@ export function getRouteTitle(pathname: string): string {
   if (pathname === "/settings") return "Settings";
   if (pathname === "/about") return "About";
   if (pathname === "/community") return "Community";
-  if (pathname === "/game") return "Earn";
   if (pathname.startsWith("/mentors")) return "Mentorship";
   if (pathname === "/create") return "Create";
   if (pathname === "/prompts") return "Prompts";

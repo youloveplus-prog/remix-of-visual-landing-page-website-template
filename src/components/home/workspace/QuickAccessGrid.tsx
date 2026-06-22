@@ -15,7 +15,7 @@ const TILES: Tile[] = [
   { icon: Sparkles,       label: "AI Tutor", href: "/learn" },
   { icon: GraduationCap,  label: "Courses",  href: "/shop?type=courses" },
   { icon: Wand2,          label: "Prompts",  href: "/prompts" },
-  { icon: Gamepad2,       label: "Earn",     href: "/game" },
+  { icon: CalendarCheck2, label: "Revision", href: "/revision" },
   { icon: Users,          label: "Mentors",  href: "/mentors" },
 ];
 
@@ -28,7 +28,7 @@ const ALL_TILES: Tile[] = [
   { icon: Bell,           label: "Alerts",    href: "/notifications" },
   { icon: Heart,          label: "Wishlist",  href: "/wishlist" },
   { icon: Bookmark,       label: "Saved",     href: "/profile" },
-  { icon: Trophy,         label: "Rewards",   href: "/profile" },
+  { icon: Trophy,         label: "Leaderboard", href: "/leaderboard" },
   { icon: Video,          label: "Videos",    href: "/community" },
   { icon: Radio,          label: "Live",      href: "/community" },
   { icon: HelpCircle,     label: "Help",      href: "/contact" },

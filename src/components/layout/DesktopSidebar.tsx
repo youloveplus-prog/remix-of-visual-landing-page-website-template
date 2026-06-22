@@ -135,7 +135,7 @@ export function DesktopSidebar({
     { icon: Home, label: "Home", href: "/" },
     { icon: Library, label: "Library", href: "/shop" },
     { icon: Users, label: "Community", href: "/community" },
-    { icon: Gamepad2, label: "Game & Rewards", href: "/game" },
+    { icon: Sparkles, label: "AI Tutor", href: "/learn" },
   ];
 
   const shopNavItems = [

@@ -72,7 +72,7 @@ export default function Learn() {
     navigate(`/learn/${t.id}`);
   };
 
-  const handleBack = () => navigate("/game");
+  const handleBack = () => navigate("/");
 
   if (loading) {
     return (

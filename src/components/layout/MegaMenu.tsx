@@ -106,18 +106,18 @@ const PANELS: Panel[] = [
   {
     label: "Community",
     icon: Users,
-    matchPaths: ["/community", "/game"],
+    matchPaths: ["/community"],
     items: [
       { icon: MessageSquare, label: "Feed", href: "/community", desc: "Latest from learners" },
       { icon: Video, label: "Live & shorts", href: "/community", desc: "Watch and learn" },
       { icon: Users, label: "Reviews", href: "/community", desc: "Verified buyer reviews" },
-      { icon: Trophy, label: "Game & rewards", href: "/game", desc: "Earn coins, climb ranks" },
+      { icon: Trophy, label: "Leaderboard", href: "/leaderboard", desc: "See top learners this week" },
     ],
     quick: [
       { label: "My feed", href: "/community" },
       { label: "Top reviewers", href: "/community" },
-      { label: "Leaderboard", href: "/game" },
-      { label: "How rewards work", href: "/game" },
+      { label: "Leaderboard", href: "/leaderboard" },
+      { label: "Revision Center", href: "/revision" },
     ],
     feature: {
       eyebrow: "Join free",
