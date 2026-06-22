@@ -137,19 +137,19 @@
     --border: 0 0% 14%;
     --input: 0 0% 0%;
 
-    --ring: 234 80% 62%;
+    --ring: 228 100% 60%;
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 234 80% 62%;
+    --sidebar-primary: 228 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 0%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 14%;
-    --sidebar-ring: 234 80% 62%;
-    --chart-1: 234 80% 62%;
-    --chart-2: 162 90% 45%;
-    --chart-3: 45 95% 55%;
-    --chart-4: 220 90% 65%;
+    --sidebar-ring: 228 100% 60%;
+    --chart-1: 228 100% 60%;
+    --chart-2: 252 100% 75%;
+    --chart-3: 236 100% 30%;
+    --chart-4: 225 50% 92%;
     --chart-5: 270 70% 65%;
 
     /* Shared panel surface tokens — dark = pure black for global consistency */
@@ -164,19 +164,19 @@
     --glass-border: 0 0% 14%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops — dark theme overrides */
-    --brand-from: 234 80% 62%;
-    --brand-via: 227 82% 63%;
-    --brand-to: 220 85% 65%;
-    --brand-soft-from: 234 80% 62%;
-    --brand-soft-to: 162 90% 45%;
+    /* Brand gradient stops — Navy → Electric Blue → Violet (dark) */
+    --brand-from: 236 100% 18%;
+    --brand-via: 228 100% 55%;
+    --brand-to: 252 100% 75%;
+    --brand-soft-from: 228 100% 55%;
+    --brand-soft-to: 252 100% 75%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.14) 0%, hsl(var(--brand-soft-to) / 0.08) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(222 40% 9%) 0%, hsl(222 47% 5%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-via)) 55%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.18) 0%, hsl(var(--brand-soft-to) / 0.14) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(236 100% 6%) 0%, hsl(0 0% 0%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-from) / 0.14) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-soft-to) / 0.10) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.22) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.16) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
     --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
