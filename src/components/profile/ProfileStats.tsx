@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { cn, formatCount } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProfileStatsProps {
   posts: number;
@@ -7,12 +8,14 @@ interface ProfileStatsProps {
   following: number;
   xp: number;
   level: number;
+  isLoading?: boolean;
   onPostsClick?: () => void;
   onFollowersClick?: () => void;
   onFollowingClick?: () => void;
   onXpClick?: () => void;
   onLevelClick?: () => void;
 }
+
 
 /** Animated count-up that respects prefers-reduced-motion. */
 function useCountUp(target: number, duration = 600) {
