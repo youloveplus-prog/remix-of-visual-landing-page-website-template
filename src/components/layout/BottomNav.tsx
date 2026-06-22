@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
+import { haptic } from "@/lib/haptics";
 
 /* ---------- Explore (compass) ---------- */
 const ExploreOutline: IconComponent = (props) => (
@@ -245,8 +246,11 @@ function NavItem({
   const handleClick = (e: React.MouseEvent) => {
     if (active && pathname === item.path) {
       e.preventDefault();
+      haptic("selection");
       window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
+    haptic("light");
   };
 
   const showBadge = typeof item.badge === "number" && item.badge > 0;
