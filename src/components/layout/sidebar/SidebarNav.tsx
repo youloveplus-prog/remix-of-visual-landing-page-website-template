@@ -37,20 +37,18 @@ function NavItem({ icon, label, href, isActive, onClick }: NavItemProps) {
       to={href}
       onClick={onClick}
       className={cn(
-        "relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all active:scale-[0.98]",
+        "flex items-center gap-3 h-12 px-3 rounded-[14px] transition-colors active:scale-[0.99]",
         isActive
-          ? "bg-primary/10 text-primary font-medium"
-          : "text-foreground/85 hover:bg-secondary/70 hover:text-foreground"
+          ? "bg-primary/10 text-primary"
+          : "text-foreground/70 hover:bg-foreground/[0.04] hover:text-foreground"
       )}
     >
-      {isActive && (
-        <span
-          aria-hidden
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 rounded-r-full bg-primary"
-        />
-      )}
-      <span className={cn("flex-shrink-0", isActive && "text-primary")}>{icon}</span>
-      <span className="font-medium text-sm">{label}</span>
+      <span className={cn("flex-shrink-0", isActive ? "text-primary" : "text-foreground/60")}>
+        {icon}
+      </span>
+      <span className={cn("text-sm truncate", isActive ? "font-semibold" : "font-medium")}>
+        {label}
+      </span>
     </Link>
   );
 }
