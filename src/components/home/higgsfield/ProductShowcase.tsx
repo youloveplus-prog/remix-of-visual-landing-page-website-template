@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
@@ -13,7 +14,11 @@ type Props = {
   featuredVideo?: string;
   /** Tailwind text color class for the eyebrow accent. */
   accent?: string;
+  /** Card aspect ratio for the media frame (e.g. "3/4", "4/5", "16/9"). */
+  aspect?: string;
 };
+
+const SKELETON_COUNT = 4;
 
 export function ProductShowcase({
   title,
@@ -23,10 +28,11 @@ export function ProductShowcase({
   viewAllHref,
   featuredVideo,
   accent = "text-[hsl(var(--hf-accent))]",
+  aspect = "3/4",
 }: Props) {
-  const { data: products = [] } = useProducts({ kinds, limit: 8 });
+  const { data: products = [], isLoading } = useProducts({ kinds, limit: 8 });
 
-  if (products.length === 0) return null;
+  if (!isLoading && products.length === 0) return null;
 
   return (
     <section
@@ -68,83 +74,160 @@ export function ProductShowcase({
         className="mt-6 sm:mt-8 flex gap-3 sm:gap-4 overflow-x-auto overscroll-x-contain px-4 sm:px-6 lg:px-8 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory"
         style={{ scrollPaddingLeft: "1rem" }}
       >
-        {products.map((p, i) => {
-          const isFeatured = i === 0 && Boolean(featuredVideo);
-          return (
-            <Link
-              key={p.id}
-              to={`/product/${p.slug ?? p.id}`}
-              className="group relative shrink-0 snap-start basis-[78%] sm:basis-[42%] lg:basis-[28%] xl:basis-[23%]"
-              aria-label={p.name}
-            >
-              <div className="relative aspect-[4/5] sm:aspect-[3/4] w-full overflow-hidden border border-white/10 bg-neutral-900">
-                {isFeatured ? (
-                  <video
-                    src={featuredVideo}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    poster={p.image_url}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+        {isLoading
+          ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+              <SkeletonCard key={`sk-${i}`} aspect={aspect} />
+            ))
+          : products.map((p, i) => {
+              const video =
+                (p as any).video_url ||
+                (i === 0 && featuredVideo ? featuredVideo : undefined);
+              return (
+                <Link
+                  key={p.id}
+                  to={`/product/${p.slug ?? p.id}`}
+                  className="group relative shrink-0 snap-start basis-[78%] sm:basis-[42%] lg:basis-[28%] xl:basis-[23%]"
+                  aria-label={p.name}
+                >
+                  <CardMedia
+                    image={p.image_url}
+                    video={video}
+                    eager={i < 2}
+                    aspect={aspect}
                   />
-                ) : (
-                  <img
-                    src={p.image_url || "/placeholder.svg"}
-                    alt=""
-                    loading={i < 2 ? "eager" : "lazy"}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
-                    draggable={false}
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
 
-                {/* Kind chip */}
-                <span className="absolute left-3 top-3 inline-flex items-center gap-1 bg-black/65 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
-                  <span className={`h-1.5 w-1.5 rounded-full bg-current ${accent}`} />
-                  {labelForKind(p.kind)}
-                </span>
-
-                {/* Play icon for course featured tile */}
-                {isFeatured && (
-                  <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center bg-white/10 text-white backdrop-blur ring-1 ring-white/20">
-                    <Play className="h-4 w-4 fill-current" />
-                  </span>
-                )}
-
-                {/* Caption block */}
-                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
-                  <h3 className="font-display text-[15px] sm:text-[17px] font-bold leading-tight text-white line-clamp-2">
-                    {p.name}
-                  </h3>
-                  <div className="mt-1.5 flex items-baseline justify-between gap-2">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/55">
-                      {p.category || labelForKind(p.kind)}
-                    </span>
-                    <span className="font-display text-sm font-semibold text-white tabular-nums">
-                      ৳{Number(p.price).toLocaleString()}
-                    </span>
+                  {/* Caption block */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                    <h3 className="font-display text-[15px] sm:text-[17px] font-bold leading-tight text-white line-clamp-2">
+                      {p.name}
+                    </h3>
+                    <div className="mt-1.5 flex items-baseline justify-between gap-2">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/55">
+                        {p.category || labelForKind(p.kind)}
+                      </span>
+                      <span className="font-display text-sm font-semibold text-white tabular-nums">
+                        ৳{Number(p.price).toLocaleString()}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+
+                  {/* Kind chip */}
+                  <span className="pointer-events-none absolute left-3 top-3 inline-flex items-center gap-1 bg-black/65 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur z-10">
+                    <span className={`h-1.5 w-1.5 rounded-full bg-current ${accent}`} />
+                    {labelForKind(p.kind)}
+                  </span>
+
+                  {/* Play badge for any video tile */}
+                  {video && (
+                    <span className="pointer-events-none absolute right-3 top-3 grid h-9 w-9 place-items-center bg-white/10 text-white backdrop-blur ring-1 ring-white/20 z-10">
+                      <Play className="h-4 w-4 fill-current" />
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
 
         {/* Mobile "View all" tile at end */}
-        <Link
-          to={viewAllHref}
-          className="sm:hidden grid shrink-0 snap-start basis-[40%] place-items-center border border-white/15 bg-white/[0.04] text-white/80 hover:border-white/35 hover:bg-white/[0.08] transition"
-        >
-          <span className="flex flex-col items-center gap-2 px-4 text-center">
-            <ArrowRight className="h-5 w-5" />
-            <span className="text-xs font-semibold uppercase tracking-[0.14em]">
-              View all
+        {!isLoading && (
+          <Link
+            to={viewAllHref}
+            className="sm:hidden grid shrink-0 snap-start basis-[40%] place-items-center border border-white/15 bg-white/[0.04] text-white/80 hover:border-white/35 hover:bg-white/[0.08] transition"
+          >
+            <span className="flex flex-col items-center gap-2 px-4 text-center">
+              <ArrowRight className="h-5 w-5" />
+              <span className="text-xs font-semibold uppercase tracking-[0.14em]">
+                View all
+              </span>
             </span>
-          </span>
-        </Link>
+          </Link>
+        )}
       </div>
     </section>
+  );
+}
+
+/* ─────────────── CardMedia: image or video w/ skeleton ─────────────── */
+
+function CardMedia({
+  image,
+  video,
+  eager,
+  aspect,
+}: {
+  image?: string;
+  video?: string;
+  eager?: boolean;
+  aspect: string;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div
+      className="relative w-full overflow-hidden border border-white/10 bg-neutral-900"
+      style={{ aspectRatio: aspect }}
+    >
+      {/* Shimmer skeleton — covers until media loads */}
+      <div
+        aria-hidden
+        className={`absolute inset-0 bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-white/[0.06] transition-opacity duration-500 ${
+          loaded ? "opacity-0" : "opacity-100 animate-pulse"
+        }`}
+      />
+
+      {video ? (
+        <video
+          src={video}
+          poster={image}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          onLoadedData={() => setLoaded(true)}
+          onCanPlay={() => setLoaded(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04] ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      ) : (
+        <img
+          src={image || "/placeholder.svg"}
+          alt=""
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
+          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06] ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          draggable={false}
+        />
+      )}
+
+      {/* Caption gradient — only after media loads to avoid double-dim */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent transition-opacity duration-500 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
+    </div>
+  );
+}
+
+function SkeletonCard({ aspect }: { aspect: string }) {
+  return (
+    <div className="shrink-0 snap-start basis-[78%] sm:basis-[42%] lg:basis-[28%] xl:basis-[23%]">
+      <div
+        className="relative w-full overflow-hidden border border-white/10 bg-neutral-900"
+        style={{ aspectRatio: aspect }}
+      >
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-white/[0.06] via-white/[0.02] to-white/[0.06]" />
+      </div>
+      <div className="mt-3 space-y-2">
+        <div className="h-3.5 w-3/4 animate-pulse bg-white/[0.06]" />
+        <div className="h-3 w-1/3 animate-pulse bg-white/[0.05]" />
+      </div>
+    </div>
   );
 }
 
