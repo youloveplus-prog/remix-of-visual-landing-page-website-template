@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Package, Settings, Sparkles } from "lucide-react";
+import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
@@ -10,39 +10,7 @@ interface SidebarUserProps {
   onClose?: () => void;
 }
 
-function QuickAction({
-  to,
-  icon,
-  label,
-  count,
-  onClose,
-}: {
-  to: string;
-  icon: React.ReactNode;
-  label: string;
-  count?: number;
-  onClose?: () => void;
-}) {
-  return (
-    <Link
-      to={to}
-      onClick={onClose}
-      className="group relative flex flex-col items-center justify-center gap-1 rounded-2xl bg-background/60 hover:bg-primary/10 active:scale-[0.97] border border-border/50 hover:border-primary/30 px-2 py-2.5 transition-all"
-    >
-      <div className="relative text-foreground/80 group-hover:text-primary transition-colors">
-        {icon}
-        {count !== undefined && count > 0 && (
-          <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-primary text-[10px] font-semibold text-primary-foreground flex items-center justify-center">
-            {count > 99 ? "99+" : count}
-          </span>
-        )}
-      </div>
-      <span className="text-[10px] font-medium text-muted-foreground group-hover:text-foreground">
-        {label}
-      </span>
-    </Link>
-  );
-}
+
 
 export function SidebarUser({ onClose }: SidebarUserProps) {
   const { user, isLoggedIn, loading } = useAuth();
