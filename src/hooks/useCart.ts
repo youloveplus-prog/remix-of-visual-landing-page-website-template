@@ -49,7 +49,7 @@ export function useAddToCart() {
         .eq("user_id", user.id)
         .eq("product_id", productId)
         .eq("variant_id", variantId || null)
-        .single();
+        .maybeSingle();
 
       if (existing) {
         // Update quantity
