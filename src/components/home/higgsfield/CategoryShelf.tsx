@@ -54,8 +54,7 @@ export function CategoryShelf() {
       <div className="mt-6 sm:mt-8">
         {/* Mobile */}
         <div
-          className="flex gap-3 overflow-x-auto overscroll-x-contain px-4 pb-3 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:hidden"
-          style={{ scrollPaddingLeft: "1rem", scrollPaddingRight: "1rem" }}
+          className="hf-snap-row flex gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:hidden"
         >
           {(isLoading ? Array.from({ length: 6 }) : items).map((c: any, i) => (
             <CategoryCard
