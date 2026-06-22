@@ -64,7 +64,7 @@ function ShortcutTile({
           </span>
         )}
       </span>
-      <span className="text-[13px] font-semibold text-foreground leading-tight truncate">
+      <span className="text-[12.5px] font-semibold text-foreground leading-tight truncate">
         {label}
       </span>
     </Link>
