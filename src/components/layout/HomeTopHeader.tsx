@@ -96,25 +96,28 @@ export function HomeTopHeader({ cartCount = 0 }: HomeTopHeaderProps) {
           isScrolled && "shadow-[0_8px_24px_-16px_hsl(0_0%_0%/0.3)]"
         )}
       >
-        <div className="container-editorial flex items-center gap-4 py-2">
+        <div className="container-editorial flex items-center gap-3 py-2">
           <HeaderBrand compact={isScrolled} />
+
+          {/* Divider — brand | nav */}
+          <span aria-hidden className="hidden md:block h-6 w-px bg-border/70 dark:bg-white/10" />
 
           {/* Horizontal scrollable nav links */}
           <nav
             aria-label="Primary"
             className={cn(
               "min-w-0 flex-1 overflow-x-auto scrollbar-hide",
-              "[mask-image:linear-gradient(to_right,transparent,#000_24px,#000_calc(100%-24px),transparent)]"
+              "[mask-image:linear-gradient(to_right,transparent,#000_16px,#000_calc(100%-16px),transparent)]"
             )}
           >
-            <ul className="flex items-center gap-0.5 px-2 whitespace-nowrap">
+            <ul className="flex items-center gap-0.5 whitespace-nowrap">
               {NAV_ITEMS.map((item) => (
                 <li key={item.to + item.label}>
                   <Link
                     to={item.to}
                     className={cn(
                       "inline-flex items-center rounded-full px-3 py-1.5",
-                      "text-[13px] font-medium text-foreground/80",
+                      "text-[13px] font-medium text-foreground/75",
                       "hover:text-foreground hover:bg-secondary/70 transition-colors",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     )}
@@ -126,6 +129,9 @@ export function HomeTopHeader({ cartCount = 0 }: HomeTopHeaderProps) {
               ))}
             </ul>
           </nav>
+
+          {/* Divider — nav | actions */}
+          <span aria-hidden className="hidden md:block h-6 w-px bg-border/70 dark:bg-white/10" />
 
           {/* Right-side actions */}
           <div className="flex items-center gap-0.5 shrink-0">
