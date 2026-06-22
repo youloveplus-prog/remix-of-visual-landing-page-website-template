@@ -90,37 +90,14 @@ export function SidebarUser({ onClose }: SidebarUserProps) {
         </Link>
       </Link>
 
-      {/* Quick row: Cart · Saved (the only two with live counts) */}
-      <div className="grid grid-cols-2 gap-2 mt-3">
-        <Link
-          to="/cart"
-          onClick={onClose}
-          className="flex items-center justify-between h-10 px-3 rounded-[12px] bg-foreground/[0.04] hover:bg-foreground/[0.07] transition-colors"
-        >
-          <span className="flex items-center gap-2 text-[13px] font-medium text-foreground/80">
-            <ShoppingBag className="w-4 h-4" /> Cart
-          </span>
-          {cartCount > 0 && (
-            <span className="text-[10px] font-bold text-primary-foreground bg-primary rounded-full min-w-[18px] h-[18px] px-1.5 inline-flex items-center justify-center tabular-nums">
-              {cartCount > 99 ? "99+" : cartCount}
-            </span>
-          )}
-        </Link>
-        <Link
-          to="/wishlist"
-          onClick={onClose}
-          className="flex items-center justify-between h-10 px-3 rounded-[12px] bg-foreground/[0.04] hover:bg-foreground/[0.07] transition-colors"
-        >
-          <span className="flex items-center gap-2 text-[13px] font-medium text-foreground/80">
-            <Heart className="w-4 h-4" /> Saved
-          </span>
-          {wishlistCount > 0 && (
-            <span className="text-[10px] font-bold text-foreground/80 bg-foreground/10 rounded-full min-w-[18px] h-[18px] px-1.5 inline-flex items-center justify-center tabular-nums">
-              {wishlistCount > 99 ? "99+" : wishlistCount}
-            </span>
-          )}
-        </Link>
-      </div>
+      {/* "View your profile" link, FB-style */}
+      <Link
+        to="/profile"
+        onClick={onClose}
+        className="mt-3 flex items-center justify-center h-9 rounded-[12px] bg-foreground/[0.04] hover:bg-foreground/[0.07] transition-colors text-[12px] font-semibold text-foreground/75"
+      >
+        View your profile
+      </Link>
     </div>
   );
 }
