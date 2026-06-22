@@ -48,8 +48,6 @@ export function SidebarUser({ onClose }: SidebarUserProps) {
 
   const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
   const avatarUrl = user?.user_metadata?.avatar_url;
-  const cartCount = cart?.length ?? 0;
-  const wishlistCount = wishlist?.length ?? 0;
 
   return (
     <div className="relative px-4 pt-5 pb-3">
