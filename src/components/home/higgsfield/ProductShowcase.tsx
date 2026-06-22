@@ -81,7 +81,7 @@ export function ProductShowcase({
       >
         {isLoading
           ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-              <SkeletonCard key={`sk-${i}`} aspect={aspect} />
+              <SkeletonCard key={`sk-${i}`} />
             ))
           : products.map((p, i) => {
               const video =
@@ -98,7 +98,6 @@ export function ProductShowcase({
                     image={p.image_url}
                     video={video}
                     eager={i < 2}
-                    aspect={aspect}
                   />
 
                   {/* Caption block */}
