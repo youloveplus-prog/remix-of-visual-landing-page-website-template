@@ -181,7 +181,7 @@ export function HeroFeatureSlider({
             type="button"
             aria-label={`Go to slide ${i + 1}`}
             onClick={() => emblaApi?.scrollTo(i)}
-            className={`h-1 rounded-full transition-all ${
+            className={`h-1 transition-all ${
               selected === i ? "w-6 bg-white" : "w-1.5 bg-white/30 hover:bg-white/60"
             }`}
           />
