@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { TestimonialsColumn } from "@/components/ui/testimonials-columns-1";
+import { homeType } from "@/components/home/typography";
 
 const testimonials = [
   {
