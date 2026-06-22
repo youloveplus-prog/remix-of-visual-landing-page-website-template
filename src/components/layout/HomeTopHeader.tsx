@@ -9,6 +9,7 @@ import { SmartSearch } from "@/components/search/SmartSearch";
 import { UserMenu } from "./UserMenu";
 import { NotificationsMenu } from "./NotificationsMenu";
 import { HeaderBrand } from "./HeaderBrand";
+import { MegaMenu } from "./MegaMenu";
 
 interface HomeTopHeaderProps {
   cartCount?: number;
@@ -66,6 +67,18 @@ export function HomeTopHeader({ cartCount = 0 }: HomeTopHeaderProps) {
             <NotificationsMenu />
             <UserMenu />
           </div>
+        </div>
+      </div>
+
+      {/* Row 2 — mega menu */}
+      <div
+        className={cn(
+          "relative z-[1] py-0.5 overflow-visible liquid-nav",
+          "border-b border-border/40 dark:border-white/5"
+        )}
+      >
+        <div className="container-editorial flex items-center justify-center">
+          <MegaMenu />
         </div>
       </div>
     </header>
