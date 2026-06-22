@@ -10,7 +10,7 @@ const BUBBLES = [
 
 export function AiTutorTeaser() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-10">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-3 overflow-hidden rounded-[12px] border border-white/10 bg-neutral-950 lg:grid-cols-2">
         <div className="border-b border-white/10 p-6 sm:p-8 lg:border-b-0 lg:border-r">
           <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[hsl(var(--hf-accent))]">

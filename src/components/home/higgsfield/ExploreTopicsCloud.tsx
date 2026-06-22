@@ -41,7 +41,7 @@ const TOPICS: { label: string; to: string }[] = [
 
 export function ExploreTopicsCloud() {
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-[1100px] text-center">
         <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-white sm:text-5xl lg:text-6xl">
           Explore more <span className="text-[hsl(var(--hf-accent))]">learning</span> topics

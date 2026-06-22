@@ -19,7 +19,7 @@ export function TrendingRail({
 }) {
   if (!items.length) return null;
   return (
-    <section className="pt-10">
+    <section className="hf-section">
       <div className="mb-3 flex items-end justify-between px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-white">
           {title}

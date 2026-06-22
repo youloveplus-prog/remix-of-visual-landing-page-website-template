@@ -42,10 +42,10 @@ export function ProductShowcase({
   return (
     <section
       aria-label={title}
-      className="hf-section-depth relative w-full bg-black py-12 sm:py-16"
+      className="hf-section hf-section-depth relative w-full bg-black"
     >
       {/* Header */}
-      <header className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+      <header className="hf-section-header mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
             {eyebrow && (
@@ -76,7 +76,7 @@ export function ProductShowcase({
 
       {/* Horizontal scroll row */}
       <div
-        className="hf-snap-row mt-6 sm:mt-8 flex gap-3 sm:gap-4 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="hf-snap-row flex gap-3 sm:gap-4 overflow-x-auto px-4 sm:px-6 lg:px-8 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
         {isLoading
           ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (

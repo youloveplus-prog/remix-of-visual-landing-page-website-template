@@ -55,7 +55,7 @@ export function PromoToolsBlock() {
   };
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 pt-12">
+    <section className="hf-section px-4 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-3 lg:grid-cols-[360px_1fr]">
         {/* Promo card */}
         <Link

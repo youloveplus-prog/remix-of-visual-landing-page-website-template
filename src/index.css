@@ -420,6 +420,28 @@
     z-index: 2;
   }
 
+  /* === Higgsfield section rhythm — one source of truth for vertical spacing.
+     `.hf-section` standardizes the outer top/bottom padding of every home rail
+     so successive sections stack with the same cadence. `.hf-section-header`
+     standardizes the gap between the title block and its content (rail, grid,
+     accordion, etc). Within the header, keep eyebrow→h2 = `mb-2` and
+     h2→description = `mt-2`. */
+  .hf-section {
+    padding-top: 2.5rem;     /* 40px */
+    padding-bottom: 2.5rem;
+  }
+  @media (min-width: 640px) {
+    .hf-section { padding-top: 3.5rem; padding-bottom: 3.5rem; } /* 56px */
+  }
+  .hf-section-header {
+    margin-bottom: 1.25rem;  /* 20px */
+  }
+  @media (min-width: 640px) {
+    .hf-section-header { margin-bottom: 1.5rem; } /* 24px */
+  }
+
+
+
   /* === Calm glass v4 — Apple-like, lower blur, lower opacity. === */
   .glass {
     position: relative;
