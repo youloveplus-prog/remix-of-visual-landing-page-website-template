@@ -231,13 +231,16 @@ export function ProfileHeader({
           )}
         </div>
 
-        <div className="mt-3 flex items-center gap-1.5 min-w-0">
-          <h1 className="font-display text-[22px] sm:text-[26px] font-semibold tracking-tight truncate">{user.name}</h1>
+        <span className="hf-eyebrow mt-4">
+          {isOwnProfile ? "Your Profile" : "Member"}
+        </span>
+        <div className="mt-1.5 flex items-center gap-1.5 min-w-0">
+          <h1 className="hf-title font-display truncate">{user.name}</h1>
           {user.isVerified && (
             <BadgeCheck className="h-5 w-5 text-foreground/70 shrink-0" aria-label="Verified" />
           )}
         </div>
-        <p className="text-[13px] text-muted-foreground">@{user.username}</p>
+        <p className="mt-1 text-[13px] text-muted-foreground">@{user.username}</p>
 
         {/* Trust chip */}
         {user.trustScore > 0 && (
