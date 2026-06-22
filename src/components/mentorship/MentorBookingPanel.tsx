@@ -358,11 +358,33 @@ export function MentorBookingPanel({ mentor }: Props) {
                 </div>
               </div>
 
+              {submitError && (
+                <div className="flex items-start gap-2 rounded-xl border border-destructive/40 bg-destructive/5 p-3 text-[12.5px] text-destructive">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{submitError}</span>
+                </div>
+              )}
+
               <DialogFooter className="gap-2 sm:gap-2">
-                <Button variant="outline" onClick={() => setConfirmOpen(false)}>
+                <Button
+                  variant="outline"
+                  onClick={() => setConfirmOpen(false)}
+                  disabled={submitting}
+                >
                   Back
                 </Button>
-                <Button onClick={handleConfirm}>Confirm booking</Button>
+                <Button onClick={handleConfirm} disabled={submitting}>
+                  {submitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Sending…
+                    </>
+                  ) : submitError ? (
+                    "Try again"
+                  ) : (
+                    "Confirm booking"
+                  )}
+                </Button>
               </DialogFooter>
             </>
           ) : (
