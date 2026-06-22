@@ -58,8 +58,38 @@ const DEFAULT_BRAND = "Asikon Academy";
 
 export const ProductCard = forwardRef<HTMLDivElement, ProductCardProps>(
   ({ product, variant = "default" }, ref) => {
-    const [isWishlisted, setIsWishlisted] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user } = useAuth();
+    const { data: wishlist } = useWishlist();
+    const addToWishlist = useAddToWishlist();
+    const removeFromWishlist = useRemoveFromWishlist();
+    const wishlistEntry = wishlist?.find((w: any) => String(w.product_id) === String(product.id));
+    const isWishlisted = !!wishlistEntry;
+    const wishlistBusy = addToWishlist.isPending || removeFromWishlist.isPending;
     const [showQuickView, setShowQuickView] = useState(false);
+
+    const handleWishlistToggle = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (wishlistBusy) return;
+      if (!user) {
+        toast.info("Sign in to save items to your wishlist");
+        navigate(`/auth?redirect=${encodeURIComponent(location.pathname + location.search)}`);
+        return;
+      }
+      if (isWishlisted && wishlistEntry) {
+        removeFromWishlist.mutate(wishlistEntry.id, {
+          onSuccess: () => toast.success("Removed from wishlist"),
+          onError: (err: any) => toast.error(err?.message ?? "Couldn't update wishlist"),
+        });
+      } else {
+        addToWishlist.mutate(String(product.id), {
+          onSuccess: () => toast.success("Saved to wishlist"),
+          onError: (err: any) => toast.error(err?.message ?? "Couldn't save to wishlist"),
+        });
+      }
+    };
 
     const discount = product.originalPrice
       ? Math.round((1 - product.price / product.originalPrice) * 100)
