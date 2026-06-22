@@ -192,9 +192,35 @@ const OrderDetail = () => {
             <p className="font-mono text-sm bg-muted/60 px-3 py-2.5 rounded-lg">{order.tracking_number}</p>
           </DetailSection>
         )}
+
+        <CrossLinkChips
+          eyebrow="Keep exploring"
+          links={[
+            { label: "Ask AI Tutor", to: "/ai-tutor", icon: Sparkles },
+            { label: "Continue shopping", to: "/shop", icon: ShoppingBag },
+            { label: "Community", to: "/community", icon: MessageCircle },
+            { label: "Need help?", to: "/help", icon: LifeBuoy },
+          ]}
+        />
+
+        <OrderRelatedRail />
       </MobilePage>
     </AppLayout>
   );
 };
+
+function OrderRelatedRail() {
+  const { items, isLoading } = useRecommendations({ kind: "home" });
+  return (
+    <RelatedRail
+      title="You might also like"
+      eyebrow="Recommended"
+      items={items}
+      isLoading={isLoading}
+      emptyHint="Browse the shop for more."
+      viewAllHref="/shop"
+    />
+  );
+}
 
 export default OrderDetail;
