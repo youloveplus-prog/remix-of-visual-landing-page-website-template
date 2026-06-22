@@ -36,10 +36,10 @@ export function useAddToWishlist() {
 
       const { data, error } = await supabase
         .from("wishlists")
-        .insert({
-          user_id: user.id,
-          product_id: productId,
-        })
+        .upsert(
+          { user_id: user.id, product_id: productId },
+          { onConflict: "user_id,product_id", ignoreDuplicates: false },
+        )
         .select()
         .single();
 
