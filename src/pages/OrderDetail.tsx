@@ -70,9 +70,14 @@ const OrderDetail = () => {
         noIndex
       />
       <MobilePage maxWidth="standard" spacing="space-y-8">
-        <Link to="/orders" className="inline-flex items-center text-[13px] text-muted-foreground hover:text-foreground gap-1 active:opacity-60">
-          <ArrowLeft className="h-3.5 w-3.5" /> All orders
-        </Link>
+        <Breadcrumbs
+          eyebrow="Order"
+          items={[
+            { label: "Orders", to: "/orders" },
+            { label: `#${order.id.slice(0, 8)}` },
+          ]}
+        />
+
 
         <PageHero
           eyebrow={`Order #${order.id.slice(0, 8)}`}
