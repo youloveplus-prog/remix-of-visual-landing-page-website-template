@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard, ArrowLeft } from "lucide-react";
+import { Package, Clock, CheckCircle, Truck, XCircle, MapPin, CreditCard, Sparkles, ShoppingBag, MessageCircle, LifeBuoy } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SEO } from "@/components/SEO";
 import { MobilePage } from "@/components/layout/MobilePage";
@@ -8,6 +8,10 @@ import { DetailSection } from "@/components/ui/detail-section";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { CrossLinkChips } from "@/components/connect/CrossLinkChips";
+import { RelatedRail } from "@/components/connect/RelatedRail";
+import { useRecommendations } from "@/hooks/useRecommendations";
 import { useOrder } from "@/hooks/useOrders";
 import { useAuth } from "@/hooks/useAuth";
 import { Price } from "@/lib/currency";
