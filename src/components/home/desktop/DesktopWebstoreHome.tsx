@@ -53,7 +53,7 @@ function ProductGrid({ items, title, viewAllHref }: { items: CardItem[]; title: 
   return (
     <section>
       <div className="flex justify-between items-end mb-5">
-        <h2 className="font-display text-2xl font-bold tracking-tight">{title}</h2>
+        <h2 className="hf-title font-display">{title}</h2>
         <Link to={viewAllHref} className="text-sm text-primary font-semibold hover:underline">See more</Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
@@ -175,7 +175,7 @@ export function DesktopWebstoreHome() {
         <section>
           <div className="flex justify-between items-end mb-5">
             <div>
-              <h2 className="font-display text-2xl font-bold tracking-tight">Top charts</h2>
+              <h2 className="hf-title font-display">Top charts</h2>
               <p className="text-sm text-muted-foreground mt-1">What learners are picking up this week</p>
             </div>
             <Link to="/leaderboard" className="text-sm text-primary font-semibold hover:underline">See all</Link>
@@ -213,7 +213,7 @@ export function DesktopWebstoreHome() {
         <section>
           <div className="flex justify-between items-end mb-5">
             <div>
-              <h2 className="font-display text-2xl font-bold tracking-tight">Extend your learning</h2>
+              <h2 className="hf-title font-display">Extend your learning</h2>
               <p className="text-sm text-muted-foreground mt-1">Tools, prompts and rituals that compound your progress</p>
             </div>
           </div>
