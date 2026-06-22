@@ -1,20 +1,57 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ShieldCheck, User, Loader2 } from "lucide-react";
+import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Package, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
+import { useWishlist } from "@/hooks/useWishlist";
 
 interface SidebarUserProps {
   onClose?: () => void;
 }
 
+function QuickAction({
+  to,
+  icon,
+  label,
+  count,
+  onClose,
+}: {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+  count?: number;
+  onClose?: () => void;
+}) {
+  return (
+    <Link
+      to={to}
+      onClick={onClose}
+      className="group relative flex flex-col items-center justify-center gap-1 rounded-2xl bg-background/60 hover:bg-primary/10 active:scale-[0.97] border border-border/50 hover:border-primary/30 px-2 py-2.5 transition-all"
+    >
+      <div className="relative text-foreground/80 group-hover:text-primary transition-colors">
+        {icon}
+        {count !== undefined && count > 0 && (
+          <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-primary text-[10px] font-semibold text-primary-foreground flex items-center justify-center">
+            {count > 99 ? "99+" : count}
+          </span>
+        )}
+      </div>
+      <span className="text-[10px] font-medium text-muted-foreground group-hover:text-foreground">
+        {label}
+      </span>
+    </Link>
+  );
+}
+
 export function SidebarUser({ onClose }: SidebarUserProps) {
   const { user, isLoggedIn, loading } = useAuth();
+  const { data: cart } = useCart();
+  const { data: wishlist } = useWishlist();
 
   if (loading) {
     return (
-      <div className="p-4 border-b border-border">
+      <div className="p-4 border-b border-border/60">
         <div className="flex items-center justify-center h-24">
           <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
         </div>
@@ -24,61 +61,88 @@ export function SidebarUser({ onClose }: SidebarUserProps) {
 
   if (!isLoggedIn) {
     return (
-      <div className="p-4 border-b border-border">
-        <div className="text-center space-y-3">
-          <div className="w-16 h-16 mx-auto rounded-full bg-secondary flex items-center justify-center">
-            <User className="w-8 h-8 text-muted-foreground" />
+      <div className="relative p-4 border-b border-border/60">
+        <div className="rounded-3xl border border-border/60 bg-background/70 p-4 text-center space-y-3 shadow-sm">
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-primary/20 to-accent/10 flex items-center justify-center ring-1 ring-primary/20">
+            <User className="w-7 h-7 text-primary" />
           </div>
           <div>
-            <h3 className="font-semibold text-foreground">Welcome!</h3>
-            <p className="text-sm text-muted-foreground">Sign in to access all features</p>
+            <h3 className="font-semibold text-foreground">Welcome to ASIKON</h3>
+            <p className="text-xs text-muted-foreground">Sign in to unlock everything</p>
           </div>
           <div className="flex gap-2">
             <Link to="/auth" onClick={onClose} className="flex-1">
-              <Button className="w-full" size="sm">
-                Login
-              </Button>
+              <Button className="w-full" size="sm">Login</Button>
             </Link>
             <Link to="/auth" onClick={onClose} className="flex-1">
-              <Button variant="outline" className="w-full" size="sm">
-                Sign Up
-              </Button>
+              <Button variant="outline" className="w-full" size="sm">Sign Up</Button>
             </Link>
           </div>
-          <Button variant="ghost" size="sm" className="w-full text-muted-foreground" onClick={onClose}>
-            Continue as Guest
-          </Button>
         </div>
       </div>
     );
   }
 
-  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User";
   const avatarUrl = user?.user_metadata?.avatar_url;
+  const cartCount = cart?.length ?? 0;
+  const wishlistCount = wishlist?.length ?? 0;
 
   return (
-    <div className="p-4 border-b border-border">
-      <div className="flex items-center gap-3">
-        <Avatar className="w-12 h-12 border-2 border-primary">
-          <AvatarImage src={avatarUrl} alt={displayName} />
-          <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5">
-            <h3 className="font-semibold text-foreground truncate">{displayName}</h3>
-            <ShieldCheck className="w-4 h-4 text-primary flex-shrink-0" />
+    <div className="relative p-3 pb-3 border-b border-border/60">
+      <div className="rounded-3xl border border-border/60 bg-gradient-to-br from-background/90 via-background/70 to-primary/5 p-3 shadow-sm">
+        <Link to="/profile" onClick={onClose} className="flex items-center gap-3 active:opacity-80">
+          <div className="relative">
+            <Avatar className="w-12 h-12 ring-2 ring-primary/40 ring-offset-2 ring-offset-background">
+              <AvatarImage src={avatarUrl} alt={displayName} />
+              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                {displayName.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-background" />
           </div>
-          <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
-          <Badge variant="secondary" className="mt-1 text-xs">
-            Verified Buyer
-          </Badge>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              <h3 className="font-semibold text-foreground truncate text-sm">{displayName}</h3>
+              <ShieldCheck className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+            </div>
+            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+            <span className="inline-flex items-center mt-1 px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium">
+              Verified Buyer
+            </span>
+          </div>
+        </Link>
+
+        {/* Quick action chips */}
+        <div className="grid grid-cols-4 gap-1.5 mt-3">
+          <QuickAction
+            to="/cart"
+            icon={<ShoppingBag className="w-4 h-4" />}
+            label="Cart"
+            count={cartCount}
+            onClose={onClose}
+          />
+          <QuickAction
+            to="/wishlist"
+            icon={<Heart className="w-4 h-4" />}
+            label="Saved"
+            count={wishlistCount}
+            onClose={onClose}
+          />
+          <QuickAction
+            to="/orders"
+            icon={<Package className="w-4 h-4" />}
+            label="Orders"
+            onClose={onClose}
+          />
+          <QuickAction
+            to="/settings"
+            icon={<Settings className="w-4 h-4" />}
+            label="Settings"
+            onClose={onClose}
+          />
         </div>
       </div>
-      <Link to="/profile" onClick={onClose}>
-        <Button variant="outline" size="sm" className="w-full mt-3">
-          View Profile
-        </Button>
-      </Link>
     </div>
   );
 }
