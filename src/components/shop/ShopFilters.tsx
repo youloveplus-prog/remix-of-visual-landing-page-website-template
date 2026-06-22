@@ -58,6 +58,40 @@ interface ShopFiltersProps {
   onOnSaleChange?: (value: boolean) => void;
   featuredOnly?: boolean;
   onFeaturedChange?: (value: boolean) => void;
+  /** Popular search suggestions shown when the search box is focused and empty. */
+  popularSearches?: string[];
+}
+
+const RECENTS_KEY = "asikon:shop:recent-searches";
+const RECENTS_MAX = 6;
+
+const DEFAULT_POPULAR = [
+  "AI",
+  "Python",
+  "IELTS",
+  "Web development",
+  "Atomic Habits",
+  "Prompt library",
+];
+
+function loadRecents(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(RECENTS_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return Array.isArray(arr) ? arr.filter((s) => typeof s === "string").slice(0, RECENTS_MAX) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecents(list: string[]) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(RECENTS_KEY, JSON.stringify(list.slice(0, RECENTS_MAX)));
+  } catch {
+    // ignore quota/serialization issues
+  }
 }
 
 const sortOptions = [
