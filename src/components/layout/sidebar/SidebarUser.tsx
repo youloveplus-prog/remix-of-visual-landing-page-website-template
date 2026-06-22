@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Package, Settings } from "lucide-react";
+import { ShieldCheck, User, Loader2, ShoppingBag, Heart, Package, Settings, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
