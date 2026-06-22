@@ -246,14 +246,19 @@ export function HeroFeatureSlider({
                 style={{
                   width: 6,
                   height: 6,
+                  minWidth: 6,
+                  minHeight: 6,
+                  maxWidth: 6,
+                  maxHeight: 6,
                   padding: 0,
+                  border: 0,
                   borderRadius: "50%",
                   aspectRatio: "1 / 1",
                   display: "block",
                   flex: "0 0 auto",
                   transform: active ? "scale(1.6)" : "scale(1)",
-                  transition: "transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 280ms ease-out, box-shadow 280ms ease-out",
-                  boxShadow: active ? "0 0 8px rgba(255,255,255,0.55)" : "none",
+                  transformOrigin: "center center",
+                  transition: "transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 280ms ease-out",
                 }}
                 className={`pointer-events-auto shrink-0 border-0 ${
                   active ? "bg-white" : "bg-white/45"
