@@ -1,6 +1,6 @@
-import { Settings, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 interface SidebarFooterProps {
@@ -22,32 +22,33 @@ export function SidebarFooter({ onClose }: SidebarFooterProps) {
     }
   };
 
+  if (!isLoggedIn) {
+    return (
+      <div
+        className="mt-auto px-4 pt-2 pb-4 border-t border-border/60"
+        style={{ paddingBottom: "max(env(safe-area-inset-bottom, 0px), 1rem)" }}
+      >
+        <p className="text-center text-[10px] text-muted-foreground/70 tracking-wide">
+          ASIKON · v1.0.0
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div
-      className="mt-auto px-4 pt-3 pb-4 border-t border-black/5 bg-foreground/[0.015]"
+      className="mt-auto px-4 pt-3 pb-4 border-t border-border/60 bg-foreground/[0.015]"
       style={{ paddingBottom: "max(env(safe-area-inset-bottom, 0px), 1rem)" }}
     >
-      <div className="flex items-center gap-2">
-        <Link
-          to="/settings"
-          onClick={onClose}
-          aria-label="Open settings"
-          className="flex-1 h-12 px-4 rounded-[16px] bg-card border border-black/5 flex items-center gap-3 text-foreground/80 active:scale-[0.98] transition-transform shadow-sm"
-        >
-          <Settings className="w-5 h-5" />
-          <span className="text-sm font-semibold">Settings</span>
-        </Link>
-        {isLoggedIn && (
-          <button
-            type="button"
-            onClick={handleLogout}
-            aria-label="Sign out"
-            className="w-12 h-12 rounded-[16px] bg-destructive/10 text-destructive border border-destructive/15 flex items-center justify-center active:scale-[0.95] transition-transform"
-          >
-            <LogOut className="w-5 h-5" />
-          </button>
-        )}
-      </div>
+      <button
+        type="button"
+        onClick={handleLogout}
+        aria-label="Log out"
+        className="w-full h-12 rounded-[14px] bg-foreground/[0.06] hover:bg-foreground/[0.09] active:scale-[0.99] transition-all flex items-center justify-center gap-2 text-foreground/90"
+      >
+        <LogOut className="w-[18px] h-[18px]" />
+        <span className="text-[15px] font-bold">Log Out</span>
+      </button>
       <p className="mt-3 text-center text-[10px] text-muted-foreground/70 tracking-wide">
         ASIKON · v1.0.0
       </p>
