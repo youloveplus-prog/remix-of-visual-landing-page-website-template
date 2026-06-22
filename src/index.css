@@ -341,12 +341,43 @@
   /* Selection: brand-tinted */
   ::selection { background: hsl(var(--primary) / 0.22); color: hsl(var(--foreground)); }
 
-  /* Comfortable tap targets on touch devices */
+  /* Comfortable tap targets on touch devices — Apple HIG 44pt minimum.
+     `touch-action: manipulation` removes the 300ms double-tap delay on
+     interactive controls (page content still pinch-zooms normally). */
   @media (hover: none) and (pointer: coarse) {
     button:not(.no-min-tap),
     a[role="button"],
-    [role="button"] {
-      min-height: 40px;
+    [role="button"],
+    input[type="button"],
+    input[type="submit"] {
+      min-height: 44px;
+    }
+    button, a, [role="button"], summary, label,
+    select, input[type="checkbox"], input[type="radio"] {
+      touch-action: manipulation;
+    }
+  }
+
+  /* Smooth, momentum-aware horizontal scrollers across the app */
+  .scroll-snap-x,
+  [data-scroll-x],
+  .overflow-x-auto,
+  .overflow-x-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .scroll-snap-x::-webkit-scrollbar,
+  [data-scroll-x]::-webkit-scrollbar,
+  .overflow-x-auto::-webkit-scrollbar,
+  .overflow-x-scroll::-webkit-scrollbar { display: none; }
+
+  /* Prevent iOS auto-zoom on input focus (font must be ≥16px on phones) */
+  @media (max-width: 640px) {
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      font-size: max(16px, 1rem);
     }
   }
 
