@@ -42,7 +42,7 @@ export function ToolsBentoGrid() {
   return (
     <section className="px-4 sm:px-6 lg:px-8 pt-10">
       <div className="mb-4 flex items-end justify-between">
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        <h2 className="font-display text-xl sm:text-2xl font-medium tracking-tight text-white">
           Everything you need
         </h2>
         <span className="text-[11px] uppercase tracking-[0.18em] text-white/40">
