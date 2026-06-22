@@ -1,166 +1,189 @@
 import { Link } from "react-router-dom";
-import { Link2, ArrowRight, Sparkles, GraduationCap, BookOpen, Bot, Plus, Settings, Gem } from "lucide-react";
+import { ArrowRight, Sparkles, GraduationCap, BookOpen, Bot, Cpu, Radio, ArrowUpRight } from "lucide-react";
 import tutorImg from "@/assets/ai-tutor.webp";
 import courseImg from "@/assets/course-ai-ml.webp";
 import promptImg from "@/assets/prompt-library.webp";
 
-function IconChip({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="w-9 h-9 rounded-full bg-white/80 backdrop-blur flex items-center justify-center text-foreground shadow-sm">
-      {children}
-    </div>
-  );
-}
-
 export function DesktopHeroBento() {
   return (
-    <section className="container-editorial py-10 xl:py-14">
-      {/* Eyebrow + headline */}
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <p className="text-sm text-muted-foreground">
-          AI-powered learning, made simple with ASIKON.
-        </p>
-        <h1 className="font-display font-bold tracking-tight text-5xl xl:text-6xl text-foreground leading-[1.05]">
-          Master AI, Python &amp;<br />
-          modern skills today.
-        </h1>
+    <section className="relative container-editorial pt-16 xl:pt-24 pb-12 xl:pb-20 overflow-hidden">
+      {/* Ambient cinematic glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] rounded-full blur-[120px] opacity-60"
+        style={{ background: "radial-gradient(circle, hsl(var(--primary) / 0.22) 0%, transparent 70%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>\")",
+        }}
+      />
+
+      {/* Eyebrow pill */}
+      <div className="relative z-10 flex justify-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-card/60 backdrop-blur text-[10px] font-medium tracking-[0.2em] uppercase text-muted-foreground animate-fade-in">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+          </span>
+          Next-gen AI learning
+        </div>
       </div>
 
-      {/* Search */}
-      <div className="mt-8 max-w-2xl mx-auto">
-        <div className="flex items-center gap-2 bg-card rounded-full pl-5 pr-2 py-2 border border-border shadow-[0_10px_40px_-15px_hsl(var(--primary)/0.25)]">
-          <Link2 className="h-4 w-4 text-muted-foreground shrink-0" />
-          <input
-            type="text"
-            placeholder="Drop a topic, course, or skill..."
-            className="flex-1 bg-transparent outline-none text-sm placeholder:text-muted-foreground py-2"
-          />
+      {/* Headline */}
+      <div className="relative z-10 text-center mt-7 max-w-5xl mx-auto">
+        <h1 className="font-display font-extrabold tracking-tighter leading-[0.9] text-6xl xl:text-8xl uppercase">
+          <span className="block text-foreground">Master the art</span>
+          <span className="block bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/30">
+            of generation.
+          </span>
+        </h1>
+        <p className="mt-7 text-lg xl:text-xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
+          Asikon is the professional playground for high-fidelity AI education — from prompt
+          engineering to latent-space exploration.
+        </p>
+
+        <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Link
             to="/shop"
-            className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_6px_20px_-8px_hsl(var(--primary)/0.6)]"
-            style={{ background: "var(--gradient-primary)" }}
+            className="group inline-flex items-center gap-2 px-7 py-3 rounded-full bg-foreground text-background text-sm font-semibold tracking-tight hover:bg-foreground/90 transition-all shadow-[0_10px_40px_-10px_hsl(var(--foreground)/0.4)]"
           >
-            Start learning
-            <ArrowRight className="h-4 w-4" />
+            Start creating
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+          <Link
+            to="/learn"
+            className="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-card/40 border border-border/60 text-foreground text-sm font-semibold tracking-tight hover:bg-card/70 backdrop-blur-sm transition-all"
+          >
+            View curriculum
           </Link>
         </div>
       </div>
 
-      {/* Bento */}
-      <div className="mt-10 grid grid-cols-3 grid-rows-2 gap-5 min-h-[480px]">
-        {/* Drop a Link — yellow */}
+      {/* Cinematic bento */}
+      <div className="relative z-10 mt-14 xl:mt-20 grid grid-cols-12 gap-4 min-h-[560px]">
+        {/* Feature card — Neural Architecture */}
         <Link
           to="/learn"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-amber-200 text-amber-950 hover:scale-[1.01] transition-transform"
+          className="group relative col-span-12 lg:col-span-7 row-span-2 rounded-3xl overflow-hidden border border-border/60 bg-card"
         >
-          <div className="flex items-center gap-3">
-            <IconChip><Link2 className="h-4 w-4" /></IconChip>
-            <h3 className="font-display font-bold text-lg">Drop a Link</h3>
-          </div>
-          <div className="flex items-center gap-2 bg-white rounded-full pl-4 pr-1 py-1 shadow-sm">
-            <Link2 className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-            <span className="text-xs text-muted-foreground flex-1 truncate">Paste any course url...</span>
-            <span className="inline-flex items-center rounded-full bg-foreground text-background px-3 py-1.5 text-[11px] font-semibold">
-              Boost
-            </span>
-          </div>
-        </Link>
-
-        {/* Create Avatar — mint, tall, spans 2 rows */}
-        <Link
-          to="/learn"
-          className="relative overflow-hidden rounded-3xl p-6 row-span-2 bg-emerald-200 text-emerald-950 flex flex-col hover:scale-[1.005] transition-transform"
-        >
-          <div className="flex items-center gap-3 relative z-10">
-            <IconChip><Gem className="h-4 w-4" /></IconChip>
-            <h3 className="font-display font-bold text-lg leading-tight">
-              Meet your<br />AI Tutor
-            </h3>
-          </div>
           <img
             src={tutorImg}
             alt=""
-            className="absolute inset-x-0 bottom-0 w-full h-[80%] object-cover object-top opacity-90 mix-blend-luminosity"
+            className="absolute inset-0 w-full h-full object-cover opacity-50 transition-transform duration-[1200ms] ease-out group-hover:scale-105"
           />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-emerald-200 to-transparent" />
-          <div className="mt-auto relative z-10 flex items-center justify-between">
-            <div className="flex -space-x-2">
-              {[tutorImg, courseImg, promptImg].map((src, i) => (
-                <div key={i} className="w-9 h-9 rounded-full border-2 border-emerald-200 overflow-hidden bg-white">
-                  <img src={src} alt="" className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
-            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center">
-              <Plus className="h-4 w-4" />
-            </div>
-          </div>
-        </Link>
-
-        {/* Use a Preset — lavender */}
-        <Link
-          to="/prompts"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-violet-200 text-violet-950 hover:scale-[1.01] transition-transform"
-        >
-          <div className="flex items-center gap-3">
-            <IconChip><Sparkles className="h-4 w-4" /></IconChip>
-            <h3 className="font-display font-bold text-lg">Use a Preset</h3>
-          </div>
-          <div className="bg-white rounded-2xl p-3 flex items-center gap-3 shadow-sm">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary-foreground" style={{ background: "var(--gradient-primary)" }}>
-              <Bot className="h-5 w-5" />
-            </div>
-            <div className="flex-1 space-y-1.5">
-              <div className="h-1.5 rounded-full bg-muted w-3/4" />
-              <div className="h-1.5 rounded-full bg-muted w-1/2" />
-              <div className="h-1.5 rounded-full bg-muted w-2/3" />
-            </div>
-            <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center">
-              <Settings className="h-3.5 w-3.5 text-muted-foreground" />
-            </div>
-          </div>
-        </Link>
-
-        {/* Use Template — sky */}
-        <Link
-          to="/shop?type=courses"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-sky-200 text-sky-950 hover:scale-[1.01] transition-transform"
-        >
-          <div className="flex items-center gap-3">
-            <IconChip><BookOpen className="h-4 w-4" /></IconChip>
-            <h3 className="font-display font-bold text-lg">Use Template</h3>
-          </div>
-          <div className="relative bg-white rounded-2xl p-2 flex items-center gap-2 shadow-sm">
-            <img src={courseImg} alt="" className="w-14 h-14 rounded-xl object-cover" />
-            <div className="flex-1 space-y-1.5">
-              <div className="h-1.5 rounded-full bg-muted w-3/4" />
-              <div className="h-1.5 rounded-full bg-muted w-1/2" />
-              <div className="h-1.5 rounded-full bg-muted w-2/3" />
-            </div>
-            <div className="w-7 h-7 rounded-full bg-foreground text-background flex items-center justify-center">
-              <Plus className="h-3.5 w-3.5" />
-            </div>
-          </div>
-        </Link>
-
-        {/* Connect Account — yellow */}
-        <Link
-          to="/profile"
-          className="relative overflow-hidden rounded-3xl p-6 flex flex-col justify-between bg-amber-200 text-amber-950 hover:scale-[1.01] transition-transform"
-        >
-          <div className="flex items-center gap-3">
-            <IconChip><GraduationCap className="h-4 w-4" /></IconChip>
-            <h3 className="font-display font-bold text-lg">Track Progress</h3>
-          </div>
-          <div className="flex items-center justify-end gap-2">
-            <span className="rounded-full bg-white text-foreground px-4 py-2 text-sm font-semibold shadow-sm">
-              Connect
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-20 -right-16 w-72 h-72 rounded-full blur-3xl"
+            style={{ background: "hsl(var(--primary) / 0.25)" }}
+          />
+          <div className="absolute bottom-8 left-8 right-8 space-y-3">
+            <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-primary">
+              Featured track
             </span>
-            <div className="w-9 h-9 rounded-full bg-foreground text-background flex items-center justify-center">
-              <Plus className="h-4 w-4" />
+            <h3 className="font-display font-extrabold tracking-tight text-3xl xl:text-4xl text-foreground">
+              Neural architecture
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
+              Deep-dive into diffusion models and structural consistency across modern
+              generative workflows.
+            </p>
+            <div className="pt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-foreground/90">
+              Enter the studio
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
           </div>
         </Link>
+
+        {/* Live workshops */}
+        <Link
+          to="/mentors"
+          className="group relative col-span-12 lg:col-span-5 rounded-3xl overflow-hidden border border-border/60 bg-card p-7 flex flex-col justify-end min-h-[260px]"
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-70"
+            style={{ background: "hsl(var(--primary) / 0.2)" }}
+          />
+          <div className="relative space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-xl bg-foreground/5 border border-border/60 flex items-center justify-center">
+                <Radio className="h-4 w-4 text-primary" />
+              </div>
+              <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-muted-foreground">
+                Live · weekly
+              </span>
+            </div>
+            <h3 className="font-display font-bold text-2xl text-foreground">
+              Live workshops
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+              Daily sessions with leading prompt engineers and technical artists.
+            </p>
+          </div>
+        </Link>
+
+        {/* GPU cluster */}
+        <Link
+          to="/learn"
+          className="group relative col-span-12 lg:col-span-5 rounded-3xl overflow-hidden border border-border/60 bg-card p-7 flex flex-col justify-end min-h-[260px]"
+        >
+          <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/[0.04] transition-colors" />
+          <img
+            src={promptImg}
+            alt=""
+            className="absolute -top-6 -right-6 w-44 h-44 object-cover opacity-30 rounded-full blur-xl"
+          />
+          <div className="relative space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-9 h-9 rounded-xl bg-foreground/5 border border-border/60 flex items-center justify-center">
+                <Cpu className="h-4 w-4 text-primary" />
+              </div>
+              <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-muted-foreground">
+                Infrastructure
+              </span>
+            </div>
+            <h3 className="font-display font-bold text-2xl text-foreground">
+              GPU cluster
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+              Cloud-based high-performance compute ready for your training runs.
+            </p>
+          </div>
+        </Link>
+      </div>
+
+      {/* Stat tape */}
+      <div className="relative z-10 mt-10 grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-border/60 bg-border/60">
+        {[
+          { k: "120+", v: "Lessons" },
+          { k: "14,802", v: "Students" },
+          { k: "24/7", v: "AI tutor" },
+          { k: "99.9%", v: "Uptime" },
+        ].map((s) => (
+          <div key={s.v} className="bg-card px-6 py-5 flex flex-col">
+            <span className="font-display font-extrabold text-3xl tracking-tighter text-foreground tabular-nums">
+              {s.k}
+            </span>
+            <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-muted-foreground mt-1">
+              {s.v}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Hidden seo-friendly secondary links */}
+      <div className="sr-only">
+        <Link to="/prompts">Prompt library</Link>
+        <Link to="/shop?type=courses">Courses</Link>
+        <Link to="/shop?type=books">Books</Link>
+        <Link to="/profile">Profile</Link>
+        <Sparkles aria-hidden /> <GraduationCap aria-hidden /> <BookOpen aria-hidden /> <Bot aria-hidden />
+        <img src={courseImg} alt="" />
       </div>
     </section>
   );
