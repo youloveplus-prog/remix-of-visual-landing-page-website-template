@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import { homeType } from "@/components/home/typography";
 
 type SlideMedia =
   | { kind: "image"; src: string; poster?: never }
@@ -241,21 +242,20 @@ export function HeroFeatureSlider({
                     </div>
 
                     <div className="bg-black px-6 pb-7 pt-1 text-center sm:hidden">
-                      <h2 className="font-display text-[24px] leading-[1.08] font-extrabold uppercase tracking-tight text-balance text-white">
-                        {s.title}
-                      </h2>
-                      <p className="mx-auto mt-2.5 max-w-[30ch] text-[13.5px] leading-relaxed text-white/65">
+                      <h2 className={homeType.heroTitle}>{s.title}</h2>
+                      <p className={`mx-auto mt-2.5 max-w-[30ch] ${homeType.hook}`}>
                         {s.hook}
                       </p>
                     </div>
 
                     {/* sm+ caption */}
                     <Link to={s.to} className="hidden sm:block mt-4 px-2 group">
-                      <h3 className="font-display text-[17px] font-bold tracking-[0.04em] uppercase leading-tight text-white transition-colors line-clamp-1 group-hover:text-primary">
+                      <h3 className={`${homeType.cardTitle} text-white transition-colors line-clamp-1 group-hover:text-primary`}>
                         {s.title}
                       </h3>
-                      <p className="mt-1.5 text-sm text-white/55 line-clamp-1">{s.hook}</p>
+                      <p className={`mt-1.5 ${homeType.hook} line-clamp-1`}>{s.hook}</p>
                     </Link>
+
                   </article>
                 </div>
               );

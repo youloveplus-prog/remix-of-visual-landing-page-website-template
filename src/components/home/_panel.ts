@@ -35,8 +35,11 @@ export const panelClass =
 export const chipClass =
   "inline-flex w-fit items-center gap-1 rounded-full bg-white px-2 py-0.5 text-[10px] font-medium text-black sm:px-2.5 sm:py-1 sm:text-[11px] dark:bg-white/10 dark:text-foreground";
 
-export const headlineClass =
-  "font-display text-[24px] leading-[1.08] font-extrabold uppercase tracking-tight text-balance text-panel-fg sm:text-[34px] lg:text-[40px]";
+// Re-export from the shared typography token module so the hero voice
+// stays consistent everywhere. Do not redefine inline.
+import { homeType } from "./typography";
+export const headlineClass = `${homeType.sectionTitle} text-panel-fg`;
+
 
 
 export const subheadClass =
