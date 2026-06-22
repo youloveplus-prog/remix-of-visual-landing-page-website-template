@@ -1,22 +1,26 @@
-import { 
-  Home, 
-  Users, 
-  FileText, 
-  Video, 
-  Film, 
-  Radio, 
-  Star, 
-  Library, 
-  GraduationCap, 
-  BookOpen, 
-  Sparkles, 
-  Wand2,
-  ChevronDown,
-  Package,
-  Bot,
-  Laptop,
-  Brain,
+import {
+  Home,
   Compass,
+  Sparkles,
+  Users,
+  ShoppingBag,
+  Library,
+  GraduationCap,
+  Wand2,
+  Trophy,
+  Bell,
+  Heart,
+  Package,
+  ChevronDown,
+  BookOpen,
+  Brain,
+  Laptop,
+  Bot,
+  Info,
+  HelpCircle,
+  Mail,
+  FileText,
+  ShieldCheck,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -27,29 +31,45 @@ interface NavItemProps {
   icon: React.ReactNode;
   label: string;
   href: string;
+  badge?: string;
   isActive?: boolean;
   onClick?: () => void;
 }
 
-function NavItem({ icon, label, href, isActive, onClick }: NavItemProps) {
+function NavItem({ icon, label, href, badge, isActive, onClick }: NavItemProps) {
   return (
     <Link
       to={href}
       onClick={onClick}
       className={cn(
-        "flex items-center gap-3 h-12 px-3 rounded-[14px] transition-colors active:scale-[0.99]",
+        "flex items-center gap-3 h-11 px-3 rounded-[12px] transition-colors active:scale-[0.99]",
         isActive
           ? "bg-primary/10 text-primary"
-          : "text-foreground/70 hover:bg-foreground/[0.04] hover:text-foreground"
+          : "text-foreground/75 hover:bg-foreground/[0.04] hover:text-foreground",
       )}
     >
-      <span className={cn("flex-shrink-0", isActive ? "text-primary" : "text-foreground/60")}>
+      <span className={cn("flex-shrink-0", isActive ? "text-primary" : "text-foreground/55")}>
         {icon}
       </span>
-      <span className={cn("text-sm truncate", isActive ? "font-semibold" : "font-medium")}>
+      <span className={cn("text-[14px] truncate", isActive ? "font-semibold" : "font-medium")}>
         {label}
       </span>
+      {badge && (
+        <span className="ml-auto bg-primary/15 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded-md tracking-wide">
+          {badge}
+        </span>
+      )}
     </Link>
+  );
+}
+
+function GroupLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="px-3 pt-4 pb-1">
+      <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground/80">
+        {children}
+      </span>
+    </div>
   );
 }
 
@@ -58,109 +78,107 @@ interface SidebarNavProps {
 }
 
 export function SidebarNav({ onClose }: SidebarNavProps) {
-  const location = useLocation();
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const { pathname, search } = useLocation();
+  const here = pathname + search;
+  const [discoverOpen, setDiscoverOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
 
-  const communityItems = [
-    { icon: <Home className="w-5 h-5" />, label: "My Feed", href: "/community" },
-    { icon: <FileText className="w-5 h-5" />, label: "Posts", href: "/community?tab=posts" },
-    { icon: <Video className="w-5 h-5" />, label: "Videos", href: "/community?tab=videos" },
-    { icon: <Film className="w-5 h-5" />, label: "Shorts", href: "/community?tab=shorts" },
-    { icon: <Radio className="w-5 h-5" />, label: "Live", href: "/community?tab=live" },
-    { icon: <Star className="w-5 h-5" />, label: "Reviews", href: "/community?tab=reviews" },
+  const primary: NavItemProps[] = [
+    { icon: <Home className="w-[18px] h-[18px]" />, label: "Home", href: "/" },
+    { icon: <ShoppingBag className="w-[18px] h-[18px]" />, label: "Shop", href: "/shop" },
+    { icon: <Sparkles className="w-[18px] h-[18px]" />, label: "AI Tutor", href: "/learn", badge: "BETA" },
+    { icon: <Users className="w-[18px] h-[18px]" />, label: "Community", href: "/community" },
+    { icon: <Library className="w-[18px] h-[18px]" />, label: "Library", href: "/library" },
+    { icon: <GraduationCap className="w-[18px] h-[18px]" />, label: "Mentors", href: "/mentors" },
   ];
 
-  const shopItems = [
-    { icon: <Library className="w-5 h-5" />, label: "Library Home", href: "/shop" },
-    { icon: <GraduationCap className="w-5 h-5" />, label: "Courses", href: "/shop?type=courses" },
-    { icon: <BookOpen className="w-5 h-5" />, label: "Books", href: "/shop?type=ebooks" },
-    { icon: <Package className="w-5 h-5" />, label: "Student Kits", href: "/shop?type=bundles" },
-    { icon: <Wand2 className="w-5 h-5" />, label: "Prompt Library", href: "/prompts" },
-    { icon: <Sparkles className="w-5 h-5" />, label: "New Arrivals", href: "/shop?category=new" },
+  const account: NavItemProps[] = [
+    { icon: <Package className="w-[18px] h-[18px]" />, label: "Orders", href: "/orders" },
+    { icon: <Heart className="w-[18px] h-[18px]" />, label: "Wishlist", href: "/wishlist" },
+    { icon: <Bell className="w-[18px] h-[18px]" />, label: "Notifications", href: "/notifications" },
   ];
 
-  const categories = [
-    { icon: <Brain className="w-5 h-5" />, label: "AI & Machine Learning", href: "/shop?category=ai-ml" },
-    { icon: <Laptop className="w-5 h-5" />, label: "Programming", href: "/shop?category=programming" },
-    { icon: <Bot className="w-5 h-5" />, label: "AI Tutor", href: "/shop?category=ai-tutor" },
-    { icon: <BookOpen className="w-5 h-5" />, label: "Self-Improvement", href: "/shop?category=self-improvement" },
-    { icon: <GraduationCap className="w-5 h-5" />, label: "Exam Prep", href: "/shop?category=exam-prep" },
-    { icon: <Wand2 className="w-5 h-5" />, label: "Prompt Engineering", href: "/shop?category=prompts" },
+  const discover: NavItemProps[] = [
+    { icon: <Compass className="w-[18px] h-[18px]" />, label: "Resources", href: "/resources" },
+    { icon: <Wand2 className="w-[18px] h-[18px]" />, label: "Prompt Library", href: "/prompts" },
+    { icon: <Trophy className="w-[18px] h-[18px]" />, label: "Leaderboard", href: "/leaderboard" },
+    { icon: <Brain className="w-[18px] h-[18px]" />, label: "AI & ML", href: "/shop?category=ai-ml" },
+    { icon: <Laptop className="w-[18px] h-[18px]" />, label: "Programming", href: "/shop?category=programming" },
+    { icon: <Bot className="w-[18px] h-[18px]" />, label: "AI Tutor Picks", href: "/shop?category=ai-tutor" },
+    { icon: <BookOpen className="w-[18px] h-[18px]" />, label: "Self-Improvement", href: "/shop?category=self-improvement" },
   ];
+
+  const more: NavItemProps[] = [
+    { icon: <HelpCircle className="w-[18px] h-[18px]" />, label: "Help & FAQ", href: "/help" },
+    { icon: <Mail className="w-[18px] h-[18px]" />, label: "Contact", href: "/contact" },
+    { icon: <Info className="w-[18px] h-[18px]" />, label: "About ASIKON", href: "/about" },
+    { icon: <FileText className="w-[18px] h-[18px]" />, label: "Terms", href: "/terms" },
+    { icon: <ShieldCheck className="w-[18px] h-[18px]" />, label: "Privacy", href: "/privacy" },
+  ];
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    if (href.includes("?")) return here === href;
+    return pathname === href || pathname.startsWith(href + "/");
+  };
 
   return (
-    <nav className="flex-1 overflow-y-auto pt-2 pb-2 px-4 space-y-1">
-      <div className="px-3 mb-1">
-        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Learn & Explore</span>
+    <nav className="px-3 pt-1 pb-2">
+      {/* Primary — no label, highest priority */}
+      <div className="space-y-0.5">
+        {primary.map((item) => (
+          <NavItem key={item.href} {...item} isActive={isActive(item.href)} onClick={onClose} />
+        ))}
       </div>
-        <NavItem
-          icon={<Sparkles className="w-5 h-5 text-primary" />}
-          label="AI Tutor"
-          href="/learn"
-          isActive={location.pathname.startsWith("/learn")}
-          onClick={onClose}
-        />
-        <NavItem
-          icon={<Compass className="w-5 h-5" />}
-          label="Resources"
-          href="/resources"
-          isActive={location.pathname.startsWith("/resources")}
-          onClick={onClose}
-        />
-        <NavItem
-          icon={<Sparkles className="w-5 h-5" />}
-          label="About ASIKON"
-          href="/about"
-          isActive={location.pathname === "/about"}
-          onClick={onClose}
-        />
 
-      <div className="pt-4 pb-1 px-3">
-        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Community</span>
+      {/* Account */}
+      <GroupLabel>Account</GroupLabel>
+      <div className="space-y-0.5">
+        {account.map((item) => (
+          <NavItem key={item.href} {...item} isActive={isActive(item.href)} onClick={onClose} />
+        ))}
       </div>
-      {communityItems.map((item) => (
-        <NavItem
-          key={item.href}
-          icon={item.icon}
-          label={item.label}
-          href={item.href}
-          isActive={location.pathname + location.search === item.href}
-          onClick={onClose}
-        />
-      ))}
 
-      <div className="pt-4 pb-1 px-3">
-        <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Library</span>
-      </div>
-      {shopItems.map((item) => (
-        <NavItem
-          key={item.href}
-          icon={item.icon}
-          label={item.label}
-          href={item.href}
-          isActive={location.pathname + location.search === item.href}
-          onClick={onClose}
-        />
-      ))}
-
-      {/* Categories (Expandable) */}
-      <Collapsible open={categoriesOpen} onOpenChange={setCategoriesOpen}>
-        <CollapsibleTrigger className="w-full mt-4">
-          <div className="flex items-center justify-between px-3 py-2 hover:text-foreground transition-colors">
-            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Categories</span>
-            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform", categoriesOpen && "rotate-180")} />
+      {/* Discover (collapsible) */}
+      <Collapsible open={discoverOpen} onOpenChange={setDiscoverOpen}>
+        <CollapsibleTrigger className="w-full group">
+          <div className="flex items-center justify-between px-3 pt-4 pb-1">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground/80">
+              Discover
+            </span>
+            <ChevronDown
+              className={cn(
+                "w-3.5 h-3.5 text-muted-foreground/60 transition-transform",
+                discoverOpen && "rotate-180",
+              )}
+            />
           </div>
         </CollapsibleTrigger>
-        <CollapsibleContent className="space-y-1 mt-1">
-          {categories.map((item) => (
-            <NavItem
-              key={item.href}
-              icon={item.icon}
-              label={item.label}
-              href={item.href}
-              isActive={location.pathname + location.search === item.href}
-              onClick={onClose}
+        <CollapsibleContent className="space-y-0.5">
+          {discover.map((item) => (
+            <NavItem key={item.href} {...item} isActive={isActive(item.href)} onClick={onClose} />
+          ))}
+        </CollapsibleContent>
+      </Collapsible>
+
+      {/* More (collapsible) */}
+      <Collapsible open={moreOpen} onOpenChange={setMoreOpen}>
+        <CollapsibleTrigger className="w-full group">
+          <div className="flex items-center justify-between px-3 pt-4 pb-1">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground/80">
+              More
+            </span>
+            <ChevronDown
+              className={cn(
+                "w-3.5 h-3.5 text-muted-foreground/60 transition-transform",
+                moreOpen && "rotate-180",
+              )}
             />
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="space-y-0.5">
+          {more.map((item) => (
+            <NavItem key={item.href} {...item} isActive={isActive(item.href)} onClick={onClose} />
           ))}
         </CollapsibleContent>
       </Collapsible>
