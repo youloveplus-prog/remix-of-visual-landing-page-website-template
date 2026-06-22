@@ -233,8 +233,8 @@ export function HeroFeatureSlider({
           </div>
         </div>
 
-        {/* Mobile dot indicators — single strip outside the slide loop so only one active state renders */}
-        <div className="flex items-center justify-center gap-2 bg-black pt-2.5 pb-3 sm:hidden">
+        {/* Mobile dot indicators — overlaid on the hero media, below the brand pill */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-2 z-10 flex items-center justify-center gap-2 sm:hidden">
           {SLIDES.map((_, idx) => (
             <button
               key={idx}
@@ -242,12 +242,13 @@ export function HeroFeatureSlider({
               aria-label={`Go to slide ${idx + 1}`}
               onClick={() => emblaApi?.scrollTo(idx)}
               style={{ width: 6, height: 6, padding: 0, borderRadius: 9999 }}
-              className={`shrink-0 border-0 transition-colors duration-300 ${
-                selected === idx ? "bg-white" : "bg-white/25"
+              className={`pointer-events-auto shrink-0 border-0 transition-colors duration-300 ${
+                selected === idx ? "bg-white" : "bg-white/40"
               }`}
             />
           ))}
         </div>
+
 
 
 
