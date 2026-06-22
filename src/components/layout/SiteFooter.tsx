@@ -54,7 +54,7 @@ export function SiteFooter() {
     <footer className="hidden md:block bg-background text-foreground border-t border-border/60" aria-label="ASIKON footer">
       <div className="container-editorial pt-12 md:pt-16 pb-0">
         {/* Top: brand + newsletter */}
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid gap-10 md:grid-cols-2 md:gap-12 md:items-start">
           <div>
             <Link
               to="/"
@@ -68,7 +68,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <div className="lg:justify-self-end w-full lg:max-w-md">
+          <div className="md:justify-self-end w-full md:max-w-md">
             <p className="text-sm text-foreground/90">Subscribe to our newsletter</p>
             <form
               onSubmit={handleSubscribe}
