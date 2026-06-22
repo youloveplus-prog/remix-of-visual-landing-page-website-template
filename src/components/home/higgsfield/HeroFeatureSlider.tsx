@@ -106,7 +106,7 @@ export function HeroFeatureSlider({
   return (
     <section
       aria-label="Featured"
-      className="relative isolate w-full overflow-hidden bg-black py-8 sm:py-10"
+      className="relative isolate w-full overflow-hidden bg-black py-5 sm:py-10"
     >
       {/* Carousel */}
       <div className="relative">
@@ -114,11 +114,12 @@ export function HeroFeatureSlider({
           ref={emblaRef}
           className="overflow-hidden touch-pan-y overscroll-x-contain"
         >
-          <div className="flex touch-pan-y -ml-3 sm:-ml-4">
+          {/* Horizontal padding creates the peek on both sides of the active card */}
+          <div className="flex touch-pan-y px-4 sm:px-6 -mx-1 sm:-mx-2">
             {SLIDES.map((s, i) => (
               <div
                 key={s.title}
-                className="shrink-0 grow-0 basis-[88%] sm:basis-[72%] lg:basis-[62%] xl:basis-[56%] pl-3 sm:pl-4"
+                className="shrink-0 grow-0 basis-[92%] sm:basis-[72%] lg:basis-[62%] xl:basis-[56%] px-1 sm:px-2"
               >
                 <Link
                   to={s.to}
@@ -126,10 +127,10 @@ export function HeroFeatureSlider({
                   aria-label={s.title}
                 >
                   <div
-                    className={`relative aspect-[16/9] overflow-hidden border border-white/10 bg-neutral-900 transition-all duration-500 ${
+                    className={`relative aspect-[4/3] sm:aspect-[16/9] overflow-hidden border border-white/10 bg-neutral-900 transition-all duration-500 ${
                       selected === i
                         ? "opacity-100 scale-100"
-                        : "opacity-55 scale-[0.97]"
+                        : "opacity-50 scale-[0.96]"
                     }`}
                   >
                     <img
@@ -137,10 +138,11 @@ export function HeroFeatureSlider({
                       alt=""
                       loading={i === 0 ? "eager" : "lazy"}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                      draggable={false}
                     />
                     <div className="absolute inset-0 bg-gradient-to-tr from-black/55 via-black/10 to-transparent" />
                     {s.eyebrow && (
-                      <span className="absolute left-4 top-4 inline-flex items-center gap-1 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
+                      <span className="absolute left-3 top-3 sm:left-4 sm:top-4 inline-flex items-center gap-1 bg-black/60 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
                         <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--hf-accent))]" />
                         {s.eyebrow}
                       </span>
@@ -148,15 +150,15 @@ export function HeroFeatureSlider({
                   </div>
 
                   {/* Caption under the card */}
-                  <div className="mt-4 px-1 sm:px-2">
+                  <div className="mt-3 sm:mt-4 px-0.5 sm:px-2">
                     <h3
-                      className={`font-display text-[15px] sm:text-[17px] font-bold tracking-[0.04em] uppercase leading-tight transition-colors ${
+                      className={`font-display text-[13px] sm:text-[17px] font-bold tracking-[0.04em] uppercase leading-tight transition-colors line-clamp-1 ${
                         s.accent ?? "text-white"
                       } group-hover:text-[hsl(var(--hf-accent))]`}
                     >
                       {s.title}
                     </h3>
-                    <p className="mt-1.5 text-[13px] sm:text-sm text-white/55 line-clamp-1">
+                    <p className="mt-1 sm:mt-1.5 text-[12px] sm:text-sm text-white/55 line-clamp-1">
                       {s.subtitle}
                     </p>
                   </div>
@@ -166,12 +168,12 @@ export function HeroFeatureSlider({
           </div>
         </div>
 
-        {/* Side nav arrows — overlayed, centered on the card */}
+        {/* Side nav arrows — hidden on mobile (swipe only), shown ≥ sm */}
         <button
           type="button"
           onClick={scrollPrev}
           aria-label="Previous"
-          className="absolute left-2 sm:left-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 grid h-10 w-10 sm:h-11 sm:w-11 place-items-center bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
+          className="hidden sm:grid absolute left-2 sm:left-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 h-10 w-10 sm:h-11 sm:w-11 place-items-center bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -179,14 +181,14 @@ export function HeroFeatureSlider({
           type="button"
           onClick={scrollNext}
           aria-label="Next"
-          className="absolute right-2 sm:right-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 grid h-10 w-10 sm:h-11 sm:w-11 place-items-center bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
+          className="hidden sm:grid absolute right-2 sm:right-4 top-[calc(50%-3.5rem)] -translate-y-1/2 z-10 h-10 w-10 sm:h-11 sm:w-11 place-items-center bg-white/10 text-white backdrop-blur-md ring-1 ring-white/20 transition hover:bg-white/20 hover:scale-105"
         >
           <ArrowRight className="h-5 w-5" />
         </button>
       </div>
 
       {/* Progress dots */}
-      <div className="mt-6 flex items-center justify-center gap-1.5">
+      <div className="mt-4 sm:mt-6 flex items-center justify-center gap-1.5">
         {SLIDES.map((_, i) => (
           <button
             key={i}
