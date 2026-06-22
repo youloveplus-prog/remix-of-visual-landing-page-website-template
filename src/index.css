@@ -26,34 +26,34 @@
     --card-foreground: 234 37% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 234 37% 11%;
-    --primary: 233 72% 55%;            /* #3b4fe0 indigo */
+    --primary: 228 100% 50%;           /* #0033FF electric blue */
     --primary-foreground: 0 0% 100%;
     --secondary: 39 67% 96%;           /* #fff8ec warm panel */
     --secondary-foreground: 234 37% 11%;
     --muted: 39 50% 92%;               /* warm muted */
     --muted-foreground: 232 13% 40%;
-    --accent: 233 72% 95%;             /* blue-tinted chip surface */
-    --accent-foreground: 233 72% 45%;
+    --accent: 252 100% 95%;            /* lavender chip surface */
+    --accent-foreground: 228 100% 45%;
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 233 30% 88%;
-    --input: 233 30% 92%;
-    --ring: 233 72% 55%;
-    --radius: 0.625rem;                /* 10px — tighter, less bubbly */
-    --sidebar-background: 233 50% 97%; /* soft blue sidebar */
-    --sidebar-foreground: 234 37% 11%;
-    --sidebar-primary: 233 72% 55%;
+    --border: 228 40% 88%;
+    --input: 228 40% 92%;
+    --ring: 228 100% 50%;
+    --radius: 0.625rem;
+    --sidebar-background: 228 60% 97%;
+    --sidebar-foreground: 236 100% 12%;
+    --sidebar-primary: 228 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 233 72% 95%;
-    --sidebar-accent-foreground: 233 72% 45%;
-    --sidebar-border: 233 30% 88%;
-    --sidebar-ring: 233 72% 55%;
-    --chart-1: 233 72% 55%;
-    --chart-2: 220 80% 60%;
-    --chart-3: 226 76% 70%;
-    --chart-4: 240 70% 65%;
-    --chart-5: 210 80% 55%;
-    --gold: 233 72% 55%;
+    --sidebar-accent: 252 100% 95%;
+    --sidebar-accent-foreground: 228 100% 45%;
+    --sidebar-border: 228 40% 88%;
+    --sidebar-ring: 228 100% 50%;
+    --chart-1: 236 100% 12%;
+    --chart-2: 228 100% 50%;
+    --chart-3: 252 100% 75%;
+    --chart-4: 225 50% 92%;
+    --chart-5: 220 80% 60%;
+    --gold: 228 100% 50%;
     --success: 152 50% 42%;
     --font-sans: 'Satoshi', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif;
     --font-display: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
@@ -61,11 +61,11 @@
     --font-dot: 'Satoshi', 'JetBrains Mono', ui-monospace, monospace;
     --font-dot-matrix: 'Satoshi', 'JetBrains Mono', ui-monospace, monospace;
 
-    /* Chip surfaces — unified to brand blue family */
-    --chip-butter: 233 72% 92%;
-    --chip-lavender: 233 72% 95%;
-    --chip-mint: 220 80% 92%;
-    --chip-cream: 233 50% 97%;
+    /* Chip surfaces — brand blue/violet family */
+    --chip-butter: 252 100% 92%;
+    --chip-lavender: 252 100% 88%;
+    --chip-mint: 228 100% 92%;
+    --chip-cream: 225 50% 96%;
 
     /* Shared panel surface tokens — used by .surface-panel utilities so
        every page/section flips to pure black in dark mode automatically. */
@@ -80,19 +80,19 @@
     --glass-border: 39 30% 86%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops (HSL components — composable in Tailwind via from-brand-from / via-brand-via / to-brand-to) */
-    --brand-from: 233 72% 55%;
-    --brand-via: 226 76% 58%;
-    --brand-to: 220 80% 60%;
-    --brand-soft-from: 233 72% 55%;
-    --brand-soft-to: 252 65% 80%;
+    /* Brand gradient stops — Navy → Electric Blue → Violet → Lavender */
+    --brand-from: 236 100% 12%;   /* #00033D deep navy */
+    --brand-via: 228 100% 50%;    /* #0033FF electric blue */
+    --brand-to: 252 100% 75%;     /* #977DFF violet */
+    --brand-soft-from: 228 100% 50%;
+    --brand-soft-to: 252 100% 75%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.10) 0%, hsl(var(--brand-soft-to) / 0.10) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(39 55% 95%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-via)) 55%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.12) 0%, hsl(var(--brand-soft-to) / 0.14) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(225 50% 96%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.6) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-from) / 0.10) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(38 92% 70% / 0.18) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.16) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.18) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 30%, hsl(var(--border)) 70%, transparent);
 
     /* Warm shadow system (soft, downward, low opacity) */
@@ -124,7 +124,7 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 0%;
     --popover-foreground: 0 0% 98%;
-    --primary: 234 80% 62%;
+    --primary: 228 100% 60%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 0%;
     --secondary-foreground: 0 0% 98%;
@@ -137,19 +137,19 @@
     --border: 0 0% 14%;
     --input: 0 0% 0%;
 
-    --ring: 234 80% 62%;
+    --ring: 228 100% 60%;
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 234 80% 62%;
+    --sidebar-primary: 228 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 0%;
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 0 0% 14%;
-    --sidebar-ring: 234 80% 62%;
-    --chart-1: 234 80% 62%;
-    --chart-2: 162 90% 45%;
-    --chart-3: 45 95% 55%;
-    --chart-4: 220 90% 65%;
+    --sidebar-ring: 228 100% 60%;
+    --chart-1: 228 100% 60%;
+    --chart-2: 252 100% 75%;
+    --chart-3: 236 100% 30%;
+    --chart-4: 225 50% 92%;
     --chart-5: 270 70% 65%;
 
     /* Shared panel surface tokens — dark = pure black for global consistency */
@@ -164,19 +164,19 @@
     --glass-border: 0 0% 14%;
     --glass-highlight: 0 0% 100%;
 
-    /* Brand gradient stops — dark theme overrides */
-    --brand-from: 234 80% 62%;
-    --brand-via: 227 82% 63%;
-    --brand-to: 220 85% 65%;
-    --brand-soft-from: 234 80% 62%;
-    --brand-soft-to: 162 90% 45%;
+    /* Brand gradient stops — Navy → Electric Blue → Violet (dark) */
+    --brand-from: 236 100% 18%;
+    --brand-via: 228 100% 55%;
+    --brand-to: 252 100% 75%;
+    --brand-soft-from: 228 100% 55%;
+    --brand-soft-to: 252 100% 75%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-to)) 100%);
-    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.14) 0%, hsl(var(--brand-soft-to) / 0.08) 100%);
-    --gradient-surface: linear-gradient(180deg, hsl(222 40% 9%) 0%, hsl(222 47% 5%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-from)) 0%, hsl(var(--brand-via)) 55%, hsl(var(--brand-to)) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(var(--brand-soft-from) / 0.18) 0%, hsl(var(--brand-soft-to) / 0.14) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(236 100% 6%) 0%, hsl(0 0% 0%) 100%);
     --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100% / 0.04) 0%, hsl(0 0% 100% / 0) 60%);
-    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-from) / 0.14) 0%, transparent 60%),
-                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-soft-to) / 0.10) 0%, transparent 60%);
+    --gradient-aurora: radial-gradient(60% 60% at 20% 10%, hsl(var(--brand-via) / 0.22) 0%, transparent 60%),
+                       radial-gradient(50% 50% at 90% 20%, hsl(var(--brand-to) / 0.16) 0%, transparent 60%);
     --gradient-hairline: linear-gradient(90deg, transparent, hsl(var(--border)) 25%, hsl(var(--border)) 75%, transparent);
 
     --shadow-xs: 0 1px 2px hsl(0 0% 0% / 0.35);
