@@ -251,15 +251,6 @@ export function HeroFeatureSlider({
 
 
 
-
-
-                  </article>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Side nav arrows — desktop only */}
         <button
           type="button"
