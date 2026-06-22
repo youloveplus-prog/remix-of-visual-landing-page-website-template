@@ -388,6 +388,41 @@
   .bg-brand-surface { background-image: var(--gradient-surface); }
   .bg-brand-sheen { background-image: var(--gradient-sheen); }
 
+  /* === Premium (Gemini) gradient utilities ===
+     60% black canvas · 30% brand-blue accents · 10% white text — the
+     gemini sweep is reserved for *premium* badges, borders and CTAs so it
+     keeps its signature feel. */
+  .bg-premium-gradient { background-image: var(--gradient-premium); background-size: 200% 200%; }
+  .bg-premium-gradient-soft { background-image: var(--gradient-premium-soft); }
+  .text-premium-gradient {
+    background-image: var(--gradient-premium);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .shadow-premium { box-shadow: var(--shadow-premium); }
+  .border-premium-gradient {
+    position: relative;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+  }
+  .border-premium-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    margin: -1px;
+    border-radius: inherit;
+    background-image: var(--gradient-premium);
+    background-size: 200% 200%;
+    animation: premium-shimmer 8s ease-in-out infinite;
+  }
+  @keyframes premium-shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+
   /* Gradient text — theme-aware brand gradient */
   .text-brand-gradient {
     background-image: var(--gradient-primary);
