@@ -1,27 +1,36 @@
 import { Link } from "react-router-dom";
 import useEmblaCarousel from "embla-carousel-react";
-import {
-  Brain, Code2, Palette, Wallet, Briefcase, Smartphone, Gamepad2, BookOpen,
-  Wand2, GraduationCap, MessagesSquare, Compass,
-} from "lucide-react";
 import { Reveal } from "@/components/transitions/Reveal";
 import { cn } from "@/lib/utils";
 
-type Cat = { icon: any; label: string; href: string };
+import aiImg from "@/assets/categories/ai.jpg";
+import devImg from "@/assets/categories/dev.jpg";
+import designImg from "@/assets/categories/design.jpg";
+import financeImg from "@/assets/categories/finance.jpg";
+import businessImg from "@/assets/categories/business.jpg";
+import appsImg from "@/assets/categories/apps.jpg";
+import gamesImg from "@/assets/categories/games.jpg";
+import booksImg from "@/assets/categories/books.jpg";
+import promptsImg from "@/assets/categories/prompts.jpg";
+import mentorsImg from "@/assets/categories/mentors.jpg";
+import communityImg from "@/assets/categories/community.jpg";
+import tracksImg from "@/assets/categories/tracks.jpg";
+
+type Cat = { image: string; label: string; href: string };
 
 const CATS: Cat[] = [
-  { icon: Brain,          label: "AI & ML",     href: "/shop?category=ai" },
-  { icon: Code2,          label: "Development", href: "/shop?category=dev" },
-  { icon: Palette,        label: "Design",      href: "/shop?category=design" },
-  { icon: Wallet,         label: "Finance",     href: "/shop?category=finance" },
-  { icon: Briefcase,      label: "Business",    href: "/shop?category=business" },
-  { icon: Smartphone,     label: "Apps",        href: "/shop?category=apps" },
-  { icon: Gamepad2,       label: "Games",       href: "/shop?category=games" },
-  { icon: BookOpen,       label: "Books",       href: "/shop?type=ebooks" },
-  { icon: Wand2,          label: "Prompts",     href: "/prompts" },
-  { icon: GraduationCap,  label: "Mentors",     href: "/mentors" },
-  { icon: MessagesSquare, label: "Community",   href: "/community" },
-  { icon: Compass,        label: "Tracks",      href: "/shop?type=courses" },
+  { image: aiImg,        label: "AI & ML",     href: "/shop?category=ai" },
+  { image: devImg,       label: "Development", href: "/shop?category=dev" },
+  { image: designImg,    label: "Design",      href: "/shop?category=design" },
+  { image: financeImg,   label: "Finance",     href: "/shop?category=finance" },
+  { image: businessImg,  label: "Business",    href: "/shop?category=business" },
+  { image: appsImg,      label: "Apps",        href: "/shop?category=apps" },
+  { image: gamesImg,     label: "Games",       href: "/shop?category=games" },
+  { image: booksImg,     label: "Books",       href: "/shop?type=ebooks" },
+  { image: promptsImg,   label: "Prompts",     href: "/prompts" },
+  { image: mentorsImg,   label: "Mentors",     href: "/mentors" },
+  { image: communityImg, label: "Community",   href: "/community" },
+  { image: tracksImg,    label: "Tracks",      href: "/shop?type=courses" },
 ];
 
 export function CategoriesScroll() {
@@ -37,7 +46,7 @@ export function CategoriesScroll() {
         <Link to="/shop" className="text-xs text-primary font-medium">See all</Link>
       </div>
 
-      {/* Mobile: 2-row scroll, brand-gradient chips */}
+      {/* Mobile: 2-row scroll, image chips */}
       <div className="md:hidden -mx-3 px-3 overflow-hidden" ref={emblaRef}>
         <div className="flex gap-2.5">
           {pairs.map((pair, i) => (
@@ -56,7 +65,7 @@ export function CategoriesScroll() {
   );
 }
 
-function CatTile({ icon: Icon, label, href }: Cat) {
+function CatTile({ image, label, href }: Cat) {
   return (
     <Link
       to={href}
@@ -65,22 +74,27 @@ function CatTile({ icon: Icon, label, href }: Cat) {
       <div
         className={cn(
           "relative w-[52px] h-[52px] rounded-[16px] overflow-hidden",
-          "bg-white/[0.04] backdrop-blur-xl border border-white/10",
-          "flex items-center justify-center",
-          "shadow-[0_8px_24px_-12px_hsl(var(--primary)/0.55),inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]",
-          "group-hover:bg-white/[0.08] transition-all duration-300",
+          "border border-white/10",
+          "shadow-[0_8px_24px_-12px_hsl(var(--primary)/0.45),inset_0_1px_0_hsl(var(--glass-highlight)/0.18)]",
+          "transition-all duration-300 group-hover:shadow-[0_12px_28px_-12px_hsl(var(--primary)/0.6)]",
         )}
       >
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{ background: "radial-gradient(120% 80% at 30% 20%, hsl(var(--primary) / 0.28) 0%, transparent 60%)" }}
+        <img
+          src={image}
+          alt={label}
+          loading="lazy"
+          width={52}
+          height={52}
+          className="absolute inset-0 h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-x-2 top-1 h-1/3 rounded-full bg-gradient-to-b from-white/25 to-transparent blur-[2px]"
+          className="pointer-events-none absolute inset-x-2 top-1 h-1/3 rounded-full bg-gradient-to-b from-white/35 to-transparent blur-[2px]"
         />
-        <Icon className="relative h-[20px] w-[20px] text-primary drop-shadow-[0_1px_3px_hsl(var(--primary)/0.55)]" strokeWidth={2} />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[16px]"
+        />
       </div>
       <span className="text-[11px] font-medium leading-tight text-center truncate w-full text-foreground/85">
         {label}
