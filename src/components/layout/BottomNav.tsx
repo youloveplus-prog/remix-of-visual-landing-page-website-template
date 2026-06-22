@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { getActiveTab, TabId } from "@/lib/nav-map";
 import { useCart } from "@/hooks/useCart";
+import { haptic } from "@/lib/haptics";
 
 /* ---------- Explore (compass) ---------- */
 const ExploreOutline: IconComponent = (props) => (
