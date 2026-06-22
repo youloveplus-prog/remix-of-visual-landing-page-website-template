@@ -32,7 +32,7 @@ export function Sidebar({ open, onOpenChange }: SidebarProps) {
     // horizontal-dominant swipe left
     if (dx < -60 && Math.abs(dx) > Math.abs(dy) * 1.4) {
       dragging.current = false;
-      haptics.light();
+      haptic("light");
       handleClose();
     }
   };
