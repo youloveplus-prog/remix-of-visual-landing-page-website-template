@@ -73,7 +73,7 @@ export default function MentorDetail() {
         title={`${mentor.name} — 1-on-1 Mentor`}
         description={mentor.bio ?? `Book ${mentor.name} for personal 1-on-1 mentorship on Asikon.`}
         url={`${SITE_URL}/mentors/${mentor.slug}`}
-        type="profile"
+        type="article"
       />
       <MobilePage maxWidth="reading" spacing="space-y-7" className="pb-sticky-cta lg:pb-6">
         <Breadcrumbs
