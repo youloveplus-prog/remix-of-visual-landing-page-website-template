@@ -44,7 +44,7 @@ export function HiggsfieldHero() {
         }}
       />
 
-      <div className="relative mx-auto max-w-[1400px] px-4 pt-14 pb-10 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24 lg:pb-16">
+      <div className="relative mx-auto max-w-[1400px] px-4 pt-14 pb-10 sm:px-6 sm:pt-20 lg:px-8 lg:pt-24 lg:pb-16 text-center sm:text-left">
         {/* Eyebrow */}
         <Link
           to="/learn"
@@ -56,7 +56,7 @@ export function HiggsfieldHero() {
         </Link>
 
         {/* Headline */}
-        <h1 className="mt-7 max-w-[14ch] font-display text-[44px] font-semibold leading-[0.95] tracking-[-0.03em] text-white sm:text-[68px] lg:text-[104px]">
+        <h1 className="mt-7 max-w-[14ch] mx-auto sm:mx-0 font-display text-[44px] font-semibold leading-[0.95] tracking-[-0.03em] text-white sm:text-[68px] lg:text-[104px]">
           Learn anything.
           <br />
           <span className="text-white/60">Build </span>
@@ -64,13 +64,13 @@ export function HiggsfieldHero() {
           <span className="text-white/60">.</span>
         </h1>
 
-        <p className="mt-6 max-w-xl text-base text-white/65 sm:text-lg">
+        <p className="mt-6 max-w-xl mx-auto sm:mx-0 text-base text-white/65 sm:text-lg">
           ASIKON is the AI-powered learning platform — courses, a 24/7 tutor, mentors,
           prompts and a community, all in one black canvas.
         </p>
 
         {/* CTAs */}
-        <div className="mt-8 flex flex-wrap items-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center sm:justify-start gap-3">
           <Link
             to="/shop"
             className="inline-flex h-11 items-center gap-2 rounded-full bg-[hsl(var(--hf-accent))] px-5 text-sm font-semibold text-white shadow-[0_8px_30px_-8px_hsl(var(--hf-accent))] transition hover:brightness-110"
@@ -85,10 +85,11 @@ export function HiggsfieldHero() {
             <Play className="h-4 w-4 fill-current" />
             Try the AI Tutor
           </Link>
-          <span className="ml-1 text-xs text-white/50">
+          <span className="w-full sm:w-auto sm:ml-1 text-xs text-white/50">
             12,400+ learners · No credit card
           </span>
         </div>
+
 
         {/* Featured media wall */}
         <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
